@@ -20,34 +20,61 @@ const Signup = () => {
   const [error, setError] = useState<string>('-- 에러--');
   const [code, setCode] = useState<string>('');
 
+
   //const { tempEmail } = useContext(UserDataContext); //인증된 이메일
 
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
 
-    window.location.href= "/complete" //TODO: 지울것
+    //window.location.href= "/complete" //TODO: 지울것
+
+    //발리데이션
+    if(pw == '' || name == '' || email ==='' || code === ''){
+      alert('필수 항목을 모두 입력해주세요.')
+      return
+    } 
+    if(pw.length < 6 || pw !== pwCheck){
+      alert('비밀번호를 확인해주세요. (6자 이상)')
+      setPwCheck('')
+      return
+    }
+    if(email.length < 6 || !email.includes('@')){
+      alert('이메일 형식을 확인해주세요.')
+      setEmail('')
+      return
+    }
 
     // 이메일 보내기 
-    Axios.post(BASE_URL + '/api문서참고', {
-      email: 'Fred',
-      check: 'Flintstone'
+    Axios.post(BASE_URL + '/v2/user/register', {
+      name: name,
+      email: email,
+      password: pw,
+      company_code: code,
     })
-    .then(function (res) {
+    .then(function (res: IServerResponse) {
       console.log(res);
-      if(res.status === 200){
+      if(res.data.status === 200){
         //welcome/auth로 이동 
-        
+        console.log(res.data.results)
+        alert('성공적으로 가입되었습니다.')
+        window.location.href= "/complete" 
+      }else if(res.data.status === 1001){
+        alert('이미 사용중인 이메일 입니다. 잘못된 접근입니다. 이전 페이지로 돌아갑니다.')
+        setEmail('')
+        window.location.href= "/login" 
+      }else if(res.data.status === 1003){
+        alert('잘못 된 회사 코드입니다.')
+        setCode('')
       }else{
-        //중복확인 에러처리 
-        setError('이메일과 패스워드를 확인해주세요')
-        
+        //기타 에러처리 
+        alert('SERVER ERROR CHECK : ' + res.data.status)
+  
       }
     })
     .catch(function (error) {
       console.log(error);
-      setError('로그인 할 수 없습니다')
+      alert('SERVER ERROR CHECK : ' + error)
     });
-    
 
   },[email, name, pw, pwCheck])
 

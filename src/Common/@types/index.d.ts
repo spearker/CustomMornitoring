@@ -8,3 +8,14 @@ interface IMachine{
     manufacturer_detail?: string,
     is_registered?: boolean
 }
+
+//Axios 응답
+interface IServerResponse  {
+    data: IServerData
+
+}
+interface IServerData {
+    status: number,
+    results?: any
+
+}

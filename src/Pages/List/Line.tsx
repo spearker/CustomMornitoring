@@ -11,6 +11,7 @@ import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import CardList from '../../Components/Card/CardList';
+import SmallButton from '../../Components/Button/SmallButton';
 
 // 주변 장치 리스트
 const LineList = () => {
@@ -21,14 +22,6 @@ const LineList = () => {
   const optionList = [
     "등록순", "라인 이름 순", "라인 상세정보 순"
   ]
-  const index = {
-    device_name:'기계 이름',
-    device_label:'기계 종류',
-    device_code:'기계 번호',
-    manufacturer:'제조사', 
-    manufacturer_code:'제조사 번호', 
-    manufacturer_detail:'제조사 상세정보'
-  }
 
 
   useEffect(()=>{
@@ -68,11 +61,15 @@ const LineList = () => {
                 <div style={{marginBottom:15}}>
                   <WhiteBoxContainer>
                     <div style={{display:'flex'}}>
-                      <div style={{width:268, borderRight:'1px solid #525252'}}>
+                      <div style={{width:268, borderRight:'1px solid #525252', position:'relative'}}>
                         <p style={{fontSize:26}}>{value.line_code}</p>
                         <p style={{paddingRight:40, marginTop:49, height:'calc(100% - 90px)', fontSize:13, overflow:'scroll'}}>
                           {value.line_detail}
                         </p>
+                        <div style={{position:'absolute', top: 0, right: 10}}>
+                          <SmallButton name={'수정하기'} onClickEvent={()=>{onClickModify(value.line_name)}}/>
+                        </div>
+                        
                       </div>
                     <div style={{paddingLeft:19, width:'100%', overflow:'scroll'}}>
                     {

@@ -6,7 +6,7 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, P
 import {UserContextProvider} from './Context/UserContext';
 import Check from './Assets/Images/ic_checkbox_y.png';
 //import GlobalStyles from "./Common/globalStyles";
-
+import '../src/Assets/Css/reset.css'
 
 
 const App = () => {
@@ -28,6 +28,7 @@ const App = () => {
   );
 }
 const AppBodyContainer = Styled.div`
+  
   width: 100%;
   height: 100%;
   a{

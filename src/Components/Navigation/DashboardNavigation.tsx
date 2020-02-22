@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
+import { BrowserRouter, Route, Switch ,Link} from 'react-router-dom';
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import Icon from '../../Assets/Images/ic_nav_temp.png'
@@ -16,19 +17,6 @@ const DashboardNavigation = ({select}: Props) => {
 
   useEffect(()=>{
 
-    // 토큰값으로 세션 가져오기
-    dispatch({
-      type: 'SET_USER',
-      data: {
-        pk: 'user_0002',
-        email: 'sumin@sizl.co.kr',
-        is_admin: true,
-        appointment: 2,
-        name: '홍길동',
-        profile_img : 'https://farm8.staticflickr.com/7322/10114403666_783ab48496_o.png', 
-        is_login : true,
-      }
-    });
   },[])
 
 
@@ -41,7 +29,8 @@ const DashboardNavigation = ({select}: Props) => {
 
   const MenuGroup2 = [
     { name : '직원 관리', icon: Icon, url : '/manage/member'},
-    { name : '자재 정보 등록', icon: Icon, url : '/register/product'},
+    { name : '가입 승인 관리', icon: Icon, url : '/manage/accept'},
+    { name : '자재 정보 등록', icon: Icon, url : '/register/material'},
     { name : '금형 정보 등록', icon: Icon,  url : '/register/design'},
     { name : '기계 정보 등록', icon: Icon,  url : '/register/machine'},
     { name : '주변장치 등록', icon: Icon,  url : '/register/sub'},
@@ -49,7 +38,7 @@ const DashboardNavigation = ({select}: Props) => {
   ]
 
   const MenuGroup3 = [
-    { name : '자재 정보 리스트', icon: Icon, url : '/list/product'},
+    { name : '자재 정보 리스트', icon: Icon, url : '/list/material'},
     { name : '금형 정보 리스트', icon: Icon,  url : '/list/design'},
     { name : '기계 정보 리스트', icon: Icon,  url : '/list/machine'},
     { name : '주변장치 리스트', icon: Icon,  url : '/list/sub'},
@@ -67,7 +56,7 @@ const DashboardNavigation = ({select}: Props) => {
     
         <NavDiv>
             <div style={{textAlign:'center', marginBottom: 80 }}>
-              <img src={Logo} style={{width: 125, marginBottom:8}}/>
+              <a href="/dashboard"><img src={Logo} style={{width: 125, marginBottom:8}}/></a>
               <p style={{fontSize:16}}>{SYSTEM_NAME}</p>
             </div>
             {

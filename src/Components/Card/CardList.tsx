@@ -14,7 +14,7 @@ interface Props{
 }
 
 
-// 텍스트로 이루어진 기본적인 리스트 
+// 기계 및 장치 썸네일 카드
 
 const CardList = ({ code, name, imgUrl, on }: Props) => {
   

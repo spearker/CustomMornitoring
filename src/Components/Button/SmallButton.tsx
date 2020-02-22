@@ -3,7 +3,7 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 
-//작은 버튼 + 그레이 컬러
+//작은 버튼 + 포인트 컬러
 
 interface IProps{
     name: any,
@@ -26,6 +26,7 @@ const SmallButton = ({name, onClickEvent}: IProps) => {
 const ButtonBox = Styled.button`
     padding: 5px;
     width: 100%;
+    max-width: 100px;
     color: black;
     background-color: ${POINT_COLOR};
     border: 0;

@@ -10,6 +10,7 @@ import Axios from 'axios';
 import { read } from 'fs';
 import SuperNavigation from '../../Components/Navigation/SuperNavigation';
 import NormalList from '../../Components/List/NormalList';
+import NormalTable from '../../Components/Table/NormalTable';
 
 // 회사 조회 페이지
 
@@ -22,26 +23,35 @@ const SuperList = () => {
   const [error, setError] = useState<string>('-- 에러--');
   const [code, setCode] = useState<string>('');
   const [compayList, setCompanyList] = useState<object[]>([]);
-  //const { tempEmail } = useContext(UserDataContext); //인증된 이메일
 
+  //const { tempEmail } = useContext(UserDataContext); //인증된 이메일
+  const index = {
+    pk:'PK',
+    company_name:'회사 이름',
+    created:'생성일',
+    user_pk:'관리자 PK', 
+    user_email:'관리자 이메일', 
+    company_code:'회사코드'
+  }
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
 
-    window.location.href= "/complete" //TODO: 지울것
+    //window.location.href= "/complete" //TODO: 지울것
+  },[email, name, pw, pwCheck])
 
-    // 이메일 보내기 
-    Axios.post(BASE_URL + '/api문서참고', {
-      email: 'Fred',
-      check: 'Flintstone'
-    })
-    .then(function (res) {
+  useEffect(()=>{
+    
+    // 리슽트 받기
+    Axios.get(BASE_URL + '/v2/super/company/load?page=1')
+    .then(function (res: IServerResponse) {
       console.log(res);
-      if(res.status === 200){
+      if(res.data.status === 200){
         //welcome/auth로 이동 
-        
+        console.log(res.data.results)
+        setCompanyList(res.data.results)
       }else{
-        //중복확인 에러처리 
-        setError('이메일과 패스워드를 확인해주세요')
+        //기타 에러처리 
+        alert('SERVER ERROR CHECK : ' + res.data.status)
         
       }
     })
@@ -50,64 +60,20 @@ const SuperList = () => {
       setError('로그인 할 수 없습니다')
     });
     
+  },[])
+  const onClickModify = useCallback((id)=>{
 
-  },[email, name, pw, pwCheck])
+    console.log('--select id : ' + id)
 
-  useEffect(()=>{
-    //setEmail(tempEmail);
-
-    setCompanyList(
-      [
-        {
-          pk: 'SIZL0514',
-          company_name: '(주)수민산업',
-          created : '2020-03-10 15:33:00',
-          user_pk : 'pk239444',
-          user_email : 'sumin@gmail.com',
-          user_name : '이수민',
-          company_code: 'SIZL3024'
- 
-       },
-       {
-        pk: 'SIZL0313',
-        company_name: '(주)길동주식회사',
-        created : '2020-03-03 08:45:00',
-        user_pk : 'pk239444',
-        user_email : 'sumin_gildong@gmail.com',
-        user_name : '홍길동',
-        company_code: 'SIZL3014'
-
-     },
-        {
-          pk: 'SIZL0319',
-          company_name: '유한회사제스텍',
-          created : '2020-02-18 15:33:00',
-          user_pk : 'pk239444',
-          user_email : 'sumin2@gmail.com',
-          user_name : '도우너 ',
-          company_code: 'SIZL3023'
-
-      },
-      ]
-    )
-},[])
+  },[])
   return (
-
     
         <FullPageDiv>
             <SuperNavigation position={'static'} />
             <InnerDiv >
-              <p style={{fontSize:20, marginTop:37}}>회사 조회 </p>
-              <div style={{marginTop:34, marginBottom:108}}>
-                {
-                  compayList.map((v: object)=>{
-                    return(
-                      <NormalList contents={Object.values(v)}/>
-                    )
-                  
-                  })
-                }
-              </div>
+              <p style={{fontSize:20, marginTop:37, marginBottom:30}}>회사 조회 </p>
+              <NormalTable indexList={index} keyName={'pk'} contents={compayList} onClickEvent={onClickModify}/>
+  
               
             </InnerDiv>
             

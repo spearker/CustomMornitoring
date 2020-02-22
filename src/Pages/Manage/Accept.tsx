@@ -10,44 +10,68 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 
-// 금형 리스트
-const MachineList = () => {
+// 멤버 승인
+const AcceptMember = () => {
 
   const [list, setList] = useState<[]>([]);
   const [option, setOption] = useState(0);
 
   const optionList = [
-    "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
+    "등록순"
   ]
   const index = {
-    machine_name:'기계 이름',
-    machine_label:'기계 종류',
-    machine_code:'기계 번호',
-    manufacturer:'제조사', 
-    manufacturer_code:'제조사 번호', 
-    manufacturer_detail:'제조사 상세정보'
+    email:'유저 이메일',
+    name:'유저 이름',
   }
 
 
   useEffect(()=>{
 
-    setList(dataSet.machineList); //TODO: 테스트용. 지울것.
+    setList(dataSet.acceptList); //TODO: 테스트용. 지울것.
 
-    Axios.get('주소', { 'headers': { 'Authorization': getToken() } }) // BASE_URL + '주소'
-    .then(function (res: any) {
+    Axios.get(BASE_URL + '/api/v1/user/load/temp', { 'headers': { 'Authorization': getToken() } }) // BASE_URL + '주소'
+    .then(function (res: IServerResponse) {
       console.log(res);
+      if(res.data.status === 200){
+        const data = res.data.results
+        setList(data)
+      }else {
+        //alert('세션이 만료되었습니다. 잘못된 접근입니다.')
+        //window.location.href= "/login" 
+      }
     })
     .catch(function (error) {
       console.log(error);
-     
+      //alert('목록을 불러 올 수 없습니다')
     });
-    
-    return;
+
+
+
   },[])
 
-  const onClickModify = useCallback((id)=>{
+  const onClickAccept = useCallback((id)=>{
 
     console.log('--select id : ' + id)
+    Axios.post(BASE_URL + '/api/v1/user/accept', {
+      user_pk:id
+    },{ 'headers': { 'Authorization': getToken() } }) // BASE_URL + '주소'
+    .then(function (res: IServerResponse) {
+      console.log(res);
+      if(res.data.status === 200){
+        alert('성공적으로 승인되었습니다.')
+        const data = res.data.results
+        setList(data)
+      }else {
+        //alert('세션이 만료되었습니다. 잘못된 접근입니다.')
+        //window.location.href= "/login" 
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+      //alert('목록을 불러 올 수 없습니다')
+    });
+
+
 
   },[])
 
@@ -55,13 +79,12 @@ const MachineList = () => {
       <DashboardWrapContainer>
         <FullPageDiv>
           <div style={{position:'relative'}}>
-            <Header title={'기계 정보 리스트'}/>
+            <Header title={'승인 신청 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={setOption}/>
             </div>
           </div>
-
-          <NormalTable indexList={index} keyName={'machine_code'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
+          <NormalTable indexList={index} keyName={'pk'} contents={list} buttonName='가입 승인' onClickEvent={onClickAccept}/>
         </FullPageDiv>
       </DashboardWrapContainer>
       
@@ -75,4 +98,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default MachineList;
+export default AcceptMember;

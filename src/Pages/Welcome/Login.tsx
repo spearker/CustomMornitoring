@@ -6,6 +6,7 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, P
 import ButtonBox from '../../Components/Button/BasicButton'
 import {useUserDispatch, useUser} from '../../Context/UserContext';
 import Axios from 'axios';
+import { setToken } from '../../Common/getToken';
 
 // 로그인 페이지 
 const Login = () => {
@@ -20,44 +21,60 @@ const Login = () => {
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
 
-    //로그인 
-    //TODO: 지울것
-    window.location.href= "/dashboard" 
-    dispatch({
-      type: 'SET_USER',
-      data: {
-        pk: 'user_0002',
-        email: 'sumin@sizl.co.kr',
-        is_admin: true,
-        appointment: 2,
-        name: '홍길동',
-        profile_img : 'https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2xMI/image/9vk0DHXiQYuN4RLiiLr8_02fIeE.jpg', 
-        is_login : true,
-      }
-    });
+    
+    //window.location.href= "/complete" //TODO: 지울것
 
+    //발리데이션
+    if(password == '' || email ==='' ){
+      alert('이메일과 패스워드를 입력해주세요.')
+      return
+    } 
 
     // 이메일 보내기 
-    Axios.post(BASE_URL + '/api문서참고', {
-      email: 'Fred',
-      check: 'Flintstone'
+    Axios.post(BASE_URL + '/user/login', {
+      email: email,
+      password: password
     })
-    .then(function (res) {
+    .then(function (res: IServerResponse) {
       console.log(res);
-      if(res.status === 200){
-        //세션 스토리지에 token 담기
-        //로그인
+      if(res.data.status === 200){
+
+        console.log(res.data.results)
+        alert('성공적으로 로그인되었습니다.')
+        const data = res.data.results
+
+        // 토큰 저장
+        setToken(data.token);
+        // 유저정보 저장
+        dispatch({
+          type: 'SET_USER',
+          data: {
+            pk: data.pk,
+            email: data.email,
+            is_admin: data.is_admin,
+            appointment: data.appointment,
+            name: data.name,
+            profile_img : data.profile_img,
+            is_login : true,
+          }
+        });
+    
+        window.location.href= "/dashboard" 
+      }else if(res.data.status === 1001 || res.data.status === 1002){
+        alert('이메일과 패스워드를 확인해주세요')
+        setPassword('')
+
       }else{
-        //중복확인 에러처리 
-        setError('이메일과 패스워드를 확인해주세요')
+        //기타 에러처리 
+        alert('SERVER ERROR CHECK : ' + res.data.status)
+  
       }
     })
-    .catch(function (e) {
-      console.log(e);
-      setError('로그인 할 수 없습니다')
+    .catch(function (error) {
+      console.log(error);
+      alert('SERVER ERROR CHECK : ' + error)
     });
-
-
+  
 
 
   },[email, password])

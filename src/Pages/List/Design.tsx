@@ -61,7 +61,7 @@ const DesignList = () => {
             </div>
           </div>
 
-          <NormalTable indexList={index} keyName={'mold_code'} contents={list} onClickEvent={onClickModify}/>
+          <NormalTable indexList={index} keyName={'mold_code'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
         </FullPageDiv>
       </DashboardWrapContainer>
       

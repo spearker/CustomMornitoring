@@ -7,7 +7,7 @@ import Logo from '../../Assets/Images/img_logo.png'
 interface IProps{
     title: string,
 }
-const Header = ({title}: IProps) => {
+const SubHeader = ({title}: IProps) => {
   useEffect(()=>{
    
   },[])
@@ -15,7 +15,7 @@ const Header = ({title}: IProps) => {
   return (
     
         <div style={{textAlign:'left', }}>
-            <p className="p-bold" style={{fontSize: 20, marginBottom:15, marginTop:75}}>{title}</p>
+            <p className="p-bold" style={{fontSize: 20, marginBottom:15, margin:0}}>{title}</p>
         </div>
       
   );
@@ -23,4 +23,4 @@ const Header = ({title}: IProps) => {
 
 
 
-export default Header;
+export default SubHeader;

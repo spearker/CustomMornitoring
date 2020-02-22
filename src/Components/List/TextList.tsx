@@ -21,7 +21,7 @@ const TextList = ({ title, name }: Props) => {
   return (
     <ListWrapDiv>
       <div style={{width: 66}}>
-       <p>{title}</p>
+       <p >{title}</p>
       </div>
       <div>
         <p>|&nbsp;&nbsp;{name}</p>

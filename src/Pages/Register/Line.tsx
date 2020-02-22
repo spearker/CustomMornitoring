@@ -32,6 +32,7 @@ const RegisterLine= () => {
   const [keyword, setKeyword] = useState<string>('');
   const [checkList, setCheckList] = useState([]);
   const [addList, setAddList] = useState([]);
+  const [searchList, setSearchList] =useState([]);
   
   //검색
   const onClickSearch = useCallback((value)=>{
@@ -69,42 +70,6 @@ const RegisterLine= () => {
 
   },[checkList, setAddList])
 
-
-  const searchResults = [
-    {
-      machine_name: '프래스 01',
-      machine_label: 'hi',
-      machine_code: 'P0293',
-      manufacturer: 'hi',
-      manufacturer_code: 'hi',
-      manufacturer_detail: 'hi',
-      is_registered: false,
-    },{
-      machine_name: '프래스 02',
-      machine_label: 'hi',
-      machine_code: 'P2124',
-      manufacturer: 'hi',
-      manufacturer_code: 'hi',
-      manufacturer_detail: 'hi',
-      is_registered: true,
-    },{
-      machine_name: '프래스 03',
-      machine_label: 'hi',
-      machine_code: 'P4299',
-      manufacturer: 'hi',
-      manufacturer_code: 'hi',
-      manufacturer_detail: 'hi',
-      is_registered: false,
-    },{
-      machine_name: '프래스 04',
-      machine_label: 'hi',
-      machine_code: 'P7778',
-      manufacturer: 'hi',
-      manufacturer_code: 'hi',
-      manufacturer_detail: 'hi',
-      is_registered: false,
-    }
-  ]
   useEffect(()=>{
 
   },[])
@@ -121,13 +86,13 @@ const RegisterLine= () => {
             <ThisHeader title={'라인 정보등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={onsubmitForm} >
-                <NormalInput title={'라인 번호'} value={no} onChangeEvent={setNo} description={'고객사가 보유한 기계의 번호를 지정하세요'} />
-                <NormalInput title={'라인 상세정보'} value={info} onChangeEvent={setInfo} description={'기계의 제조사와 관련된 상세 정보를 자유롭게 작성하세요'} />
+                <NormalInput title={'라인 번호'} value={no} onChangeEvent={setNo} description={'라인의 번호를 지정하세요'} />
+                <NormalInput title={'라인 상세정보'} value={info} onChangeEvent={setInfo} description={'라인의 상세 정보를 자유롭게 작성하세요'} />
                 <AddInput title={'기계 추가'} onChangeEvent={()=>{setIsPoupup(true); setCheckList(addList); setKeyword('')}}>
                 {
                   addList.map((v, i)=>{ 
                     return ( 
-                        <TextList key={i} title={v} name={searchResults.filter((value)=>value.machine_code === v )[0].machine_name}/>                    
+                        <TextList key={i} title={v} name={searchList.filter((value)=>value.machine_code === v )[0].machine_name}/>                    
                     )
                   })
                 }
@@ -141,7 +106,7 @@ const RegisterLine= () => {
                 <div style={{width: 360, marginTop:20}}>
                   {
                     !isSearched ?
-                    searchResults.map((v, i)=>{ 
+                    searchList.map((v, i)=>{ 
                       return ( 
                           !v.is_registered ?
                           <AddList key={i} pk={v.machine_code} press={true} check={checkList.indexOf(v.machine_code) == -1? false : true } onClickEvent={()=>onClickCheck(v.machine_code)} title={v.machine_code} name={v.machine_name} />

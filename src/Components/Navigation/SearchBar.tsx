@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Profile from '../../Assets/Images/img_sample.png'
-import Icon from '../../Assets/Images/ic_nav_temp.png'
+import Profile from '../../Assets/Images/ic_profile.png'
+import IcSearch from '../../Assets/Images/ic_search_w.png'
+import IcBell from '../../Assets/Images/ic_bell.png'
 import NavList from './NavList'
 import { useUser } from '../../Context/UserContext';
 
@@ -25,18 +26,20 @@ const SearchBar = ({select}: Props) => {
     
         <SearchBarWrapDiv>
             <SearchBarInnerDiv>
-                <div style={{display:'flex', alignItems: 'center',  }}>
+                <div style={{display:'flex', alignItems: 'center',   }}>
                   <div style={{width: 46}}>
-                    <ImageBox src={user.profile_img} />
+                    <ImageBox src={user.profile_img === '' ? Profile : user.profile_img} />
                   </div>
                   <div style={{width: 150}}>
                     <p style={{display:'inline-block', color:'white'}}>{user.name}</p>
                   </div>
-                  <div style={{width: 650}}>
-                    <p style={{color:POINT_COLOR}}>근접한 일정 알람...근접한 일정 알람...근접한 일정 알람...근접한 일정 알람...</p>
+                  <div style={{display:'flex', alignItems: 'center', width: 490, height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
+                    <img src={IcBell} style={{width: 24, marginRight: 8}}/>
+                    <p style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>현재 아이콘은 임의 적용되어 있음. 추후 보내주시면 반영..</p>
                   </div>
-                  <div style={{width: 360, display:'relative', textAlign:'right'}}>
+                  <div style={{width: 360,position:'relative' }}>
                     <InputBox />
+                    <img src={IcSearch} style={{position:'absolute',top: 7, left:12, width: 20}}/>
                   </div>
                 </div>
                 

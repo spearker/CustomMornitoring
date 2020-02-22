@@ -35,7 +35,7 @@ const InputWrapBox = Styled.div`
     display: inline-block;
     padding: 5px;
     padding-bottom: 8px;
-    width: 384px;
+    width: 390px;
     background-color: white;
     margin-bottom: 17px;
     margin-top: 17px;

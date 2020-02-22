@@ -15,15 +15,19 @@ import Complete from '../Pages/Welcome/Complete'
 // ./Pages/Dashboard
 import Dashboard from '../Pages/Dashboard/Index';
 
-import RegisterDesign from '../Pages/Register/Design';
+import AcceptMember from '../Pages/Manage/Accept'
+
 import RegisterMachine from '../Pages/Register/Machine';
 import RegisterSubMachine from '../Pages/Register/SubMachine';
 import RegisterLine from '../Pages/Register/Line';
+import RegisterMaterial from '../Pages/Register/Material';
+import RegisterDesign from '../Pages/Register/Design'
 
 import DesignList from '../Pages/List/Design';
 import MachineList from '../Pages/List/Machine';
 import SubList from '../Pages/List/SubMachine';
 import LineList from '../Pages/List/Line';
+import MaterialList from '../Pages/List/Material';
 
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
@@ -42,13 +46,21 @@ const Routers = () => {
             <Route exact path="/auth" component={Auth} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/complete" component={Complete} />
+
+            {/* 멤버 조회 관련 */}
+            <Route exact path="/manage/member" component={Dashboard} />
+            <Route exact path="/manage/accept" component={AcceptMember} />
+
             {/* 대시보드, 데이터 조회 관련 */}
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />
             <Route exact path="/list/sub" component={SubList} />
             <Route exact path="/list/line" component={LineList} />
+            <Route exact path="/list/material" component={MaterialList} />
+            
             {/* 데이터 등록 관련 */}
+            <Route exact path="/register/material" component={RegisterMaterial} />
             <Route exact path="/register/design" component={RegisterDesign} />
             <Route exact path="/register/machine" component={RegisterMachine} />
             <Route exact path="/register/sub" component={RegisterSubMachine} />

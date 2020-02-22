@@ -32,6 +32,12 @@ const RegisterSubMachine = () => {
 
   const addFile = (event: any): void => {
     console.log(event.target.files[0]);
+
+    if(event.target.files[0] === undefined){
+      setFile(null)
+      setPhotoName("")
+      return;
+    }
     console.log(event.target.files[0].type);
     if(event.target.files[0].type.includes('image')){ //이미지인지 판별
       setPhotoName(event.target.files[0].name)

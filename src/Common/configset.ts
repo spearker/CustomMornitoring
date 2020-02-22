@@ -1,5 +1,5 @@
 //Backend Server BASE_Url
-export const BASE_URL: string = 'http://61.101.55.223:8441/api/v1' as const //테스트 서버
+export const BASE_URL: string = 'http://61.101.55.223:8441' as const //테스트 서버
 
 // B2B 모델 UI 확장을 위한 컴퍼니 환경 제어 변수
 export const SYSTEM_NAME: string = 'Smart Factory System' as const

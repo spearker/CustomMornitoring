@@ -28,10 +28,26 @@ const SuperRegister = () => {
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
 
-    window.location.href= "/super/list" //TODO: 지울것
+    //window.location.href= "/super/list" //TODO: 지울것
+
+    //발리데이션
+    if(pw == '' || name == '' || email ==='' || username === ''){
+      alert('필수 항목을 모두 입력해주세요.')
+      return
+    } 
+    if(pw.length < 6 || pw !== pwCheck){
+      alert('비밀번호를 확인해주세요. (6자 이상)')
+      setPwCheck('')
+      return
+    }
+    if(email.length < 6 || !email.includes('@')){
+      alert('이메일 형식을 확인해주세요.')
+      setEmail('')
+      return
+    }
 
     // 이메일 보내기 
-    Axios.post(BASE_URL + '/api문서참고', {
+    Axios.post(BASE_URL + '/v2/super/company/create', {
       company_name: name,
       user_email: email,
       user_name: username,
@@ -43,19 +59,26 @@ const SuperRegister = () => {
       if(res.status === 200){
         //welcome/auth로 이동 
         alert('등록 완료 되었습니다!')
+        setUsername('')
+        setEmail('')
+        setPw('')
+        setPwCheck('')
+        setName('')
+    
+
       }else{
-        //중복확인 에러처리 
-        setError('이메일과 패스워드를 확인해주세요')
+        //기타 에러처리 
+        alert('SERVER ERROR CHECK : ' + res.status)
         
       }
     })
     .catch(function (error) {
       console.log(error);
-      setError('로그인 할 수 없습니다')
+      alert('SERVER ERROR CHECK : ' + error)
     });
     
 
-  },[email, name, pw, username])
+  },[email, name, pw, username, pwCheck])
 
  
 

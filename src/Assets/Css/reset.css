@@ -1,0 +1,21 @@
+@font-face { 
+    font-family:'NanumSquare'; 
+    src: url(../fonts/NanumSquareRegular.ttf) 
+    format('truetype'); 
+} 
+
+@font-face { 
+    font-family:'NanumSquareBold'; 
+    src: url(../fonts/NanumSquareExtraBold.ttf) 
+    format('truetype'); 
+} 
+
+
+body { 
+    font-family: NanumSquare
+}
+
+.p-bold {
+    font-family: NanumSquareBold 
+    !important; 
+}

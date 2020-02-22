@@ -61,7 +61,7 @@ const SubMachineList = () => {
             </div>
           </div>
 
-          <NormalTable indexList={index} keyName={'device_code'} contents={list} onClickEvent={onClickModify}/>
+          <NormalTable indexList={index} keyName={'device_code'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
         </FullPageDiv>
       </DashboardWrapContainer>
       

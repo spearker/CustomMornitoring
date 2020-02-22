@@ -177,6 +177,24 @@ designList : [
         mold_label: '몰드',
         mold_code:'K09334',
     }
+],
+acceptList : [
+    {
+        pk: 'PK1213248',
+        name: '홍길동',
+        email: 'gwddwi@gmail.com'
+    },
+    {
+        pk: 'PK214ou8',
+        name: '고길동',
+        email: 'df24e@gmail.com'
+    },
+    {
+        pk: 'PK1245125',
+        name: '김둘리',
+        email: 'dulgi24s@gmail.com'
+    },
+    
 ]
 
 }

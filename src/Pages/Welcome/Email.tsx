@@ -13,38 +13,50 @@ import { read } from 'fs';
 const Email = () => {
 
   const [email, setEmail] = useState<string>('');
-  const [error, setError] = useState<string>('-- 에러--');
+  const [error, setError] = useState<string>('');
   const [check, setCheck] = useState<boolean>(false);
 
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
-
-    window.location.href= "/auth" //TODO: 지울것
-
+    setError('')
+    //window.location.href= "/auth" //TODO: 지울것
+    if(email.length < 6 || !email.includes('@')){
+      alert('이메일 형식을 확인해주세요.')
+      setEmail('')
+      return
+    }
+    if(!check){
+      alert('서비스 이용약관 및 정책에 동의해주세요.')
+      return
+    }
     // 이메일 보내기 
-    Axios.post(BASE_URL + '/api문서참고', {
-      email: 'Fred',
-      check: 'Flintstone'
+    Axios.post(BASE_URL + '/v2/email/send', {
+      email: email,
     })
-    .then(function (res) {
+    .then(function (res: IServerResponse) {
       console.log(res);
-      if(res.status === 200){
+      if(res.data.status === 200){
         //welcome/auth로 이동 
-        
+        console.log(res.data.results)
+        alert('인증되었습니다. 메일함을 확인해주세요.')
+        setError()
+      }else if(res.data.status === 1002){
+        alert('이미 사용중인 이메일 입니다.')
+        setEmail('')
       }else{
-        //중복확인 에러처리 
-        setError('이메일과 패스워드를 확인해주세요')
-        
+        //기타 에러처리 
+        alert('SERVER ERROR CHECK : ' + res.data.status)
+        setEmail('')
         
       }
     })
     .catch(function (error) {
       console.log(error);
-      setError('로그인 할 수 없습니다')
+      alert('SERVER ERROR CHECK : ' + error)
     });
     
 
-  },[email, check])
+  },[email, check, error])
 
   useEffect(()=>{
    

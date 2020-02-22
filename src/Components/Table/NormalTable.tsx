@@ -13,9 +13,10 @@ interface IProps{
     contents: any,
     keyName: string,
     onClickEvent?: any,
+    buttonName?: string,
 
 }
-const NormalTable = ({indexList, contents, keyName, onClickEvent}: IProps) => {
+const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IProps) => {
 
   useEffect(()=>{
    console.log(Object.keys(indexList))
@@ -25,7 +26,7 @@ const NormalTable = ({indexList, contents, keyName, onClickEvent}: IProps) => {
     <TableWrap>
       <table>
         <tbody>
-          <tr style={{borderBottom:`10px solid ${BG_COLOR_SUB2}`}}>
+          <tr className="p-bold" style={{borderBottom:`10px solid ${BG_COLOR_SUB2}`}}>
           {/* 테이블 헤드 */}
           <th>번호</th>
           {
@@ -51,7 +52,7 @@ const NormalTable = ({indexList, contents, keyName, onClickEvent}: IProps) => {
                   })
                 }
                 <td>
-                  <SmallButton name={'수정하기'} onClickEvent={()=>{onClickEvent(v[keyName])}}/>
+                  <SmallButton name={buttonName} onClickEvent={()=>{onClickEvent(v[keyName])}}/>
                 </td>
               </tr>
               )

@@ -37,7 +37,7 @@ const NormalList = ({ contents }: Props) => {
         {
           contents.map((value: string)=> (
             <RawInnerDiv>
-              <p>{value}</p>
+              <p className="p-bold" >{value}</p>
             </RawInnerDiv>
           ))
         }
