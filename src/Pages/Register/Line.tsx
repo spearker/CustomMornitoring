@@ -42,7 +42,7 @@ const RegisterLine= () => {
   },[keyword])
 
   // 팝업 체크 박스
-  const onClickCheck = useCallback((id)=>{
+  const onClickCheck = useCallback((id: string)=>{
     console.log(checkList.length)
     console.log(id)
     if(checkList.indexOf(id) !== -1){
@@ -72,7 +72,7 @@ const RegisterLine= () => {
   },[checkList, setAddList])
 
   useEffect(()=>{
-    setSearchList(dataSet.machineList); //TODO: 테스트용. 지울것.
+    //setSearchList(dataSet.machineList); //TODO: 테스트용. 지울것.
   },[])
 
   const onsubmitForm = useCallback((e)=>{

@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import Styled, { withTheme } from 'styled-components'
-import { BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
+import Styled from 'styled-components'
 import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
 import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
 import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
-import Axios from 'axios';
-import { read } from 'fs';
+import { postRequestWithNoToken } from '../../Common/requestFunctions';
 
 // 회원가입을 위한 이메일 입력 페이지 
 
@@ -16,10 +14,17 @@ const Email = () => {
   const [error, setError] = useState<string>('');
   const [check, setCheck] = useState<boolean>(false);
 
+  /**
+   * onsubmitForm()
+   * : 비밀번호 확인을 위한 메일 인증
+   * @param {string} email 이메일
+   * @returns X
+   */
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
+
     setError('')
-    //window.location.href= "/auth" //TODO: 지울것
+
     if(email.length < 6 || !email.includes('@')){
       alert('이메일 형식을 확인해주세요.')
       setEmail('')
@@ -27,34 +32,25 @@ const Email = () => {
     }
     if(!check){
       alert('서비스 이용약관 및 정책에 동의해주세요.')
-      return
+      return;
     }
-    // 이메일 보내기 
-    Axios.post(BASE_URL + '/v2/email/send', {
-      email: email,
-    })
-    .then(function (res: IServerResponse) {
-      console.log(res);
-      if(res.data.status === 200){
-        //welcome/auth로 이동 
-        console.log(res.data.results)
-        alert('인증되었습니다. 메일함을 확인해주세요.')
-        setError()
-      }else if(res.data.status === 1002){
-        alert('이미 사용중인 이메일 입니다.')
-        setEmail('')
-      }else{
-        //기타 에러처리 
-        alert('SERVER ERROR CHECK : ' + res.data.status)
-        setEmail('')
+    let data: object = {
+      email : email
+    }
+    const results = postRequestWithNoToken(BASE_URL + '/password/send', data)
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
         
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
       }
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert('SERVER ERROR CHECK : ' + error)
-    });
-    
+    }
+
 
   },[email, check, error])
 
@@ -63,9 +59,6 @@ const Email = () => {
   },[])
 
   return (
-
-    
-    
         <FullPageDiv>
             <WelcomeNavigation position={'static'} />
             <InnerDiv >
@@ -82,7 +75,7 @@ const Email = () => {
                           <label htmlFor="cb"></label>
                         </div>
                         <div>
-                          <span style={{paddingLeft:7,fontSize:12}}>이용약관과 개인정보 정책에 동의합니다.</span> 
+                          <span style={{paddingLeft:7,fontSize:12}}>서비스 이용약관과 개인정보 정책에 동의합니다.</span> 
               
                         </div>
                         

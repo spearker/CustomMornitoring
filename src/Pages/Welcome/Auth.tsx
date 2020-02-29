@@ -66,8 +66,7 @@ const onChangeNum4 = useCallback((e) => {
 
   return (
 
-    
-    
+  
         <FullPageDiv>
             <WelcomeNavigation position={'static'} />
             <InnerDiv >

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
 import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
 import Axios from 'axios';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
@@ -12,32 +12,52 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import CardList from '../../Components/Card/CardList';
 import SmallButton from '../../Components/Button/SmallButton';
+import { getRequest } from '../../Common/requestFunctions';
 
-// 주변 장치 리스트
+// 라인 리스트
 const LineList = () => {
 
-  const [list, setList] = useState<[]>([]);
-  const [option, setOption] = useState(0);
+  interface Line{
+    line_code: string,
+    line_detail: string,
+    line_machines: LineMachine[],
+    line_name: string,
+  }
+  interface LineMachine{
+    machine_code: string,
+    machine_photo: string,
+    machine_name: string,
+    is_connected: boolean,
+  }
+
+  const [list, setList] = useState<Line[]>([]);
+  const [option, setOption] = useState<number>(0);
 
   const optionList = [
     "등록순", "라인 이름 순", "라인 상세정보 순"
   ]
 
+  const getList = () => {
+    const results = getRequest(BASE_URL + '/password/send', getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+        
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  }
 
   useEffect(()=>{
 
-    setList(dataSet.listList); //TODO: 테스트용. 지울것.
-
-    Axios.get('주소', { 'headers': { 'Authorization': getToken() } }) // BASE_URL + '주소'
-    .then(function (res: any) {
-      console.log(res);
-    })
-    .catch(function (error) {
-      console.log(error);
-     
-    });
-    
-    return;
+    //setList(dataSet.listList); //TODO: 테스트용. 지울것.
+    getList()
+   
   },[])
 
   const onClickModify = useCallback((id)=>{
@@ -56,7 +76,7 @@ const LineList = () => {
             </div>
           </div>
           {
-              list.map((value)=>{
+              list.map((value: Line)=>{
                 return(
                 <div style={{marginBottom:15}}>
                   <WhiteBoxContainer>
@@ -73,7 +93,7 @@ const LineList = () => {
                       </div>
                     <div style={{paddingLeft:19, width:'100%', overflow:'scroll'}}>
                     {
-                      value.line_machines.map((v)=>{
+                      value.line_machines.map((v: LineMachine)=>{
                         return(
                           <CardList code={v.machine_code} imgUrl={v.machine_photo} name={v.machine_name} on={v.is_connected}/>
                         )

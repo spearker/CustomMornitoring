@@ -37,17 +37,17 @@ function PopupReducer(state: IPopupTypes, action: Action): IPopupTypes {
     }
   }
 
-// 유저 프로필 데이터 프로바이더
+// 팝업 데이터 프로바이더
 export function PopupContextProvider({ children }: { children: React.ReactNode }) {
-    const [ User, dispatch ] = useReducer(PopupReducer, {
+    const [ Popup, dispatch ] = useReducer(PopupReducer, {
       contents: '',
-      type: '',
+      type: 'normal',
       is_popup: false,
     });
   
     return (
       <PopupDispatchContext.Provider value={dispatch}>
-        <PopupContext.Provider value={User}>
+        <PopupContext.Provider value={Popup}>
           {children}
         </PopupContext.Provider>
       </PopupDispatchContext.Provider>

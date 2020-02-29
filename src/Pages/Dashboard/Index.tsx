@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [dayList, setDayList] = useState<string[]>([])
 
   
-  const getDayList = useCallback((e)=>{
+  const getDayList = useCallback(()=>{
     var tempList = new Array();
     for(var i = 0; i < 7 ; ++i){
       if(moment().add( 0 - i  ,"days").locale('en').format('dddd') === 'Sunday'){

@@ -31,18 +31,9 @@ const MachineList = () => {
 
   useEffect(()=>{
 
-    setList(dataSet.machineList); //TODO: 테스트용. 지울것.
+    //setList(dataSet.machineList); //TODO: 테스트용. 지울것.
 
-    Axios.get('주소', { 'headers': { 'Authorization': getToken() } }) // BASE_URL + '주소'
-    .then(function (res: any) {
-      console.log(res);
-    })
-    .catch(function (error) {
-      console.log(error);
-     
-    });
-    
-    return;
+
   },[])
 
   const onClickModify = useCallback((id)=>{

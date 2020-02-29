@@ -5,7 +5,8 @@ import Logo from '../../Assets/Images/img_logo.png'
 import IcDown from '../../Assets/Images/ic_drop_down.png'
 import useOnclickOutside from 'react-cool-onclickoutside';
 
-//웰컴, 로그인 페이지 네비게이션 컴포넌트
+//드롭다운 컴포넌트
+
 
 interface IProps{
     select: string,
@@ -13,14 +14,17 @@ interface IProps{
     contents: any,
 }
 const BasicDropdown = ({select, contents, onClickEvent}: IProps) => {
-    const ref = useRef();
-    const [openMenu, setOpenMenu] = useState(false);
-    useOnclickOutside(ref, () => {
-        setOpenMenu(false);
-    });
+    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const [isOpen, setIsOpen] = useState(false);
+
+    useOnclickOutside(ref,() => {
+            setIsOpen(false);
+        }
+    );
+     
    
     const handleClickBtn = () => {
-        setOpenMenu(!openMenu);
+        setIsOpen(!isOpen);
     };
     useEffect(()=>{
     
@@ -29,17 +33,17 @@ const BasicDropdown = ({select, contents, onClickEvent}: IProps) => {
   return ( 
         <div style={{position:'relative', display:'inline-block', width: 124, zIndex:3 }} ref={ref}>
             {
-                openMenu ?       
+                isOpen ?       
                 <BoxWrap>
                     <p style={{paddingBottom:8, paddingRight:10, color:'black', fontWeight:'bold'}} onClick={()=>{
-                                setOpenMenu(false)
+                                setIsOpen(false)
                                 }}>{select}</p>
                     {
                         contents.map((v, i)=>{
                             return(
                             <p style={{paddingBottom:8, paddingRight:10}} key={i} onClick={()=>{
                                 onClickEvent(i); 
-                                setOpenMenu(false)
+                                setIsOpen(false)
                                 }}>{v}</p>
                             )       
                         })
@@ -48,7 +52,7 @@ const BasicDropdown = ({select, contents, onClickEvent}: IProps) => {
                 :
                 <>
                 <BoxWrap>
-                    <p onClick={()=>{setOpenMenu(true)}} style={{marginRight:10}}>{select}</p>
+                    <p onClick={()=>{setIsOpen(true)}} style={{marginRight:10}}>{select}</p>
                 </BoxWrap>
                 </>
             }

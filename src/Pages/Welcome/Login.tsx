@@ -37,7 +37,8 @@ const Login = () => {
       email : email,
       password : password
     }
-    const results = await postRequestWithNoToken(BASE_URL + '/user/login', data)
+
+    const results = postRequestWithNoToken(BASE_URL + '/email/login', data)
 
     if(results === false){
       //TODO: 에러 처리
@@ -56,13 +57,14 @@ const Login = () => {
             is_login : true,
           }
         });
+        
       }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 패스워드 확인
+        //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
-
     }
+   
 
   },[email, password])
   

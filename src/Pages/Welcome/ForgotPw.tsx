@@ -35,7 +35,7 @@ const ForgotPw = () => {
       return
     }
     let data: object = {
-      email : email,
+      email : email
     }
     const results = postRequestWithNoToken(BASE_URL + '/email/send', data)
 
@@ -45,38 +45,13 @@ const ForgotPw = () => {
       if(results.status === 200){
         
       }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 패스워드 확인
+        //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
+    }
 
-    // 이메일 보내기 
-    Axios.post(BASE_URL + '/v2/email/send', {
-      email: email,
-    })
-    .then(function (res: IServerResponse) {
-      console.log(res);
-      if(res.data.status === 200){
-        //welcome/auth로 이동 
-        console.log(res.data.results)
-        alert('인증되었습니다. 메일함을 확인해주세요.')
-        setError()
-      }else if(res.data.status === 1002){
-        alert('이미 사용중인 이메일 입니다.')
-        setEmail('')
-      }else{
-        //기타 에러처리 
-        alert('SERVER ERROR CHECK : ' + res.data.status)
-        setEmail('')
-        
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert('SERVER ERROR CHECK : ' + error)
-    });
-    
-
+  
   },[email, check, error])
 
   useEffect(()=>{
@@ -85,8 +60,6 @@ const ForgotPw = () => {
 
   return (
 
-    
-    
         <FullPageDiv>
             <WelcomeNavigation position={'static'} />
             <InnerDiv >
@@ -96,12 +69,6 @@ const ForgotPw = () => {
                   <label style={{fontSize: 10, fontWeight:700}}>ID (e-mail)</label> 
                   <WelcomeInputBox type="text"  style={{marginTop:8, marginBottom:20, width: 327}}
                       value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} placeholder="이메일을 입력해주세요."/>
-                      <div style={{display:'flex'}}>
-                        <div>
-                          <input type="checkbox" id="cb" onClick={(e)=>{setCheck(!check)}}/>
-                          <label htmlFor="cb"></label>
-                        </div>
-                      </div>
                       <p style={{color:'#ff0057', fontSize:12, marginBottom:67, marginTop:75, textAlign:'center'}}>{error}</p>
                   <ButtonBox name={'이메일 인증하기'} /> 
               </form>

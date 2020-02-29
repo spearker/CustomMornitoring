@@ -13,7 +13,17 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 // 주변 장치 리스트
 const SubMachineList = () => {
 
-  const [list, setList] = useState<[]>([]);
+  // 기계 타입
+  interface SubMachine{
+    machine_name: string,
+    machine_label?: string,
+    machine_code: string,
+    manufacturer?: string,
+    manufacturer_code?: string,
+    manufacturer_detail?: string,
+    is_registered?: boolean
+  }
+  const [list, setList] = useState<SubMachine[]>([]);
   const [option, setOption] = useState(0);
 
   const optionList = [
@@ -31,18 +41,8 @@ const SubMachineList = () => {
 
   useEffect(()=>{
 
-    setList(dataSet.subMachineList); //TODO: 테스트용. 지울것.
+    //setList(dataSet.subMachineList); //TODO: 테스트용. 지울것.
 
-    Axios.get('주소', { 'headers': { 'Authorization': getToken() } }) // BASE_URL + '주소'
-    .then(function (res: any) {
-      console.log(res);
-    })
-    .catch(function (error) {
-      console.log(error);
-     
-    });
-    
-    return;
   },[])
 
   const onClickModify = useCallback((id)=>{

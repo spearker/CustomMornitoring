@@ -13,7 +13,7 @@ interface IMachine{
 interface IPopupTypes{
     type: 'normal' | 'warning' | 'error' | 'notice',
     contents: string,
-    is_popup: boolean,
+    is_popup?: boolean,
 }
 
 //Axios 요청/응답 관련 타입
