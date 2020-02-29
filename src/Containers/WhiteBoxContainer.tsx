@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../Common/configset'
+import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import Footer from '../Components/Footer/WelcomeFooter';
@@ -16,7 +16,7 @@ const WhiteBoxContainer = ({children}: any) => {
   return (
     <>
     <WhiteWrapDiv >
-      <div style={{padding:30, width: '100%', textAlign:'left', color:'#252525'}}>
+      <div style={{padding:30, borderRadius:8, width: '100%', textAlign:'left', color:'#252525'}}>
         {children}
       </div>
     </WhiteWrapDiv>    
@@ -28,6 +28,7 @@ const WhiteBoxContainer = ({children}: any) => {
 const WhiteWrapDiv = Styled.div`
     background-color: #efefef;
     display: flex;
+    border-radius: 4px;
     width: 100%;
     background-color: #efefef;
     

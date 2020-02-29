@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
 import { BrowserRouter, Route, Switch ,Link} from 'react-router-dom';
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import Icon from '../../Assets/Images/ic_nav_temp.png'
 import NavList from './NavList'

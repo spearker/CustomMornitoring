@@ -7,28 +7,49 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LO
 import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import { read } from 'fs';
+import { postRequestWithNoToken } from '../../Common/requestFunctions';
 
-// 회원가입을 위한 이메일 입력 페이지 
+// 비밀번호 변경을 위한 이메일 입력 페이지 
 
-const Email = () => {
+const ForgotPw = () => {
 
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [check, setCheck] = useState<boolean>(false);
+  const [isSend, setIsSend] = useState<boolean>(false);
 
+  /**
+   * onsubmitForm()
+   * : 비밀번호 확인을 위한 메일 인증
+   * @param {string} email 이메일
+   * @returns X
+   */
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
+
     setError('')
-    //window.location.href= "/auth" //TODO: 지울것
+
     if(email.length < 6 || !email.includes('@')){
       alert('이메일 형식을 확인해주세요.')
       setEmail('')
       return
     }
-    if(!check){
-      alert('서비스 이용약관 및 정책에 동의해주세요.')
-      return
+    let data: object = {
+      email : email,
     }
+    const results = postRequestWithNoToken(BASE_URL + '/email/send', data)
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+        
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 패스워드 확인
+      }else{
+        //TODO:  기타 오류
+      }
+
     // 이메일 보내기 
     Axios.post(BASE_URL + '/v2/email/send', {
       email: email,
@@ -69,7 +90,7 @@ const Email = () => {
         <FullPageDiv>
             <WelcomeNavigation position={'static'} />
             <InnerDiv >
-              <p style={{fontSize:36, marginTop:108}}>Sign Up</p>
+              <p style={{fontSize:36, marginTop:108}}>Forgot Password</p>
               <div style={{marginTop:34, marginBottom:320}}>
               <form onSubmit={onsubmitForm}>
                   <label style={{fontSize: 10, fontWeight:700}}>ID (e-mail)</label> 
@@ -77,19 +98,12 @@ const Email = () => {
                       value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} placeholder="이메일을 입력해주세요."/>
                       <div style={{display:'flex'}}>
                         <div>
-                          
                           <input type="checkbox" id="cb" onClick={(e)=>{setCheck(!check)}}/>
                           <label htmlFor="cb"></label>
                         </div>
-                        <div>
-                          <span style={{paddingLeft:7,fontSize:12}}>이용약관과 개인정보 정책에 동의합니다.</span> 
-              
-                        </div>
-                        
                       </div>
                       <p style={{color:'#ff0057', fontSize:12, marginBottom:67, marginTop:75, textAlign:'center'}}>{error}</p>
                   <ButtonBox name={'이메일 인증하기'} /> 
-                 
               </form>
               </div>
             </InnerDiv>
@@ -113,7 +127,6 @@ const InnerDiv = Styled.div`
   color: white;
   text-align:left;
 
-  
 `
 
  const WelcomeInputBox = Styled.input`
@@ -126,4 +139,4 @@ const InnerDiv = Styled.div`
     color: white;
 `
 
-export default Email;
+export default ForgotPw;

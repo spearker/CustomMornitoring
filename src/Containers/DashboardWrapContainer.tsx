@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL} from '../Common/configset'
+import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL} from '../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import Footer from '../Components/Footer/WelcomeFooter';
 import SearchBar from '../Components/Navigation/SearchBar';
 import Axios from 'axios';
-import { getToken } from '../Common/getToken';
+import { getToken } from '../Common/tokenFunctions';
 import { useUserDispatch } from '../Context/UserContext';
 
 //대시보드를 감싸는 wrap 박스 

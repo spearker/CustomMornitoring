@@ -1,29 +1,28 @@
-import React, {useContext, useEffect} from 'react';
+import * as React from 'react';
 import { BrowserRouter, Route, Switch ,Link} from 'react-router-dom';
 import Routers from './Routers/Routers'
 import Styled from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from './Common/configset'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from './Common/configset'
 import {UserContextProvider} from './Context/UserContext';
 import Check from './Assets/Images/ic_checkbox_y.png';
-//import GlobalStyles from "./Common/globalStyles";
 import '../src/Assets/Css/reset.css'
+import { PopupContextProvider } from './Context/PopupContext';
 
 
 const App = () => {
 
-  //const { isLoggedIn } = useContext(UserDataContext);
-
   return (
 
     <UserContextProvider>
+      <PopupContextProvider>
         <BrowserRouter>
             <AppBodyContainer>   
               <Routers /> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
             </AppBodyContainer>
         </BrowserRouter>
+      </PopupContextProvider>
     </UserContextProvider>
 
-    
     
   );
 }

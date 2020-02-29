@@ -9,13 +9,19 @@ interface IMachine{
     is_registered?: boolean
 }
 
-//Axios 응답
+// 팝업 
+interface IPopupTypes{
+    type: 'normal' | 'warning' | 'error' | 'notice',
+    contents: string,
+    is_popup: boolean,
+}
+
+//Axios 요청/응답 관련 타입
 interface IServerResponse  {
     data: IServerData
-
-}
-interface IServerData {
+  }
+  interface IServerData {
     status: number,
     results?: any
-
-}
+  
+  }

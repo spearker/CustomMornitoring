@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import Styled, { withTheme } from 'styled-components'
 import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
 import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
 import {useUser, useUserDispatch} from '../../Context/UserContext';
 import Axios from 'axios';

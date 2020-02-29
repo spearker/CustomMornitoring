@@ -4,7 +4,7 @@ import Styled, { withTheme } from 'styled-components'
 import { BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
 import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
 import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import { read } from 'fs';

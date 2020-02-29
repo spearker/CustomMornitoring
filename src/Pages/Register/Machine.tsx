@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext , useCallback} from 'react';
 import Styled, { withTheme } from 'styled-components'
 import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
 import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
@@ -11,7 +11,7 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/getToken';
+import { getToken } from '../../Common/tokenFunctions';
 import BasicModal from '../../Components/Modal/BasicModal';
 
 

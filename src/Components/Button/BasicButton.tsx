@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, BI_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
@@ -25,6 +25,7 @@ const BasicButton = ({name, onPress}: IProps) => {
 const ButtonBox = Styled.button`
     padding: 15px;
     width: 100%;
+    border-radius: 4px;
     color: black;
     background-color: ${POINT_COLOR};
     border: 0;
