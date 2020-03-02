@@ -31,13 +31,13 @@ const RegisterLine= () => {
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
-  const [checkList, setCheckList] = useState([]);
-  const [addList, setAddList] = useState([]);
-  const [searchList, setSearchList] =useState([]);
+  const [checkList, setCheckList] = useState<string[]>([]);
+  const [addList, setAddList] = useState<string[]>([]);
+  const [searchList, setSearchList] = useState<IMachine[]>([]);
   
   //검색
-  const onClickSearch = useCallback((value)=>{
-    console.log(value)
+  const onClickSearch = useCallback((keyword)=>{
+    console.log(keyword)
     setKeyword('')
   },[keyword])
 
@@ -93,7 +93,7 @@ const RegisterLine= () => {
                 {
                   addList.map((v, i)=>{ 
                     return ( 
-                        <TextList key={i} title={v} name={searchList.filter((value)=>value.machine_code === v )[0].machine_name}/>                    
+                        <TextList key={i} title={v} name={searchList.filter((value: IMachine)=> value.machine_code === v )[0].machine_name}/>                    
                     )
                   })
                 }
@@ -107,7 +107,7 @@ const RegisterLine= () => {
                 <div style={{width: 360, marginTop:20}}>
                   {
                     !isSearched ?
-                    searchList.map((v, i)=>{ 
+                    searchList.map((v: IMachine, i)=>{ 
                       return ( 
                           !v.is_registered ?
                           <AddList key={i} pk={v.machine_code} press={true} check={checkList.indexOf(v.machine_code) == -1? false : true } onClickEvent={()=>onClickCheck(v.machine_code)} title={v.machine_code} name={v.machine_name} />

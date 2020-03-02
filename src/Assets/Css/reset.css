@@ -1,21 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
+
 @font-face { 
     font-family:'NanumSquare'; 
     src: url(../fonts/NanumSquareRegular.ttf) 
     format('truetype'); 
+    unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+AC00-U+D7A3;
 } 
 
 @font-face { 
     font-family:'NanumSquareBold'; 
     src: url(../fonts/NanumSquareExtraBold.ttf) 
     format('truetype'); 
+    unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+AC00-U+D7A3;
 } 
 
 
 body { 
-    font-family: NanumSquare
+    font-family:'Noto Sans KR' ;
+   
 }
 
 .p-bold {
-    font-family: NanumSquareBold 
-    !important; 
+    font-family:'Noto Sans KR' ;
+    font-weight: bold;
 }
+
+.p-eng {
+    font-family: 'Roboto' !important; 
+    font-weight: bold;
+}
+
+a {
+    cursor: pointer;
+}
+
+/* input 기본 스타일 초기화 */
+input {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+/* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+input::-ms-clear { display: none; }
+
+/* input type number 에서 화살표 제거 */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+/* Select box 스타일 초기화 */ 
+select {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+button {
+    cursor: pointer;
+	border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;	
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:focus {
+    outline: 0px;
+}
+
+
+
+/* IE 에서 Select box 화살표 제거 */ 
+select::-ms-expand { display: none; }

@@ -36,22 +36,27 @@ const LineList = () => {
   const optionList = [
     "등록순", "라인 이름 순", "라인 상세정보 순"
   ]
-
-  const getList = () => {
-    const results = getRequest(BASE_URL + '/password/send', getToken(TOKEN_NAME))
+  /**
+   * getList()
+   * 라인 리스트 조회
+   * @param {string} url 요청 주소
+   * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
+   */
+  const getList = useCallback(()=> {
+    const results = getRequest(BASE_URL + '/list/line', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        
+          setList(results.results)
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
     }
-  }
+  },[])
 
   useEffect(()=>{
 

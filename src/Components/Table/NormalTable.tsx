@@ -28,11 +28,10 @@ const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: I
         <tbody>
           <tr className="p-bold" style={{borderBottom:`10px solid ${BG_COLOR_SUB2}`}}>
           {/* 테이블 헤드 */}
-          <th>번호</th>
           {
             Object.keys(indexList).map((v, i)=>{
               return(
-              <th>ㅣ   {indexList[v]}</th>
+              <th key={v}>{i === 0 ? '': 'ㅣ   '}{indexList[v]}</th>
               )
             })
           }
@@ -43,11 +42,10 @@ const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: I
             contents.map((v, i)=>{
               return(
               <tr key={i}>
-                <td>{i+1}</td>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
-                      <td>ㅣ   {v[mv]}</td>
+                      <td key={mv}>{mi === 0 ? '': 'ㅣ   '}{v[mv]}</td>
                     )
                   })
                 }
@@ -74,7 +72,7 @@ const TableWrap = Styled.div`
       width: 100%;
       background-color: #efefef;
       color: #252525;
-      font-size: 15px;
+      font-size: 14px;
     }
     
     td, th {

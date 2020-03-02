@@ -5,10 +5,12 @@ import { Route, Switch } from 'react-router-dom';
 
 // 경로 모음
 // ./Pages/Welcome
-import Welcome from '../Pages/Welcome/Index'
+import Welcome from '../Pages/Welcome/Welcome'
 import Login from '../Pages/Welcome/Login'
 import Email from '../Pages/Welcome/Email'
 import Auth from '../Pages/Welcome/Auth'
+import ForgotPw from '../Pages/Welcome/ForgotPw'
+import ChangePw from '../Pages/Welcome/ChangePw'
 import Signup from '../Pages/Welcome/Signup'
 import Complete from '../Pages/Welcome/Complete'
 
@@ -16,6 +18,7 @@ import Complete from '../Pages/Welcome/Complete'
 import Dashboard from '../Pages/Dashboard/Index';
 
 import AcceptMember from '../Pages/Manage/Accept'
+import CompanySetting from '../Pages/Manage/Setting'
 
 import RegisterMachine from '../Pages/Register/Machine';
 import RegisterSubMachine from '../Pages/Register/SubMachine';
@@ -46,10 +49,13 @@ const Routers = () => {
             <Route exact path="/auth" component={Auth} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/complete" component={Complete} />
+            <Route exact path="/forgot" component={ForgotPw} />
+            <Route exact path="/change" component={ChangePw} />
 
             {/* 멤버 조회 관련 */}
-            <Route exact path="/manage/member" component={Dashboard} />
             <Route exact path="/manage/accept" component={AcceptMember} />
+            <Route exact path="/manage/setting" component={CompanySetting}/>
+            <Route exact path="/manage/members" component={CompanySetting}/>
 
             {/* 대시보드, 데이터 조회 관련 */}
             <Route exact path="/dashboard" component={Dashboard} />

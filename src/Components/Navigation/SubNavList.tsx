@@ -15,7 +15,7 @@ interface Props{
 }
 
 
-const NavList = ({no, select, url, name}: Props) => {
+const SubNavList = ({no, select, url, name}: Props) => {
 
   useEffect(()=>{
    
@@ -43,25 +43,28 @@ const NavList = ({no, select, url, name}: Props) => {
 
 
 const ListDiv = Styled.div`
-  padding-top: 18px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid grey;
-  text-align: left;
+  padding: 11px 19px 11px 19px;
+  border-bottom: 2px solid #717c90;
+  text-align: center;
   font-size: 18px;
-  color: white;
+  color: #717c90;
+  display: inline-block;
+  margin-right: 20px;
+  font-weight: normal;
   cursor: pointer;
 `
 
 const ListDivSelected = Styled.div`
-  padding-top: 18px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid ${POINT_COLOR};
-  text-align: left;
+  padding: 10px 19px 10px 19px;
+  border-bottom: 2px solid ${POINT_COLOR};
+  text-align: center;
   font-size: 18px;
-  font-weight: 600;
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 20px;
   color: ${POINT_COLOR};
   cursor: pointer;
 `
 
 
-export default NavList;
+export default SubNavList;

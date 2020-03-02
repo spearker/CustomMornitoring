@@ -4,7 +4,7 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import Logo from '../../Assets/Images/img_logo.png'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import Footer from '../Components/Footer/WelcomeFooter';
-import SearchBar from '../Components/Navigation/SearchBar';
+import ProfileBar from '../Components/Navigation/ProfileBar';
 import Axios from 'axios';
 import { getToken } from '../Common/tokenFunctions';
 import { useUserDispatch } from '../Context/UserContext';
@@ -16,6 +16,11 @@ const DashboardWrapContainer = ({children}: any) => {
 
   const dispatch = useUserDispatch();
 
+  /**
+   * loadUserInfo()
+   * : 유저 정보 로드 후 user info dispatch
+   * @returns X
+   */
   const loadUserInfo = () => {
 
     const results = getRequest(BASE_URL + '/api/v1/user/load', getToken(TOKEN_NAME))
@@ -54,10 +59,10 @@ const DashboardWrapContainer = ({children}: any) => {
       <DashboardNavigation/>
 
       <div style={{width: '100%', textAlign:'center'}}>
-       <SearchBar />
-        <div style={{width: 1100, display:'inline-block'}}>
+       <ProfileBar />
+       
           {children}
-        </div>
+   
       
       </div>
      
@@ -69,13 +74,11 @@ const DashboardWrapContainer = ({children}: any) => {
 }
 
 const DashboardWrapDiv = Styled.div`
-
     display: flex;
     width: 100%;
     min-width: 1440px;
     background-color: ${BG_COLOR_SUB2};
     border-bottom: 1px solid gray
-
 `
 
 export default DashboardWrapContainer;

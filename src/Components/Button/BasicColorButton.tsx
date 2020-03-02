@@ -3,36 +3,32 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 
-//작은 버튼 + 포인트 컬러
+//웰컴, 로그인 페이지 네비게이션 컴포넌트
 
 interface IProps{
-    name: any,
+    name: string,
+    width?: string,
     onClickEvent?: ()=>void,
-
 }
-const SmallButton = ({name, onClickEvent}: IProps) => {
-  const ButtonBox = Styled.button`
-    padding: 7px 18px 7px 18px;
-    color: black;
+const BasicColorButton = ({name, width, onClickEvent}: IProps) => {
+
+  const ButtonWrap = Styled.button`
+    padding: 12px;
     border-radius: 5px;
+    color: black;
     background-color: ${POINT_COLOR};
-    border: 0;
-    font-size: 14px;
+    border: none;
     font-weight: bold;
-`
-  useEffect(()=>{
-   
-  },[])
+    width: ${width};
+    font-size: 18px;
+  `
 
   return (
-    <div style={{textAlign:'center'}}>
-       <ButtonBox type="submit" onClick={onClickEvent}>{name}</ButtonBox>
-    </div>
-      
+    <ButtonWrap onClick={onClickEvent}>{name}</ButtonWrap>
   );
 }
 
 
 
 
-export default SmallButton;
+export default BasicColorButton;

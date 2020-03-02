@@ -4,7 +4,7 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import Logo from '../../Assets/Images/img_logo.png'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import Footer from '../Components/Footer/WelcomeFooter';
-import SearchBar from '../Components/Navigation/SearchBar';
+import ProfileBar from '../Components/Navigation/ProfileBar';
 
 //대시보드를 감싸는 wrap 박스 
 
@@ -26,11 +26,10 @@ const WhiteBoxContainer = ({children}: any) => {
 }
 
 const WhiteWrapDiv = Styled.div`
-    background-color: #efefef;
     display: flex;
-    border-radius: 4px;
+    border-radius: 5px;
     width: 100%;
-    background-color: #efefef;
+    background-color: #f4f6fa;
     
 `
 

@@ -1,66 +1,44 @@
 
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import Styled, { withTheme } from 'styled-components'
-import { BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
 import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
 import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
 import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
+import {useUser, useUserDispatch} from '../../Context/UserContext';
 import Axios from 'axios';
 import { read } from 'fs';
+import { postRequestWithNoToken } from '../../Common/requestFunctions';
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
+import WelcomeContainer from '../../Containers/WelcomeContainer';
+import WelcomeInput from '../../Components/Input/WelcomeInput';
+import { useTranslation } from 'react-i18next';
+import BasicColorButton from '../../Components/Button/BasicColorButton';
+import { Link } from 'react-router-dom';
+import BasicColorButtonLink from '../../Components/Button/BasicColorButtonLink';
 
-// 회원가입 정보 입력 페이지 (메일 인증 후 )
 
 const Complete = () => {
 
-
-  useEffect(()=>{
-     
-  },[])
+  const {t} = useTranslation();
 
   return (
-
-    
-    
-        <FullPageDiv>
-            <WelcomeNavigation position={'static'} />
-            <InnerDiv >
-              <p style={{fontSize:36, marginTop:108}}>Sign Up</p>
-              <div style={{marginTop:34, marginBottom:320}}>
-                <p style={{marginBottom:102}}>
-                가입 정보를 인증중입니다. <br/>
-                담당자 승인 후 로그인 할 수 있습니다.   <br/> <br/>
-
-                잠시만 기다려주세요.
-                </p>
-                <div style={{width:327, backgroundColor:'red'}}>
-                <Link to="/login" style={{ textAlign:'center', padding:15,  display:'block', fontSize:15, color:'black', backgroundColor:POINT_COLOR}}>돌아가기</Link>
-            
-                </div>
-                
-              </div>
-            </InnerDiv>
-            <WelcomeFooter/>
-        </FullPageDiv>
+    <WelcomeContainer >
+      <div style={{width:320, textAlign:'left'}}>
+        <p className="p-eng" style={{fontSize:36, marginBottom:40}}>Sign Up</p>
+        <p className="p-bold" style={{fontSize:16, marginBottom:59, lineHeight:'40px'}}>
+        {t('complete1')}<br/>
+        {t('complete2')}<br/><br/>
+        {t('complete3')}
+        </p>
+        <BasicColorButtonLink to={'/login'} width="100%" name={t('back')}/>
+       
+      </div>
+    </WelcomeContainer>
       
   );
 }
-const FullPageDiv = Styled.div`
-  width: 100%;
-  min-height: calc(100vh - 213px);
-  hegith: 100%;
-  text-align:center;
-  background-color: ${BG_COLOR_SUB2}
-`
-
-const InnerDiv = Styled.div`
-  display:inline-block;
-  width: 327px;
-  max-width: 327px;
-  color: white;
-  text-align:left;
- 
-`
 
 
 export default Complete;
+

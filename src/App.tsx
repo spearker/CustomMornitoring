@@ -40,16 +40,17 @@ const AppBodyContainer = Styled.div`
     margin-block-start: 0;
     margin-block-end: 0;
   }
-  input::-ms-input-placeholder { color: #9B9B9B; }
+  input::-ms-input-placeholder { color: #717c9080; }
   input[type="checkbox"] + label {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 1px solid #9B9B9B;
+    border-radius: 4px;
     cursor: pointer;
   }
   input[type="checkbox"]:checked + label {
-    background: url(${Check}) left/20px no-repeat; 
+    background: url(${Check}) left/18px no-repeat; 
     border: 1px solid ${POINT_COLOR};
   }
   input[type="checkbox"] {

@@ -5,7 +5,7 @@
  * @returns 토큰값 
  */
 export const getToken = (name: string) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(name);
     return token!;
 }
 
@@ -17,5 +17,14 @@ export const getToken = (name: string) => {
  * @returns X
  */
 export const setToken = (name: string, token: string) => {
-    localStorage.setItem('token', token);
+    localStorage.setItem(name, token);
+}
+
+/**
+ * removeToken()
+ * : 토큰을 삭제하는 함수
+ * @returns X
+ */
+export const removeToken = (name: string) => {
+    localStorage.removeItem(name);
 }

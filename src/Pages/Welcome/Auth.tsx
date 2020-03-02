@@ -68,7 +68,7 @@ const onChangeNum4 = useCallback((e) => {
 
   
         <FullPageDiv>
-            <WelcomeNavigation position={'static'} />
+            <WelcomeNavigation />
             <InnerDiv >
               <p style={{fontSize:36, marginTop:108}}>Sign Up</p>
               <form onSubmit={onsubmitForm} style={{marginTop:34, marginBottom:320}}>

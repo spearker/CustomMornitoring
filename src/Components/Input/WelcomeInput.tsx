@@ -2,46 +2,50 @@ import React, { useEffect } from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
+import { useTranslation } from 'react-i18next';
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 
 interface IProps{
     title: string,
-    description: string,
+    hint: string,
     type: string,
     value: number | string,
+    onChangeEvent?: (e: React.ChangeEvent<HTMLInputElement>) =>void
 }
-const WelcomeInput = ({title, description, type, value}: IProps) => {
+const WelcomeInput = ({title, hint, type, value, onChangeEvent}: IProps) => {
+
   useEffect(()=>{
    
   },[])
 
   return (
     
-        <div>
-            <label style={{fontSize: 10, marginBottom:8}}>{title}</label>
-            <WelcomeInputBox type={type} value={value} placeholder={description}/>
-        </div>
+        <>
+            <label className="p-eng" style={{fontSize: 14}}>{title}</label>
+            {
+                type === 'password' ? 
+                <WelcomeInputBox type={type} onChange={onChangeEvent} value={value} placeholder={hint}/>
+                :
+                <WelcomeInputBox type={type} onChange={onChangeEvent} value={value} placeholder={hint}/>
+            }
+        </>
       
   );
 }
 
 const WelcomeInputBox = Styled.input`
-    border: solid 1px #525252;
+    margin-top: 6px;
+    margin-bottom: 11px;
     font-size: 14px;
-    background-color: transperate;
-
-`
-
-const InnerDiv = Styled.div`
-  display: inline-block;
-  text-align: left;
-  font-size: 12px;
-  color: white;
-  line-height: 1.67;
-  padding-top: 35px;
-  padding-bottom: 35px;
-  width: ${MAX_WIDTH};
+    border-radius: 5px;
+    outline: none;
+    border: 0;
+    background-color: #ffffff;
+    font-size: 15px;
+    padding: 14px;
+    width: calc(100% - 30px) !important;
+    color: #252525;
 `
 
 

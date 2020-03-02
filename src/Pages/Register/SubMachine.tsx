@@ -78,12 +78,12 @@ const RegisterSubMachine = () => {
    
     data.append('machine_photo', file);
     
-    const token = getToken()
+    //const token = getToken()
 
    
 
     Axios.post(BASE_URL + '/테스트 테스트', data
-    , { headers: { Authorization: `Bearer ${token}`, 'Access-Control-Allow-Origin': '*'}})
+    , { headers: { Authorization: `Bearer `, 'Access-Control-Allow-Origin': '*'}})
     .then(function (res: any) {
       console.log(res);
       if(res.status === 200){
