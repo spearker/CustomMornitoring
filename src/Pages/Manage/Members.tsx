@@ -14,19 +14,24 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MANAGE } from '../../Common/routerset';
 
-// 멤버 승인
-const AcceptMember = () => {
+// 직원 리스트
+const Members = () => {
 
-  const [list, setList] = useState<[]>([]);
+  const [list, setList] = useState<IMmember[]>([]);
  
   const index = {
-    email:'성명',
-    name:'이메일',
+    name:'성명',
+    appointment:'직급',
+    year:'연차',
+    join_data:'입사일',
+    join_type:'채용형태',
+    email:'이메일',
+    status:'상태'
   }
 
   /**
    * getList()
-   * 승인요청 리스트 조회
+   * 직원 리스트 조회
    * @param {string} url 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
@@ -50,16 +55,16 @@ const AcceptMember = () => {
 
   useEffect(()=>{
 
-    //setList(dataSet.acceptList); //TODO: 테스트용. 지울것.
-    getList();
+    setList(dataSet.memberList); //TODO: 테스트용. 지울것.
+    //getList();
 
   },[])
 
-  const onClickAccept = useCallback((id)=>{
+  const onClickModify = useCallback((id)=>{
 
     console.log('--select id : ' + id)
-   
-
+    window.location.href=`/manage/members/update?pk=${id}`
+  
   },[])
 
   return (
@@ -67,13 +72,13 @@ const AcceptMember = () => {
         <SubNavigation list={ROUTER_MANAGE}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
-            <Header title={'승인 신청 리스트'}/>
+            <Header title={'구성원 관리'}/>
           </div>
-          <NormalTable indexList={index} keyName={'pk'} contents={list} buttonName='가입승인' onClickEvent={onClickAccept}/>
+          <NormalTable indexList={index} keyName={'pk'} contents={list} buttonName='수정하기' onClickEvent={onClickModify}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );
 }
 
-export default AcceptMember;
+export default Members;

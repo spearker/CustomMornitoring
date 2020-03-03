@@ -14,8 +14,9 @@ interface IProps{
     keyName: string,
     onClickEvent?: any,
     buttonName?: string,
-
 }
+
+
 const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IProps) => {
 
   useEffect(()=>{
@@ -70,15 +71,14 @@ const TableWrap = Styled.div`
       font-family: arial, sans-serif;
       border-collapse: collapse;
       width: 100%;
-      background-color: #efefef;
+      background-color: #f4f6fa;
       color: #252525;
       font-size: 14px;
     }
-    
     td, th {
       border-bottom: 1px solid ${BG_COLOR_SUB2};
       text-align: left;
-      padding: 11px;
+      padding: 12px;
     }
 `
 

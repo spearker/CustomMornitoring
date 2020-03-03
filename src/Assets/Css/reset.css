@@ -15,6 +15,18 @@
     unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+AC00-U+D7A3;
 } 
 
+@font-face { 
+    font-family:'DINNextLTPro-Medium'; 
+    src: url(../fonts/DINNextLTPro-Medium.otf)
+} 
+
+@font-face { 
+    font-family:'DINNextLTPro-Bold'; 
+    src: url(../fonts/DINNextLTPro-Bold.otf)
+} 
+
+
+
 
 body { 
     font-family:'Noto Sans KR' ;
@@ -31,6 +43,13 @@ body {
     font-weight: bold;
 }
 
+.p-num {
+    font-family: DINNextLTPro-Medium;
+}
+
+.p-num-b {
+    font-family: DINNextLTPro-Bold;
+}
 a {
     cursor: pointer;
 }

@@ -195,6 +195,59 @@ acceptList : [
         email: 'dulgi24s@gmail.com'
     },
     
+],
+
+targetMember : 
+    {
+        pk: "wqd1d22d1",
+        email: "email@gmail.com",
+        name: "김둘리",
+        profile_img: "",
+        appointment: "",
+        year: 0,
+        join_date: "",
+        join_type: "",
+        status: "",
+    },
+
+
+
+memberList : [
+
+   {
+        pk: "wqd1d22d1",
+        email: "email@gmail.com",
+        name: "홍길동",
+        profile_img: "",
+        appointment: "",
+        year: 0,
+        join_date: "",
+        join_type: "",
+        status: "",
+   },
+   {
+        pk: "wqd1d22d1",
+        email: "email@gmail.com",
+        name: "김둘리",
+        profile_img: "",
+        appointment: "대리",
+        year: 3,
+        join_date: "2016-11-13 09:28:00",
+        join_type: "특채",
+        status: "휴직 ",
+    },
+    {
+        pk: "wqd1d22d1",
+        email: "email@gmail.com",
+        name: "김철수",
+        profile_img: "",
+        appointment: "과장",
+        year: 0,
+        join_date: "2019-03-19 16:34:00",
+        join_type: "공채",
+        status: "재직",
+    }
 ]
+
 
 }

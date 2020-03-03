@@ -16,22 +16,16 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
 import BTN_DELETE from '../../Assets/Images/btn_delete_rank.png';
+import { ROUTER_MANAGE } from '../../Common/routerset';
 
 const CompanySetting = () => {
 
-  const [list, setList] = useState<string[]>([
-    '사장', '이사', '부장', '팀장', '과장', '대리', '사원'
-  ]);
+  const [list, setList] = useState<string[]>([""]);
  
   const index = {
     email:'성명',
     name:'이메일',
   }
-
-  const subMenuList = [
-    {url:"/manage/setting", name:'기본정보설정'},
-    {url:"/manage/members", name:'구성원 관리'}
-  ]
 
   /**
    * onChangeListName()
@@ -42,7 +36,7 @@ const CompanySetting = () => {
    */
   const onChangeListName = useCallback((e, index)=>{
         console.log(e.target.value)
-        const tempList = list.splice("");
+        const tempList = list.slice();
         tempList[index] = e.target.value;
         console.log(tempList)
         setList(tempList);
@@ -55,17 +49,18 @@ const CompanySetting = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickModify = useCallback((action: 'UP' | 'DOWN' | 'ADD' | 'DELETE', index:number)=> {
-    let tempList = list.splice("");
-    console.log(index)
+    let tempList = list.slice();
+    console.log('onclick modi - ' + index)
+    console.log(tempList)
     switch(action) {
         case 'UP':
-            console.log('up')
             if(index !== 0){
+              console.log('onclick up - ' + index)
+              console.log(tempList)
                 tempList.splice(index-1, 0, tempList[index])
-                tempList.splice(index, 1)
-                setList(tempList);
-                return;
+                tempList.splice(index+1, 1)  
             }
+            setList(tempList);
           // code block
           break;
         case 'DOWN':
@@ -94,6 +89,7 @@ const CompanySetting = () => {
           // code block
           break;
         default:
+          break;
           // code block
       }
 
@@ -133,8 +129,8 @@ const CompanySetting = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(()=> {
-      if(list.index('') !== -1){
-          alert('직급, 직책명을 반드시 입력해주세요.')
+      if(list.indexOf('') !== -1){
+          alert('직급을 빈칸 없이 입력해주세요.')
           return
       }
     const results = postRequest(BASE_URL + '/list/rank', list,getToken(TOKEN_NAME))
@@ -170,7 +166,7 @@ const CompanySetting = () => {
 
   return (
       <DashboardWrapContainer>
-          <SubNavigation list={subMenuList}/>
+          <SubNavigation list={ROUTER_MANAGE}/>
           <InnerBodyContainer>
             <div style={{position:'relative'}}>
                 <Header title={'기본정보설정'}/>
@@ -186,11 +182,13 @@ const CompanySetting = () => {
                     {
                         list.map((v,i)=>{
                             return(
-                                <div >
-                                    <InputBox key={i} value={v} onChange={(e)=>{onChangeListName(e, i)}}/>
-                                    <a onClick={()=>onClickModify('UP', i)} style={{height:40, marginRight:10}}><img style={{height:40}} onClick={()=>onClickModify('UP', i)} src={BTN_UP} /></a>
-                                    <a onClick={()=>onClickModify('DOWN', i)}><img src={BTN_DOWN} style={{width:40, marginRight:10}}/></a>
-                                    <a onClick={()=>onClickModify('DELETE', i)}><img src={BTN_DELETE} style={{width:40}}/></a>
+                                <div key={i} style={{display:'flex', marginTop:16}}>
+                                    <InputBox value={v} onChange={(e)=>{onChangeListName(e, i)}}/>
+                                    <div>
+                                      <a onClick={()=>onClickModify('UP', i)}><img style={{height:40, marginRight:10}} src={BTN_UP} /></a>
+                                      <a onClick={()=>onClickModify('DOWN', i)}><img src={BTN_DOWN} style={{width:40, marginRight:10}}/></a>
+                                      <a onClick={()=>onClickModify('DELETE', i)}><img src={BTN_DELETE} style={{width:40}}/></a>
+                                    </div>
                                 </div>    
                             )
                         })
@@ -209,6 +207,7 @@ const InputBox = Styled.input`
     border: solid 1px #b3b3b3;
     padding-left: 11px;
     font-size: 14px;
+    margin-right: 20px;
     font-weight: bold;
     background-color: transparent;
 `

@@ -8,7 +8,18 @@ interface IMachine{
     manufacturer_detail?: string,
     is_registered?: boolean
 }
-
+// 직원 프로필 정보
+interface IMmember{
+  pk: string;
+  email: string;
+  name: string;
+  profile_img: string;
+  appointment: string;
+  year: number;
+  join_date: string;
+  join_type: string;
+  status: string;
+}
 // 팝업 
 interface IPopupTypes{
     type: 'normal' | 'warning' | 'error' | 'notice',

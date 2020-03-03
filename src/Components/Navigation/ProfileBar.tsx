@@ -47,7 +47,6 @@ const ProfileBar = ({select}: Props) => {
         removeToken(TOKEN_NAME);
         dispatch({
           type: 'LOGOUT_USER',
-          data: {}
         });
         alert("")
         window.location.href="/"

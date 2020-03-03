@@ -7,7 +7,7 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 interface IProps{
     image: any,
     dim : boolean //누를수 있는지 없는지 상태
-    onClickEvent?: ()=>void
+    onClickEvent?: any
 
 }
 const IcButton = ({image, dim, onClickEvent}: IProps) => {
@@ -25,7 +25,7 @@ const IcButton = ({image, dim, onClickEvent}: IProps) => {
   `
   return (
 
-       <ButtonBox type="submit" onClick={onClickEvent}>
+       <ButtonBox type="submit" onClick={()=>onClickEvent}>
          <img src={image} style={{width: 14}}/>
        </ButtonBox>
 

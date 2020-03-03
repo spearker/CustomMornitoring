@@ -31,7 +31,7 @@ const SubNavigation = ({list}: Props) => {
             {
                 list.map((v: {url: string, name: string}, i)=>{
                     return(
-                        <SubNavList url={v.url} select={ window.location.pathname === v.url } name={v.name}/>
+                        <SubNavList key={i} url={v.url} select={ window.location.pathname === v.url } name={v.name}/>
                     )
                 })
             }

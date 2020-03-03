@@ -88,3 +88,17 @@ export const getRequestWithNoToken = (url: string): any => {
   
     return false
 }
+
+/**
+ * getParameter()
+ * ?key= 뒤의 파라매터 값을 가져오는 함수 
+ * @param {string} key 키값
+ * @returns 파라매터 키에 매칭되는 value값
+ */
+export const getParameter = (key) =>{
+  key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + key + "=([^&#]*)"),
+      results = regex.exec(window.location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
