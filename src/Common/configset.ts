@@ -12,7 +12,7 @@ export const COMPANY_NAME: string = 'Smart Factory System' as const
 
 //스타일 커스텀을 위한 변수 
 export const MAX_WIDTH: string = '1280px' as const
-export const POINT_COLOR: string = '#f6a605' as const
+export const POINT_COLOR: string = '#fc9b00' as const
 export const BG_COLOR: string = '#13161d'  as const
 export const BG_COLOR_SUB: string = '#242933'  as const
 export const BG_COLOR_SUB2: string = '#3d414e'  as const

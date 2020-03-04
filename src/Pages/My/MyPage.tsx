@@ -23,16 +23,20 @@ import BasicGrayButtonLink from '../../Components/Button/BasicGrayButtonLink';
 import ProfileInput from '../../Components/Input/ProfileInput';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import DateInput from '../../Components/Input/DateInput';
+import ReadOnlyInput from '../../Components/Input/ReadOnlyInput';
 
 
-const CompanySetting = () => {
+const MyPage = () => {
 
   const [target, setTarget] = useState<IMmember>();
+  const [name, setName] = useState<string>("");
   const [rank, setRank] = useState<string>("");
   const [year, setYear] = useState<number>(0);
   const [joinDate, setJoinDate] = useState<string>("");
   const [joinType, setJoinType] = useState<string>("");
   const [status, setStatus] = useState<string>("");
+  const [file, setFile] = useState<any>(null);
+  const [photo, setPhoto] = useState<any | null>();
   const [rankList, setRankList] = useState<string[]>([
     '사장', '이사', '부장', '팀장', '과장', '대리', '사원'
   ]);
@@ -41,11 +45,7 @@ const CompanySetting = () => {
    * onClickSave()
    * 프로필 수정 
    * @param {string} pk 유저 pk 
-   * @param {string} rank 직급
-   * @param {string} year 연차
-   * @param {string} joinDate 입사일
-   * @param {string} joinType 채용형태 
-   * @param {string} status 재직상태
+   * @param {string} profile_img 이미지 데이터
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(()=> {
@@ -74,7 +74,6 @@ const CompanySetting = () => {
       }
 
   },[target, rank, joinDate, joinType, year, status])
-  
    /**
    * getTarget()
    * 멤버 데이터 조회
@@ -91,6 +90,7 @@ const CompanySetting = () => {
       if(results.status === 200){
 
           setTarget(results.results)
+          setName(results.results.name)
           setJoinDate(results.results.join_date)
           setJoinType(results.results.join_type)
           setRank(results.results.appointment)
@@ -104,80 +104,81 @@ const CompanySetting = () => {
     }
   },[target, joinType, joinDate, status, year, rank])
 
-  /**
-   * getRankList()
-   * 직급직책 자료 조회
-   * @param {string} url 요청 주소
-   * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
-   */
-  const getRankList = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/list/rank', getToken(TOKEN_NAME))
-
-    if(results === false){
-        //setList([""])
-      //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-          if(results.results.length > 0){
-           //setList(results.results)
-          }else{
-            //setList([""])
-          }
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[rankList])
 
   useEffect(()=>{
-
+    setName(dataSet.targetMember.name)
     setTarget(dataSet.targetMember); //TODO: 테스트용. 지울것.
     setJoinDate(dataSet.targetMember.join_date)
     setJoinType(dataSet.targetMember.join_type)
     setRank(dataSet.targetMember.appointment)
     setStatus(dataSet.targetMember.status)
     setYear(dataSet.targetMember.year)
-
+    setPhoto(dataSet.targetMember.profile_img)
     //getTarget();
 
   },[])
 
-  const onClickAccept = useCallback((id)=>{
 
-    console.log('--select id : ' + id)
+  /**
+   * addFile()
+   * 멤버 데이터 조회
+   * @param {string} e.target.file 파일
+   * @returns X 
+   */
+  const addFile = useCallback((event: any): void => {
+    console.log(event.target.files[0]);
 
-  },[])
+    if(event.target.files[0] === undefined){
+      setFile(null)
+
+      return;
+    }
+    console.log(event.target.files[0].type);
+    if(event.target.files[0].type.includes('image')){ //이미지인지 판별
+
+      setFile(event.target.files[0])
+      const previewFile = URL.createObjectURL(event.target.files[0])
+      console.log(previewFile);
+      setPreview(previewFile)
+
+
+    }else{
+
+      setFile(null)
+      alert('이미지 형식만 업로드 가능합니다.')
+    }
+    
+  },[file, photo])
+
+  const setPreview = useCallback((blobUrl)=>{
+    console.log('setPreview' + typeof blobUrl);
+    setPhoto(blobUrl);
+    console.log(photo);
+  },[photo])
+
+
 
   return (
       <DashboardWrapContainer>
-          <SubNavigation list={ROUTER_MANAGE}/>
           <InnerBodyContainer>
             <div style={{position:'relative'}}>
-                <Header title={'구성원 관리'}/>
+                <Header title={'마이페이지'}/>
                 <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
                 
                 </div>
             </div>
             <WhiteBoxContainer>
-              {
-                target !== undefined  ?
+             
                 <div>
-                    <NormalInput title={'성명'} description={""} value={target.name} onChangeEvent={null}/>
-                    <NormalInput title={'이메일'} description={""} value={target.email} onChangeEvent={null}/>
-                    <DropdownInput title={'직급'} contents={rankList} target={rank} onChangeEvent={setRank}/>
-                    <NormalInput title={'연차'} description={""} value={String(year)} onChangeEvent={setYear}/>
-                    <DateInput title={'입사일'} description={""} value={joinDate} onChangeEvent={setJoinDate}/>
-                    <DropdownInput title={'채용형태'} contents={['공채','특채','경력직','계약직','파견직','기타']} target={joinType} onChangeEvent={setJoinType}/>
-                    <DropdownInput title={'상태'} contents={['재직','휴직','퇴직','기타']} target={status} onChangeEvent={setStatus}/>
-                    <ProfileInput photo={target.profile_img} title={'프로필 사진'} name={'profilePhoto'} thisId={'profilePhoto'} onChangeEvent={null}  />
+                    <ReadOnlyInput title={'성명'} value={name}/>
+                    <ReadOnlyInput title={'직급'} value={rank} />
+                    <ReadOnlyInput title={'연차'}  value={String(year)}/>
+                    <ReadOnlyInput title={'입사일'} value={joinDate} />
+                    <ProfileInput photo={photo} title={'프로필 사진'} name={'profilePhoto'} thisId={'profilePhoto'} onChangeEvent={addFile} />
                 </div>
-                :null
-              }
+          
               <div style={{textAlign:'center', marginTop:31}}>
-              <BasicGrayButtonLink name="취소하기" to="/manage/members" width={'360px'}/>&nbsp;&nbsp;&nbsp;
-              <BasicColorButton name="수정하기" onClickEvent={onClickSave} width={'360px'}/>
+              <BasicColorButton name="마이페이지 저장하기" onClickEvent={onClickSave} width={'360px'}/>
               </div>
             </WhiteBoxContainer>
           </InnerBodyContainer>
@@ -205,4 +206,4 @@ const ButtonBox = Styled.button`
     font-size: 14px;
     margin-left: 9px;
 `
-export default CompanySetting;
+export default MyPage;

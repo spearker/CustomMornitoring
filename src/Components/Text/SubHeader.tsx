@@ -14,8 +14,8 @@ const SubHeader = ({title}: IProps) => {
 
   return (
     
-        <div style={{textAlign:'left', }}>
-            <p className="p-bold" style={{fontSize: 20, marginBottom:15, margin:0}}>{title}</p>
+        <div style={{textAlign:'left',display:'inline-block' }}>
+            <p className="p-bold" style={{textAlign:'left',fontSize: 20, marginBottom:15, margin:0}}>{title}</p>
         </div>
       
   );

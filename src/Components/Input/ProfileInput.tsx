@@ -8,13 +8,14 @@ import IMG_PROFILE from '../../Assets/Images/img_profile.png';
 
 interface IProps{
     title: string,
-    description: string,
     thisId: string,
     photo: string,
     name: string,
     onChangeEvent: any
     }
-    const ProfileInput = ({title, description, name, thisId, photo, onChangeEvent}: IProps) => {
+
+const ProfileInput = ({title, name, thisId, photo, onChangeEvent}: IProps) => {
+
   useEffect(()=>{
    
   },[])
@@ -22,11 +23,11 @@ interface IProps{
   return ( 
         <InputContainer title={title}>
             <div style={{textAlign:'center'}}>
-             <ImageBox src={photo === '' ? IMG_PROFILE : IMG_PROFILE} />
+             <ImageBox src={photo === '' || photo === null ? IMG_PROFILE : photo} />
             { onChangeEvent !== null ?
             <InputWrapBox> 
                 <label htmlFor={thisId}  style={{border: 0, backgroundColor:POINT_COLOR, padding: '5px 12px 5px 12px', width:84, cursor:'pointer'}}>변경</label>
-                <input type="file" name="file" id={thisId} style={{display:'none'}} onChange={()=>onChangeEvent}/>
+                <input type="file" name={name} id={thisId} style={{display:'none'}} onChange={onChangeEvent}/>
             </InputWrapBox>
             :
             null

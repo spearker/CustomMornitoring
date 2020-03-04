@@ -17,10 +17,14 @@ import Complete from '../Pages/Welcome/Complete'
 // ./Pages/Dashboard
 import Dashboard from '../Pages/Dashboard/Index';
 
+// manage (인사관리)
 import AcceptMember from '../Pages/Manage/Accept'
 import CompanySetting from '../Pages/Manage/Setting'
 import CompanyMembers from '../Pages/Manage/Members'
 import UpdateMember from '../Pages/Manage/Update'
+
+// my (마이페이지)
+import MyPage from '../Pages/My/MyPage'
 
 import RegisterMachine from '../Pages/Register/Machine';
 import RegisterSubMachine from '../Pages/Register/SubMachine';
@@ -54,12 +58,15 @@ const Routers = () => {
             <Route exact path="/forgot" component={ForgotPw} />
             <Route exact path="/change" component={ChangePw} />
 
-            {/* 멤버 조회 관련 */}
+            {/* Manage (어드민) */}
             <Route exact path="/manage/accept" component={AcceptMember} />
             <Route exact path="/manage/setting" component={CompanySetting}/>
             <Route exact path="/manage/members" component={CompanyMembers}/>
             <Route exact path="/manage/members/update" component={UpdateMember}/>
 
+            {/* MyPage (마이페이지) */}
+            <Route exact path="/mypage" component={MyPage}/>
+            
             {/* 대시보드, 데이터 조회 관련 */}
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/list/design" component={DesignList} />

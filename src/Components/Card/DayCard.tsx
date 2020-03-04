@@ -6,11 +6,13 @@ import { useUser } from '../../Context/UserContext';
 import tempIamge from '../../Assets/Images/temp_machine.png'
 import icCloudOn from '../../Assets/Images/ic_cloud.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
-
+import moment from 'moment';
+import 'moment/locale/ko';
 interface Props{
   date: string,
   id: string,
   num: number,
+  weekend: boolean,
   dim: boolean,
   on: boolean,
   onClickEvent: (id: string)=>void;
@@ -19,7 +21,7 @@ interface Props{
 
 // 날짜 카드
 
-const DayCard = ({ date, num,id,  dim, on , onClickEvent}: Props) => {
+const DayCard = ({ date, num,id,  weekend, on , dim, onClickEvent}: Props) => {
 
     
 
@@ -28,23 +30,35 @@ const DayCard = ({ date, num,id,  dim, on , onClickEvent}: Props) => {
   },[])
 
   return (
-      <div onClick={()=>onClickEvent(id)} style={{width:'100%'}}>
+      <div onClick={weekend && dim ?  ()=>{} : ()=>onClickEvent(id) } style={{width:'100%'}}>
       {
-          dim ?
+          weekend ?
+            dim ?
             <CardWrap>
-                <p style={{paddingBottom:9, marginTop:2,color:'#d3d3d3',textAlign:'left', fontSize:16, borderBottom:'1px solid #d3d3d3'}}>{date}</p>
-                <p style={{fontSize:70, color:'#d3d3d3',marginTop:37}}>-</p>
+                <p className="p-bold" style={{paddingBottom:9, marginTop:2,color:'#3d4555',textAlign:'left', fontSize:16, borderBottom:'1px solid #3d4555'}}>{moment(date).format('dd MM.DD')}</p>
+                <p className="p-num" style={{fontSize:68, color:'#3d4555',marginTop:35}}></p>
+            </CardWrap>  
+            :
+            on ?
+            <CardWrapOn>
+                <p className="p-bold" style={{paddingBottom:9,textAlign:'left', fontSize:16, borderBottom:'1px solid #252525'}}>{moment(date).format('dd MM.DD')}</p>
+                <p className="p-num" style={{fontSize:68, marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
+            </CardWrapOn>  
+            :
+            <CardWrap>
+                <p className="p-bold" style={{paddingBottom:9, color:'white', marginTop:2,textAlign:'left', fontSize:16, borderBottom:'1px solid white'}}>{moment(date).format('dd MM.DD')}</p>
+                <p className="p-num" style={{fontSize:68, color:'white',marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
             </CardWrap>  
           :
           on ?
             <CardWrapOn>
-                <p style={{paddingBottom:9,textAlign:'left', fontSize:16, borderBottom:'1px solid #252525'}}>{date}</p>
-                <p style={{fontSize:70, marginTop:37}}>{num === 0 ? '-' : num } </p>
+                <p className="p-bold" style={{paddingBottom:9,textAlign:'left', fontSize:16, borderBottom:'1px solid #252525'}}>{moment(date).format('dd MM.DD')}</p>
+                <p className="p-num" style={{fontSize:68, marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
             </CardWrapOn>  
             :
             <CardWrap>
-                <p style={{paddingBottom:9,  marginTop:2,textAlign:'left', fontSize:16, borderBottom:'1px solid #252525'}}>{date}</p>
-                <p style={{fontSize:70, marginTop:37}}>{num === 0 ? '-' : num } </p>
+                <p className="p-bold" style={{paddingBottom:9, color:'white', marginTop:2,textAlign:'left', fontSize:16, borderBottom:'1px solid white'}}>{moment(date).format('dd MM.DD')}</p>
+                <p className="p-num" style={{fontSize:68, color:'white',marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
             </CardWrap>  
 
       }
@@ -57,15 +71,19 @@ const DayCard = ({ date, num,id,  dim, on , onClickEvent}: Props) => {
 const CardWrap = Styled.div`
         width: calc( 100% - 32px );
         text-align: center;
-        background-color: #efefef;
+        cursor: pointer;
+        background-color: ${BG_COLOR_SUB};
         height: 166px;
         padding: 16px;
+        border-radius: 5px;
     `
 const CardWrapOn = Styled.div`
     width: calc( 100% - 32px );
+    cursor: pointer;
     text-align: center;
     background-color: ${POINT_COLOR};
     height: 166px;
+    border-radius: 5px;
     padding: 16px;
 `
 

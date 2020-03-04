@@ -1,5 +1,64 @@
 export const dataSet = {
-subMachineList : [
+
+
+    statusList:[
+        {
+            pk: 'wqdlj32du3928ud912',
+            name: '제스텍 프레스',
+            label: '프레스',
+            status: 'active',
+            attached_to: '라인 31',
+            photo : "",
+            is_registerd: false,
+        },
+        {
+            pk: 'qjdku1294103902',
+            name: '심팩 프레스',
+            label: '프레스',
+            status: 'active',
+            attached_to: '라인 9',
+            photo : "",
+            is_registerd: true,
+        },
+        {
+            pk: 'vmrlmeijrqjr314',
+            name: '심팩 프레스',
+            label: '프레스',
+            status: 'active',
+            attached_to: "",
+            photo : "",
+            is_registerd: false,
+        },
+        {
+            pk: 'de23r33928ud912',
+            name: '시즐 피더',
+            label: '피더',
+            status: 'done',
+            attached_to: '라인 1',
+            photo : "",
+            is_registerd: true,
+        },
+        {
+            pk: 'de23r33928ud912',
+            name: '시즐 피더',
+            label: '피더',
+            status: 'error',
+            attached_to: "",
+            photo : "",
+            is_registerd: true,
+        },
+        {
+            pk: 'de23r33928ud912',
+            name: '시즐 피더',
+            label: '피더',
+            status: 'done',
+            attached_to: "",
+            photo : "",
+            is_registerd: true,
+        }
+        
+    ],
+    subMachineList : [
     {
         device_name: "장비 장비...",
         device_label: "종류 종류..",
@@ -247,7 +306,72 @@ memberList : [
         join_type: "공채",
         status: "재직",
     }
-]
+],
 
+taskList:[
+    {
+        
+    pk: '21e1d2f33f13',
+    title: '작업 001304',
+    status: 'done',
+    registered: '2020-03-03 09:23',
+    machines: ['프래스 01, 프래스 02'],
+    products: '플라스틱 케이스',
+    amount: 100000,
+    profile_img: "",
+    worker: "홍길동 대리",
+    comments: 2
+    }, 
+    {
+        pk: 'edfm1d2f33f13',
+        title: '작업 0201',
+        status: 'active',
+        registered: '2020-03-03 09:23',
+        machines: ['프래스 01'],
+        products: '박스',
+        amount: 100000,
+        profile_img: "",
+        worker: "홍길동 대리",
+        comments: 2
+        }, 
+        {
+            pk: '21e1wqlqw13',
+            title: '작업 021',
+            status: 'stop',
+            registered: '2020-03-03 09:23',
+            machines: ['프래스 01, 프래스 02'],
+            products: '알루미늄 나사',
+            amount: 100000,
+            profile_img: "",
+            worker: "홍길동 대리",
+            comments: 2
+            }, 
+            {
+                pk: '1d2f3314213',
+                title: '작업 099',
+                status: 'share',
+                registered: '2020-03-03 09:23',
+                machines: ['프래스 01, 프래스 02, 프래스 02'],
+                products: '플라스틱 케이스',
+                amount: 100000,
+                profile_img: "",
+                worker: "홍길동 대리",
+                comments: 2
+                }, 
+                
+                {
+                    pk: '4124213f13',
+                    title: '작업 001347',
+                    status: 'ready',
+                    registered: '2020-03-03 09:23',
+                    machines: ['프래스 01, 프래스 02'],
+                    products: '플라스틱 케이스',
+                    amount: 100000,
+                    profile_img: "",
+                    worker: "홍길동 대리",
+                    comments: 2
+                    }, 
+
+]
 
 }

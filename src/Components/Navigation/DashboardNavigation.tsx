@@ -24,13 +24,14 @@ const DashboardNavigation = ({select}: Props) => {
     { name : '메인페이지', url : '/dashboard'},
     { name : '작업지시서 등록', url : '/register/work'},
     { name : '작업지시서 내역', url : '/list/work'},
-    { name : '기계 및 장비 현황', url : '/register/work'},
+    { name : '기계 및 장비 현황', url : '/list/status'},
     { name : '모니터링', url : '/monitoring'},
-    { name : '마이페이지', url : '/my'},
+    { name : '마이페이지', url : '/mypage'},
   ]
 
   const MenuGroup2 = [
     { name : '인사 관리', url : '/manage/members'},
+    { name : '정보 등록', url : '/manage/members'},
     { name : '가입 승인 관리', url : '/manage/accept'},
     { name : '자재 정보 등록', url : '/register/material'},
     { name : '금형 정보 등록', url : '/register/design'},
@@ -58,7 +59,7 @@ const DashboardNavigation = ({select}: Props) => {
   return (
     
         <NavDiv>
-            <div style={{textAlign:'center', width:'100%', marginBottom: 80, }}>
+            <div style={{textAlign:'center', width:'100%', marginBottom: 44, }}>
               <a href="/dashboard"><img src={Logo} style={{width: 100, marginBottom:8}}/></a>
               <p className="p-bold" style={{display:'inline-block',fontSize:16,textAlign:'center', color:`${POINT_COLOR}`}}>{SERVICE_TITLE}</p>
             </div>

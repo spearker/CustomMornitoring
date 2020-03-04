@@ -6,8 +6,36 @@ interface IMachine{
     manufacturer?: string,
     manufacturer_code?: string,
     manufacturer_detail?: string,
+    
     is_registered?: boolean
 }
+// 작업지시서
+interface ITask{
+    pk: string,
+   title:string,
+   profile_img: string,
+   status: string,
+   registered: string,
+   machines: any,
+   products: string,
+   amount: number,
+   worker: string,
+   comments: number,
+
+}
+
+//장비 현황
+interface IStatus{
+  pk: string,
+  name: string,
+  label: string,
+  status: string,
+  attached_to: string,
+  photo :string,
+  is_registerd: boolean,
+}
+
+
 // 직원 프로필 정보
 interface IMmember{
   pk: string;
