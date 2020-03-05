@@ -33,6 +33,11 @@ const Login = () => {
   const onsubmitForm = useCallback(async ()=>{
 
     console.log('click')
+
+    alert('테스트 : 대시보드 접속 - ' + email);
+    window.location.href= "/dashboard"
+
+    return;
     //window.location.href= "/complete" //TODO: 지울것
     //발리데이션
     if(password == '' || email ==='' ){
@@ -87,7 +92,7 @@ const Login = () => {
             <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
             <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)}} hint={t('enterPassword')}/>
             <div style={{textAlign:'center',marginTop:52}}>
-                  <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={t('login')} />
+                  <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={'테스트 ' + t('login')} />
                   <div style={{marginTop:13, marginBottom:24}}>
                     <Link to="/forgot">{t('findPassword')}</Link>
                     <span style={{paddingLeft:8, paddingRight:8}}>|</span>

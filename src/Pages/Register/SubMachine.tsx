@@ -12,6 +12,9 @@ import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import { getToken } from '../../Common/tokenFunctions';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import { ROUTER_REGISTER } from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 
 // 주변장치 등록 페이지
@@ -113,7 +116,8 @@ const RegisterSubMachine = () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_REGISTER}/>
+          <InnerBodyContainer>
             <Header title={'주변장치 정보등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={onsubmitForm} >
@@ -128,7 +132,7 @@ const RegisterSubMachine = () => {
               </form>
             </WhiteBoxContainer>
             
-        </FullPageDiv>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

@@ -69,8 +69,8 @@ const Email = () => {
           <div style={{width:320, textAlign:'left'}}>
             <p className="p-eng" style={{fontSize:36, marginBottom:26}}>Sign Up</p>
             <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
-            <div style={{display:'flex', marginTop:8}}>
-              <div style={{paddingLeft:1}}>
+            <div style={{display:'flex', alignItems:'center',marginTop:6}}>
+              <div style={{paddingLeft:1, paddingTop:5}}>
                 <input type="checkbox" id="cb" onClick={(e)=>{setCheck(!check)}}/>
                 <label htmlFor="cb"></label>
               </div>

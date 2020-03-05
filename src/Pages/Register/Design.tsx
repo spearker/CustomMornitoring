@@ -11,6 +11,10 @@ import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import SubNavList from '../../Components/Navigation/SubNavList';
+import { ROUTER_REGISTER } from '../../Common/routerset';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
 
 
 // 금형 등록 페이지
@@ -66,7 +70,8 @@ const RegisterDesign = () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_REGISTER}/>
+        <InnerBodyContainer>
             <Header title={'금형 정보등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={onsubmitForm}>
@@ -80,7 +85,7 @@ const RegisterDesign = () => {
               </form>
             </WhiteBoxContainer>
             
-        </FullPageDiv>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

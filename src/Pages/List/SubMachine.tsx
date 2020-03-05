@@ -9,6 +9,9 @@ import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import { ROUTER_LIST } from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 // 주변 장치 리스트
 const SubMachineList = () => {
@@ -53,7 +56,9 @@ const SubMachineList = () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_LIST}/>
+        <InnerBodyContainer>
+       
           <div style={{position:'relative'}}>
             <Header title={'주변 장치 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
@@ -62,7 +67,7 @@ const SubMachineList = () => {
           </div>
 
           <NormalTable indexList={index} keyName={'device_code'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
-        </FullPageDiv>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

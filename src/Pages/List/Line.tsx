@@ -13,6 +13,9 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import CardList from '../../Components/Card/CardList';
 import SmallButton from '../../Components/Button/SmallButton';
 import { getRequest } from '../../Common/requestFunctions';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import { ROUTER_LIST } from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 // 라인 리스트
 const LineList = () => {
@@ -73,7 +76,8 @@ const LineList = () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_LIST}/>
+        <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'라인 정보 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
@@ -112,7 +116,7 @@ const LineList = () => {
               })
             }
         
-        </FullPageDiv>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

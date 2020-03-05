@@ -45,7 +45,7 @@ const AppBodyContainer = Styled.div`
     display: inline-block;
     width: 18px;
     height: 18px;
-    border: 1px solid #9B9B9B;
+    border: 1px solid #ffffff70;
     border-radius: 4px;
     cursor: pointer;
   }

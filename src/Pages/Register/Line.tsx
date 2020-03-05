@@ -20,6 +20,9 @@ import SearchInput from '../../Components/Input/SearchInput';
 import SmallButton from '../../Components/Button/SmallButton';
 import AddList from '../../Components/List/AddList';
 import TextList from '../../Components/List/TextList';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import { ROUTER_REGISTER } from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 
 
@@ -83,7 +86,8 @@ const RegisterLine= () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_REGISTER}/>
+        <InnerBodyContainer>
             <ThisHeader title={'라인 정보등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={onsubmitForm} >
@@ -122,7 +126,7 @@ const RegisterLine= () => {
                 <SmallButton name={'추가하기'} onClickEvent={()=>{setIsPoupup(false); setAddList(checkList); setKeyword('')}}/>
             </BasicModal>
             
-        </FullPageDiv>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

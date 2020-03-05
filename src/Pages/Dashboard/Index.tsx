@@ -280,7 +280,7 @@ const Dashboard = () => {
                 <SubHeader title={'작업내역'}/>
                 <div style={{display:'inline-block', float:'right', }}>
                   <div style={{display:'flex', alignItems:'center'}}>
-                  <ColorButtonLink url="/register/task" >{<><img src={IC_ADD}/> 추가하기</>}</ColorButtonLink>
+                  <ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 추가하기</>}</ColorButtonLink>
                   <BasicDropdown contents={['등록순', '이름순']} select={'등록순'} onClickEvent={onClickFilter}/>
                   </div>
                 </div>

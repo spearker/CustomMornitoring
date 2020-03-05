@@ -13,6 +13,9 @@ import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import { getToken } from '../../Common/tokenFunctions';
 import BasicModal from '../../Components/Modal/BasicModal';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import { ROUTER_REGISTER } from '../../Common/routerset';
 
 
 // 기계 등록 페이지
@@ -114,7 +117,8 @@ const RegisterMachine = () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_REGISTER}/>
+        <InnerBodyContainer>
             <Header title={'기계 정보등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={onsubmitForm} >
@@ -130,7 +134,7 @@ const RegisterMachine = () => {
               </form>
             </WhiteBoxContainer>
             
-        </FullPageDiv>
+        </InnerBodyContainer>
       
       </DashboardWrapContainer>
       

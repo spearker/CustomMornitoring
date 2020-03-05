@@ -11,6 +11,9 @@ import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import { ROUTER_REGISTER } from '../../Common/routerset';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
 
 
 // 자재등록 페이지
@@ -66,7 +69,8 @@ const RegisterMaterial = () => {
 
   return (
       <DashboardWrapContainer>
-        <FullPageDiv>
+        <SubNavigation list={ROUTER_REGISTER}/>
+        <InnerBodyContainer>
             <Header title={'자재 정보 등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={onsubmitForm}>
@@ -74,7 +78,7 @@ const RegisterMaterial = () => {
               </form>
             </WhiteBoxContainer>
             
-        </FullPageDiv>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

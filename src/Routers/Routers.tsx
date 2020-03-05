@@ -41,6 +41,16 @@ import MaterialList from '../Pages/List/Material';
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
 import SuperList from '../Pages/Super/List';
+import RegisterTask from '../Pages/Register/Task';
+import TaskList from '../Pages/List/Task';
+import PressMonitoring from '../Pages/Monitoring/Press';
+import LoadMonitoring from '../Pages/Monitoring/Load';
+import StatusList from '../Pages/List/Status';
+import RegisterProduct from '../Pages/Register/Product';
+import ProductList from '../Pages/List/Product';
+import Charts from '../Pages/Service/Charts';
+import ServiceDesk from '../Pages/Service/ServiceDesk';
+import Reports from '../Pages/Service/Reports';
 
 const Routers = () => {
     //const { isLoggedIn } = useContext(UserDataContext);
@@ -58,6 +68,13 @@ const Routers = () => {
             <Route exact path="/forgot" component={ForgotPw} />
             <Route exact path="/change" component={ChangePw} />
 
+            {/* 대시보드 & 모니터링 */}
+            <Route exact path="/task/register" component={RegisterTask}/>
+            <Route exact path="/task/list" component={TaskList}/>
+            <Route exact path="/monitoring/press" component={PressMonitoring}/>
+            <Route exact path="/monitoring/load" component={LoadMonitoring}/>
+            <Route exact path="/status" component={StatusList}/>
+
             {/* Manage (어드민) */}
             <Route exact path="/manage/accept" component={AcceptMember} />
             <Route exact path="/manage/setting" component={CompanySetting}/>
@@ -71,19 +88,30 @@ const Routers = () => {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />
-            <Route exact path="/list/sub" component={SubList} />
+            <Route exact path="/list/submachine" component={SubList} />
             <Route exact path="/list/line" component={LineList} />
             <Route exact path="/list/material" component={MaterialList} />
+            <Route exact path="/list/product" component={ProductList} />
             
             {/* 데이터 등록 관련 */}
             <Route exact path="/register/material" component={RegisterMaterial} />
             <Route exact path="/register/design" component={RegisterDesign} />
+            <Route exact path="/register/product" component={RegisterProduct} />
             <Route exact path="/register/machine" component={RegisterMachine} />
-            <Route exact path="/register/sub" component={RegisterSubMachine} />
+            <Route exact path="/register/submachine" component={RegisterSubMachine} />
+            <Route exact path="/register/t" component={RegisterSubMachine} />
             <Route exact path="/register/line" component={RegisterLine} />
+
+            {/*기타 서비스 */}
+            <Route exact path="/charts" component={Charts}/>
+            <Route exact path="/reports" component={Reports}/>
+            <Route exact path="/service" component={ServiceDesk}/>
+
             {/* 슈퍼 어드민*/}
             <Route exact path="/super/register" component={SuperRegister} />
             <Route exact path="/super/list" component={SuperList} />
+
+
         </Switch>
     </div>
   );

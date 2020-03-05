@@ -58,7 +58,7 @@ const DashboardWrapContainer = ({children}: any) => {
     <DashboardWrapDiv >
       <DashboardNavigation/>
 
-      <div style={{width: '100%', textAlign:'center'}}>
+      <div style={{width: '100%', marginBottom:88, textAlign:'center'}}>
        <ProfileBar />
        
           {children}

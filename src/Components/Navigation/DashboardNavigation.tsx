@@ -22,30 +22,11 @@ const DashboardNavigation = ({select}: Props) => {
 
   const MenuGroup1 = [
     { name : '메인페이지', url : '/dashboard'},
-    { name : '작업지시서 등록', url : '/register/work'},
-    { name : '작업지시서 내역', url : '/list/work'},
-    { name : '기계 및 장비 현황', url : '/list/status'},
-    { name : '모니터링', url : '/monitoring'},
+    { name : '작업지시서 등록', url : '/task/register'},
+    { name : '작업지시서 내역', url : '/task/list'},
+    { name : '기계 및 장비 현황', url : '/status'},
+    { name : '모니터링', url : '/monitoring/press'},
     { name : '마이페이지', url : '/mypage'},
-  ]
-
-  const MenuGroup2 = [
-    { name : '인사 관리', url : '/manage/members'},
-    { name : '정보 등록', url : '/manage/members'},
-    { name : '가입 승인 관리', url : '/manage/accept'},
-    { name : '자재 정보 등록', url : '/register/material'},
-    { name : '금형 정보 등록', url : '/register/design'},
-    { name : '기계 정보 등록', url : '/register/machine'},
-    { name : '주변장치 등록', url : '/register/sub'},
-    { name : '라인 정보등록', url : '/register/line'},
-  ]
-
-  const MenuGroup3 = [
-    { name : '자재 정보 리스트', url : '/list/material'},
-    { name : '금형 정보 리스트', url : '/list/design'},
-    { name : '기계 정보 리스트', url : '/list/machine'},
-    { name : '주변장치 리스트', url : '/list/sub'},
-    { name : '라인 정보리스트', url : '/list/line'},
   ]
 
   const MenuGroup4 = [
@@ -71,30 +52,14 @@ const DashboardNavigation = ({select}: Props) => {
                 )
               })
             }
-            <br/><br/><br/>
-            {
-              MenuGroup2.map((value, index)=>{
-                return(
-                  <NavList key={`2-${index}`} name={value.name}  url={value.url} select={ window.location.pathname === value.url }/>
-                )
-              })
-            }
-             <br/><br/><br/>
-            {
-              MenuGroup3.map((value, index)=>{
-                return(
-                  <NavList key={`3-${index}`} name={value.name} url={value.url} select={ window.location.pathname === value.url }/>
-                )
-              })
-            }
-             <br/><br/><br/>
-            {
-              MenuGroup4.map((value, index)=>{
-                return(
-                  <NavList key={`4-${index}`} name={value.name} url={value.url} select={ window.location.pathname === value.url }/>
-                )
-              })
-            }
+             <br/><br/>
+            <NavList name={'정보 등록'}  url={'/register/material'} select={ window.location.pathname.includes('/register/') }/>
+            <NavList name={'정보 리스트'}  url={'/list/material'} select={ window.location.pathname.includes('/list/') }/>
+            <NavList name={'통계'}  url={'/charts'} select={ window.location.pathname ==='/charts' }/>
+            <NavList name={'레포트'}  url={'/reports'} select={ window.location.pathname === '/reports' }/>
+            <br/><br/>
+            <NavList name={'서비스 문의'}  url={'/service'} select={ window.location.pathname === '/service' }/>
+            <p style={{fontSize:11, marginTop:10, marginBottom:60, color: '#ffffff90'}}>2020 SIZL. All Rights Reserved.</p>
            </div>
         </NavDiv>
       

@@ -14,21 +14,22 @@ import { postRequest } from '../../Common/requestFunctions';
 interface Props{
   select?: string
 }
+    /*
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      setNowTime(moment().format('a HH:mm'))
+    }, 100000);
 
+    return () => clearInterval(interval);
+
+  },[nowTime])
+  */
 
 const ProfileBar = ({select}: Props) => {
 
   const user = useUser(); // 유저 컨텍스트 데이터 받아오는 커스텀 훅스
   const dispatch = useUserDispatch();
   const [nowTime, setNowTime] = useState<string>(moment().format('a HH:mm'))
-  useEffect(()=>{
-
-    const interval = setInterval(() => {
-      setNowTime(moment().format('a HH:mm'))
-    }, 1000);
-
-    return () => clearInterval(interval);
-  },[nowTime])
 
   /**
    * onClickLogout()
@@ -36,7 +37,9 @@ const ProfileBar = ({select}: Props) => {
    * @returns X
    */
   const onClickLogout = useCallback(()=>{
-
+    alert('테스트 : 로그아웃 - ' + getToken(TOKEN_NAME));
+    window.location.href="/"
+    return;
     const data = {}
     const results = postRequest(BASE_URL + '/logout', data, getToken(TOKEN_NAME))
 
@@ -68,14 +71,14 @@ const ProfileBar = ({select}: Props) => {
                   <div style={{width: 45}}>
                     <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
                   </div>
-                  <div style={{width: 255}}>
+                  <div style={{width: 250}}>
                     <p className="p-bold" style={{display:'inline-block', color:'white'}}>{user.name}홍길동</p>
                   </div>
                   <div style={{display:'flex', alignItems: 'center', width: 600, height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 31, marginRight: 8}}/>
                     <p className="p-bold" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>근접한 일정 알람...근접한 일정 알람...근접한 일정 알람...</p>
                   </div>
-                  <div style={{textAlign:'right', width:200}}>
+                  <div style={{textAlign:'right', width:205}}>
                     <a className="p-eng" style={{marginRight:26}}>
                       {nowTime}
                     </a>
