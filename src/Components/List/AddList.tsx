@@ -3,66 +3,67 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import { useUser } from '../../Context/UserContext';
 import IcButton from '../Button/IcButton';
-import icPlus from '../../Assets/Images/ic_plus.png'
-import icXgray from '../../Assets/Images/ic_x_small.png'
+import icCheck from '../../Assets/Images/ic_check_on.png'
+import icCheckDim from '../../Assets/Images/ic_check_dim.png'
+import IconSquareButton from '../Button/IconSquareButton'
+
 interface Props{
   title: string,
   name: string,
   pk: string,
-  onClickEvent : ()=>void;
-  press: boolean,
-  check: boolean,
+  onClickEvent :()=>void;
+  selected: boolean,
+  dim: boolean,
 }
 
 
 // 추가 버튼이 있는 리스트 
-const AddList = ({ title, name, check, press, onClickEvent }: Props) => {
+const AddList = ({ title, name, pk, selected, dim, onClickEvent }: Props) => {
   
-  const RawInnerDiv = Styled.div`
-    display: inline-block;
-    text-align: left;
-    p{
-      margin-left: 8px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      word-wrap: normal;
-      width: 98%;
-      overflow:hidden;
-    }
-`
-
-
   useEffect(()=>{
    
   },[])
 
   return (
     <ListWrapDiv>
-      <div style={{width: 66}}>
-       <p>{title}</p>
-      </div>
-      <div>
-        <p>|&nbsp;&nbsp;{name}</p>
-      </div>
-      <div style={{position:'absolute', top:-1, right:0, zIndex:4}}>
-        {
-          press ?
-          <IcButton image={press ? icPlus : icXgray} onClickEvent={onClickEvent} dim={check}/> 
-          :
-          <IcButton image={press ? icPlus : icXgray} onClickEvent={onClickEvent} dim={press}/> 
-        }
-          
-      </div>
+      {
+        dim ?
+        <>
+        <div style={{width: '30%', color:'#b3b3b3'}}>
+          <p className="p-limit">{title}</p>
+        </div>
+        <div style={{width: '70%', color:'#b3b3b3'}}>
+          <p>|&nbsp;&nbsp;{name}</p>
+        </div>
+        </>
+        :
+        <>
+        <div style={{width: '30%'}}>
+          <p className="p-limit">{title}</p>
+        </div>
+        <div style={{width: '70%'}}>
+          <p>|&nbsp;&nbsp;{name}</p>
+        </div>
+        </>
+      }
+
+      
+      <div onClick={onClickEvent} style={{position:'absolute', top:-1, right:0, zIndex:3}}>
+          <IconSquareButton  width="33px" imageSize="22px" image={dim? icCheckDim : icCheck} dim={selected ? false : true}/>  
+      </div> 
     </ListWrapDiv>  
   );
 }
 
 
+
+
 const ListWrapDiv = Styled.div`
+  color: black;
   border: solid 0.5px #d3d3d3;
-  background-color: white;
+  background-color: #f4f6fa;
   position: relative;
-  font-size: 13px;
+  font-size: 14px;
   display: flex;
   padding: 6px;
 `

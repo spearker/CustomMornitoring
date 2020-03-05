@@ -92,6 +92,14 @@ const Routers = () => {
             <Route exact path="/list/line" component={LineList} />
             <Route exact path="/list/material" component={MaterialList} />
             <Route exact path="/list/product" component={ProductList} />
+
+            {/* 데이터 수정 관련 - 등록 페이지와 동일한 컴포넌트 사용*/}
+            <Route exact path="/update/design" component={RegisterDesign} />
+            <Route exact path="/update/machine" component={RegisterMachine} />
+            <Route exact path="/update/submachine" component={RegisterSubMachine} />
+            <Route exact path="/update/line" component={RegisterLine} />
+            <Route exact path="/update/material" component={RegisterMaterial} />
+            <Route exact path="/update/product" component={RegisterProduct} />
             
             {/* 데이터 등록 관련 */}
             <Route exact path="/register/material" component={RegisterMaterial} />
@@ -99,7 +107,6 @@ const Routers = () => {
             <Route exact path="/register/product" component={RegisterProduct} />
             <Route exact path="/register/machine" component={RegisterMachine} />
             <Route exact path="/register/submachine" component={RegisterSubMachine} />
-            <Route exact path="/register/t" component={RegisterSubMachine} />
             <Route exact path="/register/line" component={RegisterLine} />
 
             {/*기타 서비스 */}

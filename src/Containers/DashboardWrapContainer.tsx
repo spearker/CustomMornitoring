@@ -76,9 +76,10 @@ const DashboardWrapContainer = ({children}: any) => {
 const DashboardWrapDiv = Styled.div`
     display: flex;
     width: 100%;
+    min-height: 100vh;
+    heigth: 100%;
     min-width: 1440px;
     background-color: ${BG_COLOR_SUB2};
-    border-bottom: 1px solid gray
 `
 
 export default DashboardWrapContainer;

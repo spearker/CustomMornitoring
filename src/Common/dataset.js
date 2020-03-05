@@ -99,6 +99,7 @@ export const dataSet = {
 ],
 machineList : [
     {
+        pk:'142u41ou24o21',
         machine_name: "기계 기계...",
         machine_label: "종류 종류..",
         machine_code: "K934219",
@@ -109,6 +110,7 @@ machineList : [
         
     },
     {
+        pk:'01n29xo21',
         machine_name: "기계 기계...",
         machine_label: "종류 종류..",
         machine_code: "K7231859",
@@ -119,6 +121,7 @@ machineList : [
         
     },
     {
+        pk:'756hgbt3421',
         machine_name: "기계 기계...",
         machine_label: "종류 종류..",
         machine_code: "K9123019",
@@ -129,6 +132,7 @@ machineList : [
         
     },
     {
+        pk:'142uf2334o21',
         machine_name: "기계 기계...",
         machine_label: "종류 종류..",
         machine_code: "K032193",
@@ -190,18 +194,21 @@ listList : [
         machine_photo: ""
         },
         {
+            pk:'d3d1qw',
             machine_name: '기계 7',
             machine_photo: "",
             is_connected: true,
             machine_code: '2131244',
         },
         {
+            pk:'d3d1qw',
             machine_name: '기계 16',
             machine_photo: "",
             is_connected: false,
             machine_code: '2131244',
         },
         {
+            pk:'d3d1qw',
             machine_name: '기계 5',
             machine_photo: "",
             is_connected: true,

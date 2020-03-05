@@ -16,7 +16,7 @@ const RegisterButton = ({name, onPress}: IProps) => {
   },[])
 
   return (
-    <div style={{textAlign:'center'}}>
+    <div className="p-bold" style={{textAlign:'center'}}>
        <ButtonBox type="submit">{name}</ButtonBox>
     </div>
       
@@ -29,9 +29,9 @@ const ButtonBox = Styled.button`
     color: black;
     background-color: ${POINT_COLOR};
     border: 0;
-    border-radius: 4px;
+    border-radius: 5px;
     margin-top: 30px;
-    font-size: 16px;
+    font-size: 18px;
 `
 
 

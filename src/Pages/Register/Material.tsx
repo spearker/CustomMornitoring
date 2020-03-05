@@ -1,83 +1,203 @@
 import React, { useEffect, useState, useContext , useCallback} from 'react';
 import Styled, { withTheme } from 'styled-components'
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import ButtonBox from '../../Components/Button/BasicButton'
-
-import Axios from 'axios';
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { ROUTER_REGISTER } from '../../Common/routerset';
+import NormalFileInput from '../../Components/Input/NormalFileInput';
+import { getToken } from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-
+import { ROUTER_REGISTER, ROUTER_LIST } from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
+import InputContainer from '../../Containers/InputContainer';
+import DropdownInput from '../../Components/Input/DropdownInput';
+import CustomIndexInput from '../../Components/Input/CustomIndexInput';
+import SmallButton from '../../Components/Button/SmallButton';
+import AddInput from '../../Components/Input/AddInput';
+interface IInfo {
+  title: string,
+  value: string,
+}
 
 // 자재등록 페이지
+// 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const RegisterMaterial = () => {
 
+  const [pk, setPk] = useState<string>('');
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [made, setMade] = useState<string>('');
-  const [no, setNo] = useState<string>('');
+  const [code, setCode] = useState<string>('');
   const [spec, setSpec] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [type, setType] = useState<string>('');
-  const [moldNo, setMoldNo] = useState<string>('');
+  const [info, setInfo] = useState<IInfo[]>([]);
 
   useEffect(()=>{
 
-  },[])
+    const param = getParameter('pk');
+    if(param !== ""){
+        setPk(param)
+        alert(`수정 페이지 진입 - pk :` + param)
+        setIsUpdate(true)
+    }
 
+  },[]) 
+
+  /**
+   * getData()
+   * 자재 정보 수정을 위한 조회
+   * @param {string} url 요청 주소
+   * @param {string} pk 자재 pk
+   * @returns X 
+   */
+  const getData = useCallback((e)=>{
+    
+    const res = getRequest(BASE_URL + '/api/v1/product/view/' + pk, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         const results = res.results;
+         setName('');
+         setMade('');
+         setCode('');
+         setSpec('');
+         setPk('');
+         setInfo([]);
+      }else if(res.status === 1001 || res.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[pk, made, code, info, spec, name]);
+
+  /**
+   * onsubmitForm()
+   * 자재 정보 등록
+   * @param {string} url 요청 주소
+   * @param {string} name 이름
+   * @param {array} info 항목 리스트
+   * @param {string} made 유통사
+   * @param {string} spec 종류
+   * @param {string} code 코드
+   * @returns X 
+   */
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
-    console.log('--onSubmitForm')
-    
-    Axios.post(BASE_URL + '/ㅇ', {
-      manufacturer: made, 
-      product_code: no, 
-      product_spec: spec, 
-      mold_name: name,
-      mold_label: type, 
-      mold_code: moldNo,
-    })
-    .then(function (res) {
-      console.log(res);
-      if(res.status === 200){
-        //성공
-        alert('등록 되었습니다.')
-        
-        setMade('');
-        setNo('');
-        setMoldNo('');
-        setName('');
-        setSpec('');
-        setType('');
-      }else{
-        //에러처리 
-      
-        
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-     
-    });
+     //TODO: 지울것
+    alert('테스트 : 전송 - ' + code + name + info + made + spec + info );
+    return;
+    const data = {
+        material_name: name,
+        material_code: code,
+        material_spec: spec,
+        distributor: made,
+        info_list : info
+    }
 
-  },[made, no, name, type, moldNo, spec])
+    const res = postRequest(BASE_URL + '/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         alert('성공적으로 등록 되었습니다')
+      }else if(res.status === 1001){
+        //TODO:
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+
+  },[made, code, name, spec,info, pk])
+
+
+  /**
+   * onsubmitFormUpdate()
+   * 자재 정보 수정
+   * @param {string} url 요청 주소
+   * @param {string} pk pk
+   * @param {string} name 이름
+   * @param {array} info 항목 리스트
+   * @param {string} made 유통사
+   * @param {string} spec 종류
+   * @param {string} code 코드
+   * @returns X 
+   */
+  const onsubmitFormUpdate = useCallback((e)=>{
+    e.preventDefault();
+     //TODO: 지울것
+    alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
+    return;
+    const data = {
+        pk: pk,
+        material_name: name,
+        material_code: code,
+        material_spec: spec,
+        distributor: made,
+        info_list : info
+    }
+
+    const res = postRequest(BASE_URL + '/api/v1/material/update' + pk, data, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         alert('성공적으로 수정 되었습니다')
+      }else if(res.status === 1001){
+        //TODO:
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+
+  },[made, code, name, spec, info, pk])
+
 
   return (
       <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_REGISTER}/>
+        <SubNavigation list={isUpdate ? ROUTER_LIST :ROUTER_REGISTER}/>
         <InnerBodyContainer>
-            <Header title={'자재 정보 등록'}/>
+            <Header title={isUpdate ? '자재 정보수정' : '자재 정보등록'}/>
             <WhiteBoxContainer>
-              <form onSubmit={onsubmitForm}>
-                   <RegisterButton name={'자재 정보 등록하기'} />
+             <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
+             <NormalInput title={'원자재 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
+             <NormalInput title={'원자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
+             <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요'} />
+             <NormalInput title={'유통사'} value={made} onChangeEvent={setMade} description={'유통사를 입력하세요'} />
+             <AddInput title={'자유 항목'} onChangeEvent={()=>{
+               const tempInfo = info.slice();
+               tempInfo.push({title:`자유 항목 ${info.length + 1}`, value:""});
+               setInfo(tempInfo)
+             }}>
+              {
+                info.map((v: IInfo, i)=>{
+                  return(
+                      <CustomIndexInput index={i} value={v} 
+                      onRemoveEvent={()=>{
+                        const tempInfo = info.slice();
+                        tempInfo.splice(i, 1)
+                        setInfo(tempInfo)
+                      }} 
+                      onChangeEvent={(obj: IInfo)=>{
+                        const tempInfo = info.slice();
+                        tempInfo.splice(i, 1, obj)
+                        setInfo(tempInfo)
+                      }} 
+                      />
+                  )
+                })
+              }
+              </AddInput>
+      
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
               </form>
             </WhiteBoxContainer>
-            
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

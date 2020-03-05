@@ -6,7 +6,7 @@ interface IMachine{
     manufacturer?: string,
     manufacturer_code?: string,
     manufacturer_detail?: string,
-    
+    pk: string,
     is_registered?: boolean
 }
 // 작업지시서

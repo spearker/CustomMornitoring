@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
-import IcPlus from '../../Assets/Images/ic_plus_gray.png'
+import IcPlus from '../../Assets/Images/ic_plus.png'
+import InputContainer from '../../Containers/InputContainer';
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 
@@ -17,27 +18,36 @@ const AddInput = ({title, onChangeEvent, children}: IProps) => {
   },[])
 
   return ( 
-        <div style={{ borderBottom: 'solid 0.5px #d3d3d3'}}>
-            <p style={{fontSize: 12, fontWeight: 700, width: 130, display:'inline-block'}}>· {title}</p>
-            <InputBox onClick={onChangeEvent}>
-                <img src={IcPlus} style={{width: 12}} />
-            </InputBox>
-            <div style={{marginLeft: 130, width: 400}}>
+        <InputContainer title={title}>
+            <InnerBox>
+                <div>
                 {children}
-            </div>
-        </div> 
+                </div>
+                <InputBox onClick={onChangeEvent}>
+                    <img src={IcPlus} style={{width: 10, height: 10, marginRight:5}} />
+                    <span className="p-bold" style={{paddingBottom:2, marginRight:10}}>{title+ ' 추가'}</span>
+                </InputBox>
+            </InnerBox>
+           
+        </InputContainer >
   );
 }
 
-const InputBox = Styled.button`
+const InnerBox = Styled.div`
+    width: calc(100% - 200px);
+`
+const InputBox = Styled.a`
     border: solid 0.5px #d3d3d3;
-    font-size: 13px;
+    font-size: 14px;
     padding: 6px;
+    align-items: center;
+    display: flex;
+    width: 100%;
     padding-left: 10px;
-    width: 401px;
-    background-color: white;
-    margin-bottom: 17px;
-    margin-top: 17px;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #f4f6fa;
 
 `
 

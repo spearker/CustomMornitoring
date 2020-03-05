@@ -4,41 +4,50 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import { useUser } from '../../Context/UserContext';
 import IcButton from '../Button/IcButton';
 import icPlus from '../../Assets/Images/ic_plus.png'
-import icXgray from '../../Assets/Images/ic_x_small.png'
+import icDelete from '../../Assets/Images/ic_minus.png'
+import IconSquareButton from '../Button/IconSquareButton';
 interface Props{
   title: string,
   name: string,
+  onClickEvent: ()=>void,
 }
 
 
 // 텍스트 리스트
-const TextList = ({ title, name }: Props) => {
+const TextList = ({ title, name, onClickEvent }: Props) => {
   
   useEffect(()=>{
    
   },[])
 
   return (
-    <ListWrapDiv>
-      <div style={{width: 66}}>
-       <p >{title}</p>
-      </div>
-      <div>
-        <p>|&nbsp;&nbsp;{name}</p>
-      </div>
-    </ListWrapDiv>  
+    
+      <ListWrapDiv>
+        <div style={{width: '20%'}}>
+        <p className="p-limit">{title}</p>
+        </div>
+        <div style={{width: 'calc(80% - 34px)'}}>
+          <p>|&nbsp;&nbsp;{name}</p>
+        </div>
+        <div onClick={onClickEvent} style={{width:32, position:'absolute', top:-1, right:0, zIndex:3}}>
+            <IconSquareButton  width="32px" imageSize="22px" image={icDelete} dim={true}/>  
+      </div> 
+      </ListWrapDiv> 
+
   );
 }
 
 
 const ListWrapDiv = Styled.div`
   border: solid 0.5px #d3d3d3;
-  background-color: white;
-  position: relative;
+  background-color: #f4f6fa;
   font-size: 13px;
   display: flex;
+  position: relative;
+  width: 100%;
   margin-bottom: 10px;
   padding: 6px;
+    padding-left: 10px;
 `
 
 

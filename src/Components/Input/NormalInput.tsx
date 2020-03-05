@@ -34,7 +34,7 @@ const InputBox = Styled.input`
     padding: 6px;
     padding-left: 10px;
     width: calc(100% - 200px);
-    background-color: white;
+    background-color: #f4f6fa;
 `
 
 
