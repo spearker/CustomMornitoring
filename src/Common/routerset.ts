@@ -11,18 +11,18 @@ export const ROUTER_MONITORING = [
 
 export const ROUTER_REGISTER = [
     {url:"/register/material", name:'자재 정보등록'},
-    {url:"/register/product", name:'생산품 정보등록'},
     {url:"/register/design", name:'금형 정보등록'},
     {url:"/register/machine", name:'기계 정보등록'},
     {url:"/register/submachine", name:'주변장치 등록'},
     {url:"/register/line", name:'라인 정보등록'},
+    {url:"/register/product", name:'생산제품 정보등록'},
 ]
 
 export const ROUTER_LIST = [
     {url:"/list/material", name:'자재 리스트'},
-    {url:"/list/product", name:'생산품 리스트'},
     {url:"/list/design", name:'금형 리스트'},
     {url:"/list/machine", name:'기계 리스트'},
     {url:"/list/submachine", name:'주변장치 리스트'},
     {url:"/list/line", name:'라인 리스트'},
+    {url:"/list/product", name:'생산제품 리스트'},
 ]

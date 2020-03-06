@@ -9,6 +9,14 @@ interface IMachine{
     pk: string,
     is_registered?: boolean
 }
+
+// 금형 타입
+interface IMold{
+  mold_name: string,
+  mold_label: string,
+  mold_code: string,
+  pk: string,
+}
 // 작업지시서
 interface ITask{
     pk: string,

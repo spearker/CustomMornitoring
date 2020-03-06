@@ -47,9 +47,8 @@ const AddList = ({ title, name, pk, selected, dim, onClickEvent }: Props) => {
         </>
       }
 
-      
-      <div onClick={onClickEvent} style={{position:'absolute', top:-1, right:0, zIndex:3}}>
-          <IconSquareButton  width="33px" imageSize="22px" image={dim? icCheckDim : icCheck} dim={selected ? false : true}/>  
+      <div onClick={onClickEvent} style={{position:'absolute', top:0, right:0, zIndex:3}}>
+          <IconSquareButton  color="#e7e9eb" width="33px" imageSize="22px"  image={dim? icCheckDim : icCheck} dim={selected ? false : true}/>  
       </div> 
     </ListWrapDiv>  
   );

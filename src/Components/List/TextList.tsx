@@ -29,9 +29,9 @@ const TextList = ({ title, name, onClickEvent }: Props) => {
         <div style={{width: 'calc(80% - 34px)'}}>
           <p>|&nbsp;&nbsp;{name}</p>
         </div>
-        <div onClick={onClickEvent} style={{width:32, position:'absolute', top:-1, right:0, zIndex:3}}>
-            <IconSquareButton  width="32px" imageSize="22px" image={icDelete} dim={true}/>  
-      </div> 
+        <div onClick={onClickEvent} style={{width:32, position:'absolute', top:-1, right:0,}}>
+            <IconSquareButton  color="#e7e9eb" width="32px" imageSize="22px" image={icDelete} dim={true}/>  
+        </div> 
       </ListWrapDiv> 
 
   );

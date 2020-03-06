@@ -58,9 +58,10 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
 
     const BoxWrap = Styled.div`
         background-color: ${changeStatusToColor(select)};
-        padding: 12px;
+        padding: 12px 0 12px 12px;
         color: white;
-        min-width: 100px;
+        width: 90px;
+        min-width: 90px;
         top: 0;
         align-items: center;
         font-size: 18px;
@@ -70,19 +71,18 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
         border-radius: 6px;
     
     `
-    const InnerList = Styled.div`
-        background-color: ${changeStatusToColor(select)};
-        padding: 12px;
-        border-bottom: 1px solid #ffffff50;
-        border-top: 0;
-        color: white;
-        min-width: 100px;
-        top: 0;
-        text-align: left;
-        align-items: center;
-        font-size: 18px;
-        cursor: pointer;
-        display: flex;
+    const DropDownList = Styled.div`
+    background-color: #f4f6fa;
+    color: black;
+    width: 90px;
+    min-width: 90px;
+    font-size: 14px;
+    text-align: center;
+    top: 0;
+    text-align: left;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
     `
 
     const handleClickBtn = () => {
@@ -96,22 +96,32 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
         <div style={{width: 90, position:'relative', display:'block'}} ref={ref}>
             {
                 isOpen ?      
-                <div > 
-                <InnerList >
+                <div style={{borderRadius:6, backgroundColor: '#f4f6fa'}}> 
+                <BoxWrap >
                     <img src={IcMenu} style={{width:24, height:24, marginRight:10}} onClick={()=>{setIsOpen(!isOpen)}}/>
                     <p className="p-bold" style={{display:'inline-block'}} onClick={()=>{setIsOpen(!isOpen)}}>
                         {changeStatusToString(select)}
                     </p>
-                </InnerList>
-                    <div style={{position:'absolute',backgroundColor: changeStatusToColor(select), borderRadius:6, zIndex:3, top:50}}> 
+                </BoxWrap>
+                    <div className="p-bold" style={{position:'absolute',padding:6, textAlign:'center',borderRadius:6, zIndex:3, top:52, backgroundColor: '#f4f6fa'}}> 
                     {   
                         contents.map((v, i)=>{
-                            return(
-                            <InnerList key={i} onClick={()=>{
-                                onClickEvent(pk, v); 
-                                setIsOpen(false)
-                                }}>{changeStatusToString(v)}</InnerList>
-                            )       
+                            if(i=== 0){
+                                return(
+                                    <DropDownList  key={i} onClick={()=>{
+                                        onClickEvent(pk, v); 
+                                        setIsOpen(false)
+                                        }}><p style={{padding:5, textAlign:'center'}}>{changeStatusToString(v)}</p></DropDownList>
+                                    ) 
+                            }else{
+                                return(
+                                    <DropDownList style={{borderTop:'1px solid #d3d3d3'}} key={i} onClick={()=>{
+                                        onClickEvent(pk, v); 
+                                        setIsOpen(false)
+                                        }}><p style={{padding:5, textAlign:'center'}}>{changeStatusToString(v)}</p></DropDownList>
+                                    ) 
+                            }
+                                  
                         })
                     }
                      </div>

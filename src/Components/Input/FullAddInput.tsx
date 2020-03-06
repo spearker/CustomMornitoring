@@ -12,13 +12,13 @@ interface IProps{
     onChangeEvent: ()=>void,
     children: any,
 }
-const AddInput = ({title, onChangeEvent, children}: IProps) => {
+const FullAddInput = ({title, onChangeEvent, children}: IProps) => {
   useEffect(()=>{
    
   },[])
 
   return ( 
-        <InputContainer title={title}>
+     
             <InnerBox>
                 <div>
                 {children}
@@ -29,12 +29,13 @@ const AddInput = ({title, onChangeEvent, children}: IProps) => {
                 </InputBox>
             </InnerBox>
            
-        </InputContainer >
+
   );
 }
 
 const InnerBox = Styled.div`
-    width: calc(100% - 200px);
+    width: 100%;
+    border-bottom: solid 0.5px #d3d3d3;
 `
 const InputBox = Styled.a`
     border: solid 0.5px #d3d3d3;
@@ -43,7 +44,8 @@ const InputBox = Styled.a`
     align-items: center;
     display: flex;
     width: 100%;
-    margin-top: 4px;
+    margin-top: 17px;
+    margin-bottom: 18px;
     padding-left: 10px;
     text-align: center;
     justify-content: center;
@@ -53,4 +55,4 @@ const InputBox = Styled.a`
 `
 
 
-export default AddInput;
+export default FullAddInput;

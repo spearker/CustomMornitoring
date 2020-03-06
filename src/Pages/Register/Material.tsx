@@ -17,6 +17,7 @@ import DropdownInput from '../../Components/Input/DropdownInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import SmallButton from '../../Components/Button/SmallButton';
 import AddInput from '../../Components/Input/AddInput';
+import FullAddInput from '../../Components/Input/FullAddInput';
 interface IInfo {
   title: string,
   value: string,
@@ -170,7 +171,7 @@ const RegisterMaterial = () => {
              <NormalInput title={'원자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
              <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요'} />
              <NormalInput title={'유통사'} value={made} onChangeEvent={setMade} description={'유통사를 입력하세요'} />
-             <AddInput title={'자유 항목'} onChangeEvent={()=>{
+             <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                const tempInfo = info.slice();
                tempInfo.push({title:`자유 항목 ${info.length + 1}`, value:""});
                setInfo(tempInfo)
@@ -193,7 +194,7 @@ const RegisterMaterial = () => {
                   )
                 })
               }
-              </AddInput>
+              </FullAddInput>
       
               <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
               </form>

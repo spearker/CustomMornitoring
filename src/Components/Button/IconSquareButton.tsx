@@ -9,9 +9,10 @@ interface IProps{
     dim : boolean, //누를수 있는지 없는지 상태
     width: string,
     imageSize: string, 
+    color: string,
 
 }
-const IconSquareButton = ({image, dim, width, imageSize}: IProps) => {
+const IconSquareButton = ({image, dim, width, imageSize, color}: IProps) => {
   useEffect(()=>{
    
   },[])
@@ -22,7 +23,7 @@ const IconSquareButton = ({image, dim, width, imageSize}: IProps) => {
     width: ${width};
     height: ${width};
     color: black;
-    background-color: ${!dim ? POINT_COLOR : '#f4f4f4'};
+    background-color: ${!dim ? POINT_COLOR : color};
     border: solid 0.5px #d3d3d3;
   `
   return (

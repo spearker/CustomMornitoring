@@ -40,20 +40,22 @@ const RegisterLine= () => {
   const [pk, setPk] = useState<string>('');
   const [no, setNo] = useState<string>('');
   const [info, setInfo] = useState<string>('');
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
+  //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
-  const [checkList, setCheckList] = useState<string[]>([]);
-  const [pkList, setPkList] = useState<string[]>([]);
-  const [list, setList] = useState<string[]>([]);
-  const [searchList, setSearchList] = useState<IMachine[]>(dataSet.machineList);
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [checkList, setCheckList] = useState<IMachine[]>([]);
+  const [list, setList] = useState<IMachine[]>([]);
+  const [searchList, setSearchList] = useState<IMachine[]>([]);
 
   useEffect(()=>{
-
+    setSearchList(dataSet.machineList)
     const param = getParameter('pk');
     if(param !== ""){
         setPk(param)
+        setList(dataSet.machineList)
         alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
     }
@@ -135,6 +137,7 @@ const RegisterLine= () => {
    */
   const onClickCheck = useCallback((id: string)=>{
 
+    /*
     console.log('체크박스 선택: ' + checkList.length + ' / ' +id)
     let tempArray = checkList.filter((v)=>(v !== id));
     if(checkList.indexOf(id) !== -1){
@@ -151,7 +154,7 @@ const RegisterLine= () => {
       }
     }
     console.log('체크박스 처리결과: ' + tempArray);
-
+    */
   },[checkList])
 
   const onsubmitForm = useCallback((e)=>{
@@ -169,20 +172,22 @@ const RegisterLine= () => {
               <form onSubmit={onsubmitForm} >
                 <NormalInput title={'라인 번호'} value={no} onChangeEvent={setNo} description={'라인의 번호를 지정하세요'} />
                 <NormalInput title={'라인 상세정보'} value={info} onChangeEvent={setInfo} description={'라인의 상세 정보를 자유롭게 작성하세요'} />
+                {/* 팝업 여는 버튼 + 기계추가 */}
                 <AddInput title={'기계'} onChangeEvent={()=>{
-                  setIsPoupup(true); 
-                  setCheckList(pkList); 
+                  setIsPoupup(true);  
+                  setCheckList(list); 
                   setKeyword('')}
                   }>
                 {
-                  pkList.map((v, i)=>{ 
+                  list.map((v, i)=>{ 
                     return ( 
                         <TextList key={i} onClickEvent={()=>{
-                            const tempList = pkList.slice();
-                            tempList.splice(i, 1);
-                            setPkList(tempList)
+                          const tempList = list.slice()
+                          const idx = list.indexOf(v)
+                          tempList.splice(idx, 1)
+                          setList(tempList)
                         }} 
-                        title={searchList.filter((value: IMachine)=> value.pk === v )[0].machine_code} name={searchList.filter((value: IMachine)=> value.pk === v )[0].machine_name}/>                    
+                        title={v.machine_code} name={v.machine_name}/>                    
                     )
                   })
                 }
@@ -194,10 +199,10 @@ const RegisterLine= () => {
 
             {/* 검색창 */}
             <SearchModalContainer 
-              onClickEvent={
+              onClickEvent={ //닫혔을 때 이벤트 
                 ()=>{
                 setIsPoupup(false); 
-                setPkList(checkList); 
+                setList(checkList); 
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false)}} title={'기계 선택'} >
@@ -208,9 +213,22 @@ const RegisterLine= () => {
                     searchList.map((v: IMachine, i)=>{ 
                       return ( 
                           !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가
-                          <AddList key={i} pk={v.machine_code} dim={false} selected={checkList.includes(v.pk)? true : false } onClickEvent={()=>onClickCheck(v.pk)} title={v.machine_code} name={v.machine_name} />
+                          <AddList key={i} pk={v.machine_code} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                            onClickEvent={()=>{
+                              const tempList = checkList.slice()
+                              if(checkList.find((k, index)=> k.pk === v.pk) ){
+                                  const idx = checkList.indexOf(v)
+                                  tempList.splice(idx, 1)
+                                  setCheckList(tempList)
+                              }else{
+                                  tempList.splice(0, 0, v)
+                                  setCheckList(tempList)
+                              }
+                            }} 
+                            title={v.machine_code} name={v.machine_name} 
+                          />
                           :
-                          <AddList key={i} pk={v.machine_code} dim={true} selected={false} onClickEvent={()=>onClickCheck(v.pk)} title={v.pk} name={v.machine_name} />
+                          <AddList key={i} pk={v.machine_code} dim={true} selected={false} onClickEvent={()=>{}} title={v.pk} name={v.machine_name} />
                       )
                     })
                     :
