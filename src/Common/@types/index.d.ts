@@ -57,6 +57,14 @@ interface IMmember{
   status: string;
 }
 
+// 검색된 유저
+interface IMemberSearched{
+  pk: string,
+  name: string,
+  appointment: string,
+  profile_img: string,
+} 
+
 // 생산품목
 interface IProductSearched{
   pk: string,

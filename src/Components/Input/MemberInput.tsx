@@ -4,10 +4,11 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 import IMG_PROFILE from '../../Assets/Images/img_profile.png';
+import IcRemove from '../../Assets/Images/ic_remove_profile.png';
 
 interface IProps{
     title: string,
-    contents: {
+    contents?: {
         pk: string,
         name: string,
         image: string,
@@ -26,44 +27,60 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
   useEffect(()=>{
    
   },[])
-
+  const buttonBox = Styled.button`
+  padding: 3px 11px 3px 3px;
+  background-color: ${POINT_COLOR};
+`
   return ( 
-        <InputContainer title={title}>
+        <div style={{display:'inline-block', fontSize:14}}>
+        <div style={{  display:'flex', marginRight: 60 , position:'relative',paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
+        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 80, display:'inline-block',}}>{title === "" ? " " : `· ${title}`}</p>
             <div style={{display:'inline-block', textAlign:'center'}}>
                 {
-                isMultiRegistered ? 
+                !isMultiRegistered && contents!==undefined? 
+                contents.length === 0 ?
+                <>
+                    <ImageBox src={ IMG_PROFILE} />
+                    <p style={{marginTop:8}}>(선택)</p>
+                </>
+                :
                 contents.map((v, i)=>{
                     return(
-                        <>
-                        <ImageBox src={v.image === '' || v.image === null ? IMG_PROFILE : v.image} />
-                        <button onClick={onRemoveEvent}></button>
-                        </>
+                        <div key={i} style={{display:'inline-block', marginRight:10}}>
+                            <div style={{position:'relative'}}>
+                                <ImageBox src={v.image === '' || v.image === null ? IMG_PROFILE : v.image} />
+                                <img src={IcRemove} onClick={()=>onRemoveEvent(i)} style={{cursor:'pointer', width:17, position:'absolute', top: 0, right:6}}/>
+                            </div>
+                             <p className="p-limits" style={{marginTop:8, minWidth:60, maxWidth:120}}>{v.name}</p>
+                        </div>
                     )
                 })
                 :
-                    target !== undefined ? 
+                    target !== undefined && target !== null? 
+                    <>
                     <ImageBox src={target.image === '' || target.image === null ? IMG_PROFILE : target.image} />
+                    <p className="p-limits" style={{marginTop:8, minWidth:60, maxWidth:120}}>{target.name}</p>
+                    </>
                     :
-                    null
+                    <>
+                    <ImageBox src={ IMG_PROFILE} />
+                    <p style={{marginTop:8}}>(선택)</p>
+                    </>
                 }
             </div>
             {
                 onChangeEvent !== undefined ? 
-                <InputWrapBox> 
-                    <label htmlFor={title}  style={{border: 0, backgroundColor:POINT_COLOR, padding: '5px 12px 5px 12px', width:84, cursor:'pointer'}}>{isMultiRegistered ? '등록' : '변경'}</label>
-                    <input type="file" name={name} id={title} style={{display:'none'}} onChange={onChangeEvent}/>
-                </InputWrapBox>
+                <div style={{position:'absolute', bottom: 16, left:6}}>
+                     <button style={{padding: '3px 11px 3px 11px', backgroundColor:POINT_COLOR}} onClick={onChangeEvent}>{isMultiRegistered ? '변경' : '등록 '}</button>
+                </div>
                 :
                 null
             }
-        </InputContainer> 
+        </div> 
+        </div>
   );
 }
-const InputWrapBox = Styled.div`
-    font-size: 13px;
-    margin-bottom: 19px;
-    margin-top: 10px;
-`
+
 const InputBox = Styled.div`
     border: solid 0.5px #d3d3d3;
     font-size: 14px;
@@ -73,9 +90,9 @@ const InputBox = Styled.div`
     background-color: #f4f6fa;
 `
 const ImageBox = Styled.img`
-  border-radius: 40px;
-  width: 84px;
-  height: 84px;
+  border-radius: 22px;
+  width: 46px;
+  height: 46px;
   object-fit: cover;
 `
 

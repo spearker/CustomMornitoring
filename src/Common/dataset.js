@@ -1,5 +1,25 @@
 export const dataSet = {
     
+    searchedMemmber:[
+        {
+            pk:'w36464mlfqw',
+            name:'홍길동',
+            appointment:'대리',
+            profile_img:'',
+        },
+        {
+            pk:'5235fqw',
+            name:'김둘리',
+            appointment:'과장',
+            profile_img:'',
+        },{
+            pk:'235sdkqmlfqw',
+            name:'고길동',
+            appointment:'사원',
+            profile_img:'',
+        }
+
+    ],
     products:[
         {
             pk: 'asdjlijdlwqi',

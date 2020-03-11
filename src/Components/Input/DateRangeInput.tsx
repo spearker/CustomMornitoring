@@ -64,6 +64,9 @@ const InputWrap = Styled.div`
     .rdt{
         display: inline-block;
         background-color: #f4f6fa;
+        input{
+            background-color: #f4f6fa !important;
+        }
         
     }
     input{

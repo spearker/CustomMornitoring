@@ -49,7 +49,7 @@ const SearchModalContainer = ({title, tab1, tab2, selected, onClickClose, isVisi
                             <p>취소</p>
                         </div>
                         <div style={{ width:'50%', padding:9, backgroundColor: POINT_COLOR}} onClick={onClickEvent}>
-                            <p>추가</p>
+                            <p>등록</p>
                         </div>
                     </div>
                 </div>
