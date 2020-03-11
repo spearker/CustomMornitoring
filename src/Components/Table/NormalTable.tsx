@@ -50,7 +50,7 @@ const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: I
                     )
                   })
                 }
-                <td>
+                <td style={{width: 120}}>
                   <SmallButton name={buttonName} onClickEvent={()=>{onClickEvent(v[keyName])}}/>
                 </td>
               </tr>

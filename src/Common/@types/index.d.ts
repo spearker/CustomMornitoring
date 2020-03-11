@@ -56,6 +56,14 @@ interface IMmember{
   join_type: string;
   status: string;
 }
+
+// 생산품목
+interface IProductSearched{
+  pk: string,
+  product_name: string,
+  product_code: string,
+  molds: string,
+}
 // 팝업 
 interface IPopupTypes{
     type: 'normal' | 'warning' | 'error' | 'notice',
@@ -71,4 +79,14 @@ interface IServerResponse  {
     status: number,
     results?: any
   
+  }
+
+  //라인 머신 검색
+  interface IMachineLine {
+    pk: string,
+    name: string,
+    group: string,
+    status: string,
+    operation: boolean,
+    end_date: string
   }

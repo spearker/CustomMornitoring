@@ -47,6 +47,8 @@ const Dashboard = () => {
   const [dim, setDim]= useState<boolean>(true)
   const [page, setPage]=useState<number>(1)
   const [taskList, setTaskList]= useState<ITask[]>([])
+  const [option, setOption] = useState<number>(0)
+
   const optionList = [
     "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
   ]
@@ -90,13 +92,13 @@ const Dashboard = () => {
 
     setList(
       [
-        { date: '2020-03-01' ,  issue: 0 },
-        { date: '2020-03-02' ,  issue: 2 },
-        { date: '2020-03-03' ,  issue: 1 },
-        { date: '2020-03-04' ,  issue: 5 },
-        { date: '2020-03-05' ,  issue: 1 },
-        { date: '2020-03-06' ,  issue: 1 },
-        { date: '2020-03-07' ,  issue: 0 },
+        { date: '2020-03-08' ,  issue: 0 },
+        { date: '2020-03-09' ,  issue: 2 },
+        { date: '2020-03-10' ,  issue: 1 },
+        { date: '2020-03-11' ,  issue: 5 },
+        { date: '2020-03-12' ,  issue: 1 },
+        { date: '2020-03-13' ,  issue: 1 },
+        { date: '2020-03-14' ,  issue: 0 },
       ]
     )
 
@@ -182,12 +184,12 @@ const Dashboard = () => {
 
   /**
    * onClickFilter()
-   * 작업 내역의 상태 변경 
-   * @param {string} pk 작업지시서 pk
-   * @param {string} value 상태값
+   * 리스트 필터 변경
+   * @param {string} filter 필터 값
    * @returns X
    */
   const onClickFilter = useCallback((filter:number)=>{
+    setOption(filter)
     alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
     const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
@@ -203,7 +205,7 @@ const Dashboard = () => {
         //TODO:  기타 오류
       }
     }
-  },[])
+  },[option])
   return (
       <DashboardWrapContainer>
         <InnerBodyContainer>
@@ -281,7 +283,7 @@ const Dashboard = () => {
                 <div style={{display:'inline-block', float:'right', }}>
                   <div style={{display:'flex', alignItems:'center'}}>
                   <ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 추가하기</>}</ColorButtonLink>
-                  <BasicDropdown contents={['등록순', '이름순']} select={'등록순'} onClickEvent={onClickFilter}/>
+                  <BasicDropdown contents={['등록순', '이름순']} select={['등록순', '이름순'][option]} onClickEvent={onClickFilter}/>
                   </div>
                 </div>
                 <div style={{marginTop:5}}>

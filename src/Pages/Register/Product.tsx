@@ -219,13 +219,13 @@ const RegisterProduct = () => {
 
 
              {/* 팝업 여는 버튼 + 기계추가 */}
-             <AddInput title={'사용 금형'} onChangeEvent={()=>{
+             <AddInput title={''} onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}
                   }>
                 {
-                  list.map((v, i)=>{ 
+                  list.map((v: IMold, i)=>{ 
                     return ( 
                         <TextList key={i} onClickEvent={()=>{
                           const tempList = list.slice()

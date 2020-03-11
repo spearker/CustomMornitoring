@@ -1,6 +1,72 @@
 export const dataSet = {
-
-
+    
+    products:[
+        {
+            pk: 'asdjlijdlwqi',
+            product_name : '플라스틱 케이스1',
+            product_code:'21p4p1294i',
+            molds:'금형08, 금형02, 금형24'
+        },
+        {
+            pk: 'jel2jr3l2',
+            product_name : '배터리 팩 케이스',
+            product_code:'412323f2qf',
+            molds:'금형01'
+        },
+        {
+            pk: '23r2rji2',
+            product_name : '금속 케이스',
+            product_code:'32424gf4g',
+            molds:'금형04, 금형05'
+        }
+    ],
+    searchedItem: {
+        lines:[
+            {
+                pk: 'wqd310j29jd90j2',
+                group: 'LINE01',
+                name : '프래스01, 프래스02, 프래스04, 프래스09, 프래스12',
+                status : 'active',
+                operation: true,
+                end_date: ''
+            },
+            {
+                pk: '1932jf2j8',
+                group: 'LINE02',
+                name : '프래스01, 프래스02, 프래스03,',
+                status : 'active',
+                operation: true,
+                end_date: ''
+            },
+            {
+                pk: '42j3il2jrl239jd90j2',
+                group: 'LINE03',
+                name : '프래스05, 프래스07',
+                status : 'active',
+                operation: false,
+                end_date: '2020-03-01 14:49'
+            }
+            
+        ],
+        machines:[
+            {
+                pk: '42j3il2jrl239jd90j2',
+                group: '개별',
+                name : '프래스01',
+                status : 'active',
+                operation: true,
+                end_date: ''
+            },
+            {
+                pk: '42j3il2jrl239jd90j2',
+                group: '개별',
+                name : '프래스02',
+                status : 'active',
+                operation: false,
+                end_date: '2020-03-01 09:23'
+            },
+        ]
+    },
     statusList:[
         {
             pk: 'wqdlj32du3928ud912',

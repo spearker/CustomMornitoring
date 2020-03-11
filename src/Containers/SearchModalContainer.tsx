@@ -12,10 +12,13 @@ interface IProps{
     title?: string,
     isVisible: boolean,
     children: any,
+    tab1?: string ,
+    tab2?: string ,
+    selected?: number,
     onClickClose: ()=>void,
     onClickEvent: ()=>void,
 }
-const SearchModalContainer = ({title, onClickClose, isVisible, children, onClickEvent}: IProps) => {
+const SearchModalContainer = ({title, tab1, tab2, selected, onClickClose, isVisible, children, onClickEvent,}: IProps) => {
 
     
   useEffect(()=>{
@@ -27,10 +30,13 @@ const SearchModalContainer = ({title, onClickClose, isVisible, children, onClick
             <>
             <WrapHoverBox onClick={onClickClose}/>
             <InnerBox>
-                <div style={{position:'relative', backgroundColor:'#f4f6fa',  textAlign: 'left',minWidth:440, padding:'19px 20px 0px 20px'}}>
+                <div style={{position:'relative', backgroundColor:'#f4f6fa',  textAlign: 'left',minWidth:860, padding:'0px 20px 0px 20px'}}>
                     {
-                        title!== undefined && title !==null?
-                        <p style={{fontWeight:'bold', color:'black', marginBottom:19}}>· {title}</p>
+                        title!== undefined  && title !==null && title !=='' ?
+                        <div style={{ paddingTop:20}}>
+                             <p style={{fontWeight:'bold', color:'black', marginBottom:19}}>· {title}</p>
+                        </div>
+                    
                         :
                         null
                     }
@@ -69,9 +75,9 @@ const WrapHoverBox = Styled.div`
 const InnerBox = Styled.div`
     position: fixed;
     left: 50%;
-    margin-left: -240px; 
+    margin-left: -450px; 
     top: 50%;
-    margin-top: -240px; 
+    margin-top: -230px; 
     overflow: auto;
     p{
         font-size: 14px;

@@ -14,7 +14,10 @@ interface Props{
   onClickEvent :()=>void;
   selected: boolean,
   dim: boolean,
+
 }
+
+
 
 
 // 추가 버튼이 있는 리스트 
@@ -29,10 +32,10 @@ const AddList = ({ title, name, pk, selected, dim, onClickEvent }: Props) => {
       {
         dim ?
         <>
-        <div style={{width: '30%', color:'#b3b3b3'}}>
+        <div style={{width: '20%', color:'#b3b3b3'}}>
           <p className="p-limit">{title}</p>
         </div>
-        <div style={{width: '70%', color:'#b3b3b3'}}>
+        <div style={{width: '0%', color:'#b3b3b3'}}>
           <p>|&nbsp;&nbsp;{name}</p>
         </div>
         </>

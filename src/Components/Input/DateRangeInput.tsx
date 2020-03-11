@@ -6,18 +6,16 @@ import InputContainer from '../../Containers/InputContainer';
 import Calendar from 'react-calendar'
 import moment from 'moment';
 import useOnclickOutside from 'react-cool-onclickoutside';
-
-//import "react-datepicker/dist/react-datepicker.css";
-
-//웰컴, 로그인 페이지 네비게이션 컴포넌트
+import DatetimeRangePicker from 'react-datetime-range-picker';
 
 interface IProps{
     title: string,
-    description: string,
-    value: string,
-    onChangeEvent: any
+    start: string,
+    end: string,
+    onChangeEventStart: any
+    onChangeEventEnd: any
 }
-const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
+const DateRangeInput = ({title, start, end, onChangeEventStart, onChangeEventEnd}: IProps) => {
     const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     useOnclickOutside(ref,() => {
@@ -37,21 +35,15 @@ const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
   return ( 
         <InputContainer title={title}>
             <div ref={ref} style={{ width: 'calc(100% - 200px)'}} >
-            <InputBox onClick={()=>handleClickBtn()}>{value === ""? "선택" : value} </InputBox>
-            {
-                isOpen ?
-                <div style={{marginTop:11}}>
-
-                <Calendar
-                className={title}
-                onChange={(date)=>{onChangeEvent(moment(String(date)).format("YYYY-MM-DD")); handleClickBtn()}}
-                value={value === "" ? moment().toDate() : moment(value).toDate() }
-                 />
-              </div>
-              :
-              null
-            }
            
+                <InputWrap style={{ width:'100%'}}>
+                <DatetimeRangePicker inline={true} startDate={new Date(start)} endDate={new Date(end)} timeFormat={'HH:mm'} dateFormat={'YYYY-MM-DD'} onChange={(v)=>{
+                    onChangeEventEnd(moment(v.end).format('YYYY-MM-DD HH:mm'))
+                    onChangeEventStart(moment(v.start).format('YYYY-MM-DD HH:mm'))
+                    }}/>
+                
+              </InputWrap>
+         
             </div>
             
         </InputContainer> 
@@ -67,5 +59,24 @@ const InputBox = Styled.p`
     background-color: #f4f6fa;
 `
 
+const InputWrap = Styled.div`
+    width: 500px;
+    .rdt{
+        display: inline-block;
+        background-color: #f4f6fa;
+        
+    }
+    input{
+        margin-right: 10px;
+        border: solid 0.5px #d3d3d3;
+        font-size: 14px;
+        padding: 6px;
+        display: inline-block;
+        width: 200px;
+        padding-left: 10px;
+        background-color: #f4f6fa;
+    }
 
-export default DateInput;
+`
+
+export default DateRangeInput;

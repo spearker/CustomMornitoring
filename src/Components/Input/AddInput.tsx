@@ -3,6 +3,7 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import IcPlus from '../../Assets/Images/ic_plus.png'
+import IcPlusGray from '../../Assets/Images/ic_plus_gray.png'
 import InputContainer from '../../Containers/InputContainer';
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
@@ -11,8 +12,9 @@ interface IProps{
     title: string,
     onChangeEvent: ()=>void,
     children: any,
+    icType?: string,
 }
-const AddInput = ({title, onChangeEvent, children}: IProps) => {
+const AddInput = ({title, onChangeEvent, children, icType}: IProps) => {
   useEffect(()=>{
    
   },[])
@@ -24,8 +26,19 @@ const AddInput = ({title, onChangeEvent, children}: IProps) => {
                 {children}
                 </div>
                 <InputBox onClick={onChangeEvent}>
-                    <img src={IcPlus} style={{width: 10, height: 10, marginRight:5}} />
-                    <span className="p-bold" style={{paddingBottom:2, marginRight:10}}>{title+ ' 추가'}</span>
+                    {icType !== 'solo' ?
+                        <>
+                            <img src={IcPlus} style={{width: 10, height: 10, marginRight:5}} />
+                            <span className="p-bold" style={{paddingBottom:2, marginRight:10}}>{title+ ' 추가' }</span>
+                        </>
+                    :
+                        <>
+                            <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
+                           
+                        </>
+                    
+                    }
+                
                 </InputBox>
             </InnerBox>
            

@@ -41,7 +41,7 @@ import MaterialList from '../Pages/List/Material';
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
 import SuperList from '../Pages/Super/List';
-import RegisterTask from '../Pages/Register/Task';
+import RegisterTask from '../Pages/Task/TaskRegister';
 import TaskList from '../Pages/List/Task';
 import PressMonitoring from '../Pages/Monitoring/Press';
 import LoadMonitoring from '../Pages/Monitoring/Load';

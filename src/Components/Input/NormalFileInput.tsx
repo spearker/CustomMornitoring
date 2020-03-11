@@ -12,8 +12,9 @@ interface IProps{
     thisId: string,
     name: string,
     onChangeEvent: (e: any) => void
+    children?: any,
 }
-const NormalFileInput = ({title, description, name, thisId, onChangeEvent}: IProps) => {
+const NormalFileInput = ({title, description, name, thisId, onChangeEvent, children}: IProps) => {
   useEffect(()=>{
    
   },[])
@@ -25,6 +26,9 @@ const NormalFileInput = ({title, description, name, thisId, onChangeEvent}: IPro
                 <label htmlFor={thisId}  style={{border: 'solid 0.5px #d3d3d3', textAlign:'center', fontSize:14, width:84, paddingBottom:2 , paddingTop:3, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>       
             </InputWrapBox>
             <input type="file" name="file" id={thisId} style={{display:'none'}} onChange={onChangeEvent}/>
+            <div>
+                {children}
+            </div>
         </InputContainer> 
   );
 }
