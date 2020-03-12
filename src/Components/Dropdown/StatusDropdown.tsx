@@ -10,7 +10,7 @@ import useOnclickOutside from 'react-cool-onclickoutside';
 interface IProps{
     pk: string,
     select: string,
-    onClickEvent: any
+    onClickEvent?: any
     contents: any,
 }
 const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {

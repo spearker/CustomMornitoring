@@ -64,6 +64,7 @@ a {
 
 /* input 기본 스타일 초기화 */
 input {
+    border-radius: 0;
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
@@ -113,7 +114,10 @@ button {
     -webkit-appearance: none;
     -moz-appearance: none;
 }
-
+input:focus, textarea:focus, select:focus{
+    outline: none;
+    -webkit-appearance: none;
+}
 button:focus {
     outline: 0px;
 }

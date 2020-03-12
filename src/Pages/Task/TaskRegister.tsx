@@ -13,7 +13,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest } from '../../Common/requestFunctions';
+import { getRequest, getParameter } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import InputContainer from '../../Containers/InputContainer';
 import PlaneInput from '../../Components/Input/PlaneInput';
@@ -29,10 +29,13 @@ import MemberInput from '../../Components/Input/MemberInput';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import { useUser } from '../../Context/UserContext';
 
 // 작업 지시서 등록
 const TaskRegister = () => {
 
+  const User = useUser();
+  const [pk, setPk] = useState<string>('');
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [option, setOption] = useState(0);
   const [title, setTitle] = useState<string>('');
@@ -113,6 +116,13 @@ const TaskRegister = () => {
     setSearchList(dataSet.searchedItem.lines)
     setSearchList2(dataSet.products)
     setSearchList3(dataSet.searchedMemmber)
+    const param = getParameter('pk');
+      if(param !== ""){
+          setPk(param)
+          alert(`수정 페이지 진입 - pk :` + param)
+          setIsUpdate(true)
+      }
+
   },[])
 
  
@@ -191,7 +201,7 @@ const TaskRegister = () => {
       <DashboardWrapContainer>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
-            <Header title={'작업 지시서 등록'}/>
+            <Header title={ isUpdate ? '작업지시서 수정' :'작업지시서 등록'}/>
           </div>
           <WhiteBoxContainer>
             <div style={{borderBottom:'solid 0.5px #d3d3d3'}}>
@@ -252,6 +262,11 @@ const TaskRegister = () => {
                 <MemberInput
                     title={'등록자'}
                     isMultiRegistered={false}
+                    target={{
+                      pk: 'me',
+                      name: User.name,
+                      image: User.profile_img
+                    }}
                 />
                 <MemberInput
                     title={'작업자'}

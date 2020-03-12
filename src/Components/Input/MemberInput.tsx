@@ -5,6 +5,7 @@ import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 import IMG_PROFILE from '../../Assets/Images/img_profile.png';
 import IcRemove from '../../Assets/Images/ic_remove_profile.png';
+import IMG_NONE from '../../Assets/Images/ic_profile_none.png';
 
 interface IProps{
     title: string,
@@ -40,8 +41,8 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
                 !isMultiRegistered && contents!==undefined? 
                 contents.length === 0 ?
                 <>
-                    <ImageBox src={ IMG_PROFILE} />
-                    <p style={{marginTop:8}}>(선택)</p>
+                    <ImageBox src={IMG_NONE} />
+                    <p style={{marginTop:8}}>&nbsp;</p>
                 </>
                 :
                 contents.map((v, i)=>{
@@ -63,8 +64,8 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
                     </>
                     :
                     <>
-                    <ImageBox src={ IMG_PROFILE} />
-                    <p style={{marginTop:8}}>(선택)</p>
+                    <ImageBox src={IMG_NONE} />
+                    <p style={{marginTop:8}}>&nbsp;</p>
                     </>
                 }
             </div>

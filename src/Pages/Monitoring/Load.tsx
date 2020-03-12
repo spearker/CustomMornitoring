@@ -13,10 +13,21 @@ import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MONITORING } from '../../Common/routerset';
+import MonitoringTable from '../../Components/Table/MonitoringTable';
 
 // 로드톤 모니터링
 const LoadMonitoring = () => {
 
+  const [list, setList] = useState<[]>([]);
+  
+  const index = {
+    status:'장비상태',
+    group:'라인',
+    name:'장비명',
+    value:'로드모니터 측정값',
+    max_value:'로드모니터 최고측정값',
+    average_value:'로드모니터 평균측정값',
+  }
 
   useEffect(()=>{
 
@@ -30,6 +41,7 @@ const LoadMonitoring = () => {
           <div style={{position:'relative'}}>
             <Header title={'로드톤 모니터링'}/>
           </div>
+          <MonitoringTable indexList={index} keyName={'pk'} contents={dataSet.loadMonitoring}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

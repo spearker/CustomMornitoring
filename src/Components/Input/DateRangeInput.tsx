@@ -27,6 +27,7 @@ const DateRangeInput = ({title, start, end, onChangeEventStart, onChangeEventEnd
         setIsOpen(!isOpen);
     };
   useEffect(()=>{
+      
    
   },[])
 
