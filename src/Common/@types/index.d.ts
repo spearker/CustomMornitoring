@@ -7,11 +7,42 @@ interface IMachine{
     manufacturer_code?: string,
     manufacturer_detail?: string,
     pk: string,
-    is_registered?: boolean
+    is_registered?: boolean,
+    machine_photo?: string,
+}
+// 주변장치 타입
+interface ISubMachine{
+  device_name: string,
+  device_label?: string,
+  device_code: string,
+  manufacturer?: string,
+  manufacturer_code?: string,
+  manufacturer_detail?: string,
+  pk: string,
+  is_registered?: boolean,
+  device_photo?: string,
 }
 
+// 자재 타입
+interface IMaterial{
+  pk: string,
+  material_name: string,
+  material_code: string,
+  material_spec: string,
+  distributor?: string,
+  stock?: string | number,
+  info_list?: IInfo[]
+}
+
+interface IInfo{
+  title: string,
+  value: string,
+}
 // 금형 타입
 interface IMold{
+  manufacturer?: string,
+  product_code?: string,
+  product_spec?: string,
   mold_name: string,
   mold_label: string,
   mold_code: string,
@@ -66,11 +97,14 @@ interface IMemberSearched{
 } 
 
 // 생산품목
-interface IProductSearched{
+interface IProduct{
   pk: string,
   product_name: string,
   product_code: string,
-  molds: string,
+  product_spec?: string,
+  info_list?: IInfo[]
+  molds: string | array,
+  stock?: number | string
 }
 // 팝업 
 interface IPopupTypes{

@@ -4,6 +4,7 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import Logo from '../../Assets/Images/img_logo.png'
 import { render } from '@testing-library/react';
 import SmallButton from '../Button/SmallButton';
+import { Link } from 'react-router-dom';
 
 
 //작은 버튼 + 그레이 컬러
@@ -14,10 +15,12 @@ interface IProps{
     keyName: string,
     onClickEvent?: any,
     buttonName?: string,
+    widthList?: string[],
+    link?: string
 }
 
 
-const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IProps) => {
+const NormalTable = ({indexList, contents, widthList, link, keyName, onClickEvent ,buttonName}: IProps) => {
 
   useEffect(()=>{
    console.log(Object.keys(indexList))
@@ -29,30 +32,35 @@ const NormalTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: I
         <tbody>
           <tr className="p-bold" style={{borderBottom:`10px solid ${BG_COLOR_SUB2}`}}>
           {/* 테이블 헤드 */}
+          <th style={{textAlign:'center', width:'40px', maxWidth:'45px'}}>번호</th>
           {
             Object.keys(indexList).map((v, i)=>{
               return(
-              <th key={v}>{i === 0 ? '': 'ㅣ   '}{indexList[v]}</th>
+              <th key={v}>{`|　` + indexList[v]}</th>
               )
             })
           }
           <th> </th>
           </tr>
           {/* 테이블 바디 */}
+        
           {
             contents.map((v, i)=>{
               return(
               <tr key={i}>
+               
+                <td style={{textAlign:'center', width:'40px', maxWidth:'45px'}}>{i+1}</td>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
-                      <td key={mv}>{mi === 0 ? '': 'ㅣ   '}{v[mv]}</td>
+                      <td key={mv} style={{ maxWidth: widthList !== undefined ? widthList[mi] : 'auto' , width: widthList !== undefined ? widthList[mi] : 'auto'}}>{'|　'+ v[mv]}</td>
                     )
                   })
                 }
-                <td style={{width: 120}}>
+                <td style={{width: '100px'}}>
                   <SmallButton name={buttonName} onClickEvent={()=>{onClickEvent(v[keyName])}}/>
                 </td>
+               
               </tr>
               )
             })
@@ -78,7 +86,10 @@ const TableWrap = Styled.div`
     td, th {
       border-bottom: 1px solid ${BG_COLOR_SUB2};
       text-align: left;
-      padding: 12px;
+      padding: 12px 4px 12px 4px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
 `
 

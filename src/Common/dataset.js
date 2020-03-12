@@ -1,5 +1,64 @@
 export const dataSet = {
+    moldList:[
+        {
+        pk:'2cq2321',
+        manufacturer:'(주)제조사',
+        product_code:'0004123',
+        mold_name:'금형.. 금형...',
+        mold_label:'사출',
+        mold_code:'20412942',
 
+        },
+        {
+            pk:'cal32921',
+            manufacturer:'(주)제조사',
+            product_code:'00002234',
+            mold_name:'금형.. 금형...',
+            mold_label:'사출',
+            mold_code:'6992310',
+    
+            },
+        
+    ],
+    productList:[
+        {
+        pk:'2cq2321',
+        product_name:'자재 0001',
+        product_code:'12043242',
+        molds:['금형1','금형2'],
+        product_spec:'스펙...스펙...스펙...',
+       
+        stock:21421
+        },
+        {
+        pk:'2cqqef2321',
+        product_name:'자재 0002',
+        product_code:'12043242',
+        molds:['금형1','금형3','금형5','금형12'],
+        product_spec:'스펙...스펙...스펙...',
+ 
+        stock:600
+        }
+    ],
+  
+    materialList:[
+        {
+        pk:'2cq2321',
+        material_name:'자재 0001',
+        material_code:'12043242',
+        material_spec:'스펙...스펙...스펙...',
+        distributor:'(주)유통',
+        stock:21421
+        },
+        {
+        pk:'2cqqef2321',
+        material_name:'자재 0002',
+        material_code:'12043242',
+        material_spec:'스펙...스펙...스펙...',
+        distributor:'(주)유통',
+        stock:600
+        }
+    ],
     loadMonitoring:[
         {
             pk:"32w23f2fq",
@@ -286,39 +345,43 @@ export const dataSet = {
     ],
     subMachineList : [
     {
+        pk:'wdqdwdwqdqw',
         device_name: "장비 장비...",
         device_label: "종류 종류..",
         device_code: "K934219",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보..."
+
         
     },
     {
+        pk:'wdqdwdwewdwqqdqw',
         device_name:  "장비 장비...",
         device_label: "종류 종류..",
         device_code: "K7231859",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보..."
+
         
     },
     {
+        pk:'wdqd23ff32qw',
         device_name:  "장비 장비...",
         device_label: "종류 종류..",
         device_code: "K9123019",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보..."
+
         
     },
     {
+        pk:'w32ff2',
         device_name:  "장비 장비...",
         device_label: "종류 종류..",
         device_code: "K032193",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보..."
+     
         
     },
 
@@ -326,12 +389,11 @@ export const dataSet = {
 machineList : [
     {
         pk:'142u41ou24o21',
-        machine_name: "기계 기계...",
-        machine_label: "종류 종류..",
+        machine_name: "기계 기계 기계 ",
+        machine_label: "종류..",
         machine_code: "K934219",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보...",
         is_registered : false
         
     },
@@ -342,7 +404,6 @@ machineList : [
         machine_code: "K7231859",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보...",
         is_registered : false
         
     },
@@ -353,7 +414,6 @@ machineList : [
         machine_code: "K9123019",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보...",
         is_registered : true
         
     },
@@ -364,7 +424,6 @@ machineList : [
         machine_code: "K032193",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-        manufacturer_detail: "제조사 정보, 정보...",
         is_registered : false
         
     },

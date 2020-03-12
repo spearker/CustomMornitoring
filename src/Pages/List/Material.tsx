@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
 import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
 import Axios from 'axios';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
@@ -10,38 +10,61 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { ROUTER_LIST } from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import { getRequest } from '../../Common/requestFunctions';
 
-// 자재 리스트
+
 const MaterialList = () => {
 
-  const [list, setList] = useState<[]>([]);
+  const [list, setList] = useState<IMaterial[]>(dataSet.materialList);
   const [option, setOption] = useState(0);
 
   const optionList = [
-    "등록순"
+    "등록순", "이름순", "재고순"
   ]
   const index = {
-    manufacturer:'제조사',
-    product_number:'제조번호',
-    product_spec:'제조스펙',
-    mold_name:'금형이름', 
-    mold_label:'금형종류', 
-    mold_code:'금형번호'
+    material_name:'자재 이름',
+    material_code:'자재 번호',
+    distributor:'유통사', 
+    material_spec:'스펙',
   }
 
+  /**
+   * onClickFilter()
+   * 리스트 필터 변경
+   * @param {string} filter 필터 값
+   * @returns X
+   */
+  const onClickFilter = useCallback((filter:number)=>{
+    setOption(filter)
+    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    return;
+    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[option])
 
   useEffect(()=>{
 
-    //setList(dataSet.designList); //TODO: 테스트용. 지울것.
-
+   
   },[])
 
   const onClickModify = useCallback((id)=>{
 
     console.log('--select id : ' + id)
-
+    window.location.href=`/update/material?pk=${id}`
+  
   },[])
 
   return (
@@ -51,9 +74,11 @@ const MaterialList = () => {
           <div style={{position:'relative'}}>
             <Header title={'자재 정보 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={setOption}/>
+              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
+
+          <NormalTable widthList={['263px', '140px', '140px', '300px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

@@ -55,9 +55,9 @@ const TaskRegister = () => {
  const [checkList, setCheckList] = useState<IMachineLine[]>([]);
  const [list, setList] = useState<IMachineLine[]>([]);
  const [searchList, setSearchList] = useState<IMachineLine[]>([]);
- const [searchList2, setSearchList2] = useState<IProductSearched[]>([]);
- const [checkList2, setCheckList2] = useState<IProductSearched[]>([]);
- const [list2, setList2] = useState<IProductSearched[]>([]);
+ const [searchList2, setSearchList2] = useState<IProduct[]>([]);
+ const [checkList2, setCheckList2] = useState<IProduct[]>([]);
+ const [list2, setList2] = useState<IProduct[]>([]);
 
   //사람 관련
   const [worker, setWorker] = useState<IMemberSearched | null>(null);
@@ -412,7 +412,7 @@ const TaskRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     !isSearched ?
-                    searchList2.map((v: IProductSearched, i)=>{ 
+                    searchList2.map((v: IProduct, i)=>{ 
                       return ( 
                         
                           <SearchedList key={i} pk={v.pk} widths={['15%', '15%', '70%']} contents={[v.product_code, v.molds, v.product_name]} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 

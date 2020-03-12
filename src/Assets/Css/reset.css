@@ -33,7 +33,13 @@ body {
     background-color: #3d414e;
    
 }
-
+.p-limits {
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    width:100%;
+    overflow:hidden;
+}
 .p-limit {
     text-overflow:ellipsis;
     white-space:nowrap;

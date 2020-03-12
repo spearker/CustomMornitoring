@@ -14,14 +14,14 @@ import { ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest } from '../../Common/requestFunctions';
 
-// 금형 리스트
+// 기계 리스트
 const MachineList = () => {
 
-  const [list, setList] = useState<[]>([]);
+  const [list, setList] = useState<IMachine[]>(dataSet.machineList);
   const [option, setOption] = useState(0);
 
   const optionList = [
-    "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
+    "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순"
   ]
   const index = {
     machine_name:'기계 이름',
@@ -29,7 +29,6 @@ const MachineList = () => {
     machine_code:'기계 번호',
     manufacturer:'제조사', 
     manufacturer_code:'제조사 번호', 
-    manufacturer_detail:'제조사 상세정보'
   }
 
   /**
@@ -59,7 +58,43 @@ const MachineList = () => {
 
   useEffect(()=>{
 
-    /*
+   
+  },[])
+
+ 
+  
+
+  const onClickModify = useCallback((id)=>{
+
+    console.log('--select id : ' + id)
+    window.location.href=`/update/machine?pk=${id}`
+  
+  },[])
+
+  return (
+      <DashboardWrapContainer>
+        <SubNavigation list={ROUTER_LIST}/>
+        <InnerBodyContainer>
+          <div style={{position:'relative'}}>
+            <Header title={'기계 정보 리스트'}/>
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
+            </div>
+          </div>
+
+          <NormalTable widthList={['263px', '150px', '150px', '150px', '150px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
+        </InnerBodyContainer>
+      </DashboardWrapContainer>
+      
+  );
+}
+
+
+
+export default MachineList;
+
+
+ /*
     const item_list = [
       {title:"색상", value:"은wd"},
       {title:"소재", value:"실버ddwwdwd"},
@@ -79,35 +114,3 @@ const MachineList = () => {
     console.log(newObject)
     console.log(newArray)
     */
-  },[])
-
- 
-  
-
-  const onClickModify = useCallback((id)=>{
-
-    console.log('--select id : ' + id)
-
-  },[])
-
-  return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_LIST}/>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-            <Header title={'기계 정보 리스트'}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
-            </div>
-          </div>
-
-          <NormalTable indexList={index} keyName={'machine_code'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
-      
-  );
-}
-
-
-
-export default MachineList;

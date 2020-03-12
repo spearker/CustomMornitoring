@@ -173,7 +173,7 @@ const RegisterLine= () => {
                 <NormalInput title={'라인 번호'} value={no} onChangeEvent={setNo} description={'라인의 번호를 지정하세요'} />
                 <NormalInput title={'라인 상세정보'} value={info} onChangeEvent={setInfo} description={'라인의 상세 정보를 자유롭게 작성하세요'} />
                 {/* 팝업 여는 버튼 + 기계추가 */}
-                <AddInput title={''} onChangeEvent={()=>{
+                <AddInput title={'기계 추가'} icType="solo" onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}

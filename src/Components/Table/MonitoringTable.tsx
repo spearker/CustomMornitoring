@@ -32,7 +32,7 @@ const MonitoringTable = ({indexList, contents, keyName}: IProps) => {
           {
             Object.keys(indexList).map((v, i)=>{
               return(
-              <th key={v}>{i === 0 || i === 1 || indexList[i] === 'is_connect' ? ` ${indexList[v]}`: `ㅣ   ${indexList[v]}`}</th>
+              <th style={{fontSize:13}} key={v}>{i === 0 || i === 1 || indexList[i] === 'is_connect' ? ` ${indexList[v]}`: `ㅣ   ${indexList[v]}`}</th>
               )
             })
           }

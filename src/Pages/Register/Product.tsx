@@ -22,6 +22,7 @@ import TextList from '../../Components/List/TextList';
 import SearchInput from '../../Components/Input/SearchInput';
 import SearchModalContainer from '../../Containers/SearchModalContainer';
 import AddList from '../../Components/List/AddList';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 interface IInfo {
   title: string,
   value: string,
@@ -37,7 +38,8 @@ const RegisterProduct = () => {
   const [spec, setSpec] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [info, setInfo] = useState<IInfo[]>([]);
-
+  const [amount, setAmount] = useState<number>(0);
+  
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
@@ -216,10 +218,11 @@ const RegisterProduct = () => {
              <NormalInput title={'생산제품 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
              <NormalInput title={'생산제품 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
              <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요'} />
-
+             <NormalNumberInput title={'재고 수량'} value={amount} onChangeEvent={setAmount} description={'재고량을 입력하세요'} />
+               
 
              {/* 팝업 여는 버튼 + 기계추가 */}
-             <AddInput title={''} onChangeEvent={()=>{
+             <AddInput title={'금형 추가'} icType="solo" onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}

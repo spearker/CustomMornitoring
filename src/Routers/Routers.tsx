@@ -42,7 +42,7 @@ import MaterialList from '../Pages/List/Material';
 import SuperRegister from '../Pages/Super/Register';
 import SuperList from '../Pages/Super/List';
 import RegisterTask from '../Pages/Task/TaskRegister';
-import TaskList from '../Pages/List/Task';
+import TaskList from '../Pages/Task/TaskList';
 import PressMonitoring from '../Pages/Monitoring/Press';
 import LoadMonitoring from '../Pages/Monitoring/Load';
 import StatusList from '../Pages/List/Status';

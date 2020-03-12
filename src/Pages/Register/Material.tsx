@@ -18,6 +18,7 @@ import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import SmallButton from '../../Components/Button/SmallButton';
 import AddInput from '../../Components/Input/AddInput';
 import FullAddInput from '../../Components/Input/FullAddInput';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 interface IInfo {
   title: string,
   value: string,
@@ -34,6 +35,7 @@ const RegisterMaterial = () => {
   const [spec, setSpec] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [info, setInfo] = useState<IInfo[]>([]);
+  const [amount, setAmount] = useState<number>(0);
 
   useEffect(()=>{
 
@@ -171,6 +173,7 @@ const RegisterMaterial = () => {
              <NormalInput title={'원자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
              <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요'} />
              <NormalInput title={'유통사'} value={made} onChangeEvent={setMade} description={'유통사를 입력하세요'} />
+             <NormalNumberInput title={'재고 수량'} value={amount} onChangeEvent={setAmount} description={'재고량을 입력하세요'} />
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                const tempInfo = info.slice();
                tempInfo.push({title:`자유 항목 ${info.length + 1}`, value:""});
