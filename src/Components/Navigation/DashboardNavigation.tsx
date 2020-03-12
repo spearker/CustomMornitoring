@@ -56,6 +56,7 @@ const DashboardNavigation = ({select}: Props) => {
             <NavList name={'인사 관리'}  url={'/manage/setting'} select={ window.location.pathname.includes('/manage/') }/>
             <NavList name={'정보 등록'}  url={'/register/material'} select={ window.location.pathname.includes('/register/') }/>
             <NavList name={'정보 리스트'}  url={'/list/material'} select={ window.location.pathname.includes('/list/') }/>
+            <NavList name={'재고 관리'}  url={'/stock/material'} select={ window.location.pathname.includes('/stock/') }/>
             <NavList name={'통계'}  url={'/charts'} select={ window.location.pathname ==='/charts' }/>
             <NavList name={'레포트'}  url={'/reports'} select={ window.location.pathname === '/reports' }/>
             <br/><br/>

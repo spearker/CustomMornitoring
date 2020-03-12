@@ -10,24 +10,26 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_STOCK } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest } from '../../Common/requestFunctions';
 
 
-const MaterialStock = () => {
+const ProductStock = () => {
 
-  const [list, setList] = useState<IMaterial[]>(dataSet.materialList);
+  const [list, setList] = useState<IProduct[]>(dataSet.productList);
   const [option, setOption] = useState(0);
 
   const optionList = [
     "등록순", "이름순", "재고순"
   ]
   const index = {
-    material_name:'자재 이름',
-    material_code:'자재 번호',
-    distributor:'유통사', 
-    material_spec:'스펙',
+    product_name:'제품 이름',
+    product_code:'제품 번호',
+    molds:'사용 금형', 
+    product_spec:'스펙',
+    stock:'수량'
+
   }
 
   /**
@@ -60,25 +62,27 @@ const MaterialStock = () => {
    
   },[])
 
-  const onClickModify = useCallback((id)=>{
+  const onClickModify = useCallback((id, stock)=>{
 
-    console.log('--select id : ' + id)
-    window.location.href=`/update/material?pk=${id}`
+    console.log('--select id : ' + id + '/' + stock)
+  
   
   },[])
-
   return (
       <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_LIST}/>
+        <SubNavigation list={ROUTER_STOCK}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
-            <Header title={'자재 정보 리스트'}/>
+            <Header title={'생산제품 수량 정보'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-
-          <NormalTable widthList={['263px', '140px', '140px', '300px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
+          <NormalTable widthList={['233px', '140px', '243px', '180px', '180px']} 
+          onChangeEvent={
+            setList
+          }
+          indexList={index} keyName={'pk'} eventType="input" buttonName='변경' onClickEvent={onClickModify} contents={list}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       
@@ -92,4 +96,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default MaterialStock;
+export default ProductStock;

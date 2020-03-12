@@ -5,6 +5,7 @@ import Logo from '../../Assets/Images/img_logo.png'
 import { render } from '@testing-library/react';
 import SmallButton from '../Button/SmallButton';
 import { Link } from 'react-router-dom';
+import NormalNumberInput from '../Input/NormalNumberInput';
 
 
 //작은 버튼 + 그레이 컬러
@@ -16,11 +17,14 @@ interface IProps{
     onClickEvent?: any,
     buttonName?: string,
     widthList?: string[],
-    link?: string
+    link?: string,
+    newStock?: number,
+    onChangeEvent?: any,
+    eventType?: string,
 }
 
 
-const NormalTable = ({indexList, contents, widthList, link, keyName, onClickEvent ,buttonName}: IProps) => {
+const NormalTable = ({indexList, contents, widthList,eventType, link, keyName, onClickEvent ,buttonName, newStock, onChangeEvent}: IProps) => {
 
   useEffect(()=>{
    console.log(Object.keys(indexList))
@@ -40,7 +44,13 @@ const NormalTable = ({indexList, contents, widthList, link, keyName, onClickEven
               )
             })
           }
-          <th> </th>
+          {
+          eventType !== 'input'?
+            <th> </th>
+            :
+            null
+          }
+    
           </tr>
           {/* 테이블 바디 */}
         
@@ -53,13 +63,35 @@ const NormalTable = ({indexList, contents, widthList, link, keyName, onClickEven
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
-                      <td key={mv} style={{ maxWidth: widthList !== undefined ? widthList[mi] : 'auto' , width: widthList !== undefined ? widthList[mi] : 'auto'}}>{'|　'+ v[mv]}</td>
+                      <td key={mv} style={{ maxWidth: widthList !== undefined ? widthList[mi] : 'auto' , width: widthList !== undefined ? widthList[mi] : 'auto'}}>
+                        {
+                          mv == 'stock' && onChangeEvent !== undefined && eventType == 'input'?
+                          <>
+                          <InputBox type="number" value={v[mv]} style={{float:'left'}} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{
+                            console.log(e.target.value)
+                            const tempList = contents.slice();
+                            tempList[i][`stock`] = e.target.value;
+                            onChangeEvent(tempList)
+                          }} />
+                          <button onClick={()=>{onClickEvent(v['pk'], v['stock'])}} className="p-bold" style={{padding:4, backgroundColor:POINT_COLOR, marginLeft:6, borderRadius:5, fontSize:13}}>변경</button>
+                          </>
+                          :
+                          '|　'+ v[mv]
+                          
+                        }
+                      
+                        </td>
                     )
                   })
                 }
-                <td style={{width: '100px'}}>
-                  <SmallButton name={buttonName} onClickEvent={()=>{onClickEvent(v[keyName])}}/>
-                </td>
+                {
+                  eventType !== 'input'?
+                  <td style={{width: '100px'}}>
+                    <SmallButton name={buttonName} onClickEvent={()=>{onClickEvent(v[keyName])}}/>
+                  </td>
+                :
+                null
+                }
                
               </tr>
               )
@@ -90,7 +122,17 @@ const TableWrap = Styled.div`
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+      min-height: 50px;
     }
+`
+const InputBox = Styled.input`
+    border: solid 0.5px #d3d3d3;
+    font-size: 14px;
+    padding: 5px;
+    margin-left: 5px;
+    width: 86px;
+    display: inline-bolck
+    background-color: #f4f6fa;
 `
 
 

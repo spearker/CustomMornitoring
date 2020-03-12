@@ -26,17 +26,21 @@ import UpdateMember from '../Pages/Manage/Update'
 // my (마이페이지)
 import MyPage from '../Pages/My/MyPage'
 
+// 데이터 등록
 import RegisterMachine from '../Pages/Register/Machine';
 import RegisterSubMachine from '../Pages/Register/SubMachine';
 import RegisterLine from '../Pages/Register/Line';
 import RegisterMaterial from '../Pages/Register/Material';
 import RegisterDesign from '../Pages/Register/Design'
 
+// 데이터조회
 import DesignList from '../Pages/List/Design';
 import MachineList from '../Pages/List/Machine';
 import SubList from '../Pages/List/SubMachine';
 import LineList from '../Pages/List/Line';
 import MaterialList from '../Pages/List/Material';
+import MaterialStock from '../Pages/Stock/Material';
+import ProductStock from '../Pages/Stock/Product';
 
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
@@ -51,6 +55,8 @@ import ProductList from '../Pages/List/Product';
 import Charts from '../Pages/Service/Charts';
 import ServiceDesk from '../Pages/Service/ServiceDesk';
 import Reports from '../Pages/Service/Reports';
+
+
 
 const Routers = () => {
     //const { isLoggedIn } = useContext(UserDataContext);
@@ -92,6 +98,8 @@ const Routers = () => {
             <Route exact path="/list/line" component={LineList} />
             <Route exact path="/list/material" component={MaterialList} />
             <Route exact path="/list/product" component={ProductList} />
+            <Route exact path="/stock/product" component={ProductStock} />
+            <Route exact path="/stock/material" component={MaterialStock} />
 
             {/* 데이터 수정 관련 - 등록 페이지와 동일한 컴포넌트 사용*/}
             <Route exact path="/update/design" component={RegisterDesign} />

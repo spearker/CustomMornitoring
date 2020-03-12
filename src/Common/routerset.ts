@@ -9,6 +9,12 @@ export const ROUTER_MONITORING = [
     {url:"/monitoring/load", name:'로드톤 모니터링'},
 ]
 
+export const ROUTER_STOCK = [
+  
+    {url:"/stock/material", name:'자재 수량 정보'},
+    {url:"/stock/product", name:'생산제품 수량 정보'},
+]
+
 export const ROUTER_REGISTER = [
     {url:"/register/material", name:'자재 정보등록'},
     {url:"/register/design", name:'금형 정보등록'},
