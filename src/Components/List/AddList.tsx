@@ -35,22 +35,22 @@ const AddList = ({ title, name, pk, selected, dim, onClickEvent }: Props) => {
         <div style={{width: '20%', color:'#b3b3b3'}}>
           <p className="p-limit">{title}</p>
         </div>
-        <div style={{width: '0%', color:'#b3b3b3'}}>
+        <div style={{width: '80%', color:'#b3b3b3'}}>
           <p>|&nbsp;&nbsp;{name}</p>
         </div>
         </>
         :
         <>
-        <div style={{width: '30%'}}>
+        <div style={{width: '20%'}}>
           <p className="p-limit">{title}</p>
         </div>
-        <div style={{width: '70%'}}>
+        <div style={{width: '80%'}}>
           <p>|&nbsp;&nbsp;{name}</p>
         </div>
         </>
       }
 
-      <div onClick={onClickEvent} style={{position:'absolute', top:0, right:0, zIndex:3}}>
+      <div onClick={onClickEvent} style={{position:'absolute', top:0, right:-1, zIndex:3}}>
           <IconSquareButton  color="#e7e9eb" width="33px" imageSize="22px"  image={dim? icCheckDim : icCheck} dim={selected ? false : true}/>  
       </div> 
     </ListWrapDiv>  

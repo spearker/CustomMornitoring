@@ -16,15 +16,17 @@ import { getRequest } from '../../Common/requestFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import MachineList from './Machine';
+import ItemList from '../../Components/List/ItemList';
 
 // 라인 리스트
 const LineList = () => {
 
   interface Line{
+    pk: string,
     line_code: string,
     line_detail: string,
-    line_machines: LineMachine[],
-    line_name: string,
+    item_list: IStatus[]
   }
   interface LineMachine{
     machine_code: string,
@@ -37,7 +39,7 @@ const LineList = () => {
   const [option, setOption] = useState<number>(0);
 
   const optionList = [
-    "등록순", "라인 이름 순", "라인 상세정보 순"
+    "등록순", "이름 순", "상세정보 순"
   ]
   /**
    * getList()
@@ -63,15 +65,46 @@ const LineList = () => {
 
   useEffect(()=>{
 
-    //setList(dataSet.listList); //TODO: 테스트용. 지울것.
-    getList()
+    setList(dataSet.lineList); //TODO: 테스트용. 지울것.
+    //getList()
+   
+  },[])
+
+  /**
+   * onClickFilter()
+   * 리스트 필터 변경
+   * @param {string} filter 필터 값
+   * @returns X
+   */
+  const onClickFilter = useCallback((filter:number)=>{
+    setOption(filter)
+    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    return;
+    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[option])
+
+  useEffect(()=>{
+
    
   },[])
 
   const onClickModify = useCallback((id)=>{
 
     console.log('--select id : ' + id)
-
+    window.location.href=`/update/line?pk=${id}`
+  
   },[])
 
   return (
@@ -81,37 +114,13 @@ const LineList = () => {
           <div style={{position:'relative'}}>
             <Header title={'라인 정보 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={setOption}/>
+              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
           {
-              list.map((value: Line)=>{
+              list.map((v: Line)=>{
                 return(
-                <div style={{marginBottom:15}}>
-                  <WhiteBoxContainer>
-                    <div style={{display:'flex'}}>
-                      <div style={{width:268, borderRight:'1px solid #525252', position:'relative'}}>
-                        <p style={{fontSize:26}}>{value.line_code}</p>
-                        <p style={{paddingRight:40, marginTop:49, height:'calc(100% - 90px)', fontSize:13, overflow:'scroll'}}>
-                          {value.line_detail}
-                        </p>
-                        <div style={{position:'absolute', top: 0, right: 10}}>
-                          <SmallButton name={'수정하기'} onClickEvent={()=>{onClickModify(value.line_name)}}/>
-                        </div>
-                        
-                      </div>
-                    <div style={{paddingLeft:19, width:'100%', overflow:'scroll'}}>
-                    {
-                      value.line_machines.map((v: LineMachine)=>{
-                        return(
-                          <CardList code={v.machine_code} imgUrl={v.machine_photo} name={v.machine_name} on={v.is_connected}/>
-                        )
-                      })
-                    }
-                    </div>
-                  </div>
-                </WhiteBoxContainer>
-                </div>
+                  <ItemList pk={v.pk} description={v.line_detail} title={v.line_code} contents={v.item_list} stock={v.item_list.length} onClickEvent={onClickModify} />
                 )
               })
             }

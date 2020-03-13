@@ -221,8 +221,8 @@ const RegisterProduct = () => {
              <NormalNumberInput title={'재고 수량'} value={amount} onChangeEvent={setAmount} description={'재고량을 입력하세요'} />
                
 
-             {/* 팝업 여는 버튼 + 기계추가 */}
-             <AddInput title={'금형 추가'} icType="solo" onChangeEvent={()=>{
+             {/* 팝업 여는 버튼 + 금형 추가 */}
+             <AddInput title={'사용 금형'} icType="solo" onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}

@@ -45,10 +45,10 @@ const SearchModalContainer = ({title, tab1, tab2, selected, onClickClose, isVisi
                     </div>
         
                     <div className="p-bold" style={{marginTop:60,width:'100%', position:'absolute', display:'flex', zIndex:4, bottom:0, left:0,  color:'black', justifyItems:'center', alignItems:'center',textAlign:'center', fontSize:14}}>
-                        <div style={{ width:'50%', padding:9, backgroundColor: '#e7e9eb', color:'#717c90'}} onClick={onClickClose}>
+                        <div style={{ width:'50%', padding:9, backgroundColor: '#e7e9eb', color:'#717c90', cursor:'pointer'}} onClick={onClickClose}>
                             <p>취소</p>
                         </div>
-                        <div style={{ width:'50%', padding:9, backgroundColor: POINT_COLOR}} onClick={onClickEvent}>
+                        <div style={{ width:'50%', padding:9,  cursor:'pointer',backgroundColor: POINT_COLOR}} onClick={onClickEvent}>
                             <p>등록</p>
                         </div>
                     </div>

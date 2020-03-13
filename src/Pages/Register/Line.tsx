@@ -49,9 +49,15 @@ const RegisterLine= () => {
   const [checkList, setCheckList] = useState<IMachine[]>([]);
   const [list, setList] = useState<IMachine[]>([]);
   const [searchList, setSearchList] = useState<IMachine[]>([]);
+  const [searchList2, setSearchList2] = useState<ISubMachine[]>([]);
+  const [isPoupup2, setIsPoupup2] = useState<boolean>(false);
+  const [checkList2, setCheckList2] = useState<ISubMachine[]>([]);
+  const [list2, setList2] = useState<ISubMachine[]>([]);
+
 
   useEffect(()=>{
     setSearchList(dataSet.machineList)
+    setSearchList2(dataSet.subMachineList)
     const param = getParameter('pk');
     if(param !== ""){
         setPk(param)
@@ -160,6 +166,7 @@ const RegisterLine= () => {
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
     console.log('--onSubmitForm')
+  
    
   },[ no, info])
 
@@ -188,6 +195,26 @@ const RegisterLine= () => {
                           setList(tempList)
                         }} 
                         title={v.machine_code} name={v.machine_name}/>                    
+                    )
+                  })
+                }
+                </AddInput>
+                {/* 팝업 여는 버튼 + 주변장치 */}
+                <AddInput title={'주변장치 추가'} icType="solo" onChangeEvent={()=>{
+                  setIsPoupup2(true);  
+                  setCheckList2(list2); 
+                  setKeyword('')}
+                  }>
+                {
+                  list2.map((v, i)=>{ 
+                    return ( 
+                        <TextList key={i} onClickEvent={()=>{
+                          const tempList = list2.slice()
+                          const idx = list2.indexOf(v)
+                          tempList.splice(idx, 1)
+                          setList2(tempList)
+                        }} 
+                        title={v.device_code} name={v.device_name}/>                    
                     )
                   })
                 }
@@ -236,6 +263,48 @@ const RegisterLine= () => {
                   }
                 </div>
             </SearchModalContainer>
+
+
+            {/* 주변장치 검색창 */}
+            <SearchModalContainer 
+              onClickEvent={ //닫혔을 때 이벤트 
+                ()=>{
+                setIsPoupup2(false); 
+                setList2(checkList2); 
+                setKeyword('')}
+            }
+            isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false)}} title={'주변장치 선택'} >
+              <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+                <div style={{width: '100%', marginTop:20}}>
+                  {
+                    !isSearched ?
+                    searchList2.map((v: ISubMachine, i)=>{ 
+                      return ( 
+                          !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가
+                          <AddList key={i} pk={v.pk} dim={false} selected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                            onClickEvent={()=>{
+                              const tempList = checkList2.slice()
+                              if(checkList2.find((k, index)=> k.pk === v.pk) ){
+                                  const idx = checkList2.indexOf(v)
+                                  tempList.splice(idx, 1)
+                                  setCheckList2(tempList)
+                              }else{
+                                  tempList.splice(0, 0, v)
+                                  setCheckList2(tempList)
+                              }
+                            }} 
+                            title={v.device_code} name={v.device_name} 
+                          />
+                          :
+                          <AddList key={i} pk={v.pk} dim={true} selected={false} onClickEvent={()=>{}} title={v.device_code} name={v.device_name} />
+                      )
+                    })
+                    :
+                    null
+                  }
+                </div>
+            </SearchModalContainer>
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

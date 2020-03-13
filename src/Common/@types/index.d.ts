@@ -67,11 +67,11 @@ interface ITask{
 interface IStatus{
   pk: string,
   name: string,
-  label: string,
+  label?: string,
   status: string,
   attached_to: string,
   photo :string,
-  is_registerd: boolean,
+  is_connect: boolean,
 }
 
 

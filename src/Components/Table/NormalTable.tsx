@@ -118,11 +118,12 @@ const TableWrap = Styled.div`
     td, th {
       border-bottom: 1px solid ${BG_COLOR_SUB2};
       text-align: left;
-      padding: 12px 4px 12px 4px;
+      padding: 10px 4px 10px 4px;
       text-overflow: ellipsis;
+      max-height: 50px;
+      min-height: 50px;
       overflow: hidden;
       white-space: nowrap;
-      min-height: 50px;
     }
 `
 const InputBox = Styled.input`

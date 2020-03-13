@@ -38,7 +38,7 @@ const StatusCard = ({target}) => {
           <img className="rotating" src={target.status === 'active' ? icCircleRotate : icCircle} style={{width:17, top:10, right:10, position:'absolute'}} />
         </div>
         <div style={{padding:10}}>
-          <img src={target.is_registerd ? icCloudOn : icCloudOff} style={{marginTop:10, height:22, position:'absolute', top:35, left:10}}/>
+          <img src={target.is_connect ? icCloudOn : icCloudOff} style={{marginTop:10, height:22, position:'absolute', top:35, left:10}}/>
           <img src={target.photo === "" ? target.photo : target.photo} style={{height:22}}/>
           <ImageBox src={tempIamge}/>
           <hr/>
@@ -64,6 +64,7 @@ const CardWrap = Styled.div`
   position: relative;
   margin-right: 10px;
   margin-left: 10px
+  float: left;
   cursor: pointer;
   border: 0px;
   border-radius: 4px;

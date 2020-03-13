@@ -290,57 +290,52 @@ export const dataSet = {
         {
             pk: 'wqdlj32du3928ud912',
             name: '제스텍 프레스',
-            label: '프레스',
             status: 'active',
             attached_to: '라인 31',
             photo : "",
-            is_registerd: false,
+            is_connect: false,
         },
         {
             pk: 'qjdku1294103902',
             name: '심팩 프레스',
-            label: '프레스',
             status: 'active',
             attached_to: '라인 9',
             photo : "",
-            is_registerd: true,
+            is_connect: true,
         },
         {
             pk: 'vmrlmeijrqjr314',
             name: '심팩 프레스',
-            label: '프레스',
             status: 'active',
             attached_to: "",
             photo : "",
-            is_registerd: false,
+            is_connect: false,
         },
         {
             pk: 'de23r33928ud912',
             name: '시즐 피더',
-            label: '피더',
             status: 'done',
             attached_to: '라인 1',
             photo : "",
-            is_registerd: true,
+            is_connect: true,
         },
         {
             pk: 'de23r33928ud912',
             name: '시즐 피더',
-            label: '피더',
             status: 'error',
             attached_to: "",
             photo : "",
-            is_registerd: true,
+            is_connect: true,
         },
         {
             pk: 'de23r33928ud912',
             name: '시즐 피더',
-            label: '피더',
             status: 'done',
             attached_to: "",
             photo : "",
-            is_registerd: true,
-        }
+            is_connect: true,
+        },
+
         
     ],
     subMachineList : [
@@ -351,6 +346,7 @@ export const dataSet = {
         device_code: "K934219",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
+        is_registerd: true,
 
         
     },
@@ -361,7 +357,7 @@ export const dataSet = {
         device_code: "K7231859",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-
+        is_registerd: false,
         
     },
     {
@@ -372,7 +368,7 @@ export const dataSet = {
         manufacturer: "심팩",
         manufacturer_code: "S02424",
 
-        
+        is_registerd: false,
     },
     {
         pk:'w32ff2',
@@ -381,7 +377,7 @@ export const dataSet = {
         device_code: "K032193",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
-     
+        is_registerd: false,
         
     },
 
@@ -429,76 +425,99 @@ machineList : [
     },
 
 ],
-listList : [
+lineList : [
    {
+       pk:'2121ee212e1',
         line_code: 'L124414',
         line_detail: '라인 정보 라인 정보...',
-        line_machines: [
-       {
-          machine_name: '기계 1',
-          machine_photo: "",
-          is_connected: true,
-          machine_code: '2131244',
-       }, 
-       {
-        machine_name: '기계 13',
-        machine_photo: ""
-        },
-        {
-            machine_name: '기계 0',
-            machine_photo: "",
-            is_connected: false,
-            machine_code: '2131244',
-        },
+        item_list: [
+            {
+                pk: 'ny564n4n334n',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'de23r3397674d912',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'de23r33928ud912',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: '12grsg33928ud912',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'de22353912',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'de28gvresgd912',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'de2wqqdwwdqqwd12',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
         ]
     },
     {
+        pk:'35g53g42g4221',
         line_code: 'L8898214',
         line_detail: '라인 정보 라인 정보...',
-        line_machines: [
-       {
-          machine_name: '기계 2',
-          machine_photo: "",
-          is_connected: true,
-          machine_code: '2131244',
-       }, 
-        ]
-    },
-    {
-        line_code: 'L1920028',
-        line_detail: '라인 정보 라인 정보...',
-        line_machines: [
-       {
-          machine_name: '기계 8',
-          machine_photo: "",
-          is_connected: true,
-          machine_code: '2131244',
-       }, 
-       {
-        machine_name: '기계 9',
-        machine_photo: ""
-        },
-        {
-            pk:'d3d1qw',
-            machine_name: '기계 7',
-            machine_photo: "",
-            is_connected: true,
-            machine_code: '2131244',
-        },
-        {
-            pk:'d3d1qw',
-            machine_name: '기계 16',
-            machine_photo: "",
-            is_connected: false,
-            machine_code: '2131244',
-        },
-        {
-            pk:'d3d1qw',
-            machine_name: '기계 5',
-            machine_photo: "",
-            is_connected: true,
-            machine_code: '2131244',
-        },
+        item_list: [
+            {
+                pk: 'de23r33928ud912',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'de275684512',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
+            {
+                pk: 'rgdqw2',
+                name: '시즐 피더',
+                status: 'done',
+                attached_to: "",
+                photo : "",
+                is_connect: true,
+            },
         ]
     },
 
