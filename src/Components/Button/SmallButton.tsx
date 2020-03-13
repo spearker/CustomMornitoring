@@ -25,7 +25,7 @@ const SmallButton = ({name, onClickEvent}: IProps) => {
   },[])
 
   return (
-    <div style={{textAlign:'center'}}>
+    <div style={{textAlign:'center', }}>
        <ButtonBox type="submit" onClick={onClickEvent}>{name}</ButtonBox>
     </div>
       

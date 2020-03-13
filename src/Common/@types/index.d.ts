@@ -48,6 +48,16 @@ interface IMold{
   mold_code: string,
   pk: string,
 }
+
+//댓글
+interface IReply{
+  pk: string,
+  name: string,
+  profile: string,
+  detail: string,
+  file_url: string,
+}
+
 // 작업지시서
 interface ITask{
     pk: string,

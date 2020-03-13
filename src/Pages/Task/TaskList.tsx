@@ -13,7 +13,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest, getParameter } from '../../Common/requestFunctions';
+import { getRequest, getParameter, postRequest } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import InputContainer from '../../Containers/InputContainer';
 import PlaneInput from '../../Components/Input/PlaneInput';
@@ -30,61 +30,44 @@ import NormalFileInput from '../../Components/Input/NormalFileInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import { useUser } from '../../Context/UserContext';
+import 'react-dropdown/style.css'
+import { ROUTER_MANAGE } from '../../Common/routerset';
+import StatusTable from '../../Components/Table/StatusTable';
+import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+import TaskTable from '../../Components/Table/TaskTable';
+import CommentsContainer from '../../Containers/CommentsContainer';
+import CommentList from '../../Components/List/CommentList';
 
 // 작업 지시서 내역
 const TaskList = () => {
 
   const User = useUser();
-  const [pk, setPk] = useState<string>('');
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
   const [option, setOption] = useState(0);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [amount, setAmount]= useState<number>(0);
-  const [end, setEnd] = useState<string>(moment().format('YYYY-MM-DD HH:mm'));
-  const [start, setStart] = useState<string>(moment().format('YYYY-MM-DD HH:mm'));
-  const [fileList, setFileList] = useState<any[]>([])
-  const [oldFileList, setOldFileList] = useState<any[]>([])
-  const [removefileList, setRemoveFileList] = useState<any[]>([])
-
- //검색관련
- const [isPoupup, setIsPoupup] = useState<boolean>(false);
- const [isPoupup2, setIsPoupup2] = useState<boolean>(false);
- const [isSearched, setIsSearched] = useState<boolean>(false);
- const [keyword, setKeyword] = useState<string>('');
- const [checkList, setCheckList] = useState<IMachineLine[]>([]);
- const [list, setList] = useState<IMachineLine[]>([]);
- const [searchList, setSearchList] = useState<IMachineLine[]>([]);
- const [searchList2, setSearchList2] = useState<IProduct[]>([]);
- const [checkList2, setCheckList2] = useState<IProduct[]>([]);
- const [list2, setList2] = useState<IProduct[]>([]);
-
-  //사람 관련
-  const [worker, setWorker] = useState<IMemberSearched | null>(null);
-  const [referencerList, setReferencerList] = useState<IMemberSearched[]>([]);
-  const [searchList4, setSearchList4] = useState<IMemberSearched[]>([]);
-  const [check, setCheck] = useState<IMemberSearched | null>(null);
-  const [searchList3, setSearchList3] = useState<IMemberSearched[]>([]);
-  const [checkList4, setCheckList4] = useState<IMemberSearched[]>([]);
-  const [isPoupup3, setIsPoupup3] = useState<boolean>(false);
-  const [isPoupup4, setIsPoupup4] = useState<boolean>(false);
+ const [isOpen, setIsOpen] = useState<boolean>(false);
+ const [list, setList] = useState<ITask[]>([]);
+ const [task, setTask]= useState<any>('');
+ const [reply, setReply]= useState<string>('');
+ const [replyList, setReplyList]= useState<IReply[]>(dataSet.commentList);
 
  const tabList = [
    "기계", "라인"
  ]
  const [tab, setTab] = useState<string>(tabList[0]);
 
-  const optionList = [
-    "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
-  ]
-  const index = {
-    machine_name:'기계 이름',
-    machine_label:'기계 종류',
-    machine_code:'기계 번호',
-    manufacturer:'제조사', 
-    manufacturer_code:'제조사 번호', 
-    manufacturer_detail:'제조사 상세정보'
-  }
+ const optionList = [
+  "등록순", "이름순", "시작시간 순", "마감시간 순", 
+]
+const indexList = {
+  status: '상태',
+  title:'이름',
+  registered: '등록일',
+  machines: '장비명',
+  products: '생산품',
+  amount: '목표생산량',
+  worker: '등록자',
+  comments: '댓글'
+ }
 
   /**
    * onClickFilter()
@@ -113,98 +96,141 @@ const TaskList = () => {
 
   useEffect(()=>{
 
-    setSearchList(dataSet.searchedItem.lines)
-    setSearchList2(dataSet.products)
-    setSearchList3(dataSet.searchedMemmber)
-    const param = getParameter('pk');
-      if(param !== ""){
-          setPk(param)
-          alert(`수정 페이지 진입 - pk :` + param)
-          setIsUpdate(true)
-      }
-
+  
+    setList(dataSet.taskList)
   },[])
 
  
-  /**
-   * onClickSearch()
-   * 금형 키워드 검색
-   * @param {string} url 요청 주소
-   * @param {string} keyword 검색 키워드
-   * @returns X 
+ /**
+   * onClickTaskStatus()
+   * 작업 내역의 상태 변경 
+   * @param {string} pk 작업지시서 pk
+   * @param {string} value 상태값
+   * @returns X
    */
-  const onClickSearch = useCallback(()=>{
-  
-   
-    alert('테스트 : keyword - ' + keyword);
+  const onClickTaskStatus = useCallback((pk: string, value:string)=>{
+    alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
     return;
-    if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+    const data = {
+      pk: pk,
+      status: value
+    }
+    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
 
-      return;
-    } 
-    setIsSearched(true)
-
-    const res = getRequest(BASE_URL + '/api/v1/mold/search/' + keyword, getToken(TOKEN_NAME))
-
-    if(res === false){
+    if(results === false){
       //TODO: 에러 처리
     }else{
-      if(res.status === 200){
-         const results = res.results;
-         setKeyword('')
-         setSearchList(results);
-      }else if(res.status === 1001){
-        //TODO:  오류 처리 
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
     }
-  },[keyword])
+  },[])
+
+ 
+  useEffect(()=>{
+
+  
+    setList(dataSet.taskList)
+  },[])
+
+ 
+ /**
+   * onClickDeleteComment()
+   * 댓글 삭제
+   * @param {string} pk 댓글 pk
+   * @returns X
+   */
+  const onClickDeleteComment = useCallback((pk: string)=>{
+    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
+    return;
+    const data = {
+      pk: pk,
+
+    }
+    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[])
+
 
   
 
-  const onClickModify = useCallback((id)=>{
-
-    console.log('--select id : ' + id)
-
-  },[])
   /**
-   * addFile()
-   * 파일 등록
-   * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * onClickOpenTask()
+   * 작업지시서 열기
+   * @param {string} pk 작업지시서 pk
+   * @returns X
    */
-  const addFile = (event: any): void => {
-    console.log(event.target.files[0]);
+  const onClickOpenTask = useCallback((pk: string)=>{
+    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
+    return;
+    const data = {
+      pk: pk,
 
-    if(fileList.length + oldFileList.length > 7){
-      alert('파일 업로드는 8개 이하로 제한되어있습니다.')
-      return;
     }
+    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
 
-    if(event.target.files[0] === undefined){
-      return;
-    }
-    console.log(event.target.files[0].type);
-    if(event.target.files[0].size < 10485760){ //이미지인지 판별
-      let tempFileLsit = fileList.slice();
-      tempFileLsit.push(event.target.files[0])
-      setFileList(tempFileLsit)
+    if(results === false){
+      //TODO: 에러 처리
     }else{
-      alert('10MB 이하의 파일만 업로드 가능합니다.')
-      return;
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
     }
-    
-  }
+  },[]);
+
+  
+  
+  
+
   return (
       <DashboardWrapContainer>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'작업지시서 내역'}/>
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <SmallButtonLink name="+ 작업지시서 등록" link="/task/register"/>
+              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
+            </div>
           </div>
-         
+          {
+            isOpen && task !== "" && task !== null ?
+            <div>
 
+            </div>
+            :
+            <div style={{}}>
+                <CommentsContainer pk={"wdwdwd"}>
+                    {replyList.map((v, i)=>{
+                        return(
+                          <CommentList contents={v} onClickEvent={onClickDeleteComment}/>
+                        )
+                    })}
+                </CommentsContainer>
+            </div>
+          }
+         {/* 작업내역  */}
+         <div style={{marginTop:5}}>
+              <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickTaskStatus}/>
+          </div>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

@@ -1,4 +1,20 @@
 export const dataSet = {
+    commentList:[
+        {
+            pk: "1wdwqf123e",
+            name: "홍길동 대리",
+            profile: "",
+            detail : "내용 내용 내용..",
+            file_url: "http://다운주소",
+        },
+        {
+            pk: "dhkkhkh1kh2d",
+            name: "김둘리 과장",
+            profile: "",
+            detail : "내용 내용 내용 내용..",
+            file_url: "",
+        },
+    ],
     status:[
         {
             pk: "1wdqqwcewvvwe",
