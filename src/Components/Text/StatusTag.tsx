@@ -30,6 +30,8 @@ const StatusTag = ({text}: IProps) => {
             return '꺼짐'
         } else if(status === 'error'){
             return '에러'
+        }else if(status ==='reservation'){
+            return '예약'
         }else{
             return '대기'
         }
@@ -49,6 +51,8 @@ const StatusTag = ({text}: IProps) => {
             return '#683be5'
         }else if(status === 'ready'){
             return '#717c90'
+        }else if(status === 'reservation'){
+            return '#f8a506'
         }else{
             return '#717c90'
         }

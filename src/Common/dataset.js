@@ -1,4 +1,67 @@
 export const dataSet = {
+    status:[
+        {
+            pk: "1wdqqwcewvvwe",
+            status: "active",
+            group: "개별",
+            name : "장치 장치..",
+            code: "314128498",
+            manufacturer : "(주)제조사",
+            manufacturer_code : "21441214",
+            is_connect : true
+        },
+        {
+            pk: "1wdqqwcewvvwe",
+            status: "active",
+            group: "개별",
+            name : "장치 장치..",
+            code: "314128498",
+            manufacturer : "(주)제조사",
+            manufacturer_code : "21441214",
+            is_connect : false
+        },
+        {
+            pk: "1wdqqwcewvvwe",
+            status: "error",
+            group: "개별",
+            name : "장치 장치..",
+            code: "314128498",
+            manufacturer : "(주)제조사",
+            manufacturer_code : "21441214",
+            is_connect : true
+        },
+        {
+            pk: "1wdqqwcewvvwe",
+            status: "ready",
+            group: "라인 01",
+            name : "장치 장치..",
+            code: "314128498",
+            manufacturer : "(주)제조사",
+            manufacturer_code : "21441214",
+            is_connect : false
+        },
+        {
+            pk: "1wdqqwcewvvwe",
+            status: "reservation",
+            group: "라인 02",
+            name : "장치 장치..",
+            code: "314128498",
+            manufacturer : "(주)제조사",
+            manufacturer_code : "21441214",
+            is_connect : true
+        },
+        {
+            pk: "1wdqqwcewvvwe",
+            status: "active",
+            group: "개별",
+            name : "장치 장치..",
+            code: "314128498",
+            manufacturer : "(주)제조사",
+            manufacturer_code : "21441214",
+            is_connect : true
+        }
+        
+    ],
     moldList:[
         {
         pk:'2cq2321',

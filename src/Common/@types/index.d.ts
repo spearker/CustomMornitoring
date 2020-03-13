@@ -66,11 +66,15 @@ interface ITask{
 //장비 현황
 interface IStatus{
   pk: string,
+  group?: string,
   name: string,
+  code?: string,
   label?: string,
+  type?: string,
   status: string,
-  attached_to: string,
-  photo :string,
+  group?: string,
+  attached_to?: string,
+  photo?:string,
   is_connect: boolean,
 }
 

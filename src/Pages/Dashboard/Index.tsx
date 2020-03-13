@@ -21,7 +21,7 @@ import StatusCard from '../../Components/Card/StatusCard';
 import DotPagenation from '../../Components/Pagenation/DotPagenation';
 import { getRequest, postRequest } from '../../Common/requestFunctions';
 import { getToken } from '../../Common/tokenFunctions';
-import StatusTable from '../../Components/Table/StatusTable';
+import TaskTable from '../../Components/Table/TaskTable';
 import ColorButtonLink from '../../Components/Button/ColorButtonLink';
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 
@@ -287,7 +287,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div style={{marginTop:5}}>
-                  <StatusTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskList} onClickEvent={onClickTaskStatus}/>
+                  <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskList} onClickEvent={onClickTaskStatus}/>
            
                 </div>
                 
