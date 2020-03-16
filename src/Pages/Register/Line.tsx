@@ -56,15 +56,15 @@ const RegisterLine= () => {
 
 
   useEffect(()=>{
-    setSearchList(dataSet.machineList)
-    setSearchList2(dataSet.subMachineList)
-    const param = getParameter('pk');
-    if(param !== ""){
-        setPk(param)
-        setList(dataSet.machineList)
-        alert(`수정 페이지 진입 - pk :` + param)
-        setIsUpdate(true)
+    //setSearchList(dataSet.machineList)
+    //setSearchList2(dataSet.subMachineList)
+    if(getParameter('pk') !== "" ){
+      setPk(getParameter('pk'))
+      //alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
     }
+
 
   },[])
 
@@ -75,26 +75,25 @@ const RegisterLine= () => {
    * @param {string} pk 기계 pk
    * @returns X 
    */
-  const getData = useCallback((e)=>{
+  const getData = useCallback(async()=>{
     
-    const res = getRequest(BASE_URL + '/api/v1/line/view/' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/procedure/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-         setList([]);
-         setPk('');
-         setNo('');
-         setInfo('');
-      }else if(res.status === 1001 || res.data.status === 1002){
-        //TODO:  아이디 존재 확인
+         const data =res.results;
+         setList(data.machines);
+         setList2(data.peripherals)
+         setPk(data.pk);
+         setNo(data.line_code);
+         setInfo(data.line_detail);
       }else{
         //TODO:  기타 오류
       }
     }
-  },[pk, list, info, no])
+  },[pk, list, info, no, list2])
 
 
 
@@ -105,36 +104,67 @@ const RegisterLine= () => {
    * @param {string} keyword 검색 키워드
    * @returns X 
    */
-  const onClickSearch = useCallback(()=>{
+  const onClickSearch = useCallback(async(e)=>{
   
-   
-    alert('테스트 : keyword - ' + keyword);
-    return;
-    if(keyword  === '' || keyword.length < 2){
+    e.preventDefault();
+    //alert('테스트 : keyword - ' + keyword);
+    //return;
+    if(keyword  === '' || keyword.length < 1){
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     } 
     setIsSearched(true)
 
-    const res = getRequest(BASE_URL + '/api/v1/procedure/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/procedure/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-         setKeyword('')
-         setSearchList(results);
-      }else if(res.status === 1001){
-        //TODO:  오류 처리 
+         const data = res.results;
+         //setKeyword('')
+         setSearchList(data);
       }else{
         //TODO:  기타 오류
       }
     }
-  },[keyword])
+  },[keyword, searchList, searchList2])
 
+   /**
+   * onClickSearch()
+   * 주변기기 키워드 검색
+   * @param {string} url 요청 주소
+   * @param {string} keyword 검색 키워드
+   * @returns X 
+   */
+  const onClickSearch2 = useCallback(async(e)=>{
   
+    e.preventDefault();
+    //alert('테스트 : keyword - ' + keyword);
+    //return;
+    if(keyword  === '' || keyword.length < 1){
+      alert('2글자 이상의 키워드를 입력해주세요')
+
+      return;
+    } 
+    setIsSearched(true)
+
+    const res = await getRequest(BASE_URL + '/api/v1/peripheral/search?keyword=' + keyword, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         const data = res.results;
+         //setKeyword('')
+         setSearchList2(data);
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[keyword, searchList, searchList2])
+
   /**
    * onClickCheck()
    * 체크박스 선택
@@ -163,12 +193,51 @@ const RegisterLine= () => {
     */
   },[checkList])
 
-  const onsubmitForm = useCallback((e)=>{
+  const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
-    console.log('--onSubmitForm')
+
+    if(no === "" ){
+      alert("라인 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
+
+    let pks = new Array();
+    let pks2 = new Array();
+    list.forEach((v:IMachine, i)=>{
+        pks[i] = v.pk
+    })
+    list2.forEach((v:ISubMachine, i)=>{
+      pks2[i] = v.pk
+    })
+    const data = {
+        procedure_code: no,
+        procedure_detail: info,
+        machines: pks,
+        peripherals: pks2,
+
+    }
+
+    const res = await postRequest(BASE_URL + '/api/v1/procedure/register' , data, getToken(TOKEN_NAME))
+
+    if(res === false){
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+    }else{
+      if(res.status === 200){
+         alert('성공적으로 등록 되었습니다')
+         setPk('')
+         setList([]);
+         setList2([]);
+         setNo('');
+         setInfo('')
+      
+      }else{
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      }
+    }
+
   
    
-  },[ no, info])
+  },[ no, info, list, list2])
 
   return (
       <DashboardWrapContainer>
@@ -230,13 +299,14 @@ const RegisterLine= () => {
                 ()=>{
                 setIsPoupup(false); 
                 setList(checkList); 
+                setSearchList([]);
                 setKeyword('')}
             }
-            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false)}} title={'기계 선택'} >
-              <SearchInput description={'기계를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setSearchList([]);}} title={'기계 선택'} >
+              <SearchInput description={'기계를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
-                    !isSearched ?
+                    isSearched ?
                     searchList.map((v: IMachine, i)=>{ 
                       return ( 
                           !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가
@@ -271,13 +341,14 @@ const RegisterLine= () => {
                 ()=>{
                 setIsPoupup2(false); 
                 setList2(checkList2); 
+                setSearchList2([]);
                 setKeyword('')}
             }
-            isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false)}} title={'주변장치 선택'} >
-              <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+            isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false); setSearchList2([])}} title={'주변장치 선택'} >
+              <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch2}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
-                    !isSearched ?
+                    isSearched ?
                     searchList2.map((v: ISubMachine, i)=>{ 
                       return ( 
                           !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가

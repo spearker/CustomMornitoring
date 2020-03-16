@@ -21,9 +21,9 @@ const DashboardWrapContainer = ({children}: any) => {
    * : 유저 정보 로드 후 user info dispatch
    * @returns X
    */
-  const loadUserInfo = () => {
+  const loadUserInfo = async () => {
 
-    const results = getRequest(BASE_URL + '/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '/api/v1/user/load', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -32,17 +32,18 @@ const DashboardWrapContainer = ({children}: any) => {
         dispatch({
           type: 'SET_USER',
           data: {
-            pk: results.data.pk,
-            email: results.data.email,
-            is_admin: results.data.is_admin,
-            appointment: results.data.appointment,
-            name: results.data.name,
-            profile_img : results.data.profile_img,
+            pk: results.results.pk,
+            email: results.results.email,
+            is_admin: results.results.is_admin,
+            appointment: results.results.appointment,
+            name: results.results.name,
+            profile_img : results.results.profile_img,
             is_login : true,
           }
         });
       }else{
-
+        //TODO : 지울것
+        alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
       }
     }
   }

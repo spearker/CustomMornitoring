@@ -101,8 +101,8 @@ const CompanySetting = () => {
    * @param {string} url 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getRankList = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/list/rank', getToken(TOKEN_NAME))
+  const getRankList = useCallback(async()=> {
+    const results = await getRequest(BASE_URL + '/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
     if(results === false){
         //setList([""])
@@ -110,7 +110,7 @@ const CompanySetting = () => {
     }else{
       if(results.status === 200){
           if(results.results.length > 0){
-           //setList(results.results)
+           setList(results.results)
           }else{
             //setList([""])
           }
@@ -128,23 +128,27 @@ const CompanySetting = () => {
    * @param {string[]} list 직급 배열 
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const onClickSave = useCallback(()=> {
+  const onClickSave = useCallback(async()=> {
       if(list.indexOf('') !== -1){
           alert('직급을 빈칸 없이 입력해주세요.')
           return
       }
-    const results = postRequest(BASE_URL + '/list/rank', list,getToken(TOKEN_NAME))
+      const data = {
+        appointments: list
+      }
+    const results = await postRequest(BASE_URL + '/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
 
     if(results === false){
+      alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
         //setList([""])
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
+        
         alert('저장되었습니다')
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        getRankList()
       }else{
-        //TODO:  기타 오류
+        alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
       }
     }
   },[list])

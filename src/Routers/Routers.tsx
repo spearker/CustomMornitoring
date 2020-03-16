@@ -72,7 +72,7 @@ const Routers = () => {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/complete" component={Complete} />
             <Route exact path="/forgot" component={ForgotPw} />
-            <Route exact path="/change" component={ChangePw} />
+            <Route exact path="/password" component={ChangePw} />
 
             {/* 대시보드 & 모니터링 */}
             <Route exact path="/task/register" component={RegisterTask}/>

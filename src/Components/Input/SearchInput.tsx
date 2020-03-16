@@ -10,7 +10,7 @@ interface IProps{
     description: string,
     value: string,
     onChangeEvent: any,
-    onClickEvent: () =>void,
+    onClickEvent: any,
 }
 const SearchInput = ({description, value, onChangeEvent, onClickEvent}: IProps) => {
   useEffect(()=>{
@@ -18,12 +18,12 @@ const SearchInput = ({description, value, onChangeEvent, onClickEvent}: IProps) 
   },[])
 
   return ( 
-        <div style={{position: 'relative'}}>
+        <form style={{position: 'relative'}}>
             <InputBox type="text" value={value} onChange={onChangeEvent} placeholder={description}/>
             <div onClick={onClickEvent}  style={{justifyContent:'center' , position:'absolute', top:0, right:0, zIndex:4}}>
              <IconSquareButton color="#e7e9eb" width="30px" imageSize="17px" image={icSearch} dim={false}/>  
             </div>
-        </div> 
+        </form> 
   );
 }
 

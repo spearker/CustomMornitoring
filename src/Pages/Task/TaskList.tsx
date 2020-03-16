@@ -75,11 +75,11 @@ const indexList = {
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
     alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -108,14 +108,14 @@ const indexList = {
    * @param {string} value 상태값
    * @returns X
    */
-  const onClickTaskStatus = useCallback((pk: string, value:string)=>{
+  const onClickTaskStatus = useCallback(async(pk: string, value:string)=>{
     alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
     return;
     const data = {
       pk: pk,
       status: value
     }
-    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -144,14 +144,14 @@ const indexList = {
    * @param {string} pk 댓글 pk
    * @returns X
    */
-  const onClickDeleteComment = useCallback((pk: string)=>{
+  const onClickDeleteComment = useCallback(async(pk: string)=>{
     alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
     return;
     const data = {
       pk: pk,
 
     }
-    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -175,14 +175,14 @@ const indexList = {
    * @param {string} pk 작업지시서 pk
    * @returns X
    */
-  const onClickOpenTask = useCallback((pk: string)=>{
+  const onClickOpenTask = useCallback(async(pk: string)=>{
     alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
     return;
     const data = {
       pk: pk,
 
     }
-    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리

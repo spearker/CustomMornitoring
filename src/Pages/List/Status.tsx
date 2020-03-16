@@ -42,11 +42,11 @@ const StatusList = () => {
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리

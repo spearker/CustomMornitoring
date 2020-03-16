@@ -31,12 +31,13 @@ const RegisterDesign = () => {
   const [moldNo, setMoldNo] = useState<string>('');
 
   useEffect(()=>{
-    const param = getParameter('pk');
-    if(param !== ""){
-        setPk(param)
-        alert(`수정 페이지 진입 - pk :` + param)
-        setIsUpdate(true)
+    if(getParameter('pk') !== "" ){
+      setPk(getParameter('pk'))
+      //alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
     }
+
   },[])
 
   /**
@@ -46,24 +47,22 @@ const RegisterDesign = () => {
    * @param {string} pk 자재 pk
    * @returns X 
    */
-  const getData = useCallback((e)=>{
+  const getData = useCallback(async ()=>{
     
-    const res = getRequest(BASE_URL + '/api/v1/mold/view/' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/mold/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-          setPk('')
-          setMade('');
-          setNo('');
-          setMoldNo('');
-          setName('');
-          setSpec('');
-          setType('');
-      }else if(res.status === 1001 || res.data.status === 1002){
-        //TODO:  아이디 존재 확인
+         const data = res.results;
+          setPk(data.pk)
+          setMade(data.manufacturer);
+          setNo(data.product_code);
+          setMoldNo(data.mold_code);
+          setName(data.mold_name);
+          setSpec(data.product_spec);
+          setType(data.mold_label);
       }else{
         //TODO:  기타 오류
       }
@@ -82,11 +81,16 @@ const RegisterDesign = () => {
    * @param {string} type 금형종류
    * @returns X 
    */
-  const onsubmitForm = useCallback((e)=>{
+  const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + made + name + no + type + moldNo + spec );
-    return;
+    //alert('테스트 : 전송 - ' + made + name + no + type + moldNo + spec );
+   // return;
+
+    if(name === "" || made === ""){
+      alert("금형이름과 제조사는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
     const data = {
         manufacturer: made,
         product_code: no,
@@ -96,17 +100,22 @@ const RegisterDesign = () => {
         mold_code : moldNo
     }
 
-    const res = postRequest(BASE_URL + '/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
-      //TODO: 에러 처리
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+         setPk('')
+         setMade('');
+         setNo('');
+         setMoldNo('');
+         setName('');
+         setSpec('');
+         setType('');
       }else{
-        //TODO:  기타 오류
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
@@ -125,11 +134,15 @@ const RegisterDesign = () => {
    * @param {string} type 금형종류
    * @returns X 
    */
-  const onsubmitFormUpdate = useCallback((e)=>{
+  const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + pk + made + name + no + type + moldNo + spec );
-    return;
+    //alert('테스트 : 전송 - ' + pk + made + name + no + type + moldNo + spec );
+    //return;
+    if(name === ""){
+      alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
     const data = {
         pk: pk,
         manufacturer: made,
@@ -140,17 +153,16 @@ const RegisterDesign = () => {
         mold_code : moldNo
     }
 
-    const res = postRequest(BASE_URL + '/api/v1/material/update' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/mold/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      //TODO: 에러 처리
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+         alert('성공적으로 수정 되었습니다')
+         
       }else{
-        //TODO:  기타 오류
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 

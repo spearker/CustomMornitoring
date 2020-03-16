@@ -12,12 +12,12 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_STOCK } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest } from '../../Common/requestFunctions';
+import { getRequest, postRequest } from '../../Common/requestFunctions';
 
 
 const ProductStock = () => {
 
-  const [list, setList] = useState<IProduct[]>(dataSet.productList);
+  const [list, setList] = useState<IProduct[]>([]);
   const [option, setOption] = useState(0);
 
   const optionList = [
@@ -32,40 +32,71 @@ const ProductStock = () => {
 
   }
 
+  
   /**
    * onClickFilter()
    * 리스트 필터 변경
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
-    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '/api/v1/product/list/'+filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setList(results.results)
       }else{
-        //TODO:  기타 오류
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
 
-  useEffect(()=>{
+   /**
+   * getList()
+   * 목록 불러오기
+   * @param {string} url 
+   * @returns X
+   */
+  const getList = useCallback(async ()=>{
+   
+    const results = await getRequest(BASE_URL + '/api/v1/product/list/0',getToken(TOKEN_NAME))
 
+    if(results === false){
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+    }else{
+      if(results.status === 200){
+        setList(results.results)
+      }else{
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      }
+    }
+  },[list])
+
+
+  useEffect(()=>{
+    getList();
    
   },[])
 
-  const onClickModify = useCallback((id, stock)=>{
+  const onClickModify = useCallback(async (id, stock)=>{
 
     console.log('--select id : ' + id + '/' + stock)
-  
+    const results = await postRequest(BASE_URL + '/api/v1/product/stock/', {pk: id, stock:stock}, getToken(TOKEN_NAME))
+
+    if(results === false){
+      alert('요청 실패하였습니다. 잠시후 이용하세요.')
+    }else{
+      if(results.status === 200){
+        alert('성공적으로 변경되었습니다.')
+        getList()
+        
+      }else{
+        alert('요청 실패하였습니다. 잠시후 이용하세요.')
+      }
+    }
   
   },[])
   return (

@@ -122,8 +122,8 @@ const Dashboard = () => {
    * @param {string} pageIndex 페이지 인덱스 
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getStatus = useCallback((index: number)=>{
-    const results = getRequest(BASE_URL + '/dashboard/status', getToken(TOKEN_NAME))
+  const getStatus = useCallback(async (index: number)=>{
+    const results = await getRequest(BASE_URL + '/dashboard/status', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -160,14 +160,14 @@ const Dashboard = () => {
    * @param {string} value 상태값
    * @returns X
    */
-  const onClickTaskStatus = useCallback((pk: string, value:string)=>{
+  const onClickTaskStatus = useCallback(async(pk: string, value:string)=>{
     alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
     return;
     const data = {
       pk: pk,
       status: value
     }
-    const results = postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -188,11 +188,11 @@ const Dashboard = () => {
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리

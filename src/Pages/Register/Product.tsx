@@ -50,37 +50,38 @@ const RegisterProduct = () => {
 
   useEffect(()=>{
 
-    const param = getParameter('pk');
-    if(param !== ""){
-        setPk(param)
-        alert(`수정 페이지 진입 - pk :` + param)
-        setIsUpdate(true)
+    if(getParameter('pk') !== "" ){
+      setPk(getParameter('pk'))
+      //alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
     }
 
   },[]) 
 
   /**
    * getData()
-   * 자재 정보 수정을 위한 조회
+   * 생산품 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
    * @returns X 
    */
-  const getData = useCallback((e)=>{
+  const getData = useCallback(async()=>{
     
-    const res = getRequest(BASE_URL + '/api/v1/product/view/' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/product/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-         setName('');
-          setList([]);
-         setCode('');
-         setSpec('');
-         setPk('');
-         setInfo([]);
+         const data = res.results;
+         setName(data.product_name);
+         setList(data.molds);
+         setCode(data.product_code);
+         setSpec(data.product_spec);
+         setPk(data.pk);
+         setAmount(data.stock)
+         setInfo(data.info_list);
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -99,32 +100,50 @@ const RegisterProduct = () => {
    * @param {string} code 코드
    * @returns X 
    */
-  const onsubmitForm = useCallback((e)=>{
+  const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + code + name + info + list + spec + info );
-    return;
+    //alert('테스트 : 전송 - ' + code + name + info + list + spec + info );
+    //return;
+    if(name === "" ){
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
+    let pks = new Array();
+    list.forEach((v:IMold, i)=>{
+        pks[i] = v.pk
+    })
     const data = {
-        material_name: name,
-        material_code: code,
-        material_spec: spec,
-        molds: list,
-        info_list : info
+      product_name: name,
+      product_code: code,
+      product_spec: spec,
+      stock: amount,
+      molds: pks,
+      info_list : info
     }
 
-    const res = postRequest(BASE_URL + '/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
+    console.log(pks)
+    
+    const res = await postRequest(BASE_URL + '/api/v1/product/register' , data, getToken(TOKEN_NAME))
 
     if(res === false){
-      //TODO: 에러 처리
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+         setPk('')
+         setName('');
+         setAmount(0)
+         setCode('');
+         setSpec('');
+         setList([]);
+        setInfo([]);
+      
       }else{
-        //TODO:  기타 오류
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
+
 
   },[list, code, name, spec,info, pk])
 
@@ -140,35 +159,43 @@ const RegisterProduct = () => {
    * @param {string} code 코드
    * @returns X 
    */
-  const onsubmitFormUpdate = useCallback((e)=>{
+  const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + pk +  code + name + info + list + spec + info );
-    return;
+    //alert('테스트 : 전송 - ' + pk +  code + name + info + list + spec + info );
+    //return;
+    if(name === "" ){
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
+    let pks = new Array();
+    list.forEach((v:IMold, i)=>{
+        pks[i] = v.pk
+    })
     const data = {
-        pk: pk,
-        material_name: name,
-        material_code: code,
-        material_spec: spec,
-        molds: list,
-        info_list : info
+      pk: getParameter('pk'),
+      product_name: name,
+      product_code: code,
+      product_spec: spec,
+      stock: amount,
+      molds: pks,
+      info_list : info
     }
 
-    const res = postRequest(BASE_URL + '/api/v1/material/update' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/product/update' , data, getToken(TOKEN_NAME))
 
     if(res === false){
-      //TODO: 에러 처리
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 수정 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+
       }else{
-        //TODO:  기타 오류
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
-  },[list, code, name, spec, info, pk])
+  },[list, code, name, spec, info, pk, amount])
 
 
   /**
@@ -178,11 +205,9 @@ const RegisterProduct = () => {
    * @param {string} keyword 검색 키워드
    * @returns X 
    */
-  const onClickSearch = useCallback(()=>{
+  const onClickSearch = useCallback(async(e)=>{
   
-   
-    alert('테스트 : keyword - ' + keyword);
-    return;
+    e.preventDefault();
     if(keyword  === '' || keyword.length < 2){
       alert('2글자 이상의 키워드를 입력해주세요')
 
@@ -190,17 +215,15 @@ const RegisterProduct = () => {
     } 
     setIsSearched(true)
 
-    const res = getRequest(BASE_URL + '/api/v1/mold/search/' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/mold/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          const results = res.results;
-         setKeyword('')
+      
          setSearchList(results);
-      }else if(res.status === 1001){
-        //TODO:  오류 처리 
       }else{
         //TODO:  기타 오류
       }
@@ -281,10 +304,10 @@ const RegisterProduct = () => {
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false)}} title={'금형 선택'} >
-              <SearchInput description={'금형을 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+              <SearchInput description={'금형을 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
-                    !isSearched ?
+                    isSearched ?
                     searchList.map((v: IMold, i)=>{ 
                       return ( 
                       

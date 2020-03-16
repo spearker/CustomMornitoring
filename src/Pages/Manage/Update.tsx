@@ -23,6 +23,7 @@ import BasicGrayButtonLink from '../../Components/Button/BasicGrayButtonLink';
 import ProfileInput from '../../Components/Input/ProfileInput';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import DateInput from '../../Components/Input/DateInput';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 
 
 const CompanySetting = () => {
@@ -33,9 +34,7 @@ const CompanySetting = () => {
   const [joinDate, setJoinDate] = useState<string>("");
   const [joinType, setJoinType] = useState<string>("");
   const [status, setStatus] = useState<string>("");
-  const [rankList, setRankList] = useState<string[]>([
-    '사장', '이사', '부장', '팀장', '과장', '대리', '사원'
-  ]);
+  const [rankList, setRankList] = useState<string[]>([]);
 
   /**
    * onClickSave()
@@ -48,28 +47,26 @@ const CompanySetting = () => {
    * @param {string} status 재직상태
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const onClickSave = useCallback(()=> {
-      console.log('save pk : ' + getParameter('pk'))
+  const onClickSave = useCallback(async()=> {
+      //console.log('save pk : ' + getParameter('id'))
       const data = {
-        pk: getParameter('pk'),
+        pk: getParameter('id'),
         appointment : rank,
         year : year,
         join_date : joinDate,
         join_type : joinType,
         status : status,
       }
-      const results = postRequest(BASE_URL + '/api/v1/member/udpate', data, getToken(TOKEN_NAME))
+      const results = await postRequest(BASE_URL + '/api/v1/member/update', data, getToken(TOKEN_NAME))
 
       if(results === false){
           //setList([""])
         //TODO: 에러 처리
       }else{
         if(results.status === 200){
-          alert('저장되었습니다')
-        }else if(results.status === 1001 || results.data.status === 1002){
-          //TODO:  아이디 존재 확인
+          alert('성공적으로 저장되었습니다')
         }else{
-          //TODO:  기타 오류
+          alert('업데이트 실패하였습니다. 모든 필수 항목을 입력해주세요.')
         }
       }
 
@@ -82,8 +79,10 @@ const CompanySetting = () => {
    * @param {string} pk 멤버 pk
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getTarget = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/api/v1/member/view/' + getParameter("pk") , getToken(TOKEN_NAME))
+  const getTarget = useCallback(async()=> {
+
+
+    const results = await getRequest(BASE_URL + '/api/v1/member/view/' + getParameter("id") , getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -96,10 +95,9 @@ const CompanySetting = () => {
           setRank(results.results.appointment)
           setStatus(results.results.status)
           setYear(results.results.year)
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
       }else{
-        //TODO:  기타 오류
+        alert('잘못된 접근입니다.')
+        window.location.href='/manage/members'
       }
     }
   },[target, joinType, joinDate, status, year, rank])
@@ -110,8 +108,8 @@ const CompanySetting = () => {
    * @param {string} url 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getRankList = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/list/rank', getToken(TOKEN_NAME))
+  const getRankList = useCallback(async()=> {
+    const results = await getRequest(BASE_URL + '/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
     if(results === false){
         //setList([""])
@@ -119,7 +117,7 @@ const CompanySetting = () => {
     }else{
       if(results.status === 200){
           if(results.results.length > 0){
-           //setList(results.results)
+            setRankList(results.results)
           }else{
             //setList([""])
           }
@@ -132,15 +130,16 @@ const CompanySetting = () => {
   },[rankList])
 
   useEffect(()=>{
-
+    /*
     setTarget(dataSet.targetMember); //TODO: 테스트용. 지울것.
     setJoinDate(dataSet.targetMember.join_date)
     setJoinType(dataSet.targetMember.join_type)
     setRank(dataSet.targetMember.appointment)
     setStatus(dataSet.targetMember.status)
     setYear(dataSet.targetMember.year)
-
-    //getTarget();
+    */
+    getTarget();
+    getRankList();
 
   },[])
 
@@ -167,7 +166,7 @@ const CompanySetting = () => {
                     <NormalInput title={'성명'} description={""} value={target.name} onChangeEvent={null}/>
                     <NormalInput title={'이메일'} description={""} value={target.email} onChangeEvent={null}/>
                     <DropdownInput title={'직급'} contents={rankList} target={rank} onChangeEvent={setRank}/>
-                    <NormalInput title={'연차'} description={""} value={String(year)} onChangeEvent={setYear}/>
+                    <NormalNumberInput title={'연차'} description={""} value={year} onChangeEvent={setYear}/>
                     <DateInput title={'입사일'} description={""} value={joinDate} onChangeEvent={setJoinDate}/>
                     <DropdownInput title={'채용형태'} contents={['공채','특채','경력직','계약직','파견직','기타']} target={joinType} onChangeEvent={setJoinType}/>
                     <DropdownInput title={'상태'} contents={['재직','휴직','퇴직','기타']} target={status} onChangeEvent={setStatus}/>

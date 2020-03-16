@@ -36,12 +36,14 @@ const ProfileBar = ({select}: Props) => {
    * : 로그아웃
    * @returns X
    */
-  const onClickLogout = useCallback(()=>{
-    alert('테스트 : 로그아웃 - ' + getToken(TOKEN_NAME));
+  const onClickLogout = useCallback(async()=>{
+    //alert('테스트 : 로그아웃 - ' + getToken(TOKEN_NAME));
+    removeToken(TOKEN_NAME)
+    alert('성공적으로 로그아웃 되었습니다');
     window.location.href="/"
     return;
     const data = {}
-    const results = postRequest(BASE_URL + '/logout', data, getToken(TOKEN_NAME))
+    const results = await postRequest(BASE_URL + '/logout', data, getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -72,11 +74,11 @@ const ProfileBar = ({select}: Props) => {
                     <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
                   </div>
                   <div style={{width: 250}}>
-                    <p className="p-bold" style={{display:'inline-block', color:'white'}}>{user.name}홍길동</p>
+                    <p className="p-bold" style={{display:'inline-block', color:'white'}}>{user.name}</p>
                   </div>
                   <div style={{display:'flex', alignItems: 'center', width: 600, height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 31, marginRight: 8}}/>
-                    <p className="p-bold" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>근접한 일정 알람...근접한 일정 알람...근접한 일정 알람...</p>
+                    <p className="p-bold" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>현재 테스트 기간으로 세션 및 관리자권한은 해제되어있습니다.</p>
                   </div>
                   <div style={{textAlign:'right', width:205}}>
                     <a className="p-eng" style={{marginRight:26}}>

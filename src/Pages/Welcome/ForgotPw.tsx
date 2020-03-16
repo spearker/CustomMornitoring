@@ -15,7 +15,7 @@ const ForgotPw = () => {
 
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const [subDomain, setSubDomain] = useState<string>('localhost:3000');
+  const [subDomain, setSubDomain] = useState<string>(window.location.hostname);
   const {t} = useTranslation();
 ;
   /**
@@ -25,7 +25,7 @@ const ForgotPw = () => {
    * @param {string} subDomain 인증링크 접속을 위한 서브도메인 주소
    * @returns X
    */
-  const onsubmitForm = useCallback(()=>{
+  const onsubmitForm = useCallback(async ()=>{
   
 
     setError('')
@@ -38,16 +38,16 @@ const ForgotPw = () => {
   
     let data: object = {
       email : email,
-      sub_domain: subDomain
+      base_url: subDomain
     }
-    const results = postRequestWithNoToken(BASE_URL + '/password/send', data)
+    const results = await postRequestWithNoToken(BASE_URL + '/email/password/send', data)
 
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
         alert(t('checkMail'))
-      }else if(results.status === 1001 || results.data.status === 1002){
+      }else if(results.status === 1001 || results.status === 1002){
         alert(t('errorUse'))
       }else{
         //TODO:  기타 오류

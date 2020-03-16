@@ -50,7 +50,7 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
     <div style={{  color:'black',borderRadius:6 , paddingTop:20, backgroundColor: BG_COLOR_SUB}}>
         <div style={{color:'white', display:'flex', alignItems: 'center', textAlign:'left'}}>
             <p className="p-bold p-limit" style={{paddingLeft:30, width:'18%', display:'inline-block', fontSize:24}}>{title}</p>
-            <p className=" p-limit" style={{width:'67%', display:'inline-block', fontSize:14}}>|&nbsp;&nbsp;&nbsp;{description}</p>
+            <p className=" p-limit" style={{width:'67%', display:'inline-block', fontSize:14}}>{description ===""? null : '| ' + description}</p>
             <div style={{width:'15%'}}>
                 <SmallButton name={'수정하기'} onClickEvent={()=>{onClickEvent(pk)}}/>
             </div>
@@ -61,7 +61,14 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
             <img onClick={()=>onClickChangePage(page-1)} src={IC_BEFORE} style={{cursor:'pointer',width:24, margin:10}} />
         </div>
         <div className="p-limit" style={{marginTop: 25, width:'90%', marginBottom: 17, textAlign:'center'}}>
-       
+       {
+           contents.length === 0 ?
+           <div>
+               <p style={{color:'white',marginTop:60, marginBottom:110}}>해당 라인에 연결된 데이터가 없습니다.</p>
+            </div>
+           :
+           null
+       }
         {
             contents.map((v: IStatus, index)=>{
                 if( page*6-6 <= index && index < page*6){

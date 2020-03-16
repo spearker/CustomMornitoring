@@ -39,11 +39,11 @@ const RegisterMaterial = () => {
 
   useEffect(()=>{
 
-    const param = getParameter('pk');
-    if(param !== ""){
-        setPk(param)
-        alert(`수정 페이지 진입 - pk :` + param)
+    if(getParameter('pk') !== "" ){
+        setPk(getParameter('pk'))
+        //alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
+        getData()
     }
 
   },[]) 
@@ -55,21 +55,21 @@ const RegisterMaterial = () => {
    * @param {string} pk 자재 pk
    * @returns X 
    */
-  const getData = useCallback((e)=>{
+  const getData = useCallback(async()=>{
     
-    const res = getRequest(BASE_URL + '/api/v1/product/view/' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/material/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-         setName('');
-         setMade('');
-         setCode('');
-         setSpec('');
-         setPk('');
-         setInfo([]);
+         const data = res.results;
+         setName(data.material_name);
+         setMade(data.distributor);
+         setCode(data.material_code);
+         setSpec(data.material_spec);
+         setPk(data.pk);
+         setInfo(data.info_list);
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -89,34 +89,45 @@ const RegisterMaterial = () => {
    * @param {string} code 코드
    * @returns X 
    */
-  const onsubmitForm = useCallback((e)=>{
+  const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + code + name + info + made + spec + info );
-    return;
+
+     if(name == "" ){
+       alert('자재 이름은 필수 항목입니다. ')
+       return;
+     }
+    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+    //return;
     const data = {
         material_name: name,
         material_code: code,
         material_spec: spec,
+        stock: amount,
         distributor: made,
         info_list : info
     }
 
-    const res = postRequest(BASE_URL + '/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+         setName('')
+         setCode('')
+         setSpec('')
+         setAmount(0)
+         setMade('')
+         setInfo([])
       }else{
+        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
 
-  },[made, code, name, spec,info, pk])
+  },[made, code,amount, name, spec,info, pk])
 
 
   /**
@@ -131,11 +142,11 @@ const RegisterMaterial = () => {
    * @param {string} code 코드
    * @returns X 
    */
-  const onsubmitFormUpdate = useCallback((e)=>{
+  const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
-    return;
+    //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
+    //return;
     const data = {
         pk: pk,
         material_name: name,
@@ -145,15 +156,13 @@ const RegisterMaterial = () => {
         info_list : info
     }
 
-    const res = postRequest(BASE_URL + '/api/v1/material/update' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          alert('성공적으로 수정 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
       }else{
         //TODO:  기타 오류
       }

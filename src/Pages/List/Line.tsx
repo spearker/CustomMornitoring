@@ -39,36 +39,28 @@ const LineList = () => {
   const [option, setOption] = useState<number>(0);
 
   const optionList = [
-    "등록순", "이름 순", "상세정보 순"
+    "등록순", "이름(번호)순",
   ]
-  /**
+   /**
    * getList()
-   * 라인 리스트 조회
-   * @param {string} url 요청 주소
-   * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
+   * 목록 불러오기
+   * @param {string} url 
+   * @returns X
    */
-  const getList = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/list/line', getToken(TOKEN_NAME))
+  const getList = useCallback(async ()=>{
+   
+    const results = await getRequest(BASE_URL + '/api/v1/procedure/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-          setList(results.results)
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setList(results.results)
       }else{
-        //TODO:  기타 오류
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[])
-
-  useEffect(()=>{
-
-    setList(dataSet.lineList); //TODO: 테스트용. 지울것.
-    //getList()
-   
-  },[])
+  },[list])
 
   /**
    * onClickFilter()
@@ -76,29 +68,28 @@ const LineList = () => {
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    
+    const results = await getRequest(BASE_URL + '/api/v1/procedure/list/'+filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setList(results.results)
       }else{
-        //TODO:  기타 오류
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
 
   useEffect(()=>{
-
+    getList()
    
   },[])
+
 
   const onClickModify = useCallback((id)=>{
 

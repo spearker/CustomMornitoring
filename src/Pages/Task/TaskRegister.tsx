@@ -92,11 +92,11 @@ const TaskRegister = () => {
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
     alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -133,7 +133,7 @@ const TaskRegister = () => {
    * @param {string} keyword 검색 키워드
    * @returns X 
    */
-  const onClickSearch = useCallback(()=>{
+  const onClickSearch = useCallback(async()=>{
   
    
     alert('테스트 : keyword - ' + keyword);
@@ -145,7 +145,7 @@ const TaskRegister = () => {
     } 
     setIsSearched(true)
 
-    const res = getRequest(BASE_URL + '/api/v1/mold/search/' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/mold/search/' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

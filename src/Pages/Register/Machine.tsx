@@ -43,13 +43,12 @@ const RegisterMachine = () => {
 
   
   useEffect(()=>{
-
-      const param = getParameter('pk');
-      if(param !== ""){
-          setPk(param)
-          alert(`수정 페이지 진입 - pk :` + param)
-          setIsUpdate(true)
-      }
+    if(getParameter('pk') !== "" ){
+      setPk(getParameter('pk'))
+      //alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
+    }
 
   },[])
 
@@ -86,26 +85,24 @@ const RegisterMachine = () => {
    * @param {string} pk 기계 pk
    * @returns X 
    */
-  const getData = useCallback((e)=>{
+  const getData = useCallback(async()=>{
     
-    const res = getRequest(BASE_URL + '/api/v1/machine/view/' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/machine/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-         setName('');
-         setMade('');
-         setNo('');
-         setPhotoName('');
-         setInfo('');
-         setPk('');
-         setMadeNo('');
-         setType('');
+         const data = res.results;
+         setName(data.machine_name);
+         setMade(data.manufacturer);
+         setNo(data.machine_code);
+         setPhotoName(data.machine_photo);
+         setInfo(data.manufacturer_detail);
+         setPk(data.pk);
+         setMadeNo(data.manufacturer_code);
+         setType(data.machine_label);
          setFile(null);
-      }else if(res.status === 1001 || res.data.status === 1002){
-        //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
@@ -126,31 +123,36 @@ const RegisterMachine = () => {
    * @param {string} madeNo 제조사넘버
    * @returns X 
    */
-  const onsubmitFormUpdate = useCallback((e)=>{
-      //TODO: 지울것
-      alert('테스트 : 전송 - ' + pk + no + name + info + file + made + type + madeNo);
+  const onsubmitFormUpdate = useCallback(async(e)=>{
+    e.preventDefault();
+    if(name === "" ){
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
+    }
+      //TODO: 지울것
+      //alert('테스트 : 전송 - ' + pk + no + name + info + file + made + type + madeNo);
+      //return;
       let data = new FormData();
-      data.append('pk', pk);
-      data.append('machine_name', made);
+      data.append('pk', getParameter('pk'));
+      data.append('machine_name', name);
       data.append('machine_label', type);
       data.append('machine_code', no);
       data.append('manufacturer', made);
       data.append('manufacturer_code', madeNo);
       data.append('manufacturer_detail', info);
-      data.append('machine_photo', file);
+     
+        data.append('machine_photo', file);
+     
 
-      const res = postRequest(BASE_URL + '/api/v1/machine/view/' + pk, data, getToken(TOKEN_NAME))
+      const res = await postRequest(BASE_URL + '/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
       if(res === false){
-        //TODO: 에러 처리
+        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }else{
         if(res.status === 200){
            alert('성공적으로 수정 되었습니다')
-        }else if(res.status === 1001){
-          //TODO:
         }else{
-          //TODO:  기타 오류
+          alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
       }
 
@@ -168,13 +170,18 @@ const RegisterMachine = () => {
    * @param {string} madeNo 제조사넘버
    * @returns X 
    */
-  const onsubmitForm = useCallback((e)=>{
+  const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
+
+    if(name === "" ){
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
-    return;
+    //alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
+    //return;
     let data = new FormData();
-    data.append('machine_name', made);
+    data.append('machine_name', name);
     data.append('machine_label', type);
     data.append('machine_code', no);
     data.append('manufacturer', made);
@@ -182,15 +189,22 @@ const RegisterMachine = () => {
     data.append('manufacturer_detail', info);
     data.append('machine_photo', file);
 
-    const res = postRequest(BASE_URL + '/api/v1/machine/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+         setName('');
+         setMade('');
+         setNo('');
+         setPhotoName('');
+         setInfo('');
+         setPk('');
+         setMadeNo('');
+         setType('');
+         setFile(null);
       }else{
         //TODO:  기타 오류
       }

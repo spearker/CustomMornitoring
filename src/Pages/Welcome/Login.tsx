@@ -32,51 +32,28 @@ const Login = () => {
    */
   const onsubmitForm = useCallback(async ()=>{
 
-    console.log('click')
-
-    alert('테스트 : 대시보드 접속 - ' + email);
-    window.location.href= "/dashboard"
-
-    return;
-    //window.location.href= "/complete" //TODO: 지울것
-    //발리데이션
-    if(password == '' || email ==='' ){
-      alert('이메일과 패스워드를 입력해주세요.')
-      return
-    }
-    
     let data: object = {
-      email : email,
-      password : password
+      email: email,
+      password: password,
     }
-
-    const results = postRequestWithNoToken(BASE_URL + '/email/login', data)
+    const results = await postRequestWithNoToken(BASE_URL + '/user/login', data)
 
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        setToken(TOKEN_NAME, results.data.token);
-        dispatch({
-          type: 'SET_USER',
-          data: {
-            pk: results.data.pk,
-            email: results.data.email,
-            is_admin: results.data.is_admin,
-            appointment: results.data.appointment,
-            name: results.data.name,
-            profile_img : results.data.profile_img,
-            is_login : true,
-          }
-        });
-        
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setToken(TOKEN_NAME, results.results.token)
+        window.location.href= "/dashboard"
+      }else if(results.status === 1001 ||results.status === 1002 ){
+        alert('아이디와 패스워드를 확인하세요.')
+      }else if(results.status === 1003){
+        alert('승인 대기중인 이메일 입니다. 관리자 승인 후 로그인 할 수 있습니다.')
+       
       }else{
-        //TODO:  기타 오류
+        //기타 에러처리 
+  
       }
     }
-   
 
   },[email, password])
   
@@ -92,7 +69,7 @@ const Login = () => {
             <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
             <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)}} hint={t('enterPassword')}/>
             <div style={{textAlign:'center',marginTop:52}}>
-                  <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={'테스트 ' + t('login')} />
+                  <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={t('login')} />
                   <div style={{marginTop:13, marginBottom:24}}>
                     <Link to="/forgot">{t('findPassword')}</Link>
                     <span style={{paddingLeft:8, paddingRight:8}}>|</span>

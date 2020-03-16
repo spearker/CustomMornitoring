@@ -42,7 +42,7 @@ const SuperList = () => {
   useEffect(()=>{
     
     // 리슽트 받기
-    Axios.get(BASE_URL + '/v2/super/company/load?page=1')
+    Axios.get(BASE_URL + '/api/v2/super/company/load')
     .then(function (res: IServerResponse) {
       console.log(res);
       if(res.data.status === 200){

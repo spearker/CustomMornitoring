@@ -8,7 +8,7 @@ import ButtonBox from '../../Components/Button/BasicButton'
 import {useUser, useUserDispatch} from '../../Context/UserContext';
 import Axios from 'axios';
 import { read } from 'fs';
-import { postRequestWithNoToken } from '../../Common/requestFunctions';
+import { postRequestWithNoToken, getParameter } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
@@ -33,8 +33,8 @@ const ChangePw = () => {
    * @param {string} auth 이메일 인증코드 
    * @returns X
    */
-  const onsubmitForm = useCallback(()=>{
-  
+  const onsubmitForm = useCallback(async ()=>{
+    
     //window.location.href= "/complete" //TODO: 지울것
 
     //발리데이션
@@ -48,11 +48,11 @@ const ChangePw = () => {
       return
     }
     let data: object = {
-      email: email,
+      email: getParameter('email'),
       password: pw,
-      auth_code: auth,
+      auth_code: getParameter('authcode'),
     }
-    const results = postRequestWithNoToken(BASE_URL + '/user/register', data)
+    const results = await postRequestWithNoToken(BASE_URL + '/user/password/change', data)
 
     if(results === false){
       //TODO: 에러 처리
@@ -67,7 +67,7 @@ const ChangePw = () => {
         window.location.href= "/login" 
       }else{
         //기타 에러처리 
-  
+        alert('변경 실패하였습니다.')
       }
     }
 

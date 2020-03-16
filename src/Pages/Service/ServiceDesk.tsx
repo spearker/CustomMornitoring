@@ -13,6 +13,7 @@ import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MANAGE, ROUTER_REGISTER } from '../../Common/routerset';
+import SubHeader from '../../Components/Text/SubHeader';
 
 // 서비스 문의
 const ServiceDesk = () => {
@@ -30,7 +31,68 @@ const ServiceDesk = () => {
           <div style={{position:'relative'}}>
             <Header title={'서비스 문의'}/>
           </div>
-        
+          <div style={{textAlign:'left', paddingTop:28}}>
+          <p style={{fontSize:19, color:POINT_COLOR}}>서비스 이용 및 A/S안내</p>
+          <table style={{marginTop:6, marginBottom:24}}>
+            <tbody>
+              <tr>
+                <td style={{minWidth:80}}>
+                Phone
+                </td>
+                <td>
+                032-0000-0000 (오전 8:30 - 오후 17:30)
+                </td>
+              </tr>
+              <tr>
+                <td>
+                Fax
+                </td>
+                <td>
+                032-0000-0000 
+                </td>
+              </tr>
+              <tr>
+                <td>
+                Email
+                </td>
+                <td>
+                smartfactory@sizl.co.kr
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br/>
+          <p style={{fontSize:19, color:POINT_COLOR}}>기술협력 및 제휴 안내</p>
+          <table style={{marginTop:6}}>
+            <tbody>
+              <tr>
+                <td style={{minWidth:80}}>
+                Phone
+                </td>
+                <td>
+                032-0000-0000 (오전 10:00 - 오후 17:00)
+                </td>
+              </tr>
+              <tr>
+                <td>
+                Fax
+                </td>
+                <td>
+                032-0000-0000 
+                </td>
+              </tr>
+              <tr>
+                <td>
+                Email
+                </td>
+                <td>
+                partner@sizl.co.kr
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

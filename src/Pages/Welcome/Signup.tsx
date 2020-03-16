@@ -8,7 +8,7 @@ import ButtonBox from '../../Components/Button/BasicButton'
 import {useUser, useUserDispatch} from '../../Context/UserContext';
 import Axios from 'axios';
 import { read } from 'fs';
-import { postRequestWithNoToken } from '../../Common/requestFunctions';
+import { postRequestWithNoToken, getParameter } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
@@ -38,7 +38,7 @@ const Signup = () => {
    * @param {string} auth 이메일 인증코드 
    * @returns X
    */
-  const onsubmitForm = useCallback(()=>{
+  const onsubmitForm = useCallback(async ()=>{
   
     //window.location.href= "/complete" //TODO: 지울것
 
@@ -65,19 +65,24 @@ const Signup = () => {
       company_code: code,
       auth_code: auth,
     }
-    const results = postRequestWithNoToken(BASE_URL + '/user/register', data)
+    const results = await postRequestWithNoToken(BASE_URL + '/user/register', data)
 
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        
+        alert(t('성공적으로 가입신청되었습니다.'))
+        window.location.href= "/complete" 
       }else if(results.status === 1001){
         alert(t('errorUse'))
         setEmail('')
         window.location.href= "/login" 
       }else if(results.status === 1003){
         alert(t('errorCode'))
+        setCode('')
+      }else if(results.status === 1004){
+        alert(t('만료된 인증코드 입니다. 이메일인증을 다시 해주세요.'))
+        window.location.href= "/login" 
         setCode('')
       }else{
         //기타 에러처리 
@@ -88,8 +93,15 @@ const Signup = () => {
   },[email, name, pw, pwCheck, auth, code])
 
   useEffect(()=>{
-      //setEmail(tempEmail);
-      //setAuth(tempAuth);
+
+      const param = getParameter('email');
+      const param2 = getParameter('authcode');
+      if(param === undefined || param === "" || param2 === undefined){
+          alert('잘못된 접근입니다.')
+      }else{
+        setEmail(param)
+        setAuth(param2)
+      }
 
   },[])
 

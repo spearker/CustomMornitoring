@@ -9,7 +9,7 @@ import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import { getRequest } from '../../Common/requestFunctions';
+import { getRequest, postRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MANAGE } from '../../Common/routerset';
@@ -30,8 +30,8 @@ const AcceptMember = () => {
    * @param {string} url 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getList = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/list/line', getToken(TOKEN_NAME))
+  const getList = useCallback(async ()=> {
+    const results = await getRequest(BASE_URL + '/api/v1/user/load/temp', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -55,10 +55,24 @@ const AcceptMember = () => {
 
   },[])
 
-  const onClickAccept = useCallback((id)=>{
+  const onClickAccept = useCallback(async(id)=>{
 
     console.log('--select id : ' + id)
-   
+    const results = await postRequest(BASE_URL + '/api/v1/user/accept', {user_pk:id} ,getToken(TOKEN_NAME))
+
+    if(results === false){
+      alert('승인 실패하였습니다. 관리자에게 문의하세요.')
+        //setList([""])
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+        
+        alert('승인 되었습니다.')
+        getList()
+      }else{
+        alert('승인 실패하였습니다. 관리자에게 문의하세요.')
+      }
+    }
 
   },[])
 

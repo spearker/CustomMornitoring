@@ -29,7 +29,7 @@ const RegisterSubMachine = () => {
   const [type, setType] = useState<string>('');
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
-  const [file, setFile] = useState<any>(null);
+  const [file, setFile] = useState<any>();
   const [oldPhoto, setOldPhoto] = useState<string>('');
   
   const indexList = [
@@ -37,12 +37,12 @@ const RegisterSubMachine = () => {
   ]
 
   useEffect(()=>{
-      const param = getParameter('pk');
-      if(param !== ""){
-          setPk(param)
-          alert(`수정 페이지 진입 - pk :` + param)
-          setIsUpdate(true)
-      }
+    if(getParameter('pk') !== "" ){
+      setPk(getParameter('pk'))
+      //alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
+    }
 
   },[])
 
@@ -79,26 +79,24 @@ const RegisterSubMachine = () => {
    * @param {string} pk 장치 pk
    * @returns X 
    */
-  const getData = useCallback((e)=>{
+  const getData = useCallback(async()=>{
     
-    const res = getRequest(BASE_URL + '/api/v1/peripheral/view/' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest(BASE_URL + '/api/v1/peripheral/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         const results = res.results;
-         setName('');
-         setMade('');
-         setNo('');
-         setPhotoName('');
-         setInfo('');
-         setPk('');
-         setMadeNo('');
-         setType('');
+         const data = res.results;
+         setName(data.device_name);
+         setMade(data.manufacturer);
+         setNo(data.device_code);
+         setPhotoName(data.device_photo);
+         setInfo(data.manufacturer_detail);
+         setPk(data.pk);
+         setMadeNo(data.manufacturer_code);
+         setType(data.device_label);
          setFile(null);
-      }else if(res.status === 1001 || res.data.status === 1002){
-        //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
@@ -119,13 +117,18 @@ const RegisterSubMachine = () => {
    * @param {string} madeNo 제조사넘버
    * @returns X 
    */
-  const onsubmitFormUpdate = useCallback((e)=>{
-      //TODO: 지울것
-      alert('테스트 : 전송 - ' + pk + no + name + info + file + made + type + madeNo);
+  const onsubmitFormUpdate = useCallback(async(e)=>{
+    e.preventDefault();
+    if(name === "" ){
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
+    }
+      //TODO: 지울것
+      //alert('테스트 : 전송 - ' + pk + no + name + info + file + made + type + madeNo);
+      //return;
       let data = new FormData();
       data.append('pk', pk);
-      data.append('device_name', made);
+      data.append('device_name', name);
       data.append('device_label', type);
       data.append('device_code', no);
       data.append('manufacturer', made);
@@ -133,7 +136,8 @@ const RegisterSubMachine = () => {
       data.append('manufacturer_detail', info);
       data.append('device_photo', file);
 
-      const res = postRequest(BASE_URL + '/api/v1/peripheral/view/' + pk, data, getToken(TOKEN_NAME))
+
+      const res = await postRequest(BASE_URL + '/api/v1/peripheral/view/' + pk, data, getToken(TOKEN_NAME))
 
       if(res === false){
         //TODO: 에러 처리
@@ -161,13 +165,17 @@ const RegisterSubMachine = () => {
    * @param {string} madeNo 제조사넘버
    * @returns X 
    */
-  const onsubmitForm = useCallback((e)=>{
+  const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
-    return;
+    //alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
+    //return;
+    if(name === "" ){
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
     let data = new FormData();
-    data.append('device_name', made);
+    data.append('device_name', name);
     data.append('device_label', type);
     data.append('device_code', no);
     data.append('manufacturer', made);
@@ -175,17 +183,24 @@ const RegisterSubMachine = () => {
     data.append('manufacturer_detail', info);
     data.append('device_photo', file);
 
-    const res = postRequest(BASE_URL + '/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest(BASE_URL + '/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
-      //TODO: 에러 처리
+      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-      }else if(res.status === 1001){
-        //TODO:
+         setName('');
+         setMade('');
+         setNo('');
+         setPhotoName('');
+         setInfo('');
+         setPk('');
+         setMadeNo('');
+         setType('');
+         setFile(null);
       }else{
-        //TODO:  기타 오류
+        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 

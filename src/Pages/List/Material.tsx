@@ -17,7 +17,7 @@ import { getRequest } from '../../Common/requestFunctions';
 
 const MaterialStock = () => {
 
-  const [list, setList] = useState<IMaterial[]>(dataSet.materialList);
+  const [list, setList] = useState<IMaterial[]>([]);
   const [option, setOption] = useState(0);
 
   const optionList = [
@@ -31,32 +31,51 @@ const MaterialStock = () => {
   }
 
   /**
+   * getList()
+   * 목록 불러오기
+   * @param {string} url 
+   * @returns X
+   */
+  const getList = useCallback(async ()=>{
+   
+    const results = await getRequest(BASE_URL + '/api/v1/material/list/0',getToken(TOKEN_NAME))
+
+    if(results === false){
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+    }else{
+      if(results.status === 200){
+        setList(results.results)
+      }else{
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      }
+    }
+  },[list])
+
+  /**
    * onClickFilter()
    * 리스트 필터 변경
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback((filter:number)=>{
+  const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    return;
-    const results = getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    
+    const results = await getRequest(BASE_URL + '/api/v1/material/list/' + filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setList(results.results)
       }else{
-        //TODO:  기타 오류
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
 
   useEffect(()=>{
-
+    getList()
    
   },[])
 

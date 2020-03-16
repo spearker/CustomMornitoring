@@ -23,7 +23,7 @@ const Members = () => {
     name:'성명',
     appointment:'직급',
     year:'연차',
-    join_data:'입사일',
+    join_date:'입사일',
     join_type:'채용형태',
     email:'이메일',
     status:'상태'
@@ -35,8 +35,8 @@ const Members = () => {
    * @param {string} url 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getList = useCallback(()=> {
-    const results = getRequest(BASE_URL + '/list/line', getToken(TOKEN_NAME))
+  const getList = useCallback(async ()=> {
+    const results = await getRequest(BASE_URL + '/api/v1/member/list/0', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -55,15 +55,15 @@ const Members = () => {
 
   useEffect(()=>{
 
-    setList(dataSet.memberList); //TODO: 테스트용. 지울것.
-    //getList();
+    //setList(dataSet.memberList); //TODO: 테스트용. 지울것.
+    getList();
 
   },[])
 
   const onClickModify = useCallback((id)=>{
 
     console.log('--select id : ' + id)
-    window.location.href=`/manage/members/update?pk=${id}`
+    window.location.href=`/manage/members/update?id=${id}`
   
   },[])
 

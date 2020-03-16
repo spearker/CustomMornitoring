@@ -12,9 +12,9 @@ import { getToken } from "./tokenFunctions";
  * @param {string} token 토큰값
  * @returns 리턴데이터, 요청실패(false)
  */
-export const postRequest = (url: string, data: object, token: string): any => {
+export const postRequest = async (url: string, data: object, token: string): Promise<any> => {
 
-    Axios.post(url,
+    const returnValue = await Axios.post(url,
          data,
          { 'headers': { 'Authorization': token } }
     ) 
@@ -25,7 +25,7 @@ export const postRequest = (url: string, data: object, token: string): any => {
       console.log(error);
       return false
     });
-    return false
+    return returnValue
 }
 
 /**
@@ -35,9 +35,9 @@ export const postRequest = (url: string, data: object, token: string): any => {
  * @param {string} token 토큰값
  * @returns 리턴데이터, 요청실패(false)
  */
-export const getRequest = (url: string, token: string): any => {
+export const getRequest = async (url: string, token: string): Promise<any> => {
     
-    Axios.get(url, { 'headers': { 'Authorization': token } }) 
+    const returnValue = await Axios.get(url, { 'headers': { 'Authorization': token } }) 
     .then(function (res: IServerResponse) {
       return res.data
     })
@@ -46,7 +46,7 @@ export const getRequest = (url: string, token: string): any => {
       return false
     });
 
-    return false
+    return returnValue
 }
 
 /**
@@ -56,17 +56,23 @@ export const getRequest = (url: string, token: string): any => {
  * @param {object} data json 혹은 form 데이터 
  * @returns 리턴데이터, 요청실패(false)
  */
-export const postRequestWithNoToken = (url: string, data: object): any => {
+export const postRequestWithNoToken = async (url: string, data: object): Promise<any> => {
+    console.log('try--request');
     
-    Axios.get(url, data) 
-    .then(function (res: IServerResponse) {
+    const returnValue = await Axios.post(url, data) 
+    .then(function (res) {
+      
+      console.log(res);
+      console.log('accept--res : ' + res);
       return res.data
     })
     .catch(function (error) {
       console.log(error);
       return false
     });   
-    return false
+
+    return returnValue
+    
 }
 
 /**
@@ -76,9 +82,10 @@ export const postRequestWithNoToken = (url: string, data: object): any => {
  * @returns 리턴데이터, 요청실패(false)
  */
 export const getRequestWithNoToken = (url: string): any => {
-
+    console.log('try--request');
     Axios.get(url) 
     .then(function (res: IServerResponse) {
+      console.log('accept--res : ' + res);
       return res.data
     })
     .catch(function (error) {

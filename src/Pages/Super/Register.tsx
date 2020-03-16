@@ -47,7 +47,7 @@ const SuperRegister = () => {
     }
 
     // 이메일 보내기 
-    Axios.post(BASE_URL + '/v2/super/company/create', {
+    Axios.post(BASE_URL + '/api/v2/super/company/create', {
       company_name: name,
       user_email: email,
       user_name: username,

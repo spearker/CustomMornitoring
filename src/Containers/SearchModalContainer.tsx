@@ -40,7 +40,7 @@ const SearchModalContainer = ({title, tab1, tab2, selected, onClickClose, isVisi
                         :
                         null
                     }
-                    <div style={{paddingBottom:66, maxHeight:380}}>
+                    <div style={{paddingBottom:66, maxHeight:480, overflow:'auto'}}>
                     {children}
                     </div>
         

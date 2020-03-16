@@ -16,7 +16,7 @@ const Email = () => {
 
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const [subDomain, setSubDomain] = useState<string>('localhost:3000');
+  const [subDomain, setSubDomain] = useState<string>(window.location.hostname);
   const [check, setCheck] = useState<boolean>(false);
   const {t} = useTranslation();
 ;
@@ -26,7 +26,7 @@ const Email = () => {
    * @param {string} email 이메일
    * @returns X
    */
-  const onsubmitForm = useCallback(()=>{
+  const onsubmitForm = useCallback(async ()=>{
 
     setError('')
 
@@ -41,10 +41,11 @@ const Email = () => {
     }
     let data: object = {
       email : email,
-      sub_domain: subDomain
+      base_url: subDomain
     }
-    const results = postRequestWithNoToken(BASE_URL + '/password/send', data)
 
+    const results = await postRequestWithNoToken(BASE_URL + '/email/send', data)
+    console.log(results)
     if(results === false){
       //TODO: 에러 처리
     }else{
