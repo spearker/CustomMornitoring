@@ -1,12 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../../Common/configset'
 import IC_REPLY from '../../Assets/Images/ic_reply_w.png'
+import IC_CLOSE from '../../Assets/Images/ic_task_close.png'
+import IC_DOC from '../../Assets/Images/ic_file_doc.png'
+import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
+
 import { render } from '@testing-library/react';
 import SmallButton from '../Button/SmallButton';
 
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
 import StatusDropdown from '../Dropdown/StatusDropdown';
+import { postRequest } from '../../Common/requestFunctions';
+import CommentsContainer from '../../Containers/CommentsContainer';
+import CommentList from '../List/CommentList';
+import { dataSet } from '../../Common/dataset';
+import { getToken } from '../../Common/tokenFunctions';
+import TinyButtonLink from '../Button/TinyButtonLink';
+import ReadOnlyInput from '../Input/ReadOnlyInput';
+import ReadOnlyInputTask from '../Input/ReadOnlyInputTask';
 
 interface IProps{
     indexList: any,
@@ -17,7 +29,77 @@ interface IProps{
 }
 
 
+
+
 const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IProps) => {
+
+  const [openTarget, setOpenTarget] = useState<string>('');
+  const [task, setTask]= useState<any>('');
+  const [replyList, setReplyList]= useState<IReply[]>(dataSet.commentList);
+
+
+
+/**
+   * onClickDeleteComment()
+   * 댓글 삭제
+   * @param {string} pk 댓글 pk
+   * @returns X
+   */
+  const onClickDeleteComment = useCallback(async(pk: string)=>{
+
+
+    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
+    return;
+    const data = {
+      pk: pk,
+
+    }
+    const results = await postRequest(BASE_URL + '', data, getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[])
+
+
+  
+
+  /**
+   * onClickOpenTask()
+   * 작업지시서 열기
+   * @param {string} pk 작업지시서 pk
+   * @returns X
+   */
+  const onClickOpenTask = useCallback(async(pk: string)=>{
+    setOpenTarget(pk)
+    console.log(`오픈 테스트 : 댓글 pk: ${pk} ` )
+    return;
+    const data = {
+      pk: pk,
+
+    }
+    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+       
+      }else if(results.status === 1001 || results.data.status === 1002){
+        //TODO:  아이디 존재 확인
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[]);
 
   useEffect(()=>{
    console.log(Object.keys(indexList))
@@ -31,7 +113,8 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
           {
             contents.map((v, i)=>{
               return(
-              <tr key={i}>
+                <>
+              <tr key={i} onClick={()=>onClickOpenTask(v.pk)} style={{cursor:'pointer'}}>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
@@ -43,12 +126,111 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                       {mv === 'worker' ? <ImageBox src={v['profile_img'] === "" ? IMG_PROFILE : v[mv]} /> : null}
                       {mv !== 'status' ? v[mv] : null}
                       </div>
-                      
                     </td>
                     )
                   })
                 }
+              
               </tr>
+              <tr style={{backgroundColor:'#f4f6fa'}}>
+                {
+                  openTarget !== v.pk ?
+                  null
+                  :
+                  <td colSpan={15} style={{paddingLeft:8, color:'black'}} >
+                      
+                      <div className="div-no-scroll" style={{ maxHeight:700, overflow:'auto'}}>
+                      {/* 헤더 */}
+                      <div style={{ marginTop:24}}>
+                        <div style={{float:'right', cursor:'pointer'}}>
+                          <TinyButtonLink url={'/task/update?pk='+v.pk} name={'수정'}/>
+                          <img onClick={()=>setOpenTarget('')} src={IC_CLOSE} style={{marginLeft:9, width:24, float:'right'}}/>
+                        </div>
+                        <div style={{display:'flex', paddingLeft:12}}>
+                          <StatusDropdown pk={v['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={'active'} onClickEvent={onClickEvent}/>
+                          <p className="p-bold p-limit" style={{marginLeft:30, fontSize:28, width:700, marginTop:4}}>업무내역1</p>
+
+                        </div>
+                        {/* 상세내용 */}
+                        <div style={{paddingLeft:12,position:'relative'}}>
+                          <p style={{float:'right', position:'absolute', right:0, top:21}}>작성일 : 2020.01.20 오후 00:00</p>
+                          <ReadOnlyInputTask title={'상세 업무내용'} value={'설명..설명..설명...'}/>
+                          </div>  
+                        </div>
+                        {/* 공정내용 */}
+                        <div style={{paddingLeft:12, minHeight:200}}>
+
+                        </div>
+
+                        
+                        {/* 댓글, 등록자, 파일 리스트 */}
+                        <div style={{paddingLeft:12, marginBottom:12}}>
+                        <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
+                        <span className="p-bold" style={{width: 128, float:'left', display:'inline-block'}}>·  첨부 파일</span>
+                        <div style={{ marginLeft:128, color:'black'}}>
+            
+                          <a style={{textAlign:'center', display:'inline-block', marginRight:11}}>
+                            <img src={IC_DOC} style={{width:100, height:70, objectFit: 'cover'}}/>
+                            <p className="p-limit" style={{width:95, fontSize:13}}>파일명.doc</p>
+                          </a>
+                          <a style={{textAlign:'center', display:'inline-block', marginRight:11}}>
+                            <img src={IC_DOC} style={{width:100, height:70, objectFit: 'cover'}}/>
+                            <p className="p-limit" style={{width:95, fontSize:13}}>파일명.doc</p>
+                          </a>
+                          <a style={{textAlign:'center', display:'inline-block', marginRight:11}}>
+                            <img src={IC_IMAGE} style={{width:100, height:70, objectFit: 'cover'}}/>
+                            <p className="p-limit" style={{width:95, fontSize:13}}>파일명.png</p>
+                          </a>
+                    
+                        </div>
+                        <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
+
+                        <div>
+                        {/* 관리자 */}
+                        <div style={{width: 210, fontSize: 14,display:'inline-block'}}>
+                          <div style={{ display:'flex'}}>
+                          <span className="p-bold" style={{ width: 75, display:'inline-block',}}>·  관리자</span>
+                             <ImageBox src={IMG_PROFILE} />
+                            <span className="p-limit" style={{width: 90, display:'inline-block'}}>홍길동 과장</span>
+                          </div>
+                        </div>
+
+                        {/* 작업 책임자 */}
+                        <div style={{width: 225, fontSize: 14,display:'inline-block'}}>
+                          <div style={{ display:'flex'}}>
+                          <span className="p-bold" style={{ width: 95, display:'inline-block',}}>·  작업 책임자</span>
+                             <ImageBox src={IMG_PROFILE} />
+                            <span className="p-limit" style={{width: 95, display:'inline-block'}}>홍길동 과장</span>
+                          </div>
+                        </div>
+
+                        {/* 참조자 */}
+                        <div style={{width: 580, fontSize: 14,display:'inline-block'}}>
+                          <div style={{ display:'flex'}}>
+                          <span className="p-bold" style={{ width: 75, display:'inline-block',}}>·  공유자</span>
+                            <span className="p-limit" style={{width: 500, display:'inline-block'}}>홍길동 과장, 홍길동 과장, 홍길동 과장 </span>
+                          </div>
+                        </div>
+                        
+
+                       
+                        </div>
+                        <CommentsContainer pk={"wdwdwd"}>
+                            {replyList.map((v, i)=>{
+                                return(
+                                  <CommentList contents={v} onClickEvent={onClickDeleteComment}/>
+                                )
+                            })}
+                        </CommentsContainer>
+                        </div>
+                      
+                      
+                      </div>
+                      
+                  </td>
+                }
+              </tr>
+              </>
               )
             })
           }
@@ -64,9 +246,13 @@ const ImageBox = Styled.img`
   margin-right: 5px;
   margin-left: 5px;
   width: 20px;
+  float: left;
+  display: inline-block;
   height: 20px;
   object-fit: cover;
 `
+
+
 
 const TableWrap = Styled.div`
     display: flex;
@@ -112,7 +298,7 @@ const TableWrap = Styled.div`
     td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
     td:last-child  { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
     td:last-child {
-      padding-right:10px;
+      padding-right:20px;
     }
 
     

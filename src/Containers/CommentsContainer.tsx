@@ -7,7 +7,8 @@ import Footer from '../Components/Footer/WelcomeFooter';
 import ProfileBar from '../Components/Navigation/ProfileBar';
 import TinyButton from '../Components/Button/TinyButton';
 import SmallButton from '../Components/Button/SmallButton';
-
+import IC_UP from '../Assets/Images/ic_reply_up.png'
+import IC_DOWN from '../Assets/Images/ic_reply_down.png'
 
 interface Props{
     children?: any,
@@ -58,32 +59,32 @@ const CommentsContainer = ({children, pk}: Props) => {
 
   return (
  
-    <WhiteWrapDiv >
-        <hr style={{border:'dotted 0.5px #d3d3d3', marginBottom:14, marginTop:14}}/>
+    <WhiteWrapDiv>
+        <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:14, marginTop:20}}/>
         <p className="p-bold" style={{fontSize: 14, marginBottom:8, display:'inline-block', marginRight:12}}>· 댓글</p>
-        <TinyButton onClickEvent={()=>setIsOpen(!isOpen)} name={isOpen ? '접기' : '펼치기'}/>
+        <img src={isOpen ? IC_UP : IC_DOWN} style={{float:'right', width:19}} onClick={()=>setIsOpen(!isOpen)} />
+    
         {
             isOpen ?
-        <div style={{marginTop:12}}>
-        <div style={{width: '100%', textAlign:'left', color:'#252525', marginBottom:14}}>
-            {children}
-        </div>
-        <hr style={{border:'dotted 0.5px #d3d3d3', marginBottom:14, marginTop:14}}/>
-        <div style={{ width:'100%'}}>
-            <textarea maxLength={160} onChange={(e)=>setText(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width:'calc(100% - 24px)'}} placeholder="내용을 입력해주세요 (80자 미만)">
-                {text}
-            </textarea>
-            <div style={{textAlign:'right', marginTop:12, marginBottom:12}}>
-                <span style={{marginRight:10, fontSize:14}}>{file !== null ?file.name : ''}</span>
-                <LabelBox htmlFor={'file'}  style={{cursor:'pointer'}}>파일 선택</LabelBox>   
-                <ButtonBox onClick={()=>{}}>댓글등록</ButtonBox>
-            </div>
-        </div>
-        <input type="file" name="file" id={'file'} style={{display:'none'}} onChange={addFile}/>
-        
+            <div style={{marginTop:12}}>
+                <div style={{width: '100%', textAlign:'left', color:'#252525', marginBottom:14}}>
+                    {children}
+                </div>
+                <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:14, marginTop:14}}/>
+                <div style={{ width:'100%'}}>
+                    <textarea maxLength={160} onChange={(e)=>setText(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width:'calc(100% - 24px)'}} placeholder="내용을 입력해주세요 (80자 미만)">
+                        {text}
+                    </textarea>
+                    <div style={{textAlign:'right', marginTop:12, marginBottom:12}}>
+                        <span style={{marginRight:10, fontSize:14}}>{file !== null ?file.name : ''}</span>
+                        <LabelBox htmlFor={'file'}  style={{cursor:'pointer'}}>파일 선택</LabelBox>   
+                        <ButtonBox onClick={()=>{}}>댓글등록</ButtonBox>
+                    </div>
+                </div>
+            <input type="file" name="file" id={'file'} style={{display:'none'}} onChange={addFile}/> 
         </div>
         :
-        <hr style={{border:'dotted 0.5px #d3d3d3', marginBottom:14, marginTop:14}}/>}
+        null}
     </WhiteWrapDiv>    
  
       
@@ -94,8 +95,8 @@ const WhiteWrapDiv = Styled.div`
     margin-top: 11px;
     text-align: left;
     width: 100%;
+    margin-bottom: 24px;
     color: black;
-    background-color: #f4f6fa;
 `
 const LabelBox = Styled.label`
     display: inline-block;

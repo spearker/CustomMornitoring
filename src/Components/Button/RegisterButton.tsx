@@ -32,6 +32,16 @@ const ButtonBox = Styled.button`
     border-radius: 5px;
     margin-top: 30px;
     font-size: 18px;
+    &:button {
+      transition-duration: 0.4s;
+    }
+    &:hover {
+      background-color: #FD9202;
+    }
+    &:active {
+      transform: scale(0.97);
+    }
+    
 `
 
 

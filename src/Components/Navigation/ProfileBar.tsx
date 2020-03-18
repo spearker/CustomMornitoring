@@ -70,12 +70,18 @@ const ProfileBar = ({select}: Props) => {
         <SearchBarWrapDiv>
             <SearchBarInnerDiv>
                 <div style={{display:'flex', alignItems: 'center',   }}>
-                  <div style={{width: 45}}>
-                    <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
-                  </div>
-                  <div style={{width: 250}}>
-                    <p className="p-bold" style={{display:'inline-block', color:'white'}}>{user.name}</p>
-                  </div>
+                
+                  <div style={{width: 300}}>
+                    {
+                      user.name !== '' ?
+                      <div style={{display:'flex', alignItems: 'center',  }}>
+                        <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
+                        <p className="p-bold" style={{display:'inline-block', color:'white'}}>{user.name}</p>
+                      </div>
+                      :
+                      null
+                    }
+                    </div>
                   <div style={{display:'flex', alignItems: 'center', width: 600, height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 31, marginRight: 8}}/>
                     <p className="p-bold" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>현재 테스트 기간으로 세션 및 관리자권한은 해제되어있습니다.</p>
@@ -116,8 +122,9 @@ const SearchBarInnerDiv = Styled.div`
 
 const ImageBox = Styled.img`
   border-radius: 15px;
-  margin-top: 2px;
+  margin-right: 10px;
   width: 31px;
+  float: left;
   height: 31px;
   object-fit: cover;
 

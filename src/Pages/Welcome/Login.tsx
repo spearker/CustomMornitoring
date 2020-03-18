@@ -7,12 +7,14 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LO
 import ButtonBox from '../../Components/Button/BasicButton'
 import {useUserDispatch, useUser} from '../../Context/UserContext';
 import { setToken } from '../../Common/tokenFunctions';
-import { postRequestWithNoToken } from '../../Common/requestFunctions';
+import { postRequestWithNoToken, getRequestWithNoToken } from '../../Common/requestFunctions';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
+import { openPopup } from '../../Common/popupFunctions';
+import { usePopupDispatch } from '../../Context/PopupContext';
 
 // 로그인 페이지 
 const Login = () => {
@@ -22,7 +24,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const {t} = useTranslation();
-
+  const dispatchp = usePopupDispatch();
   /**
    * onsubmitForm()
    * : 로그인
@@ -56,19 +58,45 @@ const Login = () => {
     }
 
   },[email, password])
+
+  /**
+   * getServerStatus()
+   * : 로그인
+   * @param {string} email 이메일
+   * @param {string} password 패스워드
+   * @returns X
+   */
+  const getServerStatus = useCallback(async ()=>{
+
+    const results = await getRequestWithNoToken(BASE_URL + '/server/status')
+    if(results === false){
+      dispatchp({
+          type: 'OPEN_POPUP',
+          data: {
+              type: 'error',
+              contents: '임시 알림 : 현재 백서버가 닫혀있습니다. - 로그인 및 테스트 불가'
+          }
+      })
+      setError('테스트 서버 상태 : 접속 불가')
+    }else{
+      setError('테스트 서버 상태 : 접속 가능')
+    }
+
+  },[])
   
   
   useEffect(()=>{
-   
+    getServerStatus()
   },[])
 
   return (
       <WelcomeContainer>
-          <div style={{width:320, textAlign:'left'}}>
+          <form style={{width:320, textAlign:'left'}}>
             <p className="p-eng" style={{fontSize:36, marginBottom:26}}>Log In</p>
             <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
             <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)}} hint={t('enterPassword')}/>
-            <div style={{textAlign:'center',marginTop:52}}>
+            <div style={{textAlign:'center',marginTop:38}}>
+                  <p style={{marginBottom:10, color:'pink'}}>{error}</p>
                   <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={t('login')} />
                   <div style={{marginTop:13, marginBottom:24}}>
                     <Link to="/forgot">{t('findPassword')}</Link>
@@ -77,7 +105,7 @@ const Login = () => {
                   </div>
                   
             </div>
-          </div>
+          </form>
       </WelcomeContainer>
       
   );

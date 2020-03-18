@@ -44,7 +44,7 @@ const TaskList = () => {
   const User = useUser();
 
   const [option, setOption] = useState(0);
- const [isOpen, setIsOpen] = useState<boolean>(false);
+ const [openTarget, setOpenTarget] = useState<string>('');
  const [list, setList] = useState<ITask[]>([]);
  const [task, setTask]= useState<any>('');
  const [reply, setReply]= useState<string>('');
@@ -138,64 +138,7 @@ const indexList = {
   },[])
 
  
- /**
-   * onClickDeleteComment()
-   * 댓글 삭제
-   * @param {string} pk 댓글 pk
-   * @returns X
-   */
-  const onClickDeleteComment = useCallback(async(pk: string)=>{
-    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
-    return;
-    const data = {
-      pk: pk,
-
-    }
-    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
-
-    if(results === false){
-      //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[])
-
-
-  
-
-  /**
-   * onClickOpenTask()
-   * 작업지시서 열기
-   * @param {string} pk 작업지시서 pk
-   * @returns X
-   */
-  const onClickOpenTask = useCallback(async(pk: string)=>{
-    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
-    return;
-    const data = {
-      pk: pk,
-
-    }
-    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
-
-    if(results === false){
-      //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[]);
+ 
 
   
   
@@ -211,24 +154,10 @@ const indexList = {
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          {
-            isOpen && task !== "" && task !== null ?
-            <div>
-
-            </div>
-            :
-            <div style={{}}>
-                <CommentsContainer pk={"wdwdwd"}>
-                    {replyList.map((v, i)=>{
-                        return(
-                          <CommentList contents={v} onClickEvent={onClickDeleteComment}/>
-                        )
-                    })}
-                </CommentsContainer>
-            </div>
-          }
+          
          {/* 작업내역  */}
          <div style={{marginTop:5}}>
+          
               <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickTaskStatus}/>
           </div>
         </InnerBodyContainer>

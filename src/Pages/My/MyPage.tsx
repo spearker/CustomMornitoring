@@ -24,7 +24,7 @@ import ProfileInput from '../../Components/Input/ProfileInput';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import DateInput from '../../Components/Input/DateInput';
 import ReadOnlyInput from '../../Components/Input/ReadOnlyInput';
-import { useUser } from '../../Context/UserContext';
+import { useUser, useUserDispatch } from '../../Context/UserContext';
 
 
 const MyPage = () => {
@@ -41,7 +41,51 @@ const MyPage = () => {
   const [photo, setPhoto] = useState<any | null>();
 
   const User = useUser();
+  const dispatch = useUserDispatch();
+  /**
+   * loadUserInfo()
+   * : 유저 정보 로드 후 user info dispatch
+   * @returns X
+   */
+  const loadUserInfo = async () => {
 
+    
+    const results = await getRequest(BASE_URL + '/api/v1/user/load', getToken(TOKEN_NAME))
+
+    if(results === false){
+      //TODO: 에러 처리
+    }else{
+      if(results.status === 200){
+        dispatch({
+          type: 'SET_USER',
+          data: {
+            pk: User.pk,
+            email: User.email,
+            is_admin: User.is_admin,
+            appointment: User.appointment,
+            name: User.name,
+            profile_img : '',
+            is_login : true,
+          }
+        });
+        dispatch({
+          type: 'SET_USER',
+          data: {
+            pk: results.results.pk,
+            email: results.results.email,
+            is_admin: results.results.is_admin,
+            appointment: results.results.appointment,
+            name: results.results.name,
+            profile_img : results.results.profile_img,
+            is_login : true,
+          }
+        });
+      }else{
+        //TODO : 지울것
+        alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
+      }
+    }
+  }
   /**
    * onClickSave()
    * 프로필 수정 
@@ -62,6 +106,7 @@ const MyPage = () => {
       }else{
         if(results.status === 200){
           alert('성공적으로 업데이트 되었습니다')
+          loadUserInfo();
         }else{
           alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
         }

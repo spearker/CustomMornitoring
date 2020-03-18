@@ -9,6 +9,8 @@ import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import { read } from 'fs';
 import SuperNavigation from '../../Components/Navigation/SuperNavigation';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import { ROUTER_SUPER_ADMIN } from '../../Common/routerset';
 
 // 회사 등록 페이지
 
@@ -86,10 +88,10 @@ const SuperRegister = () => {
 
     
         <FullPageDiv>
-            <SuperNavigation position={'static'} />
+             <SubNavigation list={ROUTER_SUPER_ADMIN}/>
             <InnerDiv >
-              <p style={{fontSize:36, marginTop:108}}>회사등록 </p>
-              <div style={{marginTop:34, marginBottom:160}}>
+              <p style={{fontSize:24, marginTop:68}}>회사등록 </p>
+              <div style={{marginTop:24, marginBottom:160}}>
               <form onSubmit={onsubmitForm}>
                   <label>Company Name</label> 
                   <WelcomeInputBox type="text" style={{marginTop:8, marginBottom:20, width: 327}}

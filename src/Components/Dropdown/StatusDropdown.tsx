@@ -83,6 +83,7 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
     align-items: center;
     font-size: 14px;
     cursor: pointer;
+    
     `
 
     const handleClickBtn = () => {
@@ -103,7 +104,11 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
                         {changeStatusToString(select)}
                     </p>
                 </BoxWrap>
-                    <div className="p-bold" style={{position:'absolute',padding:6, textAlign:'center',borderRadius:6, zIndex:3, top:52, backgroundColor: '#f4f6fa'}}> 
+                
+                    <div className="p-bold" style={{boxShadow: "0 5px 10px 0 rgba(0, 0, 0, 0.5)", position:'absolute',padding:6, textAlign:'center',borderRadius:6, zIndex:3, top:52, backgroundColor: '#f4f6fa'}}> 
+
+
+
                     {   
                         contents.map((v, i)=>{
                             if(i=== 0){

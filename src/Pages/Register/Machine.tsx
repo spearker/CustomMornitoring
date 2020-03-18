@@ -19,6 +19,8 @@ import DropdownInput from '../../Components/Input/DropdownInput';
 import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
 import IcButton from '../../Components/Button/IcButton';
 import InputContainer from '../../Containers/InputContainer';
+import FullAddInput from '../../Components/Input/FullAddInput';
+import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 
 
 // 기계 등록 페이지
@@ -29,6 +31,7 @@ const RegisterMachine = () => {
   const [made, setMade] = useState<string>('');
   const [no, setNo] = useState<string>('');
   const [info, setInfo] = useState<string>('');
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
   const [name, setName] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [madeNo, setMadeNo] = useState<string>('');
@@ -188,6 +191,8 @@ const RegisterMachine = () => {
     data.append('manufacturer_code', madeNo);
     data.append('manufacturer_detail', info);
     data.append('machine_photo', file);
+    data.append('item_list', String(infoList));
+
 
     const res = await postRequest(BASE_URL + '/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
@@ -204,6 +209,7 @@ const RegisterMachine = () => {
          setPk('');
          setMadeNo('');
          setType('');
+         setInfoList([]);
          setFile(null);
       }else{
         //TODO:  기타 오류
@@ -225,6 +231,31 @@ const RegisterMachine = () => {
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'기계의 제조사명을 입력하세요'} />
                 <NormalInput title={'제조사 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
                 <NormalInput title={'제조사 상세정보'} value={info} onChangeEvent={setInfo} description={'기계의 제조사와 관련된 상세 정보를 자유롭게 작성하세요'} />
+                 {/* 자유항목 입력 창 */}
+                <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
+                  const tempInfo = infoList.slice();
+                  tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
+                  setInfoList(tempInfo)
+                }}>
+                  {
+                    infoList.map((v: IInfo, i)=>{
+                      return(
+                          <CustomIndexInput index={i} value={v} 
+                          onRemoveEvent={()=>{
+                            const tempInfo = infoList.slice();
+                            tempInfo.splice(i, 1)
+                            setInfoList(tempInfo)
+                          }} 
+                          onChangeEvent={(obj: IInfo)=>{
+                            const tempInfo = infoList.slice();
+                            tempInfo.splice(i, 1, obj)
+                            setInfoList(tempInfo)
+                          }} 
+                          />
+                      )
+                    })
+                  }
+                  </FullAddInput>
                 {
                   isUpdate && oldPhoto !== "" ?
                   <InputContainer title={'사진'}>

@@ -11,7 +11,7 @@ interface IProps{
     onClickEvent?: ()=>void,
 }
 const BasicColorButton = ({name, width, onClickEvent}: IProps) => {
-
+  
   const ButtonWrap = Styled.button`
     padding: 12px;
     border-radius: 5px;
@@ -21,7 +21,18 @@ const BasicColorButton = ({name, width, onClickEvent}: IProps) => {
     font-weight: bold;
     width: ${width};
     font-size: 18px;
+    &:button {
+      transition-duration: 0.4s;
+    }
+    &:hover {
+      background-color: #FD9202;
+    }
+    &:active {
+      transform: scale(0.97);
+    }
+    
   `
+
 
   return (
     <ButtonWrap onClick={onClickEvent}>{name}</ButtonWrap>

@@ -35,7 +35,7 @@ const CommentList = ({ contents, onClickEvent }: Props) => {
           <a className="p-bold" style={{fontSize:12, textDecoration:'underline', paddingTop:6, color:'#888888'}} href={contents.file_url} target="_blank">{contents.file_url !== "" ? '[첨부파일 다운로드]' : null}</a>
         </div>
         <div onClick={()=>onClickEvent(contents.pk)} style={{width:32, position:'absolute', top:0, right:12}}>
-            <TinyButton name={'삭제'} onClickEvent={()=>onClickEvent(contents.pk)}/>
+            <a onClick={()=>onClickEvent(contents.pk)} style={{fontSize:13, color:'gray'}}>삭제</a>
         </div> 
       </ListWrapDiv> 
 

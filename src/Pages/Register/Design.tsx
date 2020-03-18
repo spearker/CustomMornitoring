@@ -17,6 +17,7 @@ import DropdownInput from '../../Components/Input/DropdownInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import SmallButton from '../../Components/Button/SmallButton';
 import AddInput from '../../Components/Input/AddInput';
+import FullAddInput from '../../Components/Input/FullAddInput';
 
 // 금형 등록 페이지
 const RegisterDesign = () => {
@@ -29,7 +30,7 @@ const RegisterDesign = () => {
   const [name, setName] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [moldNo, setMoldNo] = useState<string>('');
-
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
@@ -63,6 +64,7 @@ const RegisterDesign = () => {
           setName(data.mold_name);
           setSpec(data.product_spec);
           setType(data.mold_label);
+          //setInfoList(data.item_list);
       }else{
         //TODO:  기타 오류
       }
@@ -97,7 +99,8 @@ const RegisterDesign = () => {
         product_spec: spec,
         mold_name: name,
         mold_label: type,
-        mold_code : moldNo
+        mold_code : moldNo,
+        //item_list : infoList
     }
 
     const res = await postRequest(BASE_URL + '/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
@@ -114,6 +117,7 @@ const RegisterDesign = () => {
          setName('');
          setSpec('');
          setType('');
+         setInfoList([])
       }else{
         alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
@@ -182,6 +186,31 @@ const RegisterDesign = () => {
                 <NormalInput title={'금형이름'} value={name} onChangeEvent={setName} description={'금형이름을 입력하세요'} />
                 <NormalInput title={'금형종류'} value={type} onChangeEvent={setType} description={'금형종류를 입력하세요'} />
                 <NormalInput title={'금형번호'} value={moldNo} onChangeEvent={setMoldNo} description={'금형번호를 입력하세요'} />
+                 {/* 자유항목 입력 창 */}
+                 <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
+                  const tempInfo = infoList.slice();
+                  tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
+                  setInfoList(tempInfo)
+                }}>
+                  {
+                    infoList.map((v: IInfo, i)=>{
+                      return(
+                          <CustomIndexInput index={i} value={v} 
+                          onRemoveEvent={()=>{
+                            const tempInfo = infoList.slice();
+                            tempInfo.splice(i, 1)
+                            setInfoList(tempInfo)
+                          }} 
+                          onChangeEvent={(obj: IInfo)=>{
+                            const tempInfo = infoList.slice();
+                            tempInfo.splice(i, 1, obj)
+                            setInfoList(tempInfo)
+                          }} 
+                          />
+                      )
+                    })
+                  }
+                  </FullAddInput>
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
               </form>
             </WhiteBoxContainer>

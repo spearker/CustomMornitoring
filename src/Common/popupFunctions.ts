@@ -1,5 +1,5 @@
 import { usePopupDispatch } from "../Context/PopupContext"
-const dispatch = usePopupDispatch();
+const dispatchp = usePopupDispatch();
 
 /**
  * openPopup()
@@ -9,7 +9,8 @@ const dispatch = usePopupDispatch();
  * @returns X
  */
 export const openPopup = ({type, contents}: IPopupTypes) => {
-    dispatch({
+    
+    dispatchp({
         type: 'OPEN_POPUP',
         data: {
             type: type,
@@ -24,5 +25,6 @@ export const openPopup = ({type, contents}: IPopupTypes) => {
  * @returns X
  */
 export const closePopup = () => {
-    dispatch({type: 'CLOSE_POPUP'})
+  
+    dispatchp({type: 'CLOSE_POPUP'})
 }

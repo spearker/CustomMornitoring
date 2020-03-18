@@ -27,7 +27,7 @@ const MaterialStock = () => {
     material_name:'자재 이름',
     material_code:'자재 번호',
     distributor:'유통사', 
-    material_spec:'스펙',
+    stock:'수량',
   }
 
   /**

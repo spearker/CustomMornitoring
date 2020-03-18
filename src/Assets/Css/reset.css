@@ -24,7 +24,15 @@
     font-family:'DINNextLTPro-Bold'; 
     src: url(../fonts/DINNextLTPro-Bold.otf)
 } 
-
+/* Hide scrollbar for Chrome, Safari and Opera */
+.div-no-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+/* Hide scrollbar for IE and Edge */
+.div-no-scroll {
+-ms-overflow-style: none;
+}
 
 
 

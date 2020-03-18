@@ -92,13 +92,13 @@ const Dashboard = () => {
 
     setList(
       [
-        { date: '2020-03-08' ,  issue: 0 },
-        { date: '2020-03-09' ,  issue: 2 },
-        { date: '2020-03-10' ,  issue: 1 },
-        { date: '2020-03-11' ,  issue: 5 },
-        { date: '2020-03-12' ,  issue: 1 },
-        { date: '2020-03-13' ,  issue: 1 },
-        { date: '2020-03-14' ,  issue: 0 },
+        { date: '2020-03-15' ,  issue: 0 },
+        { date: '2020-03-16' ,  issue: 2 },
+        { date: '2020-03-17' ,  issue: 1 },
+        { date: '2020-03-18' ,  issue: 5 },
+        { date: '2020-03-19' ,  issue: 1 },
+        { date: '2020-03-20' ,  issue: 1 },
+        { date: '2020-03-21' ,  issue: 0 },
       ]
     )
 
@@ -225,8 +225,11 @@ const Dashboard = () => {
                     <p style={{borderTop:'1px solid black', paddingTop:5, marginTop:11, marginBottom:11}}>기한 경과</p>
                     <p className="p-num"  style={{fontSize:28}}>{info.after}</p>
                   </div>
-                  <p className="p-num" style={{position:'absolute', top:37, right:12, fontSize:120}}>{String(info.issue).padStart(2, '0')}</p>
-                </div>
+                  <div>
+                  <p className="p-num" style={{position:'absolute', top:37, right:15, fontSize:114}}>{String(info.issue).padStart(2, '0')}</p>
+               
+                  </div>
+                   </div>
               </div>
                {/* 주간 일정 */}
               <div style={{width: 'calc(100% - 300px)',borderRadius:5, textAlign:'left'}}>

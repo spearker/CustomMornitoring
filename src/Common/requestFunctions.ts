@@ -81,9 +81,9 @@ export const postRequestWithNoToken = async (url: string, data: object): Promise
  * @param {string} url 요청 주소
  * @returns 리턴데이터, 요청실패(false)
  */
-export const getRequestWithNoToken = (url: string): any => {
+export const getRequestWithNoToken = async (url: string) => {
     console.log('try--request');
-    Axios.get(url) 
+    const returnValue = await Axios.get(url) 
     .then(function (res: IServerResponse) {
       console.log('accept--res : ' + res);
       return res.data
@@ -93,7 +93,7 @@ export const getRequestWithNoToken = (url: string): any => {
       return false
     });   
   
-    return false
+    return returnValue
 }
 
 /**

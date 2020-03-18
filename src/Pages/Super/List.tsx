@@ -11,6 +11,8 @@ import { read } from 'fs';
 import SuperNavigation from '../../Components/Navigation/SuperNavigation';
 import NormalList from '../../Components/List/NormalList';
 import NormalTable from '../../Components/Table/NormalTable';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import { ROUTER_SUPER_ADMIN } from '../../Common/routerset';
 
 // 회사 조회 페이지
 
@@ -69,14 +71,12 @@ const SuperList = () => {
   return (
     
         <FullPageDiv>
-            <SuperNavigation position={'static'} />
+            <SubNavigation list={ROUTER_SUPER_ADMIN}/>
             <InnerDiv >
               <p style={{fontSize:20, marginTop:37, marginBottom:30}}>회사 조회 </p>
               <NormalTable indexList={index} keyName={'pk'} contents={compayList} onClickEvent={onClickModify}/>
-  
-              
+
             </InnerDiv>
-            
         </FullPageDiv>
       
   );

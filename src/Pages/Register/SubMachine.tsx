@@ -14,6 +14,8 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
 import InputContainer from '../../Containers/InputContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
+import FullAddInput from '../../Components/Input/FullAddInput';
+import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 
 
 // 주변장치 등록 페이지
@@ -31,7 +33,7 @@ const RegisterSubMachine = () => {
   const [photoName, setPhotoName] = useState<string>('');
   const [file, setFile] = useState<any>();
   const [oldPhoto, setOldPhoto] = useState<string>('');
-  
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
   const indexList = [
     '프레스', '선반', '레이저', '밀링머신', '머시닝센터', '가공머신', '절삭', '절단', '단조기', '인발기', '기타'
   ]
@@ -97,6 +99,7 @@ const RegisterSubMachine = () => {
          setMadeNo(data.manufacturer_code);
          setType(data.device_label);
          setFile(null);
+         //setInfoList(data.item_list)
       }else{
         //TODO:  기타 오류
       }
@@ -135,9 +138,10 @@ const RegisterSubMachine = () => {
       data.append('manufacturer_code', madeNo);
       data.append('manufacturer_detail', info);
       data.append('device_photo', file);
+      data.append('item_list', String(infoList));
 
 
-      const res = await postRequest(BASE_URL + '/api/v1/peripheral/view/' + pk, data, getToken(TOKEN_NAME))
+      const res = await postRequest(BASE_URL + '/api/v1/peripheral/update/' + pk, data, getToken(TOKEN_NAME))
 
       if(res === false){
         //TODO: 에러 처리
@@ -182,6 +186,7 @@ const RegisterSubMachine = () => {
     data.append('manufacturer_code', madeNo);
     data.append('manufacturer_detail', info);
     data.append('device_photo', file);
+    data.append('item_list', String(infoList));
 
     const res = await postRequest(BASE_URL + '/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
@@ -199,6 +204,7 @@ const RegisterSubMachine = () => {
          setMadeNo('');
          setType('');
          setFile(null);
+         setInfoList([])
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -219,6 +225,31 @@ const RegisterSubMachine = () => {
                 <NormalInput title={'제조사 '} value={made} onChangeEvent={setMade} description={'장치의 제조사명을 입력하세요'} />
                 <NormalInput title={'제조사 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'장치의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
                 <NormalInput title={'제조사 상세정보'} value={info} onChangeEvent={setInfo} description={'장치의 제조사와 관련된 상세 정보를 자유롭게 작성하세요'} />
+                 {/* 자유항목 입력 창 */}
+                 <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
+                  const tempInfo = infoList.slice();
+                  tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
+                  setInfoList(tempInfo)
+                }}>
+                  {
+                    infoList.map((v: IInfo, i)=>{
+                      return(
+                          <CustomIndexInput index={i} value={v} 
+                          onRemoveEvent={()=>{
+                            const tempInfo = infoList.slice();
+                            tempInfo.splice(i, 1)
+                            setInfoList(tempInfo)
+                          }} 
+                          onChangeEvent={(obj: IInfo)=>{
+                            const tempInfo = infoList.slice();
+                            tempInfo.splice(i, 1, obj)
+                            setInfoList(tempInfo)
+                          }} 
+                          />
+                      )
+                    })
+                  }
+                  </FullAddInput>
                 {
                   isUpdate && oldPhoto !== "" ?
                   <InputContainer title={'사진'}>
