@@ -69,7 +69,7 @@ const RegisterDesign = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made, no, name, type, moldNo, spec]);
+  },[pk, made, no, name, type, moldNo, spec, infoList]);
 
   /**
    * onsubmitForm()
@@ -100,7 +100,7 @@ const RegisterDesign = () => {
         mold_name: name,
         mold_label: type,
         mold_code : moldNo,
-        //item_list : infoList
+        item_list : infoList
     }
 
     const res = await postRequest(BASE_URL + '/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
@@ -123,7 +123,7 @@ const RegisterDesign = () => {
       }
     }
 
-  },[pk, made, no, name, type, moldNo, spec]);
+  },[pk, made, no, name, type, moldNo, spec, infoList]);
 
   /**
    * onsubmitFormUpdate()
@@ -154,7 +154,8 @@ const RegisterDesign = () => {
         product_spec: spec,
         mold_name: name,
         mold_label: type,
-        mold_code : moldNo
+        mold_code : moldNo,
+        item_list: infoList
     }
 
     const res = await postRequest(BASE_URL + '/api/v1/mold/update/', data, getToken(TOKEN_NAME))
@@ -170,7 +171,7 @@ const RegisterDesign = () => {
       }
     }
 
-  },[pk, made, no, name, type, moldNo, spec]);
+  },[pk, made, no, name, type, moldNo, spec, infoList]);
 
 
   return (

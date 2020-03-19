@@ -106,11 +106,12 @@ const RegisterMachine = () => {
          setMadeNo(data.manufacturer_code);
          setType(data.machine_label);
          setFile(null);
+         
       }else{
         //TODO:  기타 오류
       }
     }
-  },[pk, made, no, info, type, name, file])
+  },[pk, made, no, info, type, name, file, infoList])
 
   /**
    * onsubmitFormUpdate()
@@ -143,7 +144,7 @@ const RegisterMachine = () => {
       data.append('manufacturer', made);
       data.append('manufacturer_code', madeNo);
       data.append('manufacturer_detail', info);
-     
+      data.append('item_list', JSON.stringify(infoList));
         data.append('machine_photo', file);
      
 
@@ -159,7 +160,7 @@ const RegisterMachine = () => {
         }
       }
 
-  },[pk, made, no, name, type, info, file, photoName, madeNo])
+  },[pk, made, no, name, type, info, file, photoName, madeNo, infoList])
 
   /**
    * onsubmitForm()
@@ -175,7 +176,9 @@ const RegisterMachine = () => {
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
-
+    console.log(infoList)
+    alert(JSON.stringify(infoList))
+    console.log(JSON.stringify(infoList))
     if(name === "" ){
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
@@ -191,7 +194,7 @@ const RegisterMachine = () => {
     data.append('manufacturer_code', madeNo);
     data.append('manufacturer_detail', info);
     data.append('machine_photo', file);
-    data.append('item_list', String(infoList));
+    data.append('item_list', JSON.stringify(infoList));
 
 
     const res = await postRequest(BASE_URL + '/api/v1/machine/register', data, getToken(TOKEN_NAME))
@@ -216,7 +219,7 @@ const RegisterMachine = () => {
       }
     }
 
-  },[made, no, name, type, info, photoName,file, madeNo])
+  },[made, no, name, type, info, photoName,file, madeNo, infoList])
 
   return (
       <DashboardWrapContainer>

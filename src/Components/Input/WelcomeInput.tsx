@@ -13,8 +13,21 @@ interface IProps{
     value: number | string,
     onChangeEvent?: (e: React.ChangeEvent<HTMLInputElement>) =>void
 }
+
 const WelcomeInput = ({title, hint, type, value, onChangeEvent}: IProps) => {
 
+    const onCheckKor = (event) => {
+        event = event || window.event;
+        if((/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g).test(event.target.value)){
+            alert('한글은 비밀번호로 사용할 수 없습니다.')
+        }
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 )
+            return;
+        else
+            event.target.value = event.target.value.replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, "");
+            
+    }
   useEffect(()=>{
    
   },[])
@@ -25,7 +38,7 @@ const WelcomeInput = ({title, hint, type, value, onChangeEvent}: IProps) => {
             <label className="p-eng" style={{fontSize: 14}}>{title}</label>
             {
                 type === 'password' ? 
-                <WelcomeInputBox type={type} onChange={onChangeEvent} value={value} placeholder={hint}/>
+                <WelcomeInputBox type={type} onKeyUp={(e)=>onCheckKor(e)} style={{imeMode:'disabled'}} onChange={onChangeEvent} value={value} placeholder={hint}/>
                 :
                 <WelcomeInputBox type={type} onChange={onChangeEvent} value={value} placeholder={hint}/>
             }

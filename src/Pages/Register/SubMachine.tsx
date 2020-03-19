@@ -104,7 +104,7 @@ const RegisterSubMachine = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made, no, info, type, name, file])
+  },[pk, made, no, info, type, name, file, infoList])
 
   /**
    * onsubmitFormUpdate()
@@ -138,7 +138,7 @@ const RegisterSubMachine = () => {
       data.append('manufacturer_code', madeNo);
       data.append('manufacturer_detail', info);
       data.append('device_photo', file);
-      data.append('item_list', String(infoList));
+      data.append('item_list', JSON.stringify(infoList));
 
 
       const res = await postRequest(BASE_URL + '/api/v1/peripheral/update/' + pk, data, getToken(TOKEN_NAME))
@@ -155,7 +155,7 @@ const RegisterSubMachine = () => {
         }
       }
 
-  },[pk, made, no, name, type, info, file, photoName, madeNo])
+  },[pk, made, no, name, type, info, file, photoName, madeNo, infoList])
 
   /**
    * onsubmitForm()
@@ -186,7 +186,7 @@ const RegisterSubMachine = () => {
     data.append('manufacturer_code', madeNo);
     data.append('manufacturer_detail', info);
     data.append('device_photo', file);
-    data.append('item_list', String(infoList));
+    data.append('item_list', JSON.stringify(infoList));
 
     const res = await postRequest(BASE_URL + '/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
@@ -210,7 +210,7 @@ const RegisterSubMachine = () => {
       }
     }
 
-  },[made, no, name, type, info, photoName,file, madeNo])
+  },[made, no, name, type, info, photoName,file, madeNo, infoList])
 
   return (
       <DashboardWrapContainer>

@@ -92,7 +92,7 @@ const RegisterMaterial = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-
+      alert(info)
      if(name == "" ){
        alert('자재 이름은 필수 항목입니다. ')
        return;

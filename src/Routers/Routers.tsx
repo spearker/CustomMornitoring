@@ -55,15 +55,31 @@ import ProductList from '../Pages/List/Product';
 import Charts from '../Pages/Service/Charts';
 import ServiceDesk from '../Pages/Service/ServiceDesk';
 import Reports from '../Pages/Service/Reports';
+import OnlyChrome from '../Pages/Service/OnlyChrome';
 
 
 
 const Routers = () => {
+
     //const { isLoggedIn } = useContext(UserDataContext);
   
+    useEffect(()=>{
+      const browse = navigator.userAgent.toLowerCase(); 
+      console.log('broswercheck : ' + navigator.userAgent + ' ' + window.location.pathname)
+      
+      if( (navigator.appName == 'Netscape' && browse.indexOf('trident') != -1) || (browse.indexOf("msie") != -1) || browse.indexOf("edge") > -1) {
+          if(window.location.pathname !== '/oops')  {
+            window.location.href='/oops'
+          }
+      }
+      
+
+    },[])
+
   return (
     <div>
         <Switch>
+            <Route exact path="/oops" component={OnlyChrome} />
             {/* 웰컴 (Welcome) */}
             <Route exact path="/" component={Welcome} />
             <Route exact path="/login" component={Login} />

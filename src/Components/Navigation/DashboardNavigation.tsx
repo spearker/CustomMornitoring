@@ -61,7 +61,7 @@ const DashboardNavigation = ({select}: Props) => {
             <NavList name={'레포트'}  url={'/reports'} select={ window.location.pathname === '/reports' }/>
             <br/><br/>
             <NavList name={'서비스 문의'}  url={'/service'} select={ window.location.pathname === '/service' }/>
-            <p style={{fontSize:11, marginTop:10, marginBottom:60, color: '#ffffff90'}}>Copyright@ 2020 SIZL corp <br/> All Rights Reserved.</p>
+            <p style={{fontSize:11, marginTop:10, marginBottom:60, color: '#ffffff90'}}>Copyright© 2020 SIZL corp <br/> All Rights Reserved.</p>
            </div>
         </NavDiv>
       

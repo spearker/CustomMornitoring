@@ -23,7 +23,7 @@ const Footer = () => {
                 </p>
                 <p style={{float:'right', display:'inline-block'}}>
                   <br/><br/>
-                  Copyright@ SIZL Co., Ltd. All rights reserved. 
+                  Copyright© SIZL Co., Ltd. All rights reserved. 
                 </p>
                 </div>
             </InnerDiv>
