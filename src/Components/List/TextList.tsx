@@ -10,12 +10,22 @@ interface Props{
   title: string,
   name: string,
   onClickEvent: ()=>void,
+  onClickSearch?: ()=>void,
 }
 
 
 // 텍스트 리스트
-const TextList = ({ title, name, onClickEvent }: Props) => {
-  
+const TextList = ({ title, name, onClickEvent,onClickSearch }: Props) => {
+  const ListWrapDiv = Styled.div`
+  margin-top: 5px;
+  border: solid 0.5px #d3d3d3;
+  background-color: #f4f6fa;
+  font-size: 13px;
+  width: 100%;
+  height: 32px;
+  position: relative;
+  margin-bottom: ${onClickSearch !== undefined ? 0 : '11px'};
+`
   useEffect(()=>{
    
   },[])
@@ -23,33 +33,44 @@ const TextList = ({ title, name, onClickEvent }: Props) => {
   return (
     
       <ListWrapDiv>
-        <div style={{width: '20%'}}>
-        <p className="p-limit">{title}</p>
-        </div>
-        <div style={{width: 'calc(80% - 34px)'}}>
-          <p>|&nbsp;&nbsp;{name}</p>
-        </div>
-        <div onClick={onClickEvent} style={{width:32, position:'absolute', top:-1, right:0,}}>
-            <IconSquareButton  color="#e7e9eb" width="32px" imageSize="22px" image={icDelete} dim={true}/>  
-        </div> 
+        <ListDiv>
+          <div style={{width: '20%'}}>
+          <p className="p-limit">&nbsp;&nbsp;{title}</p>
+          </div>
+          <div style={{width: '80%'}}>
+            <p>|&nbsp;&nbsp;{name}</p>
+          </div>
+        </ListDiv>
+        {
+          onClickSearch !== undefined ?
+          <div style={{marginLeft: 'auto',display:'flex', position:'absolute',top:0, right:0, height: 33}}>
+          <a className="p-bold" onClick={onClickSearch} style={{paddingLeft:11, paddingRight:11, paddingTop:6, backgroundColor:'#e7e9eb', border: 'solid 0.5px #d3d3d3', borderRight:0}}>
+              변경
+          </a> 
+          <div onClick={onClickEvent} style={{marginLeft: 'auto',width:32}}>
+            <IconSquareButton color="#e7e9eb" width="33px" imageSize="22px" image={icDelete} dim={true}/>  
+          </div> 
+          </div>
+          :
+          <div style={{marginLeft: 'auto',display:'flex', position:'absolute', top:0, right:0, height: 33}}>
+          <div onClick={onClickEvent} style={{marginLeft: 'auto',width:32}}>
+            <IconSquareButton color="#e7e9eb" width="33px" imageSize="22px" image={icDelete} dim={true}/>  
+          </div> 
+          </div>
+        }
       </ListWrapDiv> 
 
   );
 }
 
 
-const ListWrapDiv = Styled.div`
-  border: solid 0.5px #d3d3d3;
-  background-color: #f4f6fa;
-  font-size: 13px;
-  display: flex;
-  position: relative;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 6px;
-    padding-left: 10px;
-`
 
+
+const ListDiv = Styled.div`
+  padding-top: 6px;
+  padding-bottom: 6px;
+  display: flext;
+`
 
 
 export default TextList;

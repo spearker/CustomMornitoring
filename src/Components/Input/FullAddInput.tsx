@@ -40,13 +40,13 @@ const InnerBox = Styled.div`
 const InputBox = Styled.a`
     border: solid 0.5px #d3d3d3;
     font-size: 14px;
-    padding: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     align-items: center;
     display: flex;
     width: 100%;
     margin-top: 17px;
     margin-bottom: 18px;
-    padding-left: 10px;
     text-align: center;
     justify-content: center;
     width: 100%;

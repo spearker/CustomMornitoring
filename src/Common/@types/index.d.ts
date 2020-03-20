@@ -23,6 +23,15 @@ interface ISubMachine{
   device_photo?: string,
 }
 
+// 공정 타입
+interface IProcess{
+  pk: string,
+  material: IMaterial,
+  output: IMaterial,
+  mold: IMold,
+  machine: IMachine,
+}
+
 // 자재 타입
 interface IMaterial{
   pk: string,
@@ -31,7 +40,8 @@ interface IMaterial{
   material_spec: string,
   distributor?: string,
   stock?: string | number,
-  info_list?: IInfo[]
+  info_list?: IInfo[],
+
 }
 
 interface IInfo{

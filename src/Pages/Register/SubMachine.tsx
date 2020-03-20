@@ -220,11 +220,21 @@ const RegisterSubMachine = () => {
             <WhiteBoxContainer>
             <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <NormalInput title={'주변장치 이름'} value={name} onChangeEvent={setName} description={'고객사가 보유한 장치의 이름을 입력하세요'} />
-                <DropdownInput title={'기계 종류'} target={type} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+                <DropdownInput title={'주변장치 종류'} target={type} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <NormalInput title={'주변장치 번호'} value={no} onChangeEvent={setNo} description={'고객사가 보유한 장치의 번호를 지정하세요'} />
                 <NormalInput title={'제조사 '} value={made} onChangeEvent={setMade} description={'장치의 제조사명을 입력하세요'} />
                 <NormalInput title={'제조사 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'장치의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
                 <NormalInput title={'제조사 상세정보'} value={info} onChangeEvent={setInfo} description={'장치의 제조사와 관련된 상세 정보를 자유롭게 작성하세요'} />
+                
+                {
+                  isUpdate && oldPhoto !== "" ?
+                  <InputContainer title={'사진'}>
+                   <img src={oldPhoto} style={{height:120}}/>
+                  </InputContainer>
+                  :
+                  null
+                }
+                <NormalFileInput title={isUpdate ?'사진 변경':'사진 등록'} name={photoName} thisId={'machinePhoto'} onChangeEvent={addFile} description={isUpdate ? '(업로드)' :'기계 사진을 찍어 올려주세요 (없을시 기본 이미지)'} />
                  {/* 자유항목 입력 창 */}
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
@@ -250,15 +260,6 @@ const RegisterSubMachine = () => {
                     })
                   }
                   </FullAddInput>
-                {
-                  isUpdate && oldPhoto !== "" ?
-                  <InputContainer title={'사진'}>
-                   <img src={oldPhoto} style={{height:120}}/>
-                  </InputContainer>
-                  :
-                  null
-                }
-                <NormalFileInput title={isUpdate ?'사진 변경':'사진 등록'} name={photoName} thisId={'machinePhoto'} onChangeEvent={addFile} description={isUpdate ? '(업로드)' :'기계 사진을 찍어 올려주세요 (없을시 기본 이미지)'} />
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
             
               </form>

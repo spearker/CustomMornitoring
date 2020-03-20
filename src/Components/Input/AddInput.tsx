@@ -13,8 +13,9 @@ interface IProps{
     onChangeEvent: ()=>void,
     children: any,
     icType?: string,
+    onlyOne?: boolean,
 }
-const AddInput = ({title, onChangeEvent, children, icType}: IProps) => {
+const AddInput = ({title, onChangeEvent, children, icType, onlyOne}: IProps) => {
   useEffect(()=>{
    
   },[])
@@ -22,10 +23,14 @@ const AddInput = ({title, onChangeEvent, children, icType}: IProps) => {
   return ( 
         <InputContainer title={title}>
             <InnerBox>
-                <div>
+                <div style={{width:'100%'}}>
                 {children}
                 </div>
-                <InputBox onClick={onChangeEvent}>
+                {
+                    onlyOne !== undefined && onlyOne ?
+                    null
+                    :
+                    <InputBox onClick={onChangeEvent}>
                     {icType !== 'solo' ?
                         <>
                             <img src={IcPlus} style={{width: 10, height: 10, marginRight:5}} />
@@ -39,7 +44,9 @@ const AddInput = ({title, onChangeEvent, children, icType}: IProps) => {
                     
                     }
                 
-                </InputBox>
+                    </InputBox>
+                }
+                
             </InnerBox>
            
         </InputContainer >
@@ -47,20 +54,19 @@ const AddInput = ({title, onChangeEvent, children, icType}: IProps) => {
 }
 
 const InnerBox = Styled.div`
-    width: calc(100% - 200px);
+    width: calc(100% - 190px);
 `
 const InputBox = Styled.a`
     border: solid 0.5px #d3d3d3;
     font-size: 14px;
-    padding: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     align-items: center;
     display: flex;
     width: 100%;
     margin-top: 4px;
-    padding-left: 10px;
     text-align: center;
     justify-content: center;
-    width: 100%;
     background-color: #f4f6fa;
 
 `

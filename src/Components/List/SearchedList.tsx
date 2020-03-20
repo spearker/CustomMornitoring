@@ -36,7 +36,7 @@ const SearchedList = ({ pk , option,contents, widths, isSelected, isIconDimmed, 
           return(
             <div style={{ width: widths[i], color: isIconDimmed ? '#b3b3b3' : 'black'}}>
              
-              <p className="p-limit"> {i !== 0 ? <span>|&nbsp;&nbsp;</span> : null}{v}</p>
+              <p className="p-limit"> {i !== 0 ? <span>|&nbsp;&nbsp;</span> : <span >&nbsp;&nbsp;</span>}{v}</p>
             </div>
           )
         })
@@ -69,7 +69,8 @@ const ListWrapDiv = Styled.div`
   position: relative;
   font-size: 14px;
   display: flex;
-  padding: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 `
 
 

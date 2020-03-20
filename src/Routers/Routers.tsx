@@ -32,6 +32,7 @@ import RegisterSubMachine from '../Pages/Register/SubMachine';
 import RegisterLine from '../Pages/Register/Line';
 import RegisterMaterial from '../Pages/Register/Material';
 import RegisterDesign from '../Pages/Register/Design'
+import RegisterProcess from '../Pages/Register/Process'
 
 // 데이터조회
 import DesignList from '../Pages/List/Design';
@@ -132,6 +133,7 @@ const Routers = () => {
             <Route exact path="/register/machine" component={RegisterMachine} />
             <Route exact path="/register/submachine" component={RegisterSubMachine} />
             <Route exact path="/register/line" component={RegisterLine} />
+            <Route exact path="/register/process" component={RegisterProcess}/>
 
             {/*기타 서비스 */}
             <Route exact path="/charts" component={Charts}/>

@@ -91,7 +91,7 @@ const MaterialStock = () => {
         <SubNavigation list={ROUTER_LIST}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
-            <Header title={'자재 정보 리스트'}/>
+            <Header title={'자재 및 생산품 정보 리스트 (원자재 / 반제품 / 완제품)'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
