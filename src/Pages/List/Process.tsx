@@ -163,20 +163,20 @@ const ProcessList = () => {
                         <ProcessBody>
                           <p className="p-bold" style={{fontSize:12}}>· 원자재 정보</p>
                           <div style={{display: 'flex'}}>
-                          <ProcessInput value={v.material.material_name} readOnly/>
+                            <ProcessInput value={v.material.material_name} readOnly/>
                           </div>
                         
                           <span className="p-bold" style={{fontSize:12}}>· 기계 정보</span>
                           <img src={openTarget!=="" ? IC_UP : IC_DOWN} style={{float:'right', width:11, marginTop:10}} 
-                          onClick={()=>{
-                            if(openTarget == v.pk){
-                              setOpenTarget("")
-                            }else if(openTarget == ""){
-                              setOpenTarget(v.pk)
-                            }else{
-                              setOpenTarget(v.pk)
-                            }
-                          }} 
+                            onClick={()=>{
+                              if(openTarget == v.pk){
+                                setOpenTarget("")
+                              }else if(openTarget == ""){
+                                setOpenTarget(v.pk)
+                              }else{
+                                setOpenTarget(v.pk)
+                              }
+                            }} 
                           />
                           {
                             openTarget == v.pk ?
@@ -208,7 +208,7 @@ const ProcessList = () => {
 
                           <p className="p-bold" style={{fontSize:12}}>· 금형 정보</p>
                           <div style={{display: 'flex'}}>
-                          <ProcessInput value={v.output.material_name} readOnly/>
+                          <ProcessInput value={v.mold_name} readOnly/>
                           </div>
 
                           <p className="p-bold" style={{fontSize:12}}>· 생산 자재 정보</p>
@@ -272,6 +272,7 @@ const MachineHeader = Styled.div`
   background-color: #25b4b4;
   border-radius: 5px;
   display: flex;
+  align-items: center; justify-content: center; 
   color: white;
   font-size: 13px;
   text-align: left;

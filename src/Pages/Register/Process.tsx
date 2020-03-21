@@ -25,6 +25,9 @@ import SearchInput from '../../Components/Input/SearchInput';
 import AddList from '../../Components/List/AddList';
 import { dataSet } from '../../Common/dataset';
 import SearchedList from '../../Components/List/SearchedList';
+import MachineList from '../List/Machine';
+import SearchedMachineList from '../../Components/List/SearchedMachineList';
+
 interface IInfo {
   title: string,
   value: string,
@@ -67,6 +70,8 @@ const RegisterProcess = () => {
   useEffect(()=>{
     setIsSearched(true)
     setSearchList(dataSet.materialList);
+    setSearchList3(dataSet.machineList);
+
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
         //alert(`수정 페이지 진입 - pk :` + param)
@@ -439,8 +444,14 @@ const RegisterProcess = () => {
                     isSearched ?
                     searchList3.map((v: IMachine, i)=>{ 
                       return ( 
-                    
-                         <div></div>
+
+                        <SearchedMachineList endDate={'2020-03-02 21:30:20'} status={v.status} key={i} pk={v.pk} widths={['50%']} contents={[v.machine_name]} isIconDimmed={false} isSelected={checkList3.find((k)=> k.pk === v.pk)? true : false } 
+                        onClickEvent={()=>{
+                         const tempList = checkList3.slice()
+                         tempList.splice(0, 1, v)
+                         setCheckList3(tempList)
+                       }} 
+                     />
                          
                         )
                     })

@@ -29,8 +29,13 @@ const SearchedList = ({ pk , option,contents, widths, isSelected, isIconDimmed, 
    
   },[])
 
+  
+
   return (
     <ListWrapDiv style={{width: type == undefined || type !== 'remove' ? 'auto' : '100%',  marginBottom: type == undefined || type !== 'remove' ? '0' : '11px'}}>
+      <div style={{display:'flex'}}>
+
+      </div>
       {
         contents.map((v, i)=>{
           return(
