@@ -257,12 +257,12 @@ const RegisterProcess = () => {
       <DashboardWrapContainer>
         <SubNavigation list={isUpdate ? ROUTER_LIST :ROUTER_REGISTER}/>
         <InnerBodyContainer>
-            <Header title={isUpdate ? '공정 수정' : '공정 등록)'}/>
+            <Header title={isUpdate ? '공정 수정' : '공정 등록'}/>
             <WhiteBoxContainer>
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
-             <NormalInput title={'공정 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
+             <NormalInput title={'공정 이름 (*필수)'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
              {/* 팝업 여는 버튼 + 재료 추가 */}
-             <AddInput title={'원자재 정보 (필수)'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
+             <AddInput title={'원자재 정보 (*필수)'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}
@@ -279,7 +279,7 @@ const RegisterProcess = () => {
                         onClickEvent={()=>{
                           setList([])
                         }} 
-                        title={v.material_code} name={v.material_name}/>                    
+                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
                     )
                   })
                 }
@@ -309,7 +309,7 @@ const RegisterProcess = () => {
                 </AddInput>
 
                 {/* 팝업 여는 버튼 + 기계 정보 추가 */}
-             <AddInput title={'사용 기계 (필수)'} icType="solo" onlyOne={list3.length > 0 ? true: false} onChangeEvent={()=>{
+             <AddInput title={'사용 기계 (*필수)'} icType="solo" onlyOne={list3.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup3(true);  
                   setCheckList3(list3); 
                   setKeyword('')}
@@ -332,7 +332,7 @@ const RegisterProcess = () => {
                 }
                 </AddInput>
                 {/* 팝업 여는 버튼 + 재료 추가 */}
-             <AddInput title={'생산자재 정보 (필수)'} onlyOne={list4.length > 0 ? true: false} icType="solo" onChangeEvent={()=>{
+             <AddInput title={'생산자재 정보 (*필수)'} onlyOne={list4.length > 0 ? true: false} icType="solo" onChangeEvent={()=>{
                   setIsPoupup4(true);  
                   setCheckList4(list); 
                   setKeyword('')}
@@ -350,7 +350,7 @@ const RegisterProcess = () => {
                           setList4([])
                         }} 
                        
-                        title={v.material_code} name={v.material_name}/>                    
+                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
                     )
                   })
                 }
@@ -376,7 +376,7 @@ const RegisterProcess = () => {
                     searchList.map((v: IMaterial, i)=>{ 
                       return ( 
                     
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code, String(v.stock)]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
@@ -467,7 +467,7 @@ const RegisterProcess = () => {
                     searchList4.map((v: IMaterial, i)=>{ 
                       return ( 
                     
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code, String(v.stock)]} isIconDimmed={false} isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false } 
+                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
                               const tempList = checkList4.slice()
                               tempList.splice(0, 1, v)

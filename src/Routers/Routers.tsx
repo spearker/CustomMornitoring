@@ -42,6 +42,7 @@ import LineList from '../Pages/List/Line';
 import MaterialList from '../Pages/List/Material';
 import MaterialStock from '../Pages/Stock/Material';
 import ProductStock from '../Pages/Stock/Product';
+import ProcessList from '../Pages/List/Process';
 
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
@@ -113,6 +114,7 @@ const Routers = () => {
             <Route exact path="/list/machine" component={MachineList} />
             <Route exact path="/list/submachine" component={SubList} />
             <Route exact path="/list/line" component={LineList} />
+            <Route exact path="/list/process" component={ProcessList} />
             <Route exact path="/list/material" component={MaterialList} />
             <Route exact path="/list/product" component={ProductList} />
             <Route exact path="/stock/product" component={ProductStock} />

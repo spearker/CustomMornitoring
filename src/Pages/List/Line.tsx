@@ -86,8 +86,8 @@ const LineList = () => {
   },[option])
 
   useEffect(()=>{
-    getList()
-   
+    //getList()
+   setList(dataSet.lineList)
   },[])
 
 

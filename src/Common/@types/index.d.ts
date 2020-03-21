@@ -7,9 +7,23 @@ interface IMachine{
     manufacturer_code?: string,
     manufacturer_detail?: string,
     pk: string,
+    status?: string,
     is_registered?: boolean,
+    is_connect?: boolean,
     machine_photo?: string,
 }
+
+// 공정 타입
+interface IProcess{
+  pk: string,
+  name: string,
+  material: IMaterial,
+  output: IMaterial,
+  machine: IMachine,
+  mold?: IMold,
+  mold_name?: string,
+}
+
 // 주변장치 타입
 interface ISubMachine{
   device_name: string,
@@ -23,21 +37,13 @@ interface ISubMachine{
   device_photo?: string,
 }
 
-// 공정 타입
-interface IProcess{
-  pk: string,
-  material: IMaterial,
-  output: IMaterial,
-  mold: IMold,
-  machine: IMachine,
-}
 
 // 자재 타입
 interface IMaterial{
   pk: string,
   material_name: string,
-  material_code: string,
-  material_spec: string,
+  material_code?: string,
+  material_spec?: string,
   distributor?: string,
   stock?: string | number,
   info_list?: IInfo[],

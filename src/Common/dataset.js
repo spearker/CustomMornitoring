@@ -1,4 +1,112 @@
 export const dataSet = {
+    processList:[
+        {
+            pk: 'deqwqdwqwd',
+            name: '공정 01',
+            material: {pk:'q312r3f', material_name:'알루미늄 판', stock:2390},
+            output:{pk:'q312r3f', material_name:'케이스 하판', stock:127},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 프레스',
+                is_connect: true,
+                status: 'active',
+                photo:'',
+            },
+            mold_name:"케이스 금형"
+        },
+        {
+            pk: 'd32f23f332wd',
+            name: '공정 03',
+            material: {pk:'wqf241w', material_name:'케이스 하판', stock:127},
+            output:{pk:'qfw3124', material_name:'오픈형 케이스', stock:24},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 레이저',
+                is_connect: false,
+                status: 'ready',
+                photo:'',
+            },
+            mold_name:"케이스 금형"
+        },
+        {
+            pk: 'qwnjklefklw',
+            name: '공정 03',
+            material: {pk:'q31124', material_name:'오픈형 케이스', stock:24},
+            output:{pk:'q3121140r3f', material_name:'오픈형 케이스 완제품', stock:12},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 인쇄기',
+                is_connect: true,
+                status: 'done',
+                photo:'',
+            },
+            mold_name:"로고 각인"
+        },
+        {
+            pk: 'qwnjklefefklw',
+            name: '공정 03',
+            material: {pk:'q31124', material_name:'오픈형 케이스', stock:24},
+            output:{pk:'q3121140r3f', material_name:'오픈형 케이스 완제품', stock:12},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 인쇄기',
+                is_connect: true,
+                status: 'active',
+                photo:'',
+            },
+            mold_name:"로고 각인"
+        },
+        {
+            pk: 'qb342gt24',
+            name: '공정 03',
+            material: {pk:'q31124', material_name:'오픈형 케이스', stock:24},
+            output:{pk:'q3121140r3f', material_name:'오픈형 케이스 완제품', stock:12},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 인쇄기',
+                is_connect: true,
+                status: 'active',
+                photo:'',
+            },
+            mold_name:"로고 각인"
+        },
+        {
+            pk: '64266e4h6362',
+            name: '공정 03',
+            material: {pk:'q31124', material_name:'오픈형 케이스', stock:24},
+            output:{pk:'q3121140r3f', material_name:'오픈형 케이스 완제품', stock:12},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 인쇄기',
+                is_connect: true,
+                status: 'active',
+                photo:'',
+            },
+            mold_name:"로고 각인"
+        },
+        {
+            pk: 'qwefqew9899',
+            name: '공정 03',
+            material: {pk:'q31124', material_name:'오픈형 케이스', stock:24},
+            output:{pk:'q3121140r3f', material_name:'오픈형 케이스 완제품', stock:12},
+            machine: {
+                pk: 'deqwqdwqwd',
+                machine_code:'0002-30-234',
+                machine_name:'심팩 인쇄기',
+                is_connect: true,
+                status: 'active',
+                photo:'',
+            },
+            mold_name:"로고 각인"
+        },
+
+    ],
     commentList:[
         {
             pk: "1wdwqf123e",
