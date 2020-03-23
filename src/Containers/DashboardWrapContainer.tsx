@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
-import Footer from '../Components/Footer/WelcomeFooter';
 import ProfileBar from '../Components/Navigation/ProfileBar';
-import Axios from 'axios';
 import { getToken } from '../Common/tokenFunctions';
 import { useUserDispatch } from '../Context/UserContext';
 import { getRequest } from '../Common/requestFunctions';
@@ -58,17 +55,13 @@ const DashboardWrapContainer = ({children}: any) => {
     <>
     <DashboardWrapDiv >
       <DashboardNavigation/>
-
       <div style={{width: '100%', marginBottom:88, textAlign:'center'}}>
-       <ProfileBar />
-       
-          {children}
-   
-      
+       <ProfileBar />  
+       <div style={{minWidth: 1100}}>
+        {children}
+       </div>
       </div>
-     
     </DashboardWrapDiv>
-    
     </>
       
   );
@@ -79,7 +72,7 @@ const DashboardWrapDiv = Styled.div`
     width: 100%;
     min-height: 100vh;
     heigth: 100%;
-    min-width: 1440px;
+    min-width: 1180px;
     background-color: ${BG_COLOR_SUB2};
 `
 

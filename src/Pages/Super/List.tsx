@@ -96,8 +96,6 @@ const InnerDiv = Styled.div`
   width: 1100px;
   color: white;
   text-align:left;
- 
-  
 `
 
  const WelcomeInputBox = Styled.input`

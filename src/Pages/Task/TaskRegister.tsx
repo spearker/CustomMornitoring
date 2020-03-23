@@ -49,6 +49,7 @@ const TaskRegister = () => {
   const [fileList, setFileList] = useState<any[]>([])
   const [oldFileList, setOldFileList] = useState<any[]>([])
   const [removefileList, setRemoveFileList] = useState<any[]>([])
+  const [isRecommend, setIsRecommend] = useState<boolean>(false);
 
  //검색관련
  const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -244,10 +245,9 @@ const TaskRegister = () => {
                 </AddInput>
 
                 </div>
-                <div>
-                <p style={{borderRight:'dotted 1px #d3d3d3', height:27, marginRight:12}}></p>
-                </div>
+
                 <div style={{width:'40%', textAlign:'left'}}>
+                <span style={{borderRight:'dotted 1px #d3d3d3', height:27, marginRight:12}}></span>
                 <p style={{fontSize: 14,textAlign:'left', marginTop:5, fontWeight: 700, display:'inline-block', marginRight:20}}>·  생산목표량</p>
                   <InputBox type="number" value={amount} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{setAmount(e.target.value)}} placeholder={'수량을 입력하세요(필수)'}/>
                 </div>
@@ -256,8 +256,13 @@ const TaskRegister = () => {
 
           
                 {/* 공정 선택 */}
-                <div style={{padding:60, textAlign:'center', color:"#d3d3d3"}}>
-                    <p>(작업중)</p>
+                <div>
+                    {
+                      !isRecommend ?
+                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>생산할 제품(자재)를 먼저 선택 후, 공정을 등록 할 수 있습니다.</p>
+                      :
+                      null
+                    }
                 </div>
 
 
@@ -278,9 +283,9 @@ const TaskRegister = () => {
                       image: ""
                     }}
                 />
-                <div>
-                <p style={{borderRight:'dotted 1px #d3d3d3', height:27, marginRight:7}}></p>
-                </div>
+                
+                <p style={{borderRight:'dotted 1px #d3d3d3',  height:27, width:'1%',  marginRight:6}}></p>
+ 
                
                   <MemberInput
                     title={'작업자'}

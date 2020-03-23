@@ -36,7 +36,7 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
 `
   return ( 
         <div style={{fontSize:14, minWidth:'49%'}}>
-        <div style={{  display:'flex', position:'relative',paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
+        <div style={{  display:'flex', position:'relative',alignItems: 'center',paddingTop:17, paddingBottom:17}}>
         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 100, display:'inline-block'}}>{title === "" ? " " : `· ${title}`}</p>
             <div style={{display:'inline-block', textAlign:'center'}}>
                 {

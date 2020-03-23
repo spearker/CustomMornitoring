@@ -10,10 +10,7 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import { getToken, removeToken } from '../../Common/tokenFunctions';
 import { postRequest } from '../../Common/requestFunctions';
-//대시보드 네비게이션
-interface Props{
-  select?: string
-}
+
     /*
   useEffect(()=>{
     const interval = setInterval(() => {
@@ -25,7 +22,7 @@ interface Props{
   },[nowTime])
   */
 
-const ProfileBar = ({select}: Props) => {
+const ProfileBar = () => {
 
   const user = useUser(); // 유저 컨텍스트 데이터 받아오는 커스텀 훅스
   const dispatch = useUserDispatch();
@@ -69,25 +66,27 @@ const ProfileBar = ({select}: Props) => {
     
         <SearchBarWrapDiv>
             <SearchBarInnerDiv>
-                <div style={{display:'flex', alignItems: 'center',   }}>
-                
-                  <div style={{width: 300}}>
+                <div style={{display:'flex', alignItems: 'center', width:'100%' }}>
+                  <ProfileDiv >
                     {
                       user.name !== '' ?
-                      <div style={{display:'flex', alignItems: 'center',  }}>
+                      <div style={{display:'flex', alignItems: 'center', width:'100%'  }}>
                         <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
-                        <p className="p-bold" style={{display:'inline-block', color:'white'}}>{user.name}</p>
+                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>{user.name}</p>
                       </div>
                       :
-                      null
+                      <div style={{display:'flex', alignItems: 'center', width:'100%' }}>
+                        <ImageBox src={ IMG_PROFILE } />
+                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>홍길동 대리(베타)</p>
+                      </div>
                     }
-                    </div>
-                  <div style={{display:'flex', alignItems: 'center', width: 600, height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
+                    </ProfileDiv>
+                  <div style={{display:'flex', alignItems: 'center', paddingLeft:10, width: '50%', height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 31, marginRight: 8}}/>
-                    <p className="p-bold" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>현재 테스트 기간으로 세션 및 관리자권한은 해제되어있습니다.</p>
+                    <p className="p-bold p-limit" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>테스트 기간으로 세션 및 관리자권한은 해제되어있습니다.</p>
                   </div>
-                  <div style={{textAlign:'right', width:205}}>
-                    <a className="p-eng" style={{marginRight:26}}>
+                  <div style={{textAlign:'right', marginLeft:'auto', width:'20%' }}>
+                    <a className="p-eng" style={{marginRight:24}}>
                       {nowTime}
                     </a>
                     <a className="p-eng" onClick={onClickLogout}>
@@ -118,7 +117,12 @@ const SearchBarInnerDiv = Styled.div`
   text-align: left;
 
 `
-
+const ProfileDiv = Styled.div`
+  width: 30%;
+  @media screen and (max-width: 1290px) { 
+    padding-left: 70px;
+  } 
+`
 
 const ImageBox = Styled.img`
   border-radius: 15px;
