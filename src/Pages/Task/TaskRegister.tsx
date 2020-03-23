@@ -30,6 +30,9 @@ import NormalFileInput from '../../Components/Input/NormalFileInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import { useUser } from '../../Context/UserContext';
+import IC_ADD from '../../Assets/Images/ic_file_add.png'
+import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
+import FileTumbCard from '../../Components/Card/FileTumbCard';
 
 // 작업 지시서 등록
 const TaskRegister = () => {
@@ -40,7 +43,7 @@ const TaskRegister = () => {
   const [option, setOption] = useState(0);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [amount, setAmount]= useState<number>(0);
+  const [amount, setAmount]= useState<number | string>(0);
   const [end, setEnd] = useState<string>(moment().format('YYYY-MM-DD HH:mm'));
   const [start, setStart] = useState<string>(moment().format('YYYY-MM-DD HH:mm'));
   const [fileList, setFileList] = useState<any[]>([])
@@ -52,9 +55,9 @@ const TaskRegister = () => {
  const [isPoupup2, setIsPoupup2] = useState<boolean>(false);
  const [isSearched, setIsSearched] = useState<boolean>(false);
  const [keyword, setKeyword] = useState<string>('');
- const [checkList, setCheckList] = useState<IMachineLine[]>([]);
- const [list, setList] = useState<IMachineLine[]>([]);
- const [searchList, setSearchList] = useState<IMachineLine[]>([]);
+ const [checkList, setCheckList] = useState<IMaterial[]>([]);
+ const [list, setList] = useState<IMaterial[]>([]);
+ const [searchList, setSearchList] = useState<IMaterial[]>([]);
  const [searchList2, setSearchList2] = useState<IProduct[]>([]);
  const [checkList2, setCheckList2] = useState<IProduct[]>([]);
  const [list2, setList2] = useState<IProduct[]>([]);
@@ -86,6 +89,24 @@ const TaskRegister = () => {
     manufacturer_detail:'제조사 상세정보'
   }
 
+  useEffect(()=>{
+
+    setSearchList(dataSet.materialList)
+    setIsSearched(true)
+    setSearchList2(dataSet.products)
+    setSearchList3(dataSet.searchedMemmber)
+    setSearchList4(dataSet.searchedMemmber)
+    const param = getParameter('pk');
+      if(param !== ""){
+          setPk(param)
+          alert(`수정 페이지 진입 - pk :` + param)
+          setIsUpdate(true)
+      }
+
+  },[])
+
+
+
   /**
    * onClickFilter()
    * 리스트 필터 변경
@@ -111,20 +132,7 @@ const TaskRegister = () => {
     }
   },[option])
 
-  useEffect(()=>{
-
-    setSearchList(dataSet.searchedItem.lines)
-    setSearchList2(dataSet.products)
-    setSearchList3(dataSet.searchedMemmber)
-    const param = getParameter('pk');
-      if(param !== ""){
-          setPk(param)
-          alert(`수정 페이지 진입 - pk :` + param)
-          setIsUpdate(true)
-      }
-
-  },[])
-
+ 
  
   /**
    * onClickSearch()
@@ -208,75 +216,80 @@ const TaskRegister = () => {
               <PlaneInput value={title} description={'작업지시서 제목 입력'} onChangeEvent={setTitle} fontSize={'26px'}/>
               <PlaneInput value={description} description={'상세 업무내용 작성 (200자 미만)'} onChangeEvent={setDescription} fontSize={'14px'}/>
             </div>
-             {/* 팝업 여는 버튼 + 기계추가 */}
-             <AddInput icType={'solo'} title={'기계 / 라인 선택'} onChangeEvent={()=>{
+            <div style={{display:'flex',borderBottom:'solid 0.5px #d3d3d3', alignItems: 'center', justifyContent: 'center' }}>
+                {/* 팝업 여는 버튼 + 재료 추가 */}
+                <div style={{width:'60%'}}>
+
+                <AddInput line={false} title={'생산제품 (*필수)'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}
-                  }> 
-                   
+                  }>
                 {
-                  list.map((v, i)=>{ 
+                  list.map((v: IMaterial, i)=>{ 
                     return ( 
-                        <SearchedList key={i} 
-                          pk={v.pk}  option={v.end_date !== '' ? '작업완료 : ' + v.end_date : ''} widths={['15%', '60%']} type={'remove'} contents={[v.group, v.name]} isIconDimmed={false} isSelected={false }
-                          onClickEvent={()=>{
-                          const tempList = list.slice()
-                          const idx = list.indexOf(v)
-                          tempList.splice(idx, 1)
-                          setList(tempList)
+                        <TextList key={i} 
+                        onClickSearch={()=>{
+                          setIsPoupup(true);
+                          setKeyword(''); 
+                          setIsSearched(false);
+                        }}
+                        onClickEvent={()=>{
+                          setList([])
                         }} 
-                        />                    
+                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
                     )
                   })
                 }
-     
                 </AddInput>
-         
-              {/* 팝업 여는 버튼 + 생상품 추가 */}
-              <AddInput icType={'solo'} title={'생산제품'} onChangeEvent={()=>{
-                  setIsPoupup2(true);  
-                  setCheckList2(list2); 
-                  setKeyword('')}
-                  }> 
-                   
-                {
-                  list2.map((v, i)=>{ 
-                    return ( 
-                        <SearchedList key={i} 
-                          pk={v.pk} widths={['15%', '15%', '70%']} contents={[v.product_code, v.molds, v.product_name]} type={'remove'} isIconDimmed={false} isSelected={false }
-                          onClickEvent={()=>{
-                          const tempList = list2.slice()
-                          const idx = list2.indexOf(v)
-                          tempList.splice(idx, 1)
-                          setList2(tempList)
-                        }} 
-                        />                    
-                    )
-                  })
-                }
-     
-                </AddInput>
-                <NormalNumberInput title={'생산목표량'} value={amount} onChangeEvent={setAmount} description={'생산목표량을 입력하세요'} />
-                <DateRangeInput title={'작업 목표 기간'} end={end} start={start} onChangeEventEnd={setEnd} onChangeEventStart={setStart}/>
+
+                </div>
+                <div>
+                <p style={{borderRight:'dotted 1px #d3d3d3', height:27, marginRight:12}}></p>
+                </div>
+                <div style={{width:'40%', textAlign:'left'}}>
+                <p style={{fontSize: 14,textAlign:'left', marginTop:5, fontWeight: 700, display:'inline-block', marginRight:20}}>·  생산목표량</p>
+                  <InputBox type="number" value={amount} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{setAmount(e.target.value)}} placeholder={'수량을 입력하세요(필수)'}/>
+                </div>
+           
+            </div>
+
+          
+                {/* 공정 선택 */}
+                <div style={{padding:60, textAlign:'center', color:"#d3d3d3"}}>
+                    <p>(작업중)</p>
+                </div>
+
+
+
+
+
+                {/*
+                 <DateRangeInput title={'작업 목표 기간'} end={end} start={start} onChangeEventEnd={setEnd} onChangeEventStart={setStart}/>
+                */}
+                  <hr style={{border:'solid 0.5px #d3d3d3', marginTop:14}}/>
+                <div style={{display:'flex', width:'100%', alignItems: 'center', justifyContent: 'center' }}>
                 <MemberInput
                     title={'등록자'}
                     isMultiRegistered={false}
                     target={{
                       pk: 'me',
                       name: User.name,
-                      image: User.profile_img
+                      image: ""
                     }}
                 />
-                <MemberInput
+                <div>
+                <p style={{borderRight:'dotted 1px #d3d3d3', height:27, marginRight:7}}></p>
+                </div>
+               
+                  <MemberInput
                     title={'작업자'}
                     onChangeEvent={()=>{
                       setIsPoupup3(true);  
                       setWorker(check); 
-                  
                       setKeyword('')
                     }}
-                    isMultiRegistered={true}
+                    isMultiRegistered={false}
                     target={worker!== null ? {
                       pk: worker.pk,
                       name: worker.name + ' ' + worker.appointment,
@@ -284,6 +297,8 @@ const TaskRegister = () => {
                     } : undefined}
 
                 />
+                </div>
+                <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:10}}/>
                 <MemberInput
                     title={'공유자'}
                     onRemoveEvent={(idx: number)=>{
@@ -296,106 +311,115 @@ const TaskRegister = () => {
                       setCheckList4(referencerList); 
                       setKeyword('')
                     }}
-                    isMultiRegistered={false}
+                    isMultiRegistered={true}
                     type={''}
                     contents={referencerList.map((v, i)=>{
                       return(
                         {
                           pk: v.pk,
                           name: v.name + ' ' + v.appointment,
-                          image: v.profile_img
+                          image: ""
                         }
                       )
                     })}
 
                 />
-                <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:14}}/>
-                <NormalFileInput title={'파일 첨부'} name={''} thisId={'machinePhoto'} onChangeEvent={addFile} description={'(최대 8개, 10MB 미만의 파일)'} >
-                {
-                  fileList.map((v, i)=>{ 
-                    return ( 
-                        <SearchedList key={i} 
-                          pk={v.pk} widths={['100%']} contents={[v.name]} type={'remove'} isIconDimmed={false} isSelected={false }
-                          onClickEvent={()=>{
-                          const tempList = fileList.slice()
-                          const idx = fileList.indexOf(v)
-                          tempList.splice(idx, 1)
-                          setFileList(tempList)
-                        }} 
-                        />                    
-                    )
-                  })
-                }
-                {
-                  oldFileList.map((v, i)=>{ 
-                    return ( 
-                        <SearchedList key={i} 
-                          pk={v.pk} widths={['100%']} contents={[v.name]} type={'remove'} isIconDimmed={false} isSelected={false }
-                          onClickEvent={()=>{
-                          const tempList = fileList.slice()
-                          const tempRemoveList = removefileList.slice()
-                          const idx = fileList.indexOf(v)
-                          tempList.splice(idx, 1)
-                          tempRemoveList.push(v.pk)
-                          setRemoveFileList(tempRemoveList)
-                          setOldFileList(tempList)
-                        }} 
-                        />                    
-                    )
-                  })
-                }
-                </NormalFileInput>
+
+
+                {/* 파일 리스트 */}
+                <div style={{width:'100%'}}>
+                        <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
+                        <span className="p-bold" style={{width: 98, float:'left', display:'inline-block'}}>·  첨부 파일</span>
+                        <input type="file" name="file" id={'machinePhoto'} style={{display:'none'}} onChange={addFile}/>
+                        <div style={{ marginLeft:108, color:'black'}}> 
+                       
+                        {
+                          fileList.map((v, i)=>{ 
+                            return ( 
+                                <FileTumbCard key={i} 
+                                  name={v.name}
+                                  type={v.type}
+                                  url={URL.createObjectURL(v)}
+                                  data={v}
+                                  onClickEvent={()=>{
+                                  const tempList = fileList.slice()
+                                  const idx = fileList.indexOf(v)
+                                  tempList.splice(idx, 1)
+                                  setFileList(tempList)
+                                }} 
+                                />                    
+                            )
+                          })
+                        }
+                        {
+                          oldFileList.map((v, i)=>{ 
+                            return ( 
+                                <FileTumbCard key={i} 
+                                  name={v.name}
+                                  type={v.type}
+                                  url={v}
+                                  data={v}
+                                  onClickEvent={()=>{
+                                    const tempList = fileList.slice()
+                                    const tempRemoveList = removefileList.slice()
+                                    const idx = fileList.indexOf(v)
+                                    tempList.splice(idx, 1)
+                                    tempRemoveList.push(v.pk)
+                                    setRemoveFileList(tempRemoveList)
+                                    setOldFileList(tempList)
+                                }} 
+                                />                    
+                            )
+                          })
+                        }
+                         {
+                          fileList.length + oldFileList.length < 8 ?
+                          <label htmlFor="machinePhoto" style={{textAlign:'center', cursor:'pointer', display:'inline-block ', marginRight:12}} >
+                            <img src={IC_ADD} style={{width:100, height:70, objectFit: 'cover'}}/>
+                            <p className="p-limit" style={{width:95, fontSize:13}}>&nbsp;</p>
+                          </label>
+                          :null
+                        }
+                      
+                    
+                        </div>
+                     
+                </div>
+                <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
           </WhiteBoxContainer>
 
-           {/* 기계 라인 검색창 */}
-           <SearchModalContainer 
+           
+            {/* 재료 검색창 */}
+            <SearchModalContainer 
               onClickEvent={ //닫혔을 때 이벤트 
                 ()=>{
                 setIsPoupup(false); 
                 setList(checkList); 
                 setKeyword('')}
             }
-            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false)}} title={''} >
-              <>
-              <div className="p-bold" style={{width:'100%', position:'absolute', marginBottom:20, display:'flex', zIndex:4, top:0, left:0,  color:'black', justifyItems:'center', alignItems:'center',textAlign:'center', fontSize:14}}>
-                  <div style={{ width:'50%', padding:9, backgroundColor: `${tab === tabList[0] ? '#f4f6fa' : POINT_COLOR} `}} onClick={()=>setTab(tabList[0])}>
-                      <p>{tabList[0]}</p>
-                  </div>
-                  <div style={{ width:'50%', padding:9, backgroundColor: `${tab === tabList[1] ? '#f4f6fa' : POINT_COLOR} `}} onClick={()=>setTab(tabList[1])}>
-                      <p>{tabList[1]}</p>
-                  </div>
-              </div>
-              <br/> <br/> <br/>
-              <SearchInput description={'키워드로 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setSearchList([]); setIsSearched(false)}} title={'생산제품'} >
+              <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
-
                   {
-                    !isSearched ?
-                    searchList.map((v: IMachineLine, i)=>{ 
+                    isSearched ?
+                    searchList.map((v: IMaterial, i)=>{ 
                       return ( 
-                        
-                          <SearchedList key={i} pk={v.pk} option={v.end_date !== '' ? '작업완료 : ' + v.end_date : ''} widths={['15%', '60%']} contents={[v.group, v.name]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
-                            onClickEvent={()=>{
+                    
+                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                             onClickEvent={()=>{
                               const tempList = checkList.slice()
-                              if(checkList.find((k, index)=> k.pk === v.pk) ){
-                                  const idx = checkList.indexOf(v)
-                                  tempList.splice(idx, 1)
-                                  setCheckList(tempList)
-                              }else{
-                                  tempList.splice(0, 0, v)
-                                  setCheckList(tempList)
-                              }
+                              tempList.splice(0, 1, v)
+                              setCheckList(tempList)
                             }} 
-       
                           />
+                         
                         )
                     })
                     :
                     null
                   }
                 </div>
-                </>
             </SearchModalContainer>
             {/* 생산제품 검색창 */}
            <SearchModalContainer 
@@ -453,7 +477,7 @@ const TaskRegister = () => {
               <SearchInput description={'작업자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
-                    !isSearched ?
+                    isSearched ?
                     searchList3.map((v: IMemberSearched, i)=>{ 
                       return ( 
                         
@@ -489,8 +513,8 @@ const TaskRegister = () => {
               <SearchInput description={'공유자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
-                    !isSearched ?
-                    searchList3.filter((f)=>worker == null  || f.pk !== worker.pk).map((v: IMemberSearched, i)=>{ 
+                    isSearched ?
+                    searchList4.filter((f)=>worker == null  || f.pk !== worker.pk).map((v: IMemberSearched, i)=>{ 
                       return ( 
                         
                           <SearchedList key={i} pk={v.pk} widths={['100%']} contents={[v.name + ' ' + v.appointment]} isIconDimmed={false}  isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false } 
@@ -523,6 +547,15 @@ const TaskRegister = () => {
   );
 }
 
+const InputBox = Styled.input`
+    border: solid 0.5px #d3d3d3;
+    display: inline-block;
+    font-size: 14px;
+    padding: 6px;
+    padding-left: 10px;
+    width: 280px;
+    background-color: #f4f6fa;
+`
 
 
 export default TaskRegister;

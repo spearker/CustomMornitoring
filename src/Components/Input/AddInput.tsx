@@ -14,14 +14,29 @@ interface IProps{
     children: any,
     icType?: string,
     onlyOne?: boolean,
+    line?:boolean
 }
-const AddInput = ({title, onChangeEvent, children, icType, onlyOne}: IProps) => {
+const AddInput = ({title, onChangeEvent, line, children, icType, onlyOne}: IProps) => {
   useEffect(()=>{
    
   },[])
+  const InputBox = Styled.a`
+  border: solid 0.5px #d3d3d3;
+  font-size: 14px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  margin-top: 4px;
+  text-align: center;
+  justify-content: center;
+  background-color: #f4f6fa;
+
+`
 
   return ( 
-        <InputContainer title={title}>
+        <InputContainer title={title} line={line}>
             <InnerBox>
                 <div style={{width:'100%'}}>
                 {children}
@@ -55,20 +70,6 @@ const AddInput = ({title, onChangeEvent, children, icType, onlyOne}: IProps) => 
 
 const InnerBox = Styled.div`
     width: calc(100% - 190px);
-`
-const InputBox = Styled.a`
-    border: solid 0.5px #d3d3d3;
-    font-size: 14px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    align-items: center;
-    display: flex;
-    width: 100%;
-    margin-top: 4px;
-    text-align: center;
-    justify-content: center;
-    background-color: #f4f6fa;
-
 `
 
 

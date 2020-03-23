@@ -10,15 +10,17 @@ interface IProps{
     title: string,
     description: string,
     value: number,
-    onChangeEvent: any
+    onChangeEvent: any,
+    line?: boolean
 }
-const NormalNumberInput = ({title, description, value, onChangeEvent}: IProps) => {
+const NormalNumberInput = ({title, line, description, value, onChangeEvent}: IProps) => {
   useEffect(()=>{
    
   },[])
 
+
   return ( 
-        <InputContainer title={title}>
+        <InputContainer title={title} line={line}>
             { onChangeEvent !== null ?
             <InputBox type="number" value={value} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent(e.target.value)}} placeholder={description}/>
             :
@@ -29,13 +31,11 @@ const NormalNumberInput = ({title, description, value, onChangeEvent}: IProps) =
 }
 
 const InputBox = Styled.input`
-    border: solid 0.5px #d3d3d3;
-    font-size: 14px;
-    padding: 6px;
-    padding-left: 10px;
-    width: calc(100% - 200px);
-    background-color: #f4f6fa;
+border: solid 0.5px #d3d3d3;
+font-size: 14px;
+padding: 6px;
+padding-left: 10px;
+width: calc(100% - 200px);
+background-color: #f4f6fa;
 `
-
-
 export default NormalNumberInput;

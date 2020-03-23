@@ -43,7 +43,7 @@ const AppBodyContainer = Styled.div`
     margin-block-start: 0;
     margin-block-end: 0;
   }
-  input::-ms-input-placeholder { color: #717c9080; }
+  input::-ms-input-placeholder { color: #b3b3b3; }
   input[type="checkbox"] + label {
     display: inline-block;
     width: 18px;

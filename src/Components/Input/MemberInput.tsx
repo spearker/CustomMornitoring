@@ -6,6 +6,8 @@ import InputContainer from '../../Containers/InputContainer';
 import IMG_PROFILE from '../../Assets/Images/img_profile.png';
 import IcRemove from '../../Assets/Images/ic_remove_profile.png';
 import IMG_NONE from '../../Assets/Images/ic_profile_none.png';
+import icDelete from '../../Assets/Images/ic_minus.png'
+import IconSquareButton from '../Button/IconSquareButton';
 
 interface IProps{
     title: string,
@@ -33,68 +35,81 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
   background-color: ${POINT_COLOR};
 `
   return ( 
-        <div style={{display:'inline-block', fontSize:14}}>
-        <div style={{  display:'flex', marginRight: 60 , position:'relative',paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
-        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 80, display:'inline-block',}}>{title === "" ? " " : `· ${title}`}</p>
+        <div style={{fontSize:14, minWidth:'49%'}}>
+        <div style={{  display:'flex', position:'relative',paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
+        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 100, display:'inline-block'}}>{title === "" ? " " : `· ${title}`}</p>
             <div style={{display:'inline-block', textAlign:'center'}}>
                 {
-                !isMultiRegistered && contents!==undefined? 
+                isMultiRegistered && contents!==undefined? 
                 contents.length === 0 ?
-                <>
-                    <ImageBox src={IMG_NONE} />
-                    <p style={{marginTop:8}}>&nbsp;</p>
-                </>
+                <div>
+                   
+                </div>
                 :
                 contents.map((v, i)=>{
                     return(
-                        <div key={i} style={{display:'inline-block', marginRight:10}}>
-                            <div style={{position:'relative'}}>
-                                <ImageBox src={v.image === '' || v.image === null ? IMG_PROFILE : v.image} />
-                                <img src={IcRemove} onClick={()=>onRemoveEvent(i)} style={{cursor:'pointer', width:17, position:'absolute', top: 0, right:6}}/>
-                            </div>
-                             <p className="p-limits" style={{marginTop:8, minWidth:60, maxWidth:120}}>{v.name}</p>
+                        <div key={i} style={{display:'inline-block', marginRight:10, textAlign:'left'}}>
+                            <MemberTagDiv >
+                                <p style={{marginLeft:7, textAlign:'left'}} className="p-limit">{v.name}</p>
+                                <div onClick={()=>onRemoveEvent(i)} style={{marginLeft: 'auto',width:27}}>
+                                    <IconSquareButton color="#e7e9eb" width="27px" imageSize="18px" image={icDelete} dim={true}/>  
+                                </div> 
+                            </MemberTagDiv>
+                          
                         </div>
                     )
                 })
                 :
                     target !== undefined && target !== null? 
-                    <>
-                    <ImageBox src={target.image === '' || target.image === null ? IMG_PROFILE : target.image} />
-                    <p className="p-limits" style={{marginTop:8, minWidth:60, maxWidth:120}}>{target.name}</p>
-                    </>
+                    <div style={{display:'flex'}}>
+                        {
+                            target.image === '' || target.image === null ?
+                            <ImageBox src={IMG_NONE}/>
+                            :
+                            <ImageBox src={target.image} />
+                        }
+                    <p className="p-limits" style={{marginLeft:8}}>{target.name}</p>
+                    </div>
                     :
-                    <>
+                    <div style={{display:'flex'}}>
                     <ImageBox src={IMG_NONE} />
-                    <p style={{marginTop:8}}>&nbsp;</p>
-                    </>
+                    <p className="p-limits" style={{marginLeft:8}}>&nbsp;</p>
+                    </div>
                 }
+                 
             </div>
             {
                 onChangeEvent !== undefined ? 
-                <div style={{position:'absolute', bottom: 16, left:6}}>
-                     <button style={{padding: '3px 11px 3px 11px', backgroundColor:POINT_COLOR}} onClick={onChangeEvent}>{isMultiRegistered ? '변경' : '등록 '}</button>
+                <div style={{marginLeft:'auto'}}>
+                     <button style={{padding: '3px 11px 3px 11px', backgroundColor:POINT_COLOR}} onClick={onChangeEvent}>{isMultiRegistered ? '추가' : '변경'}</button>
                 </div>
                 :
                 null
-            }
+            }   
+           
         </div> 
         </div>
   );
 }
 
-const InputBox = Styled.div`
-    border: solid 0.5px #d3d3d3;
-    font-size: 14px;
-    padding: 6px;
-    padding-left: 10px;
-    width: calc(100% - 200px);
-    background-color: #f4f6fa;
-`
 const ImageBox = Styled.img`
-  border-radius: 22px;
-  width: 46px;
-  height: 46px;
+  border-radius: 14px;
+  minWidth: 30px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;
 `
+const MemberTagDiv = Styled.div`
+  color: black;
+  border: solid 0.5px #d3d3d3;
+  background-color: #f4f6fa;
+  display: flex;
+  font-size: 14px;
+  width: 120px;
+  align-items: center; 
+  justify-content: center; 
+
+`
+
 
 export default MemberInput;
