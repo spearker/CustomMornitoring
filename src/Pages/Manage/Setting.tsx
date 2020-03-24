@@ -15,7 +15,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
-import BTN_DELETE from '../../Assets/Images/btn_delete_rank.png';
+import BTN_DELETE from '../../Assets/Images/btn_delete_rank_g.png';
 import { ROUTER_MANAGE } from '../../Common/routerset';
 
 const CompanySetting = () => {

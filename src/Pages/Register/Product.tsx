@@ -259,7 +259,7 @@ const RegisterProduct = () => {
                           tempList.splice(idx, 1)
                           setList(tempList)
                         }} 
-                        title={v.mold_code} name={v.mold_name}/>                    
+                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
                     )
                   })
                 }
@@ -323,7 +323,7 @@ const RegisterProduct = () => {
                                   setCheckList(tempList)
                               }
                             }} 
-                            title={v.mold_code} name={v.mold_name} 
+                            title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name} 
                           />
                         )
                     })

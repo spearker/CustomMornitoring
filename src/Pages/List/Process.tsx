@@ -163,7 +163,7 @@ const ProcessList = () => {
                         <ProcessBody>
                           <p className="p-bold" style={{fontSize:12}}>· 원자재 정보</p>
                           <div style={{display: 'flex'}}>
-                            <ProcessInput value={v.material.material_name} readOnly/>
+                            <ProcessInput value={v.material !== undefined ? v.material.material_name : ''} readOnly/>
                           </div>
                         
                           <span className="p-bold" style={{fontSize:12}}>· 기계 정보</span>
@@ -172,9 +172,9 @@ const ProcessList = () => {
                               if(openTarget == v.pk){
                                 setOpenTarget("")
                               }else if(openTarget == ""){
-                                setOpenTarget(v.pk)
+                                setOpenTarget(v.pk !== undefined ? v.pk : '')
                               }else{
-                                setOpenTarget(v.pk)
+                                setOpenTarget(v.pk !== undefined ? v.pk : '')
                               }
                             }} 
                           />

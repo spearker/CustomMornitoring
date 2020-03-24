@@ -15,9 +15,9 @@ interface IMachine{
 
 // 공정 타입
 interface IProcess{
-  pk: string,
-  name: string,
-  material: IMaterial,
+  pk?: string,
+  name?: string,
+  material?: IMaterial,
   output: IMaterial,
   machine: IMachine,
   mold?: IMold,
@@ -60,8 +60,8 @@ interface IMold{
   product_code?: string,
   product_spec?: string,
   mold_name: string,
-  mold_label: string,
-  mold_code: string,
+  mold_label?: string,
+  mold_code?: string,
   pk: string,
 }
 

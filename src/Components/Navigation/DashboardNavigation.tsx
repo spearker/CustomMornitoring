@@ -115,7 +115,7 @@ const NavDiv = Styled.div`
   color: white;
   padding-top: 40px;
   padding-bottom: 40px;
-  @media screen and (max-width: 1280px) { 
+  @media screen and (max-width: 1284px) { 
     display: none;
   } 
 `
@@ -123,16 +123,17 @@ const NavDiv = Styled.div`
 const TabletIconDiv = Styled.div`
   heigth: 60px;
   width: 60px;
+  min-height: 100vh;
   position: absolute;
   top: 22px;
   left: 50px;
-  @media screen and (min-width: 1281px) { 
+  @media screen and (min-width: 1284px) { 
     display: none;
   } 
   @media screen and (max-width: 1240px) { 
     left: 60px;
   }
-  @media (min-width: 1240px) and (max-width: 1280px) { 
+  @media (min-width: 1240px) and (max-width: 1284px) { 
     left: 90px;
   } 
 `
@@ -149,8 +150,5 @@ const NavDivFixedTop = Styled.div`
   z-index: 999;
   padding-top: 40px;
   padding-bottom: 40px;
-  @media screen and (mix-width: 1280px) { 
-    display: none;
-  } 
 `
 export default DashboardNavigation;

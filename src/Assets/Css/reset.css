@@ -68,6 +68,9 @@ body {
 .p-num {
     font-family: DINNextLTPro-Medium;
 }
+.p-eng-r {
+    font-family: 'Roboto' !important; 
+}
 
 .p-num-b {
     font-family: DINNextLTPro-Bold;

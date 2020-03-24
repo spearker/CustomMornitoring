@@ -33,6 +33,8 @@ import { useUser } from '../../Context/UserContext';
 import IC_ADD from '../../Assets/Images/ic_file_add.png'
 import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
 import FileTumbCard from '../../Components/Card/FileTumbCard';
+import BasicToggle from '../../Components/Toggle/BasicToggle';
+import ProcessTable from '../../Components/Table/ProcessTable';
 
 // 작업 지시서 등록
 const TaskRegister = () => {
@@ -50,18 +52,26 @@ const TaskRegister = () => {
   const [oldFileList, setOldFileList] = useState<any[]>([])
   const [removefileList, setRemoveFileList] = useState<any[]>([])
   const [isRecommend, setIsRecommend] = useState<boolean>(false);
+  const [select, setSelect] = useState<IProcess[]>();
+  const [selectIndex, setSelectIndex] = useState<number>(999);
 
  //검색관련
+ //생산품 검색
  const [isPoupup, setIsPoupup] = useState<boolean>(false);
- const [isPoupup2, setIsPoupup2] = useState<boolean>(false);
  const [isSearched, setIsSearched] = useState<boolean>(false);
  const [keyword, setKeyword] = useState<string>('');
  const [checkList, setCheckList] = useState<IMaterial[]>([]);
  const [list, setList] = useState<IMaterial[]>([]);
  const [searchList, setSearchList] = useState<IMaterial[]>([]);
- const [searchList2, setSearchList2] = useState<IProduct[]>([]);
- const [checkList2, setCheckList2] = useState<IProduct[]>([]);
- const [list2, setList2] = useState<IProduct[]>([]);
+
+ //프로세스 검색
+ const [isPoupup2, setIsPoupup2] = useState<boolean>(false);
+ const [searchList2, setSearchList2] = useState<IProcess[]>([]);
+ const [checkList2, setCheckList2] = useState<IProcess[]>([]);
+ const [list2, setList2] = useState<IProcess[]>([]);
+
+ //추천 관련
+ const [recommend, setRecommend] = useState<IProcess[][]>([[]]);
 
   //사람 관련
   const [worker, setWorker] = useState<IMemberSearched | null>(null);
@@ -94,7 +104,9 @@ const TaskRegister = () => {
 
     setSearchList(dataSet.materialList)
     setIsSearched(true)
-    setSearchList2(dataSet.products)
+    setSearchList2(dataSet.processList)
+    setList2(dataSet.processList)
+    setRecommend(dataSet.recommendList)
     setSearchList3(dataSet.searchedMemmber)
     setSearchList4(dataSet.searchedMemmber)
     const param = getParameter('pk');
@@ -171,13 +183,55 @@ const TaskRegister = () => {
     }
   },[keyword])
 
-  
+   /**
+   * onClickWhere()
+   * 프로세스 위치 수정
+   * @param {'UP' | 'DOWN' | 'ADD' | 'DELETE'} action 요청 주소
+   * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
+   */
+  const onClickWhere = useCallback((action: 'UP' | 'DOWN' | 'DELETE', index:number)=> {
+    let tempList = list2.slice();
+    console.log('onclick modi - ' + index)
+    console.log(tempList)
+    switch(action) {
+        case 'UP':
+            if(index !== 0){
+              console.log('onclick up - ' + index)
+              console.log(tempList)
+                tempList.splice(index-1, 0, tempList[index])
+                tempList.splice(index+1, 1)  
+            }
+            setList2(tempList);
+          // code block
+          break;
+        case 'DOWN':
+            console.log('down')
+            if(index !== tempList.length){
+                console.log('down')
+                tempList.splice(index+2, 0, tempList[index])
+                tempList.splice(index, 1)
+            }
 
-  const onClickModify = useCallback((id)=>{
+            setList2(tempList);
+          // code block
+          break;
+        case 'DELETE':
+            if(tempList.length <= 1){
+                return;
+            }
+            console.log('delete')
+            tempList.splice(index, 1)
+            setList2(tempList);
+          // code block
+          break;
+        default:
+          break;
+          // code block
+      }
 
-    console.log('--select id : ' + id)
+  },[list2])
 
-  },[])
+ 
   /**
    * addFile()
    * 파일 등록
@@ -219,7 +273,7 @@ const TaskRegister = () => {
             </div>
             <div style={{display:'flex',borderBottom:'solid 0.5px #d3d3d3', alignItems: 'center', justifyContent: 'center' }}>
                 {/* 팝업 여는 버튼 + 재료 추가 */}
-                <div style={{width:'60%'}}>
+                <div style={{width:'55%'}}>
 
                 <AddInput line={false} title={'생산제품 (*필수)'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  
@@ -246,8 +300,8 @@ const TaskRegister = () => {
 
                 </div>
 
-                <div style={{width:'40%', textAlign:'left'}}>
-                <span style={{borderRight:'dotted 1px #d3d3d3', height:27, marginRight:12}}></span>
+                <div style={{width:'45%', textAlign:'left'}}>
+                <span style={{borderRight:'dotted 1px #d3d3d3', height:30, marginRight:12}}></span>
                 <p style={{fontSize: 14,textAlign:'left', marginTop:5, fontWeight: 700, display:'inline-block', marginRight:20}}>·  생산목표량</p>
                   <InputBox type="number" value={amount} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{setAmount(e.target.value)}} placeholder={'수량을 입력하세요(필수)'}/>
                 </div>
@@ -256,18 +310,46 @@ const TaskRegister = () => {
 
           
                 {/* 공정 선택 */}
-                <div>
+                <div style={{marginTop:16, marginBottom:24}}>
+                  <BasicToggle contents={['추천공정선택', '수동공정선택']} select={option} onClickEvent={setOption}/>
                     {
-                      !isRecommend ?
-                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>생산할 제품(자재)를 먼저 선택 후, 공정을 등록 할 수 있습니다.</p>
+                      option === 0 ?
+                      list.length < 0 ?
+                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>생산할 제품(자재) 먼저 선택 후, 추천 공정을 선택 할 수 있습니다</p>
                       :
-                      null
+                      recommend === undefined || recommend === [] ?
+                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>해당 제품을 생산하기 위한 추천공정이 없습니다 <br/> </p>
+                      :
+                      <div>
+                        {
+                          recommend.map((v,i)=>{
+                            return(
+                              <ProcessTable pk={String(i)} select={selectIndex} contents={v} indexList={['','명칭','기계 정보','금형정보', '자재정보']} widthList={['1%','14%','30%','15%','40%']} 
+                              onClickSelect={
+                                (value: number)=>{
+                                  setSelectIndex(value);
+                                  setSelect(v)
+                                }
+                              }
+                              />
+                            )
+                          })
+                        }
+                          
+                      </div>
+                      :
+                      list2.length < 1 ?
+                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>공정을 추가해주세요</p>
+                      :
+                      <div>
+                       <ProcessTable pk={''} contents={list2} indexList={['명칭','','기계 정보','금형정보', '자재정보']} widthList={['12%','10%','25%','15%','38%']} 
+                       onClickSearch={()=>{setIsPoupup2(true);setCheckList2(list2);}}
+                       onClickModify={onClickWhere}
+                       />
+                      </div>
                     }
+
                 </div>
-
-
-
-
 
                 {/*
                  <DateRangeInput title={'작업 목표 기간'} end={end} start={start} onChangeEventEnd={setEnd} onChangeEventStart={setStart}/>
@@ -426,7 +508,7 @@ const TaskRegister = () => {
                   }
                 </div>
             </SearchModalContainer>
-            {/* 생산제품 검색창 */}
+            {/* 프로세스 검색창 */}
            <SearchModalContainer 
               onClickEvent={ //닫혔을 때 이벤트 
                 ()=>{
@@ -440,11 +522,11 @@ const TaskRegister = () => {
               <SearchInput description={'생산제품을 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
-                    !isSearched ?
-                    searchList2.map((v: IProduct, i)=>{ 
+                    isSearched ?
+                    searchList2.map((v: IProcess, i)=>{ 
                       return ( 
                         
-                          <SearchedList key={i} pk={v.pk} widths={['15%', '15%', '70%']} contents={[v.product_code, v.molds, v.product_name]} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                          <SearchedList key={i} pk={(v.pk !== undefined ? v.pk : '')} widths={['18%', '20%', '20%', '20%','21%']} contents={[v.name !== undefined ? v.name: '', v.material !== undefined ?  v.material.material_name : '', v.machine.machine_name, v.mold_name !== undefined ? v.mold_name : '' ,v.output.material_name]} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
                             onClickEvent={()=>{
                               const tempList = checkList2.slice()
                               if(checkList2.find((k, index)=> k.pk === v.pk) ){

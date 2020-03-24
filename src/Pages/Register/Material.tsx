@@ -249,7 +249,7 @@ const RegisterMaterial = () => {
                         onClickEvent={()=>{
                           setList([])
                         }} 
-                        title={v.mold_code} name={v.mold_name}/>                    
+                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
                     )
                   })
                 }
@@ -304,7 +304,7 @@ const RegisterMaterial = () => {
                     searchList.map((v: IMold, i)=>{ 
                       return ( 
                     
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '35%', '25%']} contents={[v.mold_name, v.mold_label, v.mold_code]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                          <SearchedList key={i} pk={v.pk} widths={['40%', '35%', '25%']} contents={[v.mold_name, v.mold_label !== undefined ? v.mold_label : '', v.mold_code !== undefined ? v.mold_code : '']} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
