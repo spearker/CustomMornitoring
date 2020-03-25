@@ -88,12 +88,12 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   // 디스패처 , 유저 인포 타입 체크
   export function useUser() {
     const state = useContext(UserContext);
-    if (!state) throw new Error('-- TodosProvider not found : UserContext.tsx --');
+    if (!state) throw new Error('--  Provider not found : UserContext.tsx --');
     return state;
   }
   
   export function useUserDispatch() {
     const dispatch = useContext(UserDispatchContext);
-    if (!dispatch) throw new Error('-- TodosProvider not found : UserContext.tsx --');
+    if (!dispatch) throw new Error('-- Provider not found : UserContext.tsx --');
     return dispatch;
   }

@@ -39,7 +39,7 @@
 body { 
     font-family:'Noto Sans KR' ;
     background-color: #3d414e;
-   
+    height: 100%;
 }
 .p-limits {
     text-overflow:ellipsis;

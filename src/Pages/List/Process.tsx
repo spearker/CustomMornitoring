@@ -28,6 +28,7 @@ import tempIamge from '../../Assets/Images/temp_machine.png'
 import BasicColorButtonLink from '../../Components/Button/BasicColorButtonLink';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import { Link } from 'react-router-dom';
+import ProcessCard from '../../Components/Card/ProcessCard';
 // 공정 리스트
 const ProcessList = () => {
 
@@ -156,72 +157,7 @@ const ProcessList = () => {
             {
               list.map((v:IProcess, i:number)=>{
                 return(
-                    <ProcessCardDiv key={v.pk}>
-                        <ProcessHeader>
-                          <p className="p-bold p-limit" >{v.name}</p>
-                        </ProcessHeader>
-                        <ProcessBody>
-                          <p className="p-bold" style={{fontSize:12}}>· 원자재 정보</p>
-                          <div style={{display: 'flex'}}>
-                            <ProcessInput value={v.material !== undefined ? v.material.material_name : ''} readOnly/>
-                          </div>
-                        
-                          <span className="p-bold" style={{fontSize:12}}>· 기계 정보</span>
-                          <img src={openTarget!=="" ? IC_UP : IC_DOWN} style={{float:'right', width:11, marginTop:10}} 
-                            onClick={()=>{
-                              if(openTarget == v.pk){
-                                setOpenTarget("")
-                              }else if(openTarget == ""){
-                                setOpenTarget(v.pk !== undefined ? v.pk : '')
-                              }else{
-                                setOpenTarget(v.pk !== undefined ? v.pk : '')
-                              }
-                            }} 
-                          />
-                          {
-                            openTarget == v.pk ?
-                            <MachineDivBg>
-                              <MachineHeader>
-                                <p className="p-bold p-limit" style={{width:'30%', paddingLeft:4}}>{v.machine.machine_code}</p>
-                                <p className="p-bold p-limit" style={{width:'55%'}}>| {v.machine.machine_name}{v.machine.machine_name}</p>
-                                <img className="rotating" src={v.machine.status === 'active' ? icCircleRotate : icCircle} style={{marginLeft:'auto', marginRight:4,  width:14, height:14, float:'right'}} />
-                              </MachineHeader>
-                              <div style={{position:'relative', padding:12, textAlign:'center'}}>
-                               <img src={v.machine.is_connect ? icCloudOn : icCloudOff} style={{width: 22, position:'absolute', top:12, left:12}}/>
-                               <ImageBox src={tempIamge} style={{marginTop:10}}/>
-                              </div>
-                              
-                            </MachineDivBg>
-                            :
-                            <MachineDiv>
-                              <div style={{backgroundColor:changeStatusToColor(v.machine.status !== undefined ? v.machine.status : 'gray'), borderRadius: 5, color:'white',textAlign:'center', padding:'4px 11px 4px 11px', width:'25%'}}>
-                                {v.machine.status !== undefined ? changeStatusToString(v.machine.status):'알수없음'}
-                              </div>
-                              <div style={{width:'60%', paddingLeft:6, color:'#252525'}} className="p-limit">
-                                {v.machine.machine_name}{v.machine.machine_name}
-                              </div>
-                              <div style={{width:'15%', marginLeft:'auto'}}>
-                                <img src={v.machine.is_connect ? icCloudOn : icCloudOff} style={{ width:20, float:'right', marginRight:5}}/>
-                              </div>
-                            </MachineDiv>
-                          }
-
-                          <p className="p-bold" style={{fontSize:12}}>· 금형 정보</p>
-                          <div style={{display: 'flex'}}>
-                          <ProcessInput value={v.mold_name} readOnly/>
-                          </div>
-
-                          <p className="p-bold" style={{fontSize:12}}>· 생산 자재 정보</p>
-                          <div style={{display: 'flex'}}>
-                          <ProcessInput value={v.output.material_name} readOnly/>
-                          </div>
-                          <Link to={`/update/process?pk=`+v.pk}>
-                            <ButtonBox>수정하기</ButtonBox>
-                          </Link>
-                       
-                        </ProcessBody>
-
-                    </ProcessCardDiv>
+                    <ProcessCard contents={v} onClickEvent={setOpenTarget} openTarget={openTarget} />
                 )
               })
             }

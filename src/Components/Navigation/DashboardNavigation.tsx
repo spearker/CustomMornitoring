@@ -110,7 +110,6 @@ const NavDiv = Styled.div`
   heigth: 100%;
   min-width: 240px;
   min-height: 100vh;
-  min-height: 100vh;
   display: inline-block;
   color: white;
   padding-top: 40px;
@@ -140,6 +139,7 @@ const TabletIconDiv = Styled.div`
 const NavDivFixedTop = Styled.div`
   background-color: ${BG_COLOR};
   heigth: 100%;
+  min-height: 100vh;
   overflow: scroll;
   min-width: 240px;
   display: inline-block;
@@ -149,6 +149,6 @@ const NavDivFixedTop = Styled.div`
   left: 0;
   z-index: 999;
   padding-top: 40px;
-  padding-bottom: 40px;
+  padding-bottom: 600px;
 `
 export default DashboardNavigation;

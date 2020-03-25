@@ -6,7 +6,7 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LO
 
 const InnerBodyContainer = ({children}: any) => {
   return (
-    <div style={{width: 1100, display:'inline-block'}}>
+    <div style={{width: 1100, marginLeft:10, marginRight:10, display:'inline-block'}}>
       <FullPageDiv>
       {children}
       </FullPageDiv>

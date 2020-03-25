@@ -19,6 +19,7 @@ import { getToken } from '../../Common/tokenFunctions';
 import TinyButtonLink from '../Button/TinyButtonLink';
 import ReadOnlyInput from '../Input/ReadOnlyInput';
 import ReadOnlyInputTask from '../Input/ReadOnlyInputTask';
+import ProcessCard from '../Card/ProcessCard';
 
 interface IProps{
     indexList: any,
@@ -36,8 +37,8 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
   const [openTarget, setOpenTarget] = useState<string>('');
   const [task, setTask]= useState<any>('');
   const [replyList, setReplyList]= useState<IReply[]>(dataSet.commentList);
-
-
+  const [process, setProcess] = useState<IProcess[]>(dataSet.processList);
+  const [oepnProcess, setOpenProcess] = useState<string>('');
 
 /**
    * onClickDeleteComment()
@@ -71,6 +72,23 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
 
 
   
+  /**
+   * onChangeStock()
+   * 생산자재 수량 변경
+   * @param {string} pk id
+   * @param {string} amount 수량
+   * @returns X 
+   */
+  const onChangeStock = useCallback(async(pk, amount)=>{
+  
+   
+    alert('테스트 : keyword - ' + pk + ' / ' + amount);
+    return;
+    if(pk  === ''){
+      return;
+    } 
+    
+  },[])
 
   /**
    * onClickOpenTask()
@@ -158,8 +176,18 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                           </div>  
                         </div>
                         {/* 공정내용 */}
-                        <div style={{paddingLeft:12, minHeight:200}}>
-
+                        <div style={{paddingLeft:12, minHeight:200, paddingTop:18}}>
+                        <p className="p-bold">·  공정 관리 시스템</p>
+                        <ProcessWrapBox>
+                        {
+                          process.map((v:IProcess, i:number)=>{
+                            return(
+                                <ProcessCard contents={v} onClickModify={onChangeStock} onClickEvent={setOpenProcess} openTarget={oepnProcess} />
+                            )
+                          })
+                        }
+                        </ProcessWrapBox>
+                      
                         </div>
 
                         
@@ -198,16 +226,16 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                         {/* 작업 책임자 */}
                         <div style={{width: 225, fontSize: 14,display:'inline-block'}}>
                           <div style={{ display:'flex'}}>
-                          <span className="p-bold" style={{ width: 95, display:'inline-block',}}>·  작업 책임자</span>
+                          <span className="p-bold" style={{ width: 102, display:'inline-block',}}>·  작업 책임자</span>
                              <ImageBox src={IMG_PROFILE} />
-                            <span className="p-limit" style={{width: 95, display:'inline-block'}}>홍길동 과장</span>
+                            <span className="p-limit" style={{width: 102, display:'inline-block'}}>홍길동 과장</span>
                           </div>
                         </div>
-
+                        <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
                         {/* 참조자 */}
-                        <div style={{width: 580, fontSize: 14,display:'inline-block'}}>
+                        <div style={{width: '100%', fontSize: 14,display:'inline-block'}}>
                           <div style={{ display:'flex'}}>
-                          <span className="p-bold" style={{ width: 75, display:'inline-block',}}>·  공유자</span>
+                          <span className="p-bold" style={{ width: 100, display:'inline-block',}}>·  공유자</span>
                             <span className="p-limit" style={{width: 500, display:'inline-block'}}>홍길동 과장, 홍길동 과장, 홍길동 과장 </span>
                           </div>
                         </div>
@@ -252,11 +280,19 @@ const ImageBox = Styled.img`
   object-fit: cover;
 `
 
+const ProcessWrapBox = Styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  text-align: left;
+`
 
 
 const TableWrap = Styled.div`
     display: flex;
+
     table {
+      table-layout: fixed;
       max-width: 100%,
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -285,6 +321,9 @@ const TableWrap = Styled.div`
       margin-bottom: 12px;
     }
     td, th {
+      text-overflow:ellipsis;
+      overflow:hidden;
+      white-space:nowrap
       overflow: visible;
       vertical-align: middle;
       text-align: left;
