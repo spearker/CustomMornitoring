@@ -137,12 +137,13 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
                     <td className="p-limit" key={mv}>
-                      <div style={{display:'flex'}}>
+                      <div style={{display:'flex',  whiteSpace: 'nowrap'}}>
                       {mv === 'status' ? <StatusDropdown pk={v['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={v[mv]} onClickEvent={onClickEvent}/> : null}
                       {mi === 0  || mi === 1 ? '': 'ㅣ   '}
                       {mv === 'comments' ? <div><img src={IC_REPLY} style={{marginLeft:4, width:14, height:14, marginRight:4}}/></div> : null}
-                      {mv === 'worker' ? <ImageBox src={v['profile_img'] === "" ? IMG_PROFILE : v[mv]} /> : null}
-                      {mv !== 'status' ? v[mv] : null}
+                    {mv === 'worker' ? <div><ImageBox src={v['worker'].photo === "" ? IMG_PROFILE : v['worker'].photo} />{v['worker'].name + ' ' + v['worker'].appointment}</div> : null}
+                    {mv === 'amount' ?  v[mv] + ' 개': null}
+                      {mv !== 'status' && mv !== 'worker' && mv!=='amount'? v[mv] : null}
                       </div>
                     </td>
                     )

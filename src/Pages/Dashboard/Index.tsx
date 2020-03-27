@@ -53,15 +53,14 @@ const Dashboard = () => {
     "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
   ]
   const indexList = {
-   status: '상태',
-   title:'이름',
-   registered: '등록일',
-   machines: '장비명',
-   products: '생산품',
-   amount: '목표생산량',
-   worker: '등록자',
-   comments: '댓글'
-  }
+    status: '상태',
+    title:'이름',
+    output_name: '생산품',
+    amount: '목표생산량',
+    process: '공정',
+    worker: '등록자',
+    comments: '댓글'
+   }
 
   /**
    * getSunday()

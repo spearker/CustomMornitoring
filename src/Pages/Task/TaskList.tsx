@@ -61,10 +61,9 @@ const TaskList = () => {
 const indexList = {
   status: '상태',
   title:'이름',
-  registered: '등록일',
-  machines: '장비명',
-  products: '생산품',
+  output_name: '생산품',
   amount: '목표생산량',
+  process: '공정',
   worker: '등록자',
   comments: '댓글'
  }

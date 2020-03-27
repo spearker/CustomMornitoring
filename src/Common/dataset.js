@@ -1,5 +1,5 @@
 export const dataSet = {
-
+    
     processList:[
         {
             pk: 'deqwqdwqwd',
@@ -958,69 +958,81 @@ memberList : [
 ],
 
 taskList:[
-    {
+{
         
     pk: '21e1d2f33f13',
     title: '작업 001304',
-    status: 'done',
-    registered: '2020-03-03 09:23',
-    machines: ['프래스 01, 프래스 02'],
-    products: '플라스틱 케이스',
-    amount: 100000,
-    profile_img: "",
-    worker: "홍길동 대리",
+    status: 'share',
+    process: ['공정1', '공정3', '공정10', '공정21'],
+    output_name: '플라스틱 케이스',
+    amount: 1000,
+    worker:{
+        name:"김둘리",
+        photo:"",
+        appointment:"사원",
+    },
+    comments: 3
+}, 
+{
+        
+    pk: 'rwbsy6wrg32g2',
+    title: '작업 001304',
+    status: 'active',
+    process: ['공정1', '공정3',],
+    output_name: '플라스틱 케이스',
+    amount: 300,
+    worker:{
+        name:"홍길동",
+        photo:"",
+        appointment:"사원",
+    },
     comments: 2
-    }, 
-    {
-        pk: 'edfm1d2f33f13',
-        title: '작업 0201',
-        status: 'active',
-        registered: '2020-03-03 09:23',
-        machines: ['프래스 01'],
-        products: '박스',
-        amount: 100000,
-        profile_img: "",
-        worker: "홍길동 대리",
-        comments: 2
-        }, 
-        {
-            pk: '21e1wqlqw13',
-            title: '작업 021',
-            status: 'stop',
-            registered: '2020-03-03 09:23',
-            machines: ['프래스 01, 프래스 02'],
-            products: '알루미늄 나사',
-            amount: 100000,
-            profile_img: "",
-            worker: "홍길동 대리",
-            comments: 2
-            }, 
-            {
-                pk: '1d2f3314213',
-                title: '작업 099',
-                status: 'share',
-                registered: '2020-03-03 09:23',
-                machines: ['프래스 01, 프래스 02, 프래스 02'],
-                products: '플라스틱 케이스',
-                amount: 100000,
-                profile_img: "",
-                worker: "홍길동 대리",
-                comments: 2
-                }, 
-                
-                {
-                    pk: '4124213f13',
-                    title: '작업 001347',
-                    status: 'ready',
-                    registered: '2020-03-03 09:23',
-                    machines: ['프래스 01, 프래스 02'],
-                    products: '플라스틱 케이스',
-                    amount: 100000,
-                    profile_img: "",
-                    worker: "홍길동 대리",
-                    comments: 2
-                    }, 
-
+}, 
+{
+        
+    pk: 'weg34ty2gg32w',
+    title: '작업 001304',
+    status: 'done',
+    process: ['공정19'],
+    output_name: '플라스틱 케이스',
+    amount: 29,
+    worker:{
+        name:"홍길동",
+        photo:"",
+        appointment:"대리",
+    },
+    comments: 0
+}, 
+{
+        
+    pk: '21e1653g3',
+    title: '작업 001304',
+    status: 'ready',
+    process: ['공정18', '공정2', '공정3', '공정4'],
+    output_name: '플라스틱 케이스',
+    amount: 3100,
+    worker:{
+        name:"홍길동",
+        photo:"",
+        appointment:"과장",
+    },
+    comments: 2
+}, 
+{
+        
+    pk: '21e1d42333f13',
+    title: '작업 001304',
+    status: 'error',
+    process: [' 공정7, 공정10, 공정11'],
+    output_name: '플라스틱 케이스',
+    amount: 760,
+    worker:{
+        name:"고길동",
+        photo:"",
+        appointment:"대리",
+    },
+    comments: 8
+}, 
 ]
 
 }

@@ -81,7 +81,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
       </div>
       
       <span className="p-bold" style={{fontSize:12}}>· 기계 정보</span>
-      <img src={openTarget == contents.pk ? IC_UP : IC_DOWN} style={{float:'right', width:11, cursor:'pointer', marginTop:10}} 
+      <img src={openTarget == contents.pk ? IC_UP : IC_DOWN} style={{float:'right', width:11, cursor:'pointer', marginTop:8}} 
         onClick={()=>{
           if(openTarget == contents.pk){
             onClickEvent("")
@@ -135,7 +135,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
       </div>
       {
         onClickModify !== undefined ? 
-        <ButtonBox onClick={()=>onClickModify(contents.pk !== undefined ? contents.pk : '', newStock)}>수량 수정하기</ButtonBox>
+        <ButtonBox onClick={()=>onClickModify(contents.pk !== undefined ? contents.pk : '', newStock)}>생산수량 수정하기</ButtonBox>
       :
 
       <Link to={`/update/process?pk=`+ contents.pk} >

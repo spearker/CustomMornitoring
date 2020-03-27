@@ -78,13 +78,15 @@ interface IReply{
 interface ITask{
     pk: string,
    title:string,
-   profile_img: string,
    status: string,
-   registered: string,
-   machines: any,
-   products: string,
+   process: string[],
    amount: number,
-   worker: string,
+   output_name: string,
+   worker: {
+     name: string,
+     appointment: string,
+     photo: string,
+   },
    comments: number,
 
 }

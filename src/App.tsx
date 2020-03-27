@@ -12,6 +12,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './Common/i18n';
 import * as Promise from 'bluebird';
 
+
 const App = () => {
 
   return (
