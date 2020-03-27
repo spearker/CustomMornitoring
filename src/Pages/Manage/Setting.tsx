@@ -102,7 +102,7 @@ const CompanySetting = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getRankList = useCallback(async()=> {
-    const results = await getRequest(BASE_URL + '/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
     if(results === false){
         //setList([""])
@@ -136,7 +136,7 @@ const CompanySetting = () => {
       const data = {
         appointments: list
       }
-    const results = await postRequest(BASE_URL + '/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8088/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')

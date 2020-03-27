@@ -20,7 +20,7 @@ export const changeStatusToString = ((status: string | undefined)=>{
     }else if(status ==='reservation'){
         return '예약'
     }else{
-        return '대기'
+        return '없음'
     }
 
 })

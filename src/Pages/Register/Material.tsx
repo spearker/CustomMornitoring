@@ -43,6 +43,10 @@ const RegisterMaterial = () => {
   const [info, setInfo] = useState<IInfo[]>([]);
   const [amount, setAmount] = useState<number>(0);
   const [molds, setMolds] = useState<IMold[]>([]);
+  const [type, setType] = useState<string>('원재료');
+  const indexList = [
+    '원재료','최종생산품','중간제품','기타'
+  ]
 
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -73,13 +77,24 @@ const RegisterMaterial = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest(BASE_URL + '/api/v1/material/view/' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/material/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          const data = res.results;
+         
+          if(data.material_type === 0){
+            setType('원재료');
+          }else if(data.material_type === 1){
+            setType('최종생산품');
+          }else if(data.material_type === 2){
+            setType('중간제품');
+          }else {
+            setType('기타');
+          }
+
          setName(data.material_name);
          setMade(data.distributor);
          setCode(data.material_code);
@@ -114,19 +129,34 @@ const RegisterMaterial = () => {
        alert('자재 이름은 필수 항목입니다. ')
        return;
      }
+
+     let typeNumber ;
+     if(type === '원재료'){
+        typeNumber = 0;
+      }else if(type === '최종생산품'){
+        typeNumber = 1;
+      }else if(type === '중간제품'){
+        typeNumber = 2;
+      }else {
+        typeNumber = 9;
+      }
+
+  
+
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
         material_name: name,
         material_code: code,
         material_spec: spec,
+        material_type: typeNumber,
         stock: amount,
         molds: molds,
         distributor: made,
         info_list : info
     }
 
-    const res = await postRequest(BASE_URL + '/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -137,6 +167,7 @@ const RegisterMaterial = () => {
          setCode('')
          setSpec('')
          setAmount(0)
+         setType('원재료')
          setMade('')
          setInfo([])
          setMolds([])
@@ -166,17 +197,31 @@ const RegisterMaterial = () => {
      //TODO: 지울것
     //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
     //return;
+
+    let typeNumber ;
+    if(type === '원재료'){
+       typeNumber = 0;
+     }else if(type === '최종생산품'){
+       typeNumber = 1;
+     }else if(type === '중간제품'){
+       typeNumber = 2;
+     }else {
+       typeNumber = 9;
+     }
+
+ 
     const data = {
         pk: pk,
         material_name: name,
         material_code: code,
         material_spec: spec,
+        material_type: typeNumber,
         distributor: made,
         info_list : info,
         molds: molds
     }
 
-    const res = await postRequest(BASE_URL + '/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -207,7 +252,7 @@ const RegisterMaterial = () => {
     } 
     setIsSearched(true)
 
-    const res = await getRequest(BASE_URL + '/api/v1/mold/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/mold/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -230,7 +275,7 @@ const RegisterMaterial = () => {
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
              <NormalInput title={'자재 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
              <NormalInput title={'자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
-
+             <DropdownInput title={'자재 종류'} target={type} contents={indexList} onChangeEvent={(v)=>setType(v)} />
              {/* 팝업 여는 버튼 + 금형 추가 */}
              <AddInput title={'사용 금형'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  

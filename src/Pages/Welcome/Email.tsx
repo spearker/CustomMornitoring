@@ -44,7 +44,7 @@ const Email = () => {
       base_url: subDomain
     }
 
-    const results = await postRequestWithNoToken('http://211.108.115.66:8090/email/send', data)
+    const results = await postRequestWithNoToken('http://211.208.115.66:8090/email/send', data)
     console.log(results)
     if(results === false){
       //TODO: 에러 처리

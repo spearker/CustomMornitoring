@@ -50,7 +50,7 @@ const MyPage = () => {
   const loadUserInfo = async () => {
 
     
-    const results = await getRequest( 'http://211.108.115.66:8088/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest( 'http://211.208.115.66:8088/api/v1/user/load', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -94,11 +94,12 @@ const MyPage = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(async()=> {
-        
+      alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
+      return;
       let data = new FormData();
       data.append('pk',User.pk);
       data.append('profile_img', file);
-      const results = await postRequest(BASE_URL + '/api/v1/member/profile', data, getToken(TOKEN_NAME))
+      const results = await postRequest('http://211.208.115.66:8088/api/v1/member/profile', data, getToken(TOKEN_NAME))
 
       if(results === false){
         alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
@@ -125,7 +126,7 @@ const MyPage = () => {
   const getTarget = useCallback(async()=> {
 
     console.log(User.email)
-    const results = await getRequest(BASE_URL + '/api/v1/member/view/' + User.email , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/member/view?pk=' + User.email , getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리

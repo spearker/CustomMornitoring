@@ -8,7 +8,7 @@ import Logo from '../../Assets/Images/img_logo.png'
 interface IProps{
     name: string,
     width?: string,
-    onClickEvent?: ()=>void,
+    onClickEvent?: any,
 }
 const BasicColorButton = ({name, width, onClickEvent}: IProps) => {
   

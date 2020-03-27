@@ -114,10 +114,10 @@ const RegisterProcess = () => {
 
   /**
    * onsubmitForm()
-   * 자재 정보 등록
+   * 공정 정보 등록
    * @param {string} url 요청 주소
    * @param {string} name 이름
-   * @param {array} mold 금형 pk
+   * @param {string} mold 금형 pk
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
@@ -129,19 +129,21 @@ const RegisterProcess = () => {
     
      if(name == "" || list.length < 1 ||  list3.length < 1 || list4.length < 1 ){
        alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
-       return;
+       //return;
      }
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
         name: name,
-        material: list[0].pk,
-        output: list4[0].pk,
-        mold:  list2.length > 0 ? list2[0].pk : "",
+        //material: list[0].pk,
+        //output: list4[0].pk,
+        material: 'v1_수민산업_material_1_null_자재자재',
+        output: 'v1_수민산업_material_1_null_자재자재',
+        //mold:  list2.length > 0 ? list2[0].pk : null,
         machine: list3[0].pk
     }
 
-    const res = await postRequest(BASE_URL + '/api/v1/process/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/process/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -179,15 +181,17 @@ const RegisterProcess = () => {
      
     if(name == "" || list.length < 1 ||  list3.length < 1 || list4.length < 1 ){
       alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
-      return;
+      //return;
     }
    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
    const data = {
        pk: getParameter('pk'),
-       material: list[0].pk,
-       output: list4[0].pk,
-       mold:  list2.length > 0 ? list2[0].pk : "",
+      material: list[0].pk,
+      output: list4[0].pk,
+      //material: 'v1_수민산업_material_1_null_자재자재',
+      //output: 'v1_수민산업_material_1_null_자재자재',
+       mold:  list2.length > 0 ? list2[0].pk : null,
        machine: list3[0].pk
    }
     const res = await postRequest(BASE_URL + '/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
@@ -233,7 +237,7 @@ const RegisterProcess = () => {
     } 
     setIsSearched(true)
 
-    const res = await getRequest(BASE_URL + `/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8088/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

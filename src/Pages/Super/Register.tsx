@@ -49,7 +49,7 @@ const SuperRegister = () => {
     }
 
     // 이메일 보내기 
-    Axios.post('http://211.108.115.66:8086/api/v2/super/company/create', {
+    Axios.post('http://211.208.115.66:8086/api/v2/super/company/create', {
       company_name: name,
       user_email: email,
       user_name: username,

@@ -50,7 +50,7 @@ const RegisterDesign = () => {
    */
   const getData = useCallback(async ()=>{
     
-    const res = await getRequest(BASE_URL + '/api/v1/mold/view/' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -64,7 +64,7 @@ const RegisterDesign = () => {
           setName(data.mold_name);
           setSpec(data.product_spec);
           setType(data.mold_label);
-          //setInfoList(data.item_list);
+          setInfoList(data.item_list);
       }else{
         //TODO:  기타 오류
       }
@@ -100,10 +100,10 @@ const RegisterDesign = () => {
         mold_name: name,
         mold_label: type,
         mold_code : moldNo,
-        item_list : infoList
+        info_list : JSON.stringify(infoList)
     }
 
-    const res = await postRequest(BASE_URL + '/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -155,10 +155,10 @@ const RegisterDesign = () => {
         mold_name: name,
         mold_label: type,
         mold_code : moldNo,
-        item_list: infoList
+        info_list : JSON.stringify(infoList)
     }
 
-    const res = await postRequest(BASE_URL + '/api/v1/mold/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')

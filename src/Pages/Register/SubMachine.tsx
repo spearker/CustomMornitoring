@@ -35,7 +35,7 @@ const RegisterSubMachine = () => {
   const [oldPhoto, setOldPhoto] = useState<string>('');
   const [infoList, setInfoList] = useState<IInfo[]>([]);
   const indexList = [
-    '프레스', '선반', '레이저', '밀링머신', '머시닝센터', '가공머신', '절삭', '절단', '단조기', '인발기', '기타'
+    '미스피드', '하사점','앵글시퀀서','엔코더','통과센서','기타'
   ]
 
   useEffect(()=>{
@@ -83,7 +83,7 @@ const RegisterSubMachine = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest(BASE_URL + '/api/v1/peripheral/view/' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/peripheral/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -98,6 +98,7 @@ const RegisterSubMachine = () => {
          setPk(data.pk);
          setMadeNo(data.manufacturer_code);
          setType(data.device_label);
+         setInfoList(data.info_list);
          setFile(null);
          //setInfoList(data.item_list)
       }else{
@@ -137,11 +138,13 @@ const RegisterSubMachine = () => {
       data.append('manufacturer', made);
       data.append('manufacturer_code', madeNo);
       data.append('manufacturer_detail', info);
-      data.append('device_photo', file);
-      data.append('item_list', JSON.stringify(infoList));
+      //data.append('device_photo', file);
+      if(infoList.length > 0){
+        data.append('info_list', JSON.stringify(infoList));
+      }
 
 
-      const res = await postRequest(BASE_URL + '/api/v1/peripheral/update/' + pk, data, getToken(TOKEN_NAME))
+      const res = await postRequest('http://211.108.115.66:8088/api/v1/peripheral/update/' + pk, data, getToken(TOKEN_NAME))
 
       if(res === false){
         //TODO: 에러 처리
@@ -185,10 +188,12 @@ const RegisterSubMachine = () => {
     data.append('manufacturer', made);
     data.append('manufacturer_code', madeNo);
     data.append('manufacturer_detail', info);
-    data.append('device_photo', file);
-    data.append('item_list', JSON.stringify(infoList));
+    //data.append('device_photo', file);
+    if(infoList.length > 0){
+      data.append('info_list', JSON.stringify(infoList));
+    }
 
-    const res = await postRequest(BASE_URL + '/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')

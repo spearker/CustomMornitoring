@@ -32,13 +32,13 @@ const Login = () => {
    * @param {string} password 패스워드
    * @returns X
    */
-  const onsubmitForm = useCallback(async ()=>{
-
+  const onsubmitForm = useCallback(async (e)=>{
+    e.preventDefault();
     let data: object = {
       email: email,
       password: password,
     }
-    const results = await postRequestWithNoToken('http://211.108.115.66:8088/user/login', data)
+    const results = await postRequestWithNoToken('http://211.208.115.66:8088/user/login', data)
 
     if(results === false){
       //TODO: 에러 처리
@@ -68,7 +68,7 @@ const Login = () => {
    */
   const getServerStatus = useCallback(async ()=>{
 
-    const results = await getRequestWithNoToken('http://211.108.115.66:8088/server/status')
+    const results = await getRequestWithNoToken('http://211.208.115.66:8088/server/status')
     if(results === false){
       dispatchp({
           type: 'OPEN_POPUP',
@@ -77,9 +77,9 @@ const Login = () => {
               contents: '임시 알림 : 현재 백서버가 닫혀있습니다. - 로그인 및 테스트 불가'
           }
       })
-      setError('테스트 서버 상태 : 접속 불가')
+      setError('서버 상태 : 접속 불가')
     }else{
-      setError('테스트 서버 상태 : 접속 가능')
+      setError('서버 상태 : 접속 가능')
     }
 
   },[])
@@ -91,13 +91,13 @@ const Login = () => {
 
   return (
       <WelcomeContainer>
-          <form style={{width:320, textAlign:'left'}}>
+          <div style={{width:320, textAlign:'left'}}>
             <p className="p-eng" style={{fontSize:36, marginBottom:26}}>Log In</p>
             <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
             <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)}} hint={t('enterPassword')}/>
             <div style={{textAlign:'center',marginTop:38}}>
                   <p style={{marginBottom:10, color:'pink'}}>{error}</p>
-                  <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={t('login')} />
+                  <BasicColorButton onClickEvent={(e)=>onsubmitForm(e)} width="100%" name={t('login')} />
                   <div style={{marginTop:13, marginBottom:24}}>
                     <Link to="/forgot">{t('findPassword')}</Link>
                     <span style={{paddingLeft:8, paddingRight:8}}>|</span>
@@ -105,7 +105,7 @@ const Login = () => {
                   </div>
                   
             </div>
-          </form>
+          </div>
       </WelcomeContainer>
       
   );

@@ -57,7 +57,7 @@ const CompanySetting = () => {
         join_type : joinType,
         status : status,
       }
-      const results = await postRequest(BASE_URL + '/api/v1/member/update', data, getToken(TOKEN_NAME))
+      const results = await postRequest('http://211.208.115.66:8088/api/v1/member/update', data, getToken(TOKEN_NAME))
 
       if(results === false){
           //setList([""])
@@ -82,7 +82,7 @@ const CompanySetting = () => {
   const getTarget = useCallback(async()=> {
 
 
-    const results = await getRequest(BASE_URL + '/api/v1/member/view/' + getParameter("id") , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/member/view?pk=' + getParameter("id") , getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
