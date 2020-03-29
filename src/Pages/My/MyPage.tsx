@@ -94,8 +94,8 @@ const MyPage = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(async()=> {
-      alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
-      return;
+      //alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
+      //return;
       let data = new FormData();
       data.append('pk',User.pk);
       data.append('profile_img', file);

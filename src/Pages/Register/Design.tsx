@@ -64,7 +64,7 @@ const RegisterDesign = () => {
           setName(data.mold_name);
           setSpec(data.product_spec);
           setType(data.mold_label);
-          setInfoList(data.item_list);
+          setInfoList(data.info_list);
       }else{
         //TODO:  기타 오류
       }
@@ -158,7 +158,7 @@ const RegisterDesign = () => {
         info_list : JSON.stringify(infoList)
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/api/v1/mold/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')

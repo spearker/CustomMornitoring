@@ -88,16 +88,15 @@ const Dashboard = () => {
 
   useEffect(()=>{
     
-
     setList(
       [
-        { date: '2020-03-15' ,  issue: 0 },
-        { date: '2020-03-16' ,  issue: 2 },
-        { date: '2020-03-17' ,  issue: 1 },
-        { date: '2020-03-18' ,  issue: 5 },
-        { date: '2020-03-19' ,  issue: 1 },
-        { date: '2020-03-20' ,  issue: 1 },
-        { date: '2020-03-21' ,  issue: 0 },
+        { date: '2020-03-29' ,  issue: 0 },
+        { date: '2020-03-30' ,  issue: 2 },
+        { date: '2020-03-31' ,  issue: 1 },
+        { date: '2020-04-01' ,  issue: 5 },
+        { date: '2020-04-02' ,  issue: 1 },
+        { date: '2020-04-03' ,  issue: 1 },
+        { date: '2020-04-04' ,  issue: 0 },
       ]
     )
 

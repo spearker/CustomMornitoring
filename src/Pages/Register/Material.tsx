@@ -57,8 +57,8 @@ const RegisterMaterial = () => {
   const [searchList, setSearchList] = useState<IMold[]>([]);
 
   useEffect(()=>{
-    setIsSearched(true)
-    setSearchList(dataSet.moldList);
+    //setIsSearched(true)
+    //setSearchList(dataSet.moldList);
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
         //alert(`수정 페이지 진입 - pk :` + param)
@@ -101,14 +101,15 @@ const RegisterMaterial = () => {
          setSpec(data.material_spec);
          setPk(data.pk);
          setInfo(data.info_list);
-         setMolds(data.molds);
+         setList(data.molds);
+         setAmount(data.stock)
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
     }
-  },[pk, made, code, info, spec, name, molds]);
+  },[pk, made, code, info, spec, name, molds, list]);
 
   /**
    * onsubmitForm()
@@ -124,7 +125,7 @@ const RegisterMaterial = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-      alert(info)
+      //alert(info)
      if(name == "" ){
        alert('자재 이름은 필수 항목입니다. ')
        return;
@@ -140,9 +141,14 @@ const RegisterMaterial = () => {
       }else {
         typeNumber = 9;
       }
-
-  
-
+      let moldPk = new Array();
+      if(list.length > 0){
+        moldPk.push(list[0].pk)
+      }
+      let infoString ;
+    if(info.length > 0){
+      infoString = JSON.stringify(info)
+    }
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
@@ -151,13 +157,13 @@ const RegisterMaterial = () => {
         material_spec: spec,
         material_type: typeNumber,
         stock: amount,
-        molds: molds,
+        molds: moldPk,
         distributor: made,
-        info_list : info
+        info_list : infoString
     }
 
     const res = await postRequest('http://211.208.115.66:8088/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
-
+    
     if(res === false){
       //TODO: 에러 처리
     }else{
@@ -197,7 +203,7 @@ const RegisterMaterial = () => {
      //TODO: 지울것
     //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
     //return;
-
+ 
     let typeNumber ;
     if(type === '원재료'){
        typeNumber = 0;
@@ -209,19 +215,27 @@ const RegisterMaterial = () => {
        typeNumber = 9;
      }
 
- 
+     let infoString ;
+     if(info.length > 0){
+       infoString = JSON.stringify(info)
+     }
+     let moldPk = new Array();
+      if(list.length > 0){
+        moldPk.push(list[0].pk)
+      }
     const data = {
         pk: pk,
         material_name: name,
         material_code: code,
         material_spec: spec,
+        stock: amount,
         material_type: typeNumber,
         distributor: made,
-        info_list : info,
-        molds: molds
+        info_list : infoString,
+        molds: moldPk
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/material/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -233,7 +247,7 @@ const RegisterMaterial = () => {
       }
     }
 
-  },[made, code, name, spec, info, pk])
+  },[made, code, name, spec, info, pk,amount,list])
 
 /**
    * onClickSearch()

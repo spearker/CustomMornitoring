@@ -97,7 +97,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
         <MachineDivBg>
           <MachineHeader>
             <p className="p-bold p-limit" style={{width:'30%', paddingLeft:4}}>{contents.machine.machine_code}</p>
-            <p className="p-bold p-limit" style={{width:'55%'}}>| {contents.machine.machine_name}{contents.machine.machine_name}</p>
+            <p className="p-bold p-limit" style={{width:'55%'}}>| {contents.machine.machine_name}</p>
             <img className="rotating" src={contents.machine.status === 'active' ? icCircleRotate : icCircle} style={{marginLeft:'auto', marginRight:4,  width:14, height:14, float:'right'}} />
           </MachineHeader>
           <div style={{position:'relative', padding:12, textAlign:'center'}}>
@@ -112,7 +112,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
             {contents.machine.status !== undefined ? changeStatusToString(contents.machine.status):'알수없음'}
           </div>
           <div style={{width:'60%', paddingLeft:6, color:'#252525'}} className="p-limit">
-            {contents.machine.machine_name}{contents.machine.machine_name}
+            {contents.machine.machine_name}
           </div>
           <div style={{width:'15%', marginLeft:'auto'}}>
             <img src={contents.machine.is_connect ? icCloudOn : icCloudOff} style={{ width:20, float:'right', marginRight:5}}/>
@@ -139,7 +139,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
       :
 
       <Link to={`/update/process?pk=`+ contents.pk} >
-        <ButtonBox>수정하기</ButtonBox>
+        <ButtonBox>공정수정하기</ButtonBox>
       </Link>
       }
     </ProcessBody>

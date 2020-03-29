@@ -68,9 +68,9 @@ const RegisterProcess = () => {
   
 
   useEffect(()=>{
-    setIsSearched(true)
-    setSearchList(dataSet.materialList);
-    setSearchList3(dataSet.machineList);
+    //setIsSearched(true)
+    //setSearchList(dataSet.materialList);
+    //setSearchList3(dataSet.machineList);
 
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
@@ -90,20 +90,26 @@ const RegisterProcess = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest(BASE_URL + '/api/v1/process/view/' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
+
+      let tempList: IMaterial[] = new Array()
+      let tempList2: IMold[] = new Array()
+      let tempList3: IMachine[] = new Array()
+      let tempList4: IMaterial[] = new Array()
       if(res.status === 200){
+       
          const data = res.results;
          setName(data.name);
-         setList(list.splice(0,1,data.material));
+         setList(new Array(data.material));
          if(data.mold !== ""){
-          setList2(list2.splice(0,1,data.mold));
+          setList2(new Array(data.mold));
          }
-         setList3(list3.splice(0,1,data.machine));
-         setList4(list4.splice(0,1,data.output));
+         setList3(new Array(data.machine));
+         setList4(new Array(data.output));
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -129,18 +135,18 @@ const RegisterProcess = () => {
     
      if(name == "" || list.length < 1 ||  list3.length < 1 || list4.length < 1 ){
        alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
-       //return;
+        return;
      }
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
         name: name,
-        //material: list[0].pk,
-        //output: list4[0].pk,
-        material: 'v1_수민산업_material_1_null_자재자재',
-        output: 'v1_수민산업_material_1_null_자재자재',
-        //mold:  list2.length > 0 ? list2[0].pk : null,
-        machine: list3[0].pk
+        material: list[0].pk,
+        output: list4[0].pk,
+        //material: 'v1_수민산업_material_1_null_자재자재',
+        //output: 'v1_수민산업_material_1_null_자재자재',
+        mold:  list2.length > 0 ? list2[0].pk : null,
+        machines: list3[0].pk
     }
 
     const res = await postRequest('http://211.208.115.66:8088/api/v1/process/register' + pk, data, getToken(TOKEN_NAME))
@@ -181,7 +187,7 @@ const RegisterProcess = () => {
      
     if(name == "" || list.length < 1 ||  list3.length < 1 || list4.length < 1 ){
       alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
-      //return;
+      return;
     }
    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
@@ -192,7 +198,7 @@ const RegisterProcess = () => {
       //material: 'v1_수민산업_material_1_null_자재자재',
       //output: 'v1_수민산업_material_1_null_자재자재',
        mold:  list2.length > 0 ? list2[0].pk : null,
-       machine: list3[0].pk
+       machines: list3[0].pk
    }
     const res = await postRequest(BASE_URL + '/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
 

@@ -40,7 +40,7 @@ const ProfileBar = () => {
     window.location.href="/"
     return;
     const data = {}
-    const results = await postRequest(BASE_URL + '/logout', data, getToken(TOKEN_NAME))
+    const results = await postRequest('/logout', data, getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -72,12 +72,12 @@ const ProfileBar = () => {
                       user.name !== '' ?
                       <div style={{display:'flex', alignItems: 'center', width:'100%'  }}>
                         <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
-                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>{user.name}</p>
+                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>{user.name} {user.is_admin ? '(관리자)' : user.appointment}</p>
                       </div>
                       :
                       <div style={{display:'flex', alignItems: 'center', width:'100%' }}>
                         <ImageBox src={ IMG_PROFILE } />
-                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>홍길동 대리(베타)</p>
+                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}></p>
                       </div>
                     }
                     </ProfileDiv>

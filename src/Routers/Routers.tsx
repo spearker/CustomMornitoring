@@ -127,6 +127,9 @@ const Routers = () => {
             <Route exact path="/update/line" component={RegisterLine} />
             <Route exact path="/update/material" component={RegisterMaterial} />
             <Route exact path="/update/product" component={RegisterProduct} />
+            <Route exact path="/update/process" component={RegisterProcess}/>
+            <Route exact path="/task/update" component={RegisterTask}/>
+            
             
             {/* 데이터 등록 관련 */}
             <Route exact path="/register/material" component={RegisterMaterial} />

@@ -21,7 +21,7 @@ const BasicToggle = ({contents, select, onClickEvent}: IProps) => {
         {
           contents.map((v, i)=>{
             return(
-              <ButtonBox onClick={()=>onClickEvent(i)} style={{backgroundColor: i === select ? POINT_COLOR : '#e7e9eb'}} >{v}</ButtonBox>
+              <ButtonBox type="button" onClick={()=>onClickEvent(i)} style={{backgroundColor: i === select ? POINT_COLOR : '#e7e9eb'}} >{v}</ButtonBox>
           )})
           
         }

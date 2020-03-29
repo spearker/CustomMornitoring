@@ -112,7 +112,7 @@ const RegisterMachine = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made, no, info, type, name, file, infoList])
+  },[pk, made, no, info, type, name, file, infoList, ])
 
   /**
    * onsubmitFormUpdate()
@@ -148,7 +148,7 @@ const RegisterMachine = () => {
       if(infoList.length > 0){
         data.append('info_list', JSON.stringify(infoList))
       }
-      //data.append('machine_photo', file);
+      data.append('machine_photo', file);
      
 
       const res = await postRequest('http://211.208.115.66:8088/api/v1/machine/update/', data, getToken(TOKEN_NAME))
@@ -196,7 +196,8 @@ const RegisterMachine = () => {
     data.append('manufacturer', made);
     data.append('manufacturer_code', madeNo);
     data.append('manufacturer_detail', info);
-    //data.append('machine_photo', file);
+    //data.append('file', data)
+    data.append('machine_photo', file);
     if(infoList.length > 0){
       data.append('info_list', JSON.stringify(infoList))
     }

@@ -11,7 +11,8 @@ import SmallButton from '../Button/SmallButton';
 
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
 import StatusDropdown from '../Dropdown/StatusDropdown';
-import { postRequest } from '../../Common/requestFunctions';
+import { postRequest, getRequest } from '../../Common/requestFunctions';
+
 import CommentsContainer from '../../Containers/CommentsContainer';
 import CommentList from '../List/CommentList';
 import { dataSet } from '../../Common/dataset';
@@ -36,8 +37,8 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
 
   const [openTarget, setOpenTarget] = useState<string>('');
   const [task, setTask]= useState<any>('');
-  const [replyList, setReplyList]= useState<IReply[]>(dataSet.commentList);
-  const [process, setProcess] = useState<IProcess[]>(dataSet.processList);
+  const [replyList, setReplyList]= useState<IReply[]>([]);
+  const [process, setProcess] = useState<IProcess[]>([]);
   const [oepnProcess, setOpenProcess] = useState<string>('');
 
 /**
@@ -97,27 +98,28 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
    * @returns X
    */
   const onClickOpenTask = useCallback(async(pk: string)=>{
-    setOpenTarget(pk)
-    console.log(`오픈 테스트 : 댓글 pk: ${pk} ` )
-    return;
-    const data = {
-      pk: pk,
-
+    if(pk === undefined || pk === ""){
+      return;
     }
-    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+    setOpenTarget(pk)
+    //alert(pk)
+
+    const results = await getRequest('http://211.208.115:66:8087/api/v1/task/process?pk=' + openTarget, getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setTask(results.results)
+        //setProcess(results.results.process)
+        //setReplyList(results.results.replyList)
       }else{
-        //TODO:  기타 오류
+        //TODO : 지울것
+        alert('데이터를 불러올 수 없습니다.')
       }
     }
-  },[]);
+  
+  },[openTarget, task]);
 
   useEffect(()=>{
    console.log(Object.keys(indexList))

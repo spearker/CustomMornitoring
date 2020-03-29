@@ -48,7 +48,7 @@ const TaskList = () => {
  const [list, setList] = useState<ITask[]>([]);
  const [task, setTask]= useState<any>('');
  const [reply, setReply]= useState<string>('');
- const [replyList, setReplyList]= useState<IReply[]>(dataSet.commentList);
+ const [replyList, setReplyList]= useState<IReply[]>([]);
 
  const tabList = [
    "기계", "라인"
@@ -67,6 +67,13 @@ const indexList = {
   worker: '등록자',
   comments: '댓글'
  }
+ useEffect(()=>{
+
+  getData()
+  //setList(dataSet.taskList)
+  },[])
+
+
 
   /**
    * onClickFilter()
@@ -92,12 +99,6 @@ const indexList = {
       }
     }
   },[option])
-
-  useEffect(()=>{
-
-  
-    setList(dataSet.taskList)
-  },[])
 
  
  /**
@@ -130,16 +131,34 @@ const indexList = {
   },[])
 
  
-  useEffect(()=>{
 
-  
-    setList(dataSet.taskList)
-  },[])
-
- 
  
 
   
+  /**
+   * getData()
+   * 기계 정보 수정을 위한 조회
+   * @param {string} url 요청 주소
+   * @param {string} pk 기계 pk
+   * @returns X 
+   */
+  const getData = useCallback(async()=>{
+    
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list/' + option, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         const data = res.results;
+         setList(data)
+         
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[list ])
+
   
   
 

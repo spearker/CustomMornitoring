@@ -13,7 +13,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest, getParameter } from '../../Common/requestFunctions';
+import { getRequest, getParameter, postRequest } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import InputContainer from '../../Containers/InputContainer';
 import PlaneInput from '../../Components/Input/PlaneInput';
@@ -35,6 +35,7 @@ import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
 import FileTumbCard from '../../Components/Card/FileTumbCard';
 import BasicToggle from '../../Components/Toggle/BasicToggle';
 import ProcessTable from '../../Components/Table/ProcessTable';
+import SmallButton from '../../Components/Button/SmallButton';
 
 // 작업 지시서 등록
 const TaskRegister = () => {
@@ -71,7 +72,7 @@ const TaskRegister = () => {
  const [list2, setList2] = useState<IProcess[]>([]);
 
  //추천 관련
- const [recommend, setRecommend] = useState<IProcess[][]>([[]]);
+ const [recommend, setRecommend] = useState<IProcess[][]>([]);
 
   //사람 관련
   const [worker, setWorker] = useState<IMemberSearched | null>(null);
@@ -102,23 +103,55 @@ const TaskRegister = () => {
 
   useEffect(()=>{
 
-    setSearchList(dataSet.materialList)
-    setIsSearched(true)
-    setSearchList2(dataSet.processList)
-    setList2(dataSet.processList)
-    setRecommend(dataSet.recommendList)
-    setSearchList3(dataSet.searchedMemmber)
-    setSearchList4(dataSet.searchedMemmber)
+    //setSearchList(dataSet.materialList)
+    //setIsSearched(true)
+    //setSearchList2(dataSet.processList)
+    //setList2(dataSet.processList)
+    //setRecommend(dataSet.recommendList)
+    //setSearchList3(dataSet.searchedMemmber)
+    //setSearchList4(dataSet.searchedMemmber)
     const param = getParameter('pk');
       if(param !== ""){
           setPk(param)
-          alert(`수정 페이지 진입 - pk :` + param)
+          getData()
+          //alert(`수정 페이지 진입 - pk :` + param)
           setIsUpdate(true)
       }
 
   },[])
 
+  //
+  useEffect(()=>{
 
+    
+    if(list.length > 0){
+      getRecommendData()
+    }
+    
+  },[list])
+
+  /**
+     * getRecommendData()
+     * 추천 데이터 받기
+     * @param {string} url 요청 주소
+     * @param {string} pk 자재 pk
+     * @returns X 
+     */
+    const getRecommendData = useCallback(async()=>{
+      
+      const res = await getRequest('http://211.208.115.66:8089/api/v1/task/recommend?pk=' + list[0].pk, getToken(TOKEN_NAME))
+
+      if(res === false){
+        //TODO: 에러 처리
+      }else{
+        if(res.status === 200){
+          const data = res.results;
+          setRecommend(data)
+        }else{
+          //TODO:  기타 오류
+        }
+      }
+    },[list, recommend ])
 
   /**
    * onClickFilter()
@@ -148,19 +181,30 @@ const TaskRegister = () => {
   
 
  
- 
   /**
    * onClickSearch()
-   * 금형 키워드 검색
+   *  키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
    * @returns X 
    */
-  const onClickSearch = useCallback(async()=>{
-  
-   
-    alert('테스트 : keyword - ' + keyword);
-    return;
+  const onClickSearch = useCallback(async(e)=>{
+    //alert('keyword')
+    e.preventDefault();
+    let type = "material";
+   // alert('keyword')
+    if(isPoupup === true ){
+      type= 'material'
+    }else if(isPoupup2 === true){
+      type= 'process'
+    }else if(isPoupup3 === true){
+      type= 'task/worker'
+    }else if(isPoupup4 === true){
+      type='task/referencer'
+    }else{
+      return;
+    }
+
     if(keyword  === '' || keyword.length < 2){
       alert('2글자 이상의 키워드를 입력해주세요')
 
@@ -168,7 +212,52 @@ const TaskRegister = () => {
     } 
     setIsSearched(true)
 
-    const res = await getRequest(BASE_URL + '/api/v1/mold/search/' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8088/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         const results = res.results;
+         if(isPoupup === true ){
+          setSearchList(results);
+        }else if(isPoupup2 === true){
+          setSearchList2(results);
+        }else if(isPoupup3 === true){
+          setSearchList3(results);
+        }else if(isPoupup4 === true){
+          setSearchList4(results);
+        }else{
+          return;
+        }
+    
+         
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[keyword])
+ 
+  /**
+   * onClickSearchMaterial()
+   * 생산제품 키워드 검색
+   * @param {string} url 요청 주소
+   * @param {string} keyword 검색 키워드
+   * @returns X 
+   */
+  const onClickSearchMaterial = useCallback(async(e)=>{
+  
+    e.preventDefault();
+    //alert('테스트 : keyword - ' + keyword);
+    //return;
+    if(keyword  === '' || keyword.length < 2){
+      alert('2글자 이상의 키워드를 입력해주세요')
+
+      return;
+    } 
+    setIsSearched(true)
+
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/material/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -183,7 +272,43 @@ const TaskRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[keyword])
+  },[keyword, searchList])
+
+  /**
+   * onClickSearchMaterial()
+   * 생산제품 키워드 검색
+   * @param {string} url 요청 주소
+   * @param {string} keyword 검색 키워드
+   * @returns X 
+   */
+  const onClickSearchProcess = useCallback(async(e)=>{
+  
+    e.preventDefault();
+    //alert('테스트 : keyword - ' + keyword);
+    //return;
+    if(keyword  === '' || keyword.length < 2){
+      alert('2글자 이상의 키워드를 입력해주세요')
+
+      return;
+    } 
+    setIsSearched(true)
+
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/material/search?keyword=' + keyword, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         const results = res.results;
+         setKeyword('')
+         setSearchList(results);
+      }else if(res.status === 1001){
+        //TODO:  오류 처리 
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[keyword, searchList])
 
    /**
    * onClickWhere()
@@ -262,6 +387,150 @@ const TaskRegister = () => {
     }
     
   }
+
+   /**
+   * onsubmitFormUpdate()
+   * 작업지시서 정보 수정
+   * @param {string} pk 작업지시서 pk
+   * @returns X 
+   */
+  const onsubmitFormUpdate = useCallback(async(e)=>{
+    e.preventDefault();
+
+    if(worker === null || title == "" || list.length < 1 || list2.length < 1){
+      alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
+      return;
+    }
+    let tempOpt = 'auto';
+    if(option === 1){
+      tempOpt = 'custom';
+    }
+    let tempRefer = new Array();
+    referencerList.forEach(v => {
+      tempRefer.push(v['pk'])
+    });
+    let tempProcess = new Array();
+    list2.forEach(v => {
+      tempProcess.push(v['pk'])
+    });
+    const data = {
+        pk: getParameter('pk'),
+        title: title,
+        description : description, 
+        product_pk: list[0].pk,
+        amount: amount,
+        process: tempProcess,
+        worker: worker.pk,
+        referencers : tempRefer,
+        delete_file : removefileList,
+    }
+
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/task/update', data, getToken(TOKEN_NAME))
+
+    if(res === false){
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+    }else{
+      if(res.status === 200){
+         alert('성공적으로 수정 되었습니다');
+
+         
+      }else{
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      }
+    }
+
+  },[list, list2, option,removefileList,referencerList,amount, pk, worker, title, description])
+  /**
+   * onsubmitForm()
+   * 작업지시서 정보 등록
+   * @returns X 
+   */
+  const onsubmitForm = useCallback(async(e)=>{
+    e.preventDefault();
+
+    if(worker === null || title == "" || list.length < 1 || list2.length < 1){
+      alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
+      return;
+    }
+    let tempOpt = 'auto';
+    if(option === 1){
+      tempOpt = 'custom';
+    }
+    let tempRefer = new Array();
+    referencerList.forEach(v => {
+      tempRefer.push(v['pk'])
+    });
+    let tempProcess = new Array();
+    list2.forEach(v => {
+      tempProcess.push(v['pk'])
+    });
+    const data = {
+       
+        title: title,
+        description : description, 
+        product_pk: list[0].pk,
+        amount: amount,
+        process: tempProcess,
+        process_type: tempOpt,
+        worker: worker.pk,
+        referencers : tempRefer,
+    }
+
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/task/register', data, getToken(TOKEN_NAME))
+
+    if(res === false){
+      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+    }else{
+      if(res.status === 200){
+         alert('성공적으로 등록 되었습니다');
+         setTitle('');
+         setDescription('');
+         setList([]);
+         setList2([]);
+         setWorker(null)
+         setAmount(0);
+         setReferencerList([]);
+         setRecommend([])
+         
+      }else{
+        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      }
+    }
+
+  },[list, list2, option,referencerList,amount, pk, worker, title, description])
+
+  /**
+   * getData()
+   * 작업지시서 수정을 위한 조회
+   * @param {string} url 요청 주소
+   * @param {string} pk 기계 pk
+   * @returns X 
+   */
+  const getData = useCallback(async()=>{
+    
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const tempM = new Array()
+    const tempOut = new Array()
+    if(res === false){
+      //TODO: 에러 처리
+    }else{
+      if(res.status === 200){
+         const data = res.results;
+         setTitle(data.title);
+         setPk(data.pk)
+         setDescription(data.description);
+         setList(new Array(data.output));
+         setList2(data.process);
+         setWorker(data.worker)
+         setAmount(data.amount);
+         setReferencerList(data.referencers);
+         setOldFileList(data.files)
+         
+      }else{
+        //TODO:  기타 오류
+      }
+    }
+  },[pk,list, list2, option,referencerList,amount, pk, worker, title, description])
   return (
       <DashboardWrapContainer>
         <InnerBodyContainer>
@@ -269,6 +538,7 @@ const TaskRegister = () => {
             <Header title={ isUpdate ? '작업지시서 수정' :'작업지시서 등록'}/>
           </div>
           <WhiteBoxContainer>
+          <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
             <div style={{borderBottom:'solid 0.5px #d3d3d3'}}>
               <PlaneInput value={title} description={'작업지시서 제목 입력'} onChangeEvent={setTitle} fontSize={'26px'}/>
               <PlaneInput value={description} description={'상세 업무내용 작성 (200자 미만)'} onChangeEvent={setDescription} fontSize={'14px'}/>
@@ -289,7 +559,7 @@ const TaskRegister = () => {
                         onClickSearch={()=>{
                           setIsPoupup(true);
                           setKeyword(''); 
-                          setIsSearched(false);
+                          setIsSearched(true);
                         }}
                         onClickEvent={()=>{
                           setList([])
@@ -313,10 +583,15 @@ const TaskRegister = () => {
           
                 {/* 공정 선택 */}
                 <div style={{marginTop:16, marginBottom:24}}>
-                  <BasicToggle contents={['추천공정선택', '수동공정선택']} select={option} onClickEvent={setOption}/>
+                  {
+                      !isUpdate ?
+                      <BasicToggle contents={['추천공정선택', '수동공정선택']} select={option} onClickEvent={setOption}/>
+                      :null
+                  }
+               
                     {
-                      option === 0 ?
-                      list.length < 0 ?
+                      option === 0 && !isUpdate ?
+                      list.length < 1 ?
                       <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>생산할 제품(자재) 먼저 선택 후, 추천 공정을 선택 할 수 있습니다</p>
                       :
                       recommend === undefined || recommend === [] ?
@@ -341,7 +616,11 @@ const TaskRegister = () => {
                       </div>
                       :
                       list2.length < 1 ?
-                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>공정을 추가해주세요</p>
+                      <div style={{marginTop:60, marginBottom:60}}>
+                      <p style={{ paddingBottom:10, textAlign:'center', color:"#aaaaaa"}}>공정을 추가해주세요</p>
+                      <SmallButton name={'+ 추가하기'} onClickEvent={()=>setIsPoupup2(true)} color={'#d3d3d3'}  />
+                      
+                     </div>
                       :
                       <div>
                        <ProcessTable pk={''} contents={list2} indexList={['명칭','','기계 정보','금형정보', '자재정보']} widthList={['12%','10%','25%','15%','38%']} 
@@ -476,6 +755,7 @@ const TaskRegister = () => {
                 </div>
                 <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                </form>
           </WhiteBoxContainer>
 
            
@@ -487,7 +767,7 @@ const TaskRegister = () => {
                 setList(checkList); 
                 setKeyword('')}
             }
-            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setSearchList([]); setIsSearched(false)}} title={'생산제품'} >
+            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setSearchList([]); setIsSearched(false)}} title={'생산제품 및 자재'} >
               <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
@@ -519,9 +799,9 @@ const TaskRegister = () => {
                 setIsSearched(false);
                 setKeyword('')}
             }
-            isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false)}} title={'생산제품 선택'} >
+            isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false)}} title={'공정 선택'} >
               <>
-              <SearchInput description={'생산제품을 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+              <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
@@ -563,7 +843,7 @@ const TaskRegister = () => {
             }
             isVisible={isPoupup3} onClickClose={()=>{setIsPoupup3(false)}} title={'작업자 선택'} >
               <>
-              <SearchInput description={'작업자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+              <SearchInput description={'작업자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
@@ -599,7 +879,7 @@ const TaskRegister = () => {
             }
             isVisible={isPoupup4} onClickClose={()=>{setIsPoupup4(false)}} title={'공유자 선택'} >
               <>
-              <SearchInput description={'공유자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={()=>onClickSearch()}/>
+              <SearchInput description={'공유자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={(e)=>onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
@@ -631,6 +911,7 @@ const TaskRegister = () => {
 
 
         </InnerBodyContainer>
+                  
       </DashboardWrapContainer>
       
   );

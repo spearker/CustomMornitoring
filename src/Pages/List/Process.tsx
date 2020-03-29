@@ -51,6 +51,12 @@ const ProcessList = () => {
   const optionList = [
     "등록순", "이름순", "원자재순 ", "생산품 순", "기계 순"
   ]
+
+  useEffect(()=>{
+    getList()
+   //setList(dataSet.processList)
+  },[])
+
    /**
    * getList()
    * 목록 불러오기
@@ -59,7 +65,7 @@ const ProcessList = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest(BASE_URL + '/api/v1/process/list/0',getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/process/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -114,11 +120,7 @@ const ProcessList = () => {
     }
 
 },[])
-  useEffect(()=>{
-    //getList()
-   setList(dataSet.processList)
-  },[])
-
+  
   const changeStatusToString = useCallback((status: string)=>{
     if(status === 'active'){
         return '진행'

@@ -81,7 +81,7 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
             {
                 onChangeEvent !== undefined ? 
                 <div style={{marginLeft:'auto'}}>
-                     <button style={{padding: '3px 11px 3px 11px', backgroundColor:POINT_COLOR}} onClick={onChangeEvent}>{isMultiRegistered ? '추가' : '변경'}</button>
+                     <button type="button" style={{padding: '3px 11px 3px 11px', backgroundColor:POINT_COLOR}} onClick={onChangeEvent}>{isMultiRegistered ? '추가' : '변경'}</button>
                 </div>
                 :
                 null
