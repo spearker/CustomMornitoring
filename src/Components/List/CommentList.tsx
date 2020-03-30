@@ -17,7 +17,7 @@ interface Props{
 
 // 댓글 리스트
 const CommentList = ({ contents, onClickEvent }: Props) => {
-  
+  const me = useUser()
   
   useEffect(()=>{
    
@@ -26,8 +26,8 @@ const CommentList = ({ contents, onClickEvent }: Props) => {
   return (
     
       <ListWrapDiv>
-        <div style={{width: '15%', fontSize: 14, display:'flex'}}>
-          <ImageBox src={contents.profile == "" ? IMG_PROFILE : contents.profile} />
+        <div style={{width: '15%', minWidth:25, fontSize: 14, display:'flex'}}>
+          <ImageBox src={contents.photo == "" ? IMG_PROFILE : contents.photo} />
           <p className="p-limit" style={{display:'inline-block'}}>{contents.name}</p>
         </div>
         <div style={{width: '75%', fontSize: 14}}>
@@ -35,7 +35,11 @@ const CommentList = ({ contents, onClickEvent }: Props) => {
           <a className="p-bold" style={{fontSize:12, textDecoration:'underline', paddingTop:6, color:'#888888'}} href={contents.file_url} target="_blank">{contents.file_url !== "" ? '[첨부파일 다운로드]' : null}</a>
         </div>
         <div onClick={()=>onClickEvent(contents.pk)} style={{width:32, position:'absolute', top:0, right:12}}>
+            {
+              contents.writer_pk === me.pk ?
             <a onClick={()=>onClickEvent(contents.pk)} style={{fontSize:13, color:'gray'}}>삭제</a>
+            :
+            null}
         </div> 
       </ListWrapDiv> 
 
@@ -47,8 +51,8 @@ const ImageBox = Styled.img`
   height: 21px;
   object-fit: cover;
   margin-left: 13px;
+  min-width: 21px;
   margin-right: 9px;
-  display: inline-block;
 `
 
 

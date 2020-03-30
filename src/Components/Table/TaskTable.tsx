@@ -36,41 +36,15 @@ interface IProps{
 const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IProps) => {
 
   const [openTarget, setOpenTarget] = useState<string>('');
-  const [task, setTask]= useState<any>('');
+  const [task, setTask]= useState<any>(null);
   const [replyList, setReplyList]= useState<IReply[]>([]);
   const [process, setProcess] = useState<IProcess[]>([]);
   const [oepnProcess, setOpenProcess] = useState<string>('');
 
-/**
-   * onClickDeleteComment()
-   * 댓글 삭제
-   * @param {string} pk 댓글 pk
-   * @returns X
-   */
-  const onClickDeleteComment = useCallback(async(pk: string)=>{
 
-
-    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
-    return;
-    const data = {
-      pk: pk,
-
-    }
-    const results = await postRequest(BASE_URL + '', data, getToken(TOKEN_NAME))
-
-    if(results === false){
-      //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[])
-
+  useEffect(()=>{
+    setOpenTarget("")
+  },[contents])
 
   
   /**
@@ -111,6 +85,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     }else{
       if(results.status === 200){
         setTask(results.results)
+       
         //setProcess(results.results.process)
         //setReplyList(results.results.replyList)
       }else{
@@ -120,6 +95,8 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     }
   
   },[openTarget, task]);
+
+
 
   useEffect(()=>{
    console.log(Object.keys(indexList))
@@ -155,7 +132,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
               </tr>
               <tr style={{backgroundColor:'#f4f6fa'}}>
                 {
-                  openTarget !== v.pk ?
+                  openTarget !== v.pk || task == null?
                   null
                   :
                   <td colSpan={15} style={{paddingLeft:8, color:'black'}} >
@@ -168,14 +145,14 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                           <img onClick={()=>setOpenTarget('')} src={IC_CLOSE} style={{marginLeft:9, width:24, float:'right'}}/>
                         </div>
                         <div style={{display:'flex', paddingLeft:12}}>
-                          <StatusDropdown pk={v['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={'active'} onClickEvent={onClickEvent}/>
-                          <p className="p-bold p-limit" style={{marginLeft:30, fontSize:28, width:700, marginTop:4}}>업무내역1</p>
+                          <StatusDropdown pk={openTarget['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={task.status} onClickEvent={onClickEvent}/>
+                          <p className="p-bold p-limit" style={{marginLeft:30, fontSize:28, width:700, marginTop:4}}>{task.title}</p>
 
                         </div>
                         {/* 상세내용 */}
                         <div style={{paddingLeft:12,position:'relative'}}>
-                          <p style={{float:'right', position:'absolute', right:0, top:21}}>작성일 : 2020.01.20 오후 00:00</p>
-                          <ReadOnlyInputTask title={'상세 업무내용'} value={'설명..설명..설명...'}/>
+                        <p style={{float:'right', position:'absolute', right:0, top:21}}>작성일 : {task.created}</p>
+                          <ReadOnlyInputTask title={'상세 업무내용'} value={task.description}/>
                           </div>  
                         </div>
                         {/* 공정내용 */}
@@ -242,16 +219,10 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                             <span className="p-limit" style={{width: 500, display:'inline-block'}}>홍길동 과장, 홍길동 과장, 홍길동 과장 </span>
                           </div>
                         </div>
-                        
-
-                       
+                      
                         </div>
-                        <CommentsContainer pk={"wdwdwd"}>
-                            {replyList.map((v, i)=>{
-                                return(
-                                  <CommentList contents={v} onClickEvent={onClickDeleteComment}/>
-                                )
-                            })}
+                        <CommentsContainer pk={openTarget}>
+                            
                         </CommentsContainer>
                         </div>
                       

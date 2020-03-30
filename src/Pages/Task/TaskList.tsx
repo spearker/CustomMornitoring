@@ -83,7 +83,7 @@ const indexList = {
    */
   const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
-    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+   // alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
     const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
@@ -109,28 +109,27 @@ const indexList = {
    * @returns X
    */
   const onClickTaskStatus = useCallback(async(pk: string, value:string)=>{
-    alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
-    return;
+    //alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
+    //return;
     const data = {
       pk: pk,
       status: value
     }
-    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        alert('성공적으로 변경되었습니다.')
+        getData();
+        
+      
       }else{
-        //TODO:  기타 오류
+        alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
       }
     }
   },[])
-
- 
 
  
 

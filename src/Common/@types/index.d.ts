@@ -69,7 +69,8 @@ interface IMold{
 interface IReply{
   pk: string,
   name: string,
-  profile: string,
+  writer_pk: string,
+  photo: string,
   detail: string,
   file_url: string,
 }

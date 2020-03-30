@@ -40,7 +40,7 @@ const ProcessTable = ({indexList, contents,pk, select,widthList, onClickModify, 
 
   const [openTarget, setOpenTarget] = useState<string>('');
   const [task, setTask]= useState<any>('');
-  const [replyList, setReplyList]= useState<IReply[]>(dataSet.commentList);
+  const [replyList, setReplyList]= useState<IReply[]>([]);
   
   const changeStatusToString = useCallback((status: string | undefined)=>{
     if(status === 'active'){
