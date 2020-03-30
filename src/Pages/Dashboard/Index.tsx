@@ -106,11 +106,10 @@ const Dashboard = () => {
       waring:0
     })
 
-    setStatus(
-      dataSet.statusList
-    )
-
-    setTaskList(dataSet.taskList)
+    //setStatus(dataSet.statusList)
+    getStatus(1);
+    onClickFilter(0)
+    //setTaskList(dataSet.taskList)
   },[])
 
   /**
@@ -121,21 +120,41 @@ const Dashboard = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getStatus = useCallback(async (index: number)=>{
-    const results = await getRequest(BASE_URL + '/dashboard/status', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8087/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
     }else{
       if(results.status === 200){
           setStock(results.results.stock)
           setStatus(results.results.item_list)
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
       }else{
-        //TODO:  기타 오류
+        alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
       }
     }
   },[page])
+
+  /**
+   * getTasks()
+   * 작업지시서 현황 조회
+   * @param {string} url 요청 주소
+   * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
+   */
+  const getTasks = useCallback(async (index: number)=>{
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+
+    if(results === false){
+      alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
+    }else{
+      if(results.status === 200){
+          setStock(results.results.stock)
+          setStatus(results.results.item_list)
+      }else{
+        alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
+      }
+    }
+  },[page])
+
   /**
    * onClickChangePage()
    * 장비 현황 조회 페이지 변경
@@ -172,6 +191,7 @@ const Dashboard = () => {
     }else{
       if(results.status === 200){
         alert('성공적으로 변경되었습니다.')
+        onClickFilter(0)
       }else{
         alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
       }
@@ -187,18 +207,17 @@ const Dashboard = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    return;
-    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    //return;
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('서버에서 데이터를 불러 올 수없습니다.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+          setTaskList(results.results)
+          
       }else{
-        //TODO:  기타 오류
+        alert('서버에서 데이터를 불러 올 수없습니다.')
       }
     }
   },[option])

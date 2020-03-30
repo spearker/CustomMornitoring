@@ -135,7 +135,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
       </div>
       {
         onClickModify !== undefined ? 
-        <ButtonBox onClick={()=>onClickModify(contents.pk !== undefined ? contents.pk : '', newStock)}>생산수량 수정하기</ButtonBox>
+        <ButtonBox onClick={()=>onClickModify(contents.pk !== undefined ? contents.output.pk : '', newStock)}>생산수량 수정하기</ButtonBox>
       :
 
       <Link to={`/update/process?pk=`+ contents.pk} >

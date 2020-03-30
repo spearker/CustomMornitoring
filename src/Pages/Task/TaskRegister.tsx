@@ -139,16 +139,28 @@ const TaskRegister = () => {
      */
     const getRecommendData = useCallback(async()=>{
       
-      const res = await getRequest('http://211.208.115.66:8089/api/v1/task/recommend?pk=' + list[0].pk, getToken(TOKEN_NAME))
+      if(list.length < 1 || isUpdate){
+        return;
+      }
+      const keyword = list[0].pk;
+
+      const res = await getRequest('http://211.208.115.66:8089/api/v1/task/recommend?pk=' + keyword, getToken(TOKEN_NAME))
+
 
       if(res === false){
-        //TODO: 에러 처리
+        alert('8089 포트 : 현재 추천 데이터를 받아올 수 없습니다.')
       }else{
         if(res.status === 200){
           const data = res.results;
-          setRecommend(data)
+          if(data.length === 0){
+            alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
+            setRecommend(data)
+          }else{
+            setRecommend(data)
+          }
+ 
         }else{
-          //TODO:  기타 오류
+          alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
         }
       }
     },[list, recommend ])
@@ -431,6 +443,7 @@ const TaskRegister = () => {
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
+         onSubmitFile(getParameter('pk'))
          alert('성공적으로 수정 되었습니다');
 
          
@@ -448,7 +461,7 @@ const TaskRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-    if(worker === null || title == "" || list.length < 1 || list2.length < 1){
+    if(worker === null || title == "" || list.length < 1){
       alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
       return;
     }
@@ -464,7 +477,27 @@ const TaskRegister = () => {
     list2.forEach(v => {
       tempProcess.push(v['pk'])
     });
-    const data = {
+    let data: any = ""; 
+    if(tempOpt === 'auto'){
+
+      let tempPc = new Array();
+      recommend[selectIndex].forEach((v, i)=>{
+        
+        tempPc.push(v.pk)
+      })
+      data = {
+       
+        title: title,
+        description : description, 
+        product_pk: list[0].pk,
+        amount: amount,
+        process: tempPc,
+        process_type: tempOpt,
+        worker: worker.pk,
+        referencers : tempRefer,
+    }
+    }else{
+      data = {
        
         title: title,
         description : description, 
@@ -475,6 +508,8 @@ const TaskRegister = () => {
         worker: worker.pk,
         referencers : tempRefer,
     }
+    }
+    
 
     const res = await postRequest('http://211.208.115.66:8088/api/v1/task/register', data, getToken(TOKEN_NAME))
 
@@ -482,7 +517,9 @@ const TaskRegister = () => {
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
+
          alert('성공적으로 등록 되었습니다');
+         onSubmitFile(res.results)
          setTitle('');
          setDescription('');
          setList([]);
@@ -497,7 +534,7 @@ const TaskRegister = () => {
       }
     }
 
-  },[list, list2, option,referencerList,amount, pk, worker, title, description])
+  },[list, selectIndex,list2, option,referencerList,amount, pk, worker, title, description])
 
   /**
    * getData()
@@ -531,6 +568,35 @@ const TaskRegister = () => {
       }
     }
   },[pk,list, list2, option,referencerList,amount, pk, worker, title, description])
+
+
+  /**
+   * onSubmitFile()
+   * 작업지시서 파일첨부
+   * @param {string} url 요청 주소
+   * @param {string} pk 작업지시서 pk
+   * @returns X 
+   */
+  const onSubmitFile = useCallback(async(id)=>{
+    console.log(fileList)
+    const data = new FormData();
+    data.append('pk',id);
+    fileList.forEach((v, i)=>{
+      data.append('file',v);
+    });
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/task/file',data, getToken(TOKEN_NAME))
+    
+    if(res === false){
+      alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
+    }else{
+      if(res.status === 200){
+         //setFileList([])
+      }else{
+        alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
+      }
+    }
+  },[fileList])
+  
   return (
       <DashboardWrapContainer>
         <InnerBodyContainer>
@@ -879,7 +945,7 @@ const TaskRegister = () => {
             }
             isVisible={isPoupup4} onClickClose={()=>{setIsPoupup4(false)}} title={'공유자 선택'} >
               <>
-              <SearchInput description={'공유자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={(e)=>onClickSearch}/>
+              <SearchInput description={'공유자를 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?

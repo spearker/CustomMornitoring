@@ -56,14 +56,33 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
    */
   const onChangeStock = useCallback(async(pk, amount)=>{
   
-   
-    alert('테스트 : keyword - ' + pk + ' / ' + amount);
-    return;
-    if(pk  === ''){
+    if(task == null || task.pk == undefined){
       return;
-    } 
+    }
+    if(amount < 0){
+      return;
+    }
+    const data = {
+      pk: task.pk,
+      product_pk: pk,
+      amount: amount
+
+    }
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/task/amount', data, getToken(TOKEN_NAME))
+
+    if(res === false){
+        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      }else{
+        if(res.status === 200){
+           alert('성공적으로 변경 되었습니다')
+           
+        }else{
+          alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        }
+      }
+
     
-  },[])
+  },[task])
 
   /**
    * onClickOpenTask()
@@ -75,18 +94,52 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     if(pk === undefined || pk === ""){
       return;
     }
-    setOpenTarget(pk)
+   
     //alert(pk)
 
-    const results = await getRequest('http://211.208.115:66:8087/api/v1/task/process?pk=' + openTarget, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/detail?pk=' + pk, getToken(TOKEN_NAME))
+
+    if(results === false){
+      alert(' 데이터를 불러올 수 없습니다.')
+      setTask(null)
+      
+    }else{
+      if(results.status === 200){
+        setTask(results.results)
+        onClickGetProcess(pk)
+        setOpenTarget(pk)
+        //setProcess(results.results.process)
+        //setReplyList(results.results.replyList)
+      }else{
+        //TODO : 지울것
+        alert('데이터를 불러올 수 없습니다.')
+        setTask(null)
+      }
+    }
+  
+  },[openTarget, task, process]);
+
+
+  /**
+   * onClickGetProcess()
+   * 공정 열기
+   * @param {string} pk 작업지시서 pk
+   * @returns X
+   */
+  const onClickGetProcess = useCallback(async(pk: string)=>{
+    if(pk === undefined || pk === ""){
+      return;
+    }
+
+    const results = await getRequest('http://211.208.115.66:8087/api/v1/task/process?pk=' + pk, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
     }else{
       if(results.status === 200){
-        setTask(results.results)
+        //setTask(results.results)
        
-        //setProcess(results.results.process)
+        setProcess(results.results)
         //setReplyList(results.results.replyList)
       }else{
         //TODO : 지울것
@@ -94,8 +147,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       }
     }
   
-  },[openTarget, task]);
-
+  },[openTarget, task, process]);
 
 
   useEffect(()=>{
@@ -111,11 +163,11 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
             contents.map((v, i)=>{
               return(
                 <>
-              <tr key={i} onClick={()=>onClickOpenTask(v.pk)} style={{cursor:'pointer'}}>
+              <tr key={i}  style={{cursor:'pointer'}}>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
-                    <td className="p-limit" key={mv}>
+                    <td className="p-limit" key={mv} onClick={mv !== 'status' ? ()=>onClickOpenTask(v.pk): ()=>{}}>
                       <div style={{display:'flex',  whiteSpace: 'nowrap'}}>
                       {mv === 'status' ? <StatusDropdown pk={v['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={v[mv]} onClickEvent={onClickEvent}/> : null}
                       {mi === 0  || mi === 1 ? '': 'ㅣ   '}
@@ -145,7 +197,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                           <img onClick={()=>setOpenTarget('')} src={IC_CLOSE} style={{marginLeft:9, width:24, float:'right'}}/>
                         </div>
                         <div style={{display:'flex', paddingLeft:12}}>
-                          <StatusDropdown pk={openTarget['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={task.status} onClickEvent={onClickEvent}/>
+                          <StatusDropdown pk={openTarget} contents={['active', 'done', 'share', 'ready', 'stop']} select={task.status} onClickEvent={onClickEvent}/>
                           <p className="p-bold p-limit" style={{marginLeft:30, fontSize:28, width:700, marginTop:4}}>{task.title}</p>
 
                         </div>
@@ -175,21 +227,18 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                         <div style={{paddingLeft:12, marginBottom:12}}>
                         <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
                         <span className="p-bold" style={{width: 128, float:'left', display:'inline-block'}}>·  첨부 파일</span>
-                        <div style={{ marginLeft:128, color:'black'}}>
-            
-                          <a style={{textAlign:'center', display:'inline-block', marginRight:11}}>
-                            <img src={IC_DOC} style={{width:100, height:70, objectFit: 'cover'}}/>
-                            <p className="p-limit" style={{width:95, fontSize:13}}>파일명.doc</p>
-                          </a>
-                          <a style={{textAlign:'center', display:'inline-block', marginRight:11}}>
-                            <img src={IC_DOC} style={{width:100, height:70, objectFit: 'cover'}}/>
-                            <p className="p-limit" style={{width:95, fontSize:13}}>파일명.doc</p>
-                          </a>
-                          <a style={{textAlign:'center', display:'inline-block', marginRight:11}}>
-                            <img src={IC_IMAGE} style={{width:100, height:70, objectFit: 'cover'}}/>
-                            <p className="p-limit" style={{width:95, fontSize:13}}>파일명.png</p>
-                          </a>
-                    
+                        <div style={{ marginLeft:128, color:'black', minHeight: 70}}>
+                          { 
+                            task.files.map((f,i)=>{
+
+                              return(
+                              <a key={'file-'+ i} href={f.url} style={{textAlign:'center', display:'inline-block', marginRight:11}}>
+                                  <img src={f.type === 'image' ?  IC_IMAGE : IC_DOC} style={{width:100, height:70, objectFit: 'cover'}}/>
+                                  <p className="p-limit" style={{width:95, fontSize:13}}>{f.name}</p>
+                              </a>
+                              )
+                            })
+                          }
                         </div>
                         <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
 
@@ -198,8 +247,8 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                         <div style={{width: 210, fontSize: 14,display:'inline-block'}}>
                           <div style={{ display:'flex'}}>
                           <span className="p-bold" style={{ width: 75, display:'inline-block',}}>·  관리자</span>
-                             <ImageBox src={IMG_PROFILE} />
-                            <span className="p-limit" style={{width: 90, display:'inline-block'}}>홍길동 과장</span>
+                             <ImageBox src={task.requester_image === ""  ? IMG_PROFILE : task.requester_image} />
+                             <span className="p-limit" style={{width: 90, display:'inline-block'}}>{task.requester}</span>
                           </div>
                         </div>
 
@@ -207,8 +256,8 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                         <div style={{width: 225, fontSize: 14,display:'inline-block'}}>
                           <div style={{ display:'flex'}}>
                           <span className="p-bold" style={{ width: 102, display:'inline-block',}}>·  작업 책임자</span>
-                             <ImageBox src={IMG_PROFILE} />
-                            <span className="p-limit" style={{width: 102, display:'inline-block'}}>홍길동 과장</span>
+                             <ImageBox src={task.worker_image === ""  ? IMG_PROFILE : task.worker_image} />
+                            <span className="p-limit" style={{width: 102, display:'inline-block'}}>{task.worker}</span>
                           </div>
                         </div>
                         <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
@@ -216,7 +265,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                         <div style={{width: '100%', fontSize: 14,display:'inline-block'}}>
                           <div style={{ display:'flex'}}>
                           <span className="p-bold" style={{ width: 100, display:'inline-block',}}>·  공유자</span>
-                            <span className="p-limit" style={{width: 500, display:'inline-block'}}>홍길동 과장, 홍길동 과장, 홍길동 과장 </span>
+                            <span className="p-limit" style={{width: 500, display:'inline-block'}}>{task.referencers}</span>
                           </div>
                         </div>
                       

@@ -132,7 +132,7 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
                      </div>
                 </div>
                 :
-                <div onClick={()=>{setIsOpen(true)}}>
+                <div onClick={()=>{console.log('click');setIsOpen(true)}}>
                 <BoxWrap onClick={()=>{setIsOpen(true)}}>
                     <img onClick={()=>{setIsOpen(!isOpen)}} src={IcMenu} style={{width:24, height:24, marginRight:10}}/>
                     <p className="p-bold" style={{display:'inline-block'}} onClick={()=>{setIsOpen(!isOpen)}} >{changeStatusToString(select)}</p>

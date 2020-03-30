@@ -11,7 +11,7 @@ export const changeStatusToString = ((status: string | undefined)=>{
         return '중지'
     }else if(status === 'share'){
         return '공유'
-    }else if(status === 'ready'){
+    }else if(status === 'ready' ||status === 'normal'  ){
         return '대기'
     }else if(status === 'off'){
         return '꺼짐'

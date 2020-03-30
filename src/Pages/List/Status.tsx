@@ -15,20 +15,20 @@ import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MANAGE } from '../../Common/routerset';
 import StatusTable from '../../Components/Table/StatusTable';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+import { useUser } from '../../Context/UserContext';
 
 // 기계 및 장비 현황
 const StatusList = () => {
 
 
-  const [list, setList] = useState<IStatus[]>(dataSet.status);
+  const [list, setList] = useState<IStatus[]>([]);
   const [option, setOption] = useState(0);
-
+  const me = useUser();
   const optionList = [
     "등록순", "이름순", "라인순", 
   ]
   const index = {
     status:'상태',
-    group:'라인',
     name:'이름',
     code:'번호',
     manufacturer:'제조사',
@@ -44,25 +44,23 @@ const StatusList = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    return;
-    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    //return;
+    const results = await getRequest('http://211.208.115.66:8087/api/v1/status/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
-      //TODO: 에러 처리
+      alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
     }else{
       if(results.status === 200){
-       
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
+        setList(results.results)
       }else{
-        //TODO:  기타 오류
+        alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
       }
     }
-  },[option])
+  },[option, list])
 
   useEffect(()=>{
-
+    onClickFilter(0)
    
   },[])
 
@@ -83,13 +81,20 @@ const StatusList = () => {
           <div style={{position:'relative'}}>
             <Header title={'기계 및 장비 현황'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              {
+                me.is_admin ? 
+                <>
+              
               <SmallButtonLink name="+ 기계 추가" link="/register/machine"/> 
               <SmallButtonLink name="+ 주변장치 추가" link="/register/submachine"/>
+              </>
+              :
+              null}
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
 
-          <StatusTable widthList={['100px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
+          <StatusTable widthList={['100px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={me.is_admin ? onClickModify :null}/>
         
         </InnerBodyContainer>
       </DashboardWrapContainer>

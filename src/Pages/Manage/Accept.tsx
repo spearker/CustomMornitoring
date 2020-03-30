@@ -38,8 +38,6 @@ const AcceptMember = () => {
     }else{
       if(results.status === 200){
           setList(results.results)
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }

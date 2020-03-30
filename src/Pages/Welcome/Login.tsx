@@ -82,7 +82,7 @@ const Login = () => {
       setError('서버 상태 : 접속 가능')
     }
 
-  },[])
+  },[error])
   
   
   useEffect(()=>{

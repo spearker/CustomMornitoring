@@ -58,7 +58,7 @@ const StatusTable = ({indexList, contents, widthList,eventType, link, keyName, o
                   })
                 }
                 {
-                  eventType !== 'input'?
+                  eventType !== 'input' && onClickEvent!== null?
                   <td style={{width: '100px', paddingTop:6, paddingBottom:6, paddingRight:0, textAlign:'right'}}>
                     <SmallButton name={buttonName} onClickEvent={()=>{onClickEvent(v[keyName], v['status'])}}/>
                   </td>

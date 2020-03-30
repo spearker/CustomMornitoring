@@ -33,7 +33,7 @@ const CommentsContainer = ({children, pk}: Props) => {
    * @param {object(file)} event.target.files[0] 파일
    * @returns X 
    */
-  const addFile = (event: any): void => {
+  const addFile = useCallback((event: any): void => {
     console.log(event.target.files[0]);
 
     if(event.target.files[0] === undefined){
@@ -49,7 +49,7 @@ const CommentsContainer = ({children, pk}: Props) => {
         return;
       }
     
-  }
+  },[file])
 
      /**
    * onClickOpenComment()
@@ -101,6 +101,7 @@ const CommentsContainer = ({children, pk}: Props) => {
       }else{
         if(res.status === 200){
            alert('성공적으로 블라인드 처리 되었습니다')
+           onClickOpenComment(pk)
         }else{
           alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
@@ -124,7 +125,7 @@ const CommentsContainer = ({children, pk}: Props) => {
       data.append('pk', pk);
       data.append('comment', text);
       data.append('file', file);
-
+      console.log(file);
       const res = await postRequest('http://211.208.115.66:8088/api/v1/task/comment/put', data, getToken(TOKEN_NAME))
 
       if(res === false){
@@ -133,6 +134,8 @@ const CommentsContainer = ({children, pk}: Props) => {
         if(res.status === 200){
            alert('성공적으로 등록 되었습니다')
            onClickOpenComment(pk)
+           setText('')
+           setFile(null)
         }else{
           alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
