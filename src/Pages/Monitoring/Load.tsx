@@ -41,7 +41,7 @@ const LoadMonitoring = () => {
           <div style={{position:'relative'}}>
             <Header title={'로드톤 모니터링'}/>
           </div>
-          <MonitoringTable indexList={index} keyName={'pk'} contents={dataSet.loadMonitoring}/>
+          <MonitoringTable indexList={index} keyName={'pk'} contents={[]}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

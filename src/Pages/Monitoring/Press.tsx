@@ -37,8 +37,31 @@ const PressMonitoring = () => {
 
   }
 
-  useEffect(()=>{
+  /**
+   * getData()
+   * 모니터링 데이터 조회
+   * @param {string} url 요청 주소
+   * @returns X 
+   */
+  const getData = useCallback(async()=>{
+    
+    const res = await getRequest( 'http://61.101.55.223:8999/api/v1/monitoring/press' , getToken(TOKEN_NAME))
 
+    if(res === false){
+      alert('서버에서 데이터를 받아올 수 없습니다.')
+    }else{
+      if(res.status === 200){
+         const data = res.results;
+         setList(data);
+         
+      }else{
+        alert('서버에서 데이터를 받아올 수 없습니다.')
+      }
+    }
+  },[list]);
+
+  useEffect(()=>{
+    getData()
   
   },[])
 
@@ -50,7 +73,7 @@ const PressMonitoring = () => {
             <Header title={'프레스 모니터링'}/>
             
           </div>
-          <MonitoringTable indexList={index} keyName={'pk'} contents={dataSet.pressMonitoring}/>
+          <MonitoringTable indexList={index} keyName={'pk'} contents={list}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       
