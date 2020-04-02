@@ -16,6 +16,8 @@ import InputContainer from '../../Containers/InputContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
+import {getSubMachineTypeList} from '../../Common/codeTransferFunctions';
+import { uploadTempFile } from '../../Common/fileFuctuons';
 
 
 // 주변장치 등록 페이지
@@ -26,17 +28,17 @@ const RegisterSubMachine = () => {
   const [pk, setPk] = useState<string>('');
   const [made, setMade] = useState<string>('');
   const [no, setNo] = useState<string>('');
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
   const [info, setInfo] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [type, setType] = useState<string>('');
+  const [type, setType] = useState<number>(1); //1: 미스피드
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
   const [file, setFile] = useState<any>();
   const [oldPhoto, setOldPhoto] = useState<string>('');
-  const [infoList, setInfoList] = useState<IInfo[]>([]);
-  const indexList = [
-    '미스피드', '하사점','앵글시퀀서','엔코더','통과센서','기타'
-  ]
+  const [path, setPath] = useState<string | null>(null);
+
+  const indexList = getSubMachineTypeList('kor');
 
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
@@ -48,31 +50,48 @@ const RegisterSubMachine = () => {
 
   },[])
 
+  
   /**
    * addFile()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
    * @returns X 
    */
-  const addFile = (event: any): void => {
+  const addFile = async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
 
     if(event.target.files[0] === undefined){
       setFile(null)
+      setPath(null)
       setPhotoName("")
       return;
     }
     console.log(event.target.files[0].type);
     if(event.target.files[0].type.includes('image')){ //이미지인지 판별
-      setPhotoName(event.target.files[0].name)
       setFile(event.target.files[0])
+      setPhotoName(event.target.files[0].name)
+      console.log(file)
+      const temp = await uploadTempFile(event.target.files[0]);
+      if(temp ===false){
+        console.log(temp)
+       
+        setFile(null)
+        setPhotoName('')
+        return
+      }else{
+        setPath(temp)
+        return
+      }
+      
     }else{
       setPhotoName('')
       setFile(null)
+      setPath(null)
       alert('이미지 형식만 업로드 가능합니다.')
     }
     
   }
+
 
   /**
    * getData()
@@ -100,6 +119,7 @@ const RegisterSubMachine = () => {
          setType(data.device_label);
          setInfoList(data.info_list);
          setFile(null);
+         setPath(null);
          //setInfoList(data.item_list)
       }else{
         //TODO:  기타 오류
@@ -127,21 +147,17 @@ const RegisterSubMachine = () => {
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
-      //TODO: 지울것
-      //alert('테스트 : 전송 - ' + pk + no + name + info + file + made + type + madeNo);
-      //return;
-      let data = new FormData();
-      data.append('pk', pk);
-      data.append('device_name', name);
-      data.append('device_label', type);
-      data.append('device_code', no);
-      data.append('manufacturer', made);
-      data.append('manufacturer_code', madeNo);
-      data.append('manufacturer_detail', info);
-      //data.append('device_photo', file);
-      if(infoList.length > 0){
-        data.append('info_list', JSON.stringify(infoList));
-      }
+    const data = {
+      pk: getParameter('pk'),
+      device_name: name,
+      device_label: type,
+      device_code: no,
+      manufacturer: made,
+      manufacturer_code: madeNo,
+      manufacturer_detail: info,
+      info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+      device_photo: path
+    };
 
 
       const res = await postRequest('http://211.108.115.66:8088/api/v1/peripheral/update/' + pk, data, getToken(TOKEN_NAME))
@@ -158,7 +174,7 @@ const RegisterSubMachine = () => {
         }
       }
 
-  },[pk, made, no, name, type, info, file, photoName, madeNo, infoList])
+  },[pk, made, no, name, type, info, file, photoName, madeNo, infoList, path])
 
   /**
    * onsubmitForm()
@@ -181,17 +197,16 @@ const RegisterSubMachine = () => {
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
-    let data = new FormData();
-    data.append('device_name', name);
-    data.append('device_label', type);
-    data.append('device_code', no);
-    data.append('manufacturer', made);
-    data.append('manufacturer_code', madeNo);
-    data.append('manufacturer_detail', info);
-    //data.append('device_photo', file);
-    if(infoList.length > 0){
-      data.append('info_list', JSON.stringify(infoList));
-    }
+    const data = {
+      device_name: name,
+      device_label: type,
+      device_code: no,
+      manufacturer: made,
+      manufacturer_code: madeNo,
+      manufacturer_detail: info,
+      info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+      device_photo: path
+    };
 
     const res = await postRequest('http://211.208.115.66:8088/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
@@ -207,9 +222,10 @@ const RegisterSubMachine = () => {
          setInfo('');
          setPk('');
          setMadeNo('');
-         setType('');
+         setType(1);
          setFile(null);
-         setInfoList([])
+         setInfoList([]);
+         setPath(null)
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -225,7 +241,7 @@ const RegisterSubMachine = () => {
             <WhiteBoxContainer>
             <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <NormalInput title={'주변장치 이름'} value={name} onChangeEvent={setName} description={'고객사가 보유한 장치의 이름을 입력하세요'} />
-                <DropdownInput title={'주변장치 종류'} target={type} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+                <DropdownInput title={'주변장치 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <NormalInput title={'주변장치 번호'} value={no} onChangeEvent={setNo} description={'고객사가 보유한 장치의 번호를 지정하세요'} />
                 <NormalInput title={'제조사 '} value={made} onChangeEvent={setMade} description={'장치의 제조사명을 입력하세요'} />
                 <NormalInput title={'제조사 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'장치의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />

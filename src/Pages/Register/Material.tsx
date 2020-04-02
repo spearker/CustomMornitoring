@@ -25,6 +25,7 @@ import SearchInput from '../../Components/Input/SearchInput';
 import AddList from '../../Components/List/AddList';
 import { dataSet } from '../../Common/dataset';
 import SearchedList from '../../Components/List/SearchedList';
+import { getMaterialTypeList } from '../../Common/codeTransferFunctions';
 interface IInfo {
   title: string,
   value: string,
@@ -43,10 +44,8 @@ const RegisterMaterial = () => {
   const [info, setInfo] = useState<IInfo[]>([]);
   const [amount, setAmount] = useState<number>(0);
   const [molds, setMolds] = useState<IMold[]>([]);
-  const [type, setType] = useState<string>('원재료');
-  const indexList = [
-    '원재료','최종생산품','중간제품','기타'
-  ]
+  const [type, setType] = useState<number>(1);
+  const indexList = getMaterialTypeList('lang')
 
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -85,16 +84,7 @@ const RegisterMaterial = () => {
       if(res.status === 200){
          const data = res.results;
          
-          if(data.material_type === 0){
-            setType('원재료');
-          }else if(data.material_type === 1){
-            setType('최종생산품');
-          }else if(data.material_type === 2){
-            setType('중간제품');
-          }else {
-            setType('기타');
-          }
-
+        setType(data.material_type);
          setName(data.material_name);
          setMade(data.distributor);
          setCode(data.material_code);
@@ -131,16 +121,7 @@ const RegisterMaterial = () => {
        return;
      }
 
-     let typeNumber ;
-     if(type === '원재료'){
-        typeNumber = 0;
-      }else if(type === '최종생산품'){
-        typeNumber = 1;
-      }else if(type === '중간제품'){
-        typeNumber = 2;
-      }else {
-        typeNumber = 9;
-      }
+  
       let moldPk = new Array();
       if(list.length > 0){
         moldPk.push(list[0].pk)
@@ -155,7 +136,7 @@ const RegisterMaterial = () => {
         material_name: name,
         material_code: code,
         material_spec: spec,
-        material_type: typeNumber,
+        material_type: type,
         stock: amount,
         molds: moldPk,
         distributor: made,
@@ -173,7 +154,7 @@ const RegisterMaterial = () => {
          setCode('')
          setSpec('')
          setAmount(0)
-         setType('원재료')
+         setType(1)
          setMade('')
          setInfo([])
          setMolds([])
@@ -204,17 +185,7 @@ const RegisterMaterial = () => {
     //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
     //return;
  
-    let typeNumber ;
-    if(type === '원재료'){
-       typeNumber = 0;
-     }else if(type === '최종생산품'){
-       typeNumber = 1;
-     }else if(type === '중간제품'){
-       typeNumber = 2;
-     }else {
-       typeNumber = 9;
-     }
-
+    
      let infoString ;
      if(info.length > 0){
        infoString = JSON.stringify(info)
@@ -229,7 +200,7 @@ const RegisterMaterial = () => {
         material_code: code,
         material_spec: spec,
         stock: amount,
-        material_type: typeNumber,
+        material_type: type,
         distributor: made,
         info_list : infoString,
         molds: moldPk
@@ -289,7 +260,7 @@ const RegisterMaterial = () => {
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
              <NormalInput title={'자재 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
              <NormalInput title={'자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
-             <DropdownInput title={'자재 종류'} target={type} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+             <DropdownInput title={'자재 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
              {/* 팝업 여는 버튼 + 금형 추가 */}
              <AddInput title={'사용 금형'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  

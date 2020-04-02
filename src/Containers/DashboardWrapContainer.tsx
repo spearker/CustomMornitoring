@@ -36,6 +36,7 @@ const DashboardWrapContainer = ({children}: any) => {
             name: results.results.name,
             profile_img : results.results.profile_img,
             is_login : true,
+            company_name: results.results.company_name,
           }
         });
       }else{

@@ -162,13 +162,17 @@ const Dashboard = () => {
    * @returns X
    */
   const onClickChangePage = useCallback((index: number)=>{
-      if(index < 1 || index > Math.ceil(stock/6)){
+    console.log(index)
+      if(stock < 7){
+        return
+      }
+      if(index < 1 || index >= Math.ceil(stock/6)){
         return
       }
       setPage(index)
       console.log(index)
       //getStatus(index)
-  },[page])
+  },[page, stock])
 
   /**
    * onClickTaskStatus()
@@ -277,7 +281,7 @@ const Dashboard = () => {
                   <div style={{width:'4%'}}> 
                    <img onClick={()=>onClickChangePage(page-1)} src={IC_BEFORE} style={{cursor:'pointer',width:24, margin:10}} />
                   </div>
-                  <div className="p-limit" style={{marginTop: 25, width:'90%',marginBottom: 17, textAlign:'center'}}>
+                  <div className="p-limit" style={{flexWrap: 'wrap',marginTop: 25, width:'90%',marginBottom: 17, textAlign:'left'}}>
                     {
                       status.map((v: IStatus, index)=>{
                         return(
@@ -285,6 +289,7 @@ const Dashboard = () => {
                         )
                       })
                     }
+                    
                     <div style={{marginTop:7, }}>
                       <DotPagenation stock={Math.ceil(stock/6)} selected={page} onClickEvent={onClickChangePage}/>
                     </div>

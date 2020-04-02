@@ -11,7 +11,8 @@ export interface User {
     is_login?: boolean,
     pk: string,
     appointment: number | null | string,
-    profile_img: string
+    profile_img: string,
+    company_name?: string
 }
 
 
@@ -45,6 +46,7 @@ function UserReducer(state: User, action: Action): User {
             pk: action.data.pk,
             appointment: action.data.appointment,
             profile_img: action.data.profile_img,
+            company_name: action.data.company_name,
         }
     case 'LOGOUT_USER':
         console.log(`LOGOUT_USER`)
@@ -57,6 +59,7 @@ function UserReducer(state: User, action: Action): User {
             appointment: null,
             profile_img: '',
             is_login: false,
+            company_name: '',
         }
 
       default:

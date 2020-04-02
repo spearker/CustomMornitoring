@@ -44,7 +44,7 @@ const DropdownInput = ({ title,contents, target, onChangeEvent}: IProps) => {
                      <InputBox onClick={handleClickBtn}>{target === "" ? '(선택)' : target}</InputBox>
                     {contents.map((v,i)=>{
                         return(
-                            <InputBoxList key={i} onClick={()=>{onChangeEvent(v); setIsOpen(false)}}>{v}</InputBoxList>
+                            <InputBoxList key={i} onClick={()=>{onChangeEvent(i); setIsOpen(false)}}>{v}</InputBoxList>
                         )
                     
                     })}

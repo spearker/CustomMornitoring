@@ -1,7 +1,7 @@
 // 기계 타입
 interface IMachine{
     machine_name: string,
-    machine_label?: string,
+    machine_label?: number,
     machine_code: string,
     manufacturer?: string,
     manufacturer_code?: string,
@@ -27,7 +27,7 @@ interface IProcess{
 // 주변장치 타입
 interface ISubMachine{
   device_name: string,
-  device_label?: string,
+  device_label?: number,
   device_code: string,
   manufacturer?: string,
   manufacturer_code?: string,

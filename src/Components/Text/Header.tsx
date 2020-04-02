@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
+import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
 
 //페이지 헤더
 interface IProps{
@@ -15,7 +16,8 @@ const Header = ({title}: IProps) => {
   return (
     
         <div style={{textAlign:'left', }}>
-            <p className="p-bold" style={{fontSize: 20, marginBottom:15, marginTop:75}}>{title}</p>
+            <p className="p-bold" style={{fontSize: 20, marginBottom:15, marginTop:75}}>{title}
+             </p>
         </div>
       
   );

@@ -14,11 +14,14 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MONITORING } from '../../Common/routerset';
 import MonitoringTable from '../../Components/Table/MonitoringTable';
+import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
+import HeaderLive from '../../Components/Text/HeaderLive';
 
 // 프래스 모니터링
 const PressMonitoring = () => {
 
   const [list, setList] = useState<[]>([]);
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(false);
 
   const index = {
     status:'장비상태',
@@ -45,10 +48,12 @@ const PressMonitoring = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest( 'http://61.101.55.223:8999/api/v1/monitoring/press' , getToken(TOKEN_NAME))
-
+    const res = await getRequest('http://61.101.55.223:8999/api/v1/monitoring/press' , getToken(TOKEN_NAME))
+    setIsFirstLoad(true)
     if(res === false){
       alert('서버에서 데이터를 받아올 수 없습니다.')
+   
+      window.location.href="/dashboard"
     }else{
       if(res.status === 200){
          const data = res.results;
@@ -56,22 +61,39 @@ const PressMonitoring = () => {
          
       }else{
         alert('서버에서 데이터를 받아올 수 없습니다.')
+       
+        window.location.href="/dashboard"
       }
     }
   },[list]);
 
   useEffect(()=>{
-    getData()
-  
+    if(!isFirstLoad){
+      getData()
+    }
   },[])
+  useEffect(()=>{
+    //getData()
+
+      const interval = setInterval(() => {
+        getData()
+      }, 3500);
+  
+    
+   
+    return () => clearInterval(interval);
+
+  },[])
+  
 
   return (
       <DashboardWrapContainer>
         <SubNavigation list={ROUTER_MONITORING}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
-            <Header title={'프레스 모니터링'}/>
-            
+      
+              <HeaderLive title={'프레스 모니터링'} isTurn={isFirstLoad}/>        
+          
           </div>
           <MonitoringTable indexList={index} keyName={'pk'} contents={list}/>
         </InnerBodyContainer>

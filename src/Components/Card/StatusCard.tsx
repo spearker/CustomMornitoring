@@ -62,6 +62,7 @@ const ImageBox = Styled.img`
 
 const CardWrap = Styled.div`
   display: inline-block;
+  flex-direction: column;
   position: relative;
   margin-right: 10px;
   margin-left: 10px

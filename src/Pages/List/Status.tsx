@@ -66,7 +66,7 @@ const StatusList = () => {
 
   const onClickModify = useCallback((id, type)=>{
     console.log('--select id : ' + id)
-    if(type === 'machine'){
+    if(type !== 'submachine'){
       window.location.href=`/update/machine?pk=${id}`
     }else{ //peripheral
       window.location.href=`/update/submachine?pk=${id}`

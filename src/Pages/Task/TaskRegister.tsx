@@ -36,6 +36,7 @@ import FileTumbCard from '../../Components/Card/FileTumbCard';
 import BasicToggle from '../../Components/Toggle/BasicToggle';
 import ProcessTable from '../../Components/Table/ProcessTable';
 import SmallButton from '../../Components/Button/SmallButton';
+import { uploadTempFile } from '../../Common/fileFuctuons';
 
 // 작업 지시서 등록
 const TaskRegister = () => {
@@ -49,13 +50,17 @@ const TaskRegister = () => {
   const [amount, setAmount]= useState<number | string>(0);
   const [end, setEnd] = useState<string>(moment().format('YYYY-MM-DD HH:mm'));
   const [start, setStart] = useState<string>(moment().format('YYYY-MM-DD HH:mm'));
-  const [fileList, setFileList] = useState<any[]>([])
-  const [oldFileList, setOldFileList] = useState<any[]>([])
+
+  //파일 관련
+  const [fileList, setFileList] = useState<any[]>([]);
+  const [pathList, setPathList] = useState<string[]>([]);
+
+  const [oldFileList, setOldFileList] = useState<any[]>([]);
   const [removefileList, setRemoveFileList] = useState<any[]>([])
-  const [isRecommend, setIsRecommend] = useState<boolean>(false);
+
   const [select, setSelect] = useState<IProcess[]>();
   const [selectIndex, setSelectIndex] = useState<number>(999);
-
+ 
  //검색관련
  //생산품 검색
  const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -377,7 +382,7 @@ const TaskRegister = () => {
    * @param {object(file)} event.target.files[0] 파일
    * @returns X 
    */
-  const addFile = (event: any): void => {
+  const addFile = useCallback(async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
 
     if(fileList.length + oldFileList.length > 7){
@@ -389,16 +394,29 @@ const TaskRegister = () => {
       return;
     }
     console.log(event.target.files[0].type);
-    if(event.target.files[0].size < 10485760){ //이미지인지 판별
-      let tempFileLsit = fileList.slice();
-      tempFileLsit.push(event.target.files[0])
-      setFileList(tempFileLsit)
+    if(event.target.files[0].size < 10000000){ //10MB 이하 판별
+      const tempData = event.target.files[0]
+      const tempPath = await uploadTempFile(event.target.files[0]);
+      
+
+      if(tempPath ===false){
+        console.log(tempPath)
+        
+        return
+      }else{
+        let tempFileLsit = fileList.slice();
+        tempFileLsit.push(tempData)
+        let tempPathList = fileList.slice();
+        tempPathList.push(tempPath)
+        return
+      }
+     
     }else{
-      alert('10MB 이하의 파일만 업로드 가능합니다.')
+      alert('9MB 이하의 파일만 업로드 가능합니다.')
       return;
     }
     
-  }
+  },[fileList, pathList, oldFileList])
 
    /**
    * onsubmitFormUpdate()
@@ -434,6 +452,7 @@ const TaskRegister = () => {
         process: tempProcess,
         worker: worker.pk,
         referencers : tempRefer,
+        add_file: pathList,
         delete_file : removefileList,
     }
 
@@ -452,7 +471,7 @@ const TaskRegister = () => {
       }
     }
 
-  },[list, list2, option,removefileList,referencerList,amount, pk, worker, title, description])
+  },[list, list2, option,removefileList,referencerList,amount, pk, worker,pathList, title, description])
   /**
    * onsubmitForm()
    * 작업지시서 정보 등록
@@ -495,6 +514,7 @@ const TaskRegister = () => {
         process_type: tempOpt,
         worker: worker.pk,
         referencers : tempRefer,
+        files: pathList
     }
     }else{
       data = {
@@ -507,6 +527,7 @@ const TaskRegister = () => {
         process_type: tempOpt,
         worker: worker.pk,
         referencers : tempRefer,
+        files: pathList,
     }
     }
     
@@ -534,7 +555,7 @@ const TaskRegister = () => {
       }
     }
 
-  },[list, selectIndex,list2, option,referencerList,amount, pk, worker, title, description])
+  },[list, selectIndex,list2, pathList,option,referencerList,amount, pk, worker, title, description])
 
   /**
    * getData()
@@ -776,10 +797,14 @@ const TaskRegister = () => {
                                   url={URL.createObjectURL(v)}
                                   data={v}
                                   onClickEvent={()=>{
-                                  const tempList = fileList.slice()
-                                  const idx = fileList.indexOf(v)
-                                  tempList.splice(idx, 1)
-                                  setFileList(tempList)
+                                    const tempList = fileList.slice()
+                                    const tempPathList = pathList.slice()
+                                    const idx = fileList.indexOf(v)
+                                    tempList.splice(idx, 1)
+                                    tempPathList.splice(idx, 1)
+                                    setFileList(tempList)
+                                    setPathList(tempPathList)
+
                                 }} 
                                 />                    
                             )

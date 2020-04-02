@@ -5,7 +5,7 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import Logo from '../../Assets/Images/img_logo.png'
 import Icon from '../../Assets/Images/btn_menu_2.png'
 import NavList from './NavList'
-import { useUserDispatch } from '../../Context/UserContext';
+import { useUserDispatch, useUser } from '../../Context/UserContext';
 import useOnclickOutside from 'react-cool-onclickoutside';
 //대시보드 네비게이션
 interface Props{
@@ -17,6 +17,8 @@ const DashboardNavigation = ({select}: Props) => {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const dispatch = useUserDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const me = useUser()
   useOnclickOutside(ref,() => {
     setIsOpen(false);
 }
@@ -51,8 +53,8 @@ const DashboardNavigation = ({select}: Props) => {
         </TabletIconDiv>
         <NavDiv>
             <div style={{textAlign:'center', width:'100%', marginBottom: 44, }}>
-              <a href="/dashboard"><img src={Logo} style={{width: 100, marginBottom:8}}/></a>
-              <p className="p-bold" style={{display:'inline-block',fontSize:16,textAlign:'center', color:`${POINT_COLOR}`}}>{SERVICE_TITLE}</p>
+              <a href="/dashboard"><img src={Logo} style={{width: 100, marginBottom:8}}/></a><br/>
+              <p className="p-bold" style={{minWidth:100, display:'inline-block',fontSize:18,textAlign:'center', color:`${POINT_COLOR}`}}>{me.company_name === undefined ? SERVICE_TITLE : me.company_name}</p>
             </div>
             <div style={{paddingLeft:35}}>
             {

@@ -21,7 +21,8 @@ import IcButton from '../../Components/Button/IcButton';
 import InputContainer from '../../Containers/InputContainer';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
-
+import { uploadTempFile } from '../../Common/fileFuctuons';
+import {getMachineTypeList} from '../../Common/codeTransferFunctions';
 
 // 기계 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -33,17 +34,15 @@ const RegisterMachine = () => {
   const [info, setInfo] = useState<string>('');
   const [infoList, setInfoList] = useState<IInfo[]>([]);
   const [name, setName] = useState<string>('');
-  const [type, setType] = useState<string>('');
+  const [type, setType] = useState<number>(1); //1: 프레스
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
   const [oldPhoto, setOldPhoto] = useState<string>('');
   const [file, setFile] = useState<any>(null);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [path, setPath] = useState<string | null>(null);
 
-  const indexList = [
-    '프레스', '로봇', '용접기', '밀링', '선반', '탭핑기', '기타'
-  ]
-
+  const indexList = getMachineTypeList('kor');
   
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
@@ -61,21 +60,36 @@ const RegisterMachine = () => {
    * @param {object(file)} event.target.files[0] 파일
    * @returns X 
    */
-  const addFile = (event: any): void => {
+  const addFile = async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
 
     if(event.target.files[0] === undefined){
       setFile(null)
+      setPath(null)
       setPhotoName("")
       return;
     }
     console.log(event.target.files[0].type);
     if(event.target.files[0].type.includes('image')){ //이미지인지 판별
-      setPhotoName(event.target.files[0].name)
       setFile(event.target.files[0])
+      setPhotoName(event.target.files[0].name)
+      console.log(file)
+      const temp = await uploadTempFile(event.target.files[0]);
+      if(temp ===false){
+        console.log(temp)
+        
+        setFile(null)
+        setPhotoName('')
+        return
+      }else{
+        setPath(temp)
+        return
+      }
+      
     }else{
       setPhotoName('')
       setFile(null)
+      setPath(null)
       alert('이미지 형식만 업로드 가능합니다.')
     }
     
@@ -107,12 +121,13 @@ const RegisterMachine = () => {
          setType(data.machine_label);
          setInfoList(data.info_list)
          setFile(null);
+         setPath(null);
          
       }else{
         //TODO:  기타 오류
       }
     }
-  },[pk, made, no, info, type, name, file, infoList, ])
+  },[pk, made, no, info, type,photoName, name, file, infoList,path ])
 
   /**
    * onsubmitFormUpdate()
@@ -134,36 +149,31 @@ const RegisterMachine = () => {
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
-      //TODO: 지울것
-      //alert('테스트 : 전송 - ' + pk + no + name + info + file + made + type + madeNo);
-      //return;
-      let data = new FormData();
-      data.append('pk', getParameter('pk'));
-      data.append('machine_name', name);
-      data.append('machine_label', type);
-      data.append('machine_code', no);
-      data.append('manufacturer', made);
-      data.append('manufacturer_code', madeNo);
-      data.append('manufacturer_detail', info);
-      if(infoList.length > 0){
-        data.append('info_list', JSON.stringify(infoList))
-      }
-      data.append('machine_photo', file);
-     
+    const data = {
+      pk: getParameter('pk'),
+      machine_name: name,
+      machine_label: type,
+      machine_code: no,
+      manufacturer: made,
+      manufacturer_code: madeNo,
+      manufacturer_detail: info,
+      info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+      machine_photo: path
+    };
 
-      const res = await postRequest('http://211.208.115.66:8088/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8088/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
-      if(res === false){
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+    if(res === false){
+      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+    }else{
+      if(res.status === 200){
+          alert('성공적으로 수정 되었습니다')
       }else{
-        if(res.status === 200){
-           alert('성공적으로 수정 되었습니다')
-        }else{
-          alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        }
+        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
+    }
 
-  },[pk, made, no, name, type, info, file, photoName, madeNo, infoList])
+  },[pk, made, no, name, type, info, file, photoName, madeNo, infoList, path])
 
   /**
    * onsubmitForm()
@@ -186,22 +196,17 @@ const RegisterMachine = () => {
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
-     //TODO: 지울것
-    //alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
-    //return;
-    let data = new FormData();
-    data.append('machine_name', name);
-    data.append('machine_label', type);
-    data.append('machine_code', no);
-    data.append('manufacturer', made);
-    data.append('manufacturer_code', madeNo);
-    data.append('manufacturer_detail', info);
-    //data.append('file', data)
-    data.append('machine_photo', file);
-    if(infoList.length > 0){
-      data.append('info_list', JSON.stringify(infoList))
-    }
-
+    const data = {
+      machine_name: name,
+      machine_label: type,
+      machine_code: no,
+      manufacturer: made,
+      manufacturer_code: madeNo,
+      manufacturer_detail: info,
+      info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+      machine_photo: path
+    };
+    
 
     const res = await postRequest('http://211.208.115.66:8088/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
@@ -217,15 +222,16 @@ const RegisterMachine = () => {
          setInfo('');
          setPk('');
          setMadeNo('');
-         setType('');
+         setType(1);
          setInfoList([]);
          setFile(null);
+         setPath(null);
       }else{
         //TODO:  기타 오류
       }
     }
 
-  },[made, no, name, type, info, photoName,file, madeNo, infoList])
+  },[made, no, name, type, info, photoName,file, madeNo, infoList, path])
 
   return (
       <DashboardWrapContainer>
@@ -235,7 +241,7 @@ const RegisterMachine = () => {
             <WhiteBoxContainer>
               <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <NormalInput title={'기계 이름'} value={name} onChangeEvent={setName} description={'고객사가 보유한 기계의 이름을 입력하세요'} />
-                <DropdownInput title={'기계 종류'} target={type} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+                <DropdownInput title={'기계 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <NormalInput title={'기계 번호'} value={no} onChangeEvent={setNo} description={'고객사가 보유한 기계의 번호를 지정하세요'} />
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'기계의 제조사명을 입력하세요'} />
                 <NormalInput title={'제조사 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />

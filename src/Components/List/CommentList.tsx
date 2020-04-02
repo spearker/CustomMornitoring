@@ -31,13 +31,13 @@ const CommentList = ({ contents, onClickEvent }: Props) => {
           <p className="p-limit" style={{display:'inline-block'}}>{contents.name}</p>
         </div>
         <div style={{width: '75%', fontSize: 14}}>
-          <p>{contents.detail}</p>
+          <p>{contents.detail === 'blind' ? '(작성자가 삭제하여 블라인드 처리된 댓글입니다)':contents.detail}</p>
           <a className="p-bold" style={{fontSize:12, textDecoration:'underline', paddingTop:6, color:'#888888'}} href={contents.file_url} target="_blank">{contents.file_url !== "" ? '[첨부파일 다운로드]' : null}</a>
         </div>
-        <div onClick={()=>onClickEvent(contents.pk)} style={{width:32, position:'absolute', top:0, right:12}}>
+        <div style={{display:'inline-block', position:'absolute', top:0, right:12}}>
             {
               contents.writer_pk === me.pk ?
-            <a onClick={()=>onClickEvent(contents.pk)} style={{fontSize:13, color:'gray'}}>삭제</a>
+            <a onClick={()=>onClickEvent(contents.pk)} style={{fontSize:13, color:'gray'}}>숨기기</a>
             :
             null}
         </div> 

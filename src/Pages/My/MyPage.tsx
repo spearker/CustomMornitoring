@@ -25,6 +25,8 @@ import DropdownInput from '../../Components/Input/DropdownInput';
 import DateInput from '../../Components/Input/DateInput';
 import ReadOnlyInput from '../../Components/Input/ReadOnlyInput';
 import { useUser, useUserDispatch } from '../../Context/UserContext';
+import { uploadTempFile } from '../../Common/fileFuctuons';
+
 
 
 const MyPage = () => {
@@ -39,6 +41,7 @@ const MyPage = () => {
   const [status, setStatus] = useState<string>("");
   const [file, setFile] = useState<any>();
   const [photo, setPhoto] = useState<any | null>();
+  const [path, setPath] = useState<string | null>(null)
 
   const User = useUser();
   const dispatch = useUserDispatch();
@@ -96,9 +99,12 @@ const MyPage = () => {
   const onClickSave = useCallback(async()=> {
       //alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
       //return;
-      let data = new FormData();
-      data.append('pk',User.pk);
-      data.append('profile_img', file);
+    
+      const data = {
+        pk: User.pk,
+        profile_img: path
+
+      }
       const results = await postRequest('http://211.208.115.66:8088/api/v1/member/profile', data, getToken(TOKEN_NAME))
 
       if(results === false){
@@ -114,7 +120,7 @@ const MyPage = () => {
           
       }
 
-  },[file, User])
+  },[file, User, path])
   
    /**
    * getTarget()
@@ -173,32 +179,44 @@ const MyPage = () => {
    * @param {string} e.target.file 파일
    * @returns X 
    */
-  const addFile = useCallback((event: any): void => {
+  const addFile = useCallback(async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
 
     if(event.target.files[0] === undefined){
       setFile(null)
-
+      setPath(null)
       return;
     }
     console.log(event.target.files[0].type);
     if(event.target.files[0].type.includes('image')){ //이미지인지 판별
       
+      
       setFile(event.target.files[0])
       console.log(file)
-      const previewFile = URL.createObjectURL(event.target.files[0])
-      console.log(previewFile);
-      setPreview(previewFile)
-      console.log(file)
-      console.log(file)
+      const temp = await uploadTempFile(event.target.files[0]);
+      if(temp ===false){
+        console.log(temp)
+        
+        setFile(null)
+        return
+      }else{
+        console.log(temp)
+        setPath(temp)
+        const previewFile = URL.createObjectURL(event.target.files[0])
+        console.log(previewFile);
+        setPreview(previewFile)
+        console.log(file)
+        console.log(file)
+      }
 
+   
     }else{
 
       setFile(null)
       alert('이미지 형식만 업로드 가능합니다.')
     }
     
-  },[file, photo])
+  },[file, photo, path])
 
   const setPreview = useCallback((blobUrl)=>{
     console.log('setPreview' + typeof blobUrl);
