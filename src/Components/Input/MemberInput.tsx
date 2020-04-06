@@ -61,14 +61,14 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
                 })
                 :
                     target !== undefined && target !== null? 
-                    <div style={{display:'flex'}}>
+                    <div style={{display:'flex', alignItems: 'center'}}>
                         {
                             target.image === '' || target.image === null ?
-                            <ImageBox src={IMG_NONE}/>
+                            <ImageBox src={IMG_NONE} />
                             :
                             <ImageBox src={target.image} />
                         }
-                    <p className="p-limits" style={{marginLeft:8}}>{target.name}</p>
+                        <p className="p-limits" style={{marginLeft:8}}>{target.name}</p>
                     </div>
                     :
                     <div style={{display:'flex'}}>
@@ -94,7 +94,7 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
 
 const ImageBox = Styled.img`
   border-radius: 14px;
-  minWidth: 30px;
+  min-width: 30px;
   width: 30px;
   height: 30px;
   object-fit: cover;

@@ -126,7 +126,7 @@ interface IMemberSearched{
   pk: string,
   name: string,
   appointment: string,
-  profile_img: string,
+  photo: string,
 } 
 
 // 생산품목

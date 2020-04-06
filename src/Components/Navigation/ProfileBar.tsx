@@ -128,6 +128,7 @@ const ImageBox = Styled.img`
   border-radius: 15px;
   margin-right: 10px;
   width: 31px;
+  min-width: 31px;
   float: left;
   height: 31px;
   object-fit: cover;

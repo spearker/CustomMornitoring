@@ -4,7 +4,7 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import ProfileBar from '../Components/Navigation/ProfileBar';
 import { getToken } from '../Common/tokenFunctions';
-import { useUserDispatch } from '../Context/UserContext';
+import { useUserDispatch, useUser } from '../Context/UserContext';
 import { getRequest } from '../Common/requestFunctions';
 
 //대시보드를 감싸는 wrap 박스 
@@ -12,7 +12,7 @@ import { getRequest } from '../Common/requestFunctions';
 const DashboardWrapContainer = ({children}: any) => {
 
   const dispatch = useUserDispatch();
-
+  const User = useUser();
   /**
    * loadUserInfo()
    * : 유저 정보 로드 후 user info dispatch
@@ -52,6 +52,7 @@ const DashboardWrapContainer = ({children}: any) => {
     
   },[])
 
+  
   return (
     <>
     <DashboardWrapDiv >

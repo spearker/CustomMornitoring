@@ -102,7 +102,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
           </MachineHeader>
           <div style={{position:'relative', padding:12, textAlign:'center'}}>
            <img src={contents.machine.is_connect ? icCloudOn : icCloudOff} style={{width: 22, position:'absolute', top:12, left:12}}/>
-           <ImageBox src={tempIamge} style={{marginTop:10}}/>
+           <ImageBox src={contents.machine.machine_photo === "" ? tempIamge : contents.machine.machine_photo} style={{marginTop:10}}/>
           </div>
           
         </MachineDivBg>

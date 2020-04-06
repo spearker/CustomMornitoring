@@ -29,14 +29,14 @@ const FileTumbCard = ({ url, name, type , data, onClickEvent}: Props) => {
 
   return (
     <div style={{textAlign:'center', display:'inline-block', position:'relative', marginRight:11}}>
-      <a href={onClickEvent !== undefined ? url :'null'} >
+      <a href={onClickEvent !== undefined ? url :'null'} target='_blank' >
         <img src={type.includes('image') ? url : IC_DOC } style={{width:100, height:70, objectFit: 'cover'}}/>
         <p className="p-limit" style={{width:95, fontSize:13}}>{name}
       </p>
       </a>
       {onClickEvent !== undefined ?
       <div style={{position:'absolute', top:0, right:0, fontSize:12}}>
-          <button style={{padding: '3px 6px 3px 6px', backgroundColor:'#d3d3d3'}} onClick={()=>onClickEvent(data)} >{'삭제'}</button>
+          <button style={{padding: '3px 6px 3px 6px', backgroundColor:'#d3d3d3'}} onClick={(e)=>onClickEvent(e)} >{'삭제'}</button>
       </div>
       : null}
     </div> 

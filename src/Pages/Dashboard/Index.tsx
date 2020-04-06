@@ -162,15 +162,19 @@ const Dashboard = () => {
    * @returns X
    */
   const onClickChangePage = useCallback((index: number)=>{
+   //alert(page + ' -> ' + index)
     console.log(index)
       if(stock < 7){
+        //alert('미만')
         return
       }
-      if(index < 1 || index >= Math.ceil(stock/6)){
+      if(index < 1 || index > Math.ceil(stock/6)){
+        //alert('뭐야')
         return
       }
       setPage(index)
       console.log(index)
+      getStatus(index)
       //getStatus(index)
   },[page, stock])
 
@@ -278,15 +282,18 @@ const Dashboard = () => {
                 </div>
                
                 <div style={{  color:'black',borderRadius:5 ,height:'150', backgroundColor: BG_COLOR_SUB, display:'flex', alignItems: 'center',justifyContent: 'center',marginTop:13, marginBottom:30}}>
-                  <div style={{width:'4%'}}> 
-                   <img onClick={()=>onClickChangePage(page-1)} src={IC_BEFORE} style={{cursor:'pointer',width:24, margin:10}} />
+                  <div  style={{width:'4%'}}> 
+                   <img onClick={()=>onClickChangePage(page-1)} src={IC_BEFORE} style={{cursor:'pointer',width:24, height:24, margin:10, zIndex:3}} />
                   </div>
-                  <div className="p-limit" style={{flexWrap: 'wrap',marginTop: 25, width:'90%',marginBottom: 17, textAlign:'left'}}>
+                  <div className="p-limit" style={{flexWrap: 'wrap',marginTop: 25, width:'90%',marginBottom: 17, textAlign:'center'}}>
                     {
                       status.map((v: IStatus, index)=>{
-                        return(
+                        
+                          return(
+                           
                             <StatusCard target={v} key={index}/>
-                        )
+                          )
+                    
                       })
                     }
                     

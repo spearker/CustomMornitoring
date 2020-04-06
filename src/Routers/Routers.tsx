@@ -68,8 +68,9 @@ const Routers = () => {
     useEffect(()=>{
       const browse = navigator.userAgent.toLowerCase(); 
       console.log('broswercheck : ' + navigator.userAgent + ' ' + window.location.pathname)
-      
-      if( (navigator.appName == 'Netscape' && browse.indexOf('trident') != -1) || (browse.indexOf("msie") != -1) || browse.indexOf("edge") > -1) {
+   
+        
+      if( (browse.indexOf('trident') != -1) || (browse.indexOf("msie") != -1) || browse.indexOf("edge") > -1) {
           if(window.location.pathname !== '/oops')  {
             window.location.href='/oops'
           }

@@ -80,7 +80,7 @@ const TaskRegister = () => {
  const [recommend, setRecommend] = useState<IProcess[][]>([]);
 
   //사람 관련
-  const [worker, setWorker] = useState<IMemberSearched | null>(null);
+  const [worker, setWorker] = useState<IMemberSearched | null>({pk:User.pk, name:User.name, photo:User.profile_img, appointment:''});
   const [referencerList, setReferencerList] = useState<IMemberSearched[]>([]);
   const [searchList4, setSearchList4] = useState<IMemberSearched[]>([]);
   const [check, setCheck] = useState<IMemberSearched | null>(null);
@@ -406,8 +406,10 @@ const TaskRegister = () => {
       }else{
         let tempFileLsit = fileList.slice();
         tempFileLsit.push(tempData)
-        let tempPathList = fileList.slice();
+        setFileList(tempFileLsit)
+        let tempPathList = pathList.slice();
         tempPathList.push(tempPath)
+        setPathList(tempPathList)
         return
       }
      
@@ -462,7 +464,7 @@ const TaskRegister = () => {
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         onSubmitFile(getParameter('pk'))
+       
          alert('성공적으로 수정 되었습니다');
 
          
@@ -540,7 +542,7 @@ const TaskRegister = () => {
       if(res.status === 200){
 
          alert('성공적으로 등록 되었습니다');
-         onSubmitFile(res.results)
+         
          setTitle('');
          setDescription('');
          setList([]);
@@ -681,8 +683,8 @@ const TaskRegister = () => {
                       list.length < 1 ?
                       <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>생산할 제품(자재) 먼저 선택 후, 추천 공정을 선택 할 수 있습니다</p>
                       :
-                      recommend === undefined || recommend === [] ?
-                      <p style={{padding:60, textAlign:'center', color:"#aaaaaa"}}>해당 제품을 생산하기 위한 추천공정이 없습니다 <br/> </p>
+                      recommend === undefined || recommend.length == 0 ?
+                      <p style={{padding:60, textAlign:'center', color:"#252525"}}>해당 제품(자재)을 생산하기 위한 추천공정이 없습니다 (수동공정 선택 필요) <br/> </p>
                       :
                       <div>
                         {
@@ -748,7 +750,7 @@ const TaskRegister = () => {
                     target={worker!== null ? {
                       pk: worker.pk,
                       name: worker.name + ' ' + worker.appointment,
-                      image: worker.profile_img
+                      image: worker.photo
                     } : undefined}
 
                 />
@@ -794,9 +796,10 @@ const TaskRegister = () => {
                                 <FileTumbCard key={i} 
                                   name={v.name}
                                   type={v.type}
-                                  url={URL.createObjectURL(v)}
+                                  url={v.url}
                                   data={v}
-                                  onClickEvent={()=>{
+                                  onClickEvent={(e)=>{
+                                    e.preventDefault();
                                     const tempList = fileList.slice()
                                     const tempPathList = pathList.slice()
                                     const idx = fileList.indexOf(v)
@@ -816,12 +819,13 @@ const TaskRegister = () => {
                                 <FileTumbCard key={i} 
                                   name={v.name}
                                   type={v.type}
-                                  url={v}
+                                  url={v.url}
                                   data={v}
-                                  onClickEvent={()=>{
-                                    const tempList = fileList.slice()
+                                  onClickEvent={(e)=>{
+                                    e.preventDefault();
+                                    const tempList = oldFileList.slice()
                                     const tempRemoveList = removefileList.slice()
-                                    const idx = fileList.indexOf(v)
+                                    const idx = tempRemoveList.indexOf(v)
                                     tempList.splice(idx, 1)
                                     tempRemoveList.push(v.pk)
                                     setRemoveFileList(tempRemoveList)

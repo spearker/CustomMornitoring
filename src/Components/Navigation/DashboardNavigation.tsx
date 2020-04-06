@@ -124,7 +124,6 @@ const NavDiv = Styled.div`
 const TabletIconDiv = Styled.div`
   heigth: 60px;
   width: 60px;
-  min-height: 100vh;
   position: absolute;
   top: 22px;
   left: 50px;
