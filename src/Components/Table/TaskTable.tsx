@@ -97,7 +97,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
    
     //alert(pk)
 
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/detail?pk=' + pk, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
       alert(' 데이터를 불러올 수 없습니다.')
@@ -131,7 +131,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       return;
     }
 
-    const results = await getRequest('http://211.208.115.66:8087/api/v1/task/process?pk=' + pk, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8087/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
       alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')

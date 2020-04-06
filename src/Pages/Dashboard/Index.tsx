@@ -285,7 +285,7 @@ const Dashboard = () => {
                     {
                       status.map((v: IStatus, index)=>{
                         return(
-                            <StatusCard target={v}/>
+                            <StatusCard target={v} key={index}/>
                         )
                       })
                     }

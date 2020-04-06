@@ -149,7 +149,7 @@ const TaskRegister = () => {
       }
       const keyword = list[0].pk;
 
-      const res = await getRequest('http://211.208.115.66:8089/api/v1/task/recommend?pk=' + keyword, getToken(TOKEN_NAME))
+      const res = await getRequest('http://211.208.115.66:8089/api/v1/task/recommend?pk=' + encodeURIComponent(keyword), getToken(TOKEN_NAME))
 
 
       if(res === false){

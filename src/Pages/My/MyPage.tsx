@@ -132,7 +132,7 @@ const MyPage = () => {
   const getTarget = useCallback(async()=> {
 
     console.log(User.email)
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/member/view?pk=' + User.email , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/member/view?pk=' + encodeURIComponent(User.email) , getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -192,17 +192,19 @@ const MyPage = () => {
       
       
       setFile(event.target.files[0])
+      const previewFile = URL.createObjectURL(event.target.files[0])
+      setPreview(previewFile);
       console.log(file)
       const temp = await uploadTempFile(event.target.files[0]);
       if(temp ===false){
         console.log(temp)
-        
+        setPhoto(null)
         setFile(null)
         return
       }else{
         console.log(temp)
         setPath(temp)
-        const previewFile = URL.createObjectURL(event.target.files[0])
+        
         console.log(previewFile);
         setPreview(previewFile)
         console.log(file)

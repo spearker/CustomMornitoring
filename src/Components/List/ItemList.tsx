@@ -73,7 +73,7 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
             contents.map((v: IStatus, index)=>{
                 if( page*6-6 <= index && index < page*6){
                     return(
-                        <StatusCard target={v}/>
+                        <StatusCard target={v} key={index}/>
                     )
                 }
            

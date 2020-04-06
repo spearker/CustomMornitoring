@@ -1,3 +1,14 @@
+export const machineCodes = [
+    {code: 1, name: '프레스'},
+    {code: 2, name: '로봇'},
+    {code: 3, name: '용접기'},
+    {code: 4, name: '밀링'},
+    {code: 5, name: '선반'},
+    {code: 6, name: '탭핑기'},
+    {code: 0, name: '기타(분류없음)'},
+]
+
+
 export const getMachineTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
@@ -24,3 +35,29 @@ export const getMaterialTypeList = (lang) =>{
             return ['(선택없음)', '원재료', '최종생산품', '중간자재']
       }
 }
+
+export const machineCodeToName = (value, leng) =>{
+    
+    let str: string | undefined = '';
+    machineCodes.forEach((v: {code: number, name: string},i)=>{
+        if (v[i].code === value){
+            str = v[i].name
+        }
+    })
+    return str;
+}
+
+export const machineStringToCode = (value, leng) =>{
+   
+    let str: string | undefined = '';
+
+    machineCodes.forEach((v: {code: number, name: string},i)=>{
+        if (v[i].name === value){
+            str = v[i].code
+        }
+    })
+    return str;
+}
+
+
+
