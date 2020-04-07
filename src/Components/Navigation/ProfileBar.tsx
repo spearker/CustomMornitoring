@@ -3,7 +3,7 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME, BASE_URL} from '../../Common/configset'
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
 import IcSearch from '../../Assets/Images/ic_search_w.png'
-import IcBell from '../../Assets/Images/ic_bell.png'
+import IcBell from '../../Assets/Images/ic_bell_blue.png'
 import NavList from './NavList'
 import { useUser, useUserDispatch } from '../../Context/UserContext';
 import moment from 'moment';
@@ -82,8 +82,8 @@ const ProfileBar = () => {
                     }
                     </ProfileDiv>
                   <div style={{display:'flex', alignItems: 'center', paddingLeft:10, width: '50%', height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
-                    <img src={IcBell} style={{width: 31, marginRight: 8}}/>
-                    <p className="p-bold p-limit" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>테스트 기간으로 세션 및 관리자권한은 해제되어있습니다.</p>
+                    <img src={IcBell} style={{width: 31, marginRight: 8, }}/>
+                    <p className="p-bold p-limit" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>데모 및 시연용 아이디로, 모든 관리자 기능이 해제되어있습니다.</p>
                   </div>
                   <div style={{textAlign:'right', marginLeft:'auto', width:'20%' }}>
                     <a className="p-eng" style={{marginRight:24}}>

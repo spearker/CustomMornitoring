@@ -25,9 +25,11 @@ const BasicColorButton = ({name, width, onClickEvent}: IProps) => {
       transition-duration: 0.4s;
     }
     &:hover {
-      background-color: #FD9202;
+      transform: scale(0.97);
+      background-color: ${POINT_COLOR};
     }
     &:active {
+      
       transform: scale(0.97);
     }
     

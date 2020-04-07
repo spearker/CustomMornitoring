@@ -2,17 +2,17 @@
 export const BASE_URL: string = 'http://61.101.55.223:8441' as const //테스트 서버
 
 // 토큰 세션 저장소 이름
-export const TOKEN_NAME: string = 'sizl_auth';
+export const TOKEN_NAME: string = 'sizl_mes_auth';
 
 // B2B 모델 UI 확장을 위한 컴퍼니 정보 제어 변수
-export const SERVICE_TITLE: string = 'Smart Factory System' as const
-export const SYSTEM_NAME: string = 'Smart Factory System' as const
-export const COMPANY_LOGO: string = 'Smart Factory System' as const
-export const COMPANY_NAME: string = 'Smart Factory System' as const
+export const SERVICE_TITLE: string = 'Sizl Mes System' as const
+export const SYSTEM_NAME: string = 'Sizl Mes System' as const
+export const COMPANY_LOGO: string = 'Sizl Mes System' as const
+export const COMPANY_NAME: string = 'Sizl Mes System' as const
 
 //스타일 커스텀을 위한 변수 
 export const MAX_WIDTH: string = '1040px' as const
-export const POINT_COLOR: string = '#fc9b00' as const
+export const POINT_COLOR: string = '#00D9DC' as const
 export const BG_COLOR: string = '#13161d'  as const
 export const BG_COLOR_SUB: string = '#242933'  as const
 export const BG_COLOR_SUB2: string = '#3d414e'  as const

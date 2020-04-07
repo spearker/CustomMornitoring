@@ -10,7 +10,7 @@ const resources = {
   kor: {
     translation: {
       //welcome
-      "welcomeTitle":"Smart factory Management Platform",
+      "welcomeTitle":"Smart Manufacturing Execution System",
       "welcomeStart":"시작하기",
       "enterEmail":"이메일을 입력해주세요",
       "enterPassword":"비밀번호를 입력해주세요",

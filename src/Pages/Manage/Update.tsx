@@ -24,6 +24,7 @@ import ProfileInput from '../../Components/Input/ProfileInput';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import DateInput from '../../Components/Input/DateInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import DropdownText from '../../Components/Input/DropdownText';
 
 
 const CompanySetting = () => {
@@ -165,11 +166,11 @@ const CompanySetting = () => {
                 <div>
                     <NormalInput title={'성명'} description={""} value={target.name} onChangeEvent={null}/>
                     <NormalInput title={'이메일'} description={""} value={target.email} onChangeEvent={null}/>
-                    <DropdownInput title={'직급'} contents={rankList} target={rank} onChangeEvent={setRank}/>
+                    <DropdownText title={'직급'} contents={rankList} target={rank} onChangeEvent={setRank}/>
                     <NormalNumberInput title={'연차'} description={""} value={year} onChangeEvent={setYear}/>
                     <DateInput title={'입사일'} description={""} value={joinDate} onChangeEvent={setJoinDate}/>
-                    <DropdownInput title={'채용형태'} contents={['공채','특채','경력직','계약직','파견직','기타']} target={joinType} onChangeEvent={setJoinType}/>
-                    <DropdownInput title={'상태'} contents={['재직','휴직','퇴직','기타']} target={status} onChangeEvent={setStatus}/>
+                    <DropdownText title={'채용형태'} contents={['공채','특채','경력직','계약직','파견직','기타']} target={joinType} onChangeEvent={setJoinType}/>
+                    <DropdownText title={'상태'} contents={['재직','휴직','퇴직','기타']} target={status} onChangeEvent={setStatus}/>
                     <ProfileInput photo={target.profile_img} title={'프로필 사진'} name={'profilePhoto'} thisId={'profilePhoto'} onChangeEvent={null}  />
                 </div>
                 :null

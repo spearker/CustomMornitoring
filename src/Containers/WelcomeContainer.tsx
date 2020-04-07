@@ -12,7 +12,7 @@ const WelcomeContainer = ({children}: any) => {
   return (
 
        
-    <div style={{ backgroundImage:`url(${IMG_BG})`, backgroundSize:'cover'}}>
+    <div style={{ backgroundColor:'#222431'}}>
       <WelcomeNavigation />
       <FullBodyDiv>
           {children}

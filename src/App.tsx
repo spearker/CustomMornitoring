@@ -55,7 +55,7 @@ const AppBodyContainer = Styled.div`
   }
   input[type="checkbox"]:checked + label {
     background: url(${Check}) left/18px no-repeat; 
-    border: 1px solid ${POINT_COLOR};
+    border: 1px solid #ffffff70;
   }
   input[type="checkbox"] {
     display: none;

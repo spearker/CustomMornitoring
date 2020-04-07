@@ -36,7 +36,7 @@ const ButtonBox = Styled.button`
       transition-duration: 0.4s;
     }
     &:hover {
-      background-color: #FD9202;
+      background-color: ${POINT_COLOR};
     }
     &:active {
       transform: scale(0.97);
