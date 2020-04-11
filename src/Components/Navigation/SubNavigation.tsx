@@ -30,9 +30,13 @@ const SubNavigation = ({list}: Props) => {
             <div style={{textAlign:'left', display:'inline-block', width: 1100}}>
             {
                 list.map((v: {url: string, name: string}, i)=>{
+                    if(i === 0 ){
+                        return
+                    }else{
                     return(
                         <SubNavList key={i} url={v.url} select={ window.location.pathname === v.url } name={v.name}/>
                     )
+                    }
                 })
             }
             </div>

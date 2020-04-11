@@ -2,7 +2,7 @@
 interface IMachine{
     machine_name: string,
     machine_label?: number,
-    machine_code: string,
+    machine_code?: string,
     manufacturer?: string,
     manufacturer_code?: string,
     manufacturer_detail?: string,
@@ -23,7 +23,15 @@ interface IProcess{
   mold?: IMold,
   mold_name?: string,
 }
-
+// 공정 타입
+interface IBarcode{
+  pk?: string,
+  name?: string,
+  code?: string,
+  description?: string,
+  photo?: string,
+ 
+}
 // 주변장치 타입
 interface ISubMachine{
   device_name: string,
@@ -165,3 +173,11 @@ interface IServerResponse  {
     operation: boolean,
     end_date: string
   }
+
+  // 부서
+interface ITeam{
+  pk: string,
+  name: string,
+  mother_pk?: string,
+  
+}

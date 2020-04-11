@@ -107,8 +107,8 @@ const Dashboard = () => {
     })
 
     //setStatus(dataSet.statusList)
-    getStatus(1);
-    onClickFilter(0)
+   // getStatus(1);
+    //onClickFilter(0)
     //setTaskList(dataSet.taskList)
   },[])
 

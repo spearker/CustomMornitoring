@@ -8,10 +8,10 @@ import InputContainer from '../../Containers/InputContainer';
 
 interface IProps{
     title: string,
-    description: string,
+    description: string | null,
     thisId: string,
     name: string,
-    onChangeEvent: (e: any) => void
+    onChangeEvent: any,
     children?: any,
 }
 const NormalFileInput = ({title, description, name, thisId, onChangeEvent, children}: IProps) => {
@@ -24,7 +24,7 @@ const NormalFileInput = ({title, description, name, thisId, onChangeEvent, child
         <InputContainer title={title}>
             <BodyDiv>
             <InputWrapBox> 
-                <input type="text" value={name} placeholder={description} readOnly style={{textAlign:'right',border: 'solid 0.5px #d3d3d3', borderRight:0, width:'calc(100% - 90px)', padding:6, backgroundColor:'#f4f6fa', paddingLeft:8, fontSize:14}}/>
+                <input type="text" value={name} placeholder={description!==null ?description : ''} readOnly style={{textAlign:'right',border: 'solid 0.5px #d3d3d3', borderRight:0, width:'calc(100% - 90px)', padding:6, backgroundColor:'#f4f6fa', paddingLeft:8, fontSize:14}}/>
                 <label htmlFor={thisId}  style={{border: 'solid 0.5px #d3d3d3', textAlign:'center', fontSize:14, width:84, paddingBottom:2 , paddingTop:4, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>   
             </InputWrapBox>
             {

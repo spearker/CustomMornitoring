@@ -16,7 +16,7 @@ export const getToken = (name: string) => {
  * @param {string} token 토큰값
  * @returns X
  */
-export const setToken = (name: string, token: string) => {
+export const setToken = (name: string, token: any) => {
     localStorage.setItem(name, token);
 }
 
@@ -27,4 +27,22 @@ export const setToken = (name: string, token: string) => {
  */
 export const removeToken = (name: string) => {
     localStorage.removeItem(name);
+}
+
+export const loadXHR = (url:string) => {
+
+    return new Promise(function(resolve, reject) {
+        try {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.responseType = "blob";
+            xhr.onerror = function() {reject("Network error.")};
+            xhr.onload = function() {
+                if (xhr.status === 200) {resolve(xhr.response)}
+                else {reject("Loading error:" + xhr.statusText)}
+            };
+            xhr.send();
+        }
+        catch(err) {reject(err.message)}
+    });
 }

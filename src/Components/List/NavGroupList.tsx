@@ -14,7 +14,7 @@ interface Props{
 }
 
 
-const NavGroupList = ({contents, selected, onClickEvent}: Props) => {
+ const NavGroupList= ({contents, selected, onClickEvent}: Props) => {
 
   useEffect(()=>{
    
@@ -32,7 +32,7 @@ const NavGroupList = ({contents, selected, onClickEvent}: Props) => {
                 return
               }else{
                 return(
-                  <ListInnderDiv>
+                  <ListInnderDiv key={`list-${i}`}>
                     <Link to={v.url} >· {v.name}</Link>
                   </ListInnderDiv>
   

@@ -33,6 +33,8 @@ import RegisterLine from '../Pages/Register/Line';
 import RegisterMaterial from '../Pages/Register/Material';
 import RegisterDesign from '../Pages/Register/Design'
 import RegisterProcess from '../Pages/Register/Process'
+import RegisterBarcode from '../Pages/Barcode/Register'
+import RegisterClient from '../Pages/Client/Register'
 
 // 데이터조회
 import DesignList from '../Pages/List/Design';
@@ -43,6 +45,9 @@ import MaterialList from '../Pages/List/Material';
 import MaterialStock from '../Pages/Stock/Material';
 import ProductStock from '../Pages/Stock/Product';
 import ProcessList from '../Pages/List/Process';
+import ClientList from '../Pages/Client/List';
+import BarcodeList from '../Pages/Barcode/List';
+import BarcodeSetting from '../Pages/Barcode/Setting';
 
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
@@ -58,8 +63,31 @@ import Charts from '../Pages/Service/Charts';
 import ServiceDesk from '../Pages/Service/ServiceDesk';
 import Reports from '../Pages/Service/Reports';
 import OnlyChrome from '../Pages/Service/OnlyChrome';
+import Ranks from '../Pages/Manage/Ranks'
+import Teams from '../Pages/Manage/Teams'
+import BuyList from '../Pages/Client/Buy';
+import SellList from '../Pages/Client/Sell';
 
+import SubcontractorList  from '../Pages/Subcontractor/List';
+import Order from '../Pages/Subcontractor/Order';
+import Contract from '../Pages/Subcontractor/Contract';
 
+import MaintenanceMachine from '../Pages/Maintenance/MachineRegister';
+import MaintenanceSubMachine from '../Pages/Maintenance/SubmachineRegister';
+import MaintenanceMold from '../Pages/Maintenance/MoldRegister';
+import MaintenanceMoldList from '../Pages/Maintenance/MoldList';
+import MaintenanceMachineList from '../Pages/Maintenance/MachineList';
+import MaintenanceSubMachineList from '../Pages/Maintenance/SubmachineList';
+import PressRecommend from '../Pages/Process/Press';
+import StockList from '../Pages/Stock/List';
+import ProductStockList from '../Pages/Stock/Product';
+import StockInList from '../Pages/Stock/In';
+import StockOutList from '../Pages/Stock/Out'
+import DefectiveList from '../Pages/Quality/DefectiveList'
+import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
+import MaintenanceHistory from '../Pages/Maintenance/History';
+import BasicBarcodeList from '../Pages/List/Barcode';
+import BasicBarcodeRegister from '../Pages/Register/Barcode';
 
 const Routers = () => {
 
@@ -103,6 +131,8 @@ const Routers = () => {
             {/* Manage (어드민) */}
             <Route exact path="/manage/accept" component={AcceptMember} />
             <Route exact path="/manage/setting" component={CompanySetting}/>
+            <Route exact path="/manage/teams" component={Teams}/>
+            <Route exact path="/manage/rank" component={Ranks}/>
             <Route exact path="/manage/members" component={CompanyMembers}/>
             <Route exact path="/manage/members/update" component={UpdateMember}/>
 
@@ -117,10 +147,15 @@ const Routers = () => {
             <Route exact path="/list/line" component={LineList} />
             <Route exact path="/list/process" component={ProcessList} />
             <Route exact path="/list/material" component={MaterialList} />
+            <Route exact path="/list/client" component={ClientList} />
+            <Route exact path="/list/barcode" component={BasicBarcodeList} />
+            
             <Route exact path="/list/product" component={ProductList} />
             <Route exact path="/stock/product" component={ProductStock} />
             <Route exact path="/stock/material" component={MaterialStock} />
-
+            <Route exact path="/client/buy" component={BuyList} />
+            <Route exact path="/client/sell" component={SellList} />
+            <Route exact path="/client/list" component={ClientList}/> 
             {/* 데이터 수정 관련 - 등록 페이지와 동일한 컴포넌트 사용*/}
             <Route exact path="/update/design" component={RegisterDesign} />
             <Route exact path="/update/machine" component={RegisterMachine} />
@@ -130,8 +165,9 @@ const Routers = () => {
             <Route exact path="/update/product" component={RegisterProduct} />
             <Route exact path="/update/process" component={RegisterProcess}/>
             <Route exact path="/task/update" component={RegisterTask}/>
-            
-            
+            <Route exact path="/update/client" component={RegisterClient}/>
+            <Route exact path="/update/barcode" component={BasicBarcodeRegister}/>
+            <Route exact path="/barcode/setting" component={BarcodeSetting}/>
             {/* 데이터 등록 관련 */}
             <Route exact path="/register/material" component={RegisterMaterial} />
             <Route exact path="/register/design" component={RegisterDesign} />
@@ -140,6 +176,9 @@ const Routers = () => {
             <Route exact path="/register/submachine" component={RegisterSubMachine} />
             <Route exact path="/register/line" component={RegisterLine} />
             <Route exact path="/register/process" component={RegisterProcess}/>
+            <Route exact path="/register/client" component={RegisterClient}/>
+            <Route exact path="/register/barcode" component={BasicBarcodeRegister}/>
+            <Route exact path="/barcode/register" component={RegisterBarcode}/>
 
             {/*기타 서비스 */}
             <Route exact path="/charts" component={Charts}/>
@@ -151,6 +190,31 @@ const Routers = () => {
             <Route exact path="/super/list" component={SuperList} />
 
 
+            <Route exact path="/maintenance/machine/list" component={MaintenanceMachineList} />
+            <Route exact path="/maintenance/submachine/list" component={MaintenanceSubMachineList} />
+            <Route exact path="/maintenance/design/list" component={MaintenanceMoldList} />
+            <Route exact path="/maintenance/machine/register" component={MaintenanceMachine} />
+            <Route exact path="/maintenance/submachine/register" component={MaintenanceSubMachine} />
+            <Route exact path="/maintenance/design/register" component={MaintenanceMold} />
+            <Route exact path="/maintenance/machine/update" component={MaintenanceMachine} />
+            <Route exact path="/maintenance/submachine/update" component={MaintenanceSubMachine} />
+            <Route exact path="/maintenance/design/update" component={MaintenanceMold} />
+            <Route exact path="/maintenance/list" component={MaintenanceHistory} />
+
+            <Route exact path="/subcontractor/list" component={SubcontractorList}/>
+            <Route exact path="/subcontractor/order" component={Order}/>
+            <Route exact path="/subcontractor/contract" component={Contract}/>
+            <Route exact path="/maintenance/history" component={MaintenanceHistory} />
+            <Route exact path="/process/register" component={RegisterProcess} />
+            <Route exact path="/process/list" component={ProcessList} />
+            <Route exact path="/recommend/press" component={PressRecommend} />
+            <Route exact path="/stock/list" component={StockList} />
+            <Route exact path="/stock/product" component={ProductStockList} />
+            <Route exact path="/stock/in" component={StockInList} />
+            <Route exact path="/stock/out" component={StockOutList} />
+            <Route exact path="/defective/register" component={DefectiveRegister} />
+            <Route exact path="/defective/list" component={DefectiveList} />
+          
         </Switch>
     </div>
   );

@@ -16,7 +16,7 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
 import BTN_DELETE from '../../Assets/Images/btn_delete_rank_g.png';
-import { ROUTER_MANAGE } from '../../Common/routerset';
+import { ROUTER_MANAGE, ROUTER_MENU_LIST } from '../../Common/routerset';
 
 const CompanySetting = () => {
 
@@ -169,36 +169,14 @@ const CompanySetting = () => {
   },[])
 
   return (
-      <DashboardWrapContainer>
-          <SubNavigation list={ROUTER_MANAGE}/>
+      <DashboardWrapContainer index={1}>
+          <SubNavigation list={ROUTER_MENU_LIST[1]}/>
           <InnerBodyContainer>
             <div style={{position:'relative'}}>
-                <Header title={'기본정보설정'}/>
-                <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-                <ButtonBox onClick={()=>onClickModify('ADD', 0)}>직급생성</ButtonBox>
-                <ButtonBox onClick={getRankList}>초기화</ButtonBox>
-                <ButtonBox onClick={onClickSave}>저장하기</ButtonBox>
-                </div>
+                <Header title={'인사 관리'}/>
+               
             </div>
-            <WhiteBoxContainer>
-                <div>
-                    <p className="p-bold">직급</p>
-                    {
-                        list.map((v,i)=>{
-                            return(
-                                <div key={i} style={{display:'flex', marginTop:16}}>
-                                    <InputBox value={v} onChange={(e)=>{onChangeListName(e, i)}}/>
-                                    <div>
-                                      <a onClick={()=>onClickModify('UP', i)}><img style={{height:40, marginRight:10}} src={BTN_UP} /></a>
-                                      <a onClick={()=>onClickModify('DOWN', i)}><img src={BTN_DOWN} style={{width:40, marginRight:10}}/></a>
-                                      <a onClick={()=>onClickModify('DELETE', i)}><img src={BTN_DELETE} style={{width:40}}/></a>
-                                    </div>
-                                </div>    
-                            )
-                        })
-                    }
-                </div>
-            </WhiteBoxContainer>
+       
           </InnerBodyContainer>
       </DashboardWrapContainer>
       

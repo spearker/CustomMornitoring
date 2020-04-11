@@ -10,49 +10,51 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_STOCK } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest, postRequest } from '../../Common/requestFunctions';
+import { getRequest } from '../../Common/requestFunctions';
+import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 
 
-const ProductStock = () => {
+const ProductList = () => {
 
-  const [list, setList] = useState<IProduct[]>([]);
+  const [list, setList] = useState<IMold[]>([]);
   const [option, setOption] = useState(0);
+  const [keyword, setKeyword] = useState<string>('');
 
   const optionList = [
-    "등록순", "이름순", "재고순"
+    "등록순", "이름순"
   ]
   const index = {
-    product_name:'제품 이름',
-    product_code:'제품 번호',
-    molds:'사용 금형', 
-    product_spec:'스펙',
-    stock:'수량'
-
+    manufacturer:'발행사',
+    product_code:'코드',
+    mold_name: '이름',
+    mold_label:'종류', 
+    mold_code:'번호',
   }
 
-  
   /**
-   * onClickFilter()
-   * 리스트 필터 변경
-   * @param {string} filter 필터 값
+   * getSearchList()
+   * 목록 검색
+   * @param {string} url 
    * @returns X
    */
-  const onClickFilter = useCallback(async(filter:number)=>{
-    setOption(filter)
-    const results = await getRequest(BASE_URL + '/api/v1/product/list/'+filter,getToken(TOKEN_NAME))
+  const getSearchList = useCallback(async (e)=>{
+    e.preventDefault();
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/barcode/list/search?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
+        setKeyword('')
       }else{
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[option])
+  },[list, option, keyword])
 
    /**
    * getList()
@@ -62,7 +64,7 @@ const ProductStock = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest(BASE_URL + '/api/v1/product/list/0',getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/barcode/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -75,45 +77,60 @@ const ProductStock = () => {
     }
   },[list])
 
-
-  useEffect(()=>{
-    getList();
-   
-  },[])
-
-  const onClickModify = useCallback(async (id, stock)=>{
-
-    console.log('--select id : ' + id + '/' + stock)
-    const results = await postRequest(BASE_URL + '/api/v1/product/stock/', {pk: id, stock:stock}, getToken(TOKEN_NAME))
+  /**
+   * onClickFilter()
+   * 리스트 필터 변경
+   * @param {string} filter 필터 값
+   * @returns X
+   */
+  const onClickFilter = useCallback(async (filter:number)=>{
+    setOption(filter)
+    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/barcode/list/' + filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('요청 실패하였습니다. 잠시후 이용하세요.')
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-        alert('성공적으로 변경되었습니다.')
-        getList()
-        
+        setList(results.results)
       }else{
-        alert('요청 실패하였습니다. 잠시후 이용하세요.')
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
+  },[option])
+
+  useEffect(()=>{
+   // getList()
+   
+  },[])
+  const onClickModify = useCallback((id)=>{
+
+    console.log('--select id : ' + id)
+    window.location.href=`/update/design?pk=${id}`
   
   },[])
+
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_STOCK}/>
+      <DashboardWrapContainer index={7}>
+        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
         <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-            <Header title={'생산제품 수량 정보'}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+        <div style={{position:'relative'}}>
+            <Header title={`생산 관리 (${list.length})`}/>
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
+              <SmallButtonLink name="+ 등록하기" link="/register/barcode"/> 
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          <NormalTable widthList={['233px', '140px', '243px', '180px', '180px']} 
-          onChangeEvent={
-            setList
-          }
-          indexList={index} keyName={'pk'} eventType="input" buttonName='변경' onClickEvent={onClickModify} contents={list}/>
+          <SearchInputSmall 
+                description={'검색어 입력'} 
+                value={keyword} 
+                onChangeEvent={(e)=>{setKeyword(e.target.value)}}
+                onClickEvent={getSearchList}
+                />
+      
+        
+          <NormalTable widthList={['140px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       
@@ -127,4 +144,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default ProductStock;
+export default ProductList;

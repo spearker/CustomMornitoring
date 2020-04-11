@@ -9,7 +9,7 @@ import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import { getToken } from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_REGISTER, ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_REGISTER, ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
 import InputContainer from '../../Containers/InputContainer';
@@ -26,6 +26,7 @@ import AddList from '../../Components/List/AddList';
 import { dataSet } from '../../Common/dataset';
 import SearchedList from '../../Components/List/SearchedList';
 import { getMaterialTypeList } from '../../Common/codeTransferFunctions';
+import ListHeader from '../../Components/Text/ListHeader';
 interface IInfo {
   title: string,
   value: string,
@@ -43,9 +44,8 @@ const RegisterMaterial = () => {
   const [name, setName] = useState<string>('');
   const [info, setInfo] = useState<IInfo[]>([]);
   const [amount, setAmount] = useState<number>(0);
-  const [molds, setMolds] = useState<IMold[]>([]);
-  const [type, setType] = useState<number>(1);
-  const indexList = getMaterialTypeList('lang')
+  const [type, setType] = useState<number>(0);
+  const indexList = getMaterialTypeList('kor')
 
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -54,6 +54,7 @@ const RegisterMaterial = () => {
   const [checkList, setCheckList] = useState<IMold[]>([]);
   const [list, setList] = useState<IMold[]>([]);
   const [searchList, setSearchList] = useState<IMold[]>([]);
+
 
   useEffect(()=>{
     //setIsSearched(true)
@@ -91,7 +92,7 @@ const RegisterMaterial = () => {
          setSpec(data.material_spec);
          setPk(data.pk);
          setInfo(data.info_list);
-         setList(data.molds);
+
          setAmount(data.stock)
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
@@ -99,7 +100,7 @@ const RegisterMaterial = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made, code, info, spec, name, molds, list]);
+  },[pk, made, code, info, spec, name, list]);
 
   /**
    * onsubmitForm()
@@ -154,17 +155,17 @@ const RegisterMaterial = () => {
          setCode('')
          setSpec('')
          setAmount(0)
-         setType(1)
+         setType(0)
          setMade('')
          setInfo([])
-         setMolds([])
+
       }else{
         alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
 
-  },[made, code,amount, name, spec,info, pk, molds])
+  },[made, code,amount, name, spec,info, pk])
 
 
   /**
@@ -203,7 +204,6 @@ const RegisterMaterial = () => {
         material_type: type,
         distributor: made,
         info_list : infoString,
-        molds: moldPk
     }
 
     const res = await postRequest('http://211.208.115.66:8088/api/v1/material/update', data, getToken(TOKEN_NAME))
@@ -252,42 +252,21 @@ const RegisterMaterial = () => {
     }
   },[keyword])
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={isUpdate ? ROUTER_LIST :ROUTER_REGISTER}/>
+      <DashboardWrapContainer index={0}>
+        <SubNavigation list={ROUTER_MENU_LIST[0]}/>
         <InnerBodyContainer>
             <Header title={isUpdate ? '자재 정보수정' : '자재 정보 등록 (원자재 / 반제품 / 완제품)'}/>
             <WhiteBoxContainer>
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
+             <ListHeader title="필수 항목"/>
              <NormalInput title={'자재 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
-             <NormalInput title={'자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
              <DropdownInput title={'자재 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
-             {/* 팝업 여는 버튼 + 금형 추가 */}
-             <AddInput title={'사용 금형'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
-                  setIsPoupup(true);  
-                  setCheckList(list); 
-                  setKeyword('')}
-                  }>
-                {
-                  list.map((v: IMold, i)=>{ 
-                    return ( 
-                        <TextList key={i} 
-                        onClickSearch={()=>{
-                          setIsPoupup(true);
-                          setKeyword(''); 
-                          setIsSearched(false);
-                        }}
-                        onClickEvent={()=>{
-                          setList([])
-                        }} 
-                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
-                    )
-                  })
-                }
-                </AddInput>
-                
-             <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요'} />
-             <NormalInput title={'유통사'} value={made} onChangeEvent={setMade} description={'유통사를 입력하세요'} />
              <NormalNumberInput title={'재고 수량'} value={amount} onChangeEvent={setAmount} description={'재고량을 입력하세요'} />
+             <br/>
+            <ListHeader title="선택 항목"/>
+             <NormalInput title={'자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호 혹은 공유 코드를 입력하세요'} />
+             <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'자재의 상세 스펙(설명)을 입력하세요'} />
+             <NormalInput title={'유통사'} value={made} onChangeEvent={setMade} description={'유통사를 입력하세요'} />
              
              
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
@@ -318,37 +297,7 @@ const RegisterMaterial = () => {
               <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
               </form>
             </WhiteBoxContainer>
-            {/* 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
-                ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
-                setKeyword('')}
-            }
-            isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false)}} title={'금형 선택'} >
-              <SearchInput description={'금형을 검색해주세요'} value={keyword} onChangeEvent={(e)=>setKeyword(e.target.value)} onClickEvent={onClickSearch}/>
-                <div style={{width: '100%', marginTop:20}}>
-                  {
-                    isSearched ?
-                    searchList.map((v: IMold, i)=>{ 
-                      return ( 
-                    
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '35%', '25%']} contents={[v.mold_name, v.mold_label !== undefined ? v.mold_label : '', v.mold_code !== undefined ? v.mold_code : '']} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
-                             onClickEvent={()=>{
-                              const tempList = checkList.slice()
-                              tempList.splice(0, 1, v)
-                              setCheckList(tempList)
-                            }} 
-                          />
-                         
-                        )
-                    })
-                    :
-                    null
-                  }
-                </div>
-            </SearchModalContainer>
+           
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

@@ -9,7 +9,7 @@ import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import { getToken } from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_REGISTER, ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_REGISTER, ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
 import InputContainer from '../../Containers/InputContainer';
@@ -269,8 +269,8 @@ const RegisterProcess = () => {
     }
   },[keyword])
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={isUpdate ? ROUTER_LIST :ROUTER_REGISTER}/>
+      <DashboardWrapContainer index={6}>
+        <SubNavigation list={ROUTER_MENU_LIST[6]}/>
         <InnerBodyContainer>
             <Header title={isUpdate ? '공정 수정' : '공정 등록'}/>
             <WhiteBoxContainer>
@@ -341,7 +341,7 @@ const RegisterProcess = () => {
                         onClickEvent={()=>{
                           setList3([])
                         }} 
-                        title={v.machine_code} name={v.machine_name}/>                    
+                        title={v.machine_code !== undefined ?v.machine_code :''} name={v.machine_name}/>                    
                     )
                   })
                 }

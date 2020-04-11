@@ -14,7 +14,7 @@ import CardList from '../../Components/Card/CardList';
 import SmallButton from '../../Components/Button/SmallButton';
 import { getRequest } from '../../Common/requestFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import MachineList from './Machine';
 import ItemList from '../../Components/List/ItemList';
@@ -146,8 +146,8 @@ const ProcessList = () => {
   },[])
 
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_LIST}/>
+      <DashboardWrapContainer index={6}>
+        <SubNavigation list={ROUTER_MENU_LIST[6]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'공정 리스트'}/>

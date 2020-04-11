@@ -725,7 +725,6 @@ machineList : [
         pk:'142u41ou24o21',
         machine_name: "기계 기계 기계 ",
         machine_label: "종류..",
-        machine_code: "K934219",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
         is_registered : false
@@ -737,7 +736,6 @@ machineList : [
         machine_label: "종류 종류..",
         machine_code: "K7231859",
         manufacturer: "심팩",
-        manufacturer_code: "S02424",
         is_registered : false
         
     },
@@ -745,7 +743,6 @@ machineList : [
         pk:'756hgbt3421',
         machine_name: "기계 기계...",
         machine_label: "종류 종류..",
-        machine_code: "K9123019",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
         is_registered : true
@@ -755,7 +752,6 @@ machineList : [
         pk:'142uf2334o21',
         machine_name: "기계 기계...",
         machine_label: "종류 종류..",
-        machine_code: "K032193",
         manufacturer: "심팩",
         manufacturer_code: "S02424",
         is_registered : false

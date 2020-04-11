@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MANAGE } from '../../Common/routerset';
+import { ROUTER_MANAGE, ROUTER_MENU_LIST } from '../../Common/routerset';
 
 // 직원 리스트
 const Members = () => {
@@ -21,6 +21,7 @@ const Members = () => {
  
   const index = {
     name:'성명',
+    team:'소속부서',
     appointment:'직급',
     year:'연차',
     join_date:'입사일',
@@ -68,8 +69,8 @@ const Members = () => {
   },[])
 
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_MANAGE}/>
+      <DashboardWrapContainer index={1}>
+        <SubNavigation list={ROUTER_MENU_LIST[1]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'구성원 관리'}/>

@@ -10,7 +10,7 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_STOCK } from '../../Common/routerset';
+import { ROUTER_STOCK, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest, postRequest } from '../../Common/requestFunctions';
 
@@ -99,8 +99,8 @@ const MaterialList = () => {
   },[])
 
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_STOCK}/>
+      <DashboardWrapContainer index={7}>
+        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'자재 수량 정보'}/>

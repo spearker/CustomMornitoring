@@ -10,7 +10,7 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest } from '../../Common/requestFunctions';
 
@@ -88,8 +88,8 @@ const ProductList = () => {
   },[])
 
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_LIST}/>
+      <DashboardWrapContainer index={6}>
+        <SubNavigation list={ROUTER_MENU_LIST[0]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'생산제품 정보 리스트'}/>

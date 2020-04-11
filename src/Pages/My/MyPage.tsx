@@ -4,7 +4,7 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LO
 import Axios from 'axios';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken, removeToken } from '../../Common/tokenFunctions';
+import { getToken, removeToken, setToken, loadXHR } from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
@@ -83,6 +83,10 @@ const MyPage = () => {
             is_login : true,
           }
         });
+         loadXHR(results.results.profile_img).then(function(blob) {
+          setToken('sizl_photo', blob)
+         })
+    
       }else{
         //TODO : 지울것
         alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')

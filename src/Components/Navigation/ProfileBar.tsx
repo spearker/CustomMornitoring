@@ -3,13 +3,14 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME, BASE_URL} from '../../Common/configset'
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
 import IcSearch from '../../Assets/Images/ic_search_w.png'
-import IcBell from '../../Assets/Images/ic_bell_blue.png'
+import IcBell from '../../Assets/Images/ic_bell_w.png'
 import NavList from './NavList'
 import { useUser, useUserDispatch } from '../../Context/UserContext';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { getToken, removeToken } from '../../Common/tokenFunctions';
 import { postRequest } from '../../Common/requestFunctions';
+import { Link } from 'react-router-dom';
 
     /*
   useEffect(()=>{
@@ -71,7 +72,10 @@ const ProfileBar = () => {
                     {
                       user.name !== '' ?
                       <div style={{display:'flex', alignItems: 'center', width:'100%'  }}>
-                        <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
+                        <Link to="/mypage">
+                          <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
+                        </Link>
+                       
                         <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>{user.name} {user.is_admin ? '(관리자)' : user.appointment}</p>
                       </div>
                       :
@@ -82,8 +86,8 @@ const ProfileBar = () => {
                     }
                     </ProfileDiv>
                   <div style={{display:'flex', alignItems: 'center', paddingLeft:10, width: '50%', height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
-                    <img src={IcBell} style={{width: 31, marginRight: 8, }}/>
-                    <p className="p-bold p-limit" style={{color:POINT_COLOR, fontSize:18, display:'inline-block', fontWeight:'bold'}}>데모 및 시연용 아이디로, 모든 관리자 기능이 해제되어있습니다.</p>
+                    <img src={IcBell} style={{width: 32, marginRight: 8, }}/>
+                    <p className="p-bold p-limit" style={{color:'white', fontSize:17, display:'inline-block', fontWeight:'bold'}}>현재 데모 및 시연용 계정은 모든 관리자 기능이 해제되어있습니다</p>
                   </div>
                   <div style={{textAlign:'right', marginLeft:'auto', width:'20%' }}>
                     <a className="p-eng" style={{marginRight:24}}>

@@ -263,7 +263,7 @@ const RegisterLine= () => {
                           tempList.splice(idx, 1)
                           setList(tempList)
                         }} 
-                        title={v.machine_code} name={v.machine_name}/>                    
+                        title={''} name={v.machine_name}/>                    
                     )
                   })
                 }
@@ -310,7 +310,7 @@ const RegisterLine= () => {
                     searchList.map((v: IMachine, i)=>{ 
                       return ( 
                           !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가
-                          <AddList key={i} pk={v.machine_code} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                          <AddList key={i} pk={''} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false } 
                             onClickEvent={()=>{
                               const tempList = checkList.slice()
                               if(checkList.find((k, index)=> k.pk === v.pk) ){
@@ -322,10 +322,10 @@ const RegisterLine= () => {
                                   setCheckList(tempList)
                               }
                             }} 
-                            title={v.machine_code} name={v.machine_name} 
+                            title={''} name={v.machine_name} 
                           />
                           :
-                          <AddList key={i} pk={v.machine_code} dim={true} selected={false} onClickEvent={()=>{}} title={v.pk} name={v.machine_name} />
+                          <AddList key={i} pk={''} dim={true} selected={false} onClickEvent={()=>{}} title={v.pk} name={v.machine_name} />
                       )
                     })
                     :

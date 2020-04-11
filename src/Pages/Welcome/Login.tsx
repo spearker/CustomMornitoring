@@ -79,7 +79,7 @@ const Login = () => {
       })
       setError('서버 상태 : 접속 불가')
     }else{
-      setError('서버 상태 : 접속 가능')
+      setError('')
     }
 
   },[error])
@@ -96,7 +96,7 @@ const Login = () => {
             <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
             <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)}} hint={t('enterPassword')}/>
             <div style={{textAlign:'center',marginTop:38}}>
-                  <p style={{marginBottom:10, color:'pink'}}>{error}</p>
+                  <p style={{marginBottom:10, color:'red'}}>{error}</p>
                   <BasicColorButton onClickEvent={(e)=>onsubmitForm(e)} width="100%" name={t('login')} />
                   <div style={{marginTop:13, marginBottom:24}}>
                     <Link to="/forgot">{t('findPassword')}</Link>

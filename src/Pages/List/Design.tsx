@@ -10,26 +10,52 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest } from '../../Common/requestFunctions';
+import { getRequest, postRequest } from '../../Common/requestFunctions';
+import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+import SearchInputSmall from '../../Components/Input/SearchInputSmall';
+import InfoTable from '../../Components/Table/InfoTable';
+import { machineCodeToName } from '../../Common/codeTransferFunctions';
 
 
 const DesignList = () => {
 
   const [list, setList] = useState<IMold[]>([]);
   const [option, setOption] = useState(0);
+  const [keyword, setKeyword] = useState<string>('');
 
   const optionList = [
     "등록순", "이름순"
   ]
   const index = {
-    manufacturer:'제조사',
-    product_code:'제조 번호',
     mold_name: '금형 이름',
     mold_label:'금형 종류', 
-    mold_code:'금형 번호',
+    manufacturer:'제조사',
+    product_code:'제조 번호',
   }
+
+  /**
+   * getSearchList()
+   * 목록 검색
+   * @param {string} url 
+   * @returns X
+   */
+  const getSearchList = useCallback(async (e)=>{
+    e.preventDefault();
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
+
+    if(results === false){
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+    }else{
+      if(results.status === 200){
+        setList(results.results)
+        setKeyword('')
+      }else{
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      }
+    }
+  },[list, option, keyword])
 
    /**
    * getList()
@@ -39,7 +65,7 @@ const DesignList = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/mold/list/0',getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -50,7 +76,7 @@ const DesignList = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[list])
+  },[list, option, keyword])
 
   /**
    * onClickFilter()
@@ -62,7 +88,7 @@ const DesignList = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/mold/list/' + filter,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -73,7 +99,7 @@ const DesignList = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[option])
+  },[option, keyword, list])
 
   useEffect(()=>{
     getList()
@@ -86,18 +112,46 @@ const DesignList = () => {
   
   },[])
 
+
+  const onClickDelete = useCallback(async (id)=>{
+
+    const results = await postRequest('http://211.208.115.66:8088/api/v1/mold/delete', {pk:id}, getToken(TOKEN_NAME))
+
+    console.log('--select id : ' + id)
+    if(results === false){
+      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+    }else{
+      if(results.status === 200){
+        getList()
+      }else{
+        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+      }
+    }
+    
+  
+  },[])
+
+
   return (
-      <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_LIST}/>
+      <DashboardWrapContainer index={0}>
+        <SubNavigation list={ROUTER_MENU_LIST[0]}/>
         <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-            <Header title={'금형 정보 리스트'}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+        <div style={{position:'relative'}}>
+            <Header title={`금형 기본 정보 (${list.length})`}/>
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
+              <SmallButtonLink name="+ 등록하기" link="/register/design"/> 
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-
-          <NormalTable widthList={['140px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
+          <SearchInputSmall 
+                description={'검색어 입력'} 
+                value={keyword} 
+                onChangeEvent={(e)=>{setKeyword(e.target.value)}}
+                onClickEvent={getSearchList}
+                />
+      
+          <InfoTable indexList={index} type={'mold'} pkKey={'pk'} typeKey={'mold_label'} typeChanger={machineCodeToName} onClickLinkUrl="/update/mold?pk=" contents={list} onClickRemove={onClickDelete}/>
+        
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

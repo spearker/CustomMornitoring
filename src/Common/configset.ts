@@ -12,8 +12,8 @@ export const COMPANY_NAME: string = 'Sizl Mes System' as const
 
 //스타일 커스텀을 위한 변수 
 export const MAX_WIDTH: string = '1040px' as const
-export const POINT_COLOR: string = '#00D9DC' as const
-export const BG_COLOR: string = '#13161d'  as const
-export const BG_COLOR_SUB: string = '#242933'  as const
-export const BG_COLOR_SUB2: string = '#3d414e'  as const
+export const POINT_COLOR: string = '#19B9DF' as const
+export const BG_COLOR: string = '#161619'  as const
+export const BG_COLOR_SUB: string = '#2A2D34'  as const
+export const BG_COLOR_SUB2: string = '#3D3E43'  as const
 export const BUTTON_TEXT_COLOR: string = '#ffffff' as const
