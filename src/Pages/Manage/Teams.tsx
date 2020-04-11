@@ -79,7 +79,7 @@ const TeamsSetting = () => {
       if (results.status === 200) {
         setList(results.results)
         setKeyword('')
-        setList2([])
+
       } else {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }

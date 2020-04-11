@@ -142,7 +142,7 @@ const BarcodeList = () => {
         <SubNavigation list={ROUTER_MENU_LIST[0]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`자재 기본 정보 (${list.length})`}/>
+            <Header title={`바코드 기본 정보 (${list.length})`}/>
            
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
               <SmallButtonLink name="+ 등록하기" link="/register/barcode"/> 

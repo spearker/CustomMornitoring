@@ -72,7 +72,7 @@ import SubcontractorList  from '../Pages/Subcontractor/List';
 import Order from '../Pages/Subcontractor/Order';
 import Contract from '../Pages/Subcontractor/Contract';
 
-import MaintenanceMachine from '../Pages/Maintenance/MachineRegister';
+import MaintenanceRegister from '../Pages/Maintenance/Register';
 import MaintenanceSubMachine from '../Pages/Maintenance/SubmachineRegister';
 import MaintenanceMold from '../Pages/Maintenance/MoldRegister';
 import MaintenanceMoldList from '../Pages/Maintenance/MoldList';
@@ -193,10 +193,10 @@ const Routers = () => {
             <Route exact path="/maintenance/machine/list" component={MaintenanceMachineList} />
             <Route exact path="/maintenance/submachine/list" component={MaintenanceSubMachineList} />
             <Route exact path="/maintenance/design/list" component={MaintenanceMoldList} />
-            <Route exact path="/maintenance/machine/register" component={MaintenanceMachine} />
+            <Route exact path="/maintenance/register" component={MaintenanceRegister} />
             <Route exact path="/maintenance/submachine/register" component={MaintenanceSubMachine} />
             <Route exact path="/maintenance/design/register" component={MaintenanceMold} />
-            <Route exact path="/maintenance/machine/update" component={MaintenanceMachine} />
+            <Route exact path="/maintenance/update" component={MaintenanceRegister} />
             <Route exact path="/maintenance/submachine/update" component={MaintenanceSubMachine} />
             <Route exact path="/maintenance/design/update" component={MaintenanceMold} />
             <Route exact path="/maintenance/list" component={MaintenanceHistory} />

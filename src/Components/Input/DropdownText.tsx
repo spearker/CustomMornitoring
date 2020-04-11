@@ -33,7 +33,7 @@ const DropdownText = ({ title,contents, target, onChangeEvent}: IProps) => {
     return ( 
         <InputContainer title={title} >
             <div ref={ref} style={{width: 'calc(100% - 200px)', position:'relative'}}>
-                <InputBox onClick={handleClickBtn}>{target === "" ? '(선택)' : target}</InputBox>
+                <InputBox onClick={handleClickBtn}>{target === ""  || target === null || target === undefined ? '(선택)' : target}</InputBox>
                 <div onClick={()=>setIsOpen(true)} style={{position:'absolute', top:0, right:-17, zIndex:3, backgroundColor: POINT_COLOR, width: 33, height: 33,textAlign:'center', display:'inline-block'}}>
                     <img src={IC_ARROW} style={{width: 20, marginTop:6}}/>
                 </div>
@@ -41,7 +41,7 @@ const DropdownText = ({ title,contents, target, onChangeEvent}: IProps) => {
                 isOpen ?
                 <>
                     <div style={{position:'absolute', zIndex:4, top:0, left:0, width:'100%'}}>
-                     <InputBox onClick={handleClickBtn}>{target === "" ? '(선택)' : target}</InputBox>
+                     <InputBox onClick={handleClickBtn}>{target === "" || target === null || target === undefined ? '(선택)' : target}</InputBox>
                     {contents.map((v,i)=>{
                         return(
                             <InputBoxList key={i} onClick={()=>{onChangeEvent(v); setIsOpen(false)}}>{v}</InputBoxList>

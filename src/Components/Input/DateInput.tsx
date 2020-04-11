@@ -37,7 +37,7 @@ const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
   return ( 
         <InputContainer title={title}>
             <div ref={ref} style={{ width: 'calc(100% - 200px)'}} >
-            <InputBox onClick={()=>handleClickBtn()}>{value === ""? "선택" : value} </InputBox>
+            <InputBox onClick={()=>handleClickBtn()}>{value === ""|| value === undefined ? "(선택)" : value} </InputBox>
             {
                 isOpen ?
                 <div style={{marginTop:11}}>

@@ -181,3 +181,11 @@ interface ITeam{
   mother_pk?: string,
   
 }
+
+interface IMaintenance{
+  pk: string,
+  name?: string,
+  type: string,
+  info_list?: IInfo[],
+  target?:IMaintenance
+}

@@ -952,7 +952,23 @@ memberList : [
         status: "재직",
     }
 ],
-
+maintenanceList:[
+    {
+        pk:'123252332',
+        type:'mold',
+        name:'A 보전 정책'
+    },
+    {
+        pk:'123f32f322',
+        type:'mold',
+        name:'B 보전 정책'
+    },
+    {
+        pk:'123223f232',
+        type:'mold',
+        name:'C 보전 정책'
+    },
+],
 taskList:[
 {
         
