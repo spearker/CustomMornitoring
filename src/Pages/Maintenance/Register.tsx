@@ -44,6 +44,7 @@ const RegisterMaintenance = () => {
 
   const [pk, setPk] = useState<string>('');
   const [name, setName] = useState<string>('');
+  const [term, setTerm]= useState<number>(30);
   const [infoList, setInfoList] = useState<IInfo[]>([]);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [type, setType]= useState<string>('machine')
@@ -78,6 +79,7 @@ const RegisterMaintenance = () => {
         //alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         getData()
+        setType(getParameter('type'))
     }
 
   },[]) 
@@ -413,10 +415,13 @@ const RegisterMaintenance = () => {
                 </AddInput>
            :
            null}
+            <NormalNumberInput title={'권장 점검 주기(일)'} value={term} onChangeEvent={setTerm} description={'권장 점검주기를 입력해주세요 (일 단위)'} />
+               
+           
             {/* 자유항목 입력 창 */}
-            <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
+            <FullAddInput title={'보전 기준'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
-                  tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
+                  tempInfo.push({title:`보전 기준 항목 ${infoList.length + 1}`, value:""});
                   setInfoList(tempInfo)
                 }}>
                   {

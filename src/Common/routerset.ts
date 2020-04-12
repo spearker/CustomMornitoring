@@ -115,6 +115,10 @@ export const ROUTER_MENU_LIST = [
       { name : '공정 리스트', url : '/process/list'},
       { name : '프레스 공정 추천 분석', url : '/recommend/press'},
     ],
+    [ //8 작업지시서
+      { name : '작업지시서 관리', url : '/task/list'},
+      { name : '작업지시서 관리', url : '/task/list'},
+    ],
     [ //8 재고 관리
       { name : '재고 관리', url : '/stock/list'},
       { name : '재고 관리', url : '/stock/list'},

@@ -29,6 +29,7 @@ const MachineMaintenance = () => {
   ]
   const index = {
     name:'이름',
+    term:'권장 점검 주기(일)'
   }
 
   /**
@@ -141,7 +142,7 @@ const MachineMaintenance = () => {
                 onClickEvent={getSearchList}
                 />
               
-          <InfoTable indexList={index} type={'maintenance'} pkKey={'pk'} onClickLinkUrl="/maintenance/update?type=machine&pk=" contents={list} onClickRemove={onClickDelete}/>
+          <InfoTable indexList={index} widthList={['70%', '20%']} type={'maintenance'} pkKey={'pk'} onClickLinkUrl="/maintenance/update?type=machine&pk=" contents={list} onClickRemove={onClickDelete}/>
     
         
        

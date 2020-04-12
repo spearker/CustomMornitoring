@@ -11,7 +11,7 @@ import {dataSet} from '../../Common/dataset'
 import moment from 'moment';
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest, getParameter, postRequest } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
@@ -37,12 +37,13 @@ import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import TaskTable from '../../Components/Table/TaskTable';
 import CommentsContainer from '../../Containers/CommentsContainer';
 import CommentList from '../../Components/List/CommentList';
+import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 
 // 작업 지시서 내역
 const TaskList = () => {
 
   const User = useUser();
-
+  const [keyword, setKeyword] = useState<string>('');
   const [option, setOption] = useState(0);
  const [openTarget, setOpenTarget] = useState<string>('');
  const [list, setList] = useState<ITask[]>([]);
@@ -132,7 +133,27 @@ const indexList = {
   },[])
 
  
+ /**
+   * getSearchList()
+   * 목록 검색
+   * @param {string} url 
+   * @returns X
+   */
+  const getSearchList = useCallback(async (e)=>{
+    e.preventDefault();
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list?keyword='+ keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
 
+    if(res === false){
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+    }else{
+      if(res.status === 200){
+        setList(res.results)
+        setKeyword('')
+      }else{
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      }
+    }
+  },[list, option, keyword, ])
   
   /**
    * getData()
@@ -143,7 +164,9 @@ const indexList = {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list/' + option, getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list?keyword='+ keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+
+   
 
     if(res === false){
       //TODO: 에러 처리
@@ -156,21 +179,30 @@ const indexList = {
         //TODO:  기타 오류
       }
     }
-  },[list ])
+  },[list , keyword, option])
 
   
   
 
   return (
-      <DashboardWrapContainer>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-            <Header title={'작업지시서 내역'}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-              <SmallButtonLink name="+ 작업지시서 등록" link="/task/register"/>
-              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
-            </div>
-          </div>
+    <DashboardWrapContainer index={7}>
+    <SubNavigation list={ROUTER_MENU_LIST[7]}/>
+    <InnerBodyContainer>
+    <div style={{position:'relative'}}>
+        <Header title={`작업지시서 관리 (${list.length})`}/>
+        <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
+          <SmallButtonLink name="+ 등록하기" link="/task/register"/> 
+          <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
+        </div>
+      </div>
+      <SearchInputSmall 
+            description={'검색어 입력'} 
+            value={keyword} 
+            onChangeEvent={(e)=>{setKeyword(e.target.value)}}
+            onClickEvent={getSearchList}
+            />
+  
+    
           
          {/* 작업내역  */}
          <div style={{marginTop:5}}>

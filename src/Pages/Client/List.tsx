@@ -10,16 +10,17 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST, ROUTER_CLIENT, ROUTER_MENU_LIST } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest } from '../../Common/requestFunctions';
+import { getRequest, postRequest } from '../../Common/requestFunctions';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
+import InfoTable from '../../Components/Table/InfoTable';
 
 
 const ClientList = () => {
 
-  const [list, setList] = useState<IMold[]>([]);
+  const [list, setList] = useState<IMaintenance[]>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
 
@@ -27,11 +28,12 @@ const ClientList = () => {
     "등록순", "이름순"
   ]
   const index = {
-    manufacturer:'이름',
-    product_code:'항목',
-    mold_name: '항목',
-    mold_label:'항목', 
-    mold_code:'항목',
+    name:'거래처명',
+    ceo:'대표자',
+    manager:'담당자',
+    manager_email: '이메일',
+    manager_phone:'전화번호',
+    fax:'팩스'
   }
 
   /**
@@ -42,7 +44,7 @@ const ClientList = () => {
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/search?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/customer/list?keyword='+ keyword +'&orderBy=' + option,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -63,8 +65,7 @@ const ClientList = () => {
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/0',getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/customer/list?keyword='+ keyword +'&orderBy=' + option,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -75,7 +76,7 @@ const ClientList = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[list])
+  },[option, keyword, list])
 
   /**
    * onClickFilter()
@@ -86,8 +87,8 @@ const ClientList = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/' + filter,getToken(TOKEN_NAME))
+   
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/customer/list?keyword='+ keyword +'&orderBy=' + option,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -98,11 +99,12 @@ const ClientList = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[option])
+  },[option, keyword, list])
 
   useEffect(()=>{
-    getList()
-   
+    //getList()
+
+    setList(dataSet.maintenanceList)
   },[])
   const onClickModify = useCallback((id)=>{
 
@@ -110,13 +112,29 @@ const ClientList = () => {
     window.location.href=`/update/design?pk=${id}`
   
   },[])
+  const onClickDelete = useCallback(async (id)=>{
 
+    const results = await postRequest('http://211.208.115.66:8088/api/v1/customer/delete', {pk:id}, getToken(TOKEN_NAME))
+
+    console.log('--select id : ' + id)
+    if(results === false){
+      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+    }else{
+      if(results.status === 200){
+        getList()
+      }else{
+        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+      }
+    }
+    
+  
+  },[])
   return (
-      <DashboardWrapContainer index={2}>
-        <SubNavigation list={ROUTER_MENU_LIST[2]}/>
+      <DashboardWrapContainer index={5}>
+        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`거래처 정보 및 관리 (${list.length})`}/>
+            <Header title={`금형 보전리스트 (${list.length})`}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
               <SmallButtonLink name="+ 등록하기" link="/register/client"/> 
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
@@ -128,9 +146,11 @@ const ClientList = () => {
                 onChangeEvent={(e)=>{setKeyword(e.target.value)}}
                 onClickEvent={getSearchList}
                 />
-      
+              
+          <InfoTable indexList={index} type={'client'} pkKey={'pk'} onClickLinkUrl="/update/client?pk=" contents={list} onClickRemove={onClickDelete}/>
+    
         
-          <NormalTable widthList={['140px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
+       
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

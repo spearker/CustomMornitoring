@@ -112,8 +112,8 @@ const DefectiveList = () => {
   },[])
 
   return (
-      <DashboardWrapContainer index={8}>
-        <SubNavigation list={ROUTER_MENU_LIST[8]}/>
+      <DashboardWrapContainer index={9}>
+        <SubNavigation list={ROUTER_MENU_LIST[9]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`불량 자재 리스트 / 관리 (${list.length})`}/>

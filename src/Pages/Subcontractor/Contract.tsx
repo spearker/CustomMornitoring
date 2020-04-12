@@ -112,7 +112,7 @@ const Contract = () => {
   },[])
 
   return (
-      <DashboardWrapContainer index={7}>
+      <DashboardWrapContainer index={3}>
         <SubNavigation list={ROUTER_MENU_LIST[3]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>

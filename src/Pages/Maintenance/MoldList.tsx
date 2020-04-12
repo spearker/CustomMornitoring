@@ -29,6 +29,7 @@ const MoldMaintenance = () => {
   ]
   const index = {
     name:'이름',
+    term:'권장 점검 주기(일)'
   }
 
   /**
@@ -130,7 +131,7 @@ const MoldMaintenance = () => {
         <div style={{position:'relative'}}>
             <Header title={`금형 보전리스트 (${list.length})`}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link="/maintenance/egister"/> 
+              <SmallButtonLink name="+ 등록하기" link="/maintenance/register"/> 
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>

@@ -112,8 +112,8 @@ const StockOut = () => {
   },[])
 
   return (
-      <DashboardWrapContainer index={7}>
-        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
+      <DashboardWrapContainer index={8}>
+        <SubNavigation list={ROUTER_MENU_LIST[8]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`출고 관리 (${list.length})`}/>

@@ -299,29 +299,7 @@ const RegisterProcess = () => {
                   })
                 }
                 </AddInput>
-                {/* 팝업 여는 버튼 + 사용금형 추가 */}
-             <AddInput title={'사용 금형 (선택)'} icType="solo" onlyOne={list2.length > 0 ? true: false} onChangeEvent={()=>{
-                  setIsPoupup2(true);  
-                  setCheckList2(list2); 
-                  setKeyword('')}
-                  }>
-                {
-                  list2.map((v: IMold, i)=>{ 
-                    return ( 
-                        <TextList key={i} 
-                        onClickSearch={()=>{
-                          setIsPoupup2(true)
-                          setKeyword(''); 
-                          setIsSearched(false);
-                        }}
-                        onClickEvent={()=>{
-                          setList2([])
-                        }} 
-                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
-                    )
-                  })
-                }
-                </AddInput>
+         
 
                 {/* 팝업 여는 버튼 + 기계 정보 추가 */}
              <AddInput title={'사용 기계 (*필수)'} icType="solo" onlyOne={list3.length > 0 ? true: false} onChangeEvent={()=>{
@@ -346,6 +324,29 @@ const RegisterProcess = () => {
                   })
                 }
                 </AddInput>
+                       {/* 팝업 여는 버튼 + 사용금형 추가
+             <AddInput title={'사용 금형 (*프레스만)'} icType="solo" onlyOne={list2.length > 0 ? true: false} onChangeEvent={()=>{
+                  setIsPoupup2(true);  
+                  setCheckList2(list2); 
+                  setKeyword('')}
+                  }>
+                {
+                  list2.map((v: IMold, i)=>{ 
+                    return ( 
+                        <TextList key={i} 
+                        onClickSearch={()=>{
+                          setIsPoupup2(true)
+                          setKeyword(''); 
+                          setIsSearched(false);
+                        }}
+                        onClickEvent={()=>{
+                          setList2([])
+                        }} 
+                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
+                    )
+                  })
+                }
+                </AddInput> */}
                 {/* 팝업 여는 버튼 + 재료 추가 */}
              <AddInput title={'생산자재 정보 (*필수)'} onlyOne={list4.length > 0 ? true: false} icType="solo" onChangeEvent={()=>{
                   setIsPoupup4(true);  

@@ -956,17 +956,20 @@ maintenanceList:[
     {
         pk:'123252332',
         type:'mold',
-        name:'A 보전 정책'
+        name:'A 보전 정책',
+        term:15,
     },
     {
         pk:'123f32f322',
         type:'mold',
-        name:'B 보전 정책'
+        name:'B 보전 정책',
+        term:180,
     },
     {
         pk:'123223f232',
         type:'mold',
-        name:'C 보전 정책'
+        name:'C 보전 정책',
+        term:30,
     },
 ],
 taskList:[

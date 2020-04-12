@@ -11,7 +11,7 @@ import {dataSet} from '../../Common/dataset'
 import moment from 'moment';
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST } from '../../Common/routerset';
+import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest, getParameter, postRequest } from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
@@ -621,7 +621,9 @@ const TaskRegister = () => {
   },[fileList])
   
   return (
-      <DashboardWrapContainer>
+    
+      <DashboardWrapContainer index={7}>
+        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={ isUpdate ? '작업지시서 수정' :'작업지시서 등록'}/>

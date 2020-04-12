@@ -234,8 +234,8 @@ const DefectiveRegister = () => {
   },[made, no, name, type, info, photoName,file, madeNo, infoList, path])
 
   return (
-      <DashboardWrapContainer index={8}>
-        <SubNavigation list={ROUTER_MENU_LIST[8]}/>
+      <DashboardWrapContainer index={9}>
+        <SubNavigation list={ROUTER_MENU_LIST[9]}/>
         <InnerBodyContainer>
             <Header title={isUpdate ? '불량 자재 수정' : '불량 자재 등록'}/>
             <WhiteBoxContainer>

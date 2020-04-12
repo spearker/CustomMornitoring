@@ -19,6 +19,8 @@ export const subMachineCodes = [
     {code: 50, name: '기타(분류없음)'},
 ]
 
+
+
 export const moldCodes = [
    
     {code: 0, name: '기타(분류없음)'},

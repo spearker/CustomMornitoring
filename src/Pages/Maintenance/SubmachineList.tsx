@@ -29,6 +29,7 @@ const SubmachineMaintenance = () => {
   ]
   const index = {
     name:'이름',
+    term:'권장 점검 주기(일)'
   }
 
   /**
