@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Router } from 'react-router-dom';
 //import {UserDataProvider, UserDataContext} from '../Context/UserData';
 
 
@@ -33,7 +33,7 @@ import RegisterLine from '../Pages/Register/Line';
 import RegisterMaterial from '../Pages/Register/Material';
 import RegisterDesign from '../Pages/Register/Design'
 import RegisterProcess from '../Pages/Register/Process'
-import RegisterBarcode from '../Pages/Barcode/Register'
+import RegisterBarcode from '../Pages/Barcode/ProductRegister'
 import RegisterClient from '../Pages/Client/Register'
 
 // 데이터조회
@@ -67,11 +67,15 @@ import Ranks from '../Pages/Manage/Ranks'
 import Teams from '../Pages/Manage/Teams'
 import BuyList from '../Pages/Client/Buy';
 import SellList from '../Pages/Client/Sell';
-
-import SubcontractorList  from '../Pages/Subcontractor/List';
-import Order from '../Pages/Subcontractor/Order';
-import Contract from '../Pages/Subcontractor/Contract';
-
+import ChangeStockIn from '../Pages/Stock/ChangeIn'
+import ChangeStockOut from '../Pages/Stock/ChangeOut'
+import RegisterInferior from  '../Pages/Quality/Register';
+import OutsourcingList from '../Pages/Outsourcing/List';
+import OutsourcingRegister from '../Pages/Outsourcing/Register';
+import Order from '../Pages/Outsourcing/Order';
+import Contract from '../Pages/Outsourcing/Contract';
+import BarcodeProductList from '../Pages/Barcode/ProductList'
+import ProductRegister from '../Pages/Barcode/ProductRegister';
 import MaintenanceRegister from '../Pages/Maintenance/Register';
 import MaintenanceSubMachine from '../Pages/Maintenance/SubmachineRegister';
 import MaintenanceMold from '../Pages/Maintenance/MoldRegister';
@@ -88,6 +92,7 @@ import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
 import MaintenanceHistory from '../Pages/Maintenance/History';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
+import StockHistory from '../Pages/Stock/History';
 
 const Routers = () => {
 
@@ -151,6 +156,8 @@ const Routers = () => {
             <Route exact path="/list/barcode" component={BasicBarcodeList} />
             
             <Route exact path="/list/product" component={ProductList} />
+            <Route exact path="/connect/barcode" component={ProductRegister}/>
+            <Route exact path="/connect/barcode/update" component={ProductRegister}/>
             <Route exact path="/stock/product" component={ProductStock} />
             <Route exact path="/stock/material" component={MaterialStock} />
             <Route exact path="/client/buy" component={BuyList} />
@@ -168,6 +175,7 @@ const Routers = () => {
             <Route exact path="/update/client" component={RegisterClient}/>
             <Route exact path="/update/barcode" component={BasicBarcodeRegister}/>
             <Route exact path="/barcode/setting" component={BarcodeSetting}/>
+            <Route exact path="/update/outsourcing" component={OutsourcingRegister}/>
             {/* 데이터 등록 관련 */}
             <Route exact path="/register/material" component={RegisterMaterial} />
             <Route exact path="/register/design" component={RegisterDesign} />
@@ -178,8 +186,12 @@ const Routers = () => {
             <Route exact path="/register/process" component={RegisterProcess}/>
             <Route exact path="/register/client" component={RegisterClient}/>
             <Route exact path="/register/barcode" component={BasicBarcodeRegister}/>
+            <Route exact path="/register/outsourcing" component={OutsourcingRegister}/>
             <Route exact path="/barcode/register" component={RegisterBarcode}/>
-
+            <Route exact path="/stock/history" component={StockHistory}/>
+            <Route exact path="/stock/change/in" component={ChangeStockIn}/>
+            <Route exact path="/stock/change/out" component={ChangeStockOut}/>
+            <Route exact path="/inferior/register" component={RegisterInferior}/>
             {/*기타 서비스 */}
             <Route exact path="/charts" component={Charts}/>
             <Route exact path="/reports" component={Reports}/>
@@ -189,7 +201,7 @@ const Routers = () => {
             <Route exact path="/super/register" component={SuperRegister} />
             <Route exact path="/super/list" component={SuperList} />
 
-
+            <Route exact path="/list/barcode/product" component={BarcodeProductList}/>
             <Route exact path="/maintenance/machine/list" component={MaintenanceMachineList} />
             <Route exact path="/maintenance/submachine/list" component={MaintenanceSubMachineList} />
             <Route exact path="/maintenance/design/list" component={MaintenanceMoldList} />
@@ -201,7 +213,7 @@ const Routers = () => {
             <Route exact path="/maintenance/design/update" component={MaintenanceMold} />
             <Route exact path="/maintenance/list" component={MaintenanceHistory} />
 
-            <Route exact path="/subcontractor/list" component={SubcontractorList}/>
+            <Route exact path="/outsourcing/list" component={OutsourcingList}/>
             <Route exact path="/subcontractor/order" component={Order}/>
             <Route exact path="/subcontractor/contract" component={Contract}/>
             <Route exact path="/maintenance/history" component={MaintenanceHistory} />

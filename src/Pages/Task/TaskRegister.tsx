@@ -8,7 +8,7 @@ import { getToken } from '../../Common/tokenFunctions';
 import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
-import moment from 'moment';
+import moment from 'moment'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';

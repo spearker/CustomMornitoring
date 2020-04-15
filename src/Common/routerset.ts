@@ -90,14 +90,13 @@ export const ROUTER_MENU_LIST = [
     ],
     [ //4 외주 관리
       { name : '외주 관리', url : '/subcontractor/list'},
-      { name : '외주처 관리', url : '/subcontractor/list'},
-      { name : '발주 관리', url : '/subcontractor/order'},
-      { name : '수주 관리', url : '/subcontractor/contract'},
+      { name : '외주처 관리', url : '/outsourcing/list'},
+      { name : '발주 관리', url : '/outsourcing/order'},
+      { name : '수주 관리', url : '/outsourcing/contract'},
     ],
     [ //5 바코드 관리
       { name : '바코드 관리', url : ''},
-      { name : '바코드 등록', url : '/barcode/register'},
-      { name : '바코드 리스트', url : '/list/barcode'},
+      { name : '상품 바코드 리스트', url : '/list/barcode/product'},
     ],
     [ //6 보전 관리
       { name : '보전관리', url : '/maintenance/list'},
@@ -107,7 +106,7 @@ export const ROUTER_MENU_LIST = [
       { name : '주변장치 보전리스트', url : '/maintenance/submachine/list'},
      // { name : '금형 보전등록', url : '/maintenance/design/register'},
       { name : '금형 보전리스트', url : '/maintenance/design/list'},
-      { name : '보전 이력관리', url : '/maintenance/list'},
+      { name : '보전 이력', url : '/maintenance/list'},
     ],
     [ //7 공정 관리
       { name : '공정 관리', url : '/process/list'},
@@ -121,15 +120,15 @@ export const ROUTER_MENU_LIST = [
     ],
     [ //8 재고 관리
       { name : '재고 관리', url : '/stock/list'},
-      { name : '재고 관리', url : '/stock/list'},
-      { name : '생산 관리', url : '/stock/product'},
-      { name : '입고 관리', url : '/stock/in'},
-      { name : '출고 관리', url : '/stock/out'},
+      { name : '재고 현황', url : '/stock/list'},
+      { name : '생산 기록', url : '/stock/product'},
+      { name : '입고 기록', url : '/stock/in'},
+      { name : '출고 기록', url : '/stock/out'},
     ],
     [ //9 불량 관리
       { name : '품질 관리', url : '/quality/manage'},
-      { name : '불량 자재 등록', url : '/defective/register'},
-      { name : '불량 자재 리스트', url : '/defective/list'},
+
+      { name : '불량 발생 이력', url : '/defective/list'},
     ],
     [ //10 서비스 문의
       { name : '서비스 문의', url : '/service'},

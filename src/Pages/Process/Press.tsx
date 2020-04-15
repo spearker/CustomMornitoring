@@ -69,7 +69,7 @@ const PressRecommend = () => {
 
   useEffect(()=>{
     if(!isFirstLoad){
-      getData()
+     //getData()
     }
   },[])
   useEffect(()=>{

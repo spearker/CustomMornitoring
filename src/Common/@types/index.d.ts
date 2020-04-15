@@ -189,3 +189,10 @@ interface IMaintenance{
   info_list?: IInfo[],
   target?:IMaintenance
 }
+
+interface ISearchedList{
+  pk: string,
+  name: string,
+  type: string,
+  code: string,
+}

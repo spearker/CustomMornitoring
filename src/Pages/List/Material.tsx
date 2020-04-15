@@ -152,7 +152,7 @@ const MaterialStock = () => {
                 onClickEvent={getSearchList}
                 />
         
-          <InfoTable indexList={index} pkKey={'pk'} type={'material'} typeKey={'material_type'} typeChanger={machineCodeToName} onClickLinkUrl="/update/submachine?pk=" contents={list} onClickRemove={onClickDelete}/>
+          <InfoTable indexList={index} pkKey={'pk'} type={'material'} typeKey={'material_type'} typeChanger={machineCodeToName} onClickLinkUrl="/update/material?pk=" contents={list} onClickRemove={onClickDelete}/>
         
         </InnerBodyContainer>
       </DashboardWrapContainer>

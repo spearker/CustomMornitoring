@@ -116,22 +116,12 @@ const ClientSell = () => {
         <SubNavigation list={ROUTER_MENU_LIST[2]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`매출 관리 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link="/register/client"/> 
-              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
-            </div>
+            <Header title={`매출 관리`}/>
+           
           </div>
-          <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
-                onChangeEvent={(e)=>{setKeyword(e.target.value)}}
-                onClickEvent={getSearchList}
-                />
-      
-        
-          <NormalTable widthList={['140px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
-        </InnerBodyContainer>
+         
+          
+         </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

@@ -22,7 +22,7 @@ import { useHistory } from 'react-router-dom'
 import DatePickerBox from '../../Components/Box/DatePickerBox';
 
 //특정 재고의 재고 변동 이력
-const StockIn = () => {
+const StockHistory = () => {
   const history = useHistory();
 
   const [list, setList] = useState<IMaterial[]>([]);
@@ -64,15 +64,16 @@ const StockIn = () => {
         <SubNavigation list={ROUTER_MENU_LIST[8]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`입고 기록`}/>
+            <Header title={`재고 변동 이력`}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              
-              
+            <SmallButtonLink name="+ 입고 등록" link="/stock/change/in"/> 
+            <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/> 
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8088/api/v1/api/v1/stock/history/in?'}/>
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8088/api/v1/api/v1/stock/history/target?'}/>
           
-          <InfoTable indexList={index} pkKey={'pk'} type={'stock'} onClickEvent={onClickList} onClickEventName={'재고 변경'} onClickLinkUrl="/stock/in" contents={list} />
+          <InfoTable indexList={index} pkKey={'pk'} type={'stock'} onClickEvent={onClickList} onClickEventName={'재고 변경'} onClickLinkUrl="/stock/history?pk=" contents={list} />
+        
         
         </InnerBodyContainer>
       </DashboardWrapContainer>
@@ -81,4 +82,4 @@ const StockIn = () => {
 }
 
 
-export default StockIn;
+export default StockHistory;

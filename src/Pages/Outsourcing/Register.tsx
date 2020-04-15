@@ -28,9 +28,12 @@ import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 
-// 거래처 등록 페이지
+
+
+
+// 외주사 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const ClientRegister = () => {
+const OutsourcingRegister = () => {
 
   const [pk, setPk] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -271,10 +274,10 @@ const ClientRegister = () => {
 
 
   return (
-      <DashboardWrapContainer index={2}>
-        <SubNavigation list={ROUTER_MENU_LIST[2]}/>
+      <DashboardWrapContainer index={3}>
+        <SubNavigation list={ROUTER_MENU_LIST[3]}/>
         <InnerBodyContainer>
-            <Header title={isUpdate ? '거래처 정보수정' : '거래처 정보등록'}/>
+            <Header title={isUpdate ? '외주사 정보수정' : '외주사 정보등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
@@ -359,4 +362,5 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default ClientRegister;
+export default OutsourcingRegister;
+

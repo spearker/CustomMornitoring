@@ -62,9 +62,9 @@ export const getMachineTypeList = (lang) =>{
 export const getMaterialTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
-            return ['원자재', '최종 생산품', '중간 자재', 'LOT 자재']
+            return ['원자재', '최종 생산품', '조립 자재', '기타']
         default:
-            return ['원자재', '최종 생산품', '중간 자재', 'LOT 자재']
+            return ['원자재', '최종 생산품', '조립 자재', '기타']
       }
 }
 
@@ -90,9 +90,9 @@ export const getMoldTypeList = (lang) =>{
 export const getBarcodeTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
-            return ['바코드 용도 (기본)', 'QR코드 용도', '데이터 매트릭스']
+            return ['바코드 (기본)', 'QR코드 용도', '데이터 매트릭스']
         default:
-            return ['바코드 용도 (기본)', 'QR코드 용도', '데이터 매트릭스']
+            return ['바코드 (기본)', 'QR코드 용도', '데이터 매트릭스']
       }
 }
 

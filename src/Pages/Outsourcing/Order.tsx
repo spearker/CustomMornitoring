@@ -17,7 +17,7 @@ import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 
 
-const Contract = () => {
+const Order = () => {
 
   const [list, setList] = useState<IMold[]>([]);
   const [option, setOption] = useState(0);
@@ -101,7 +101,7 @@ const Contract = () => {
   },[option])
 
   useEffect(()=>{
-    getList()
+    //getList()
    
   },[])
   const onClickModify = useCallback((id)=>{
@@ -116,22 +116,10 @@ const Contract = () => {
         <SubNavigation list={ROUTER_MENU_LIST[3]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`수주 관리 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link="/register/client"/> 
-              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
-            </div>
+            <Header title={`발주 관리 (${list.length})`}/>
+          
           </div>
-          <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
-                onChangeEvent={(e)=>{setKeyword(e.target.value)}}
-                onClickEvent={getSearchList}
-                />
-      
-        
-          <NormalTable widthList={['140px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
-        </InnerBodyContainer>
+                  </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );
@@ -144,4 +132,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default Contract;
+export default Order;

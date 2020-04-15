@@ -12,23 +12,26 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest, postRequest } from '../../Common/requestFunctions';
+import { getRequest } from '../../Common/requestFunctions';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
-import InfoTable from '../../Components/Table/InfoTable';
 
 
-const MaintenanceHistory = () => {
+const Contract = () => {
 
-  const [list, setList] = useState<IMaintenance[]>([]);
+  const [list, setList] = useState<IMold[]>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
-  const type="machine"
+
   const optionList = [
     "등록순", "이름순"
   ]
   const index = {
-    name:'이름',
+    manufacturer:'이름',
+    product_code:'항목',
+    mold_name: '항목',
+    mold_label:'항목', 
+    mold_code:'항목',
   }
 
   /**
@@ -39,7 +42,7 @@ const MaintenanceHistory = () => {
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/preserve/list?keyword='+ keyword +'&option=' + option + '&type=' + type ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/search?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -51,7 +54,7 @@ const MaintenanceHistory = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[list, option, keyword, type])
+  },[list, option, keyword])
 
    /**
    * getList()
@@ -61,7 +64,8 @@ const MaintenanceHistory = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/preserve/list?keyword='+ keyword +'&option=' + option + '&type=' + type ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/0',getToken(TOKEN_NAME))
+
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -71,7 +75,7 @@ const MaintenanceHistory = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[option, keyword, list])
+  },[list])
 
   /**
    * onClickFilter()
@@ -82,9 +86,10 @@ const MaintenanceHistory = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-   
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/preserve/list?keyword='+ keyword +'&option=' + option + '&type=' + type ,getToken(TOKEN_NAME))
-   if(results === false){
+    
+    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/' + filter,getToken(TOKEN_NAME))
+
+    if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
@@ -93,12 +98,11 @@ const MaintenanceHistory = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[option, keyword, list])
+  },[option])
 
   useEffect(()=>{
-    //getList()
-
-    setList(dataSet.maintenanceList)
+    getList()
+   
   },[])
   const onClickModify = useCallback((id)=>{
 
@@ -106,35 +110,16 @@ const MaintenanceHistory = () => {
     window.location.href=`/update/design?pk=${id}`
   
   },[])
-  const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8088/api/v1/preserve/delete', {pk:id}, getToken(TOKEN_NAME))
-
-    console.log('--select id : ' + id)
-    if(results === false){
-      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
-    }else{
-      if(results.status === 200){
-        getList()
-      }else{
-        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
-      }
-    }
-    
-  
-  },[])
   return (
-      <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
+      <DashboardWrapContainer index={3}>
+        <SubNavigation list={ROUTER_MENU_LIST[3]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`보전 이력`}/>
-           
+            <Header title={`수주 관리 (${list.length})`}/>
+            
           </div>
-          
-        
-       
-        </InnerBodyContainer>
+            </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );
@@ -147,4 +132,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default MaintenanceHistory;
+export default Contract;

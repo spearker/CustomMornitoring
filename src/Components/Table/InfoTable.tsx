@@ -20,11 +20,15 @@ interface IProps {
   typeKey?: string,
   typeChanger?: any,
   onClickRemove?: any,
-  onClickLinkUrl?: string
+  onClickLinkUrl?: string,
+  onClickEvent?: any,
+  onClickEventName?: string,
+  onClickEvent2?: any,
+  onClickEventName2?: string,
 }
 
 
-const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeChanger, onClickRemove, onClickLinkUrl }: IProps) => {
+const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeChanger, onClickRemove, onClickEvent, onClickEventName, onClickEvent2, onClickEventName2,   onClickLinkUrl }: IProps) => {
   const history = useHistory()
   
   useEffect(() => {
@@ -51,6 +55,18 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                 :
                 null
             }
+            {
+              onClickEvent !== undefined ?
+                <th></th>
+                :
+                null
+            }
+             {
+              onClickEvent2 !== undefined ?
+                <th></th>
+                :
+                null
+            }
           </tr>
           {/* 테이블 바디 */}
 
@@ -59,14 +75,14 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
             contents.map((v, i) => {
               return (
            
-                <tr key={i} onClick={() => onClickLinkUrl !== undefined ? history.push(onClickLinkUrl + v[pkKey]) : null}>
+                <tr key={i} >
 
-                  <td style={{ textAlign: 'center' }}>{i + 1}</td>
+                  <td onClick={() => onClickLinkUrl !== undefined ? history.push(onClickLinkUrl + v[pkKey]) : null} style={{ textAlign: 'center' }}>{i + 1}</td>
                   {
                     Object.keys(indexList).map((mv, mi) => {
                       return (
                         v[mv] !== null && v[mv] !== undefined  ?
-                          <td key={mv} className="p-limits" >
+                          <td key={mv} className="p-limits" onClick={() => onClickLinkUrl !== undefined ? history.push(onClickLinkUrl + v[pkKey]) : null}  >
                           {typeChanger !== undefined && typeKey !== undefined && mv === typeKey ? 
                             typeChanger(type, Number(v[mv]), 'kor') //타입 
                             :  
@@ -80,6 +96,22 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                     })
                   }
                   {
+                    onClickEvent !== undefined ?
+                    <td style={{ textAlign:'right', paddingRight:8}}>
+                    <ButtonBox onClick={() => { onClickEvent(v[pkKey]) }} >{onClickEventName}</ButtonBox>
+                  </td>
+                      :
+                      null
+                  }
+                   {
+                    onClickEvent2 !== undefined ?
+                    <td style={{ textAlign:'right', paddingRight:8}}>
+                    <ButtonBox onClick={() => { onClickEvent2(v[pkKey]) }} >{onClickEventName2}</ButtonBox>
+                  </td>
+                      :
+                      null
+                  }
+                  {
                     onClickRemove !== undefined ?
                       <td style={{ textAlign:'right', paddingRight:8}}>
                         <ButtonBox onClick={() => { onClickRemove(v[pkKey]) }} >삭제</ButtonBox>
@@ -87,6 +119,7 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                       :
                       null
                   }
+
 
                 </tr>
             

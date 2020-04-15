@@ -261,8 +261,7 @@ const RegisterMaterial = () => {
              <ListHeader title="필수 항목"/>
              <NormalInput title={'자재 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
              <DropdownInput title={'자재 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
-             <NormalNumberInput title={'재고 수량'} value={amount} onChangeEvent={setAmount} description={'재고량을 입력하세요'} />
-             <br/>
+              <br/>
             <ListHeader title="선택 항목"/>
              <NormalInput title={'자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호 혹은 공유 코드를 입력하세요'} />
              <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'자재의 상세 스펙(설명)을 입력하세요'} />

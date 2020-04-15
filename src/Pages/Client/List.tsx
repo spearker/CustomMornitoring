@@ -130,11 +130,11 @@ const ClientList = () => {
   
   },[])
   return (
-      <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
+      <DashboardWrapContainer index={2}>
+        <SubNavigation list={ROUTER_MENU_LIST[2]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`금형 보전리스트 (${list.length})`}/>
+            <Header title={`거래처 리스트(${list.length})`}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
               <SmallButtonLink name="+ 등록하기" link="/register/client"/> 
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
