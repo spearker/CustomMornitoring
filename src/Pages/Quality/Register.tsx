@@ -29,6 +29,8 @@ import MachineList from '../List/Machine';
 import SearchedMachineList from '../../Components/List/SearchedMachineList';
 import { uploadTempFile } from '../../Common/fileFuctuons';
 import OldFileInput from '../../Components/Input/OldFileInput';
+import moment from 'moment';
+import DateInput from '../../Components/Input/DateInput';
 
 interface IInfo {
   title: string,
@@ -44,6 +46,8 @@ const RegisterInferior = () => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [code, setCode] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
+  
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
@@ -72,7 +76,7 @@ const RegisterInferior = () => {
         setPk(getParameter('pk'))
         //alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
-        getData()
+        //getData()
     }
 
   },[]) 
@@ -110,7 +114,7 @@ const RegisterInferior = () => {
 
   /**
    * onsubmitForm()
-   * 공정 정보 등록
+   * 불량 등록
    * @param {string} url 요청 주소
    * @param {string} name 이름
    * @param {string} mold 금형 pk
@@ -123,20 +127,20 @@ const RegisterInferior = () => {
     e.preventDefault();
      //TODO: 지울것
     
-     if (list.length < 1 ||  list2.length<1 ){
-      alert('상품, 기준 바코드는 필수 항목입니다. ')
-      return;
-    }
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
-      material_pk: list[0].pk,
-      barcode_pk: list2[0].pk,
-      coder: code,
-      photo: paths[0]
+      pk: list[0].pk,
+      date: date,
+      amount : amount,
+      reason: 2, 
+      description: description,
+      photo: paths[0],
+
+
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/stock/out', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -146,14 +150,19 @@ const RegisterInferior = () => {
          setName('')
          setList([])
          setList2([])
+         setAmount(0)
+         setDescription('')
+         setPaths([null])
         
+      }else if(res.status === 1000){
+        alert('수량을 다시 확인해주세요.')
       }else{
         alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
 
-  },[pk, list, list2, paths])
+  },[pk, list, list2, paths, amount, description, paths])
 
 
   /**
@@ -181,11 +190,11 @@ const RegisterInferior = () => {
        pk: getParameter('pk'),
        material_pk: list[0].pk,
       barcode_pk: list2[0].pk,
-      coder: code,
+      code: code,
       photo: paths[0]
       
    }
-    const res = await postRequest(BASE_URL + '/api/v1/barcode/product/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/barcode/product/update' + getParameter('pk'), data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -197,7 +206,7 @@ const RegisterInferior = () => {
       }
     }
 
-  },[pk, name, list, list2, paths])
+  },[pk, name, list, list2, paths, code])
 
 /**
    * onClickSearch()
@@ -226,7 +235,7 @@ const RegisterInferior = () => {
     } 
     setIsSearched(true)
 
-    const res = await getRequest(`http://211.208.115.66:8088/api/v1/name/search?keyword=${keyword}&type=${type}`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8091/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -293,7 +302,7 @@ const RegisterInferior = () => {
       <DashboardWrapContainer index={9}>
         <SubNavigation list={ROUTER_MENU_LIST[9]}/>
         <InnerBodyContainer>
-            <Header title={'불량 자재 등록'}/>
+            <Header title={isUpdate ? '불량 정보수정' : '불량자재 정보등록'}/>
             <WhiteBoxContainer>
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
              {/* 팝업 여는 버튼 + 재료 추가 */}
@@ -303,7 +312,7 @@ const RegisterInferior = () => {
                   setKeyword('')}
                   }>
                 {
-                  list.map((v: IMaterial, i)=>{ 
+                  list.map((v: ISearchedList, i)=>{ 
                     return ( 
                         <TextList key={i} 
                         onClickSearch={()=>{
@@ -314,15 +323,17 @@ const RegisterInferior = () => {
                         onClickEvent={()=>{
                           setList([])
                         }} 
-                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
+                        title={v.code !== undefined ? v.code : ""} name={v.name}/>                    
                     )
                   })
                 }
                 </AddInput>
         
                 <NormalNumberInput title={'발생 수량'} value={amount} onChangeEvent={setAmount} description={'불량 발생 수량을 입력해주세요'} />
-             
-                <NormalInput title={'불량 설명'} value={description} onChangeEvent={setDescription} description={'불량 발생 사유 및 기타설명을 입력해주세요'} />
+            
+                <DateInput title={'발생 날짜'} description={""} value={date} onChangeEvent={setDate} />
+                
+                <NormalInput title={'불량 사유'} value={description} onChangeEvent={setDescription} description={'불량 발생 사유 및 기타설명을 입력해주세요'} />
               
                 <NormalFileInput title={'사진 첨부'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'불량 자재 사진을 등록해주세요(선택)'} />
             

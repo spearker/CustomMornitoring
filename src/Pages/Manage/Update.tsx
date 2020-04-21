@@ -89,7 +89,7 @@ const CompanySetting = () => {
     }
 
     const data = {
-      pk: getParameter('id'),
+      pk: getParameter('pk'),
       appointment: rank,
       year: year,
       join_date: joinDate,
@@ -97,7 +97,7 @@ const CompanySetting = () => {
       status: status,
       team_pk : myTeam
     }
-    const results = await postRequest('http://211.208.115.66:8088/api/v1/member/update', data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8091/api/v1/member/update', data, getToken(TOKEN_NAME))
 
     if (results === false) {
       //setList([""])
@@ -110,7 +110,7 @@ const CompanySetting = () => {
       }
     }
 
-  }, [target, rank, joinDate, joinType, year, status])
+  }, [target, rank, joinDate, joinType, year, status, targetTeam, targetTeam2])
 
   /**
   * getTarget()
@@ -122,11 +122,14 @@ const CompanySetting = () => {
   const getTarget = useCallback(async () => {
 
 
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/member/view?pk=' + getParameter("id"), getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
     } else {
+      if(results.status === undefined){
+        return;
+      }
       if (results.status === 200) {
 
         setTarget(results.results)
@@ -135,12 +138,14 @@ const CompanySetting = () => {
         setRank(results.results.appointment)
         setStatus(results.results.status)
         setYear(results.results.year)
+        setTargetTeam(results.results.mother_team)
+        setTargetTeam2(results.results.team)
       } else {
-        alert('잘못된 접근입니다.')
-        window.location.href = '/manage/members'
+        //alert('잘못된 접근입니다.')
+        //window.location.href = '/manage/members'
       }
     }
-  }, [target, joinType, joinDate, status, year, rank])
+  }, [target, joinType, joinDate, status, year, rank, targetTeam, targetTeam2])
 
   /**
    * getRankList()
@@ -158,6 +163,7 @@ const CompanySetting = () => {
       if (results.status === 200) {
         if (results.results.length > 0) {
           setRankList(results.results)
+          
         } else {
           //setList([""])
         }
@@ -180,9 +186,9 @@ const CompanySetting = () => {
     */
    getTarget();
     getRankList();
-    //getList()
-    setList(tempList)
-    setList2(tempList2)
+    getList()
+    //setList(tempList)
+    //setList2(tempList2)
   }, [])
 
 
@@ -193,8 +199,7 @@ const CompanySetting = () => {
    * @returns X
    */
   const getList = useCallback(async () => {
-
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/teams/list?keyword=""', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -224,18 +229,18 @@ const CompanySetting = () => {
     if(targetTeam == null){
       return;
     }
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/teams/list?pk=' + targetTeam.pk + '&keyword=""', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         setList2(results.results)
-
+        setList2(results.results)
       } else {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [list2, targetTeam])
+  }, [list2, targetTeam, targetTeam2, list])
 
   return (
     <DashboardWrapContainer index={1}>
@@ -270,7 +275,7 @@ const CompanySetting = () => {
                             <InputBox onClick={()=>handleClickBtn}>{targetTeam == null  ? '(상위 부서 선택)' : targetTeam.name}</InputBox>
                             {list.map((v, i) => {
                               return (
-                                <InputBoxList key={i} onClick={() => { setTargetTeam(v); setIsOpen(false) }}>{v.name}</InputBoxList>
+                                <InputBoxList key={i} onClick={() => { setList2([]);setTargetTeam(v); setTargetTeam2(null) ;setIsOpen(false);getDataSubTeams();}}>{v.name}</InputBoxList>
                               )
 
                             })}
@@ -300,6 +305,7 @@ const CompanySetting = () => {
                               )
 
                             })}
+                            
                           </div>
                           <div onClick={() => setIsOpen2(false)} style={{ position: 'absolute', top: 0, right: -17, zIndex: 4, backgroundColor: POINT_COLOR, width: 33, height: 33, textAlign: 'center', display: 'inline-block' }}>
                             <img src={IC_ARROW_UP} style={{ width: 20, marginTop: 6 }} />

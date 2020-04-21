@@ -34,7 +34,7 @@ const DatePickerBox = ({setListEvent , searchUrl, targetPk}: IProps) => {
    * 검색
    * @returns X
    */
-  const onClickSearch = useCallback(async (e)=>{
+  const onClickSearch = useCallback(async ()=>{
    
    
     const results = await getRequest(searchUrl+ 'to=' + to +'&from='  + from +'&pk=' + targetPk, getToken(TOKEN_NAME))
@@ -51,7 +51,7 @@ const DatePickerBox = ({setListEvent , searchUrl, targetPk}: IProps) => {
         setList([])
       }
     }
-  },[])
+  },[to, from])
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
@@ -73,6 +73,30 @@ const DatePickerBox = ({setListEvent , searchUrl, targetPk}: IProps) => {
 
              <span> ~ </span>
              <InputBox onClick={()=>handleClickBtn()}>{to === ""|| to === undefined ? "(전체 기간)" : to} </InputBox>
+           
+             <div style={{display:'inline-block', alignItems:'center',cursor:'pointer',  marginLeft: 24}}>
+             <InputButton onClick={()=>{
+                setTo(moment().format("YYYY-MM-DD")); 
+                setFrom(moment().add(-91,"days").format("YYYY-MM-DD")); 
+             }}>최근 3개월 </InputButton>
+             <InputButton onClick={()=>{
+                setTo(moment().format("YYYY-MM-DD")); 
+                setFrom(moment().add(-30,"days").format("YYYY-MM-DD")); 
+            }}>최근 1개월 </InputButton>
+             <InputButton onClick={()=>{
+              setTo(moment().format("YYYY-MM-DD")); 
+              setFrom(moment().add(-7,"days").format("YYYY-MM-DD")); 
+            }}>최근 1주 </InputButton>
+             <InputButton  onClick={()=>{
+                setTo(moment().format("YYYY-MM-DD")); 
+                 setFrom(moment().format("YYYY-MM-DD")); 
+            }}>오늘</InputButton>
+             </div>
+             <div style={{ display:'inline-block', float:'right'}}>
+             <ButtonBox onClick={() => { onClickSearch()  }} >기간 조회</ButtonBox>
+              
+            </div>
+            <div>
             {
                 isOpen ?
                 <div style={{marginTop:11, color:'black'}}>
@@ -105,27 +129,7 @@ const DatePickerBox = ({setListEvent , searchUrl, targetPk}: IProps) => {
               :
               null
             }
-             <div style={{display:'inline-block', alignItems:'center',  marginLeft: 24}}>
-             <InputButton onClick={()=>{
-                setTo(moment().format("YYYY-MM-DD")); 
-                setFrom(moment().add(-91,"days").format("YYYY-MM-DD")); 
-             }}>최근 3개월 </InputButton>
-             <InputButton onClick={()=>{
-                setTo(moment().format("YYYY-MM-DD")); 
-                setFrom(moment().add(-30,"days").format("YYYY-MM-DD")); 
-            }}>최근 1개월 </InputButton>
-             <InputButton onClick={()=>{
-              setTo(moment().format("YYYY-MM-DD")); 
-              setFrom(moment().add(-7,"days").format("YYYY-MM-DD")); 
-            }}>최근 1주 </InputButton>
-             <InputButton  onClick={()=>{
-                setTo(moment().format("YYYY-MM-DD")); 
-                 setFrom(moment().format("YYYY-MM-DD")); 
-            }}>오늘</InputButton>
-             </div>
-             <div style={{ display:'inline-block', float:'right', paddingRight:2, paddingBottom:3}}>
-             <ButtonBox onClick={() => { onClickSearch()  }} >기간 조회</ButtonBox>
-              
+
             </div>
         </Box> 
   );
@@ -140,7 +144,8 @@ const ButtonBox = Styled.button`
     font-weight: bold;
 `
 const InputBox = Styled.div`
-    border: solid 0.5px #aaaaaa;
+    cursor: pointer;
+    border: solid 0.5px #aaaaaa70;
     width: 140px;
     display: inline-block;
     color: #252525;
@@ -166,7 +171,7 @@ const InputButton = Styled.div`
 `
 const Box = Styled.div`
     border-radius: 5px;
-    padding: 16px;
+    padding: 24px 16px 24px 16px;
     text-align: left;
     font-size: 14px;
     color: #252525;

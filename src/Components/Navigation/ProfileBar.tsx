@@ -85,10 +85,12 @@ const ProfileBar = () => {
                       </div>
                     }
                     </ProfileDiv>
+                    {/* 
                   <div style={{display:'flex', alignItems: 'center', paddingLeft:10, width: '50%', height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 32, marginRight: 8, }}/>
                     <p className="p-bold p-limit" style={{color:'white', fontSize:17, display:'inline-block', fontWeight:'bold'}}>현재 데모 및 시연용 계정은 모든 관리자 기능이 해제되어있습니다</p>
                   </div>
+                  */}
                   <div style={{textAlign:'right', marginLeft:'auto', width:'20%' }}>
                     <a className="p-eng" style={{marginRight:24}}>
                       {nowTime}

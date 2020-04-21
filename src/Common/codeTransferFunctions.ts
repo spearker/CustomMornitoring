@@ -19,6 +19,15 @@ export const subMachineCodes = [
     {code: 50, name: '기타(분류없음)'},
 ]
 
+export const stockReasonCodes = [
+   
+    {code: 0, name: '정상 출고'},
+    {code: 1, name: '생산 소진'},
+    {code: 2, name: '불량'},
+    {code: 3, name: '정상 입고'},
+    {code: 4, name: '생산'},
+    {code: 9, name: '오류 정정'},
+]
 
 
 export const moldCodes = [
@@ -131,6 +140,12 @@ export const machineCodeToName = (type, value, leng) =>{
                 str = v.name
             }
         })
+    }else if(type === 'stock'){
+        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
+            if (v.code === value){
+                str = v.name
+            }
+        })
     }
 
     return str;
@@ -169,6 +184,12 @@ export const machineStringToCode = (type, value, leng) =>{
         })
     }else if(type === 'barcode'){
         barcodes.forEach((v: {code: number, name: string},i)=>{
+            if (v.name === value){
+                num = v.code
+            }})
+            
+    }else if(type === 'stock'){
+        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
             if (v.name === value){
                 num = v.code
             }})

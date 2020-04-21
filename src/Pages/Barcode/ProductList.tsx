@@ -42,7 +42,7 @@ const ProductList = () => {
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/barcode/list?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/barcode/product/load?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -66,7 +66,7 @@ const ProductList = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/barcode/list?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/barcode/product/load?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -90,7 +90,7 @@ const ProductList = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/barcode/list?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/barcode/product/load?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
 
     if(results === false){
@@ -112,21 +112,24 @@ const ProductList = () => {
   
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8088/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8091/api/v1/barcode/product/delete', {material_pk:id}, getToken(TOKEN_NAME))
 
-    console.log('--select id : ' + id)
+    const tg = id
+    //console.log('--select id : ' + id)
     if(results === false){
       alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     }else{
-      if(results.status === 200){
-        getList()
+      if(results.status === 200 || results.status === "200"){
+        alert('해당 데이터가 성공적으로 삭제되었습니다.')
+        setList(list.filter(v => v.pk !== tg))
       }else{
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
     
+    
   
-  },[])
+  },[list])
 
 
   const onClickModify = useCallback((id)=>{

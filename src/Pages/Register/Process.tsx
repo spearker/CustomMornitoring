@@ -47,24 +47,24 @@ const RegisterProcess = () => {
   const [keyword, setKeyword] = useState<string>('');
   
   
-  const [list, setList] = useState<IMaterial[]>([]);
-  const [checkList, setCheckList] = useState<IMaterial[]>([]);
-  const [searchList, setSearchList] = useState<IMaterial[]>([]);
+  const [list, setList] = useState<ISearchedList[]>([]);
+  const [checkList, setCheckList] = useState<ISearchedList[]>([]);
+  const [searchList, setSearchList] = useState<ISearchedList[]>([]);
 
   const [isPoupup2, setIsPoupup2] = useState<boolean>(false);
-  const [list2, setList2] = useState<IMold[]>([]);
-  const [checkList2, setCheckList2] = useState<IMold[]>([]);
-  const [searchList2, setSearchList2] = useState<IMold[]>([]);
+  const [list2, setList2] = useState<ISearchedList[]>([]);
+  const [checkList2, setCheckList2] = useState<ISearchedList[]>([]);
+  const [searchList2, setSearchList2] = useState<ISearchedList[]>([]);
 
   const [isPoupup3, setIsPoupup3] = useState<boolean>(false);
-  const [list3, setList3] = useState<IMachine[]>([]);
-  const [checkList3, setCheckList3] = useState<IMachine[]>([]);
-  const [searchList3, setSearchList3] = useState<IMachine[]>([]);
+  const [list3, setList3] = useState<ISearchedList[]>([]);
+  const [checkList3, setCheckList3] = useState<ISearchedList[]>([]);
+  const [searchList3, setSearchList3] = useState<ISearchedList[]>([]);
 
   const [isPoupup4, setIsPoupup4] = useState<boolean>(false);
-  const [list4, setList4] = useState<IMaterial[]>([]);
-  const [checkList4, setCheckList4] = useState<IMaterial[]>([]);
-  const [searchList4, setSearchList4] = useState<IMaterial[]>([]);
+  const [list4, setList4] = useState<ISearchedList[]>([]);
+  const [checkList4, setCheckList4] = useState<ISearchedList[]>([]);
+  const [searchList4, setSearchList4] = useState<ISearchedList[]>([]);
   
 
   useEffect(()=>{
@@ -90,7 +90,7 @@ const RegisterProcess = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -146,10 +146,10 @@ const RegisterProcess = () => {
         //material: 'v1_수민산업_material_1_null_자재자재',
         //output: 'v1_수민산업_material_1_null_자재자재',
         mold:  list2.length > 0 ? list2[0].pk : null,
-        machines: list3[0].pk
+        machine: list3[0].pk
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/process/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/process/register' , data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -198,11 +198,10 @@ const RegisterProcess = () => {
       //material: 'v1_수민산업_material_1_null_자재자재',
       //output: 'v1_수민산업_material_1_null_자재자재',
        mold:  list2.length > 0 ? list2[0].pk : null,
-       machines: list3[0].pk
+       machine: list3[0].pk
    }
-    const res = await postRequest(BASE_URL + '/api/v1/material/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
-
-    if(res === false){
+   const res = await postRequest('http://211.208.115.66:8091/api/v1/process/udpate' , data, getToken(TOKEN_NAME))
+   if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
@@ -226,12 +225,15 @@ const RegisterProcess = () => {
     e.preventDefault();
     let type = "material";
 
-    if(isPoupup === true || isPoupup4 === true ){
+    
+    if(isPoupup === true ){
       type= 'material'
     }else if(isPoupup2 === true){
       type= 'mold'
     }else if(isPoupup3 === true){
       type= 'machine'
+    }else if(isPoupup4 === true){
+      type= 'material'
     }else{
       return;
     }
@@ -243,9 +245,8 @@ const RegisterProcess = () => {
     } 
     setIsSearched(true)
 
-    const res = await getRequest(`http://211.208.115.66:8088/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
-
-    if(res === false){
+    const res = await getRequest(`http://211.208.115.66:8091/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1` , getToken(TOKEN_NAME))
+ if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
@@ -275,15 +276,15 @@ const RegisterProcess = () => {
             <Header title={isUpdate ? '공정 수정' : '공정 등록'}/>
             <WhiteBoxContainer>
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
-             <NormalInput title={'공정 이름 (*필수)'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
+             <NormalInput title={'공정 이름 '} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
              {/* 팝업 여는 버튼 + 재료 추가 */}
-             <AddInput title={'원자재 정보 (*필수)'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
+             <AddInput title={'원자재 정보 '} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
                   setKeyword('')}
                   }>
                 {
-                  list.map((v: IMaterial, i)=>{ 
+                  list.map((v: ISearchedList, i)=>{ 
                     return ( 
                         <TextList key={i} 
                         onClickSearch={()=>{
@@ -294,7 +295,7 @@ const RegisterProcess = () => {
                         onClickEvent={()=>{
                           setList([])
                         }} 
-                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
+                        title={v.code !== undefined ? v.code : ""} name={v.name}/>                    
                     )
                   })
                 }
@@ -302,13 +303,13 @@ const RegisterProcess = () => {
          
 
                 {/* 팝업 여는 버튼 + 기계 정보 추가 */}
-             <AddInput title={'사용 기계 (*필수)'} icType="solo" onlyOne={list3.length > 0 ? true: false} onChangeEvent={()=>{
+             <AddInput title={'사용 기계 '} icType="solo" onlyOne={list3.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup3(true);  
                   setCheckList3(list3); 
                   setKeyword('')}
                   }>
                 {
-                  list3.map((v: IMachine, i)=>{ 
+                  list3.map((v: ISearchedList, i)=>{ 
                     return ( 
                         <TextList key={i} 
                         onClickSearch={()=>{
@@ -319,7 +320,7 @@ const RegisterProcess = () => {
                         onClickEvent={()=>{
                           setList3([])
                         }} 
-                        title={v.machine_code !== undefined ?v.machine_code :''} name={v.machine_name}/>                    
+                        title={v.code !== undefined ?v.code :''} name={v.name}/>                    
                     )
                   })
                 }
@@ -331,7 +332,7 @@ const RegisterProcess = () => {
                   setKeyword('')}
                   }>
                 {
-                  list2.map((v: IMold, i)=>{ 
+                  list2.map((v: ISearchedList, i)=>{ 
                     return ( 
                         <TextList key={i} 
                         onClickSearch={()=>{
@@ -342,19 +343,19 @@ const RegisterProcess = () => {
                         onClickEvent={()=>{
                           setList2([])
                         }} 
-                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
+                        title={v.code !== undefined ? v.code : ''} name={v.name}/>                    
                     )
                   })
                 }
                 </AddInput> 
                 {/* 팝업 여는 버튼 + 재료 추가 */}
-             <AddInput title={'생산자재 정보 (*필수)'} onlyOne={list4.length > 0 ? true: false} icType="solo" onChangeEvent={()=>{
+             <AddInput title={'생산자재 정보 '} onlyOne={list4.length > 0 ? true: false} icType="solo" onChangeEvent={()=>{
                   setIsPoupup4(true);  
                   setCheckList4(list); 
                   setKeyword('')}
                   }>
                 {
-                  list4.map((v: IMaterial, i)=>{ 
+                  list4.map((v: ISearchedList, i)=>{ 
                     return ( 
                         <TextList key={i} 
                         onClickSearch={()=>{
@@ -366,7 +367,7 @@ const RegisterProcess = () => {
                           setList4([])
                         }} 
                        
-                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
+                        title={v.code !== undefined ? v.code : ""} name={v.name}/>                    
                     )
                   })
                 }
@@ -389,10 +390,10 @@ const RegisterProcess = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: IMaterial, i)=>{ 
+                    searchList.map((v: ISearchedList, i)=>{ 
                       return ( 
                     
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                          <SearchedList key={i} pk={v.pk} widths={['45%','45']} contents={[v.code, v.name ]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
@@ -421,9 +422,9 @@ const RegisterProcess = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList2.map((v: IMold, i)=>{ 
+                    searchList2.map((v: ISearchedList, i)=>{ 
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['40%', '35%', '25%']} contents={[v.mold_name, v.mold_label !== undefined ? v.mold_label: '', v.mold_code !== undefined ? v.mold_code : '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                         <SearchedList key={i} pk={v.pk} widths={['45%','45']} contents={[v.code, v.name ]} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
                           
                               const tempList = checkList2.slice()
@@ -453,10 +454,10 @@ const RegisterProcess = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList3.map((v: IMachine, i)=>{ 
+                    searchList3.map((v: ISearchedList, i)=>{ 
                       return ( 
 
-                        <SearchedMachineList endDate={'2020-03-02 21:30:20'} status={v.status} key={i} pk={v.pk} widths={['50%']} contents={[v.machine_name]} isIconDimmed={false} isSelected={checkList3.find((k)=> k.pk === v.pk)? true : false } 
+                        <SearchedList key={i} pk={v.pk} widths={['45%','45']} contents={[v.code, v.name ]} isIconDimmed={false} isSelected={checkList3.find((k)=> k.pk === v.pk)? true : false } 
                         onClickEvent={()=>{
                          const tempList = checkList3.slice()
                          tempList.splice(0, 1, v)
@@ -486,11 +487,11 @@ const RegisterProcess = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList4.map((v: IMaterial, i)=>{ 
+                    searchList4.map((v: ISearchedList, i)=>{ 
                       return ( 
                     
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false } 
-                             onClickEvent={()=>{
+                        <SearchedList key={i} pk={v.pk} widths={['45%','45']} contents={[v.code, v.name ]} isIconDimmed={false} isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false } 
+                        onClickEvent={()=>{
                               const tempList = checkList4.slice()
                               tempList.splice(0, 1, v)
                               setCheckList4(tempList)

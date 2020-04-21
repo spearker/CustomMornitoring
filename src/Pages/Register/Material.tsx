@@ -77,7 +77,7 @@ const RegisterMaterial = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/material/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/material/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -93,7 +93,6 @@ const RegisterMaterial = () => {
          setPk(data.pk);
          setInfo(data.info_list);
 
-         setAmount(data.stock)
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -139,12 +138,12 @@ const RegisterMaterial = () => {
         material_spec: spec,
         material_type: type,
         stock: amount,
-        molds: moldPk,
+
         distributor: made,
         info_list : infoString
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/material/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/material/register', data, getToken(TOKEN_NAME))
     
     if(res === false){
       //TODO: 에러 처리
@@ -154,7 +153,7 @@ const RegisterMaterial = () => {
          setName('')
          setCode('')
          setSpec('')
-         setAmount(0)
+      
          setType(0)
          setMade('')
          setInfo([])
@@ -200,13 +199,13 @@ const RegisterMaterial = () => {
         material_name: name,
         material_code: code,
         material_spec: spec,
-        stock: amount,
+  
         material_type: type,
         distributor: made,
         info_list : infoString,
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/material/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/material/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -220,37 +219,7 @@ const RegisterMaterial = () => {
 
   },[made, code, name, spec, info, pk,amount,list])
 
-/**
-   * onClickSearch()
-   * 금형 키워드 검색
-   * @param {string} url 요청 주소
-   * @param {string} keyword 검색 키워드
-   * @returns X 
-   */
-  const onClickSearch = useCallback(async(e)=>{
-  
-    e.preventDefault();
-    if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
 
-      return;
-    } 
-    setIsSearched(true)
-
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/mold/search?keyword=' + keyword, getToken(TOKEN_NAME))
-
-    if(res === false){
-      //TODO: 에러 처리
-    }else{
-      if(res.status === 200){
-         const results = res.results;
-      
-         setSearchList(results);
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[keyword])
   return (
       <DashboardWrapContainer index={0}>
         <SubNavigation list={ROUTER_MENU_LIST[0]}/>

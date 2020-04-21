@@ -18,19 +18,19 @@ const PopupDispatchContext = createContext<PopupDispatch | undefined>(
 function PopupReducer(state: IPopupTypes, action: Action): IPopupTypes {
     switch (action.type) {
       case 'OPEN_POPUP':
-        console.log(`OPEN_POPUP : ${action.data.contents}`)
+        //console.log(`OPEN_POPUP : ${action.data.contents}`)
         return {
             ...state,
             contents: action.data.contents,
             type: action.data.type,
             is_popup: true,
         }
-    case 'CLOSE_POPUP':
-        console.log(`CLOSE_POPUP`)
-        return {
-            ...state,
-            is_popup: false,
-        }
+      case 'CLOSE_POPUP':
+          console.log(`CLOSE_POPUP`)
+          return {
+              ...state,
+              is_popup: false,
+          }
 
       default:
         throw new Error('-- Unhandled action : PopupContext.tsx --');

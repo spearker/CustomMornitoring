@@ -47,6 +47,7 @@ const ProcessList = () => {
 
   const [list, setList] = useState<IProcess[]>([]);
   const [option, setOption] = useState<number>(0);
+  const [keyword, setKeyword]= useState<string>("");
   const [openTarget, setOpenTarget]= useState<string>("");
   const optionList = [
     "등록순", "이름순", "원자재순 ", "생산품 순", "기계 순"
@@ -65,7 +66,7 @@ const ProcessList = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/process/list/0',getToken(TOKEN_NAME))
+    const results = await getRequest(`http://211.208.115.66:8091/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -76,7 +77,7 @@ const ProcessList = () => {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[list])
+  },[list, option])
 
   /**
    * onClickFilter()
@@ -88,7 +89,8 @@ const ProcessList = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     
-    const results = await getRequest(BASE_URL + '/api/v1/process/list/'+filter,getToken(TOKEN_NAME))
+   
+    const results = await getRequest(`http://211.208.115.66:8091/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -152,9 +154,12 @@ const ProcessList = () => {
           <div style={{position:'relative'}}>
             <Header title={'공정 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <SmallButtonLink name="+ 등록하기" link="/process/register"/> 
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
+          {
+              list.length !== 0?
           <ProcessWrapBox>
             {
               list.map((v:IProcess, i:number)=>{
@@ -163,26 +168,17 @@ const ProcessList = () => {
                 )
               })
             }
-            
-        
+          
           </ProcessWrapBox>
+          :
+          null}
         
         </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );
 }
-const ButtonBox = Styled.button`
-    padding-top: 6px;
-    padding-bottom: 6px;
-    color: black;
-    width: 100%;
-    border-radius: 5px;
-    background-color: ${POINT_COLOR};
-    border: 0;
-    font-size: 13px;
-    font-weight: bold;
-`
+
 const ProcessWrapBox = Styled.div`
   background-color: #2b2c3b;
   display: flex;
@@ -191,122 +187,6 @@ const ProcessWrapBox = Styled.div`
   align-content: space-between;
   text-align: left;
   padding: 17px;
-`
-
-const ProcessHeader = Styled.div`
-  background-color: #25b4b4;
-  border-radius: 5px;
-  text-align: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
-`
-const ImageBox = Styled.img`
-  width: 90px;
-  height: 120px;
-  object-fit: cover;
-
-`
-const MachineHeader = Styled.div`
-  background-color: #25b4b4;
-  border-radius: 5px;
-  display: flex;
-  align-items: center; justify-content: center; 
-  color: white;
-  font-size: 13px;
-  text-align: left;
-  padding-top: 4px;
-  padding-bottom: 4px;
-`
-
-
-
-const ProcessBody = Styled.div`
-  margin: 10px;
-  color: #252525;
-`
-const ProcessCardDiv = Styled.div`
-   width: 240px;
-   background-color: #e7e9eb;
-   display: inline-block;
-   border-radius: 5px;
-   margin: 12px;
-`
-const Active = Styled.div`
-   width: 100%;
-   background-color: #25b4b4;
-   display: inline-block;
-   border-radius: 5px;
-   border: 0px;
-   padding: 6px 11px 6px 11px;
-   margin-top: 4px;
-   font-size: 14px;
-   margin-bottom: 14px;
-`
-const Ready = Styled.div`
-   width: 100%;
-   background-color: #717c90;
-   display: inline-block;
-   border-radius: 5px;
-   border: 0px;
-   padding: 6px 11px 6px 11px;
-   margin-top: 4px;
-   font-size: 14px;
-   margin-bottom: 14px;
-`
-const Error = Styled.div`
-   width: 100%;
-   background-color: #717c90;
-   display: inline-block;
-   border-radius: 5px;
-   border: 0px;
-   padding: 6px 11px 6px 11px;
-   margin-top: 4px;
-   font-size: 14px;
-   margin-bottom: 14px;
-`
-
-const MachineDiv = Styled.div`
-   width: 100%;
-   display: flex;
-   background-color: white;
-   border-radius: 5px;
-   border: 0px;
-   padding: 0px;
-   margin-top: 4px;
-   font-size: 14px;
-   align-items: center; justify-content: center; 
-   margin-bottom: 14px;
-`
-
-const MachineDivBg = Styled.div`
-  width: 100%;
-  background-color: white;
-  display: inline-block;
-  border-radius: 5px;
-  border: 0px;
-  padding: 0px;
-  margin-top: 4px;
-  font-size: 14px;
-  margin-bottom: 14px;
-`
-
-const ProcessInput = Styled.input`
-   width: 100%;
-   background-color: white;
-   display: inline-block;
-   border-radius: 5px;
-   border: 0px;
-   padding: 6px;
-   margin-top: 4px;
-   font-size: 14px;
-   margin-bottom: 14px;
-`
-const FullPageDiv = Styled.div`
-
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: ${BG_COLOR_SUB2}
 `
 
 

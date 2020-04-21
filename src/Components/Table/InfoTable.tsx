@@ -61,12 +61,7 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                 :
                 null
             }
-             {
-              onClickEvent2 !== undefined ?
-                <th></th>
-                :
-                null
-            }
+             
           </tr>
           {/* 테이블 바디 */}
 
@@ -86,7 +81,11 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                           {typeChanger !== undefined && typeKey !== undefined && mv === typeKey ? 
                             typeChanger(type, Number(v[mv]), 'kor') //타입 
                             :  
-                            v[mv] 
+                            String(v[mv]).indexOf('https://')  !== -1 || String(v[mv]).indexOf('http://') !== -1   ?
+                              <img src={v[mv]} style={{height:66}} />
+                            :
+                            v[mv]
+                            
                           }
                          </td>
                           :
@@ -99,23 +98,24 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                     onClickEvent !== undefined ?
                     <td style={{ textAlign:'right', paddingRight:8}}>
                     <ButtonBox onClick={() => { onClickEvent(v[pkKey]) }} >{onClickEventName}</ButtonBox>
-                  </td>
-                      :
-                      null
-                  }
-                   {
+                    {
                     onClickEvent2 !== undefined ?
-                    <td style={{ textAlign:'right', paddingRight:8}}>
-                    <ButtonBox onClick={() => { onClickEvent2(v[pkKey]) }} >{onClickEventName2}</ButtonBox>
+                    
+                    <ButtonBox style={{marginLeft:8}} onClick={() => { onClickEvent2(v[pkKey]) }} >{onClickEventName2}</ButtonBox>
+
+                      :
+                      null
+                  }
                   </td>
                       :
                       null
                   }
+                   
                   {
                     onClickRemove !== undefined ?
                       <td style={{ textAlign:'right', paddingRight:8}}>
                         <ButtonBox onClick={() => { onClickRemove(v[pkKey]) }} >삭제</ButtonBox>
-                      </td>
+                      </td> 
                       :
                       null
                   }

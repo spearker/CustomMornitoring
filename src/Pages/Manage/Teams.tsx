@@ -31,6 +31,7 @@ const TeamsSetting = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [list2, setList2] = useState<ITeam[]>([]);
   const [target, setTarget] = useState<ITeam | null>(null);
+  const [target2, setTarget2]= useState<ITeam | null>(null);
   const index = {
     name: '부서/조직 명',
   }
@@ -53,16 +54,63 @@ const TeamsSetting = () => {
 
     //setList(dataSet.acceptList); //TODO: 테스트용. 지울것.
     //getRankList();
-    //getList()
-    setList(tempList)
-    setList2(tempList2)
+    getList()
+    //getDataSubTeams()
+    //setList(tempList)
+    //setList2(tempList2)
   }, [])
 
-  const onClickAdd = useCallback((id) => {
+  useEffect(()=>{
+    getDataSubTeams()
+  },[target])
 
-    console.log('--select id : ' + id)
-
-  }, [])
+  const onClickAdd = useCallback(async (id) => {
+   
+    
+    if(id === 0){
+      const data = {
+        name: name,
+        mother_pk: null
+      }
+      
+      console.log('--select id : ' + id)
+      const results = await postRequest('http://211.208.115.66:8091/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
+      if (results === false) {
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      } else {
+        if (results.status === 200) {
+          //setList(results.results)
+          setKeyword('')
+          getList();
+          setName('')
+  
+        } else {
+          alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+        }
+      }
+    }else{
+      const data = {
+        name: name2,
+        mother_pk: target!==null?target.pk :null
+      }
+      
+      console.log('--select id : ' + id)
+    const results = await postRequest('http://211.208.115.66:8091/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
+    if (results === false) {
+      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+    } else {
+      if (results.status === 200) {
+        //setList2(results.results)
+        setKeyword('');
+        setName2('')
+        getDataSubTeams()
+      } else {
+        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      }
+    }
+    }
+    
+  }, [list, list2, name, name2, keyword])
 
   /**
    * getData()
@@ -72,7 +120,7 @@ const TeamsSetting = () => {
    */
   const getList = useCallback(async () => {
 
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/member/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -93,8 +141,8 @@ const TeamsSetting = () => {
    * @returns X
    */
   const getDataSubTeams = useCallback(async () => {
-
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/teams/list?pk=' + target + '&keyword=' + keyword, getToken(TOKEN_NAME))
+    if(target === null){return}
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/member/teams/list?pk=' +  target!.pk  + '&keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -123,6 +171,7 @@ const TeamsSetting = () => {
         setList(results.results)
         setKeyword('')
         setList2([])
+        
       } else {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
@@ -131,7 +180,7 @@ const TeamsSetting = () => {
 
   const onClickDelete = useCallback(async (id, abl) => {
 
-    const results = await postRequest('http://211.208.115.66:8088/api/v1/teams/delete', { pk: id }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8091/api/v1/member/teams/delete', { pk: id }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {
@@ -139,6 +188,9 @@ const TeamsSetting = () => {
     } else {
       if (results.status === 200) {
         getList()
+        
+      }else if(results.status === 1000){
+        alert('해당 부서(조직)에 소속 직원이 있어, 삭제가 불가합니다.')
       } else {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
@@ -151,14 +203,15 @@ const TeamsSetting = () => {
   const onClickModify = useCallback(async (id, value) => {
 
   
-    const results = await postRequest('http://211.208.115.66:8088/api/v1/teams/update', { pk: id, name: value }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8091/api/v1/member/teams/update', { pk: id, name: value }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {
       alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     } else {
       if (results.status === 200) {
-        getList()
+        
+        alert('성공적으로 변경되었습니다!')
       } else {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
@@ -176,9 +229,13 @@ const TeamsSetting = () => {
       tempList[idx].name = value
       setList(tempList)
     } else if (depth === 1) {
-
+      const tempList = list2.slice();
+      tempList[idx].name = value
+      setList2(tempList)
     }
   }, [list, list2])
+
+  
   return (
     <DashboardWrapContainer index={1}>
       <SubNavigation list={ROUTER_MENU_LIST[1]} />
@@ -208,7 +265,7 @@ const TeamsSetting = () => {
               <ButtonBox onClick={() => onClickAdd(0)}> + 상위 부서 생성</ButtonBox>
             </div>
             <TeamTable indexList={index} depth={0} onClickModify={onClickModify} onChangeEvent={onChangeEvent} onClickEvent={setTarget} contents={list} onClickRemove={onClickDelete} />
-
+          
           </WhiteWrapDiv>
           {
             target !== null ?
@@ -221,7 +278,7 @@ const TeamsSetting = () => {
                   <InputBox value={name2} onChange={(e) => { setName2(e.target.value) }} placeholder={'부서명 입력'}></InputBox>
                   <ButtonBox onClick={() => onClickAdd(1)}> + 하위 부서 생성</ButtonBox>
                 </div>
-                <TeamTable indexList={index} depth={1} onClickModify={onClickModify} onChangeEvent={onChangeEvent} onClickEvent={setTarget} contents={list2} onClickRemove={onClickDelete} />
+                <TeamTable indexList={index} depth={1} onClickModify={onClickModify} onChangeEvent={onChangeEvent} onClickEvent={setTarget2} contents={list2} onClickRemove={onClickDelete} />
 
 
               </WhiteWrapDiv>

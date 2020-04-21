@@ -141,7 +141,7 @@ const indexList = {
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list?keyword='+ keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
 
     if(res === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -164,7 +164,7 @@ const indexList = {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list?keyword='+ keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
 
    
 
@@ -188,21 +188,14 @@ const indexList = {
     <DashboardWrapContainer index={7}>
     <SubNavigation list={ROUTER_MENU_LIST[7]}/>
     <InnerBodyContainer>
-    <div style={{position:'relative'}}>
+    <div style={{position:'relative', width:'100%'}}>
         <Header title={`작업지시서 관리 (${list.length})`}/>
         <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
           <SmallButtonLink name="+ 등록하기" link="/task/register"/> 
           <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
         </div>
       </div>
-      <SearchInputSmall 
-            description={'검색어 입력'} 
-            value={keyword} 
-            onChangeEvent={(e)=>{setKeyword(e.target.value)}}
-            onClickEvent={getSearchList}
-            />
-  
-    
+   
           
          {/* 작업내역  */}
          <div style={{marginTop:5}}>

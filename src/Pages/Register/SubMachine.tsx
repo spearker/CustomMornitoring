@@ -21,6 +21,7 @@ import { uploadTempFile } from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
+import OldFileInput from '../../Components/Input/OldFileInput';
 
 
 // 주변장치 등록 페이지
@@ -101,7 +102,7 @@ const RegisterSubMachine = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/peripheral/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/peripheral/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -116,7 +117,7 @@ const RegisterSubMachine = () => {
          setType(Number(data.device_label - 50));
          setInfoList(data.info_list);
          const tempList = paths.slice();
-         tempList[0]= data.machine_photo;
+         tempList[0]= data.device_photo;
          tempList[1]= data.qualification_nameplate;
          tempList[2]=data.capacity_nameplate;
          setOldPaths(tempList);
@@ -154,18 +155,18 @@ const RegisterSubMachine = () => {
       manufacturer_code: madeNo,
       manufactured_at: date,
       info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-      machine_photo: paths[0],
+      device_photo: paths[0],
       qualification_nameplate: paths[1],
       capacity_nameplate: paths[2]
     };
 
 
-      const res = await postRequest('http://211.108.115.66:8088/api/v1/peripheral/update/' + pk, data, getToken(TOKEN_NAME))
+      const res = await postRequest('http://211.108.115.66:8091/api/v1/peripheral/update', data, getToken(TOKEN_NAME))
 
       if(res === false){
         //TODO: 에러 처리
       }else{
-        if(res.status === 200){
+        if(res.status === 200 ||res.status === '200' ){
            alert('성공적으로 수정 되었습니다')
         }else if(res.status === 1001){
           //TODO:
@@ -203,14 +204,14 @@ const RegisterSubMachine = () => {
       manufacturer: made,
       manufacturer_code: madeNo,
      
-      manufacturer_detail: info,
+      manufactured_at: date,
       info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
       device_photo: paths[0],
       qualification_nameplate: paths[1],
       capacity_nameplate: paths[2]
     };
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -251,7 +252,13 @@ const RegisterSubMachine = () => {
                 <NormalFileInput title={'장치 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-             
+                {
+                    isUpdate ?
+                    <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['장치사진', '스펙명판', '능력명판']} isImage={true} />
+                 
+                    :
+                    null
+                  }
                 
                  {/* 자유항목 입력 창 */}
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{

@@ -26,6 +26,7 @@ import {getMachineTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
+import OldFileInput from '../../Components/Input/OldFileInput';
 
 // 기계 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -109,12 +110,12 @@ const RegisterMachine = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/machine/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/machine/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
-      if(res.status === 200){
+      if(res.status === 200 || res.status === "200"){
          const data = res.results;
          setName(data.machine_name);
          setMade(data.manufacturer);
@@ -122,7 +123,7 @@ const RegisterMachine = () => {
          setDate(data.manufactured_at);
          setPk(data.pk);
          setMadeNo(data.manufacturer_code);
-         setType(data.machine_label);
+         setType(Number(data.machine_label));
          setInfoList(data.info_list)
          const tempList = paths.slice();
          tempList[0]= data.machine_photo;
@@ -170,7 +171,7 @@ const RegisterMachine = () => {
       capacity_nameplate: paths[2]
     };
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -198,9 +199,9 @@ const RegisterMachine = () => {
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
-    console.log(infoList)
-    alert(JSON.stringify(infoList))
-    console.log(JSON.stringify(infoList))
+    //console.log(infoList)
+    //alert(JSON.stringify(infoList))
+    //console.log(JSON.stringify(infoList))
     if(name === "" ){
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
@@ -218,7 +219,7 @@ const RegisterMachine = () => {
     };
     
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/machine/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -263,7 +264,14 @@ const RegisterMachine = () => {
                 <NormalFileInput title={'기계 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-               
+                {
+                    isUpdate ?
+                    <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['기계사진', '스펙명판', '능력명판']} isImage={true} />
+                 
+                    :
+                    null
+                  }
+                
                  {/* 자유항목 입력 창 */}
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();

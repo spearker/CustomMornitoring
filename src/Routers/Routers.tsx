@@ -77,8 +77,7 @@ import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
 import MaintenanceRegister from '../Pages/Maintenance/Register';
-import MaintenanceSubMachine from '../Pages/Maintenance/SubmachineRegister';
-import MaintenanceMold from '../Pages/Maintenance/MoldRegister';
+import StockView from '../Pages/Stock/View'
 import MaintenanceMoldList from '../Pages/Maintenance/MoldList';
 import MaintenanceMachineList from '../Pages/Maintenance/MachineList';
 import MaintenanceSubMachineList from '../Pages/Maintenance/SubmachineList';
@@ -192,6 +191,7 @@ const Routers = () => {
             <Route exact path="/stock/change/in" component={ChangeStockIn}/>
             <Route exact path="/stock/change/out" component={ChangeStockOut}/>
             <Route exact path="/inferior/register" component={RegisterInferior}/>
+            <Route exact path="/stock/view" component={StockView}/>
             {/*기타 서비스 */}
             <Route exact path="/charts" component={Charts}/>
             <Route exact path="/reports" component={Reports}/>
@@ -206,16 +206,14 @@ const Routers = () => {
             <Route exact path="/maintenance/submachine/list" component={MaintenanceSubMachineList} />
             <Route exact path="/maintenance/design/list" component={MaintenanceMoldList} />
             <Route exact path="/maintenance/register" component={MaintenanceRegister} />
-            <Route exact path="/maintenance/submachine/register" component={MaintenanceSubMachine} />
-            <Route exact path="/maintenance/design/register" component={MaintenanceMold} />
+     
             <Route exact path="/maintenance/update" component={MaintenanceRegister} />
-            <Route exact path="/maintenance/submachine/update" component={MaintenanceSubMachine} />
-            <Route exact path="/maintenance/design/update" component={MaintenanceMold} />
+           
             <Route exact path="/maintenance/list" component={MaintenanceHistory} />
 
             <Route exact path="/outsourcing/list" component={OutsourcingList}/>
-            <Route exact path="/subcontractor/order" component={Order}/>
-            <Route exact path="/subcontractor/contract" component={Contract}/>
+            <Route exact path="/outsourcing/order" component={Order}/>
+            <Route exact path="/outsourcing/contract" component={Contract}/>
             <Route exact path="/maintenance/history" component={MaintenanceHistory} />
             <Route exact path="/process/register" component={RegisterProcess} />
             <Route exact path="/process/list" component={ProcessList} />

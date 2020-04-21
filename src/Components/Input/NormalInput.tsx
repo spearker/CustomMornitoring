@@ -1,31 +1,30 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import { BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH } from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 
-//웰컴, 로그인 페이지 네비게이션 컴포넌트
 
-interface IProps{
+interface IProps {
     title: string,
     description: string,
     value: string,
-    onChangeEvent: any
+    onChangeEvent?: any
 }
-const NormalInput = ({title, description, value, onChangeEvent}: IProps) => {
-  useEffect(()=>{
-   
-  },[])
+const NormalInput = ({ title, description, value, onChangeEvent }: IProps) => {
+    useEffect(() => {
 
-  return ( 
+    }, [])
+ 
+    return (
         <InputContainer title={title}>
-            { onChangeEvent !== null ?
-            <InputBox type="text" value={value} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent(e.target.value)}} placeholder={description}/>
-            :
-            <InputBox type="text" value={value} placeholder={description} disabled/>
+            {onChangeEvent !== null &&  onChangeEvent!== undefined ?
+                <InputBox type="text" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { onChangeEvent(e.target.value) }} placeholder={description} />
+                :
+                <InputBox type="text" value={value} placeholder={description} disabled />
             }
-        </InputContainer> 
-  );
+        </InputContainer>
+    );
 }
 
 const InputBox = Styled.input`

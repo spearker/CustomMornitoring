@@ -38,7 +38,7 @@ const Login = () => {
       email: email,
       password: password,
     }
-    const results = await postRequestWithNoToken('http://211.208.115.66:8088/user/login', data)
+    const results = await postRequestWithNoToken('http://211.208.115.66:8091/user/login', data)
 
     if(results === false){
       //TODO: 에러 처리
@@ -91,10 +91,10 @@ const Login = () => {
 
   return (
       <WelcomeContainer>
-          <div style={{width:320, textAlign:'left'}}>
+          <form style={{width:320, textAlign:'left'}}>
             <p className="p-eng" style={{fontSize:36, marginBottom:26}}>Log In</p>
-            <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)}} hint={t('enterEmail')}/>
-            <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)}} hint={t('enterPassword')}/>
+            <WelcomeInput type="email" value={email} title={'ID (e-mail)'} onChangeEvent={useCallback((e: React.ChangeEvent<HTMLInputElement>): void =>{setEmail(e.target.value)},[email])} hint={t('enterEmail')}/>
+            <WelcomeInput type="password" value={password} title={'Password'} onChangeEvent={useCallback((e: React.ChangeEvent<HTMLInputElement>): void =>{setPassword(e.target.value)},[password])} hint={t('enterPassword')}/>
             <div style={{textAlign:'center',marginTop:38}}>
                   <p style={{marginBottom:10, color:'red'}}>{error}</p>
                   <BasicColorButton onClickEvent={(e)=>onsubmitForm(e)} width="100%" name={t('login')} />
@@ -105,7 +105,7 @@ const Login = () => {
                   </div>
                   
             </div>
-          </div>
+          </form>
       </WelcomeContainer>
       
   );

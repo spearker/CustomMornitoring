@@ -70,11 +70,11 @@ const StockHistory = () => {
             <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/> 
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8088/api/v1/api/v1/stock/history/target?'}/>
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8091/api/v1/stock/history/target?'}/>
           
-          <InfoTable indexList={index} pkKey={'pk'} type={'stock'} onClickEvent={onClickList} onClickEventName={'재고 변경'} onClickLinkUrl="/stock/history?pk=" contents={list} />
+          <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName}  onClickEvent={onClickList} onClickEventName={'재고 변경'} onClickLinkUrl="/stock/history?pk=" contents={list} />
         
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

@@ -190,7 +190,7 @@ const DefectiveRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
     console.log(infoList)
-    alert(JSON.stringify(infoList))
+    //alert(JSON.stringify(infoList))
     console.log(JSON.stringify(infoList))
     if(name === "" ){
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")

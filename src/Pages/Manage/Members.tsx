@@ -19,6 +19,8 @@ import InfoTable from '../../Components/Table/InfoTable';
 const Members = () => {
 
   const [list, setList] = useState<IMmember[]>([]);
+  const [keyword, setKeyword] = useState<string>("");
+  const [option, setOption] = useState<number>(0);
  
   const index = {
     name:'성명',
@@ -38,20 +40,24 @@ const Members = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getList = useCallback(async ()=> {
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/member/list/0', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8091/api/v1/member/list?keyword='+keyword +'&orderBy='+option, getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
     }else{
+      if(results.status === undefined){
+        return;
+      }
       if(results.status === 200){
           setList(results.results)
+          
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
         //TODO:  기타 오류
       }
     }
-  },[list])
+  },[list, keyword, option])
 
 
 
@@ -62,12 +68,7 @@ const Members = () => {
 
   },[])
 
-  const onClickModify = useCallback((id)=>{
-
-    console.log('--select id : ' + id)
-    window.location.href=`/manage/members/update?id=${id}`
-  
-  },[])
+ 
 
   return (
       <DashboardWrapContainer index={1}>

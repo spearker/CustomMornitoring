@@ -19,19 +19,28 @@ const OldFileInput = ({title, urlList, nameList, isImage}: IProps) => {
   },[])
 
   return ( 
+      
         <InputContainer title={title}>
             { 
             urlList.map((f,i)=>{
 
                 return(
                 <a key={'file-'+ i} href={f} target="_blank" style={{textAlign:'center', display:'inline-block', marginRight:11}}>
-                    <img src={isImage !==undefined && isImage === true ?  f : IC_DOC} style={{width:150, height:115, objectFit: 'cover'}}/>
                     {
-                        nameList !== undefined ?
-                        <p className="p-limit" style={{width:95, fontSize:13, textAlign:'center'}}>{nameList[i]}</p>
+                        f !== "" && f !== null ?
+                        <>
+                        <img src={isImage !==undefined && isImage === true ?  f : IC_DOC} style={{width:140, height:140, objectFit: 'cover'}}/>
+                        
+                        {nameList !== undefined ?
+                        <p className="p-limit p-bold" style={{fontSize:13, textAlign:'center'}}>{nameList[i]}</p>
                         :
-                        null
+                        null}
+                        </>
+                    
+                    :
+                    null
                     }
+                    
                   
                 </a>
                 )

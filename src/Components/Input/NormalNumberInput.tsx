@@ -9,7 +9,7 @@ import InputContainer from '../../Containers/InputContainer';
 interface IProps{
     title: string,
     description: string,
-    value: number,
+    value: number | undefined,
     onChangeEvent: any,
     line?: boolean
 }

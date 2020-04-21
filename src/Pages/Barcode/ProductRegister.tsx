@@ -85,7 +85,7 @@ const ProductRegister = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/barcode/product/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -95,9 +95,12 @@ const ProductRegister = () => {
       if(res.status === 200){
        
          const data = res.results;
+         setPk(getParameter('pk'))
          setName(data.name);
          setList(new Array(data.material));
-         setList(new Array(data.s))
+         setList2(new Array(data.basic_barcode))
+         setCode(data.code);
+         setOldPaths([data.photo]);
         
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
@@ -105,7 +108,7 @@ const ProductRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, name, list, list2]);
+  },[pk, list, list2, code, oldPaths]);
 
   /**
    * onsubmitForm()
@@ -124,6 +127,10 @@ const ProductRegister = () => {
     
      if (list.length < 1 ||  list2.length<1 ){
       alert('상품, 기준 바코드는 필수 항목입니다. ')
+      //return;
+    }
+    if(code.indexOf('_')!== -1){
+      alert('언더바(_)를 사용 할 수 없습니다.')
       return;
     }
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
@@ -131,28 +138,34 @@ const ProductRegister = () => {
     const data = {
       material_pk: list[0].pk,
       barcode_pk: list2[0].pk,
-      coder: code,
+      code: code,
       photo: paths[0]
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
+      alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-         setName('')
+
          setList([])
          setList2([])
+         setPaths([]);
+         setCode('');
         
+        
+      }else if(res.status === 1000){
+        alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
       }else{
         alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
 
-  },[pk, list, list2, paths])
+  },[pk, list, list2, paths, code])
 
 
   /**
@@ -174,29 +187,37 @@ const ProductRegister = () => {
       alert('상품, 기준 바코드는 필수 항목입니다. ')
       return;
     }
+    if(code.indexOf('_')!== -1){
+      alert('언더바(_)를 사용 할 수 없습니다.')
+      return;
+    }
    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
    const data = {
-       pk: getParameter('pk'),
+      
        material_pk: list[0].pk,
       barcode_pk: list2[0].pk,
-      coder: code,
+      code: code,
       photo: paths[0]
       
    }
-    const res = await postRequest(BASE_URL + '/api/v1/barcode/product/update/' + getParameter('pk'), data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/barcode/product/update' , data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
+      alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 수정 되었습니다')
+      }else if(res.status === 1000){
+        alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
       }else{
         //TODO:  기타 오류
+        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
       }
     }
 
-  },[pk, name, list, list2, paths])
+  },[pk, name, list, list2, paths, code])
 
 /**
    * onClickSearch()
@@ -225,7 +246,7 @@ const ProductRegister = () => {
     } 
     setIsSearched(true)
 
-    const res = await getRequest(`http://211.208.115.66:8088/api/v1/name/search?keyword=${keyword}&type=${type}`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8091/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -299,10 +320,11 @@ const ProductRegister = () => {
              <AddInput title={'상품(자재) 선택'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup(true);  
                   setCheckList(list); 
-                  setKeyword('')}
+                  setKeyword('')
+                  setList([])}
                   }>
                 {
-                  list.map((v: IMaterial, i)=>{ 
+                  list.map((v: ISearchedList, i)=>{ 
                     return ( 
                         <TextList key={i} 
                         onClickSearch={()=>{
@@ -313,7 +335,7 @@ const ProductRegister = () => {
                         onClickEvent={()=>{
                           setList([])
                         }} 
-                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
+                        title={v.name !== undefined ? v.name : ""} name={v.code}/>                    
                     )
                   })
                 }
@@ -322,8 +344,9 @@ const ProductRegister = () => {
              <AddInput title={'기준 바코드 선택 '} icType="solo" onlyOne={list2.length > 0 ? true: false} onChangeEvent={()=>{
                   setIsPoupup2(true);  
                   setCheckList2(list2); 
-                  setKeyword('')}
-                  }>
+                  setKeyword('');
+                  setList2([]);
+             }}>
                 {
                   list2.map((v: ISearchedList, i)=>{ 
                     return ( 
@@ -336,7 +359,7 @@ const ProductRegister = () => {
                         onClickEvent={()=>{
                           setList2([])
                         }} 
-                        title={v.name !== undefined ?v.code :''} name={v.code}/>                    
+                        title={v.name !== undefined ?v.name :''} name={v.code}/>                    
                     )
                   })
                 }
@@ -404,7 +427,7 @@ const ProductRegister = () => {
                     isSearched ?
                     searchList2.map((v: ISearchedList, i)=>{ 
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '', v.code !== undefined ? v.code : '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
                           
                               const tempList = checkList2.slice()

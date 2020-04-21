@@ -23,6 +23,7 @@ import moment from 'moment';
 import {getMoldTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import { uploadTempFile } from '../../Common/fileFuctuons';
+import OldFileInput from '../../Components/Input/OldFileInput';
 // 금형 등록 페이지
 const RegisterDesign = () => {
 
@@ -59,7 +60,7 @@ const RegisterDesign = () => {
    */
   const getData = useCallback(async ()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -73,10 +74,7 @@ const RegisterDesign = () => {
           setDate(data.manufactured_at)
           setType(data.mold_label);
           setInfoList(data.info_list);
-          const tempList = paths.slice();
-          tempList[0]= data.upper_photo;
-          tempList[1]= data.below_photo;   
-          setOldPaths(tempList)
+          setOldPaths([data.mold_upper, data.mold_below])
       }else{
         //TODO:  기타 오류
       }
@@ -139,8 +137,8 @@ const RegisterDesign = () => {
     //alert('테스트 : 전송 - ' + made + name + no + type  + spec );
    // return;
 
-    if(name === "" || made === ""){
-      alert("금형이름과 제조사는 필수 항목입니다. 반드시 입력해주세요.")
+    if(name === "" ){
+      alert("금형이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -150,12 +148,12 @@ const RegisterDesign = () => {
         mold_label: type,
         product_spec:'',
         manufactured_at: date,
-        info_list : JSON.stringify(infoList),
+        info_list : infoList.length === 0 ? null : JSON.stringify(infoList),
         upper_photo: paths[0],
         below_photo: paths[1]
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -205,12 +203,12 @@ const RegisterDesign = () => {
         mold_name: name,
         product_spec:'',
         mold_label: type,
-        info_list : JSON.stringify(infoList),
+        info_list : infoList.length === 0 ? null : JSON.stringify(infoList),
         upper_photo: paths[0],
         below_photo: paths[1]
     }
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/mold/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -243,7 +241,14 @@ const RegisterDesign = () => {
                 <NormalInput title={'제조번호'} value={no} onChangeEvent={setNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
                 <NormalFileInput title={'금형 상 사진'} name={ paths[0]} thisId={'moldPhotoo0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'금형 하 사진'} name={ paths[1]} thisId={'moldPhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-             
+                 
+                 {
+                    isUpdate ?
+                    <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={[]} isImage={true} />
+                 
+                    :
+                    null
+                  }
                  {/* 자유항목 입력 창 */}
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();

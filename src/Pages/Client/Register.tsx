@@ -27,6 +27,11 @@ import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
+import RadioInput from '../../Components/Input/RadioInput';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+
+
+
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -34,7 +39,7 @@ const ClientRegister = () => {
 
   const [pk, setPk] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [no, setNo] = useState<string>('');
+  const [no, setNo] = useState<number>();
   const [type, setType] = useState<number>(0); //0: 법인, 1:개인
   const [phone, setPhone]= useState<string>('');
   const [address, setAddress]= useState<string>('');
@@ -114,7 +119,7 @@ const ClientRegister = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8088/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8091/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -123,16 +128,17 @@ const ClientRegister = () => {
          const data = res.results;
          setName(data.name);
          setPk(data.pk);
-         setNo(data.number);
-         setType(data.type);
+         setNo(Number(data.number));
+         setType(Number(data.type));
          setPk(data.pk);
          setCeo(data.ceo);
          setOldPaths([data.photo])
          setPhone(data.telephone);
          setEmailM(data.manager_email);
          setPhoneM(data.manager_phone)
+         setManager(data.manager)
          setEmail(data.ceo_email)
-         setType(data.machine_label);
+      
          setInfoList(data.info_list)
          setAddress(data.address);
          setFax(data.fax);
@@ -171,30 +177,31 @@ const ClientRegister = () => {
       type: type,
       ceo: ceo,
       photo: paths[0],
-      phone: phone,
-      email: email,
-      phoneM: phoneM,
-      emailM: emailM,
+      telephone: phone,
+      ceo_email: email,
+      manager: manager,
+      manager_phone: phoneM,
+      manager_email: emailM,
       address: address,
       fax: fax,
-      info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+      //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/customer/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     }else{
       if(res.status === 200){
           alert('성공적으로 수정 되었습니다')
-          isUpdate(false)
+          setIsUpdate(false)
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
-  },[pk, name, no, isUpdate, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
+  },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
 
   /**
    * onsubmitForm()
@@ -211,7 +218,7 @@ const ClientRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
     console.log(infoList)
-    alert(JSON.stringify(infoList))
+    //alert(JSON.stringify(infoList))
     console.log(JSON.stringify(infoList))
     if(name === "" ){
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
@@ -224,18 +231,19 @@ const ClientRegister = () => {
       type: type,
       ceo: ceo,
       photo: paths[0],
-      phone: phone,
-      email: email,
-      phoneM: phoneM,
-      emailM: emailM,
+      telephone: phone,
+      ceo_email: email,
+      manager: manager,
+      manager_phone: phoneM,
+      manager_email: emailM,
       address: address,
       fax: fax,
-      info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+     // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
     
 
-    const res = await postRequest('http://211.208.115.66:8088/api/v1/customer/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8091/api/v1/customer/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -245,7 +253,7 @@ const ClientRegister = () => {
          const data = res.results;
          setName('');
          setPk('');
-         setNo('');
+         setNo(undefined);
          setType(0);
         
          setCeo('');
@@ -265,7 +273,7 @@ const ClientRegister = () => {
       }
     }
 
-  },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
+  },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
 
 
 
@@ -278,26 +286,11 @@ const ClientRegister = () => {
             <WhiteBoxContainer>
               <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
-                <NormalInput title={'거래처 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'} />
-                <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setName} description={'사업장 대표자 이름을 입력하세요'} />
-                <div style={{display:'flex', alignItems:'center',marginTop:12, marginBottom:8}}>
-              <div style={{paddingLeft:1, paddingTop:5}}>
-                <input type="radio" id="cb" name="type" checked={type === 0 ? true: false} onClick={(e)=>{setType(0)}}/>
-                <label htmlFor="cb"></label>
-              </div>
-              <div>
-                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>법인</span> 
-              </div>
-              <div style={{paddingLeft:1, paddingTop:5}}>
-                <input type="radio" id="cb2"  name="type"  checked={type === 1 ? true: false} onClick={(e)=>{setType(1)}}/>
-                <label htmlFor="cb2"></label>
-              </div>
-              <div>
-                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>개인</span> 
-              </div>
-              
-            </div>
-                <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
+                <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'} />
+                <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'} />
+                <RadioInput title={'사업자 구분'} target={type} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
+             
+                <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
@@ -314,7 +307,7 @@ const ClientRegister = () => {
                 <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager} description={'사업장 담당자(관리자) 이름을 입력하세요'} />
                 <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} description={'사업장 담당자(관리자) 연락처를 입력하세요'} />
                 <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM} description={'사업장 담당자(관리자) 이메일을 입력하세요'} />
-                  {/* 자유항목 입력 창 */}
+                  {/* 자유항목 입력 창 
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
                   tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -340,7 +333,7 @@ const ClientRegister = () => {
                   }
                   </FullAddInput>
                   
-                
+                */}
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
             </WhiteBoxContainer>
@@ -351,12 +344,8 @@ const ClientRegister = () => {
       
   );
 }
-const FullPageDiv = Styled.div`
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: ${BG_COLOR_SUB2}
-`
+
+
 
 
 export default ClientRegister;
