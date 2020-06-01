@@ -130,6 +130,19 @@ export const ROUTER_MENU_LIST = [
 
       { name : '불량 발생 이력', url : '/defective/list'},
     ],
+    [ //10. key-in
+      { name : 'Key-in', url : '/keyin'},
+    ], //11. monitoring
+    [
+      { name : '모니터링', url : '/monitoring'},
+    ],
+    [   //12.Kpi
+      { name : 'KPI 생산지수', url : '/kpi/product'},
+      { name : 'KPI 생산지수', url : '/kpi/product'},
+      { name : 'KPI 품질지수', url : '/kpi/quality'},
+      { name : 'KPI 원가지수', url : '/kpi/price'},
+      { name : 'KPI 납기지수', url : '/kpi/duedate'},
+    ],
     [ //10 서비스 문의
       { name : '서비스 문의', url : '/service'},
       { name : '문의방법 및 연락처', url : '/service'},

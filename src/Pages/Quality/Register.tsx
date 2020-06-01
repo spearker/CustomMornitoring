@@ -102,7 +102,7 @@ const RegisterInferior = () => {
          const data = res.results;
          setName(data.name);
          setList(new Array(data.material));
-         setList(new Array(data.s))
+         //setList(new Array(data.s))
         
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
@@ -191,7 +191,8 @@ const RegisterInferior = () => {
        material_pk: list[0].pk,
       barcode_pk: list2[0].pk,
       code: code,
-      photo: paths[0]
+      photo: paths[0],
+      description: description,
       
    }
     const res = await postRequest('http://211.208.115.66:8091/api/v1/barcode/product/update' + getParameter('pk'), data, getToken(TOKEN_NAME))
@@ -206,7 +207,7 @@ const RegisterInferior = () => {
       }
     }
 
-  },[pk, name, list, list2, paths, code])
+  },[pk, name, list, list2, paths, code, description])
 
 /**
    * onClickSearch()

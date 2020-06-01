@@ -92,6 +92,10 @@ import MaintenanceHistory from '../Pages/Maintenance/History';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
 import StockHistory from '../Pages/Stock/History';
+import ProductKpi from '../Pages/Kpi/ProductKpi';
+import QualityKpi from '../Pages/Kpi/QualityKpi';
+import PriceKpi from '../Pages/Kpi/PriceKpi';
+import DuedateKpi from '../Pages/Kpi/DuedateKpi';
 
 const Routers = () => {
 
@@ -224,7 +228,11 @@ const Routers = () => {
             <Route exact path="/stock/out" component={StockOutList} />
             <Route exact path="/defective/register" component={DefectiveRegister} />
             <Route exact path="/defective/list" component={DefectiveList} />
-          
+            {/*kpi */}
+            <Route exact path="/kpi/product" component={ProductKpi} />
+            <Route exact path="/kpi/quality" component={QualityKpi} />
+            <Route exact path="/kpi/price" component={PriceKpi} />
+            <Route exact path="/kpi/duedate" component={DuedateKpi} />
         </Switch>
     </div>
   );

@@ -134,12 +134,12 @@ const RegisterMaintenance = () => {
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     let tPk = '';
-    if(type === 'machine' && list !== []){
-      tPk = list[0].pk
+    if(type === 'machine' && list3 !== []){
+      tPk = list3[0].pk
     }else if(type==='mold'&& list2 !== []){
       tPk = list2[0].pk
-    }else if(type==='peripheral'&& list3 !== []){
-      tPk = list3[0].pk
+    }else if(type==='peripheral'&& list !== []){
+      tPk = list[0].pk
     }
  
     if(tPk === '' || tPk== undefined){

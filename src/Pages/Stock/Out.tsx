@@ -72,7 +72,7 @@ const StockOut = () => {
           </div>
           <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8091/api/v1/stock/history/out?'}/>
           
-          <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName}  onClickEvent={onClickList} onClickEventName={'재고 변경'} onClickLinkUrl="/stock/view?pk=" contents={list} />
+          <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName}  onClickLinkUrl="/stock/view?pk=" contents={list} />
         
         </InnerBodyContainer>
       </DashboardWrapContainer>

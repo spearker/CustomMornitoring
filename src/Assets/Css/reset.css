@@ -34,7 +34,10 @@
 -ms-overflow-style: none;
 }
 
-
+tspan{
+  
+    fill: #ffffff96 !important;
+  }
 
 body { 
     font-family:'Noto Sans KR' ;
@@ -181,3 +184,12 @@ img{
 
 /* IE 에서 Select box 화살표 제거 */ 
 select::-ms-expand { display: none; }
+
+g{
+    fill:  white !important;
+   
+}
+.apexcharts-legend-text{
+    color: white !important;
+   
+  }

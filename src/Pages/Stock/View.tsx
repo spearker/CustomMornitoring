@@ -138,7 +138,7 @@ const StockView = () => {
                 <NormalInput title={'날짜'} description={""} value={date} />
                 {
                   description == '' ?
-                  <NormalInput title={'불량 사유'} value={description} onChangeEvent={setDescription} description={''} />
+                  <NormalInput title={'불량 사유'} value={description} description={''} />
                   :
                   
               null

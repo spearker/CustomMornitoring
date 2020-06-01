@@ -169,24 +169,3 @@ const MachineList = () => {
 
 export default MachineList;
 
-
- /*
-    const item_list = [
-      {title:"색상", value:"은wd"},
-      {title:"소재", value:"실버ddwwdwd"},
-      {title:"품질", value:"바보ddwwdwd"},
-      {title:"배고파", value:"응ddwwdwd"},
-      {title:"자장면", value:"중국ddwwdwd"}
-    ]
-  
-    const newObject = new Object();
-    const newArray = new Array();
-    for(let i = 0; i < item_list.length; i ++ ){
-      newObject[item_list[i].title] = item_list[i].value
-      newArray.push(newObject);
-    }
-  
-    alert(newObject)
-    console.log(newObject)
-    console.log(newArray)
-    */
