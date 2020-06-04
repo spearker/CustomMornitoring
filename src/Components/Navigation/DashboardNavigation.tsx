@@ -54,6 +54,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                       <NavGroupList 
                       key={`nav-${i}`}
                       onClickEvent={()=>{
+                        
                         if(isSelected === i){
                           setIsSelected(999)
                         }else{

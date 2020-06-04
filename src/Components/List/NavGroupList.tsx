@@ -3,7 +3,7 @@ import Styled from 'styled-components'
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import Icon from '../../Assets/Images/ic_nav_temp.png'
-import { Link } from 'react-router-dom';
+import { Link , useHistory} from 'react-router-dom';
 
 
 //대시보드 네비게이션 리스트
@@ -16,6 +16,7 @@ interface Props{
 
  const NavGroupList= ({contents, selected, onClickEvent}: Props) => {
 
+  const history = useHistory();
   useEffect(()=>{
    
   },[])
@@ -33,7 +34,7 @@ interface Props{
               }else{
                 return(
                   <ListInnderDiv key={`list-${i}`}>
-                    <Link to={v.url} >· {v.name}</Link>
+                    <p onClick={()=>{window.scrollTo(0,0);history.push(v.url);}}  >· {v.name}</p>
                   </ListInnderDiv>
   
                 )

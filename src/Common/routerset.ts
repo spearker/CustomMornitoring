@@ -161,15 +161,6 @@ export const ROUTER_MENU_LIST = [
       { name : '서비스 문의', url : '/service'},
       { name : '문의방법 및 연락처', url : '/service'},
     ],
-    [ //14. key-in
-      { name : 'Key-in', url : '/keyin'},
-      { name : '프레스 Key-in', url : '/keyin/press'},
-      { name : '금형 Key-in', url : '/keyin/mold'},
-      { name : '용접기 Key-in', url : '/keyin/welding'},
-      { name : '밀링 Key-in', url : '/keyin/milling'},
-      { name : '선반 Key-in', url : '/keyin/sunban'},
-      { name : 'tab Key-in', url : '/keyin/tab'},
-      { name : '자재 Key-in', url : '/keyin/material'},
-    ],
+    
   ];
   
