@@ -173,7 +173,20 @@ interface IServerResponse  {
     operation: boolean,
     end_date: string
   }
-
+  interface IMonitoringList {
+    pk: string,
+    file?: string,
+    running_time?: string,
+    error?: string,
+    line?:string | number,
+    ready_time?: string,
+    name: string,
+    code: string,
+    info_list: IInfoM[],
+    is_connect: boolean,
+    status: string,
+    percent: string | number
+  }
   // 부서
 interface ITeam{
   pk: string,

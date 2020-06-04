@@ -26,14 +26,15 @@ import MonitoringCard from '../../Components/Card/MonitoringCard';
 import SearchModalContainer from '../../Containers/SearchModalContainer';
 import SearchedList from '../../Components/List/SearchedList';
 import { transferCodeToName } from '../../Common/codeTransferFunctions';
+import FullSizeContainer from '../../Containers/FullSizeContainer';
 import { useHistory } from 'react-router-dom';
-import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
+import MonitoringCardSmall from '../../Components/Card/MonitoringCardSmall';
 
-// 모니터링 공통
-const PressMonitoring = () => {
+// 풀사이즈 모니터링
+const FullMonitoring = () => {
 
-  const [list, setList] = useState<IMonitoringList[]>([]);
-  const history = useHistory();
+  const [list, setList] = useState<[]>([]);
+
   const [title, setTitile]= useState<string>('');
   const [arrayType, setArrayType] = useState<number>(0); //['카드형' , '리스트형']
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -44,7 +45,7 @@ const PressMonitoring = () => {
   const [optionFilter, setOptionFilter] = useState<number | string>('all');
   const [optionList, setOptionList] = useState<number[]>([]);
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(false);
-
+  const history = useHistory();
   const onClickRefresh = useCallback(()=>{
     setStatusFilter('all');
     setCheckList([]);
@@ -91,19 +92,15 @@ const PressMonitoring = () => {
 
     useEffect(()=>{
       getList() 
-      //setList(dataSet.commonMonitoring)
       setIsFirstLoad(true)
       setTitile('프레스')
       },[])
-
-
-     
     useEffect(()=>{
       
-      const interval = setInterval(() => { getList(); }, 9000);
+      const interval = setInterval(() => { getList();  }, 9000)
  
       return () => {   
-          console.log('-- monitoring end -- ' )
+          //console.log('-- monitoring end -- ' )
           clearTimeout(interval);
         };
     },[])
@@ -122,13 +119,12 @@ const PressMonitoring = () => {
   },[optionFilter, list])
 
   return (
-      <DashboardWrapContainer index={11}>
-        <SubNavigation list={ROUTER_MENU_LIST[11]}/>
-        <InnerBodyContainer>
+    <FullSizeContainer index={12}>
+        <SubNavigation list={ROUTER_MENU_LIST[11]} isFull={true}/>
+        <div style={{marginLeft: 44, marginRight:44}}>
           <div style={{position:'relative'}}>
               <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>        
               <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
-                <MonitoringToggle contents={['카드형 보기', '목록형 보기']} select={arrayType} onClickEvent={setArrayType}/>
                
               </div>
           </div>
@@ -147,20 +143,21 @@ const PressMonitoring = () => {
                     list.map((v:IMonitoringList)=>{return v.pk!})
                   )}} />
                 }
-               {/* <MonitoringOptionButton title={'전체화면 보기'} onClickEvent={()=>history.push('/monitoring/full')} />*/}
+                <MonitoringOptionButton title={'전체화면 끄기'} onClickEvent={()=>history.push('/monitoring/press')} />
                 <MonitoringOptionButton title={'항목 골라보기'} color={'#b3b3b3'} onClickEvent={()=>{setIsPopup(true);setCheckList(selectedList);}} />
                 <MonitoringOptionButton title={'초기화'} color={'#b3b3b3'} onClickEvent={()=>{onClickRefresh()}}/>
               </div>
               
           </WrapBox><br/>
-          
+          <ListWrap>
+
+
           {
-            arrayType === 0 ?
             list.map((v:IMonitoringList,i)=>{
               if(statusFilter === 'all'){
                 
                 return(
-                  <MonitoringCard key={ 'm-' + i} contents={v}  optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}  
+                  <MonitoringCardSmall key={ 'm-' + i} contents={v}  optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}  
                   onClickEvent={()=>{
                     if(openList.indexOf(v.pk) !== -1){ // 열렸으면
                       setOpenList(openList.filter(f => f !== v.pk))
@@ -175,7 +172,7 @@ const PressMonitoring = () => {
               }else{
                 if(v.status === statusFilter){
                   return(
-                    <MonitoringCard key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}  
+                    <MonitoringCardSmall key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}  
                     onClickEvent={()=>{
                       if(openList.indexOf(v.pk) !== -1){ // 열렸으면
                         setOpenList(openList.filter(f => f !== v.pk))
@@ -191,11 +188,9 @@ const PressMonitoring = () => {
               }
               
             })
-            :
-            <MonitoringVerticalTable contents={list} status={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
           }
-        
-        </InnerBodyContainer>
+         </ListWrap>
+        </div>
         <SearchModalContainer 
               onClickEvent={ //닫혔을 때 이벤트 
                 ()=>{
@@ -229,7 +224,7 @@ const PressMonitoring = () => {
                   }
                 </div>
             </SearchModalContainer>
-      </DashboardWrapContainer>
+      </FullSizeContainer>
       
   );
 }
@@ -240,6 +235,14 @@ const WrapBox = Styled.div`
     position: relative;
     display: block;
     margin-bottom: 2px;
+    
 `
 
-export default PressMonitoring;
+const ListWrap = Styled.div`
+    text-align: left;
+    display: flex;
+   flex-wrap: wrap;
+   margin-bottom: 120px;
+`
+
+export default FullMonitoring;

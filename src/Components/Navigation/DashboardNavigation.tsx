@@ -2,7 +2,7 @@ import React, { useEffect ,useState,useRef} from 'react';
 import Styled from 'styled-components'
 import { BrowserRouter, Route, Switch ,Link} from 'react-router-dom';
 import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, SERVICE_TITLE} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
+import Logo from '../../Assets/Images/img_logo_temp_2.png'
 import Icon from '../../Assets/Images/btn_menu_2.png'
 import NavList from './NavList'
 import { useUserDispatch, useUser } from '../../Context/UserContext';
@@ -11,11 +11,12 @@ import NavGroupList from '../List/NavGroupList';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';
 //대시보드 네비게이션
 interface Props{
-  select?: any
+  select?: any,
+  folding?: boolean,
 }
 
 
-const DashboardNavigation = ({select}: Props) => {
+const DashboardNavigation = ({select, folding}: Props) => {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const dispatch = useUserDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -42,7 +43,7 @@ const DashboardNavigation = ({select}: Props) => {
         </TabletIconDiv>
         <NavDiv>
             <div style={{textAlign:'center', width:'100%', marginBottom: 44, }}>
-              <a href="/dashboard"><img src={Logo} style={{width: 100, marginBottom:8}}/></a><br/>
+              <a href="/dashboard"><img src={Logo} style={{width: 134, marginBottom:8}}/></a><br/>
               <p className="p-bold" style={{minWidth:100, display:'inline-block',fontSize:18,textAlign:'center', color:`${POINT_COLOR}`}}>{me.company_name === undefined ? SERVICE_TITLE : me.company_name}</p>
             </div>
             <div style={{paddingLeft:35}}>
@@ -65,7 +66,7 @@ const DashboardNavigation = ({select}: Props) => {
 
               }
               <p style={{fontSize:12, color:'gray', paddingBottom:120, paddingTop:30}}>
-              Copyright© 2020 SIZL corp <br/>
+              Copyright© 2020 Zestech <br/>
             All Rights Reserved.
                   </p>
             </div>

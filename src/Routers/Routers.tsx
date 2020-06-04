@@ -96,6 +96,17 @@ import ProductKpi from '../Pages/Kpi/ProductKpi';
 import QualityKpi from '../Pages/Kpi/QualityKpi';
 import PriceKpi from '../Pages/Kpi/PriceKpi';
 import DuedateKpi from '../Pages/Kpi/DuedateKpi';
+import PressStatistics from '../Pages/Statistics/PressStatistics';
+import LoadStatistics from '../Pages/Statistics/LoadStatistics';
+import CmsMonitoring from '../Pages/Monitoring/CMS';
+import FullMonitoring from '../Pages/Monitoring/Full';
+import CmsStatistics from '../Pages/Monitoring/Statistics';
+import LoadtonMonitoring from '../Pages/Monitoring/Loadton';
+
+import InputKeyin from '../Pages/Keyin/InputKeyin';
+import KeyinList from '../Pages/Keyin/keyinList';
+import SettingKeyin from '../Pages/Keyin/SetKeyin';
+import ListKeyin from '../Pages/Keyin/ListKeyin';
 
 const Routers = () => {
 
@@ -233,6 +244,17 @@ const Routers = () => {
             <Route exact path="/kpi/quality" component={QualityKpi} />
             <Route exact path="/kpi/price" component={PriceKpi} />
             <Route exact path="/kpi/duedate" component={DuedateKpi} />
+             {/*statistics */}
+             <Route exact path="/statistics/press" component={PressStatistics} />
+            <Route exact path="/statistics/load" component={LoadStatistics} />
+            <Route exact path="/monitoring/full" component={FullMonitoring}/>
+            <Route exact path="/monitoring/loadton" component={LoadtonMonitoring} />
+            <Route exact path="/monitoring/cms" component={CmsMonitoring}/>
+            <Route exact path="/monitoring/statistics" component={CmsStatistics}/>
+            {/*keyin */}
+            <Route exact path="/keyin/input/:id" component={InputKeyin} />
+            <Route exact path="/keyin/setting/:id" component={SettingKeyin} />
+            <Route exact path="/keyin/list/:id" component={ListKeyin} />
         </Switch>
     </div>
   );

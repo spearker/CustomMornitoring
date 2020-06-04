@@ -1,7 +1,3 @@
-
-
-
-
 export const changeStatusToString = ((status: string | undefined)=>{
     if(status === 'active'){
         return '진행'
@@ -27,21 +23,21 @@ export const changeStatusToString = ((status: string | undefined)=>{
 
 export const changeStatusToColor = ((status: string | undefined)=>{
     if(status === 'active'){
-        return '#21B0AF'
+        return '#25b4b4'
     }else if(status === 'done'){
-        return '#327CFF'
+        return '#2760ff'
     }else if(status === 'stop'){
-        return '#FF6666'
+        return '#fd6b00'
     }else if(status === 'error'){
-        return '#FF6666'
+        return '#ff461a'
     }else if(status === 'share'){
         return '#683be5'
     }else if(status === 'ready'){
-        return '#3C3C4A'
+        return '#717c90'
     }else if(status === 'reservation'){
         return '#f8a506'
     }else{
-        return '#3C3C4A'
+        return '#b3b3b3'
     }
 
 })

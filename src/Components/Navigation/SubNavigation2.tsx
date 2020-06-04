@@ -11,14 +11,16 @@ import SubNavList from './SubNavList';
 interface ILinkList{
     url: string,
     name: string
+    
 }
 interface Props{
     list: ILinkList[],
-    isFull?: boolean
+    isFull?: boolean,
+    key: string,
 }
 
 
-const SubNavigation = ({list, isFull}: Props) => {
+const SubNavigation2 = ({list, isFull, key}: Props) => {
 
   useEffect(()=>{
 
@@ -36,7 +38,7 @@ const SubNavigation = ({list, isFull}: Props) => {
                         return
                     }else{
                     return(
-                        <SubNavList key={i} url={v.url} select={ window.location.pathname === v.url } name={v.name}/>
+                        <SubNavList key={i} url={v.url} select={ v.url.indexOf(String(key)) !== -1} name={v.name}/>
                     )
                     }
                 })
@@ -58,4 +60,4 @@ const NavDiv = Styled.div`
 `
 
 
-export default SubNavigation;
+export default SubNavigation2;

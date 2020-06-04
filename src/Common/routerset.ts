@@ -14,6 +14,7 @@ export const ROUTER_CLIENT = [
 
 export const ROUTER_MONITORING = [
     {url:"/monitoring/press", name:'프레스 모니터링'},
+    
     {url:"/monitoring/load", name:'로드톤 모니터링'},
 ]
 
@@ -131,10 +132,18 @@ export const ROUTER_MENU_LIST = [
       { name : '불량 발생 이력', url : '/defective/list'},
     ],
     [ //10. key-in
-      { name : 'Key-in', url : '/keyin'},
+      { name : 'Key-in 관리', url : '/keyin/input/프레스'},
+      { name : 'Key-in 입력', url : '/keyin/input/프레스'},
+      { name : 'Key-in 설정', url : '/keyin/setting/프레스'},
+      { name : '리스트', url : '/keyin/list/프레스'},
+
     ], //11. monitoring
     [
       { name : '모니터링', url : '/monitoring'},
+      { name : '프레스 모니터링', url : '/monitoring/press'},
+      { name : '로드톤 모니터링', url : '/monitoring/loadton'},
+      { name : 'CMS 모니터링', url : '/monitoring/cms'},
+     
     ],
     [   //12.Kpi
       { name : 'KPI 생산지수', url : '/kpi/product'},
@@ -143,10 +152,24 @@ export const ROUTER_MENU_LIST = [
       { name : 'KPI 원가지수', url : '/kpi/price'},
       { name : 'KPI 납기지수', url : '/kpi/duedate'},
     ],
-    [ //10 서비스 문의
+    [   //13. 통계·분석
+      { name : '통계·분석', url : '/statistics/press'},
+      { name : '프레스 통계·분석', url : '/statistics/press'},
+      { name : '로드모니터 통계·분석', url : '/statistics/load'},
+    ],
+    [ // 서비스 문의
       { name : '서비스 문의', url : '/service'},
       { name : '문의방법 및 연락처', url : '/service'},
     ],
-
+    [ //14. key-in
+      { name : 'Key-in', url : '/keyin'},
+      { name : '프레스 Key-in', url : '/keyin/press'},
+      { name : '금형 Key-in', url : '/keyin/mold'},
+      { name : '용접기 Key-in', url : '/keyin/welding'},
+      { name : '밀링 Key-in', url : '/keyin/milling'},
+      { name : '선반 Key-in', url : '/keyin/sunban'},
+      { name : 'tab Key-in', url : '/keyin/tab'},
+      { name : '자재 Key-in', url : '/keyin/material'},
+    ],
   ];
   

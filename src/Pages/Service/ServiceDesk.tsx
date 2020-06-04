@@ -63,7 +63,7 @@ const ServiceDesk = () => {
                 Email
                 </td>
                 <td>
-                smartfactory@sizl.co.kr
+                factory@zestech.co.kr
                 </td>
               </tr>
             </tbody>
@@ -93,7 +93,7 @@ const ServiceDesk = () => {
                 Email
                 </td>
                 <td>
-                partner@sizl.co.kr
+                partner@zestech.co.kr
                 </td>
               </tr>
             </tbody>

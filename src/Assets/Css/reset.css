@@ -37,7 +37,7 @@
 tspan{
   
     fill: #ffffff96 !important;
-  }
+}
 
 body { 
     font-family:'Noto Sans KR' ;
@@ -182,8 +182,6 @@ img{
   }
 
 
-/* IE 에서 Select box 화살표 제거 */ 
-select::-ms-expand { display: none; }
 
 g{
     fill:  white !important;
@@ -193,3 +191,25 @@ g{
     color: white !important;
    
   }
+
+
+  g{
+    fill:  white !important;
+
+}
+.apexcharts-legend-text{
+    color: white !important;
+}
+rect{
+
+    stroke-width: 0 !important;
+}
+
+
+.apexcharts-align-center{
+    text-align: left !important;
+}
+
+
+/* IE 에서 Select box 화살표 제거 */
+select::-ms-expand { display: none; }

@@ -40,7 +40,7 @@ const OnlyChrome = () => {
         <p style={{fontSize:13, marginTop:66, color:'gray'}}>최신버전의 크롬(Chrome), 사파리(Safari), 파이어폭스(FireFox) 브라우저에서 이용 가능합니다.
         </p>
 
-        <p style={{fontSize:13, marginTop:10, color:'gray'}}>Copyright© 2020 SIZL corp.
+        <p style={{fontSize:13, marginTop:10, color:'gray'}}>Copyright© 2020 Zestech.
 All Rights Reserved.</p>
       </FullWrapDiv>
       

@@ -27,6 +27,9 @@ const ProductKpi = () => {
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
   const dateArray = ['','','','','','','','','','','',''];
+
+  const tempArray = new Array(12);
+  
   const monthArray = dateArray.map((v, i)=>{
     return(
       moment().subtract(i, 'month').format('MM')
@@ -35,11 +38,14 @@ const ProductKpi = () => {
 
   const timeArray = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
 
-  const dayArray = dateArray.map((v, i)=>{
+  const dayArray =  dateArray.map((v, i)=>{
+
     return(
       moment().subtract(i, 'days').format('MM.DD')
     )
   }).reverse();
+
+
 
   const yearArray = dateArray.map((v, i)=>{
     return(
@@ -475,14 +481,14 @@ const FullPageDiv = Styled.div`
 
 const ChartBox = Styled.div`
 
-flex: 1;
+  flex: 1;
   background-color: ${BG_COLOR_SUB};
   text-align: left;
   margin-right: 16px;
   padding: 22px 24px 11px 11px;
   color: black !important;
   border-radius: 5px;
-  -webkit-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
+  -webkit-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28); 
   -moz-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
   box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
   

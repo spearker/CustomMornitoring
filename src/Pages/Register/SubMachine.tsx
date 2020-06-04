@@ -161,7 +161,7 @@ const RegisterSubMachine = () => {
     };
 
 
-      const res = await postRequest('http://211.108.115.66:8091/api/v1/peripheral/update', data, getToken(TOKEN_NAME))
+      const res = await postRequest('http://211.208.115.66:8091/api/v1/peripheral/update', data, getToken(TOKEN_NAME))
 
       if(res === false){
         //TODO: 에러 처리
@@ -245,10 +245,11 @@ const RegisterSubMachine = () => {
                 <NormalInput title={'주변장치 이름'} value={name} onChangeEvent={setName} description={'고객사가 보유한 장치의 이름을 입력하세요'} />
                 <DropdownInput title={'주변장치 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
+                <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사 '} value={made} onChangeEvent={setMade} description={'장치의 제조사명을 입력하세요'} />
-                <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
+                
                 <NormalFileInput title={'장치 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
