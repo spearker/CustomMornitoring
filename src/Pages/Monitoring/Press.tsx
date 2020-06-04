@@ -28,9 +28,11 @@ import SearchedList from '../../Components/List/SearchedList';
 import { transferCodeToName } from '../../Common/codeTransferFunctions';
 import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
-
+import TEMP_IMG_1 from '../../Assets/Dummy/monitoring_loadton.png'
 // 모니터링 공통
 const PressMonitoring = () => {
+
+  const [arrayType2, setArrayType2] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
 
   const [list, setList] = useState<IMonitoringList[]>([]);
   const history = useHistory();
@@ -126,12 +128,27 @@ const PressMonitoring = () => {
         <SubNavigation list={ROUTER_MENU_LIST[11]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
-              <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>        
-              <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
+              <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>   
+              {
+                arrayType2 === 1 &&
+                <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
                 <MonitoringToggle contents={['카드형 보기', '목록형 보기']} select={arrayType} onClickEvent={setArrayType}/>
                
+              
+               
               </div>
+              }     
+
           </div>
+          <div style={{textAlign:'left', marginBottom: 20}}>
+            <MonitoringToggle contents={['공장 프레스 현황', '장비별 프레스 현황']} select={arrayType2} onClickEvent={setArrayType2}/>
+          </div>
+          {
+            arrayType2 === 0 ?
+            <img src={TEMP_IMG_1} style={{width: '100%'}}/>
+            :
+            
+          <>
           <WrapBox>
             <MonitoringTabs contents={
               [{title:'전체', value:'all'},{title:'대기', value:'ready'},{title:'진행', value:'active'},{title:'중지', value:'stop'},{title:'완료', value:'done'},{title:'에러', value:'error'}]
@@ -194,7 +211,8 @@ const PressMonitoring = () => {
             :
             <MonitoringVerticalTable contents={list} status={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
           }
-        
+          </>
+}
         </InnerBodyContainer>
         <SearchModalContainer 
               onClickEvent={ //닫혔을 때 이벤트 

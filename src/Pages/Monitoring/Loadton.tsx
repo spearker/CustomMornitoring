@@ -29,11 +29,13 @@ import { transferCodeToName } from '../../Common/codeTransferFunctions';
 import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
 import LoadTonCard from '../../Components/Card/LoadTonCard';
-
+import CMSMonitoringTabs from '../../Components/Tabs/CMSMonitoringTabs';
+import TEMP_IMG_1 from '../../Assets/Dummy/monitoring_loadton.png'
 // 로드톤 모니터링
 const LoadtonMonitoring = () => {
 
-  
+    const [statusFilter,setStatusFilter ]  = useState<string>('')
+    const [arrayType, setArrayType] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
 
   return (
       <DashboardWrapContainer index={11}>
@@ -41,22 +43,30 @@ const LoadtonMonitoring = () => {
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
               <HeaderLive title={ ' 로드톤 모니터링'} isTurn={true}/>        
-              <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
-               
-              </div>
+              
+          </div>
+          <div style={{textAlign:'left', marginBottom: 20}}>
+          <MonitoringToggle contents={['공장 로드모니터 현황', '장비별 로드모니터 현황']} select={arrayType} onClickEvent={setArrayType}/>
           </div>
        
+       {
+           arrayType === 0 ?
+           <img src={TEMP_IMG_1} style={{width: '100%'}}/>
+           :
+      
                 <div style={{
                     position: 'relative',
                     marginTop: 13,
-                    width: 1100,
+                    width: 'calc(100% - 20px)',
                     height: 750,
                     backgroundColor: '#242933',
                     borderRadius: 8,
-                    padding: 10
+        
+                    padding:10,
+               
                 }}>
                     <div style={{margin: 10}}>
-                        <p style={{textAlign: "left", fontSize: 20}}>1공장</p>
+                        <p style={{textAlign: "left", marginTop:10, fontSize: 20}}>1공장</p>
                     </div>
                     <div style={{
                         display: 'flex',
@@ -70,6 +80,7 @@ const LoadtonMonitoring = () => {
                     }
                     </div>
                 </div>
+}
             </InnerBodyContainer>
         
       </DashboardWrapContainer>

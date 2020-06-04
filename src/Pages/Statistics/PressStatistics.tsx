@@ -321,7 +321,7 @@ const PressStatistics = () => {
                                         }
                                     },
                                     yaxis: {
-                                        max: 240,
+                                        max: pressSt.total[option].ymax,
                                         min: 0,
                                         tickAmount: 4,
                                         labels: {
