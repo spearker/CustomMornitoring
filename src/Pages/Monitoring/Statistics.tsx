@@ -188,10 +188,10 @@ const CmsStatistics : React.FunctionComponent = () => {
                                         yaxis: [{
                                             y: dataSet.cmsPower.average,
                                             borderColor: '#30dfdf',
-                                            borderWidth: 3,
+                                            borderWidth: 2,
                                             label: {
                                                 show: true,
-                                                text: '평균 사용량',
+                                                text: '평균',
                                                 style: {
                                                     color: '#30dfdf',
                                                     background: 'rgba(0,0,0,0)'

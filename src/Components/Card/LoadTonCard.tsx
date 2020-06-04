@@ -81,7 +81,7 @@ const LoadTonCard: React.FunctionComponent<Props> = ({title, color, propData, li
             yaxis: [{
                 y: limit,
                 borderColor: '#ff0000',
-                borderWidth: 3,
+                borderWidth: 2,
                 label: {
                     show: true,
                     text: 'limit',

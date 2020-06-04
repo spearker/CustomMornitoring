@@ -311,7 +311,7 @@ const LoadStatistics = () => {
                                     },
                                     xaxis: {
                                         type: 'datetime',
-                                        min: '2020-05-25',
+                                        min: '2020-05-18',
                                         tickAmount: 12,
                                         labels: {
                                             style: {
@@ -321,7 +321,7 @@ const LoadStatistics = () => {
                                         }
                                     },
                                     yaxis: {
-                                        max: 240,
+                                        max: loadSt.total[option].ymax,
                                         min: 0,
                                         tickAmount: 4,
                                         labels: {
@@ -338,10 +338,10 @@ const LoadStatistics = () => {
                                         yaxis: [{
                                             y: loadSt.total[option].average,
                                             borderColor: '#30dfdf',
-                                            borderWidth: 3,
+                                            borderWidth: 2,
                                             label: {
                                                 show: true,
-                                                text: '평균 사용량',
+                                                text: '평균',
                                                 style: {
                                                     color: '#30dfdf',
                                                     background: 'rgba(0,0,0,0)'
@@ -359,7 +359,7 @@ const LoadStatistics = () => {
                                 }}
                                 width={595}
                                 height={326}
-                                series={series}
+                                series={loadSt.machine[option]}
                                 />
                             </CharBox>
 
@@ -368,10 +368,10 @@ const LoadStatistics = () => {
                 </div>
                 <div style={{backgroundColor: '#2b2c3b', width: 390, height: 783, paddingTop: 10, borderRadius: 8, marginLeft: 20}}>
               
-          
+             
                     {
-                        series.length > 0 &&
-                        series.map((i: any, index) => {
+                        loadSt.machine[option].length > 0 &&
+                        loadSt.machine[option].map((i: any, index) => {
                           return (
                           <div style={{width: 340, height: 120, borderRadius: 6, backgroundColor: '#191d27', marginTop: 20, marginLeft: 20}}>
                               <div style={{display: "flex"}}>
@@ -423,7 +423,7 @@ const LoadStatistics = () => {
 
                                               },
                                               yaxis: {
-                                                  max: 240,
+                                                  max: loadSt.total[option].ymax,
                                                   min: 0,
                                                   tickAmount: 4,
                                                   labels: {

@@ -338,10 +338,10 @@ const PressStatistics = () => {
                                         yaxis: [{
                                             y: pressSt.total[option].average,
                                             borderColor: '#30dfdf',
-                                            borderWidth: 3,
+                                            borderWidth: 2,
                                             label: {
                                                 show: true,
-                                                text: '평균 사용량',
+                                                text: '평균',
                                                 style: {
                                                     color: '#30dfdf',
                                                     background: 'rgba(0,0,0,0)'
@@ -359,7 +359,7 @@ const PressStatistics = () => {
                                 }}
                                 width={595}
                                 height={326}
-                                series={series}
+                                series={pressSt.machine[option]}
                                 />
                             </CharBox>
 
@@ -370,8 +370,8 @@ const PressStatistics = () => {
               
           
                     {
-                        series.length > 0 &&
-                        series.map((i: any, index) => {
+                           pressSt.machine[option].length > 0 &&
+                           pressSt.machine[option].map((i: any, index) => {
                           return (
                           <div style={{width: 340, height: 120, borderRadius: 6, backgroundColor: '#191d27', marginTop: 20, marginLeft: 20}}>
                               <div style={{display: "flex"}}>
@@ -423,7 +423,7 @@ const PressStatistics = () => {
 
                                               },
                                               yaxis: {
-                                                  max: 240,
+                                                  max: pressSt.total[option].ymax,
                                                   min: 0,
                                                   tickAmount: 4,
                                                   labels: {

@@ -140,7 +140,7 @@ const PressMonitoring = () => {
               }     
 
           </div>
-          <div style={{textAlign:'left', marginBottom: 20}}>
+          <div style={{textAlign:'left', marginBottom: 21}}>
             <MonitoringToggle contents={['공장 프레스 현황', '장비별 프레스 현황']} select={arrayType2} onClickEvent={setArrayType2}/>
           </div>
           {
