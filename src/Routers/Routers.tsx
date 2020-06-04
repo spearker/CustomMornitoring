@@ -107,6 +107,7 @@ import InputKeyin from '../Pages/Keyin/InputKeyin';
 import KeyinList from '../Pages/Keyin/keyinList';
 import SettingKeyin from '../Pages/Keyin/SetKeyin';
 import ListKeyin from '../Pages/Keyin/ListKeyin';
+import MachineManageMaintenance from '../Pages/Maintenance/Machine';
 
 const Routers = () => {
 
@@ -221,7 +222,7 @@ const Routers = () => {
             <Route exact path="/maintenance/submachine/list" component={MaintenanceSubMachineList} />
             <Route exact path="/maintenance/design/list" component={MaintenanceMoldList} />
             <Route exact path="/maintenance/register" component={MaintenanceRegister} />
-     
+            <Route exact path="/maintenance/manage" component={MachineManageMaintenance} />
             <Route exact path="/maintenance/update" component={MaintenanceRegister} />
            
             <Route exact path="/maintenance/list" component={MaintenanceHistory} />

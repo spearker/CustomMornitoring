@@ -16,7 +16,7 @@ import { getRequest, postRequest } from '../../Common/requestFunctions';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import InfoTable from '../../Components/Table/InfoTable';
-
+import TEMP_IMG_1 from '../../Assets/Dummy/repair_history.svg'
 
 const MaintenanceHistory = () => {
 
@@ -129,9 +129,21 @@ const MaintenanceHistory = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`보전 이력`}/>
-           
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
+              <SearchInputSmall 
+                description={'검색어 입력'} 
+                value={keyword} 
+                onChangeEvent={(e)=>{setKeyword(e.target.value)}}
+                onClickEvent={()=>{}}
+                />
+              </div>
           </div>
-          
+           
+          <WrapBox>
+           
+              <img src={TEMP_IMG_1} />
+         
+          </WrapBox>
         
        
         </InnerBodyContainer>
@@ -145,6 +157,15 @@ const FullPageDiv = Styled.div`
   color: white;
   background-color: ${BG_COLOR_SUB2}
 `
-
+const WrapBox = Styled.div`
+    text-align: left;
+    margin-top: 24px;
+    position: relative;
+    display: block;
+    margin-bottom: 2px;
+    img{
+      width: 100%;
+    }
+`
 
 export default MaintenanceHistory;

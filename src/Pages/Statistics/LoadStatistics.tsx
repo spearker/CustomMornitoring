@@ -8,7 +8,7 @@ import { getToken } from '../../Common/tokenFunctions';
 import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
-import {pressSt}from '../../Common/dummydataset'
+import {pressSt, loadSt}from '../../Common/dummydataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
@@ -43,13 +43,16 @@ const LoadStatistics = () => {
       moment().subtract(i, 'days').format('MM.DD')
     )
   }).reverse();
-
+  
   const [series, setSeries] = useState<object[]>([])
   const [selection, setSelection] = useState<string>()
   const [color, setColor] = useState<string[]>(['#717c90', "#25b4b4", "#fd6b00", "#2760ff", "#fc9b00"])
 
   useEffect(() => {
-      setSeries(pressSt.cmsSeries)
+      if(optionList[option]){
+        setSeries(loadSt.machine[0])
+      }
+      //setSeries(pressSt.cmsSeries)
       setIsFirstLoad(false)
   },[])
 /*
@@ -184,7 +187,7 @@ const LoadStatistics = () => {
 
 
   const optionList = [
-    "로드톤 최대값", "로드톤 평균","로드톤 최소값",
+    "최대 측정값","최소 측정값","평균 측정값"
   ]
 
 
@@ -227,7 +230,7 @@ const LoadStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.yesterday.percent}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].yesterday.value}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -235,7 +238,7 @@ const LoadStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.yesterday.ampere}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].yesterday.average}</p>
                                                 </td>
                                             </tr>
                                         </table>
@@ -259,7 +262,7 @@ const LoadStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.today.percent} </p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].today.value}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -267,7 +270,7 @@ const LoadStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.today.ampere} </p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].today.average}</p>
                                                 </td>
                                             </tr>
                                         </table>
@@ -333,7 +336,7 @@ const LoadStatistics = () => {
                                     },
                                     annotations: {
                                         yaxis: [{
-                                            y: pressSt.cmsPower.average,
+                                            y: loadSt.total[option].average,
                                             borderColor: '#30dfdf',
                                             borderWidth: 3,
                                             label: {
@@ -383,7 +386,7 @@ const LoadStatistics = () => {
                                                       <p style={{textAlign: 'left', marginLeft: 20, fontSize: 15}}>측정값</p>
                                                   </td>
                                                   <td style={{width: "50%", height: 30}}>
-                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.percent}</p>
+                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.value}</p>
                                                   </td>
                                               </tr>
                                               <tr>
@@ -391,7 +394,7 @@ const LoadStatistics = () => {
                                                       <p style={{textAlign: 'left', marginLeft: 20, fontSize: 15}}>평균</p>
                                                   </td>
                                                   <td style={{width: "50%", height: 30}}>
-                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.ampere}</p>
+                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.average}</p>
                                                   </td>
                                               </tr>
                                           </table>
@@ -439,7 +442,7 @@ const LoadStatistics = () => {
                                               },
                                               annotations: {
                                                   yaxis: [{
-                                                      y: pressSt.cmsPower.average,
+                                                      y: loadSt.total[option].average,
                                                       borderColor: '#30dfdf',
                                                       borderWidth: 2,
 

@@ -1132,6 +1132,76 @@ taskList:[
     },
     comments: 8
 }, 
+],
+LoadTonData: [
+    {
+        title: '프레스 1',
+        today: {
+            percent: 37,
+            ampere: 3280
+        },
+        yesterday: {
+            percent: 41,
+            ampere: 3800
+        },
+        limit: 80
+    },
+    {
+        title: '프레스 2',
+        today: {
+            percent: 25,
+            ampere: 2280
+        },
+        yesterday: {
+            percent: 29,
+            ampere: 2660
+        },
+        limit: 80
+    },
+    {
+        title: '프레스 3',
+        today: {
+            percent: 13,
+            ampere:1140
+        },
+        yesterday: {
+            percent: 25,
+            ampere: 2280
+        },
+        limit: 80
+    },
+    {
+        title: '프레스 4',
+        today: {
+            percent: 29,
+            ampere: 2660
+        },
+        yesterday: {
+            percent: 17,
+            ampere: 1520
+        },
+        limit: 80
+    },
+    {
+        title: '프레스 5',
+        today: {
+            percent: 41,
+            ampere: 3800
+        },
+        yesterday: {
+            percent: 25,
+            ampere: 2280
+        },
+        limit: 80
+    },
+
+],
+LoadTonChartData: [
+    [0,0,0,0,0,1,2,3,5,9,14,20,27,35,44,54,65,77,0,0],
+    [0,0,0,0,0,0,0,0,0,0,2,3,4,5,10,22,35,50,64,0,0],
+    [0,0,0,0,0,0,0,0,0,0,2,5,8,20,27,35,50,65,80,0,0],
+    [0,0,0,0,0,0,0,0,3,5,10,20,30,40,50,65,80,90,0,0],
+    [0,0,0,0,0,0,1,2,3,5,10,15,20,30,40,60,0,0,0,0,0],
 ]
 
 }

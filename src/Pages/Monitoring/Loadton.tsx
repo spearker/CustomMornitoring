@@ -28,6 +28,7 @@ import SearchedList from '../../Components/List/SearchedList';
 import { transferCodeToName } from '../../Common/codeTransferFunctions';
 import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
+import LoadTonCard from '../../Components/Card/LoadTonCard';
 
 // 로드톤 모니터링
 const LoadtonMonitoring = () => {
@@ -35,12 +36,41 @@ const LoadtonMonitoring = () => {
   
 
   return (
-      <DashboardWrapContainer index={12}>
+      <DashboardWrapContainer index={11}>
         <SubNavigation list={ROUTER_MENU_LIST[11]}/>
         <InnerBodyContainer>
-           <p>준희님 작업중 오후 9시 이후 붙일 예정</p>
-        
-        </InnerBodyContainer>
+          <div style={{position:'relative'}}>
+              <HeaderLive title={ ' 로드톤 모니터링'} isTurn={true}/>        
+              <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
+               
+              </div>
+          </div>
+       
+                <div style={{
+                    position: 'relative',
+                    marginTop: 13,
+                    width: 1100,
+                    height: 750,
+                    backgroundColor: '#242933',
+                    borderRadius: 8,
+                    padding: 10
+                }}>
+                    <div style={{margin: 10}}>
+                        <p style={{textAlign: "left", fontSize: 20}}>1공장</p>
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                    }}>
+                    {
+                        dataSet.LoadTonData &&
+                            dataSet.LoadTonData.map((item, index) => {
+                                return(<LoadTonCard title={item.title} color={index} propData={{today: item.today, yesterday: item.yesterday}} limit={item.limit}/>)
+                            })
+                    }
+                    </div>
+                </div>
+            </InnerBodyContainer>
         
       </DashboardWrapContainer>
       

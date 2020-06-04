@@ -49,7 +49,10 @@ const PressStatistics = () => {
   const [color, setColor] = useState<string[]>(['#717c90', "#25b4b4", "#fd6b00", "#2760ff", "#fc9b00"])
 
   useEffect(() => {
-      setSeries(pressSt.cmsSeries)
+      if(optionList[option]){
+        setSeries(pressSt.machine[0])
+      }
+      //setSeries(pressSt.cmsSeries)
       setIsFirstLoad(false)
   },[])
 /*
@@ -227,7 +230,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.yesterday.percent}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].yesterday.value}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -235,7 +238,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.yesterday.ampere}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].yesterday.average}</p>
                                                 </td>
                                             </tr>
                                         </table>
@@ -259,7 +262,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.today.percent} </p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].today.value}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -267,7 +270,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.cmsPower.today.ampere} </p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].today.average}</p>
                                                 </td>
                                             </tr>
                                         </table>
@@ -333,7 +336,7 @@ const PressStatistics = () => {
                                     },
                                     annotations: {
                                         yaxis: [{
-                                            y: pressSt.cmsPower.average,
+                                            y: pressSt.total[option].average,
                                             borderColor: '#30dfdf',
                                             borderWidth: 3,
                                             label: {
@@ -383,7 +386,7 @@ const PressStatistics = () => {
                                                       <p style={{textAlign: 'left', marginLeft: 20, fontSize: 15}}>측정값</p>
                                                   </td>
                                                   <td style={{width: "50%", height: 30}}>
-                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.percent}</p>
+                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.value}</p>
                                                   </td>
                                               </tr>
                                               <tr>
@@ -391,7 +394,7 @@ const PressStatistics = () => {
                                                       <p style={{textAlign: 'left', marginLeft: 20, fontSize: 15}}>평균</p>
                                                   </td>
                                                   <td style={{width: "50%", height: 30}}>
-                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.ampere}</p>
+                                                      <p style={{textAlign: 'right', marginRight: 20, fontSize: 15}}>{i.average}</p>
                                                   </td>
                                               </tr>
                                           </table>
@@ -439,7 +442,7 @@ const PressStatistics = () => {
                                               },
                                               annotations: {
                                                   yaxis: [{
-                                                      y: pressSt.cmsPower.average,
+                                                      y: pressSt.total[option].average,
                                                       borderColor: '#30dfdf',
                                                       borderWidth: 2,
 

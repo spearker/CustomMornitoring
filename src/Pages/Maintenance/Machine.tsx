@@ -12,59 +12,34 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import TEMP_IMG_1 from '../../Assets/Dummy/keyin_list_1.svg'
+import TEMP_IMG_1 from '../../Assets/Dummy/repair_manage.svg'
 
 import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';
 import SubNavigation2 from '../../Components/Navigation/SubNavigation2';
 import MonitoringOptionButton from '../../Components/Button/MonitoringOptionButton';
-import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 
-// 키인 리스트
-const ListKeyin = ({ match }) => {
+// 기계보전관리
+const MachineManageMaintenance = ({ match }) => {
 
   const [list, setList] = useState<IMonitoringList[]>([]);
   const history = useHistory();
-  const [keyword, setKeyword]= useState<string>('');
   const { id } = match.params;
 
   return (
-      <DashboardWrapContainer index={10}>
-        <SubNavigation2 list={[ 
-           { name : '프레스 Key-in', url : '/keyin/list/프레스'},
-        { name : '프레스 Key-in', url : '/keyin/list/프레스'},
-        { name : '금형 Key-in', url : '/keyin/list/금형'},
-        { name : '용접기 Key-in', url : '/keyin/list/용접기'},
-        { name : '밀링 Key-in', url : '/keyin/list/밀링'},
-        { name : '선반 Key-in', url : '/keyin/list/선반'},
-        { name : 'tab Key-in', url : '/keyin/list/탭'},
-        { name : '자재 Key-in', url : '/keyin/list/자재'},
-
-      ]} key={String(id)}/>
+      <DashboardWrapContainer index={5}>
+        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
         <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-              <Header title={ id + ' Key-in 리스트'}/>
-              <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
-              <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
-                onChangeEvent={(e)=>{setKeyword(e.target.value)}}
-                onClickEvent={()=>{}}
-                />
-              </div>
+        <div style={{position:'relative'}}>
+            <Header title={`기계 보전 관리`}/>
+           
           </div>
-   
+          
           <WrapBox>
-            {
-              id === '프레스' ?
-              <>
+           
               <img src={TEMP_IMG_1} />
          
-              </>
-              :
-              null
-            }
           </WrapBox>
         
         </InnerBodyContainer>
@@ -85,4 +60,4 @@ const WrapBox = Styled.div`
     }
 `
 
-export default ListKeyin;
+export default MachineManageMaintenance;

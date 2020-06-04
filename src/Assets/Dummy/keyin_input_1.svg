@@ -1,0 +1,293 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1568" viewBox="0 0 1100 1568">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:#2b2c3b}.prefix__cls-2{fill:red}.prefix__cls-2,.prefix__cls-3{opacity:0}.prefix__cls-13,.prefix__cls-3,.prefix__cls-4{fill:#fff}.prefix__cls-4,.prefix__cls-6{font-size:15px}.prefix__cls-13,.prefix__cls-4,.prefix__cls-6{font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700;isolation:isolate}.prefix__cls-5{fill:#17181c}.prefix__cls-6{fill:#b3b3b3}.prefix__cls-7,.prefix__cls-8{fill:none}.prefix__cls-8{stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px}.prefix__cls-13{font-size:18px}
+        </style>
+    </defs>
+    <g id="prefix__그룹_4266" data-name="그룹 4266" transform="translate(-290 -239)">
+        <rect id="prefix__사각형_3347" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 307)"/>
+        <path id="prefix__사각형_3348" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 307)"/>
+        <path id="prefix__사각형_3349" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 307)"/>
+        <text id="prefix__SPM" class="prefix__cls-4" transform="translate(320 338)">
+            <tspan x="0" y="0">SPM</tspan>
+        </text>
+        <path id="prefix__사각형_1776" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 316)"/>
+        <text id="prefix__값을_입력해_주세요_" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 337.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix__SPM-2" class="prefix__cls-4" data-name="SPM" transform="translate(1314 338)">
+            <tspan x="0" y="0">SPM</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-2" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 375)"/>
+        <path id="prefix__사각형_3348-2" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 375)"/>
+        <path id="prefix__사각형_3349-2" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 375)"/>
+        <text id="prefix__각도" class="prefix__cls-4" transform="translate(320 406)">
+            <tspan x="0" y="0">각도</tspan>
+        </text>
+        <path id="prefix__사각형_1776-2" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 384)"/>
+        <text id="prefix___180" class="prefix__cls-6" data-name="180" transform="translate(571.003 405.5)">
+            <tspan x="0" y="0">180</tspan>
+        </text>
+        <text id="prefix___" class="prefix__cls-4" data-name="º" transform="translate(1314 406)">
+            <tspan x="0" y="0">º</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-3" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 443)"/>
+        <path id="prefix__사각형_3348-3" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 443)"/>
+        <path id="prefix__사각형_3349-3" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 443)"/>
+        <text id="prefix__메인_모터_전류" class="prefix__cls-4" data-name="메인 모터 전류" transform="translate(320 474)">
+            <tspan x="0" y="0">메인 모터 전류</tspan>
+        </text>
+        <path id="prefix__사각형_1776-3" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 452)"/>
+        <text id="prefix___20" class="prefix__cls-6" data-name="20" transform="translate(571.003 473.5)">
+            <tspan x="0" y="0">20</tspan>
+        </text>
+        <text id="prefix__A" class="prefix__cls-4" transform="translate(1314 474)">
+            <tspan x="0" y="0">A</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-4" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 511)"/>
+        <path id="prefix__사각형_3348-4" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 511)"/>
+        <path id="prefix__사각형_3349-4" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 511)"/>
+        <text id="prefix__슬라이드_모터_전류" class="prefix__cls-4" data-name="슬라이드 모터 전류" transform="translate(320 542)">
+            <tspan x="0" y="0">슬라이드 모터 전류</tspan>
+        </text>
+        <path id="prefix__사각형_1776-4" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 520)"/>
+        <text id="prefix__값을_입력해_주세요_-2" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 541.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix__A-2" class="prefix__cls-4" data-name="A" transform="translate(1314 542)">
+            <tspan x="0" y="0">A</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-5" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 579)"/>
+        <path id="prefix__사각형_3348-5" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 579)"/>
+        <path id="prefix__사각형_3349-5" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 579)"/>
+        <text id="prefix__인버터_볼륨" class="prefix__cls-4" data-name="인버터 볼륨" transform="translate(320 610)">
+            <tspan x="0" y="0">인버터 볼륨</tspan>
+        </text>
+        <path id="prefix__사각형_1776-5" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 588)"/>
+        <text id="prefix__값을_입력해_주세요_-3" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 609.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___-" class="prefix__cls-4" data-name="-" transform="translate(1314 610)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-6" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 647)"/>
+        <path id="prefix__사각형_3348-6" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 647)"/>
+        <path id="prefix__사각형_3349-6" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 647)"/>
+        <text id="prefix__프리셋_카운터" class="prefix__cls-4" data-name="프리셋 카운터" transform="translate(320 678)">
+            <tspan x="0" y="0">프리셋 카운터</tspan>
+        </text>
+        <path id="prefix__사각형_1776-6" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 656)"/>
+        <text id="prefix__값을_입력해_주세요_-4" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 677.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___--2" class="prefix__cls-4" data-name="-" transform="translate(1314 678)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-7" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 715)"/>
+        <path id="prefix__사각형_3348-7" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 715)"/>
+        <path id="prefix__사각형_3349-7" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 715)"/>
+        <text id="prefix__종합_카운터" class="prefix__cls-4" data-name="종합 카운터" transform="translate(320 746)">
+            <tspan x="0" y="0">종합 카운터</tspan>
+        </text>
+        <path id="prefix__사각형_1776-7" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 724)"/>
+        <text id="prefix__값을_입력해_주세요_-5" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 745.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___--3" class="prefix__cls-4" data-name="-" transform="translate(1314 746)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-8" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 783)"/>
+        <path id="prefix__사각형_3348-8" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 783)"/>
+        <path id="prefix__사각형_3349-8" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 783)"/>
+        <text id="prefix__전체_카운터" class="prefix__cls-4" data-name="전체 카운터" transform="translate(320 814)">
+            <tspan x="0" y="0">전체 카운터</tspan>
+        </text>
+        <path id="prefix__사각형_1776-8" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 792)"/>
+        <text id="prefix__값을_입력해_주세요_-6" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 813.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___--4" class="prefix__cls-4" data-name="-" transform="translate(1314 814)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-9" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 851)"/>
+        <path id="prefix__사각형_3348-9" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 851)"/>
+        <path id="prefix__사각형_3349-9" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 851)"/>
+        <text id="prefix__프리셋_카운터-2" class="prefix__cls-4" data-name="프리셋 카운터" transform="translate(320 882)">
+            <tspan x="0" y="0">프리셋 카운터</tspan>
+        </text>
+        <path id="prefix__사각형_1776-9" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 860)"/>
+        <text id="prefix__값을_입력해_주세요_-7" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 881.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___--5" class="prefix__cls-4" data-name="-" transform="translate(1314 882)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-10" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 919)"/>
+        <path id="prefix__사각형_3348-10" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 919)"/>
+        <path id="prefix__사각형_3349-10" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 919)"/>
+        <text id="prefix__로드톤" class="prefix__cls-4" transform="translate(320 950)">
+            <tspan x="0" y="0">로드톤</tspan>
+        </text>
+        <path id="prefix__사각형_1776-10" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 928)"/>
+        <text id="prefix__값을_입력해_주세요_-8" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 949.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix__TON" class="prefix__cls-4" transform="translate(1314 950)">
+            <tspan x="0" y="0">TON</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-11" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 987)"/>
+        <path id="prefix__사각형_3348-11" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 987)"/>
+        <path id="prefix__사각형_3349-11" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 987)"/>
+        <text id="prefix__온도" class="prefix__cls-4" transform="translate(320 1018)">
+            <tspan x="0" y="0">온도</tspan>
+        </text>
+        <path id="prefix__사각형_1776-11" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 996)"/>
+        <text id="prefix__값을_입력해_주세요_-9" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 1017.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___C" class="prefix__cls-4" data-name="ºC" transform="translate(1314 1018)">
+            <tspan x="0" y="0">ºC</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-12" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1055)"/>
+        <path id="prefix__사각형_3348-12" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1055)"/>
+        <path id="prefix__사각형_3349-12" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1055)"/>
+        <text id="prefix__정지_각도" class="prefix__cls-4" data-name="정지 각도" transform="translate(320 1086)">
+            <tspan x="0" y="0">정지 각도</tspan>
+        </text>
+        <path id="prefix__사각형_1776-12" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1064)"/>
+        <text id="prefix__값을_입력해_주세요_-10" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 1085.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___2" class="prefix__cls-4" data-name="º" transform="translate(1314 1086)">
+            <tspan x="0" y="0">º</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-13" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1123)"/>
+        <path id="prefix__사각형_3348-13" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1123)"/>
+        <path id="prefix__사각형_3349-13" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1123)"/>
+        <text id="prefix__밀림_각도" class="prefix__cls-4" data-name="밀림 각도" transform="translate(320 1154)">
+            <tspan x="0" y="0">밀림 각도</tspan>
+        </text>
+        <path id="prefix__사각형_1776-13" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1132)"/>
+        <text id="prefix__값을_입력해_주세요_-11" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 1153.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___3" class="prefix__cls-4" data-name="º" transform="translate(1314 1154)">
+            <tspan x="0" y="0">º</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-14" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1191)"/>
+        <path id="prefix__사각형_3348-14" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1191)"/>
+        <path id="prefix__사각형_3349-14" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1191)"/>
+        <text id="prefix__키캠_상태" class="prefix__cls-4" data-name="키캠 상태" transform="translate(320 1222)">
+            <tspan x="0" y="0">키캠 상태</tspan>
+        </text>
+        <path id="prefix__사각형_1776-14" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1200)"/>
+        <text id="prefix__값을_선택해_주세요_" class="prefix__cls-6" data-name="값을 선택해 주세요." transform="translate(571.003 1221.5)">
+            <tspan x="0" y="0">값을 선택해 주세요.</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-15" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1259)"/>
+        <path id="prefix__사각형_3348-15" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1259)"/>
+        <path id="prefix__사각형_3349-15" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1259)"/>
+        <text id="prefix__운전_준비" class="prefix__cls-4" data-name="운전 준비" transform="translate(320 1290)">
+            <tspan x="0" y="0">운전 준비</tspan>
+        </text>
+        <path id="prefix__사각형_1776-15" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1268)"/>
+        <text id="prefix__상태를_선택해주세요_" class="prefix__cls-6" data-name="상태를 선택해주세요." transform="translate(571.003 1289.5)">
+            <tspan x="0" y="0">상태를 선택해주세요.</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-16" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1327)"/>
+        <path id="prefix__사각형_3348-16" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1327)"/>
+        <path id="prefix__사각형_3349-16" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1327)"/>
+        <text id="prefix__모터_상태" class="prefix__cls-4" data-name="모터 상태" transform="translate(320 1358)">
+            <tspan x="0" y="0">모터 상태</tspan>
+        </text>
+        <path id="prefix__사각형_1776-16" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1336)"/>
+        <text id="prefix__상태를_선택해주세요_-2" class="prefix__cls-6" data-name="상태를 선택해주세요." transform="translate(571.003 1357.5)">
+            <tspan x="0" y="0">상태를 선택해주세요.</tspan>
+        </text>
+        <path id="prefix__사각형_3415" d="M0 0H32V32H0z" class="prefix__cls-7" data-name="사각형 3415" transform="translate(1252 1336)"/>
+        <path id="prefix__패스_2402" d="M1271.686 473.5l8.5 7 8.5-7" class="prefix__cls-8" data-name="패스 2402" transform="translate(50.813 875)"/>
+        <rect id="prefix__사각형_3347-17" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1395)"/>
+        <path id="prefix__사각형_3348-17" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1395)"/>
+        <path id="prefix__사각형_3349-17" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1395)"/>
+        <text id="prefix__프레스_상태" class="prefix__cls-4" data-name="프레스 상태" transform="translate(320 1426)">
+            <tspan x="0" y="0">프레스 상태</tspan>
+        </text>
+        <path id="prefix__사각형_1776-17" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1404)"/>
+        <text id="prefix__상태를_선택해주세요_-3" class="prefix__cls-6" data-name="상태를 선택해주세요." transform="translate(571.003 1425.5)">
+            <tspan x="0" y="0">상태를 선택해주세요.</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-18" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1463)"/>
+        <path id="prefix__사각형_3348-18" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1463)"/>
+        <path id="prefix__사각형_3349-18" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1463)"/>
+        <text id="prefix__슬라이드_위치" class="prefix__cls-4" data-name="슬라이드 위치" transform="translate(320 1494)">
+            <tspan x="0" y="0">슬라이드 위치</tspan>
+        </text>
+        <path id="prefix__사각형_1776-18" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1472)"/>
+        <text id="prefix__값을_입력해_주세요_-12" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 1493.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix__mm" class="prefix__cls-4" transform="translate(1314 1494)">
+            <tspan x="0" y="0">mm</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-19" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1531)"/>
+        <path id="prefix__사각형_3348-19" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1531)"/>
+        <path id="prefix__사각형_3349-19" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1531)"/>
+        <text id="prefix__에러_번호" class="prefix__cls-4" data-name="에러 번호" transform="translate(320 1562)">
+            <tspan x="0" y="0">에러 번호</tspan>
+        </text>
+        <path id="prefix__사각형_1776-19" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1540)"/>
+        <text id="prefix__값을_입력해_주세요_-13" class="prefix__cls-6" data-name="값을 입력해 주세요." transform="translate(571.003 1561.5)">
+            <tspan x="0" y="0">값을 입력해 주세요.</tspan>
+        </text>
+        <text id="prefix___--6" class="prefix__cls-4" data-name="-" transform="translate(1314 1562)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-20" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1599)"/>
+        <path id="prefix__사각형_3348-20" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1599)"/>
+        <path id="prefix__사각형_3349-20" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1599)"/>
+        <text id="prefix__가동_시간" class="prefix__cls-4" data-name="가동 시간" transform="translate(320 1630)">
+            <tspan x="0" y="0">가동 시간</tspan>
+        </text>
+        <path id="prefix__사각형_1776-20" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1608)"/>
+        <text id="prefix___00:00:00" class="prefix__cls-6" data-name="00:00:00" transform="translate(571.003 1629.5)">
+            <tspan x="0" y="0">00:00:00</tspan>
+        </text>
+        <text id="prefix___--7" class="prefix__cls-4" data-name="-" transform="translate(1314 1630)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3347-21" width="1100" height="50" class="prefix__cls-1" data-name="사각형 3347" rx="6" transform="translate(290 1667)"/>
+        <path id="prefix__사각형_3348-21" d="M0 0H136V50H0z" class="prefix__cls-2" data-name="사각형 3348" transform="translate(290 1667)"/>
+        <path id="prefix__사각형_3349-21" d="M0 0H136V50H0z" class="prefix__cls-3" data-name="사각형 3349" transform="translate(290 1667)"/>
+        <text id="prefix__비가동_시간" class="prefix__cls-4" data-name="비가동 시간" transform="translate(320 1698)">
+            <tspan x="0" y="0">비가동 시간</tspan>
+        </text>
+        <path id="prefix__사각형_1776-21" d="M0 0H810V32H0z" class="prefix__cls-5" data-name="사각형 1776" transform="translate(560 1676)"/>
+        <text id="prefix___00:00:00-2" class="prefix__cls-6" data-name="00:00:00" transform="translate(571.003 1697.5)">
+            <tspan x="0" y="0">00:00:00</tspan>
+        </text>
+        <text id="prefix___--8" class="prefix__cls-4" data-name="-" transform="translate(1314 1698)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <rect id="prefix__사각형_3351" width="450" height="38" data-name="사각형 3351" rx="6" transform="translate(615 1769)" style="fill:#19b9df"/>
+        <text id="prefix__저장하기" transform="translate(840 1794)" style="font-size:14px;fill:#0d0d0d;font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700">
+            <tspan x="-25.76" y="0">저장하기</tspan>
+        </text>
+        <path id="prefix__사각형_3415-2" d="M0 0H32V32H0z" class="prefix__cls-7" data-name="사각형 3415" transform="translate(1315 1268)"/>
+        <path id="prefix__패스_2402-2" d="M1271.686 473.5l8.5 7 8.5-7" class="prefix__cls-8" data-name="패스 2402" transform="translate(50.813 807)"/>
+        <path id="prefix__사각형_3415-3" d="M0 0H32V32H0z" class="prefix__cls-7" data-name="사각형 3415" transform="translate(1252 1404)"/>
+        <path id="prefix__패스_2402-3" d="M1271.686 473.5l8.5 7 8.5-7" class="prefix__cls-8" data-name="패스 2402" transform="translate(-12.187 943)"/>
+        <path id="prefix__사각형_3415-4" d="M0 0H32V32H0z" class="prefix__cls-7" data-name="사각형 3415" transform="translate(1315 1200)"/>
+        <path id="prefix__패스_2402-4" d="M1271.686 473.5l8.5 7 8.5-7" class="prefix__cls-8" data-name="패스 2402" transform="translate(50.813 739)"/>
+        <rect id="prefix__사각형_2022" width="1100" height="50" class="prefix__cls-5" data-name="사각형 2022" rx="6" transform="translate(290 239)"/>
+        <rect id="prefix__사각형_3352" width="128" height="27" data-name="사각형 3352" rx="6" transform="translate(1242 249)" style="fill:#b3b3b3"/>
+        <text id="prefix__기계_선택" data-name="기계 선택" transform="translate(1306 268)" style="fill:#0d0d0d;font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700;font-size:15px">
+            <tspan x="-29.302" y="0">기계 선택</tspan>
+        </text>
+        <text id="prefix__테스트용_프레스_01" class="prefix__cls-13" data-name="테스트용 프레스 01" transform="translate(323.004 272)">
+            <tspan x="0" y="0">테스트용 프레스 01</tspan>
+        </text>
+        <text id="prefix___123-456-789_" class="prefix__cls-13" data-name="(123-456-789)" transform="translate(479.004 272)">
+            <tspan x="0" y="0">(123-456-789)</tspan>
+        </text>
+    </g>
+</svg>

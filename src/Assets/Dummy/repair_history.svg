@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="500" viewBox="0 0 1100 500">
+    <defs>
+        <clipPath id="prefix__clip-path">
+            <path d="M0 0H1100V207H0z" style="fill:none"/>
+        </clipPath>
+        <style>
+            .prefix__cls-11,.prefix__cls-12,.prefix__cls-4,.prefix__cls-7{fill:#fff}.prefix__cls-4{font-size:18px}.prefix__cls-11,.prefix__cls-4,.prefix__cls-7{font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700}.prefix__cls-11,.prefix__cls-12,.prefix__cls-4{isolation:isolate}.prefix__cls-5{fill:#2b2c3b}.prefix__cls-11,.prefix__cls-12,.prefix__cls-7{font-size:15px}.prefix__cls-9{fill:#717c90}.prefix__cls-12{font-family:NotoSansCJKkr-Regular,Noto Sans CJK KR}
+        </style>
+    </defs>
+    <g id="prefix__그룹_4274" data-name="그룹 4274" transform="translate(-290 -214.5)">
+        <path id="prefix__사각형_2020" d="M0 0H136V50H0z" data-name="사각형 2020" transform="translate(290 214.5)" style="opacity:0;fill:red"/>
+        <rect id="prefix__사각형_1631" width="1100" height="50" data-name="사각형 1631" rx="6" transform="translate(290 214.5)" style="fill:#17181c"/>
+        <text id="prefix__기계명" class="prefix__cls-4" transform="translate(310 247.5)">
+            <tspan x="0" y="0">기계명</tspan>
+        </text>
+        <path id="prefix__사각형_3345" d="M0 0H1100V50H0z" class="prefix__cls-5" data-name="사각형 3345" transform="translate(290 282.5)"/>
+        <text id="prefix__기계_번호" class="prefix__cls-4" data-name="기계 번호" transform="translate(616 247.5)">
+            <tspan x="0" y="0">기계 번호</tspan>
+        </text>
+        <text id="prefix__프레스01" class="prefix__cls-4" transform="translate(310 316.5)">
+            <tspan x="0" y="0">프레스01</tspan>
+        </text>
+        <text id="prefix___000-456-789" class="prefix__cls-4" data-name="000-456-789" transform="translate(616 316.5)">
+            <tspan x="0" y="0">000-456-789</tspan>
+        </text>
+        <text id="prefix__홍길동" class="prefix__cls-4" transform="translate(869 316.5)">
+            <tspan x="0" y="0">홍길동</tspan>
+        </text>
+        <text id="prefix__작성자" class="prefix__cls-4" transform="translate(867 247.5)">
+            <tspan x="0" y="0">작성자</tspan>
+        </text>
+        <rect id="prefix__사각형_3485" width="88" height="30" data-name="사각형 3485" rx="6" transform="translate(1282 293.5)" style="fill:#19b9df"/>
+        <text id="prefix__자세히_보기" class="prefix__cls-7" data-name="자세히 보기" transform="translate(1326 314.5)">
+            <tspan x="-36.202" y="0">자세히 보기</tspan>
+        </text>
+        <text id="prefix__최근_점검일" class="prefix__cls-4" data-name="최근 점검일" transform="translate(1061 247.5)">
+            <tspan x="0" y="0">최근 점검일</tspan>
+        </text>
+        <g id="prefix__반복_그리드_12" data-name="반복 그리드 12" transform="translate(290 507.5)">
+            <g transform="translate(-290 -359)">
+                <path id="prefix__사각형_3450" d="M0 0H1100V50H0z" class="prefix__cls-5" data-name="사각형 3450" transform="translate(290 359)"/>
+                <text id="prefix__프레스_02" class="prefix__cls-4" data-name="프레스 02" transform="translate(310 392)">
+                    <tspan x="0" y="0">프레스 02</tspan>
+                </text>
+                <text id="prefix___000-000-00000" class="prefix__cls-4" data-name="000-000-00000" transform="translate(616 392)">
+                    <tspan x="0" y="0">000-000-00000</tspan>
+                </text>
+                <text id="prefix__홍길동-2" class="prefix__cls-4" data-name="홍길동" transform="translate(869 392)">
+                    <tspan x="0" y="0">홍길동</tspan>
+                </text>
+                <rect id="prefix__사각형_3451" width="88" height="30" class="prefix__cls-9" data-name="사각형 3451" rx="6" transform="translate(1282 369)"/>
+                <text id="prefix__자세히_보기-2" class="prefix__cls-7" data-name="자세히 보기" transform="translate(1326 390)">
+                    <tspan x="-36.202" y="0">자세히 보기</tspan>
+                </text>
+                <text id="prefix___2020-05-26" class="prefix__cls-4" data-name="2020-05-26" transform="translate(1063 392)">
+                    <tspan x="0" y="0">2020-05-26</tspan>
+                </text>
+            </g>
+            <g transform="translate(-290 -307)">
+                <path id="prefix__사각형_3450-2" d="M0 0H1100V50H0z" class="prefix__cls-5" data-name="사각형 3450" transform="translate(290 359)"/>
+                <text id="prefix__프레스_03" class="prefix__cls-4" data-name="프레스 03" transform="translate(310 392)">
+                    <tspan x="0" y="0">프레스 03</tspan>
+                </text>
+                <text id="prefix___000-000-00000-2" class="prefix__cls-4" data-name="000-000-00000" transform="translate(616 392)">
+                    <tspan x="0" y="0">000-000-00000</tspan>
+                </text>
+                <text id="prefix__홍길동-3" class="prefix__cls-4" data-name="홍길동" transform="translate(869 392)">
+                    <tspan x="0" y="0">홍길동</tspan>
+                </text>
+                <rect id="prefix__사각형_3451-2" width="88" height="30" class="prefix__cls-9" data-name="사각형 3451" rx="6" transform="translate(1282 369)"/>
+                <text id="prefix__자세히_보기-3" class="prefix__cls-7" data-name="자세히 보기" transform="translate(1326 390)">
+                    <tspan x="-36.202" y="0">자세히 보기</tspan>
+                </text>
+                <text id="prefix___2020-05-25" class="prefix__cls-4" data-name="2020-05-25" transform="translate(1063 392)">
+                    <tspan x="0" y="0">2020-05-25</tspan>
+                </text>
+            </g>
+            <g transform="translate(-290 -255)">
+                <path id="prefix__사각형_3450-3" d="M0 0H1100V50H0z" class="prefix__cls-5" data-name="사각형 3450" transform="translate(290 359)"/>
+                <text id="prefix__프레스_04" class="prefix__cls-4" data-name="프레스 04" transform="translate(310 392)">
+                    <tspan x="0" y="0">프레스 04</tspan>
+                </text>
+                <text id="prefix___000-000-00000-3" class="prefix__cls-4" data-name="000-000-00000" transform="translate(616 392)">
+                    <tspan x="0" y="0">000-000-00000</tspan>
+                </text>
+                <text id="prefix__홍길동-4" class="prefix__cls-4" data-name="홍길동" transform="translate(869 392)">
+                    <tspan x="0" y="0">홍길동</tspan>
+                </text>
+                <rect id="prefix__사각형_3451-3" width="88" height="30" class="prefix__cls-9" data-name="사각형 3451" rx="6" transform="translate(1282 369)"/>
+                <text id="prefix__자세히_보기-4" class="prefix__cls-7" data-name="자세히 보기" transform="translate(1326 390)">
+                    <tspan x="-36.202" y="0">자세히 보기</tspan>
+                </text>
+                <text id="prefix___2020-05-25-2" class="prefix__cls-4" data-name="2020-05-25" transform="translate(1063 392)">
+                    <tspan x="0" y="0">2020-05-25</tspan>
+                </text>
+            </g>
+            <g transform="translate(-290 -203)">
+                <path id="prefix__사각형_3450-4" d="M0 0H1100V50H0z" class="prefix__cls-5" data-name="사각형 3450" transform="translate(290 359)"/>
+                <text id="prefix__프레스_05" class="prefix__cls-4" data-name="프레스 05" transform="translate(310 392)">
+                    <tspan x="0" y="0">프레스 05</tspan>
+                </text>
+                <text id="prefix___000-000-00000-4" class="prefix__cls-4" data-name="000-000-00000" transform="translate(616 392)">
+                    <tspan x="0" y="0">000-000-00000</tspan>
+                </text>
+                <text id="prefix__홍길동-5" class="prefix__cls-4" data-name="홍길동" transform="translate(869 392)">
+                    <tspan x="0" y="0">홍길동</tspan>
+                </text>
+                <rect id="prefix__사각형_3451-4" width="88" height="30" class="prefix__cls-9" data-name="사각형 3451" rx="6" transform="translate(1282 369)"/>
+                <text id="prefix__자세히_보기-5" class="prefix__cls-7" data-name="자세히 보기" transform="translate(1326 390)">
+                    <tspan x="-36.202" y="0">자세히 보기</tspan>
+                </text>
+                <text id="prefix___2020-05-02" class="prefix__cls-4" data-name="2020-05-02" transform="translate(1063 392)">
+                    <tspan x="0" y="0">2020-05-02</tspan>
+                </text>
+            </g>
+        </g>
+        <path id="prefix__패스_2425" d="M0 0h1100v162H0z" data-name="패스 2425" transform="translate(290 332.5)" style="fill:#515664"/>
+        <text id="prefix__날짜" class="prefix__cls-11" transform="translate(312 374.5)">
+            <tspan x="0" y="0">날짜</tspan>
+        </text>
+        <text id="prefix__점검_내용" class="prefix__cls-11" data-name="점검 내용" transform="translate(762 374.5)">
+            <tspan x="0" y="0">점검 내용</tspan>
+        </text>
+        <text id="prefix__비고" class="prefix__cls-11" transform="translate(1159 374.5)">
+            <tspan x="0" y="0">비고</tspan>
+        </text>
+        <text id="prefix__점검_항목" class="prefix__cls-11" data-name="점검 항목" transform="translate(580 374.5)">
+            <tspan x="0" y="0">점검 항목</tspan>
+        </text>
+        <text id="prefix__작성자-2" class="prefix__cls-11" data-name="작성자" transform="translate(444 374.5)">
+            <tspan x="0" y="0">작성자</tspan>
+        </text>
+        <text id="prefix___2020_06_02_화_" class="prefix__cls-12" data-name="2020.06.02 (화)" transform="translate(312 421.5)">
+            <tspan x="0" y="0">2020.06.02 (화)</tspan>
+        </text>
+        <text id="prefix___2020_05_29_금_" class="prefix__cls-12" data-name="2020.05.29 (금)" transform="translate(312 463.5)">
+            <tspan x="0" y="0">2020.05.29 (금)</tspan>
+        </text>
+        <text id="prefix__오일교체" class="prefix__cls-12" transform="translate(762 421.5)">
+            <tspan x="0" y="0">오일교체</tspan>
+        </text>
+        <text id="prefix__프레스_부품_0001_교체_" class="prefix__cls-12" data-name="프레스 부품 0001 교체" transform="translate(762 463.5)">
+            <tspan x="0" y="0">프레스 부품 0001 교체</tspan>
+        </text>
+        <text id="prefix___-" class="prefix__cls-12" data-name="-" transform="translate(1159 463.5)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <text id="prefix___--2" class="prefix__cls-12" data-name="-" transform="translate(1159 421.5)">
+            <tspan x="0" y="0">-</tspan>
+        </text>
+        <text id="prefix__오일" class="prefix__cls-12" transform="translate(580 421.5)">
+            <tspan x="0" y="0">오일</tspan>
+        </text>
+        <text id="prefix__부품" class="prefix__cls-12" transform="translate(580 463.5)">
+            <tspan x="0" y="0">부품</tspan>
+        </text>
+        <text id="prefix__홍길동-6" class="prefix__cls-12" data-name="홍길동" transform="translate(444 421.5)">
+            <tspan x="0" y="0">홍길동</tspan>
+        </text>
+        <text id="prefix__남길동" class="prefix__cls-12" transform="translate(444 463.5)">
+            <tspan x="0" y="0">남길동</tspan>
+        </text>
+        <path id="prefix__선_175" d="M0 0L1060 0" data-name="선 175" transform="translate(310.5 391)" style="stroke-width:.5px;stroke:#fff;fill:none"/>
+        <g id="prefix__그룹_3842" data-name="그룹 3842" transform="rotate(180 1288 288.75)">
+            <path id="prefix__사각형_2007" d="M0 0H20V20H0z" data-name="사각형 2007" transform="translate(1206 198)" style="fill:#fff;opacity:0"/>
+            <path id="prefix__패스_2273" d="M0 0l4.822 4.609a.563.563 0 0 1 0 .821L.039 10" data-name="패스 2273" transform="rotate(90 507.734 713.039)" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.5px;stroke:#fff;fill:none"/>
+        </g>
+        <text id="prefix___2020-06-02" class="prefix__cls-4" data-name="2020-06-02" transform="translate(1063 316.5)">
+            <tspan x="0" y="0">2020-06-02</tspan>
+        </text>
+    </g>
+</svg>

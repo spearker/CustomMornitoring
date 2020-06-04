@@ -15,12 +15,7 @@ const CmsMonitoring: React.FunctionComponent = () => {
         <DashboardWrapContainer index={11}>
         <SubNavigation list={ROUTER_MENU_LIST[11]}/>
             <InnerBodyContainer>
-                <div style={{position:'relative', width: 250}}>
-                    <CMSMonitoringTabs contents={
-                        [{title:'공장 전류 현황', value:statusFilter === 'power' ? 'active' : 'all', action: 'power'},
-                            {title:'통계·분석', value:statusFilter === 'total' ? 'active' : 'all', action: 'total'}
-                        ]} onClickEvent={setStatusFilter} />
-                </div>
+                
                 {
                     statusFilter === 'power'
                         ? (<CmsPower />)

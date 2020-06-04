@@ -100,14 +100,19 @@ export const ROUTER_MENU_LIST = [
       { name : '상품 바코드 리스트', url : '/list/barcode/product'},
     ],
     [ //6 보전 관리
-      { name : '보전관리', url : '/maintenance/list'},
+
+      { name : '보전관리', url : '/maintenance/manage'},
     //  { name : '기계 보전등록', url : '/maintenance/machine/register'},
+    { name : '기계 보전관리', url : '/maintenance/manage'},
       { name : '기계 보전리스트', url : '/maintenance/machine/list'},
       //{ name : '주변장치 보전등록', url : '/maintenance/submachine/register'},
       { name : '주변장치 보전리스트', url : '/maintenance/submachine/list'},
      // { name : '금형 보전등록', url : '/maintenance/design/register'},
       { name : '금형 보전리스트', url : '/maintenance/design/list'},
       { name : '보전 이력', url : '/maintenance/list'},
+    
+  
+
     ],
     [ //7 공정 관리
       { name : '공정 관리', url : '/process/list'},

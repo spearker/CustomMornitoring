@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="327" viewBox="0 0 1100 327">
+    <defs>
+        <style>
+            .prefix__cls-3,.prefix__cls-7{fill:#fff;font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700}.prefix__cls-3{font-size:18px;isolation:isolate}.prefix__cls-4{fill:#2b2c3b}.prefix__cls-5{fill:#717c90}.prefix__cls-7{font-size:15px}
+        </style>
+    </defs>
+    <g id="prefix__그룹_4273" data-name="그룹 4273" transform="translate(-290 -214)">
+        <path id="prefix__사각형_2020" d="M0 0H136V50H0z" data-name="사각형 2020" transform="translate(290 214)" style="fill:red;opacity:0"/>
+        <rect id="prefix__사각형_1631" width="1100" height="50" data-name="사각형 1631" rx="6" transform="translate(290 214)" style="fill:#17181c"/>
+        <text id="prefix__기계명" class="prefix__cls-3" transform="translate(310 247)">
+            <tspan x="0" y="0">기계명</tspan>
+        </text>
+        <text id="prefix__보전_항목" class="prefix__cls-3" data-name="보전 항목" transform="translate(616 247)">
+            <tspan x="0" y="0">보전 항목</tspan>
+        </text>
+        <text id="prefix__권장_점검_주기" class="prefix__cls-3" data-name="권장 점검 주기" transform="translate(867 247)">
+            <tspan x="0" y="0">권장 점검 주기</tspan>
+        </text>
+        <path id="prefix__사각형_3345" d="M0 0H1100V50H0z" class="prefix__cls-4" data-name="사각형 3345" transform="translate(290 282)"/>
+        <text id="prefix__프레스_01" class="prefix__cls-3" data-name="프레스 01" transform="translate(310 316)">
+            <tspan x="0" y="0">프레스 01</tspan>
+        </text>
+        <text id="prefix__오일" class="prefix__cls-3" transform="translate(616 316)">
+            <tspan x="0" y="0">오일</tspan>
+        </text>
+        <text id="prefix___3개월" class="prefix__cls-3" data-name="3개월" transform="translate(869 316)">
+            <tspan x="0" y="0">3개월</tspan>
+        </text>
+        <rect id="prefix__사각형_3485" width="88" height="30" class="prefix__cls-5" data-name="사각형 3485" rx="6" transform="translate(1278 293)"/>
+        <rect id="prefix__사각형_3628" width="88" height="30" data-name="사각형 3628" rx="6" transform="translate(1175 293)" style="fill:#19b9df"/>
+        <text id="prefix__삭제" class="prefix__cls-7" transform="translate(1322 314)">
+            <tspan x="-13.8" y="0">삭제</tspan>
+        </text>
+        <text id="prefix__수정" class="prefix__cls-7" transform="translate(1219 314)">
+            <tspan x="-13.8" y="0">수정</tspan>
+        </text>
+        <g id="prefix__그룹_4187" data-name="그룹 4187" transform="translate(0 -24)">
+            <path id="prefix__사각형_3450" d="M0 0H1100V50H0z" class="prefix__cls-4" data-name="사각형 3450" transform="translate(290 359)"/>
+            <text id="prefix__프레스_02" class="prefix__cls-3" data-name="프레스 02" transform="translate(310 392)">
+                <tspan x="0" y="0">프레스 02</tspan>
+            </text>
+            <text id="prefix__부품" class="prefix__cls-3" transform="translate(616 392)">
+                <tspan x="0" y="0">부품</tspan>
+            </text>
+            <text id="prefix___6개월" class="prefix__cls-3" data-name="6개월" transform="translate(869 392)">
+                <tspan x="0" y="0">6개월</tspan>
+            </text>
+            <rect id="prefix__사각형_3451" width="88" height="30" class="prefix__cls-5" data-name="사각형 3451" rx="6" transform="translate(1278 369)"/>
+            <rect id="prefix__사각형_3629" width="88" height="30" class="prefix__cls-5" data-name="사각형 3629" rx="6" transform="translate(1175 369)"/>
+            <text id="prefix__삭제-2" class="prefix__cls-7" data-name="삭제" transform="translate(1322 390)">
+                <tspan x="-13.8" y="0">삭제</tspan>
+            </text>
+            <text id="prefix__수정-2" class="prefix__cls-7" data-name="수정" transform="translate(1219 390)">
+                <tspan x="-13.8" y="0">수정</tspan>
+            </text>
+        </g>
+        <g id="prefix__그룹_4188" data-name="그룹 4188" transform="translate(0 28)">
+            <path id="prefix__사각형_3450-2" d="M0 0H1100V50H0z" class="prefix__cls-4" data-name="사각형 3450" transform="translate(290 359)"/>
+            <text id="prefix__프레스_03" class="prefix__cls-3" data-name="프레스 03" transform="translate(310 392)">
+                <tspan x="0" y="0">프레스 03</tspan>
+            </text>
+            <text id="prefix__오일-2" class="prefix__cls-3" data-name="오일" transform="translate(616 392)">
+                <tspan x="0" y="0">오일</tspan>
+            </text>
+            <text id="prefix___6개월-2" class="prefix__cls-3" data-name="6개월" transform="translate(869 392)">
+                <tspan x="0" y="0">6개월</tspan>
+            </text>
+            <rect id="prefix__사각형_3451-2" width="88" height="30" class="prefix__cls-5" data-name="사각형 3451" rx="6" transform="translate(1278 369)"/>
+            <rect id="prefix__사각형_3630" width="88" height="30" class="prefix__cls-5" data-name="사각형 3630" rx="6" transform="translate(1175 369)"/>
+            <text id="prefix__삭제-3" class="prefix__cls-7" data-name="삭제" transform="translate(1322 390)">
+                <tspan x="-13.8" y="0">삭제</tspan>
+            </text>
+            <text id="prefix__수정-3" class="prefix__cls-7" data-name="수정" transform="translate(1219 390)">
+                <tspan x="-13.8" y="0">수정</tspan>
+            </text>
+        </g>
+        <g id="prefix__그룹_4189" data-name="그룹 4189" transform="translate(0 80)">
+            <path id="prefix__사각형_3450-3" d="M0 0H1100V50H0z" class="prefix__cls-4" data-name="사각형 3450" transform="translate(290 359)"/>
+            <text id="prefix__프레스_04" class="prefix__cls-3" data-name="프레스 04" transform="translate(310 392)">
+                <tspan x="0" y="0">프레스 04</tspan>
+            </text>
+            <text id="prefix__오일-3" class="prefix__cls-3" data-name="오일" transform="translate(616 392)">
+                <tspan x="0" y="0">오일</tspan>
+            </text>
+            <text id="prefix___6개월-3" class="prefix__cls-3" data-name="6개월" transform="translate(869 392)">
+                <tspan x="0" y="0">6개월</tspan>
+            </text>
+            <rect id="prefix__사각형_3451-3" width="88" height="30" class="prefix__cls-5" data-name="사각형 3451" rx="6" transform="translate(1278 369)"/>
+            <rect id="prefix__사각형_3631" width="88" height="30" class="prefix__cls-5" data-name="사각형 3631" rx="6" transform="translate(1175 369)"/>
+            <text id="prefix__삭제-4" class="prefix__cls-7" data-name="삭제" transform="translate(1322 390)">
+                <tspan x="-13.8" y="0">삭제</tspan>
+            </text>
+            <text id="prefix__수정-4" class="prefix__cls-7" data-name="수정" transform="translate(1219 390)">
+                <tspan x="-13.8" y="0">수정</tspan>
+            </text>
+        </g>
+        <g id="prefix__그룹_4190" data-name="그룹 4190" transform="translate(0 132)">
+            <path id="prefix__사각형_3450-4" d="M0 0H1100V50H0z" class="prefix__cls-4" data-name="사각형 3450" transform="translate(290 359)"/>
+            <text id="prefix__프레스_05" class="prefix__cls-3" data-name="프레스 05" transform="translate(310 392)">
+                <tspan x="0" y="0">프레스 05</tspan>
+            </text>
+            <text id="prefix__오일-4" class="prefix__cls-3" data-name="오일" transform="translate(616 392)">
+                <tspan x="0" y="0">오일</tspan>
+            </text>
+            <text id="prefix___6개월-4" class="prefix__cls-3" data-name="6개월" transform="translate(869 392)">
+                <tspan x="0" y="0">6개월</tspan>
+            </text>
+            <rect id="prefix__사각형_3451-4" width="88" height="30" class="prefix__cls-5" data-name="사각형 3451" rx="6" transform="translate(1278 369)"/>
+            <rect id="prefix__사각형_3632" width="88" height="30" class="prefix__cls-5" data-name="사각형 3632" rx="6" transform="translate(1175 369)"/>
+            <text id="prefix__삭제-5" class="prefix__cls-7" data-name="삭제" transform="translate(1322 390)">
+                <tspan x="-13.8" y="0">삭제</tspan>
+            </text>
+            <text id="prefix__수정-5" class="prefix__cls-7" data-name="수정" transform="translate(1219 390)">
+                <tspan x="-13.8" y="0">수정</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

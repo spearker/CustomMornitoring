@@ -90,13 +90,13 @@ const Dashboard = () => {
     
     setList(
       [
-        { date: '2020-03-29' ,  issue: 0 },
-        { date: '2020-03-30' ,  issue: 2 },
-        { date: '2020-03-31' ,  issue: 1 },
-        { date: '2020-04-01' ,  issue: 5 },
-        { date: '2020-04-02' ,  issue: 1 },
-        { date: '2020-04-03' ,  issue: 1 },
-        { date: '2020-04-04' ,  issue: 0 },
+        { date: '2020-05-31' ,  issue: 0 },
+        { date: '2020-06-01' ,  issue: 1 },
+        { date: '2020-06-02' ,  issue: 0 },
+        { date: '2020-06-03' ,  issue: 3 },
+        { date: '2020-06-04' ,  issue: 4 },
+        { date: '2020-06-05' ,  issue: 0 },
+        { date: '2020-06-06' ,  issue: 0 },
       ]
     )
 
@@ -107,8 +107,8 @@ const Dashboard = () => {
     })
 
     //setStatus(dataSet.statusList)
-   // getStatus(1);
-    //onClickFilter(0)
+    getStatus(1);
+    onClickFilter(0)
     //setTaskList(dataSet.taskList)
   },[])
 
@@ -230,11 +230,100 @@ const Dashboard = () => {
     }
   },[option])
   return (
-      <DashboardWrapContainer>
-        <InnerBodyContainer>
-            <p></p>
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
+    <DashboardWrapContainer>
+    <InnerBodyContainer>
+        <div style={{marginTop:34, display:'flex'}}>
+
+          {/* 오늘의 일정 */}
+          <div style={{width:320, marginRight: 20 , textAlign:'left'}}>
+            <SubHeader title={'오늘 일정'}/>
+            <div style={{ color:'black', height:150, textAlign:'center',display:'flex', position:'relative',  paddingTop:24, paddingBottom:24, marginTop:14, marginBottom:30, borderRadius:5, backgroundColor:POINT_COLOR}}>
+              <div style={{ width: 100}}>
+                <p className="p-num p-bold" style={{paddingLeft:16, fontSize:26, textAlign:'left'}}>{moment().format('YYYY')}.<br/>{moment().format('MM.DD')}</p>
+                <p className="p-bold" style={{marginTop:50, paddingLeft: 16, fontSize:23, textAlign:'left'}}>{moment().format('dddd')}</p>
+              </div>
+              <div className="p-bold" style={{width:60, fontSize:12, paddingRight:22}}>
+                <p style={{borderTop:'1px solid black', paddingTop:5, marginBottom:11}}>기한 임박</p>
+                <p className="p-num"  style={{fontSize:28}}>{info.waring}</p>
+                <p style={{borderTop:'1px solid black', paddingTop:5, marginTop:11, marginBottom:11}}>기한 경과</p>
+                <p className="p-num"  style={{fontSize:28}}>{info.after}</p>
+              </div>
+              <div>
+              <p className="p-num" style={{position:'absolute', top:37, right:15, fontSize:114}}>{String(info.issue).padStart(2, '0')}</p>
+           
+              </div>
+               </div>
+          </div>
+           {/* 주간 일정 */}
+          <div style={{width: 'calc(100% - 300px)',borderRadius:5, textAlign:'left'}}>
+            <SubHeader title={'주간 일정 현황'}/>
+            <div style={{display:'flex', float:'right', marginTop:8}}>
+                <input type="checkbox" id="cb" onClick={(e)=>{setDim(!dim)}}/>
+                <label htmlFor="cb"></label>
+                <span style={{paddingLeft:7,fontSize:14}}>주말 표시</span> 
+            </div>
+            <div style={{  color:'black',borderRadius:5 ,height:'150',  backgroundColor: BG_COLOR_SUB, display:'flex', marginTop:13, marginBottom:30}}>
+              {
+                list.map((v, index)=>{
+                  return(
+                      <DayCard onClickEvent={onClickChangeDay} key={v.date} id={v.date} date={v.date} num={v.issue} on={v.date === targetDate ? true : false} dim={dim} weekend={index===0 || index ===6 ? true : false}/>
+                  )
+                })
+              }
+            </div>
+          </div>
+        </div>
+        {/* 전체장비현황  */}
+        <div style={{width: '100%',marginTop:15,textAlign:'left'}}>
+            <div style={{display:'flex', alignItems:'center'}}>
+              <SubHeader title={'전체 장비현황'}/>
+              <img src={IC_REFRESH} onClick={()=>{getStatus(1); setPage(1)}} style={{width:20, height:20,marginLeft:7, cursor:'pointer'}}/>
+             
+            </div>
+           
+            <div style={{  color:'black',borderRadius:5 ,height:'150', backgroundColor: BG_COLOR_SUB, display:'flex', alignItems: 'center',justifyContent: 'center',marginTop:13, marginBottom:30}}>
+              <div  style={{width:'4%'}}> 
+               <img onClick={()=>onClickChangePage(page-1)} src={IC_BEFORE} style={{cursor:'pointer',width:24, height:24, margin:10, zIndex:3}} />
+              </div>
+              <div className="p-limit" style={{flexWrap: 'wrap',marginTop: 25, width:'90%',marginBottom: 17, textAlign:'center'}}>
+                {
+                  status.map((v: IStatus, index)=>{
+                    
+                      return(
+                       
+                        <StatusCard target={v} key={index}/>
+                      )
+                
+                  })
+                }
+                
+                <div style={{marginTop:7, }}>
+                  <DotPagenation stock={Math.ceil(stock/6)} selected={page} onClickEvent={onClickChangePage}/>
+                </div>
+              </div>
+              
+              <div style={{width:'4%'}}> 
+                <img onClick={()=>onClickChangePage(page+1)} src={IC_NEXT} style={{cursor:'pointer',width:24, margin:10}} />
+              </div>
+            </div>
+          </div>
+          {/* 작업내역  */}
+          <div style={{width: '100%',marginTop:44,textAlign:'left'}}>
+            <SubHeader title={'작업내역'}/>
+            <div style={{display:'inline-block', float:'right', }}>
+              <div style={{display:'flex', alignItems:'center'}}>
+              <ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 추가하기</>}</ColorButtonLink>
+              <BasicDropdown contents={['등록순', '이름순']} select={['등록순', '이름순'][option]} onClickEvent={onClickFilter}/>
+              </div>
+            </div>
+            <div style={{marginTop:5}}>
+              <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskList} onClickEvent={onClickTaskStatus}/>
+       
+            </div>
+            
+          </div>
+    </InnerBodyContainer>
+  </DashboardWrapContainer>
       
   );
 }

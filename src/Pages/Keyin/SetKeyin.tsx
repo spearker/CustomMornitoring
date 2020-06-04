@@ -12,8 +12,8 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import TEMP_IMG_1 from '../../Assets/Dummy/keyin_setting_1.png'
-import TEMP_IMG_2 from '../../Assets/Dummy/keyin_setting_2.png'
+import TEMP_IMG_1 from '../../Assets/Dummy/keyin_setting_1.svg'
+import TEMP_IMG_2 from '../../Assets/Dummy/keyin_setting_2.svg'
 import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';

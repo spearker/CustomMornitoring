@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="186" viewBox="0 0 1100 186">
+    <defs>
+        <style>
+            .prefix__cls-2{fill:#b3b3b3}.prefix__cls-3{fill:#0d0d0d;font-size:15px;font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700}
+        </style>
+    </defs>
+    <g id="prefix__그룹_4267" data-name="그룹 4267" transform="translate(-290 -214)">
+        <rect id="prefix__사각형_2022" width="1100" height="186" data-name="사각형 2022" rx="6" transform="translate(290 214)" style="fill:#2b2c3b"/>
+        <g id="prefix__그룹_4032" data-name="그룹 4032" transform="translate(-7 -38)">
+            <rect id="prefix__사각형_3352" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(332 280)"/>
+            <text id="prefix__SPM" class="prefix__cls-3" transform="translate(407 300)">
+                <tspan x="-16.087" y="0">SPM</tspan>
+            </text>
+        </g>
+        <rect id="prefix__사각형_3352-2" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(501 242)"/>
+        <text id="prefix__각도" class="prefix__cls-3" transform="translate(575 262)">
+            <tspan x="-13.8" y="0">각도</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-3" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(677 242)"/>
+        <text id="prefix__메인_모터_전류" class="prefix__cls-3" data-name="메인 모터 전류" transform="translate(751 262)">
+            <tspan x="-44.805" y="0">메인 모터 전류</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-4" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(853 242)"/>
+        <text id="prefix__슬라이드_모터_전류" class="prefix__cls-3" data-name="슬라이드 모터 전류" transform="translate(927 262)">
+            <tspan x="-58.605" y="0">슬라이드 모터 전류</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-5" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(1029 242)"/>
+        <text id="prefix__인버터_볼륨" class="prefix__cls-3" data-name="인버터 볼륨" transform="translate(1103 262)">
+            <tspan x="-36.202" y="0">인버터 볼륨</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-6" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(1205 242)"/>
+        <text id="prefix__프리셋_카운터" class="prefix__cls-3" data-name="프리셋 카운터" transform="translate(1279 262)">
+            <tspan x="-43.103" y="0">프리셋 카운터</tspan>
+        </text>
+        <g id="prefix__그룹_4038" data-name="그룹 4038" transform="translate(-7 13)">
+            <rect id="prefix__사각형_3352-7" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(332 280)"/>
+            <text id="prefix__로드톤" class="prefix__cls-3" transform="translate(407 300)">
+                <tspan x="-20.7" y="0">로드톤</tspan>
+            </text>
+        </g>
+        <rect id="prefix__사각형_3352-8" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(501 293)"/>
+        <text id="prefix__온도" class="prefix__cls-3" transform="translate(575 313)">
+            <tspan x="-13.8" y="0">온도</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-9" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(677 293)"/>
+        <text id="prefix__정지_각도" class="prefix__cls-3" data-name="정지 각도" transform="translate(751 313)">
+            <tspan x="-29.302" y="0">정지 각도</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-10" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(853 293)"/>
+        <text id="prefix__밀림_각도" class="prefix__cls-3" data-name="밀림 각도" transform="translate(927 313)">
+            <tspan x="-29.302" y="0">밀림 각도</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-11" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(1029 293)"/>
+        <text id="prefix__키캠_상태" class="prefix__cls-3" data-name="키캠 상태" transform="translate(1103 313)">
+            <tspan x="-29.302" y="0">키캠 상태</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-12" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(1205 293)"/>
+        <text id="prefix__운전_준비" class="prefix__cls-3" data-name="운전 준비" transform="translate(1279 313)">
+            <tspan x="-29.302" y="0">운전 준비</tspan>
+        </text>
+        <g id="prefix__그룹_4044" data-name="그룹 4044" transform="translate(-7 64)">
+            <rect id="prefix__사각형_3352-13" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(332 280)"/>
+            <text id="prefix__모터_상태" class="prefix__cls-3" data-name="모터 상태" transform="translate(407 300)">
+                <tspan x="-29.302" y="0">모터 상태</tspan>
+            </text>
+        </g>
+        <rect id="prefix__사각형_3352-14" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(501 344)"/>
+        <text id="prefix__프레스_상태" class="prefix__cls-3" data-name="프레스 상태" transform="translate(575 364)">
+            <tspan x="-36.202" y="0">프레스 상태</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-15" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(677 344)"/>
+        <text id="prefix__슬라이드_위치" class="prefix__cls-3" data-name="슬라이드 위치" transform="translate(751 364)">
+            <tspan x="-43.103" y="0">슬라이드 위치</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-16" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(853 344)"/>
+        <text id="prefix__에러_번호" class="prefix__cls-3" data-name="에러 번호" transform="translate(927 364)">
+            <tspan x="-29.302" y="0">에러 번호</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-17" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(1029 344)"/>
+        <text id="prefix__가동_시간" class="prefix__cls-3" data-name="가동 시간" transform="translate(1103 364)">
+            <tspan x="-29.302" y="0">가동 시간</tspan>
+        </text>
+        <rect id="prefix__사각형_3352-18" width="150" height="28" class="prefix__cls-2" data-name="사각형 3352" rx="6" transform="translate(1205 344)"/>
+        <text id="prefix__비가동_시간" class="prefix__cls-3" data-name="비가동 시간" transform="translate(1279 364)">
+            <tspan x="-36.202" y="0">비가동 시간</tspan>
+        </text>
+    </g>
+</svg>

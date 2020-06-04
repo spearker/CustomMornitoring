@@ -12,8 +12,8 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import TEMP_IMG_1 from '../../Assets/Dummy/keyin_input_1.png'
-import TEMP_IMG_2 from '../../Assets/Dummy/keyin_input_2.png'
+import TEMP_IMG_1 from '../../Assets/Dummy/keyin_input_1.svg'
+
 import TEMP_IMG_0 from '../../Assets/Dummy/keyin_input_0.png'
 import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
@@ -55,10 +55,10 @@ const InputKeyin = ({ match }) => {
               id === '프레스' ?
               <>
               <img src={TEMP_IMG_1} />
-              <img src={TEMP_IMG_2} />
+ 
               </>
               :
-              <img src={TEMP_IMG_0} />
+             null
             }
           </WrapBox>
         

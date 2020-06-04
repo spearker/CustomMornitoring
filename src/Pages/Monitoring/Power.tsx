@@ -1,4 +1,4 @@
-import CMS from "../../Assets/Images/image_cms.png";
+import CMS from "../../Assets/Images/image_cms.svg";
 import setting from "../../Assets/Images/ic_setting.png";
 import React, {useState} from "react";
 
