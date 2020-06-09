@@ -30,7 +30,7 @@ import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
 import LoadTonCard from '../../Components/Card/LoadTonCard';
 import CMSMonitoringTabs from '../../Components/Tabs/CMSMonitoringTabs';
-import TEMP_IMG_1 from '../../Assets/Dummy/monitoring_loadton.png'
+import TEMP_IMG_1 from '../../Assets/Dummy/monitoring_loadton.svg'
 // 로드톤 모니터링
 const LoadtonMonitoring = () => {
 

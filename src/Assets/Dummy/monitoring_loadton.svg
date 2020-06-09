@@ -1,0 +1,690 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="783" viewBox="0 0 1100 783">
+    <defs>
+        <clipPath id="prefix__clip-path">
+            <path id="prefix__패스_1257" d="M1616.678 690.87v-.518a.5.5 0 0 0 .292.409v.518a.5.5 0 0 1-.292-.409z" class="prefix__cls-1" data-name="패스 1257" transform="translate(-1616.678 -690.352)"/>
+        </clipPath>
+        <clipPath id="prefix__clip-path-2">
+            <path id="prefix__패스_1262" d="M1674.175 698.9v.518a.494.494 0 0 1-.289.4v-.518a.493.493 0 0 0 .289-.4z" class="prefix__cls-1" data-name="패스 1262" transform="translate(-1673.885 -698.904)"/>
+        </clipPath>
+        <clipPath id="prefix__clip-path-3">
+            <path id="prefix__패스_1269" d="M1651.575 710.788v.518a1.549 1.549 0 0 1-1.406 0v-.518a1.55 1.55 0 0 0 1.406 0z" class="prefix__cls-1" data-name="패스 1269" transform="translate(-1650.167 -710.788)"/>
+        </clipPath>
+        <clipPath id="prefix__clip-path-4">
+            <path id="prefix__패스_1298" d="M1647.321 674.952l-.01 3.383a.077.077 0 0 1-.045.063.241.241 0 0 1-.218 0 .078.078 0 0 1-.045-.064l.01-3.383a.078.078 0 0 0 .046.064.241.241 0 0 0 .218 0 .078.078 0 0 0 .044-.063z" class="prefix__cls-1" data-name="패스 1298" transform="translate(-1647.003 -674.951)"/>
+        </clipPath>
+        <clipPath id="prefix__clip-path-5">
+            <path id="prefix__패스_1306" d="M1645.927 674.571v.9a.36.36 0 0 1-.211.3 1.13 1.13 0 0 1-1.026 0 .363.363 0 0 1-.214-.3v-.9a.363.363 0 0 0 .214.3 1.132 1.132 0 0 0 1.026 0 .36.36 0 0 0 .211-.3z" class="prefix__cls-1" data-name="패스 1306" transform="translate(-1644.472 -674.567)"/>
+        </clipPath>
+        <clipPath id="prefix__clip-path-6">
+            <path id="prefix__패스_1313" d="M1609.647 629.372l18.229 10.593a.345.345 0 0 0-.348.034l-18.228-10.594a.345.345 0 0 1 .347-.033z" class="prefix__cls-1" data-name="패스 1313" transform="translate(-1609.299 -629.339)"/>
+        </clipPath>
+        <clipPath id="prefix__clip-path-7">
+            <path id="prefix__패스_1318" d="M1625.426 641.4l-18.226-10.6a.344.344 0 0 1-.143-.314 1.076 1.076 0 0 1 .488-.845l18.229 10.594a1.075 1.075 0 0 0-.488.845.343.343 0 0 0 .14.32z" class="prefix__cls-1" data-name="패스 1318" transform="translate(-1607.054 -629.646)"/>
+        </clipPath>
+        <linearGradient id="prefix__linear-gradient" x1=".342" x2=".569" y1=".161" y2="1.106" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#313541"/>
+            <stop offset="1" stop-color="#191d27"/>
+        </linearGradient>
+        <linearGradient id="prefix__linear-gradient-6" x1=".5" x2=".5" y1=".429" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#ff461a"/>
+            <stop offset="1" stop-color="#f7461a" stop-opacity="0"/>
+        </linearGradient>
+        <style>
+            .prefix__cls-1{fill:#252529}.prefix__cls-17{fill:#191d27}.prefix__cls-5{fill:#5f606e}.prefix__cls-10,.prefix__cls-15,.prefix__cls-26,.prefix__cls-7{fill:#fff}.prefix__cls-7{font-size:20px;letter-spacing:.02em}.prefix__cls-13,.prefix__cls-15,.prefix__cls-19,.prefix__cls-7{font-family:NotoSansCJKkr-Bold,Noto Sans CJK KR;font-weight:700}.prefix__cls-8{fill:#f4f6fa}.prefix__cls-9{fill:#28aeae}.prefix__cls-11{fill:#d1d1d1}.prefix__cls-12,.prefix__cls-16,.prefix__cls-26{font-size:10px}.prefix__cls-12,.prefix__cls-26{font-family:NotoSansCJKkr-Regular,Noto Sans CJK KR}.prefix__cls-12,.prefix__cls-13,.prefix__cls-15,.prefix__cls-26,.prefix__cls-37{isolation:isolate}.prefix__cls-13,.prefix__cls-15{font-size:12px}.prefix__cls-19{fill:#ff461a}.prefix__cls-18,.prefix__cls-56{fill:#717c90}.prefix__cls-18{font-size:2px;font-family:NotoSansCJKkr-Light,Noto Sans CJK KR;font-weight:300}.prefix__cls-19{font-size:4px}.prefix__cls-20{fill:url(#prefix__linear-gradient)}.prefix__cls-21,.prefix__cls-22,.prefix__cls-24,.prefix__cls-54{fill:none}.prefix__cls-21,.prefix__cls-22{stroke:#717c90}.prefix__cls-21,.prefix__cls-22,.prefix__cls-24{stroke-miterlimit:10}.prefix__cls-21{stroke-width:.5px}.prefix__cls-22{stroke-width:.2px}.prefix__cls-24{stroke:#ff461a;stroke-width:.4px;stroke-dasharray:.5 1}.prefix__cls-24,.prefix__cls-55{stroke-linecap:round}.prefix__cls-32{opacity:.15}.prefix__cls-33{fill:#4d5264}.prefix__cls-41{fill:#c2c3d0}.prefix__cls-44{fill:#424242}.prefix__cls-47{fill:#e0e2ea}.prefix__cls-50{fill:#1d1d20}.prefix__cls-53{fill:#ffd100}.prefix__cls-54{stroke:#239df9;stroke-width:8px}.prefix__cls-55{fill:transparent;stroke:#e6e6e6;stroke-width:3px;stroke-dasharray:1 6;opacity:.71}.prefix__cls-57{stroke:none}
+        </style>
+    </defs>
+    <g id="prefix__그룹_4269" data-name="그룹 4269" transform="translate(-290 -199)">
+        <rect id="prefix__사각형_3197" width="1100" height="783" data-name="사각형 3197" rx="6" transform="translate(290 199)" style="fill:#242933"/>
+        <g id="prefix__사각형_3208" data-name="사각형 3208" transform="translate(310 653)" style="stroke:#3c4353;stroke-width:5px;fill:#191d27">
+            <rect width="186" height="269" class="prefix__cls-57" rx="6"/>
+            <rect width="181" height="264" x="2.5" y="2.5" rx="3.5" style="fill:none"/>
+        </g>
+        <g id="prefix__그룹_4084" data-name="그룹 4084">
+            <g id="prefix__패스_2420" data-name="패스 2420" style="fill:#191d27">
+                <path d="M1054 411.5H6c-1.93 0-3.5-1.57-3.5-3.5V6c0-1.93 1.57-3.5 3.5-3.5h1048c1.93 0 3.5 1.57 3.5 3.5v402c0 1.93-1.57 3.5-3.5 3.5z" class="prefix__cls-57" transform="translate(310 219)"/>
+                <path d="M6 5c-.552 0-1 .449-1 1v402c0 .551.448 1 1 1h1048c.552 0 1-.449 1-1V6c0-.551-.448-1-1-1H6m0-5h1048c3.314 0 6 2.686 6 6v402c0 3.314-2.686 6-6 6H6c-3.314 0-6-2.686-6-6V6c0-3.314 2.686-6 6-6z" style="fill:#3c4353;stroke:none" transform="translate(310 219)"/>
+            </g>
+        </g>
+        <rect id="prefix__사각형_3209" width="16" height="100" class="prefix__cls-5" data-name="사각형 3209" rx="6" transform="translate(486 794)"/>
+        <rect id="prefix__사각형_3202" width="16" height="160" class="prefix__cls-5" data-name="사각형 3202" rx="6" transform="rotate(-90 594.5 43.5)"/>
+        <path id="prefix__사각형_3200" d="M0 0H23V252H0z" data-name="사각형 3200" transform="rotate(-90 776.5 205.5)" style="fill:#3d414e"/>
+        <text id="prefix___1공장" class="prefix__cls-7" data-name="1공장" transform="translate(330 259)">
+            <tspan x="0" y="0">1공장</tspan>
+        </text>
+        <text id="prefix__사무동" class="prefix__cls-7" transform="translate(330 693)">
+            <tspan x="0" y="0">사무동</tspan>
+        </text>
+        <rect id="prefix__사각형_1459" width="100" height="170" class="prefix__cls-8" data-name="사각형 1459" rx="6" transform="translate(1241 423)"/>
+        <path id="prefix__사각형_1471" d="M6 0h88a6 6 0 0 1 6 6v34H0V6a6 6 0 0 1 6-6z" class="prefix__cls-9" data-name="사각형 1471" transform="translate(1241 423)"/>
+        <g id="prefix___Group_" data-name="&lt;Group&gt;" transform="translate(1270.418 -1441.391)">
+            <path id="prefix__패스_2380" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380"/>
+        </g>
+        <rect id="prefix__사각형_1459-2" width="100" height="170" class="prefix__cls-8" data-name="사각형 1459" rx="6" transform="translate(501 253)"/>
+        <path id="prefix__사각형_1471-2" d="M6 0h88a6 6 0 0 1 6 6v34H0V6a6 6 0 0 1 6-6z" class="prefix__cls-9" data-name="사각형 1471" transform="translate(501 253)"/>
+        <path id="prefix__사각형_3216" d="M0 0h100v58a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V0z" class="prefix__cls-11" data-name="사각형 3216" transform="translate(501 359)"/>
+        <text id="prefix__사용률" class="prefix__cls-12" transform="translate(509 395)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-2" class="prefix__cls-12" data-name="사용률" transform="translate(509 375)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__전류량" class="prefix__cls-12" transform="translate(509 415)">
+            <tspan x="0" y="0">전류량</tspan>
+        </text>
+        <text id="prefix___100_" class="prefix__cls-13" data-name="100%" transform="translate(593 395)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_2" class="prefix__cls-13" data-name="100%" transform="translate(593 375)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___3_000A" class="prefix__cls-13" data-name="3,000A" transform="translate(593 415)">
+            <tspan x="-39.864" y="0">3,000A</tspan>
+        </text>
+        <g id="prefix___Group_2" data-name="&lt;Group&gt;" transform="translate(530.418 -1611.391)">
+            <path id="prefix__패스_2380-2" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380"/>
+        </g>
+        <rect id="prefix__사각형_1459-3" width="100" height="170" class="prefix__cls-8" data-name="사각형 1459" rx="6" transform="translate(649 253)"/>
+        <path id="prefix__사각형_1471-3" d="M6 0h88a6 6 0 0 1 6 6v34H0V6a6 6 0 0 1 6-6z" class="prefix__cls-9" data-name="사각형 1471" transform="translate(649 253)"/>
+        <g id="prefix___Group_3" data-name="&lt;Group&gt;" transform="translate(678.418 -1611.391)">
+            <path id="prefix__패스_2380-3" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380"/>
+        </g>
+        <rect id="prefix__사각형_1459-4" width="100" height="170" class="prefix__cls-8" data-name="사각형 1459" rx="6" transform="translate(797 253)"/>
+        <path id="prefix__사각형_1471-4" d="M6 0h88a6 6 0 0 1 6 6v34H0V6a6 6 0 0 1 6-6z" data-name="사각형 1471" transform="translate(797 253)" style="fill:#ff461a"/>
+        <g id="prefix___Group_4" data-name="&lt;Group&gt;" transform="translate(826.418 -1611.391)">
+            <path id="prefix__패스_2380-4" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380"/>
+        </g>
+        <rect id="prefix__사각형_1459-5" width="100" height="170" class="prefix__cls-8" data-name="사각형 1459" rx="6" transform="translate(945 253)"/>
+        <path id="prefix__사각형_1471-5" d="M6 0h88a6 6 0 0 1 6 6v34H0V6a6 6 0 0 1 6-6z" class="prefix__cls-9" data-name="사각형 1471" transform="translate(945 253)"/>
+        <g id="prefix___Group_5" data-name="&lt;Group&gt;" transform="translate(974.418 -1611.391)">
+            <path id="prefix__패스_2380-5" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380"/>
+        </g>
+        <text id="prefix__프레스01_1000ton" class="prefix__cls-15" data-name="프레스01 1000ton" transform="translate(551 271)">
+            <tspan x="-23.628" y="0">프레스01</tspan><tspan class="prefix__cls-16"><tspan x="-20.12" y="15">1000ton</tspan></tspan>
+        </text>
+        <text id="prefix__프레스02_800ton" class="prefix__cls-15" data-name="프레스02 800ton" transform="translate(699 271)">
+            <tspan x="-23.628" y="0">프레스02</tspan><tspan class="prefix__cls-16"><tspan x="-17.175" y="15">800ton</tspan></tspan>
+        </text>
+        <text id="prefix__프레스03_800ton" class="prefix__cls-15" data-name="프레스03 800ton" transform="translate(847 271)">
+            <tspan x="-23.628" y="0">프레스03</tspan><tspan class="prefix__cls-16"><tspan x="-17.175" y="15">800ton</tspan></tspan>
+        </text>
+        <text id="prefix__프레스04_800ton" class="prefix__cls-15" data-name="프레스04 800ton" transform="translate(995 271)">
+            <tspan x="-23.628" y="0">프레스04</tspan><tspan class="prefix__cls-16"><tspan x="-17.175" y="15">800ton</tspan></tspan>
+        </text>
+        <text id="prefix__프레스05_1000ton" class="prefix__cls-15" data-name="프레스05 1000ton" transform="translate(1291 441)">
+            <tspan x="-23.628" y="0">프레스05</tspan><tspan class="prefix__cls-16"><tspan x="-20.12" y="15">1000ton</tspan></tspan>
+        </text>
+        <g id="prefix__그룹_4085" data-name="그룹 4085">
+            <path id="prefix__사각형_3458" d="M0 0H98V64H0z" class="prefix__cls-17" data-name="사각형 3458" transform="translate(502 294)"/>
+            <text id="prefix__Ton" class="prefix__cls-18" transform="translate(509.867 300.659)">
+                <tspan x="-1.703" y="0">Ton</tspan>
+            </text>
+            <text id="prefix__Limit" class="prefix__cls-19" transform="translate(518.867 309.101)">
+                <tspan x="-10.276" y="0">Limit</tspan>
+            </text>
+            <text id="prefix__mm" class="prefix__cls-18" transform="translate(593.5 355)">
+                <tspan x="-1.808" y="0">mm</tspan>
+            </text>
+            <g id="prefix__그룹_4083" data-name="그룹 4083">
+                <path id="prefix__패스_2414" d="M830.67 229.518s30.588-1.455 44.772-6.988c16.4-6.4 23.647-24.361 26.477-33.995 1.134-3.857 8.951-3.927 10.423 0 4.825 12.874 6.328 34.231 6.328 46.313v1.876h-88v-7.206" class="prefix__cls-20" data-name="패스 2414" transform="translate(-323.72 115.21)"/>
+                <path id="prefix__패스_2417" d="M918.67 231.219h-88V177.85" class="prefix__cls-21" data-name="패스 2417" transform="translate(-323.72 120.934)"/>
+                <path id="prefix__패스_2418" d="M830.669 229.824s30.588-1.465 44.772-7.037c16.4-6.441 23.647-24.53 26.477-34.231 1.134-3.884 8.951-3.954 10.423 0 4.825 12.964 6.328 34.469 6.328 46.635" class="prefix__cls-22" data-name="패스 2418" transform="translate(-323.719 115.21)"/>
+            </g>
+            <path id="prefix__패스_2415" d="M918.67 265h-10.694c-1.331 0-.772-20.869-4.336-20.869-4.5 0-4.1 13.235-17.489 17.108-8.73 2.525-55.481 3.76-55.481 3.76" data-name="패스 2415" transform="translate(-323.72 83.063)" style="stroke:#3ad8c5;stroke-miterlimit:10;fill:none"/>
+            <path id="prefix__선_168" d="M0 0L88 0" class="prefix__cls-24" data-name="선 168" transform="translate(506.95 310.972)"/>
+        </g>
+        <path id="prefix__사각형_3478" d="M0 0h100v58a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V0z" class="prefix__cls-11" data-name="사각형 3478" transform="translate(649 359)"/>
+        <path id="prefix__사각형_3479" d="M0 0h100v58a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V0z" data-name="사각형 3479" transform="translate(797 359)" style="fill:#f7461a"/>
+        <path id="prefix__사각형_3480" d="M0 0h100v58a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V0z" class="prefix__cls-11" data-name="사각형 3480" transform="translate(945 359)"/>
+        <path id="prefix__사각형_3481" d="M0 0h100v58a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V0z" class="prefix__cls-11" data-name="사각형 3481" transform="translate(1241 529)"/>
+        <text id="prefix__사용률-3" class="prefix__cls-12" data-name="사용률" transform="translate(657 395)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-4" class="prefix__cls-26" data-name="사용률" transform="translate(805 395)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-5" class="prefix__cls-12" data-name="사용률" transform="translate(953 395)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-6" class="prefix__cls-12" data-name="사용률" transform="translate(1249 565)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-7" class="prefix__cls-12" data-name="사용률" transform="translate(657 375)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-8" class="prefix__cls-26" data-name="사용률" transform="translate(805 375)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-9" class="prefix__cls-12" data-name="사용률" transform="translate(953 375)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__사용률-10" class="prefix__cls-12" data-name="사용률" transform="translate(1249 545)">
+            <tspan x="0" y="0">사용률</tspan>
+        </text>
+        <text id="prefix__전류량-2" class="prefix__cls-12" data-name="전류량" transform="translate(657 415)">
+            <tspan x="0" y="0">전류량</tspan>
+        </text>
+        <text id="prefix__전류량-3" class="prefix__cls-26" data-name="전류량" transform="translate(805 415)">
+            <tspan x="0" y="0">전류량</tspan>
+        </text>
+        <text id="prefix__전류량-4" class="prefix__cls-12" data-name="전류량" transform="translate(953 415)">
+            <tspan x="0" y="0">전류량</tspan>
+        </text>
+        <text id="prefix__전류량-5" class="prefix__cls-12" data-name="전류량" transform="translate(1249 585)">
+            <tspan x="0" y="0">전류량</tspan>
+        </text>
+        <text id="prefix___100_3" class="prefix__cls-13" data-name="100%" transform="translate(741 395)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_4" class="prefix__cls-15" data-name="100%" transform="translate(889 395)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_5" class="prefix__cls-13" data-name="100%" transform="translate(1037 395)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_6" class="prefix__cls-13" data-name="100%" transform="translate(1333 565)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_7" class="prefix__cls-13" data-name="100%" transform="translate(741 375)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_8" class="prefix__cls-15" data-name="100%" transform="translate(889 375)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_9" class="prefix__cls-13" data-name="100%" transform="translate(1037 375)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___100_10" class="prefix__cls-13" data-name="100%" transform="translate(1333 545)">
+            <tspan x="-32.748" y="0">100%</tspan>
+        </text>
+        <text id="prefix___3_000A-2" class="prefix__cls-13" data-name="3,000A" transform="translate(741 415)">
+            <tspan x="-39.864" y="0">3,000A</tspan>
+        </text>
+        <text id="prefix___3_000A-3" class="prefix__cls-15" data-name="3,000A" transform="translate(889 415)">
+            <tspan x="-39.864" y="0">3,000A</tspan>
+        </text>
+        <text id="prefix___3_000A-4" class="prefix__cls-13" data-name="3,000A" transform="translate(1037 415)">
+            <tspan x="-39.864" y="0">3,000A</tspan>
+        </text>
+        <text id="prefix___3_000A-5" class="prefix__cls-13" data-name="3,000A" transform="translate(1333 585)">
+            <tspan x="-39.864" y="0">3,000A</tspan>
+        </text>
+        <g id="prefix__그룹_4086" data-name="그룹 4086" transform="translate(148)">
+            <path id="prefix__사각형_3458-2" d="M0 0H98V64H0z" class="prefix__cls-17" data-name="사각형 3458" transform="translate(502 294)"/>
+            <text id="prefix__Ton-2" class="prefix__cls-18" data-name="Ton" transform="translate(509.867 300.659)">
+                <tspan x="-1.703" y="0">Ton</tspan>
+            </text>
+            <text id="prefix__Limit-2" class="prefix__cls-19" data-name="Limit" transform="translate(518.867 314.101)">
+                <tspan x="-10.276" y="0">Limit</tspan>
+            </text>
+            <text id="prefix__mm-2" class="prefix__cls-18" data-name="mm" transform="translate(593.5 355)">
+                <tspan x="-1.808" y="0">mm</tspan>
+            </text>
+            <g id="prefix__그룹_4083-2" data-name="그룹 4083">
+                <path id="prefix__패스_2414-2" d="M830.67 229.518s35.588-1.455 49.772-6.988a43.783 43.783 0 0 0 26.477-28.995c1.134-3.857 3.951-3.927 5.423 0 4.825 12.874 6.328 29.231 6.328 41.313v1.876h-88v-7.206" class="prefix__cls-20" data-name="패스 2414" transform="translate(-323.72 115.21)"/>
+                <path id="prefix__패스_2417-2" d="M918.67 231.219h-88V177.85" class="prefix__cls-21" data-name="패스 2417" transform="translate(-323.72 120.934)"/>
+                <path id="prefix__패스_2418-2" d="M830.669 229.824s35.588-1.465 49.772-7.037a44.033 44.033 0 0 0 26.477-29.231c1.134-3.884 3.951-3.954 5.423 0 4.825 12.964 6.328 29.469 6.328 41.635" class="prefix__cls-22" data-name="패스 2418" transform="translate(-323.719 115.21)"/>
+            </g>
+            <path id="prefix__패스_2415-2" d="M918.67 265h-10.694c-1.331 0-.772-20.869-4.336-20.869-4.5 0-4.1 13.235-17.489 17.108-8.73 2.525-55.481 3.76-55.481 3.76" data-name="패스 2415" transform="translate(-323.72 83.063)" style="stroke:#f86b00;stroke-miterlimit:10;fill:none"/>
+            <path id="prefix__선_168-2" d="M0 0L88 0" class="prefix__cls-24" data-name="선 168" transform="translate(506.95 315.972)"/>
+        </g>
+        <path id="prefix__사각형_3458-3" d="M0 0H98V64H0z" class="prefix__cls-17" data-name="사각형 3458" transform="translate(798 294)"/>
+        <text id="prefix__Ton-3" class="prefix__cls-18" data-name="Ton" transform="translate(805.867 300.659)">
+            <tspan x="-1.703" y="0">Ton</tspan>
+        </text>
+        <text id="prefix__Limit-3" class="prefix__cls-19" data-name="Limit" transform="translate(814.867 314.101)">
+            <tspan x="-10.276" y="0">Limit</tspan>
+        </text>
+        <text id="prefix__mm-3" class="prefix__cls-18" data-name="mm" transform="translate(889.5 355)">
+            <tspan x="-1.808" y="0">mm</tspan>
+        </text>
+        <g id="prefix__그룹_4083-3" data-name="그룹 4083" transform="translate(296)">
+            <path id="prefix__패스_2414-3" d="M830.67 229.518s35.588-1.455 49.772-6.988a43.783 43.783 0 0 0 26.477-28.995c1.134-3.857 3.951-3.927 5.423 0 4.825 12.874 6.328 29.231 6.328 41.313v1.876h-88v-7.206" class="prefix__cls-20" data-name="패스 2414" transform="translate(-323.72 115.21)"/>
+            <path id="prefix__패스_2417-3" d="M918.67 231.219h-88V177.85" class="prefix__cls-21" data-name="패스 2417" transform="translate(-323.72 120.934)"/>
+            <path id="prefix__패스_2418-3" d="M830.669 234.824s35.588-6.465 49.772-12.037a44.033 44.033 0 0 0 26.477-29.231c1.134-3.884 3.951-3.954 5.423 0 4.825 12.964 6.328 29.469 6.328 41.635" class="prefix__cls-22" data-name="패스 2418" transform="translate(-323.719 115.21)"/>
+        </g>
+        <path id="prefix__선_168-3" d="M0 0L88 0" class="prefix__cls-24" data-name="선 168" transform="translate(802.95 315.972)"/>
+        <g id="prefix__그룹_4088" data-name="그룹 4088" transform="translate(444)">
+            <path id="prefix__사각형_3458-4" d="M0 0H98V64H0z" class="prefix__cls-17" data-name="사각형 3458" transform="translate(502 294)"/>
+            <text id="prefix__Ton-4" class="prefix__cls-18" data-name="Ton" transform="translate(509.867 300.659)">
+                <tspan x="-1.703" y="0">Ton</tspan>
+            </text>
+            <text id="prefix__Limit-4" class="prefix__cls-19" data-name="Limit" transform="translate(518.867 314.101)">
+                <tspan x="-10.276" y="0">Limit</tspan>
+            </text>
+            <text id="prefix__mm-4" class="prefix__cls-18" data-name="mm" transform="translate(593.5 355)">
+                <tspan x="-1.808" y="0">mm</tspan>
+            </text>
+            <g id="prefix__그룹_4083-4" data-name="그룹 4083">
+                <path id="prefix__패스_2414-4" d="M830.67 229.518s35.588-1.455 49.772-6.988a43.783 43.783 0 0 0 26.477-28.995c1.134-3.857 3.951-3.927 5.423 0 0 .013-.88-5.7-.88-5.7s7.208 34.939 7.208 47.008v1.876h-88v-7.206" class="prefix__cls-20" data-name="패스 2414" transform="translate(-323.72 115.21)"/>
+                <path id="prefix__패스_2417-4" d="M918.67 231.219h-88V177.85" class="prefix__cls-21" data-name="패스 2417" transform="translate(-323.72 120.934)"/>
+                <path id="prefix__패스_2418-4" d="M830.669 229.824s35.588-1.465 49.772-7.037a44.033 44.033 0 0 0 26.477-29.231c1.134-3.884 3.951-3.954 5.423 0 4.825 12.964 6.328 29.469 6.328 41.635" class="prefix__cls-22" data-name="패스 2418" transform="translate(-323.719 115.21)"/>
+            </g>
+            <path id="prefix__패스_2415-3" d="M918.67 265h-10.694c-1.331 0-.772-20.869-4.336-20.869-4.5 0-4.1 13.235-17.489 17.108-8.73 2.525-55.481 3.76-55.481 3.76" data-name="패스 2415" transform="translate(-323.72 83.063)" style="stroke:#fbde00;stroke-miterlimit:10;fill:none"/>
+            <path id="prefix__선_168-4" d="M0 0L88 0" class="prefix__cls-24" data-name="선 168" transform="translate(506.95 315.972)"/>
+        </g>
+        <g id="prefix__그룹_4089" data-name="그룹 4089" transform="translate(740 170)">
+            <path id="prefix__사각형_3458-5" d="M0 0H98V64H0z" class="prefix__cls-17" data-name="사각형 3458" transform="translate(502 294)"/>
+            <text id="prefix__Ton-5" class="prefix__cls-18" data-name="Ton" transform="translate(509.867 300.659)">
+                <tspan x="-1.703" y="0">Ton</tspan>
+            </text>
+            <text id="prefix__Limit-5" class="prefix__cls-19" data-name="Limit" transform="translate(518.867 309.101)">
+                <tspan x="-10.276" y="0">Limit</tspan>
+            </text>
+            <text id="prefix__mm-5" class="prefix__cls-18" data-name="mm" transform="translate(593.5 355)">
+                <tspan x="-1.808" y="0">mm</tspan>
+            </text>
+            <g id="prefix__그룹_4083-5" data-name="그룹 4083">
+                <path id="prefix__패스_2414-5" d="M830.67 229.518s30.588-1.455 44.772-6.988c16.4-6.4 23.647-24.361 26.477-33.995 1.134-3.857 8.951-3.927 10.423 0 4.825 12.874 6.328 34.231 6.328 46.313v1.876h-88v-7.206" class="prefix__cls-20" data-name="패스 2414" transform="translate(-323.72 115.21)"/>
+                <path id="prefix__패스_2417-5" d="M918.67 231.219h-88V177.85" class="prefix__cls-21" data-name="패스 2417" transform="translate(-323.72 120.934)"/>
+                <path id="prefix__패스_2418-5" d="M830.669 229.824s30.588-1.465 44.772-7.037c16.4-6.441 23.647-24.53 26.477-34.231 1.134-3.884 8.951-3.954 10.423 0 4.825 12.964 6.328 34.469 6.328 46.635" class="prefix__cls-22" data-name="패스 2418" transform="translate(-323.719 115.21)"/>
+            </g>
+            <path id="prefix__패스_2415-4" d="M918.67 265h-10.694c-1.331 0-.772-20.869-4.336-20.869-4.5 0-4.1 13.235-17.489 17.108-8.73 2.525-55.481 3.76-55.481 3.76" data-name="패스 2415" transform="translate(-323.72 83.063)" style="stroke:#8c29ff;stroke-miterlimit:10;fill:none"/>
+            <path id="prefix__선_168-5" d="M0 0L88 0" class="prefix__cls-24" data-name="선 168" transform="translate(506.95 310.972)"/>
+        </g>
+        <path id="prefix__패스_2421" d="M830.67 254.9s44.42-1.233 53.15-3.753c13.39-3.865 10.812-21.192 15.309-21.192 3.564 0 5.185 24.944 6.515 24.944h13.023v3.988h-88z" data-name="패스 2421" transform="translate(-27.67 93.461)"/>
+        <path id="prefix__패스_2422" d="M918.668 254.9h-13.023c-1.33 0-2.951-24.944-6.515-24.944-4.5 0-1.92 17.326-15.309 21.192-8.73 2.52-53.15 3.753-53.15 3.753" data-name="패스 2422" transform="translate(-27.67 93.461)" style="stroke:#ffa427;stroke-miterlimit:10;fill:none"/>
+        <g id="prefix__그룹_4090" class="prefix__cls-32" data-name="그룹 4090">
+            <rect id="prefix__사각형_1459-6" width="100" height="170" class="prefix__cls-8" data-name="사각형 1459" rx="6" transform="translate(330 423)"/>
+            <path id="prefix__사각형_1471-6" d="M6 0h88a6 6 0 0 1 6 6v34H0V6a6 6 0 0 1 6-6z" class="prefix__cls-33" data-name="사각형 1471" transform="translate(330 423)"/>
+            <text id="prefix__배전함" class="prefix__cls-15" transform="translate(380 448)">
+                <tspan x="-16.56" y="0">배전함</tspan>
+            </text>
+            <path id="prefix__사각형_3216-2" d="M0 0h100v44a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V0z" class="prefix__cls-11" data-name="사각형 3216" transform="translate(330 543)"/>
+            <g id="prefix__그룹_2999" data-name="그룹 2999" transform="translate(-1204.258 -57.205)">
+                <path id="prefix__패스_1250" d="M1562.257 726.85v-5.575l28.973 16.734v5.559z" class="prefix__cls-1" data-name="패스 1250" transform="translate(0 -150.363)"/>
+                <path id="prefix__패스_1251" d="M1695.435 768.1l14.473-8.368v5.568l-14.473 8.353z" data-name="패스 1251" transform="translate(-104.205 -180.451)" style="fill:#1a191d"/>
+                <path id="prefix__패스_1252" d="M1562.257 537.461l14.473-8.356 28.973 16.723-14.473 8.37z" data-name="패스 1252" style="fill:#d9dadd"/>
+                <g id="prefix__그룹_2746" data-name="그룹 2746" transform="translate(1567.073 545.824)">
+                    <path id="prefix__패스_1253" d="M1584.394 605.957l.007 19.385 19.352 11.173v-19.428z" data-name="패스 1253" transform="translate(-1584.394 -605.957)" style="fill:#abacc2"/>
+                    <path id="prefix__패스_1254" d="M1584.425 660.133l16.812-9.712 2.541 1.457v19.429z" class="prefix__cls-10" data-name="패스 1254" transform="translate(-1584.419 -640.748)"/>
+                </g>
+                <g id="prefix__그룹_2785" data-name="그룹 2785" transform="translate(1574.097 561.43)">
+                    <g id="prefix__그룹_2760" data-name="그룹 2760">
+                        <g id="prefix__그룹_2758" data-name="그룹 2758" transform="translate(0 2.755)">
+                            <g id="prefix__그룹_2749" class="prefix__cls-37" data-name="그룹 2749">
+                                <path id="prefix__패스_1255" d="M1616.678 690.87v-.518a.5.5 0 0 0 .292.409v.518a.5.5 0 0 1-.292-.409z" class="prefix__cls-1" data-name="패스 1255" transform="translate(-1616.678 -690.352)"/>
+                                <g id="prefix__그룹_2748" data-name="그룹 2748">
+                                    <g id="prefix__그룹_2747" class="prefix__cls-37" data-name="그룹 2747">
+                                        <path id="prefix__패스_1256" d="M1616.971 690.761v.518a.5.5 0 0 1-.292-.409v-.518a.5.5 0 0 0 .292.409z" class="prefix__cls-1" data-name="패스 1256" transform="translate(-1616.678 -690.352)"/>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="prefix__그룹_2752" class="prefix__cls-37" data-name="그룹 2752" transform="translate(12.445 1.86)">
+                                <path id="prefix__패스_1258" d="M1674.175 698.9v.518a.494.494 0 0 1-.289.4v-.518a.493.493 0 0 0 .289-.4z" class="prefix__cls-1" data-name="패스 1258" transform="translate(-1673.885 -698.904)"/>
+                                <g id="prefix__그룹_2751" data-name="그룹 2751">
+                                    <g id="prefix__그룹_2750" class="prefix__cls-37" data-name="그룹 2750">
+                                        <path id="prefix__패스_1259" d="M1675.191 698.9v.518a.35.35 0 0 1-.007.065v-.518a.328.328 0 0 0 .007-.065z" class="prefix__cls-1" data-name="패스 1259" transform="translate(-1674.901 -698.904)"/>
+                                        <path id="prefix__패스_1260" d="M1674.213 699.2v.518a.529.529 0 0 1-.27.331v-.518a.53.53 0 0 0 .27-.331z" class="prefix__cls-1" data-name="패스 1260" transform="translate(-1673.929 -699.139)"/>
+                                        <path id="prefix__패스_1261" d="M1673.9 700.728v.518l-.012.007v-.518l.012-.007z" class="prefix__cls-1" data-name="패스 1261" transform="translate(-1673.885 -700.331)"/>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="prefix__그룹_2753" data-name="그룹 2753" transform="translate(8.692 2.264)">
+                                <path id="prefix__패스_1263" d="M1660.386 700.761v.518l-3.754 2.181v-.518z" class="prefix__cls-1" data-name="패스 1263" transform="translate(-1656.631 -700.761)"/>
+                            </g>
+                            <g id="prefix__그룹_2754" data-name="그룹 2754" transform="translate(.292 .409)">
+                                <path id="prefix__패스_1264" d="M1625.015 696.27v.518l-6.994-4.038v-.518z" class="prefix__cls-1" data-name="패스 1264" transform="translate(-1618.02 -692.233)"/>
+                            </g>
+                            <g id="prefix__그룹_2757" class="prefix__cls-37" data-name="그룹 2757" transform="translate(7.286 4.446)">
+                                <path id="prefix__패스_1265" d="M1651.575 710.788v.518a1.549 1.549 0 0 1-1.406 0v-.518a1.55 1.55 0 0 0 1.406 0z" class="prefix__cls-1" data-name="패스 1265" transform="translate(-1650.167 -710.788)"/>
+                                <g id="prefix__그룹_2756" data-name="그룹 2756">
+                                    <g id="prefix__그룹_2755" class="prefix__cls-37" data-name="그룹 2755">
+                                        <path id="prefix__패스_1266" d="M1655.845 710.788v.518a1.134 1.134 0 0 1-.219.1v-.518a1.138 1.138 0 0 0 .219-.1z" class="prefix__cls-1" data-name="패스 1266" transform="translate(-1654.438 -710.788)"/>
+                                        <path id="prefix__패스_1267" d="M1653.375 711.23v.518a1.628 1.628 0 0 1-.626.067v-.518a1.634 1.634 0 0 0 .626-.067z" class="prefix__cls-1" data-name="패스 1267" transform="translate(-1652.187 -711.134)"/>
+                                        <path id="prefix__패스_1268" d="M1650.73 710.956v.518a1.36 1.36 0 0 1-.562-.162v-.518a1.365 1.365 0 0 0 .561.162z" class="prefix__cls-1" data-name="패스 1268" transform="translate(-1650.167 -710.792)"/>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="prefix__그룹_2759" data-name="그룹 2759" transform="translate(.001)">
+                            <path id="prefix__패스_1270" d="M1629.126 681.894a.43.43 0 0 1 0 .813l-3.753 2.181a1.55 1.55 0 0 1-1.406 0l-6.994-4.038a.431.431 0 0 1 0-.815l3.753-2.181a1.548 1.548 0 0 1 1.4 0z" class="prefix__cls-41" data-name="패스 1270" transform="translate(-1616.685 -677.688)"/>
+                        </g>
+                    </g>
+                    <g id="prefix__그룹_2770" data-name="그룹 2770" transform="translate(5.034 2.334)">
+                        <g id="prefix__그룹_2763" data-name="그룹 2763">
+                            <g id="prefix__그룹_2761" data-name="그룹 2761" transform="translate(4.332 2.501)">
+                                <path id="prefix__패스_1271" d="M1661.078 699.914v.24l-1.346.782v-.24z" class="prefix__cls-1" data-name="패스 1271" transform="translate(-1659.731 -699.914)"/>
+                            </g>
+                            <g id="prefix__그룹_2762" data-name="그룹 2762" transform="translate(0 .782)">
+                                <path id="prefix__패스_1272" d="M1644.152 694.515v.24l-4.332-2.5v-.24z" class="prefix__cls-1" data-name="패스 1272" transform="translate(-1639.819 -692.014)"/>
+                            </g>
+                            <path id="prefix__패스_1273" d="M1645.5 690.919l-1.346.782-4.332-2.5 1.346-.782z" class="prefix__cls-10" data-name="패스 1273" transform="translate(-1639.822 -688.418)"/>
+                        </g>
+                        <g id="prefix__그룹_2764" data-name="그룹 2764" transform="translate(4.094 1.946)">
+                            <path id="prefix__패스_1274" d="M1659.948 697.89l-.4.231-.911-.526.4-.231z" class="prefix__cls-1" data-name="패스 1274" transform="translate(-1658.639 -697.363)"/>
+                        </g>
+                        <g id="prefix__그룹_2765" data-name="그룹 2765" transform="translate(3.379 2.363)">
+                            <path id="prefix__패스_1275" d="M1656.66 699.808l-.4.231-.911-.526.4-.231z" class="prefix__cls-1" data-name="패스 1275" transform="translate(-1655.351 -699.282)"/>
+                        </g>
+                        <g id="prefix__그룹_2766" data-name="그룹 2766" transform="translate(2.991 1.3)">
+                            <path id="prefix__패스_1276" d="M1654.878 694.921l-.4.231-.911-.526.4-.231z" class="prefix__cls-1" data-name="패스 1276" transform="translate(-1653.569 -694.395)"/>
+                        </g>
+                        <g id="prefix__그룹_2767" data-name="그룹 2767" transform="translate(2.276 1.718)">
+                            <path id="prefix__패스_1277" d="M1651.589 696.839l-.4.231-.911-.526.4-.231z" class="prefix__cls-1" data-name="패스 1277" transform="translate(-1650.281 -696.313)"/>
+                        </g>
+                        <g id="prefix__그룹_2768" data-name="그룹 2768" transform="translate(1.963 .679)">
+                            <path id="prefix__패스_1278" d="M1650.15 692.067l-.4.231-.912-.526.4-.231z" class="prefix__cls-1" data-name="패스 1278" transform="translate(-1648.84 -691.54)"/>
+                        </g>
+                        <g id="prefix__그룹_2769" data-name="그룹 2769" transform="translate(1.247 1.097)">
+                            <path id="prefix__패스_1279" d="M1646.861 693.985l-.4.231-.911-.526.4-.231z" class="prefix__cls-1" data-name="패스 1279" transform="translate(-1645.552 -693.459)"/>
+                        </g>
+                    </g>
+                    <g id="prefix__그룹_2777" data-name="그룹 2777" transform="translate(.359 1.864)">
+                        <g id="prefix__그룹_2773" data-name="그룹 2773">
+                            <g id="prefix__그룹_2771" data-name="그룹 2771" transform="translate(7.284 4.205)">
+                                <path id="prefix__패스_1280" d="M1653.269 705.587v.259l-1.458.847v-.259z" class="prefix__cls-1" data-name="패스 1280" transform="translate(-1651.81 -705.587)"/>
+                            </g>
+                            <g id="prefix__그룹_2772" data-name="그룹 2772" transform="translate(0 .847)">
+                                <path id="prefix__패스_1281" d="M1625.613 694.357v.259l-7.284-4.205v-.259z" class="prefix__cls-1" data-name="패스 1281" transform="translate(-1618.329 -690.151)"/>
+                            </g>
+                            <path id="prefix__패스_1282" d="M1627.074 690.461l-1.458.847-7.284-4.205 1.458-.847z" class="prefix__cls-10" data-name="패스 1282" transform="translate(-1618.331 -686.256)"/>
+                        </g>
+                        <g id="prefix__그룹_2774" data-name="그룹 2774" transform="translate(1.069 .181)">
+                            <path id="prefix__패스_1283" d="M1624.551 687.613l-.4.231-.911-.526.4-.231z" class="prefix__cls-1" data-name="패스 1283" transform="translate(-1623.242 -687.087)"/>
+                        </g>
+                        <g id="prefix__그룹_2775" data-name="그룹 2775" transform="translate(.353 .598)">
+                            <path id="prefix__패스_1284" d="M1621.262 689.531l-.4.231-.912-.526.4-.231z" class="prefix__cls-1" data-name="패스 1284" transform="translate(-1619.953 -689.005)"/>
+                        </g>
+                        <g id="prefix__그룹_2776" data-name="그룹 2776" transform="translate(1.539 .85)">
+                            <path id="prefix__패스_1285" d="M1625.4 690.688l.4.231.911-.526-.4-.231z" class="prefix__cls-1" data-name="패스 1285" transform="translate(-1625.404 -690.162)"/>
+                        </g>
+                    </g>
+                    <g id="prefix__그룹_2784" data-name="그룹 2784" transform="translate(3.246 .027)">
+                        <g id="prefix__그룹_2780" data-name="그룹 2780">
+                            <g id="prefix__그룹_2778" data-name="그룹 2778" transform="translate(2.128 1.228)">
+                                <path id="prefix__패스_1286" d="M1642.837 683.46v.259l-1.458.847v-.259z" class="prefix__cls-1" data-name="패스 1286" transform="translate(-1641.378 -683.46)"/>
+                            </g>
+                            <g id="prefix__그룹_2779" data-name="그룹 2779" transform="translate(0 .847)">
+                                <path id="prefix__패스_1287" d="M1633.727 682.938v.259l-2.128-1.228v-.259z" class="prefix__cls-1" data-name="패스 1287" transform="translate(-1631.599 -681.709)"/>
+                            </g>
+                            <path id="prefix__패스_1288" d="M1635.188 679.042l-1.458.848-2.127-1.228 1.458-.847z" class="prefix__cls-10" data-name="패스 1288" transform="translate(-1631.602 -677.814)"/>
+                        </g>
+                        <g id="prefix__그룹_2781" data-name="그룹 2781" transform="translate(1.714 .981)">
+                            <path id="prefix__패스_1289" d="M1639.477 682.851l.4.231.911-.526-.4-.231z" class="prefix__cls-1" data-name="패스 1289" transform="translate(-1639.477 -682.325)"/>
+                        </g>
+                        <g id="prefix__그룹_2782" data-name="그룹 2782" transform="translate(1.168 .645)">
+                            <path id="prefix__패스_1290" d="M1636.967 681.3l.4.231.911-.526-.4-.231z" class="prefix__cls-1" data-name="패스 1290" transform="translate(-1636.967 -680.777)"/>
+                        </g>
+                        <g id="prefix__그룹_2783" data-name="그룹 2783" transform="translate(.607 .316)">
+                            <path id="prefix__패스_1291" d="M1634.387 679.79l.4.231.912-.526-.4-.231z" class="prefix__cls-1" data-name="패스 1291" transform="translate(-1634.387 -679.264)"/>
+                        </g>
+                    </g>
+                </g>
+                <g id="prefix__그룹_2811" data-name="그룹 2811" transform="translate(1572.003 550.911)">
+                    <g id="prefix__그룹_2801" data-name="그룹 2801" transform="translate(7.748 5.498)">
+                        <g id="prefix__그룹_2791" data-name="그룹 2791" transform="translate(.943 4.336)">
+                            <g id="prefix__그룹_2790" class="prefix__cls-37" data-name="그룹 2790">
+                                <g id="prefix__그룹_2788" class="prefix__cls-37" data-name="그룹 2788" transform="translate(0 .089)">
+                                    <path id="prefix__패스_1292" d="M1647.321 674.952l-.01 3.383a.077.077 0 0 1-.045.063.241.241 0 0 1-.218 0 .078.078 0 0 1-.045-.064l.01-3.383a.078.078 0 0 0 .046.064.241.241 0 0 0 .218 0 .078.078 0 0 0 .044-.063z" class="prefix__cls-1" data-name="패스 1292" transform="translate(-1647.003 -674.951)"/>
+                                    <g id="prefix__그룹_2787" data-name="그룹 2787">
+                                        <g id="prefix__그룹_2786" class="prefix__cls-37" data-name="그룹 2786">
+                                            <path id="prefix__패스_1293" d="M1648.427 674.955l-.01 3.383a.061.061 0 0 1 0 .01l.01-3.383a.061.061 0 0 0 0-.01z" class="prefix__cls-1" data-name="패스 1293" transform="translate(-1648.109 -674.954)"/>
+                                            <path id="prefix__패스_1294" d="M1648.275 675l-.01 3.383a.082.082 0 0 1-.042.051l.01-3.383a.082.082 0 0 0 .042-.051z" class="prefix__cls-1" data-name="패스 1294" transform="translate(-1647.958 -674.992)"/>
+                                            <path id="prefix__패스_1295" d="M1648.105 675.239l-.009 3.383a.2.2 0 0 1-.034.015l.009-3.383a.188.188 0 0 0 .034-.015z" class="prefix__cls-1" data-name="패스 1295" transform="translate(-1647.83 -675.176)"/>
+                                            <path id="prefix__패스_1296" d="M1647.721 675.312l-.01 3.383a.248.248 0 0 1-.1.01l.01-3.383a.253.253 0 0 0 .1-.01z" class="prefix__cls-1" data-name="패스 1296" transform="translate(-1647.482 -675.234)"/>
+                                            <path id="prefix__패스_1297" d="M1647.146 675.04l-.01 3.383a.213.213 0 0 1-.088-.025.078.078 0 0 1-.045-.064l.01-3.383a.078.078 0 0 0 .046.064.211.211 0 0 0 .088.025z" class="prefix__cls-1" data-name="패스 1297" transform="translate(-1647.003 -674.951)"/>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g id="prefix__그룹_2789" data-name="그룹 2789" transform="translate(.01)">
+                                    <path id="prefix__패스_1299" d="M1647.31 674.569a.067.067 0 0 1 0 .127.242.242 0 0 1-.219 0 .067.067 0 0 1 0-.127.243.243 0 0 1 .219 0z" class="prefix__cls-1" data-name="패스 1299" transform="translate(-1647.047 -674.543)"/>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="prefix__그룹_2797" data-name="그룹 2797" transform="translate(.393 3.923)">
+                            <g id="prefix__그룹_2796" class="prefix__cls-37" data-name="그룹 2796">
+                                <g id="prefix__그룹_2794" class="prefix__cls-37" data-name="그룹 2794" transform="translate(0 .418)">
+                                    <path id="prefix__패스_1300" d="M1645.927 674.571v.9a.36.36 0 0 1-.211.3 1.13 1.13 0 0 1-1.026 0 .363.363 0 0 1-.214-.3v-.9a.363.363 0 0 0 .214.3 1.132 1.132 0 0 0 1.026 0 .36.36 0 0 0 .211-.3z" class="prefix__cls-1" data-name="패스 1300" transform="translate(-1644.472 -674.567)"/>
+                                    <g id="prefix__그룹_2793" data-name="그룹 2793">
+                                        <g id="prefix__그룹_2792" class="prefix__cls-37" data-name="그룹 2792">
+                                            <path id="prefix__패스_1301" d="M1651.13 674.587v.9a.235.235 0 0 1 0 .048v-.9a.265.265 0 0 0 0-.048z" class="prefix__cls-1" data-name="패스 1301" transform="translate(-1649.676 -674.583)"/>
+                                            <path id="prefix__패스_1302" d="M1650.416 674.807v.9a.385.385 0 0 1-.2.242v-.9a.386.386 0 0 0 .2-.242z" class="prefix__cls-1" data-name="패스 1302" transform="translate(-1648.966 -674.755)"/>
+                                            <path id="prefix__패스_1303" d="M1649.615 675.919v.9l-.009.005a.814.814 0 0 1-.159.07v-.9a.824.824 0 0 0 .159-.07l.009-.005z" class="prefix__cls-1" data-name="패스 1303" transform="translate(-1648.362 -675.625)"/>
+                                            <path id="prefix__패스_1304" d="M1647.806 676.265v.9a1.188 1.188 0 0 1-.456.049v-.9a1.2 1.2 0 0 0 .456-.049z" class="prefix__cls-1" data-name="패스 1304" transform="translate(-1646.722 -675.896)"/>
+                                            <path id="prefix__패스_1305" d="M1645.1 674.985v.9a1 1 0 0 1-.411-.119.363.363 0 0 1-.214-.3v-.9a.363.363 0 0 0 .214.3 1 1 0 0 0 .411.119z" class="prefix__cls-1" data-name="패스 1305" transform="translate(-1644.472 -674.567)"/>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g id="prefix__그룹_2795" data-name="그룹 2795" transform="translate(.003)">
+                                    <path id="prefix__패스_1307" d="M1645.722 672.768a.314.314 0 0 1 0 .595 1.133 1.133 0 0 1-1.027 0 .314.314 0 0 1 0-.595 1.131 1.131 0 0 1 1.027 0z" class="prefix__cls-1" data-name="패스 1307" transform="translate(-1644.484 -672.645)"/>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="prefix__그룹_2800" data-name="그룹 2800">
+                            <g id="prefix__그룹_2798" data-name="그룹 2798" transform="translate(1.129)">
+                                <path id="prefix__패스_1308" d="M1648.989 654.613l-.013 4.511-1.12.651.013-4.511z" class="prefix__cls-44" data-name="패스 1308" transform="translate(-1647.856 -654.613)"/>
+                            </g>
+                            <g id="prefix__그룹_2799" data-name="그룹 2799">
+                                <path id="prefix__패스_1309" d="M1643.809 655.263l-.013 4.511-1.129-.652.013-4.511z" class="prefix__cls-1" data-name="패스 1309" transform="translate(-1642.667 -654.611)"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="prefix__그룹_2810" data-name="그룹 2810">
+                        <g id="prefix__그룹_2809" class="prefix__cls-37" data-name="그룹 2809">
+                            <g id="prefix__그룹_2804" class="prefix__cls-37" data-name="그룹 2804" transform="translate(.488)">
+                                <path id="prefix__패스_1310" d="M1609.647 629.372l18.229 10.593a.345.345 0 0 0-.348.034l-18.228-10.594a.345.345 0 0 1 .347-.033z" class="prefix__cls-1" data-name="패스 1310" transform="translate(-1609.299 -629.339)"/>
+                                <g id="prefix__그룹_2803" data-name="그룹 2803">
+                                    <g id="prefix__그룹_2802" class="prefix__cls-37" data-name="그룹 2802">
+                                        <path id="prefix__패스_1311" d="M1627.528 640l-18.228-10.595a.429.429 0 0 1 .238-.066l18.229 10.594a.428.428 0 0 0-.238.066z" class="prefix__cls-1" data-name="패스 1311" transform="translate(-1609.299 -629.338)"/>
+                                        <path id="prefix__패스_1312" d="M1628.62 639.934l-18.229-10.593a.247.247 0 0 1 .11.032l18.229 10.593a.251.251 0 0 0-.11-.032z" class="prefix__cls-1" data-name="패스 1312" transform="translate(-1610.154 -629.34)"/>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="prefix__그룹_2807" class="prefix__cls-37" data-name="그룹 2807" transform="translate(0 .067)">
+                                <path id="prefix__패스_1314" d="M1625.426 641.4l-18.226-10.6a.344.344 0 0 1-.143-.314 1.076 1.076 0 0 1 .488-.845l18.229 10.594a1.075 1.075 0 0 0-.488.845.343.343 0 0 0 .14.32z" class="prefix__cls-1" data-name="패스 1314" transform="translate(-1607.054 -629.646)"/>
+                                <g id="prefix__그룹_2806" data-name="그룹 2806">
+                                    <g id="prefix__그룹_2805" class="prefix__cls-37" data-name="그룹 2805">
+                                        <path id="prefix__패스_1315" d="M1625.426 643.3l-18.226-10.591a.344.344 0 0 1-.143-.314.881.881 0 0 1 .063-.315l18.229 10.593a.887.887 0 0 0-.063.315.343.343 0 0 0 .143.314z" class="prefix__cls-1" data-name="패스 1315" transform="translate(-1607.054 -631.55)"/>
+                                        <path id="prefix__패스_1316" d="M1625.574 641.917l-18.229-10.593a1.182 1.182 0 0 1 .107-.21l18.229 10.593a1.165 1.165 0 0 0-.107.21z" class="prefix__cls-1" data-name="패스 1316" transform="translate(-1607.282 -630.794)"/>
+                                        <path id="prefix__패스_1317" d="M1626.065 640.559l-18.229-10.593a.967.967 0 0 1 .318-.319l18.229 10.594a.971.971 0 0 0-.318.319z" class="prefix__cls-1" data-name="패스 1317" transform="translate(-1607.666 -629.646)"/>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="prefix__그룹_2808" data-name="그룹 2808" transform="translate(18.229 10.593)">
+                                <path id="prefix__패스_1319" d="M1691.333 678.1c.27-.156.489-.031.49.28a1.075 1.075 0 0 1-.487.845c-.271.156-.49.031-.491-.28a1.075 1.075 0 0 1 .488-.845z" class="prefix__cls-1" data-name="패스 1319" transform="translate(-1690.845 -678.032)"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+                <path id="prefix__패스_1320" d="M1562.257 600.966v-33.45l4.814 2.789.008 33.452z" class="prefix__cls-47" data-name="패스 1320" transform="translate(0 -30.054)"/>
+                <path id="prefix__패스_1321" d="M1562.257 567.516v5.584l28.963 16.722.011-5.567z" class="prefix__cls-47" data-name="패스 1321" transform="translate(0 -30.054)"/>
+                <path id="prefix__패스_1322" d="M1562.257 690.759v-8.493l28.973 16.728v8.492z" class="prefix__cls-47" data-name="패스 1322" transform="translate(0 -119.841)"/>
+                <path id="prefix__패스_1323" d="M1678.18 634.487l-4.8-2.77v33.447l4.8 2.77z" class="prefix__cls-47" data-name="패스 1323" transform="translate(-86.949 -80.288)"/>
+                <path id="prefix__패스_1324" d="M1695.435 647.792l14.473-8.368v-33.449l-14.473 8.37z" class="prefix__cls-41" data-name="패스 1324" transform="translate(-104.205 -60.147)"/>
+                <path id="prefix__패스_1325" d="M1703.812 797.425a.222.222 0 0 1 0 .2.373.373 0 0 1-.15.186l-2.762 1.589c-.063.036-.119.032-.151-.012a.221.221 0 0 1 0-.2l1.371-3.541a.376.376 0 0 1 .15-.187c.062-.036.119-.031.151.013zm-1.366.314l.045-1.449-.425.246.043 1.4.338-.195zm.018.45v-.31c0-.037-.019-.056-.054-.036l-.266.154a.111.111 0 0 0-.055.1v.31c0 .037.024.048.056.029l.266-.154a.1.1 0 0 0 .053-.092z" data-name="패스 1325" transform="translate(-108.348 -208.393)" style="fill:#c5a200"/>
+                <g id="prefix__그룹_2812" data-name="그룹 2812" transform="translate(1592.261 586.891)">
+                    <path id="prefix__패스_1326" d="M1703.481 796.736a.372.372 0 0 1 0 .338.636.636 0 0 1-.254.316l-2.758 1.592c-.106.062-.2.053-.255-.022a.373.373 0 0 1 0-.338l1.371-3.541a.632.632 0 0 1 .254-.316c.106-.061.2-.053.255.022zm-.1.329a.222.222 0 0 0 0-.2l-1.387-1.948c-.032-.044-.088-.049-.151-.013a.377.377 0 0 0-.15.187l-1.371 3.541a.222.222 0 0 0 0 .2c.032.044.088.049.151.012l2.758-1.592a.371.371 0 0 0 .15-.186z" data-name="패스 1326" transform="translate(-1700.175 -794.725)" style="fill:#141316"/>
+                </g>
+                <g id="prefix__그룹_2813" data-name="그룹 2813" transform="translate(1593.739 589.441)">
+                    <path id="prefix__패스_1327" d="M1707.289 806.454c.035-.02.053 0 .053.036v.31a.1.1 0 0 1-.053.092l-.266.154c-.032.018-.055.008-.056-.029v-.31a.111.111 0 0 1 .055-.1z" class="prefix__cls-50" data-name="패스 1327" transform="translate(-1706.968 -806.445)"/>
+                </g>
+                <path id="prefix__패스_1328" d="M1707.244 800.794l-.337.195-.043-1.4.425-.246z" class="prefix__cls-50" data-name="패스 1328" transform="translate(-113.147 -211.449)"/>
+                <path id="prefix__패스_1329" d="M1712.256 689.586l-.749-.435.021 7.294.749.435z" class="prefix__cls-1" data-name="패스 1329" transform="translate(-116.78 -125.228)"/>
+                <path id="prefix__패스_1330" d="M1720.326 668.17l-.749-.435-8.07 4.659.749.435z" data-name="패스 1330" transform="translate(-116.78 -108.471)" style="fill:#494949"/>
+                <path id="prefix__패스_1331" d="M1714.951 674.4l.021 7.294 8.07-4.659-.021-7.294z" class="prefix__cls-44" data-name="패스 1331" transform="translate(-119.475 -110.036)"/>
+                <path id="prefix__패스_1332" d="M1717.459 677.861l.017 6.066 7.012-4.049-.017-6.066z" class="prefix__cls-10" data-name="패스 1332" transform="translate(-121.438 -113.226)"/>
+                <g id="prefix__그룹_2814" data-name="그룹 2814" transform="translate(1599.581 561.359)">
+                    <path id="prefix__패스_1333" d="M1733.82 679.1l.008 2.9 3-1.734-.008-2.9z" data-name="패스 1333" transform="translate(-1733.82 -677.364)" style="fill:#117488"/>
+                </g>
+                <g id="prefix__그룹_2815" data-name="그룹 2815" transform="translate(1598.009 563.532)">
+                    <path id="prefix__패스_1334" d="M1727.094 687.42a1.1 1.1 0 0 0-.5.862c0 .317.225.445.5.285a1.1 1.1 0 0 0 .5-.862c0-.316-.224-.444-.5-.285z" class="prefix__cls-53" data-name="패스 1334" transform="translate(-1726.596 -687.351)"/>
+                </g>
+                <g id="prefix__그룹_2816" data-name="그룹 2816" transform="translate(1596.481 564.369)">
+                    <path id="prefix__패스_1335" d="M1720.07 691.268a1.1 1.1 0 0 0-.5.862c0 .317.226.445.5.285a1.1 1.1 0 0 0 .5-.862c0-.316-.224-.444-.5-.285z" class="prefix__cls-53" data-name="패스 1335" transform="translate(-1719.572 -691.199)"/>
+                </g>
+                <g id="prefix__그룹_2817" data-name="그룹 2817" transform="translate(1598.501 564.845)">
+                    <path id="prefix__패스_1336" d="M1728.856 693.843v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1336" transform="translate(-1728.856 -693.386)"/>
+                </g>
+                <g id="prefix__그룹_2818" data-name="그룹 2818" transform="translate(1597.491 565.403)">
+                    <path id="prefix__패스_1337" d="M1724.214 696.409v.911l.792-.458v-.911z" class="prefix__cls-1" data-name="패스 1337" transform="translate(-1724.214 -695.951)"/>
+                </g>
+                <g id="prefix__그룹_2819" data-name="그룹 2819" transform="translate(1596.419 565.996)">
+                    <path id="prefix__패스_1338" d="M1719.287 699.137v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1338" transform="translate(-1719.287 -698.679)"/>
+                </g>
+                <g id="prefix__그룹_2820" data-name="그룹 2820" transform="translate(1601.779 565.119)">
+                    <path id="prefix__패스_1339" d="M1743.922 695.106v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1339" transform="translate(-1743.922 -694.648)"/>
+                </g>
+                <g id="prefix__그룹_2821" data-name="그룹 2821" transform="translate(1600.769 565.677)">
+                    <path id="prefix__패스_1340" d="M1739.28 697.671v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1340" transform="translate(-1739.28 -697.213)"/>
+                </g>
+                <g id="prefix__그룹_2822" data-name="그룹 2822" transform="translate(1599.697 566.271)">
+                    <path id="prefix__패스_1341" d="M1734.353 700.4v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1341" transform="translate(-1734.353 -699.942)"/>
+                </g>
+                <g id="prefix__그룹_2823" data-name="그룹 2823" transform="translate(1598.669 566.864)">
+                    <path id="prefix__패스_1342" d="M1729.63 703.128v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1342" transform="translate(-1729.63 -702.67)"/>
+                </g>
+                <g id="prefix__그룹_2824" data-name="그룹 2824" transform="translate(1597.66 567.422)">
+                    <path id="prefix__패스_1343" d="M1724.988 705.693v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1343" transform="translate(-1724.988 -705.235)"/>
+                </g>
+                <g id="prefix__그룹_2825" data-name="그룹 2825" transform="translate(1596.588 568.016)">
+                    <path id="prefix__패스_1344" d="M1720.061 708.421v.911l.793-.458v-.911z" class="prefix__cls-1" data-name="패스 1344" transform="translate(-1720.061 -707.964)"/>
+                </g>
+                <path id="prefix__패스_1345" d="M1562.257 567.516l28.973 16.737V617.7l-28.973-16.728z" class="prefix__cls-47" data-name="패스 1345" transform="translate(0 -30.054)"/>
+            </g>
+        </g>
+        <g id="prefix__그룹_4093" class="prefix__cls-32" data-name="그룹 4093">
+            <g id="prefix__그룹_4092" data-name="그룹 4092">
+                <g id="prefix__그룹_3239" data-name="그룹 3239" transform="rotate(90 916.6 823.4)">
+                    <g id="prefix__그룹_2975" data-name="그룹 2975" transform="translate(599.202 499)">
+                        <path id="prefix__선_117" d="M0 0L810.799 0" class="prefix__cls-54" data-name="선 117" transform="rotate(-90 405.4 405.4)"/>
+                        <path id="prefix__선_119" d="M0 0L810.799 0" class="prefix__cls-55" data-name="선 119" transform="rotate(-90 405.4 405.4)"/>
+                    </g>
+                </g>
+                <g id="prefix__그룹_3000" data-name="그룹 3000" transform="translate(-48 -76)">
+                    <g id="prefix__그룹_2975-2" data-name="그룹 2975" transform="translate(599.202 499)">
+                        <path id="prefix__선_117-2" d="M0 0L40 0" class="prefix__cls-54" data-name="선 117" transform="rotate(-90 20 20)"/>
+                        <path id="prefix__선_119-2" d="M0 0L40 0" class="prefix__cls-55" data-name="선 119" transform="rotate(-90 20 20)"/>
+                    </g>
+                </g>
+                <g id="prefix__그룹_3229" data-name="그룹 3229" transform="translate(25)">
+                    <rect id="prefix__사각형_3203" width="100" height="80" class="prefix__cls-56" data-name="사각형 3203" rx="8" transform="translate(476 463)"/>
+                    <text id="prefix__할당률" class="prefix__cls-26" transform="translate(486 510)">
+                        <tspan x="0" y="0">할당률</tspan>
+                    </text>
+                    <text id="prefix__전류량-6" class="prefix__cls-26" data-name="전류량" transform="translate(486 530)">
+                        <tspan x="0" y="0">전류량</tspan>
+                    </text>
+                    <text id="prefix___30_" class="prefix__cls-15" data-name="30%" transform="translate(569 511)">
+                        <tspan x="-25.68" y="0">30%</tspan>
+                    </text>
+                    <text id="prefix___3_000A-6" class="prefix__cls-15" data-name="3,000A" transform="translate(569 531)">
+                        <tspan x="-39.864" y="0">3,000A</tspan>
+                    </text>
+                    <path id="prefix__사각형_3288" d="M6 0h88a6 6 0 0 1 6 6v22H0V6a6 6 0 0 1 6-6z" class="prefix__cls-33" data-name="사각형 3288" transform="translate(476 463)"/>
+                    <g id="prefix___Group_6" data-name="&lt;Group&gt;" transform="translate(559 469)">
+                        <path id="prefix__패스_2380-6" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380" transform="translate(-53.582 -1870.391)"/>
+                    </g>
+                    <text id="prefix__브레이커_01" class="prefix__cls-15" data-name="브레이커 01" transform="translate(525 481)">
+                        <tspan x="-30.51" y="0">브레이커 01</tspan>
+                    </text>
+                </g>
+                <g id="prefix__그룹_3000-2" data-name="그룹 3000" transform="translate(100 -76)">
+                    <g id="prefix__그룹_2975-3" data-name="그룹 2975" transform="translate(599.202 499)">
+                        <path id="prefix__선_117-3" d="M0 0L40 0" class="prefix__cls-54" data-name="선 117" transform="rotate(-90 20 20)"/>
+                        <path id="prefix__선_119-3" d="M0 0L40 0" class="prefix__cls-55" data-name="선 119" transform="rotate(-90 20 20)"/>
+                    </g>
+                </g>
+                <g id="prefix__그룹_3229-2" data-name="그룹 3229" transform="translate(173)">
+                    <rect id="prefix__사각형_3203-2" width="100" height="80" class="prefix__cls-56" data-name="사각형 3203" rx="8" transform="translate(476 463)"/>
+                    <text id="prefix__할당률-2" class="prefix__cls-26" data-name="할당률" transform="translate(486 510)">
+                        <tspan x="0" y="0">할당률</tspan>
+                    </text>
+                    <text id="prefix__전류량-7" class="prefix__cls-26" data-name="전류량" transform="translate(486 530)">
+                        <tspan x="0" y="0">전류량</tspan>
+                    </text>
+                    <text id="prefix___10_" class="prefix__cls-15" data-name="10%" transform="translate(569 511)">
+                        <tspan x="-25.68" y="0">10%</tspan>
+                    </text>
+                    <text id="prefix___1_000A" class="prefix__cls-15" data-name="1,000A" transform="translate(569 531)">
+                        <tspan x="-39.864" y="0">1,000A</tspan>
+                    </text>
+                    <path id="prefix__사각형_3288-2" d="M6 0h88a6 6 0 0 1 6 6v22H0V6a6 6 0 0 1 6-6z" class="prefix__cls-33" data-name="사각형 3288" transform="translate(476 463)"/>
+                    <g id="prefix___Group_7" data-name="&lt;Group&gt;" transform="translate(559 469)">
+                        <path id="prefix__패스_2380-7" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380" transform="translate(-53.582 -1870.391)"/>
+                    </g>
+                    <text id="prefix__브레이커_02" class="prefix__cls-15" data-name="브레이커 02" transform="translate(525 481)">
+                        <tspan x="-30.51" y="0">브레이커 02</tspan>
+                    </text>
+                </g>
+                <g id="prefix__그룹_3000-3" data-name="그룹 3000" transform="translate(248 -76)">
+                    <g id="prefix__그룹_2975-4" data-name="그룹 2975" transform="translate(599.202 499)">
+                        <path id="prefix__선_117-4" d="M0 0L40 0" class="prefix__cls-54" data-name="선 117" transform="rotate(-90 20 20)"/>
+                        <path id="prefix__선_119-4" d="M0 0L40 0" class="prefix__cls-55" data-name="선 119" transform="rotate(-90 20 20)"/>
+                    </g>
+                </g>
+                <g id="prefix__그룹_3229-3" data-name="그룹 3229" transform="translate(321)">
+                    <rect id="prefix__사각형_3203-3" width="100" height="80" class="prefix__cls-56" data-name="사각형 3203" rx="8" transform="translate(476 463)"/>
+                    <text id="prefix__할당률-3" class="prefix__cls-26" data-name="할당률" transform="translate(486 510)">
+                        <tspan x="0" y="0">할당률</tspan>
+                    </text>
+                    <text id="prefix__전류량-8" class="prefix__cls-26" data-name="전류량" transform="translate(486 530)">
+                        <tspan x="0" y="0">전류량</tspan>
+                    </text>
+                    <text id="prefix___20_" class="prefix__cls-15" data-name="20%" transform="translate(569 511)">
+                        <tspan x="-25.68" y="0">20%</tspan>
+                    </text>
+                    <text id="prefix___2_000A" class="prefix__cls-15" data-name="2,000A" transform="translate(569 531)">
+                        <tspan x="-39.864" y="0">2,000A</tspan>
+                    </text>
+                    <path id="prefix__사각형_3288-3" d="M6 0h88a6 6 0 0 1 6 6v22H0V6a6 6 0 0 1 6-6z" class="prefix__cls-33" data-name="사각형 3288" transform="translate(476 463)"/>
+                    <g id="prefix___Group_8" data-name="&lt;Group&gt;" transform="translate(559 469)">
+                        <path id="prefix__패스_2380-8" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380" transform="translate(-53.582 -1870.391)"/>
+                    </g>
+                    <text id="prefix__브레이커_03" class="prefix__cls-15" data-name="브레이커 03" transform="translate(525 481)">
+                        <tspan x="-30.51" y="0">브레이커 03</tspan>
+                    </text>
+                </g>
+                <g id="prefix__그룹_3000-4" data-name="그룹 3000" transform="translate(396 -76)">
+                    <g id="prefix__그룹_2975-5" data-name="그룹 2975" transform="translate(599.202 499)">
+                        <path id="prefix__선_117-5" d="M0 0L40 0" class="prefix__cls-54" data-name="선 117" transform="rotate(-90 20 20)"/>
+                        <path id="prefix__선_119-5" d="M0 0L40 0" class="prefix__cls-55" data-name="선 119" transform="rotate(-90 20 20)"/>
+                    </g>
+                </g>
+                <g id="prefix__그룹_3229-4" data-name="그룹 3229" transform="translate(469)">
+                    <rect id="prefix__사각형_3203-4" width="100" height="80" class="prefix__cls-56" data-name="사각형 3203" rx="8" transform="translate(476 463)"/>
+                    <text id="prefix__할당률-4" class="prefix__cls-26" data-name="할당률" transform="translate(486 510)">
+                        <tspan x="0" y="0">할당률</tspan>
+                    </text>
+                    <text id="prefix__전류량-9" class="prefix__cls-26" data-name="전류량" transform="translate(486 530)">
+                        <tspan x="0" y="0">전류량</tspan>
+                    </text>
+                    <text id="prefix___10_2" class="prefix__cls-15" data-name="10%" transform="translate(569 511)">
+                        <tspan x="-25.68" y="0">10%</tspan>
+                    </text>
+                    <text id="prefix___1_000A-2" class="prefix__cls-15" data-name="1,000A" transform="translate(569 531)">
+                        <tspan x="-39.864" y="0">1,000A</tspan>
+                    </text>
+                    <path id="prefix__사각형_3288-4" d="M6 0h88a6 6 0 0 1 6 6v22H0V6a6 6 0 0 1 6-6z" class="prefix__cls-33" data-name="사각형 3288" transform="translate(476 463)"/>
+                    <g id="prefix___Group_9" data-name="&lt;Group&gt;" transform="translate(559 469)">
+                        <path id="prefix__패스_2380-9" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380" transform="translate(-53.582 -1870.391)"/>
+                    </g>
+                    <text id="prefix__브레이커_04" class="prefix__cls-15" data-name="브레이커 04" transform="translate(525 481)">
+                        <tspan x="-30.51" y="0">브레이커 04</tspan>
+                    </text>
+                </g>
+                <g id="prefix__그룹_3229-5" data-name="그룹 3229" transform="translate(617)">
+                    <rect id="prefix__사각형_3203-5" width="100" height="80" class="prefix__cls-56" data-name="사각형 3203" rx="8" transform="translate(476 463)"/>
+                    <text id="prefix__할당률-5" class="prefix__cls-26" data-name="할당률" transform="translate(486 510)">
+                        <tspan x="0" y="0">할당률</tspan>
+                    </text>
+                    <text id="prefix__전류량-10" class="prefix__cls-26" data-name="전류량" transform="translate(486 530)">
+                        <tspan x="0" y="0">전류량</tspan>
+                    </text>
+                    <text id="prefix___30_2" class="prefix__cls-15" data-name="30%" transform="translate(569 511)">
+                        <tspan x="-25.68" y="0">30%</tspan>
+                    </text>
+                    <text id="prefix___3_000A-7" class="prefix__cls-15" data-name="3,000A" transform="translate(569 531)">
+                        <tspan x="-39.864" y="0">3,000A</tspan>
+                    </text>
+                    <path id="prefix__사각형_3288-5" d="M6 0h88a6 6 0 0 1 6 6v22H0V6a6 6 0 0 1 6-6z" class="prefix__cls-33" data-name="사각형 3288" transform="translate(476 463)"/>
+                    <g id="prefix___Group_10" data-name="&lt;Group&gt;" transform="translate(559 469)">
+                        <path id="prefix__패스_2380-10" d="M63.934 1875.015l-.3-.735a13.533 13.533 0 0 0 .643-1.686l-.933-.931a12.729 12.729 0 0 0-1.655.677l-.734-.3a13.459 13.459 0 0 0-.737-1.646H58.9a12.7 12.7 0 0 0-.691 1.65l-.733.3a13.408 13.408 0 0 0-1.686-.642l-.932.932a12.716 12.716 0 0 0 .678 1.655l-.3.734a13.512 13.512 0 0 0-1.646.735v1.319a12.588 12.588 0 0 0 1.65.692l.3.733a13.581 13.581 0 0 0-.643 1.686l.933.932a12.927 12.927 0 0 0 1.655-.678l.734.3a13.284 13.284 0 0 0 .738 1.645h1.313a12.776 12.776 0 0 0 .691-1.65l.735-.3a13.488 13.488 0 0 0 1.684.643l.933-.932a12.572 12.572 0 0 0-.678-1.655l.3-.734a13.357 13.357 0 0 0 1.647-.737v-1.322a12.726 12.726 0 0 0-1.648-.685zm-2.427 1.376a1.923 1.923 0 1 1-1.923-1.922 1.925 1.925 0 0 1 1.923 1.922z" class="prefix__cls-10" data-name="패스 2380" transform="translate(-53.582 -1870.391)"/>
+                    </g>
+                    <text id="prefix__브레이커_05" class="prefix__cls-15" data-name="브레이커 05" transform="translate(525 481)">
+                        <tspan x="-30.51" y="0">브레이커 05</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
