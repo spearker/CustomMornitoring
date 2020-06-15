@@ -9,7 +9,7 @@ const InputKeyinWeldingContainer = () => {
 
   return (
     <div>
-
+      <p>용접</p>
     </div>
   );
 }

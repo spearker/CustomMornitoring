@@ -193,8 +193,8 @@ const PressStatistics = () => {
 
 
   return (
-      <DashboardWrapContainer index={13}>
-        <SubNavigation list={ROUTER_MENU_LIST[13]}/>
+      <DashboardWrapContainer index={15}>
+        <SubNavigation list={ROUTER_MENU_LIST[15]}/>
         <InnerBodyContainer>
         <div style={{position:'relative', textAlign:'left', marginTop:48}}>
     

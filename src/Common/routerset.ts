@@ -84,24 +84,24 @@ export const ROUTER_MENU_LIST = [
     ],
     [ // key-in
       { name : 'Key-in 설정', url : '/keyin/set/press'},
-      { name : '프레스 Key-in', url : '/keyin/set/press'},
-      { name : '금형 Key-in', url : '/keyin/set/mold'},
-      { name : '용접 Key-in', url : '/keyin/set/welding'},
-      { name : '밀링 Key-in', url : '/keyin/set/milling'},
-      { name : '선반 Key-in', url : '/keyin/set/sunban'},
-      { name : 'tab Key-in', url : '/keyin/set/tab'},
-      { name : '자재 Key-in', url : '/keyin/set/material'},
+      { name : '프레스 설정', url : '/keyin/set/press'},
+      { name : '금형 설정', url : '/keyin/set/mold'},
+      { name : '용접 설정', url : '/keyin/set/welding'},
+      { name : '밀링 설정', url : '/keyin/set/milling'},
+      { name : '선반 설정', url : '/keyin/set/sunban'},
+      { name : 'tab 설정', url : '/keyin/set/tab'},
+      { name : '자재 설정', url : '/keyin/set/material'},
 
     ],
     [ // key-in
       { name : 'Key-in 리스트', url : '/keyin/list/press'},
-      { name : '프레스 Key-in', url : '/keyin/list/press'},
-      { name : '금형 Key-in', url : '/keyin/list/mold'},
-      { name : '용접 Key-in', url : '/keyin/list/welding'},
-      { name : '밀링 Key-in', url : '/keyin/list/milling'},
-      { name : '선반 Key-in', url : '/keyin/list/sunban'},
-      { name : 'tab Key-in', url : '/keyin/list/tab'},
-      { name : '자재 Key-in', url : '/keyin/list/material'},
+      { name : '프레스 리스트', url : '/keyin/list/press'},
+      { name : '금형 리스트', url : '/keyin/list/mold'},
+      { name : '용접 리스트', url : '/keyin/list/welding'},
+      { name : '밀링 리스트', url : '/keyin/list/milling'},
+      { name : '선반 리스트', url : '/keyin/list/sunban'},
+      { name : 'tab 리스트', url : '/keyin/list/tab'},
+      { name : '자재 리스트', url : '/keyin/list/material'},
 
     ], // monitoring
     [
