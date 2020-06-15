@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MONITORING } from '../../Common/routerset';
+      
 import MonitoringTable from '../../Components/Table/MonitoringTable';
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
 import HeaderLive from '../../Components/Text/HeaderLive';
@@ -121,23 +121,7 @@ const PressMonitoring = () => {
 
   return (
       <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_MONITORING}/>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
       
-              <HeaderLive title={'프레스 모니터링'} isTurn={isFirstLoad}/>        
-              <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-              <MonitoringDropdown select={option} contents={optionList} onClickEvent={onClickFilter}/>
-            </div>
-          </div>
-          {
-            option == 'all'?
-            <MonitoringTableCommon contents={list} />
-            :
-            <MonitoringTableFilter contents={list} select={option}/>
-          }
-        
-        </InnerBodyContainer>
       </DashboardWrapContainer>
       
   );

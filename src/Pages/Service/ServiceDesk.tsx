@@ -12,7 +12,6 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MANAGE, ROUTER_REGISTER } from '../../Common/routerset';
 import SubHeader from '../../Components/Text/SubHeader';
 
 // 서비스 문의

@@ -14,7 +14,7 @@ import CardList from '../../Components/Card/CardList';
 import SmallButton from '../../Components/Button/SmallButton';
 import { getRequest } from '../../Common/requestFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
+import { ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import MachineList from './Machine';
 import ItemList from '../../Components/List/ItemList';

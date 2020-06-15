@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MONITORING, ROUTER_MENU_LIST } from '../../Common/routerset';
+import {       ROUTER_MENU_LIST } from '../../Common/routerset';
 import MonitoringTable from '../../Components/Table/MonitoringTable';
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
 import HeaderLive from '../../Components/Text/HeaderLive';

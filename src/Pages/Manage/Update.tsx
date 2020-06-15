@@ -16,7 +16,7 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
 import BTN_DELETE from '../../Assets/Images/btn_delete_rank.png';
-import { ROUTER_MANAGE, ROUTER_MENU_LIST } from '../../Common/routerset';
+import {      ROUTER_MENU_LIST } from '../../Common/routerset';
 import NormalInput from '../../Components/Input/NormalInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import BasicGrayButtonLink from '../../Components/Button/BasicGrayButtonLink';

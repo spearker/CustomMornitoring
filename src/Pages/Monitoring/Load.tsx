@@ -12,7 +12,6 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MONITORING } from '../../Common/routerset';
 import MonitoringTable from '../../Components/Table/MonitoringTable';
 
 // 로드톤 모니터링
@@ -36,13 +35,7 @@ const LoadMonitoring = () => {
 
   return (
       <DashboardWrapContainer>
-        <SubNavigation list={ROUTER_MONITORING}/>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-            <Header title={'로드톤 모니터링'}/>
-          </div>
-          <MonitoringTable indexList={index} keyName={'pk'} contents={[]}/>
-        </InnerBodyContainer>
+       
       </DashboardWrapContainer>
       
   );

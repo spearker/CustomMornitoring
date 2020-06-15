@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest, postRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MANAGE, ROUTER_MENU_LIST } from '../../Common/routerset';
+import {      ROUTER_MENU_LIST } from '../../Common/routerset';
 
 // 멤버 승인
 const AcceptMember = () => {

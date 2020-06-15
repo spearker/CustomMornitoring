@@ -14,7 +14,7 @@ import { getToken } from '../../Common/tokenFunctions';
 import BasicModal from '../../Containers/SearchModalContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { ROUTER_REGISTER, ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
+import {    ROUTER_MENU_LIST } from '../../Common/routerset';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
 import IcButton from '../../Components/Button/IcButton';

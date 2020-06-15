@@ -10,7 +10,7 @@ import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_LIST, ROUTER_MENU_LIST } from '../../Common/routerset';
+import {  ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest, postRequest } from '../../Common/requestFunctions';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';

@@ -12,7 +12,6 @@ import IMG from '../../Assets/Images/lion.png';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MANAGE, ROUTER_REGISTER } from '../../Common/routerset';
 import SubHeader from '../../Components/Text/SubHeader';
 
 // 인터넷 익스플로러 차단

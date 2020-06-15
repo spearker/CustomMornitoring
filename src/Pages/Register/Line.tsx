@@ -21,7 +21,6 @@ import SmallButton from '../../Components/Button/SmallButton';
 import AddList from '../../Components/List/AddList';
 import TextList from '../../Components/List/TextList';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_REGISTER, ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
@@ -30,6 +29,7 @@ import InputContainer from '../../Containers/InputContainer';
 import Header from '../../Components/Text/Header';
 import SearchModalContainer from '../../Containers/SearchModalContainer';
 import PopupButtons from '../../Components/Button/PopupButtons';
+import { ROUTER_MENU_LIST } from '../../Common/routerset';
 
 
 
@@ -241,7 +241,8 @@ const RegisterLine= () => {
 
   return (
       <DashboardWrapContainer>
-        <SubNavigation list={isUpdate ? ROUTER_LIST : ROUTER_REGISTER}/>
+     
+      
         <InnerBodyContainer>
             <Header title={isUpdate ? '라인 정보수정' : '라인 정보등록'}/>
             <WhiteBoxContainer>
@@ -377,6 +378,7 @@ const RegisterLine= () => {
             </SearchModalContainer>
 
         </InnerBodyContainer>
+      
       </DashboardWrapContainer>
       
   );

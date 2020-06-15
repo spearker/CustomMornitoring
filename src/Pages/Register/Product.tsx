@@ -9,7 +9,6 @@ import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import { getToken } from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_REGISTER, ROUTER_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
 import InputContainer from '../../Containers/InputContainer';
@@ -233,7 +232,7 @@ const RegisterProduct = () => {
 
   return (
       <DashboardWrapContainer>
-        <SubNavigation list={isUpdate ? ROUTER_LIST :ROUTER_REGISTER}/>
+        
         <InnerBodyContainer>
             <Header title={isUpdate ? '생산제품 정보수정' : '생산제품 정보등록'}/>
             <WhiteBoxContainer>
