@@ -76,11 +76,9 @@ import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
-import MaintenanceRegister from '../Pages/Maintenance/Register';
+import MaintenanceRegister from '../Pages/Maintenance/register';
 import StockView from '../Pages/Stock/View'
-import MaintenanceMoldList from '../Pages/Maintenance/MoldList';
-import MaintenanceMachineList from '../Pages/Maintenance/MachineList';
-import MaintenanceSubMachineList from '../Pages/Maintenance/SubmachineList';
+
 import PressRecommend from '../Pages/Process/Press';
 import StockList from '../Pages/Stock/List';
 import ProductStockList from '../Pages/Stock/Product';
@@ -88,7 +86,7 @@ import StockInList from '../Pages/Stock/In';
 import StockOutList from '../Pages/Stock/Out'
 import DefectiveList from '../Pages/Quality/DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
-import MaintenanceHistory from '../Pages/Maintenance/History';
+import MaintenanceHistory from '../Pages/Maintenance/history';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
 import StockHistory from '../Pages/Stock/History';
@@ -107,7 +105,7 @@ import InputKeyin from '../Pages/Keyin/InputKeyin';
 import KeyinList from '../Pages/Keyin/keyinList';
 import SettingKeyin from '../Pages/Keyin/SetKeyin';
 import ListKeyin from '../Pages/Keyin/ListKeyin';
-import MachineManageMaintenance from '../Pages/Maintenance/Machine';
+import MachineManageMaintenance from '../Pages/Maintenance/machine';
 import InputKeyinPress from '../Pages/KeyinInput/press';
 import InputKeyinMold from '../Pages/KeyinInput/mold';
 import InputKeyinMilling from '../Pages/KeyinInput/milling';
@@ -129,6 +127,14 @@ import SetKeyinSunban from '../Pages/KeyinSet/sunban';
 import SetKeyinMilling from '../Pages/KeyinSet/milling';
 import SetKeyinMold from '../Pages/KeyinSet/mold';
 import SetKeyinTab from '../Pages/KeyinSet/tab';
+import OilMaintenance from '../Pages/Maintenance/oil';
+import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
+import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
+import SearchMaintenance from '../Pages/Maintenance/search';
+import MaintenanceList from '../Pages/Maintenance/list';
+import MachineMaintenance from '../Pages/Maintenance/machine';
+import SubmachineMaintenance from '../Pages/Maintenance/submachine';
+import MoldMaintenance from '../Pages/Maintenance/mold';
 
 const Routers = () => {
 
@@ -220,14 +226,16 @@ const Routers = () => {
             <Route exact path="/barcode/register" component={RegisterBarcode}/>
          
             {/* 7.0 보전 관리 */}
-            <Route exact path="/maintenance/machine/list" component={MaintenanceMachineList} />
-            <Route exact path="/maintenance/submachine/list" component={MaintenanceSubMachineList} />
-            <Route exact path="/maintenance/design/list" component={MaintenanceMoldList} />
+            <Route exact path="/maintenance/machine" component={MachineMaintenance} />
+            <Route exact path="/maintenance/submachine" component={SubmachineMaintenance} />
+            <Route exact path="/maintenance/mold" component={MoldMaintenance} />
             <Route exact path="/maintenance/register" component={MaintenanceRegister} />
-            <Route exact path="/maintenance/manage" component={MachineManageMaintenance} />
-            <Route exact path="/maintenance/update" component={MaintenanceRegister} />
-            <Route exact path="/maintenance/list" component={MaintenanceHistory} />
+            <Route exact path="/maintenance/list" component={MaintenanceList} />
             <Route exact path="/maintenance/history" component={MaintenanceHistory} />
+            <Route exact path="/maintenance/search" component={SearchMaintenance} />
+            <Route exact path="/maintenance/errorcode" component={ErrorCodeMaintenance} />
+            <Route exact path="/maintenance/motor" component={MotorRotationMaintenance} />
+            <Route exact path="/maintenance/oil" component={OilMaintenance} />
           
 
              {/* 8.0 공정 관리 */}

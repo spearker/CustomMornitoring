@@ -4,10 +4,10 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/register';
+import Container from '../../Containers/Maintenance/list';
 
 
-const MaintenanceRegister = () => {
+const MaintenanceList = () => {
 
   useEffect(()=>{
    
@@ -27,4 +27,5 @@ const MaintenanceRegister = () => {
 }
 
 
-export default MaintenanceRegister;
+
+export default MaintenanceList;

@@ -42,12 +42,16 @@ export const ROUTER_MENU_LIST = [
     ],
     [ // 보전 관리
 
-      { name : '보전관리', url : '/maintenance/manage'},
-      { name : '기계 보전관리', url : '/maintenance/manage'},
-      { name : '기계 보전리스트', url : '/maintenance/machine/list'},
-      { name : '주변장치 보전리스트', url : '/maintenance/submachine/list'},
-      { name : '금형 보전리스트', url : '/maintenance/design/list'},
-      { name : '보전 이력', url : '/maintenance/list'},
+      { name : '보전관리', url : '/maintenance/machine'},
+      { name : '기계 보전관리', url : '/maintenance/machine'},
+      { name : '주변장치 보전관리', url : '/maintenance/submachine'},
+      { name : '금형 보전관리', url : '/maintenance/mold'},
+      { name : '검색 관리', url : '/maintenance/search'},
+      { name : '보전 이력관리', url : '/maintenance/history'},
+      { name : '보전 리스트', url : '/maintenance/list'},
+      { name : '에러코드 로그', url : '/maintenance/errorcode'},
+      { name : '모터 역회전 상태 분석', url : '/maintenance/motor'},
+      { name : '오일 펌프 보전 관리', url : '/maintenance/oil'},
 
     ],
     [ // 공정 관리
