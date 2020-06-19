@@ -1,5 +1,10 @@
 import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
 import Styled from 'styled-components'
+import DashboardWrapContainer from "../DashboardWrapContainer";
+import SubNavigation from "../../Components/Navigation/SubNavigation";
+import {ROUTER_MENU_LIST} from "../../Common/routerset";
+import InnerBodyContainer from "../InnerBodyContainer";
+import Header from "../../Components/Text/Header";
 
 //주변장치 보전 관리 (디자인 안나옴 / 보류 됬다고 함)
 
@@ -8,12 +13,11 @@ import Styled from 'styled-components'
 const SubmachineMaintenanceContainer = () => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <div>
-
     </div>
   );
 }

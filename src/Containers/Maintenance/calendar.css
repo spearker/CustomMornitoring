@@ -1,0 +1,19 @@
+.whiteTheme {
+    width: 328px;
+    height: 340px;
+    background: #000000;
+    border-radius: 6px;
+    border-color: #000000;
+    font-size: 15px;
+    padding: 7px;
+}
+
+.darkTheme {
+    width: 328px;
+    height: 340px;
+    background: #ffffff;
+    border-radius: 6px;
+    border-color: #ffffff;
+    font-size: 15px;
+    padding: 7px;
+}

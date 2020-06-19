@@ -4,13 +4,13 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/subMachinne';
+import Container from '../../Containers/Maintenance/subMachine';
 
 
 const SubmachineMaintenance = () => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -18,9 +18,9 @@ const SubmachineMaintenance = () => {
         <SubNavigation list={ROUTER_MENU_LIST[5]}/>
         <InnerBodyContainer>
         <Container />
-         
-         
-        
+
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
   );
