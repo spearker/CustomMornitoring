@@ -15,6 +15,8 @@ export const changeStatusToString = ((status: string | undefined)=>{
         return '에러'
     }else if(status ==='reservation'){
         return '예약'
+    }else if(status ==='ok'){
+        return '정상'
     }else{
         return '없음'
     }

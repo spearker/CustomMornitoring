@@ -135,7 +135,8 @@ import MaintenanceList from '../Pages/Maintenance/list';
 import MachineMaintenance from '../Pages/Maintenance/machine';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
 import MoldMaintenance from '../Pages/Maintenance/mold';
-
+import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
+import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics'
 const Routers = () => {
 
     //const { isLoggedIn } = useContext(UserDataContext);
@@ -316,7 +317,8 @@ const Routers = () => {
             {/* 15.0 프레스 분석 및 통계 */}
             <Route exact path="/statistics/press" component={PressStatistics} />
             <Route exact path="/statistics/load" component={LoadStatistics} />
-         
+            <Route exact path="/statistics/readytime" component={ReadyTimeStatistics} />
+            <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
 
             {/* 16.0 서비스 */}
             <Route exact path="/service" component={ServiceDesk}/>
@@ -329,8 +331,8 @@ const Routers = () => {
             <Route exact path="/super/list" component={SuperList} />
 
 
-             {/* 안쓰는것 */}
-             <Route exact path="/register/product" component={RegisterProduct} />
+            {/* 안쓰는것 */}
+            <Route exact path="/register/product" component={RegisterProduct} />
             <Route exact path="/register/line" component={RegisterLine} />     
             <Route exact path="/status" component={StatusList}/> 
             <Route exact path="/list/line" component={LineList} />
