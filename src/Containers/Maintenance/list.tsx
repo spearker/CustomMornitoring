@@ -48,10 +48,7 @@ const MaintenanceListContainer = () => {
   },[])
 
   return (
-    <div>
-      <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
-        <InnerBodyContainer>
+ 
           <div style={{position:'relative'}}>
 
             <Header title={'보전 리스트'} />
@@ -154,9 +151,6 @@ const MaintenanceListContainer = () => {
               </div>
           </div>
 
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
-    </div>
   );
 }
 

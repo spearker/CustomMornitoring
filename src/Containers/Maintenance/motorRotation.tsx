@@ -18,17 +18,7 @@ const MotorRotationMaintenanceContainer = () => {
 
   return (
     <div>
-      <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-
-            <Header title={'모터 역회전 상태 분석'} />
-
-          </div>
-
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
+      
     </div>
   );
 }

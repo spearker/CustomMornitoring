@@ -18,17 +18,7 @@ const OilMaintenanceContainer = () => {
 
   return (
     <div>
-      <DashboardWrapContainer index={7}>
-        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
-
-            <Header title={'오일 펌프 보전관리'} />
-
-          </div>
-
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
+     
     </div>
   );
 }
