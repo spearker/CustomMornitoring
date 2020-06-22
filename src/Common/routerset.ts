@@ -56,7 +56,7 @@ export const ROUTER_MENU_LIST = [
     ],
     [ // 공정 관리
       { name : '공정 관리', url : '/process/list'},
-      { name : '공정 등록', url : '/process/register'},
+
       { name : '공정 리스트', url : '/process/list'},
       { name : '프레스 공정 추천 분석', url : '/recommend/press'},
     ],
