@@ -173,7 +173,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
             contents.map((v, i)=>{
               return(
                 <>
-              <tr key={i}  style={{cursor:'pointer'}}>
+              <tr key={i}  style={{cursor:'pointer', width:'100%'}}>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
@@ -196,7 +196,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                   openTarget !== v.pk || task == null?
                   null
                   :
-                  <td colSpan={15} style={{paddingLeft:8, color:'black'}} >
+                  <td colSpan={7} style={{paddingLeft:8, color:'black'}} >
                       
                       <div className="div-no-scroll" style={{ maxHeight:700, overflow:'auto'}}>
                       {/* 헤더 */}
