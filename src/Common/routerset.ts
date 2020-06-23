@@ -113,7 +113,7 @@ export const ROUTER_MENU_LIST = [
       { name : '프레스 모니터링', url : '/monitoring/press'},
       { name : '로드톤 모니터링', url : '/monitoring/loadton'},
       { name : 'CMS 모니터링', url : '/monitoring/cms'},
-     
+
     ],
     [   //Kpi
       { name : 'KPI 생산지수', url : '/kpi/product'},
@@ -123,14 +123,14 @@ export const ROUTER_MENU_LIST = [
       { name : 'KPI 납기지수', url : '/kpi/duedate'},
     ],
     [   //프레스 통계·분석
-      { name : '통계·분석', url : '/statistics/press'},
-      { name : '프레스 통계·분석', url : '/statistics/press'},
-      { name : '로드모니터 통계·분석', url : '/statistics/load'},
+        { name : '통계·분석', url : '/statistics/press'},
+        { name : '프레스 통계·분석', url : '/statistics/press'},
+        { name : '로드모니터 통계·분석', url : '/statistics/load'},
+        { name : '제조 리드타임 분석', url : '/statistics/leadtime'},
     ],
     [ // 서비스 문의
       { name : '서비스 문의', url : '/service'},
       { name : '문의방법 및 연락처', url : '/service'},
     ],
-    
+
   ];
-  
