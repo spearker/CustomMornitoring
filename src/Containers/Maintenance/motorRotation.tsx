@@ -17,9 +17,11 @@ const MotorRotationMaintenanceContainer = () => {
   },[])
 
   return (
-    <div>
-      
-    </div>
+          <div style={{position:'relative'}}>
+
+            <Header title={'모터 역회전 상태 분석'} />
+
+          </div>
   );
 }
 

@@ -17,9 +17,12 @@ const OilMaintenanceContainer = () => {
   },[])
 
   return (
-    <div>
-     
-    </div>
+
+          <div style={{position:'relative'}}>
+
+            <Header title={'오일 펌프 보전관리'} />
+
+          </div>
   );
 }
 

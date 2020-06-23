@@ -16,17 +16,12 @@ const MaintenanceRegisterContainer = () => {
 
   return (
     <div>
-      <DashboardWrapContainer index={7}>
-        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
-        <InnerBodyContainer>
           <div style={{position:'relative'}}>
 
             <Header title={'보전 등록'} />
 
           </div>
 
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
     </div>
   );
 }

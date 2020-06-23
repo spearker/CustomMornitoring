@@ -88,10 +88,9 @@ const ErrorCodeMaintenanceContainer = () => {
 
   return (
       <div>
-   
 
       <Header title={'에러코드 로그'} />
-     
+
             <ListBox>
               <ListTitleDiv>
                 <Span1>기계명</Span1>
@@ -109,7 +108,6 @@ const ErrorCodeMaintenanceContainer = () => {
               }
 
             </ListBox>
-
       </div>
   );
 }

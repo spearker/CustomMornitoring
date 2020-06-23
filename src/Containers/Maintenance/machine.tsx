@@ -255,9 +255,6 @@ const MachineMaintenanceContainer = () => {
         <ModalC isOpen={isOpenC} modals={modals} setOpen={setModals} />
         <ModalD isOpen={isOpenD} modals={modals} setOpen={setModals} />
         <div>
-          <DashboardWrapContainer index={5}>
-            <SubNavigation list={ROUTER_MENU_LIST[5]}/>
-            <InnerBodyContainer>
               <div style={{position:'relative'}}>
                 <Header title={'기계 보전 관리'} />
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -414,8 +411,6 @@ const MachineMaintenanceContainer = () => {
                   </React.Fragment>
                 }
               </div>
-            </InnerBodyContainer>
-          </DashboardWrapContainer>
         </div>
       </React.Fragment>
   );

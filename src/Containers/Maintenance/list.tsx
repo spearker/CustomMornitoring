@@ -48,7 +48,7 @@ const MaintenanceListContainer = () => {
   },[])
 
   return (
- 
+
           <div style={{position:'relative'}}>
 
             <Header title={'보전 리스트'} />
@@ -150,7 +150,6 @@ const MaintenanceListContainer = () => {
                 <Pass />
               </div>
           </div>
-
   );
 }
 

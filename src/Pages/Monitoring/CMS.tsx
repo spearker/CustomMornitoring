@@ -12,10 +12,10 @@ const CmsMonitoring: React.FunctionComponent = () => {
     const [statusFilter, setStatusFilter] = useState<string>('power');
 
     return(
-        <DashboardWrapContainer index={11}>
-        <SubNavigation list={ROUTER_MENU_LIST[11]}/>
+        <DashboardWrapContainer index={13}>
+        <SubNavigation list={ROUTER_MENU_LIST[13]}/>
             <InnerBodyContainer>
-                
+
                 {
                     statusFilter === 'power'
                         ? (<CmsPower />)
