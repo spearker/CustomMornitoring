@@ -28,7 +28,7 @@ export const ROUTER_MENU_LIST = [
       { name : '거래처 관리', url : '/client/list'},
       { name : '매입 관리', url : '/client/buy'},
       { name : '매출 관리', url : '/client/sell'},
-      { name : '작업자 관리', url : '/client/sell'},
+      
     ],
     [ // 외주 관리
       { name : '외주 관리', url : '/subcontractor/list'},
@@ -56,7 +56,7 @@ export const ROUTER_MENU_LIST = [
     ],
     [ // 공정 관리
       { name : '공정 관리', url : '/process/list'},
-      { name : '공정 등록', url : '/process/register'},
+
       { name : '공정 리스트', url : '/process/list'},
       { name : '프레스 공정 추천 분석', url : '/recommend/press'},
     ],

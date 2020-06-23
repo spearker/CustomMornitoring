@@ -69,7 +69,7 @@ const BoxWrap = Styled.button`
     border-radius: 5px;
     color: white;
     min-width: 100px;
-    background-color: ${BG_COLOR_SUB};
+    background-color: black;
     border: none;
     font-weight: bold;
     text-algin: center;

@@ -5,6 +5,8 @@ import icSearch from '../../Assets/Images/ic_search.png'
 import IcButton from '../Button/IcButton';
 import IconSquareButton from '../Button/IconSquareButton';
 import IconSquareButtonGray from '../Button/IconSquareButtonGray';
+import SmallButtonLink from '../Button/SmallButtonLink';
+import { useHistory } from 'react-router-dom';
 
 
 interface IProps{
@@ -12,19 +14,32 @@ interface IProps{
     value: string,
     onChangeEvent: any,
     onClickEvent: any,
+    button?: any,
 }
-const SearchInputSmall = ({description, value, onChangeEvent, onClickEvent}: IProps) => {
+const SearchInputSmall = ({description, value, onChangeEvent, onClickEvent,  button}: IProps) => {
   useEffect(()=>{
    
   },[])
 
+  const history = useHistory();
+
   return ( 
-        <form style={{position: 'relative', float:'right'}}>
+    <div style={{position: 'relative', float:'right'}}>
+        <form style={{position: 'relative', display:'inline-block'}}>
             <InputBox type="text" value={value} onChange={onChangeEvent} placeholder={description}/>
             <div onClick={onClickEvent}  style={{justifyContent:'center' , position:'absolute', top:0, right:0, zIndex:2}}>
              <IconSquareButtonGray color="#F5F6FA" width="33px" imageSize="19px" image={icSearch} dim={false}/>  
             </div>
-        </form> 
+            
+            
+        </form>
+        <div style={{ float:'right', display:'inline-block'}}>
+        {
+            button !== undefined &&
+            <ButtonBox onClick={()=>history.push(button.url)}>{button.name}</ButtonBox>  
+        }
+        </div>
+        </div> 
   );
 }
 
@@ -40,5 +55,12 @@ const InputBox = Styled.input`
 
 `
 
-
+const ButtonBox = Styled.div`
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 20px;
+    margin-left: 10px;
+    color: black;
+    background-color: #b3b3b3;
+`
 export default SearchInputSmall;

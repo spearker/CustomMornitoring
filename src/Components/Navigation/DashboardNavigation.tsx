@@ -47,7 +47,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
               <p className="p-bold" style={{minWidth:100, display:'inline-block',fontSize:18,textAlign:'center', color:`${POINT_COLOR}`}}>{me.company_name === undefined ? SERVICE_TITLE : me.company_name}</p>
             </div>
             <div style={{paddingLeft:35}}>
-
+              <NavList name={'HOME'} url={'/dashboard'}/>
               {
                 ROUTER_MENU_LIST.map((v, i)=>{
                     return(
@@ -76,7 +76,8 @@ const DashboardNavigation = ({select, folding}: Props) => {
         {
           isOpen ?
         <NavDivFixedTop ref={ref}>
-            <div style={{paddingLeft:35}}>         
+            <div style={{paddingLeft:35}}>      
+            <NavList name={'HOME'} url={'/dashboard'}/>   
             {
                 ROUTER_MENU_LIST.map((v, i)=>{
                     return(
