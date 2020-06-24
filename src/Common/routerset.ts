@@ -130,10 +130,12 @@ export const ROUTER_MENU_LIST = [
       { name : '비가동시간 분석', url : '/statistics/readytime'},
       { name : '공정별 불량률 분석', url : '/statistics/loss'},
       { name : '공정 환경 분석', url : '/statistics/process'},
+      { name : '최적 SPM 분석', url : '/statistics/optimalspm'},
       { name : '제조 리드타임 분석', url : '/statistics/leadtime'},
       { name : '생산량 예측 분석', url : '/statistics/manufacture'},
       { name : '캠 정보 분석', url : '/statistics/cam'},
       { name : '로드톤 분석 및 통계', url : '/statistics/load'},
+      { name : 'cms 분석 및 통계', url : '/statistics/cms'},
     ],
     [ // 서비스 문의
       { name : '서비스 문의', url : '/service'},

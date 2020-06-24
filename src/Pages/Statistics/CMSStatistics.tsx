@@ -193,13 +193,13 @@ const LoadStatistics = () => {
 
 
   return (
-      <DashboardWrapContainer index={13}>
-        <SubNavigation list={ROUTER_MENU_LIST[13]}/>
+      <DashboardWrapContainer index={15}>
+        <SubNavigation list={ROUTER_MENU_LIST[15]}/>
         <InnerBodyContainer>
         <div style={{position:'relative', textAlign:'left', marginTop:48}}>
 
             <div style={{display:'inline-block', textAlign:'left'}}>
-              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>로드톤 분석 및 통계</span>
+              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>CMS 통계·분석</span>
               <BasicBigDropdown select={optionList[option]} contents={optionList} onClickEvent={ (value)=>setOption(value)}/>
             </div>
           </div>
@@ -280,7 +280,7 @@ const LoadStatistics = () => {
                             </div>
                         </div>
                         <div style={{marginTop: 28, marginBottom: 10, width: 250, textAlign: 'left'}}>
-                            <p style={{fontFamily: 'NotoSansCJKkr-Bold', fontSize: 20}}>장비별 로드톤</p>
+                            <p style={{fontFamily: 'NotoSansCJKkr-Bold', fontSize: 20}}>장비별 통계</p>
                         </div>
                         <div style={{width: 640, height: 457, backgroundColor: '#191d27', borderRadius: 6, color: 'black !important', paddingTop: 30}}>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
