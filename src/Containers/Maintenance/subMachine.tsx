@@ -18,6 +18,7 @@ const SubmachineMaintenanceContainer = () => {
 
   return (
     <div>
+
     </div>
   );
 }

@@ -30,7 +30,7 @@ interface IBarcode{
   code?: string,
   description?: string,
   photo?: string,
- 
+
 }
 // 주변장치 타입
 interface ISubMachine{
@@ -145,7 +145,7 @@ interface IMemberSearched{
   name: string,
   appointment: string,
   photo: string,
-} 
+}
 
 // 생산품목
 interface IProduct{
@@ -157,7 +157,7 @@ interface IProduct{
   molds: string | array,
   stock?: number | string
 }
-// 팝업 
+// 팝업
 interface IPopupTypes{
     type: 'normal' | 'warning' | 'error' | 'notice',
     contents: string,
@@ -171,7 +171,7 @@ interface IServerResponse  {
   interface IServerData {
     status: number,
     results?: any
-  
+
   }
 
   //라인 머신 검색
@@ -202,7 +202,7 @@ interface ITeam{
   pk: string,
   name: string,
   mother_pk?: string,
-  
+
 }
 
 interface IMaintenance{
@@ -218,4 +218,17 @@ interface ISearchedList{
   name: string,
   type: string,
   code: string,
+}
+// 리드타임
+interface LeadTimeAnalysis{
+  name: string,
+  factoryInfo: string,
+  material: string,
+  goal: string,
+  date: {
+    start: string,
+    finish: string
+  },
+  timeLine: string[],
+  time: string[]
 }

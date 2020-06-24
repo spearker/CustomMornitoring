@@ -132,11 +132,14 @@ import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
 import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
 import SearchMaintenance from '../Pages/Maintenance/search';
 import MaintenanceList from '../Pages/Maintenance/list';
-import MachineMaintenance from '../Pages/Maintenance/machine';
+import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
+import MachineMaintenance from '../Pages/Maintenance/Machine';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
 import MoldMaintenance from '../Pages/Maintenance/mold';
 import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
-import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics'
+import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
+import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
+import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
 
 const Routers = () => {
 
@@ -320,6 +323,9 @@ const Routers = () => {
             <Route exact path="/statistics/load" component={LoadStatistics} />
             <Route exact path="/statistics/readytime" component={ReadyTimeStatistics} />
             <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
+            <Route exact path="/statistics/loss" component={FactoryLossSatistics} />
+            <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics} />
+            <Route exact path="/statistics/leadtime" component={LeadTimeAnalysis} />
 
             {/* 16.0 서비스 */}
             <Route exact path="/service" component={ServiceDesk}/>
