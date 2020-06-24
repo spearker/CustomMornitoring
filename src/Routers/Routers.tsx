@@ -76,7 +76,7 @@ import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
-import MaintenanceRegister from '../Containers/Maintenance/register';
+import MaintenanceRegister from '../Pages/Maintenance/register';
 import StockView from '../Pages/Stock/View'
 
 import PressRecommend from '../Pages/Process/Press';
@@ -86,7 +86,7 @@ import StockInList from '../Pages/Stock/In';
 import StockOutList from '../Pages/Stock/Out'
 import DefectiveList from '../Pages/Quality/DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
-import MaintenanceHistory from '../Containers/Maintenance/history';
+import MaintenanceHistory from '../Pages/Maintenance/history';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
 import StockHistory from '../Pages/Stock/History';
@@ -105,7 +105,7 @@ import InputKeyin from '../Pages/Keyin/InputKeyin';
 import KeyinList from '../Pages/Keyin/keyinList';
 import SettingKeyin from '../Pages/Keyin/SetKeyin';
 import ListKeyin from '../Pages/Keyin/ListKeyin';
-import MachineManageMaintenance from '../Containers/Maintenance/machine';
+import MachineManageMaintenance from '../Pages/Maintenance/machine';
 import InputKeyinPress from '../Pages/KeyinInput/press';
 import InputKeyinMold from '../Pages/KeyinInput/mold';
 import InputKeyinMilling from '../Pages/KeyinInput/milling';
@@ -140,6 +140,7 @@ import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
 import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
+
 const Routers = () => {
 
     //const { isLoggedIn } = useContext(UserDataContext);
