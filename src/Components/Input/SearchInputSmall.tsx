@@ -36,7 +36,7 @@ const SearchInputSmall = ({description, value, onChangeEvent, onClickEvent,  but
         <div style={{ float:'right', display:'inline-block'}}>
         {
             button !== undefined &&
-            <ButtonBox onClick={()=>history.push(button.url)}>{button.name}</ButtonBox>  
+            <ButtonBox onClick={()=>button.event(true)}>{button.name}</ButtonBox>  
         }
         </div>
         </div> 

@@ -12,6 +12,8 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import MultiButtonTaskTable from '../../Components/Table/MultiButtonTaskTable';
+import BasicPopupContainer from '../../Components/Modal/BasicPopupContainer';
+import NormalInput from '../../Components/Input/NormalInput';
 
 const dummy = [
   {pk:'1231dd', name:'거래처01', product_name:'제품01', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'},
@@ -37,8 +39,22 @@ const ClientSell = () => {
 
   const [list, setList] = useState<IOrder[]>(dummy);
   const [option, setOption] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const [target, setTarget] = useState<IOrder | null>(null);
   const [keyword, setKeyword] = useState<string>('');
+  const [store, setStore]= useState<string>('');
+  const [manager, setManager]= useState<string>('');
+  const [name, setName]= useState<string>('');
+  const [stock, setStock]= useState<string>('');
+  const [price, setPrice]= useState<string>('');
+  const [fullPrice, setFullPrice]= useState<string>('');
+  const [date, setDate]= useState<string>('');
+  const [place, setPlace]= useState<string>('');
+  const [condition, setCondition]= useState<string>('');
+
+  const onClickRegister = useCallback(() =>{
+
+  },[])
 
   const optionList = [
     "등록순", "이름순"
@@ -81,7 +97,7 @@ const ClientSell = () => {
                 onClickEvent={()=>{}}
                 button={{
                   name: '매출 등록',
-                  url:'/client/sell/register'
+                  event: setIsOpen
                 }}
                 />
                  
@@ -100,6 +116,19 @@ const ClientSell = () => {
             onClickEvent={()=>{}}/>
 
         </InnerBodyContainer>
+        {
+              isOpen &&
+              <BasicPopupContainer isActive={true} title={'매출 등록'} onClickOpen={setIsOpen} onClickConfirm={onClickRegister}>
+                  <NormalInput title={'거래처 명'} value={store} onChangeEvent={setStore} description={''} />
+                  <NormalInput title={'담당자 명'} value={manager} onChangeEvent={setManager} description={''} />
+                  <NormalInput title={'제품명'} value={name} onChangeEvent={setName} description={''} />
+                  <NormalInput title={'수량'} value={stock} onChangeEvent={setStock} description={''} />
+                  <NormalInput title={'개당단가'} value={price} onChangeEvent={setPrice} description={''} />
+                  <NormalInput title={'날짜'} value={date} onChangeEvent={setDate} description={''} />
+              
+                 
+              </BasicPopupContainer>
+            }
 
 
       </DashboardWrapContainer>

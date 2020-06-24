@@ -86,7 +86,7 @@ import StockInList from '../Pages/Stock/In';
 import StockOutList from '../Pages/Stock/Out'
 import DefectiveList from '../Pages/Quality/DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
-import MaintenanceHistory from '../Pages/Maintenance/history';
+import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
 import StockHistory from '../Pages/Stock/History';
@@ -105,7 +105,7 @@ import InputKeyin from '../Pages/Keyin/InputKeyin';
 import KeyinList from '../Pages/Keyin/keyinList';
 import SettingKeyin from '../Pages/Keyin/SetKeyin';
 import ListKeyin from '../Pages/Keyin/ListKeyin';
-import MachineManageMaintenance from '../Pages/Maintenance/machine';
+
 import InputKeyinPress from '../Pages/KeyinInput/press';
 import InputKeyinMold from '../Pages/KeyinInput/mold';
 import InputKeyinMilling from '../Pages/KeyinInput/milling';
@@ -133,7 +133,7 @@ import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
 import SearchMaintenance from '../Pages/Maintenance/search';
 import MaintenanceList from '../Pages/Maintenance/list';
 import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
-import MachineMaintenance from '../Pages/Maintenance/Machine';
+import MachineMaintenance from '../Pages/Maintenance/MachineMaintenance';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
 import MoldMaintenance from '../Pages/Maintenance/mold';
 import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
