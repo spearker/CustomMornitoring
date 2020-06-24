@@ -76,7 +76,7 @@ import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
-import MaintenanceRegister from '../Pages/Maintenance/Register';
+import MaintenanceRegister from '../Containers/Maintenance/register';
 import StockView from '../Pages/Stock/View'
 
 import PressRecommend from '../Pages/Process/Press';
@@ -86,7 +86,7 @@ import StockInList from '../Pages/Stock/In';
 import StockOutList from '../Pages/Stock/Out'
 import DefectiveList from '../Pages/Quality/DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
-import MaintenanceHistory from '../Pages/Maintenance/History';
+import MaintenanceHistory from '../Containers/Maintenance/history';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
 import StockHistory from '../Pages/Stock/History';
@@ -105,7 +105,7 @@ import InputKeyin from '../Pages/Keyin/InputKeyin';
 import KeyinList from '../Pages/Keyin/keyinList';
 import SettingKeyin from '../Pages/Keyin/SetKeyin';
 import ListKeyin from '../Pages/Keyin/ListKeyin';
-import MachineManageMaintenance from '../Pages/Maintenance/Machine';
+import MachineManageMaintenance from '../Containers/Maintenance/machine';
 import InputKeyinPress from '../Pages/KeyinInput/press';
 import InputKeyinMold from '../Pages/KeyinInput/mold';
 import InputKeyinMilling from '../Pages/KeyinInput/milling';
@@ -132,11 +132,12 @@ import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
 import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
 import SearchMaintenance from '../Pages/Maintenance/search';
 import MaintenanceList from '../Pages/Maintenance/list';
-import MachineMaintenance from '../Pages/Maintenance/Machine';
+import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
+import MachineMaintenance from '../Containers/Maintenance/machine';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
 import MoldMaintenance from '../Pages/Maintenance/mold';
-import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
-
+import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
+import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 const Routers = () => {
 
     //const { isLoggedIn } = useContext(UserDataContext);
@@ -318,7 +319,8 @@ const Routers = () => {
             <Route exact path="/statistics/press" component={PressStatistics} />
             <Route exact path="/statistics/load" component={LoadStatistics} />
             <Route exact path="/statistics/leadtime" component={LeadTimeAnalysis} />
-
+            <Route exact path="/statistics/readytime" component={ReadyTimeStatistics} />
+            <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
 
             {/* 16.0 서비스 */}
             <Route exact path="/service" component={ServiceDesk}/>
@@ -331,8 +333,8 @@ const Routers = () => {
             <Route exact path="/super/list" component={SuperList} />
 
 
-             {/* 안쓰는것 */}
-             <Route exact path="/register/product" component={RegisterProduct} />
+            {/* 안쓰는것 */}
+            <Route exact path="/register/product" component={RegisterProduct} />
             <Route exact path="/register/line" component={RegisterLine} />
             <Route exact path="/status" component={StatusList}/>
             <Route exact path="/list/line" component={LineList} />

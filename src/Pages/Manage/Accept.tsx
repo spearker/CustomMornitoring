@@ -13,6 +13,7 @@ import { getRequest, postRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import {      ROUTER_MENU_LIST } from '../../Common/routerset';
+import MultiButtonNormalTable from '../../Components/Table/MultiButtonNormalTable';
 
 // 멤버 승인
 const AcceptMember = () => {
@@ -81,7 +82,7 @@ const AcceptMember = () => {
           <div style={{position:'relative'}}>
             <Header title={'승인 신청 리스트'}/>
           </div>
-          <NormalTable indexList={index} keyName={'pk'} contents={list} buttonName='가입승인' onClickEvent={onClickAccept}/>
+          <MultiButtonNormalTable indexList={index} keyName={'pk'} contents={list} buttonName={'가입승인'} buttonName2={'거절'} onClickEvent2={()=>alert('거절 불가')} onClickEvent={onClickAccept}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
       

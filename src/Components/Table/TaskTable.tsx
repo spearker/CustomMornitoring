@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR, BG_COLOR_SUB, BG_COLOR_SUB3,SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../../Common/configset'
 import IC_REPLY from '../../Assets/Images/ic_reply_w.png'
 import IC_CLOSE from '../../Assets/Images/ic_task_close.png'
 import IC_DOC from '../../Assets/Images/ic_file_doc.png'
@@ -158,19 +158,28 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     <TableWrap>
       <table>
         <tbody>
+          <tr >
+            <td>작업상태</td>
+            <td>제목</td>
+            <td>제품명</td>
+            <td>생산목표량</td>
+            <td>공정</td>
+            <td>작업자</td>
+            <td>댓글</td>
+            
+          </tr>
           {/* 테이블 바디 */}
           {
             contents.map((v, i)=>{
               return(
                 <>
-              <tr key={i}  style={{cursor:'pointer'}}>
+              <tr key={i}  style={{cursor:'pointer', width:'100%'}}>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
                     <td className="p-limit" key={mv} onClick={mv !== 'status' ? ()=>onClickOpenTask(v.pk): ()=>{}}>
                       <div style={{display:'flex',  whiteSpace: 'nowrap'}}>
                       {mv === 'status' ? <StatusDropdown pk={v['pk']} contents={['active', 'done', 'share', 'ready', 'stop']} select={v[mv]} onClickEvent={onClickEvent}/> : null}
-                      {mi === 0  || mi === 1 ? '': 'ㅣ   '}
                       {mv === 'comments' ? <div><img src={IC_REPLY} style={{marginLeft:4, width:14, height:14, marginRight:4}}/></div> : null}
                     {mv === 'worker' ? <div><ImageBox src={v['worker'].photo === "" ? IMG_PROFILE : v['worker'].photo} />{v['worker'].name + ' ' + v['worker'].appointment}</div> : null}
                     {mv === 'amount' ?  v[mv] + ' 개': null}
@@ -187,7 +196,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                   openTarget !== v.pk || task == null?
                   null
                   :
-                  <td colSpan={15} style={{paddingLeft:8, color:'black'}} >
+                  <td colSpan={7} style={{paddingLeft:8, color:'black'}} >
                       
                       <div className="div-no-scroll" style={{ maxHeight:700, overflow:'auto'}}>
                       {/* 헤더 */}
@@ -315,6 +324,7 @@ const TableWrap = Styled.div`
     display: flex;
 
     table {
+      
       table-layout: fixed;
       max-width: 100%,
       font-family: arial, sans-serif;
@@ -325,9 +335,9 @@ const TableWrap = Styled.div`
       font-size: 14px;
       overflow-x: scroll;
       overflow: auto;
-      background-color: ${BG_COLOR_SUB2};
-      border-collapse:separate; 
-      border-spacing: 0 1em;
+      background-color: ${BG_COLOR_SUB};
+      border-collapse: separate; 
+      border-spacing: 0 0.4em;
     }
     tbody{
       max-width: 100%;
@@ -337,12 +347,24 @@ const TableWrap = Styled.div`
       border: 0;
       border-radius: 5px;
       vertical-align: middle;
-      background-color: ${BG_COLOR_SUB};
+      background-color: ${BG_COLOR_SUB3};
       border: 1px;
       border-collapse: separate;
       border-spacing: 0 15px;
       margin-bottom: 12px;
+      &:first-child{
+        background-color: black;
+        td{
+          padding-top: 12px !important;
+          padding-bottom: 12px !important;
+          font-weight: bold;
+          &:first-child{
+            padding-left: 14px !important;
+          }
+        }
+      }
     }
+
     td, th {
       text-overflow:ellipsis;
       overflow:hidden;

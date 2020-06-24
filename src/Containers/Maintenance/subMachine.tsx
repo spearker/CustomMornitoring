@@ -18,17 +18,7 @@ const SubmachineMaintenanceContainer = () => {
 
   return (
     <div>
-      <DashboardWrapContainer index={7}>
-        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
-        <InnerBodyContainer>
-          <div style={{position:'relative'}}>
 
-            <Header title={'주변장치 보전 관리'} />
-
-          </div>
-
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
     </div>
   );
 }
