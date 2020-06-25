@@ -8,7 +8,7 @@ import { getToken } from '../../Common/tokenFunctions';
 import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
-import {pressSt}from '../../Common/dummydataset'
+import {pressSt, loadSt}from '../../Common/dummydataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';
@@ -23,7 +23,7 @@ import moment from 'moment';
 import MonitoringDropdown from '../../Components/Dropdown/MonitoringDropdown';
 import BasicBigDropdown from '../../Components/Dropdown/BasicBigDropdown';
 
-const PressStatistics = () => {
+const LoadStatistics = () => {
 
 
   const [list, setList] = useState<IBarcode[]>([]);
@@ -50,7 +50,7 @@ const PressStatistics = () => {
 
   useEffect(() => {
       if(optionList[option]){
-        setSeries(pressSt.machine[0])
+        setSeries(loadSt.machine[0])
       }
       //setSeries(pressSt.cmsSeries)
       setIsFirstLoad(false)
@@ -142,14 +142,14 @@ const PressStatistics = () => {
         min: 0,
         max: 100
       },
-      
+
     },
-  
+
   }
 
 
   const option_price = {
-          
+
     series: [{
       name: '',
       data: [62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9]
@@ -157,7 +157,7 @@ const PressStatistics = () => {
     options: {
       chart: {
         type: 'area',
-       
+
         zoom: {
           enabled: false
         }
@@ -170,7 +170,7 @@ const PressStatistics = () => {
       },
       labels:[62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9],
 
-    
+
       xaxis: {
         categories: monthArray,
       },
@@ -181,13 +181,13 @@ const PressStatistics = () => {
         horizontalAlign: 'left'
       }
     },
-  
-  
+
+
   };
 
 
   const optionList = [
-    "SPM", "메인모터전류","슬라이드전류","생산량","VS","로드톤","온도","가동률",
+    "최대 측정값","최소 측정값","평균 측정값"
   ]
 
 
@@ -197,9 +197,9 @@ const PressStatistics = () => {
         <SubNavigation list={ROUTER_MENU_LIST[15]}/>
         <InnerBodyContainer>
         <div style={{position:'relative', textAlign:'left', marginTop:48}}>
-    
-            <div style={{display:'inline-block', textAlign:'left'}}>           
-              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>프레스 통계 및 분석</span>
+
+            <div style={{display:'inline-block', textAlign:'left'}}>
+              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>CMS 통계·분석</span>
               <BasicBigDropdown select={optionList[option]} contents={optionList} onClickEvent={ (value)=>setOption(value)}/>
             </div>
           </div>
@@ -230,7 +230,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].yesterday.value}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].yesterday.value}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -238,7 +238,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].yesterday.average}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].yesterday.average}</p>
                                                 </td>
                                             </tr>
                                         </table>
@@ -262,7 +262,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].today.value}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].today.value}</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -270,7 +270,7 @@ const PressStatistics = () => {
                                                     <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
                                                 </td>
                                                 <td style={{width: "50%", height: 50}}>
-                                                    <p style={{textAlign: 'right', marginRight: 20}}>{pressSt.total[option].today.average}</p>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].today.average}</p>
                                                 </td>
                                             </tr>
                                         </table>
@@ -311,7 +311,7 @@ const PressStatistics = () => {
                                     },
                                     xaxis: {
                                         type: 'datetime',
-                                        min: '2020-05-25',
+                                        min: '2020-05-18',
                                         tickAmount: 12,
                                         labels: {
                                             style: {
@@ -321,7 +321,7 @@ const PressStatistics = () => {
                                         }
                                     },
                                     yaxis: {
-                                        max: pressSt.total[option].ymax,
+                                        max: loadSt.total[option].ymax,
                                         min: 0,
                                         tickAmount: 4,
                                         labels: {
@@ -336,7 +336,7 @@ const PressStatistics = () => {
                                     },
                                     annotations: {
                                         yaxis: [{
-                                            y: pressSt.total[option].average,
+                                            y: loadSt.total[option].average,
                                             borderColor: '#30dfdf',
                                             borderWidth: 2,
                                             label: {
@@ -359,7 +359,7 @@ const PressStatistics = () => {
                                 }}
                                 width={595}
                                 height={326}
-                                series={pressSt.machine[option]}
+                                series={loadSt.machine[option]}
                                 />
                             </CharBox>
 
@@ -367,11 +367,11 @@ const PressStatistics = () => {
                     </div>
                 </div>
                 <div style={{backgroundColor: '#2b2c3b', width: 390, height: 783, paddingTop: 10, borderRadius: 8, marginLeft: 20}}>
-              
-          
+
+
                     {
-                           pressSt.machine[option].length > 0 &&
-                           pressSt.machine[option].map((i: any, index) => {
+                        loadSt.machine[option].length > 0 &&
+                        loadSt.machine[option].map((i: any, index) => {
                           return (
                           <div style={{width: 340, height: 120, borderRadius: 6, backgroundColor: '#191d27', marginTop: 20, marginLeft: 20}}>
                               <div style={{display: "flex"}}>
@@ -423,7 +423,7 @@ const PressStatistics = () => {
 
                                               },
                                               yaxis: {
-                                                  max: pressSt.total[option].ymax,
+                                                  max: loadSt.total[option].ymax,
                                                   min: 0,
                                                   tickAmount: 4,
                                                   labels: {
@@ -442,7 +442,7 @@ const PressStatistics = () => {
                                               },
                                               annotations: {
                                                   yaxis: [{
-                                                      y: pressSt.total[option].average,
+                                                      y: loadSt.total[option].average,
                                                       borderColor: '#30dfdf',
                                                       borderWidth: 2,
 
@@ -470,13 +470,13 @@ const PressStatistics = () => {
                         })
                     }
                 </div>
-        
-            
+
+
             </div>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`
@@ -511,4 +511,4 @@ const CharBox = Styled.div`
     color: black !important;
 `
 
-export default PressStatistics;
+export default LoadStatistics;

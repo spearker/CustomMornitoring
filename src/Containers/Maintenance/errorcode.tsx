@@ -88,12 +88,16 @@ const ErrorCodeMaintenanceContainer = () => {
 
   return (
       <div>
+<<<<<<< Updated upstream
         <DashboardWrapContainer index={5}>
           <SubNavigation list={ROUTER_MENU_LIST[5]}/>
           <InnerBodyContainer>
             <div style={{position:'relative'}}>
 
               <Header title={'에러코드 로그'} />
+=======
+      <Header title={'에러코드 로그'} />
+>>>>>>> Stashed changes
 
             </div>
             <ListBox>

@@ -48,10 +48,13 @@ const MaintenanceListContainer = () => {
   },[])
 
   return (
+<<<<<<< Updated upstream
     <div>
       <DashboardWrapContainer index={5}>
         <SubNavigation list={ROUTER_MENU_LIST[5]}/>
         <InnerBodyContainer>
+=======
+>>>>>>> Stashed changes
           <div style={{position:'relative'}}>
 
             <Header title={'보전 리스트'} />
@@ -153,10 +156,13 @@ const MaintenanceListContainer = () => {
                 <Pass />
               </div>
           </div>
+<<<<<<< Updated upstream
 
         </InnerBodyContainer>
       </DashboardWrapContainer>
     </div>
+=======
+>>>>>>> Stashed changes
   );
 }
 

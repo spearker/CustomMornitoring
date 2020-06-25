@@ -92,10 +92,13 @@ const MoldMaintenanceContainer = () => {
   };
 
   return (
+<<<<<<< Updated upstream
     <div>
       <DashboardWrapContainer index={5}>
         <SubNavigation list={ROUTER_MENU_LIST[5]} />
         <InnerBodyContainer>
+=======
+>>>>>>> Stashed changes
           <div style={{ position: "relative" }}>
             <Header title={"금형 보전 관리"} />
             <div
@@ -303,9 +306,12 @@ const MoldMaintenanceContainer = () => {
               <></>
             )}
           </div>
+<<<<<<< Updated upstream
         </InnerBodyContainer>
       </DashboardWrapContainer>
     </div>
+=======
+>>>>>>> Stashed changes
   );
 };
 const ThermometerComponent: React.FunctionComponent<ThermometerProps> = ({

@@ -28,7 +28,7 @@ export const ROUTER_MENU_LIST = [
       { name : '거래처 관리', url : '/client/list'},
       { name : '매입 관리', url : '/client/buy'},
       { name : '매출 관리', url : '/client/sell'},
-      { name : '작업자 관리', url : '/client/sell'},
+
     ],
     [ // 외주 관리
       { name : '외주 관리', url : '/subcontractor/list'},
@@ -56,7 +56,7 @@ export const ROUTER_MENU_LIST = [
     ],
     [ // 공정 관리
       { name : '공정 관리', url : '/process/list'},
-      { name : '공정 등록', url : '/process/register'},
+
       { name : '공정 리스트', url : '/process/list'},
       { name : '프레스 공정 추천 분석', url : '/recommend/press'},
     ],
@@ -113,7 +113,7 @@ export const ROUTER_MENU_LIST = [
       { name : '프레스 모니터링', url : '/monitoring/press'},
       { name : '로드톤 모니터링', url : '/monitoring/loadton'},
       { name : 'CMS 모니터링', url : '/monitoring/cms'},
-     
+      { name : '진동량 모니터링', url : '/monitoring/vibration' }
     ],
     [   //Kpi
       { name : 'KPI 생산지수', url : '/kpi/product'},
@@ -130,15 +130,17 @@ export const ROUTER_MENU_LIST = [
       { name : '비가동시간 분석', url : '/statistics/readytime'},
       { name : '공정별 불량률 분석', url : '/statistics/loss'},
       { name : '공정 환경 분석', url : '/statistics/process'},
+      { name : '최적 SPM 분석', url : '/statistics/optimalspm'},
       { name : '제조 리드타임 분석', url : '/statistics/leadtime'},
       { name : '생산량 예측 분석', url : '/statistics/manufacture'},
       { name : '캠 정보 분석', url : '/statistics/cam'},
       { name : '로드톤 분석 및 통계', url : '/statistics/load'},
+      { name : 'cms 분석 및 통계', url : '/statistics/cms'},
+      { name : '공장 환경 분석', url : '/statistics/environmental' }
     ],
     [ // 서비스 문의
       { name : '서비스 문의', url : '/service'},
       { name : '문의방법 및 연락처', url : '/service'},
     ],
-    
+
   ];
-  

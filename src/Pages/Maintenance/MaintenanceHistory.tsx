@@ -9,21 +9,21 @@ import Container from '../../Containers/Maintenance/history';
 
 const MaintenanceHistory = () => {
 
-  useEffect(()=>{
-   
-  },[])
+    useEffect(()=>{
 
-  return (
-    <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
-        <InnerBodyContainer>
-        <Container />
-         
-         
-        
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
-  );
+    },[])
+
+    return (
+        <DashboardWrapContainer index={5}>
+            <SubNavigation list={ROUTER_MENU_LIST[5]}/>
+            <InnerBodyContainer>
+                <Container />
+
+
+
+            </InnerBodyContainer>
+        </DashboardWrapContainer>
+    );
 }
 
 

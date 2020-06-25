@@ -17,19 +17,25 @@ const MotorRotationMaintenanceContainer = () => {
   },[])
 
   return (
+<<<<<<< Updated upstream
     <div>
       <DashboardWrapContainer index={5}>
         <SubNavigation list={ROUTER_MENU_LIST[5]}/>
         <InnerBodyContainer>
+=======
+>>>>>>> Stashed changes
           <div style={{position:'relative'}}>
 
             <Header title={'모터 역회전 상태 분석'} />
 
           </div>
+<<<<<<< Updated upstream
 
         </InnerBodyContainer>
       </DashboardWrapContainer>
     </div>
+=======
+>>>>>>> Stashed changes
   );
 }
 
