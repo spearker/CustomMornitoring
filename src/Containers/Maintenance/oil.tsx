@@ -17,26 +17,13 @@ const OilMaintenanceContainer = () => {
   },[])
 
   return (
-<<<<<<< Updated upstream
-    <div>
-      <DashboardWrapContainer index={7}>
-        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
-        <InnerBodyContainer>
-=======
 
->>>>>>> Stashed changes
           <div style={{position:'relative'}}>
 
             <Header title={'오일 펌프 보전관리'} />
 
           </div>
-<<<<<<< Updated upstream
 
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
-    </div>
-=======
->>>>>>> Stashed changes
   );
 }
 

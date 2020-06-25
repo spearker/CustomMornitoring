@@ -6,10 +6,14 @@ import {ROUTER_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../InnerBodyContainer";
 import Header from "../../Components/Text/Header";
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 //보전 리스트
 
 const Pass = () => {
+
+
+
   return (
     <Div>
       <Div1>
@@ -42,24 +46,20 @@ const MaintenanceListContainer = () => {
   const [hidden3, setHidden3] = useState (true);
   const [hidden4, setHidden4] = useState (true);
   const [hidden5, setHidden5] = useState (true);
+  const history = useHistory();
 
   useEffect(()=>{
 
   },[])
 
   return (
-<<<<<<< Updated upstream
-    <div>
-      <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
-        <InnerBodyContainer>
-=======
->>>>>>> Stashed changes
+
+
           <div style={{position:'relative'}}>
 
             <Header title={'보전 리스트'} />
             <div style={{position:'absolute',display:'inline-block' ,top:1, right:0, zIndex:4, width: 110, height: 20,  backgroundColor: "#717c90", paddingTop:3, paddingBottom:9, borderRadius: '6px'}}>
-              <button> + 보전 등록 </button>
+              <button onClick={()=>history.push('/maintenance/register')}> + 보전 등록 </button>
             </div>
               <DIV>
                 <P>기계명</P>
@@ -156,13 +156,6 @@ const MaintenanceListContainer = () => {
                 <Pass />
               </div>
           </div>
-<<<<<<< Updated upstream
-
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
-    </div>
-=======
->>>>>>> Stashed changes
   );
 }
 

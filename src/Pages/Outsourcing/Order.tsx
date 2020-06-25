@@ -1,115 +1,88 @@
 import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
 import Axios from 'axios';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
+
 import 'react-dropdown/style.css'
-import {dataSet} from '../../Common/dataset'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
+
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest } from '../../Common/requestFunctions';
-import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
+import MultiButtonTaskTable from '../../Components/Table/MultiButtonTaskTable';
+import BasicPopupContainer from '../../Components/Modal/BasicPopupContainer';
+import NormalInput from '../../Components/Input/NormalInput';
 
+const dummy = [
+  {pk:'1231dd', name:'거래처01', product_name:'제품01', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'},
+  {pk:'1dwqdfcs', name:'거래처02', product_name:'제품02', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'},
+  {pk:'q121qdw', name:'거래처03', product_name:'제품03', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'},
+  {pk:'qwd13wq', name:'거래처04', product_name:'제품04', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'},
+  {pk:'qweqw324f', name:'거래처05', product_name:'제품05', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'},
+  {pk:'qecqefw1', name:'거래처06', product_name:'제품06', manager:'홍길동', stock:'1000', price:'100,000,000', date:'2020-07-16', created:'2020-06-16', place:'서울특별시 강남구 강남동 강남아파트 123-123', condition:'선금 50% 납품시 50%'}
+]
 
+interface IOrder{
+   pk: string,
+   name: string,
+   product_name: string,
+   manager: string,
+   stock: string | number,
+   created: string,
+   condition: string,
+   date: string,
+   place: string,
+}
 const Order = () => {
 
-  const [list, setList] = useState<IMold[]>([]);
+  const [list, setList] = useState<IOrder[]>(dummy);
   const [option, setOption] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [target, setTarget] = useState<IOrder | null>(null);
   const [keyword, setKeyword] = useState<string>('');
+  const [store, setStore]= useState<string>('');
+  const [manager, setManager]= useState<string>('');
+  const [name, setName]= useState<string>('');
+  const [stock, setStock]= useState<string>('');
+  const [price, setPrice]= useState<string>('');
+  const [fullPrice, setFullPrice]= useState<string>('');
+  const [date, setDate]= useState<string>('');
+  const [place, setPlace]= useState<string>('');
+  const [condition, setCondition]= useState<string>('');
+
+  const onClickRegister = useCallback(() =>{
+
+  },[])
+
 
   const optionList = [
     "등록순", "이름순"
   ]
-  const index = {
-    manufacturer:'이름',
-    product_code:'항목',
-    mold_name: '항목',
-    mold_label:'항목', 
-    mold_code:'항목',
+  const indexList = {
+    name:'거래처명',
+    product_name:'제품명',
+    stock: '수량',
+    price:'총 금액(원)', 
+    created:'등록일',
+  }
+  const subIndexList = {
+    manager:'담당자',
+    date: '납기날짜',
+    place:'납품 장소',
+    condition:'대금지급조건'
   }
 
-  /**
-   * getSearchList()
-   * 목록 검색
-   * @param {string} url 
-   * @returns X
-   */
-  const getSearchList = useCallback(async (e)=>{
-    e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/search?keyword='+ keyword +'&option=' + option ,getToken(TOKEN_NAME))
-
-    if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-    }else{
-      if(results.status === 200){
-        setList(results.results)
-        setKeyword('')
-      }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-      }
-    }
-  },[list, option, keyword])
-
-   /**
-   * getList()
-   * 목록 불러오기
-   * @param {string} url 
-   * @returns X
-   */
-  const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/0',getToken(TOKEN_NAME))
-
-    if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-    }else{
-      if(results.status === 200){
-        setList(results.results)
-      }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-      }
-    }
-  },[list])
-
-  /**
-   * onClickFilter()
-   * 리스트 필터 변경
-   * @param {string} filter 필터 값
-   * @returns X
-   */
-  const onClickFilter = useCallback(async (filter:number)=>{
-    setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/client/list/' + filter,getToken(TOKEN_NAME))
-
-    if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-    }else{
-      if(results.status === 200){
-        setList(results.results)
-      }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-      }
-    }
-  },[option])
+ 
+ 
 
   useEffect(()=>{
     //getList()
    
-  },[])
-  const onClickModify = useCallback((id)=>{
+  },[]);
 
-    console.log('--select id : ' + id)
-    window.location.href=`/update/design?pk=${id}`
-  
-  },[])
+ 
 
   return (
       <DashboardWrapContainer index={3}>
@@ -117,19 +90,55 @@ const Order = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`발주 관리 (${list.length})`}/>
-          
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
+           
+            <SearchInputSmall 
+                description={'검색어 입력'} 
+                value={keyword} 
+                onChangeEvent={()=>{}}
+                onClickEvent={()=>{}}
+                button={{
+                  name: '발주 등록',
+                  event: setIsOpen
+                }}
+                />
+                 
+            </div>
           </div>
-                  </InnerBodyContainer>
+
+          <MultiButtonTaskTable 
+            indexList={indexList} 
+            subIndexList={subIndexList} 
+            target={target} 
+            keyName={'pk'} 
+            contents={list} 
+            events={[
+              
+              {name: '보기', event: (t)=>setTarget(t)},
+              {name: '수정', color:'gray', event: ()=>{}},
+            ]} 
+            onClickEvent={(t)=>setTarget(t)}/>
+
+        </InnerBodyContainer>
+            {
+              isOpen &&
+              <BasicPopupContainer isActive={true} title={'발주 등록'} onClickOpen={setIsOpen} onClickConfirm={onClickRegister}>
+                  <NormalInput title={'거래처 명'} value={store} onChangeEvent={setStore} description={''} />
+                  <NormalInput title={'담당자 명'} value={manager} onChangeEvent={setManager} description={''} />
+                  <NormalInput title={'제품명'} value={name} onChangeEvent={setName} description={''} />
+                  <NormalInput title={'수량'} value={stock} onChangeEvent={setStock} description={''} />
+                  <NormalInput title={'개당단가'} value={price} onChangeEvent={setPrice} description={''} />
+                  <NormalInput title={'총 금액'} value={fullPrice} onChangeEvent={setFullPrice} description={''} />
+                  <NormalInput title={'납기 날짜'} value={date} onChangeEvent={setDate} description={''} />
+                  <NormalInput title={'대금 지불조건'} value={condition} onChangeEvent={setCondition} description={''} />     
+                 
+              </BasicPopupContainer>
+            }
+            
       </DashboardWrapContainer>
       
   );
 }
-const FullPageDiv = Styled.div`
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: ${BG_COLOR_SUB2}
-`
 
 
 export default Order;

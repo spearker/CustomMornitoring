@@ -115,6 +115,16 @@ interface IStatus{
   is_connect: boolean,
 }
 
+//장비 현황
+interface IStatus2{
+  pk: string,
+  status: string,
+  type: press,
+  name: string,
+  photo:string,
+  is_connect: boolean,
+}
+
 
 // 직원 프로필 정보
 interface IMmember{
@@ -210,6 +220,7 @@ interface ISearchedList{
   code: string,
 }
 
+// 리드타임
 interface LeadTimeAnalysis{
   name: string,
   factoryInfo: string,

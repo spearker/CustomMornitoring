@@ -76,7 +76,8 @@ import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
-import MaintenanceRegister from '../Pages/Maintenance/Register';
+
+import MaintenanceRegister from '../Pages/Maintenance/register';
 import StockView from '../Pages/Stock/View'
 
 import PressRecommend from '../Pages/Process/Press';

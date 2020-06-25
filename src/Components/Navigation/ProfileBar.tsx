@@ -68,36 +68,24 @@ const ProfileBar = () => {
         <SearchBarWrapDiv>
             <SearchBarInnerDiv>
                 <div style={{display:'flex', alignItems: 'center', width:'100%' }}>
-                  <ProfileDiv >
-                    {
-                      user.name !== '' ?
-                      <div style={{display:'flex', alignItems: 'center', width:'100%'  }}>
-                        <Link to="/mypage">
-                          <ImageBox src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
-                        </Link>
-                       
-                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}>{user.name} {user.is_admin ? '(관리자)' : user.appointment}</p>
-                      </div>
-                      :
-                      <div style={{display:'flex', alignItems: 'center', width:'100%' }}>
-                        <ImageBox src={ IMG_PROFILE } />
-                        <p className="p-bold p-limit" style={{display:'inline-block', color:'white'}}></p>
-                      </div>
-                    }
-                    </ProfileDiv>
+                  
                     {/* 
                   <div style={{display:'flex', alignItems: 'center', paddingLeft:10, width: '50%', height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 32, marginRight: 8, }}/>
                     <p className="p-bold p-limit" style={{color:'white', fontSize:17, display:'inline-block', fontWeight:'bold'}}>현재 데모 및 시연용 계정은 모든 관리자 기능이 해제되어있습니다</p>
                   </div>
                   */}
-                  <div style={{textAlign:'right', marginLeft:'auto', width:'20%' }}>
-                    <a className="p-eng" style={{marginRight:24}}>
-                      {nowTime}
-                    </a>
-                    <a className="p-eng" onClick={onClickLogout}>
+                  <div style={{textAlign:'right', marginLeft:'auto', width:'70%' }}>
+           
+                    <a className="p-eng" style={{float:'right',marginTop: 2}}onClick={onClickLogout}>
                       Log out
                     </a>
+                    
+                    <span className="p-bold" style={{float:'right',marginRight:32, display:'inline-block', color:'white'}}>{user.name}{user.is_admin ? '(관리자)' : user.appointment}</span>
+                    <Link to="/mypage" style={{float:'right', display:'inline-block', color:'white'}}>
+                          <ImageBox style={{float:'left'}} src={user.profile_img === '' ? IMG_PROFILE : user.profile_img} />
+                         
+                    </Link>
                   </div>
                 </div>
                 
@@ -119,15 +107,14 @@ const SearchBarWrapDiv = Styled.div`
 `
 const SearchBarInnerDiv = Styled.div`
   width: 1100px;
-  display: inline-block;
+  display: inline-block; 
   text-align: left;
 
 `
 const ProfileDiv = Styled.div`
-  width: 30%;
-  @media screen and (max-width: 1290px) { 
-    padding-left: 70px;
-  } 
+  display: inline-block;
+  float: left;
+  text-align: right;
 `
 
 const ImageBox = Styled.img`

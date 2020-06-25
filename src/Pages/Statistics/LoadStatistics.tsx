@@ -43,7 +43,7 @@ const LoadStatistics = () => {
       moment().subtract(i, 'days').format('MM.DD')
     )
   }).reverse();
-  
+
   const [series, setSeries] = useState<object[]>([])
   const [selection, setSelection] = useState<string>()
   const [color, setColor] = useState<string[]>(['#717c90', "#25b4b4", "#fd6b00", "#2760ff", "#fc9b00"])
@@ -142,14 +142,14 @@ const LoadStatistics = () => {
         min: 0,
         max: 100
       },
-      
+
     },
-  
+
   }
 
 
   const option_price = {
-          
+
     series: [{
       name: '',
       data: [62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9]
@@ -157,7 +157,7 @@ const LoadStatistics = () => {
     options: {
       chart: {
         type: 'area',
-       
+
         zoom: {
           enabled: false
         }
@@ -170,7 +170,7 @@ const LoadStatistics = () => {
       },
       labels:[62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9],
 
-    
+
       xaxis: {
         categories: monthArray,
       },
@@ -181,8 +181,8 @@ const LoadStatistics = () => {
         horizontalAlign: 'left'
       }
     },
-  
-  
+
+
   };
 
 
@@ -197,9 +197,9 @@ const LoadStatistics = () => {
         <SubNavigation list={ROUTER_MENU_LIST[13]}/>
         <InnerBodyContainer>
         <div style={{position:'relative', textAlign:'left', marginTop:48}}>
-    
-            <div style={{display:'inline-block', textAlign:'left'}}>           
-              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>로드모니터 통계 및 분석</span>
+
+            <div style={{display:'inline-block', textAlign:'left'}}>
+              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>로드톤 분석 및 통계</span>
               <BasicBigDropdown select={optionList[option]} contents={optionList} onClickEvent={ (value)=>setOption(value)}/>
             </div>
           </div>
@@ -280,7 +280,7 @@ const LoadStatistics = () => {
                             </div>
                         </div>
                         <div style={{marginTop: 28, marginBottom: 10, width: 250, textAlign: 'left'}}>
-                            <p style={{fontFamily: 'NotoSansCJKkr-Bold', fontSize: 20}}>장비별 통계</p>
+                            <p style={{fontFamily: 'NotoSansCJKkr-Bold', fontSize: 20}}>장비별 로드톤</p>
                         </div>
                         <div style={{width: 640, height: 457, backgroundColor: '#191d27', borderRadius: 6, color: 'black !important', paddingTop: 30}}>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -367,8 +367,8 @@ const LoadStatistics = () => {
                     </div>
                 </div>
                 <div style={{backgroundColor: '#2b2c3b', width: 390, height: 783, paddingTop: 10, borderRadius: 8, marginLeft: 20}}>
-              
-             
+
+
                     {
                         loadSt.machine[option].length > 0 &&
                         loadSt.machine[option].map((i: any, index) => {
@@ -470,13 +470,13 @@ const LoadStatistics = () => {
                         })
                     }
                 </div>
-        
-            
+
+
             </div>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`
