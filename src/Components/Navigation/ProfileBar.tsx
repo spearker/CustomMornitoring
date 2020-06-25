@@ -24,7 +24,11 @@ import { usePopup } from '../../Context/PopupContext';
   },[nowTime])
   */
 
-const ProfileBar = () => {
+interface Props{
+  title: string
+}
+
+const ProfileBar = ({title}: Props) => {
 
   const user = useUser(); // 유저 컨텍스트 데이터 받아오는 커스텀 훅스
   const dispatch = useUserDispatch();
@@ -70,8 +74,8 @@ const ProfileBar = () => {
             <SearchBarInnerDiv>
                 <div style={{display:'flex', alignItems: 'center', width:'100%' }}>
                   {window.location.href.indexOf('/dashboard') !== -1 && <p  className="p-bold" ><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  대시보드 홈</p>}
-                  {window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'mes' && <p  className="p-bold"><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  MES System</p>}
-                  {window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'pm' && <p  className="p-bold"><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  PM System</p>}
+                      {window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'mes' && <p  className="p-bold"><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  {title}</p>}
+                      {window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'pm' && <p  className="p-bold"><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  {title}</p>}
                     {/* 
                   <div style={{display:'flex', alignItems: 'center', paddingLeft:10, width: '50%', height:'100%', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden',position:'relative'}}>
                     <img src={IcBell} style={{width: 32, marginRight: 8, }}/>

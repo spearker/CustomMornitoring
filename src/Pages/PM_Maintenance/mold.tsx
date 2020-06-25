@@ -3,19 +3,19 @@ import Styled from 'styled-components'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/machine';
+import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
+import Container from '../../Containers/Maintenance/mold';
 
 
-const MachineMaintenance = () => {
+const MoldMaintenance = () => {
 
   useEffect(()=>{
    
   },[])
 
   return (
-    <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
+    <DashboardWrapContainer index={'maintenance'}>
+        <SubNavigation list={PM_MENU_LIST.maintenance}/>
         <InnerBodyContainer>
         <Container />
          
@@ -28,4 +28,5 @@ const MachineMaintenance = () => {
 
 
 
-export default MachineMaintenance;
+export default MoldMaintenance;
+

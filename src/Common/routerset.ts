@@ -42,16 +42,13 @@ export const ROUTER_MENU_LIST = [
     ],
     [ // 보전 관리
 
-      { name : '보전관리', url : '/maintenance/machine'},
-      { name : '기계 보전관리', url : '/maintenance/machine'},
+      { name : '보전관리', url : '/maintenance/submachine'},
       { name : '주변장치 보전관리', url : '/maintenance/submachine'},
-      { name : '금형 보전관리', url : '/maintenance/mold'},
       { name : '검색 관리', url : '/maintenance/search'},
       { name : '보전 이력관리', url : '/maintenance/history'},
       { name : '보전 리스트', url : '/maintenance/list'},
       { name : '에러코드 로그', url : '/maintenance/errorcode'},
       { name : '모터 역회전 상태 분석', url : '/maintenance/motor'},
-      { name : '오일 펌프 보전 관리', url : '/maintenance/oil'},
 
     ],
     [ // 공정 관리
@@ -109,8 +106,7 @@ export const ROUTER_MENU_LIST = [
 
     ], // monitoring
     [
-      { name : '모니터링', url : '/monitoring'},
-      { name : 'CMS 모니터링', url : '/monitoring/cms'},
+      { name : '모니터링', url :  '/monitoring/vibration' },
       { name : '진동량 모니터링', url : '/monitoring/vibration' }
 
     ],
@@ -130,7 +126,6 @@ export const ROUTER_MENU_LIST = [
       { name : '공정 환경 분석', url : '/statistics/process'},
       { name : '최적 SPM 분석', url : '/statistics/optimalspm'},
       { name : '제조 리드타임 분석', url : '/statistics/leadtime'},
-      { name : '생산량 예측 분석', url : '/statistics/manufacture'},
       { name : '캠 정보 분석', url : '/statistics/cam'},
      
       { name : 'cms 분석 및 통계', url : '/statistics/cms'},
@@ -146,40 +141,48 @@ export const ROUTER_MENU_LIST = [
 
 
 
-  export const PM_MENU_LIST = [
-    [ // 
+  export const PM_MENU_LIST = {
+    monitoring: [ // 
       { name : '프레스 모니터링', url :  '/commingsoon'},
+      { name : '프레스 모니터링', url :  '/pm/monitoring/press'},
+      { name : '로드모니터 모니터링', url :  '/pm/monitoring/loadton'},
+      { name : '전력 모니터링', url : '/pm/monitoring/cms'},
       { name : '대시보드', url :  '/commingsoon'},
-      { name : '상태 모니터링', url :  '/monitoring/press'},
-      { name : '로드모니터 모니터링', url :  '/monitoring/loadton'},
-      { name : '전력 모니터링', url : '/commingsoon'},
    
     ],
-    [ // 
-      { name : '프레스 보전관리', url : '/commingsoon'},
-      { name : '금형수명주기', url : '/commingsoon'},
+    maintenance:[ // 
+      { name : '프레스 보전관리', url : '/pm/maintenance/press'},
+      { name : '프레스 보전관리', url : '/pm/maintenance/press'},
+      { name : '금형 수명 주기', url : '/pm/maintenance/mold'},
       { name : '클러치&브레이크', url : '/commingsoon'},
-      { name : '오일 교환 및 보충', url : '/commingsoon'},
+      { name : '오일 교환 및 보충', url : '/pm/maintenance/oil'},
       { name : '오버톤', url : '/commingsoon'},
     ],
-    [ // 
+    keyin : [ // 
       { name : '프레스 Key-in', url : '/commingsoon'},
       { name : 'Key-in 목록', url : '/commingsoon'},
       { name : 'Key-in 입력', url : '/commingsoon'},
       { name : 'Key-in 설정', url : '/commingsoon'},
     ],
-    [ // 
-      { name : '프레스 데이터 통계', url : '/statistics/press'},
-      { name : '프레스 통계', url : '/statistics/press'},
+    analysis: [ // 
+      { name : '프레스 데이터 분석', url : '/pm/analysis/press'},
+      { name : '불량 공정', url : '/commingsoon'},
+      { name : '생산량', url : '/commingsoon'},
+      { name : '능력', url : '/commingsoon'},
+      { name : '비가동시간', url : '/pm/analysis/readytime'},
+    ],
+    statistics : [ // 
+      { name : '프레스 데이터 통계', url : '/pm/statistics/press'},
+      { name : '프레스 통계', url : '/pm/statistics/press'},
       { name : '오일 공급', url : '/commingsoon'},
       { name : '비 가동시간', url : '/commingsoon'},
       { name : '금형 타발 수', url : '/commingsoon'},
       { name : '전력', url : '/commingsoon'},
-      { name : '로드톤 ', url : '/statistics/load'},
+      { name : '로드톤 ', url : '/pm/statistics/loadton'},
       { name : '능력', url : '/commingsoon'},
       { name : '에러', url : '/commingsoon'},
       { name : '불량률', url : '/commingsoon'},
       { name : '제품 별 톤', url : '/commingsoon'},
     ],
     
-  ];
+  };

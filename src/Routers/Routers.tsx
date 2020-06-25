@@ -98,9 +98,9 @@ import PriceKpi from '../Pages/Kpi/PriceKpi';
 import DuedateKpi from '../Pages/Kpi/DuedateKpi';
 import PressStatistics from '../Pages/PM_Statistics/PressStatistics';
 import LoadStatistics from '../Pages/PM_Statistics/LoadStatistics';
-import CmsMonitoring from '../Pages/Monitoring/CMS';
+import CmsMonitoring from '../Pages/PM_Monitoring/CMS';
 import FullMonitoring from '../Pages/PM_Monitoring/Full';
-import CmsStatistics from '../Pages/Monitoring/Statistics';
+import CmsStatistics from '../Pages/PM_Monitoring/Statistics';
 import LoadtonMonitoring from '../Pages/PM_Monitoring/Loadton';
 import VibrationMonitoring from "../Pages/Monitoring/Vibration";
 
@@ -130,16 +130,16 @@ import SetKeyinSunban from '../Pages/KeyinSet/sunban';
 import SetKeyinMilling from '../Pages/KeyinSet/milling';
 import SetKeyinMold from '../Pages/KeyinSet/mold';
 import SetKeyinTab from '../Pages/KeyinSet/tab';
-import OilMaintenance from '../Pages/Maintenance/oil';
+import OilMaintenance from '../Pages/PM_Maintenance/oil';
 import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
 import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
 import SearchMaintenance from '../Pages/Maintenance/search';
 import MaintenanceList from '../Pages/Maintenance/list';
 import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
-import MachineMaintenance from '../Pages/Maintenance/MachineMaintenance';
+import MachineMaintenance from '../Pages/PM_Maintenance/MachineMaintenance';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
-import MoldMaintenance from '../Pages/Maintenance/mold';
-import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
+import MoldMaintenance from '../Pages/PM_Maintenance/mold';
+import ReadyTimeStatistics from '../Pages/PM_Analysis/ReadyTimeStatistics';
 import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
@@ -237,16 +237,16 @@ const Routers = () => {
             <Route exact path="/barcode/register" component={RegisterBarcode}/>
 
             {/* 7.0 보전 관리 */}
-            <Route exact path="/maintenance/machine" component={MachineMaintenance} />
+            <Route exact path="/pm/maintenance/press" component={MachineMaintenance} />
             <Route exact path="/maintenance/submachine" component={SubmachineMaintenance} />
-            <Route exact path="/maintenance/mold" component={MoldMaintenance} />
+            <Route exact path="/pm/maintenance/mold" component={MoldMaintenance} />
             <Route exact path="/maintenance/register" component={MaintenanceRegister} />
             <Route exact path="/maintenance/list" component={MaintenanceList} />
             <Route exact path="/maintenance/history" component={MaintenanceHistory} />
             <Route exact path="/maintenance/search" component={SearchMaintenance} />
             <Route exact path="/maintenance/errorcode" component={ErrorCodeMaintenance} />
             <Route exact path="/maintenance/motor" component={MotorRotationMaintenance} />
-            <Route exact path="/maintenance/oil" component={OilMaintenance} />
+            <Route exact path="/pm/maintenance/oil" component={OilMaintenance} />
 
 
              {/* 8.0 공정 관리 */}
@@ -312,10 +312,10 @@ const Routers = () => {
 
             {/* 13.0 모니터링 */}
             <Route exact path="/monitoring/full" component={FullMonitoring}/>
-            <Route exact path="/monitoring/loadton" component={LoadtonMonitoring} />
-            <Route exact path="/monitoring/cms" component={CmsMonitoring}/>
+            <Route exact path="/pm/monitoring/loadton" component={LoadtonMonitoring} />
+            <Route exact path="/pm/monitoring/cms" component={CmsMonitoring}/>
             <Route exact path="/monitoring/statistics" component={CmsStatistics}/>
-            <Route exact path="/monitoring/press" component={PressMonitoring}/>
+            <Route exact path="/pm/monitoring/press" component={PressMonitoring}/>
 
             <Route exact path="/monitoring/vibration" component={VibrationMonitoring}/>
 
@@ -326,9 +326,9 @@ const Routers = () => {
             <Route exact path="/kpi/duedate" component={DuedateKpi} />
 
             {/* 15.0 프레스 분석 및 통계 */}
-            <Route exact path="/statistics/press" component={PressStatistics} />
-            <Route exact path="/statistics/load" component={LoadStatistics} />
-            <Route exact path="/statistics/readytime" component={ReadyTimeStatistics} />
+            <Route exact path="/pm/statistics/press" component={PressStatistics} />
+            <Route exact path="/pm/statistics/loadton" component={LoadStatistics} />
+            <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatistics} />
             <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
             <Route exact path="/statistics/loss" component={FactoryLossSatistics} />
             <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics} />

@@ -24,6 +24,7 @@ const DashboardNavigation = ({ select, folding }: Props) => {
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const dispatch = useUserDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [mode, setMode] = useState<string>('')
   const [isSelected, setIsSelected] = useState<number>(999);
   const dispatchp = usePopupDispatch();
 
@@ -45,7 +46,7 @@ const DashboardNavigation = ({ select, folding }: Props) => {
 
   const PmNavGroup =
 
-    PM_MENU_LIST.map((v, i) => {
+    Object.keys(PM_MENU_LIST).map((v, i) => {
       return (
         <NavGroupList
           key={`nav-${i}`}
@@ -61,10 +62,11 @@ const DashboardNavigation = ({ select, folding }: Props) => {
           onClickMode={() => dispatchp({
             type: 'CHANGE_MODE',
             data: {
-              mode: 'pm'
+              mode: 'pm',
+              
             }
           })}
-          selected={isSelected === i  ? true : false} contents={v} />
+          selected={isSelected === i  || select == v ? true : false} contents={PM_MENU_LIST[v]} />
       )
     });
 

@@ -6,6 +6,7 @@ import ProfileBar from '../Components/Navigation/ProfileBar';
 import { getToken, setToken, loadXHR } from '../Common/tokenFunctions';
 import { useUserDispatch, useUser } from '../Context/UserContext';
 import { getRequest } from '../Common/requestFunctions';
+import { PM_MENU_LIST } from '../Common/routerset';
 
 //대시보드를 감싸는 wrap 박스 
 
@@ -64,7 +65,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
     <DashboardWrapDiv >
       <DashboardNavigation select={index}/>
       <div style={{width: '100%', marginBottom:88, textAlign:'center'}}>
-        <ProfileBar />  
+        <ProfileBar title={Object.keys(PM_MENU_LIST).find(f => f == index) ? 'PM System' : 'MES System'} />  
        <div style={{minWidth: 1100}}>
         {children}
        </div>

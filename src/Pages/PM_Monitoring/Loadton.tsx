@@ -38,8 +38,8 @@ const LoadtonMonitoring = () => {
     const [arrayType, setArrayType] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
 
   return (
-      <DashboardWrapContainer index={0}>
-        <SubNavigation list={PM_MENU_LIST[0]}/>
+      <DashboardWrapContainer index={'monitoring'}>
+        <SubNavigation list={PM_MENU_LIST.monitoring}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
               <HeaderLive title={ ' 로드톤 모니터링'} isTurn={true}/>

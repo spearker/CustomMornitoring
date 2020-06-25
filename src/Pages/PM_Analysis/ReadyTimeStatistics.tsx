@@ -3,21 +3,24 @@ import Styled from 'styled-components'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/oil';
+import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
+import ListKeyinMillingContainer from '../../Containers/ListKeyin/milling';
+import ListKeyinMaterialContainer from '../../Containers/ListKeyin/material';
+import ReadyTimeContainer from '../../Containers/Statistics/ReadyTimeContainer';
 
 
-const OilMaintenance = () => {
+const ReadyTimeStatistics = () => {
 
   useEffect(()=>{
    
   },[])
 
   return (
-    <DashboardWrapContainer index={5}>
-        <SubNavigation list={ROUTER_MENU_LIST[5]}/>
+    <DashboardWrapContainer index={'analysis'}>
+        <SubNavigation list={PM_MENU_LIST.analysis}/>
         <InnerBodyContainer>
-        <Container />
+          
+         <ReadyTimeContainer />
          
          
         
@@ -29,4 +32,4 @@ const OilMaintenance = () => {
 
 
 
-export default OilMaintenance;
+export default ReadyTimeStatistics;

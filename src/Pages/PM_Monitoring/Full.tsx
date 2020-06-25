@@ -119,8 +119,8 @@ const FullMonitoring = () => {
   },[optionFilter, list])
 
   return (
-    <FullSizeContainer index={0}>
-        <SubNavigation list={PM_MENU_LIST[0]} isFull={true}/>
+    <FullSizeContainer index={'monitoring'}>
+        <SubNavigation list={PM_MENU_LIST.monitoring} isFull={true}/>
         <div style={{marginLeft: 44, marginRight:44}}>
           <div style={{position:'relative'}}>
               <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>        
