@@ -159,9 +159,10 @@ interface IProduct{
 }
 // 팝업
 interface IPopupTypes{
-    type: 'normal' | 'warning' | 'error' | 'notice',
-    contents: string,
+    type?: 'normal' | 'warning' | 'error' | 'notice',
+    contents?: string,
     is_popup?: boolean,
+    mode?: string,
 }
 
 //Axios 요청/응답 관련 타입

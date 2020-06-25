@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {       ROUTER_MENU_LIST } from '../../Common/routerset';
+import {       ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import MonitoringTable from '../../Components/Table/MonitoringTable';
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
 import HeaderLive from '../../Components/Text/HeaderLive';
@@ -119,8 +119,8 @@ const FullMonitoring = () => {
   },[optionFilter, list])
 
   return (
-    <FullSizeContainer index={12}>
-        <SubNavigation list={ROUTER_MENU_LIST[11]} isFull={true}/>
+    <FullSizeContainer index={0}>
+        <SubNavigation list={PM_MENU_LIST[0]} isFull={true}/>
         <div style={{marginLeft: 44, marginRight:44}}>
           <div style={{position:'relative'}}>
               <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>        

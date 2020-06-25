@@ -26,6 +26,7 @@ import DateInput from '../../Components/Input/DateInput';
 import ReadOnlyInput from '../../Components/Input/ReadOnlyInput';
 import { useUser, useUserDispatch } from '../../Context/UserContext';
 import { uploadTempFile } from '../../Common/fileFuctuons';
+import { usePopupDispatch } from '../../Context/PopupContext';
 
 
 
@@ -42,9 +43,10 @@ const MyPage = () => {
   const [file, setFile] = useState<any>();
   const [photo, setPhoto] = useState<any | null>();
   const [path, setPath] = useState<string | null>(null)
-
+ 
   const User = useUser();
   const dispatch = useUserDispatch();
+  const dispatchp = usePopupDispatch();
   /**
    * loadUserInfo()
    * : 유저 정보 로드 후 user info dispatch
@@ -160,17 +162,12 @@ const MyPage = () => {
 
   
   useEffect(()=>{
-    /*
-    setName(dataSet.targetMember.name)
-    setTarget(dataSet.targetMember); //TODO: 테스트용. 지울것.
-    setJoinDate(dataSet.targetMember.join_date)
-    setJoinType(dataSet.targetMember.join_type)
-    setRank(dataSet.targetMember.appointment)
-    setStatus(dataSet.targetMember.status)
-    setYear(dataSet.targetMember.year)
-    setPhoto(dataSet.targetMember.profile_img)
-    //getTarget();
-    */
+    dispatchp({
+      type: 'CHANGE_MODE',
+      data: {
+        mode: 'mes'
+      }
+    })
    
     getTarget();
    
@@ -241,6 +238,9 @@ const MyPage = () => {
                 
                 </div>
             </div>
+            {
+
+            }
             <WhiteBoxContainer>
              
                 <div>

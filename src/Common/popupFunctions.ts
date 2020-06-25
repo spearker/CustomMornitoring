@@ -13,11 +13,14 @@ export const openPopup = ({type, contents}: IPopupTypes) => {
     dispatchp({
         type: 'OPEN_POPUP',
         data: {
+
             type: type,
             contents: contents
         }
     })
 }
+
+
 
 /**
  * closePopup()

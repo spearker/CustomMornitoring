@@ -110,8 +110,6 @@ export const ROUTER_MENU_LIST = [
     ], // monitoring
     [
       { name : '모니터링', url : '/monitoring'},
-      { name : '프레스 모니터링', url : '/monitoring/press'},
-      { name : '로드톤 모니터링', url : '/monitoring/loadton'},
       { name : 'CMS 모니터링', url : '/monitoring/cms'},
       { name : '진동량 모니터링', url : '/monitoring/vibration' }
 
@@ -124,9 +122,8 @@ export const ROUTER_MENU_LIST = [
       { name : 'KPI 납기지수', url : '/kpi/duedate'},
     ],
     [   //프레스 통계·분석
-      { name : '통계·분석', url : '/statistics/press'},
-      { name : '프레스 통계', url : '/statistics/press'},
-      { name : '프레스 분석', url : '/statistics/press/report'},
+      { name : '통계·분석', url : '/commingsoon'},
+     
       { name : 'QDC 교환시기 분석', url : '/statistics/qdctime'},
       { name : '비가동시간 분석', url : '/statistics/readytime'},
       { name : '공정별 불량률 분석', url : '/statistics/loss'},
@@ -135,7 +132,7 @@ export const ROUTER_MENU_LIST = [
       { name : '제조 리드타임 분석', url : '/statistics/leadtime'},
       { name : '생산량 예측 분석', url : '/statistics/manufacture'},
       { name : '캠 정보 분석', url : '/statistics/cam'},
-      { name : '로드톤 분석 및 통계', url : '/statistics/load'},
+     
       { name : 'cms 분석 및 통계', url : '/statistics/cms'},
       { name : '공장 환경 분석', url : '/statistics/environmental' }
 
@@ -145,4 +142,44 @@ export const ROUTER_MENU_LIST = [
       { name : '문의방법 및 연락처', url : '/service'},
     ],
 
+  ];
+
+
+
+  export const PM_MENU_LIST = [
+    [ // 
+      { name : '프레스 모니터링', url :  '/commingsoon'},
+      { name : '대시보드', url :  '/commingsoon'},
+      { name : '상태 모니터링', url :  '/monitoring/press'},
+      { name : '로드모니터 모니터링', url :  '/monitoring/loadton'},
+      { name : '전력 모니터링', url : '/commingsoon'},
+   
+    ],
+    [ // 
+      { name : '프레스 보전관리', url : '/commingsoon'},
+      { name : '금형수명주기', url : '/commingsoon'},
+      { name : '클러치&브레이크', url : '/commingsoon'},
+      { name : '오일 교환 및 보충', url : '/commingsoon'},
+      { name : '오버톤', url : '/commingsoon'},
+    ],
+    [ // 
+      { name : '프레스 Key-in', url : '/commingsoon'},
+      { name : 'Key-in 목록', url : '/commingsoon'},
+      { name : 'Key-in 입력', url : '/commingsoon'},
+      { name : 'Key-in 설정', url : '/commingsoon'},
+    ],
+    [ // 
+      { name : '프레스 데이터 통계', url : '/statistics/press'},
+      { name : '프레스 통계', url : '/statistics/press'},
+      { name : '오일 공급', url : '/commingsoon'},
+      { name : '비 가동시간', url : '/commingsoon'},
+      { name : '금형 타발 수', url : '/commingsoon'},
+      { name : '전력', url : '/commingsoon'},
+      { name : '로드톤 ', url : '/statistics/load'},
+      { name : '능력', url : '/commingsoon'},
+      { name : '에러', url : '/commingsoon'},
+      { name : '불량률', url : '/commingsoon'},
+      { name : '제품 별 톤', url : '/commingsoon'},
+    ],
+    
   ];

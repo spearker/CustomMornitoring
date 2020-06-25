@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {       ROUTER_MENU_LIST } from '../../Common/routerset';
+import {       ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import MonitoringTable from '../../Components/Table/MonitoringTable';
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
 import HeaderLive from '../../Components/Text/HeaderLive';
@@ -38,8 +38,8 @@ const LoadtonMonitoring = () => {
     const [arrayType, setArrayType] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
 
   return (
-      <DashboardWrapContainer index={13}>
-        <SubNavigation list={ROUTER_MENU_LIST[13]}/>
+      <DashboardWrapContainer index={0}>
+        <SubNavigation list={PM_MENU_LIST[0]}/>
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
               <HeaderLive title={ ' 로드톤 모니터링'} isTurn={true}/>

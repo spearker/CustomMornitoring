@@ -8,10 +8,10 @@ import { getToken } from '../../Common/tokenFunctions';
 import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
-import {pressSt}from '../../Common/dummydataset'
+import {pressSt, loadSt}from '../../Common/dummydataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
+import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import { getRequest, postRequest } from '../../Common/requestFunctions';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
@@ -22,15 +22,10 @@ import Chart from 'react-apexcharts'
 import moment from 'moment';
 import MonitoringDropdown from '../../Components/Dropdown/MonitoringDropdown';
 import BasicBigDropdown from '../../Components/Dropdown/BasicBigDropdown';
-import DotPagenation from "../../Components/Pagenation/DotPagenation";
-import ReactShadowScroll from "react-shadow-scroll";
 
-interface date {
-    start?: string
-    finish?: string
-}
+const LoadStatistics = () => {
 
-const PressStatistics = () => {
+
   const [list, setList] = useState<IBarcode[]>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
@@ -52,16 +47,10 @@ const PressStatistics = () => {
   const [series, setSeries] = useState<object[]>([])
   const [selection, setSelection] = useState<string>()
   const [color, setColor] = useState<string[]>(['#717c90', "#25b4b4", "#fd6b00", "#2760ff", "#fc9b00"])
-    const [page, setPage] = useState<number>(1)
-    const [isVisible, setIsVisible] = useState<boolean>(false)
-    const [date, setDate] = useState<date>({
-        start: undefined,
-        finish: undefined
-    })
 
   useEffect(() => {
       if(optionList[option]){
-        setSeries(pressSt.machine[0])
+        setSeries(loadSt.machine[0])
       }
       //setSeries(pressSt.cmsSeries)
       setIsFirstLoad(false)
@@ -198,73 +187,118 @@ const PressStatistics = () => {
 
 
   const optionList = [
-    "SPM", "메인모터전류","슬라이드전류","생산량","VS","로드톤","온도","가동률",
+    "최대 측정값","최소 측정값","평균 측정값"
   ]
-
-    const setDateFunc = (key: string, dateItem: string) => {
-      setDate({
-          ...date,
-          [key]: dateItem
-      })
-    }
 
 
 
   return (
-      <DashboardWrapContainer index={15}>
-        <SubNavigation list={ROUTER_MENU_LIST[15]}/>
+      <DashboardWrapContainer index={3}>
+        <SubNavigation list={PM_MENU_LIST[3]}/>
         <InnerBodyContainer>
-            <div style={{position:'relative', textAlign:'left', marginTop:48}}>
+        <div style={{position:'relative', textAlign:'left', marginTop:48}}>
 
-                <div style={{display:'inline-block', textAlign:'left'}}>
-                  <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>프레스 통계</span>
-                </div>
+            <div style={{display:'inline-block', textAlign:'left'}}>
+              <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>로드톤 분석 및 통계</span>
+              <BasicBigDropdown select={optionList[option]} contents={optionList} onClickEvent={ (value)=>setOption(value)}/>
             </div>
-            <div style={{width: "100%", height: 86, backgroundColor: '#353b48', marginTop: 20, borderRadius: 6, paddingTop: 14}}>
-                <div style={{alignItems: "center", display: "flex", flexDirection: 'row', width: 1020, marginLeft: 'auto', marginRight: 'auto'}}>
-                {
-                    optionList.map((item, index) => {
-                        if(index <= (6*page)-1 && index >= (6*page)-6){
-                            return (
-                                <div
-                                    style={{
-                                        width: 150, height: 32, backgroundColor: option === index ? '#19b9df' : '#b3b3b3', alignItems: 'center',
-                                        borderRadius: 6, margin: 10
-                                    }}
-                                    onClick={() => setOption(index)}
-                                >
-                                    <div style={{width: "100%", color: 'black'}}>{item}</div>
-                                </div>
-                            )
-                        }else{
-                            return
-                        }
-
-                    })
-                }
-                </div>
-                <DotPagenation stock={optionList.length%6 === 0 ? Math.floor(optionList.length/6) : Math.floor(optionList.length/6)+1} selected={page} onClickEvent={(e) => setPage(e)}></DotPagenation>
-            </div>
-            <div style={{ position: 'relative', marginTop: 13, display: 'flex'}}>
-                  <div style={{backgroundColor: '#353b48', width: 690,  paddingTop: 10, paddingBottom:10, borderRadius: 8}}>
+          </div>
+          <p style={{marginTop:11, marginBottom:16, textAlign:'left', fontSize: 18, paddingTop:7, paddingLeft: 12, paddingBottom:7, borderRadius:4,  backgroundColor:'black'}}>{optionList[option]}</p>
+          <div style={{ position: 'relative', marginTop: 13, display: 'flex'}}>
+                  <div style={{backgroundColor: '#2b2c3b', width: 690,  paddingTop: 10, paddingBottom:10, borderRadius: 8}}>
                     <div style={{margin: 25}}>
+                        <div style={{ marginBottom: 13, width: 250, textAlign: 'left'}}>
+                            <p style={{fontFamily: 'NotoSansCJKkr-Bold', fontSize: 20}}></p>
+                        </div>
+                        <div>
 
-                        <div style={{marginTop: 28, marginBottom: 30, width: 640, textAlign: 'left', display: 'flex', justifyContent: 'space-between'}}>
-                            <p style={{fontFamily: 'NotoSansCJKkr', fontWeight: 'bold', fontSize: 20}}>{optionList[option]} 통계</p>
-                            <div style={{width: 290, height: 30, borderRadius: 6, backgroundColor: '#b3b3b3', display: 'flex', flexDirection: 'row'}}
-                                onClick={() => setIsVisible(!isVisible)}
-                            >
-                                <div style={{width: 60, paddingLeft: 10}}><p style={{fontSize: 15, color: 'black', fontWeight: 'bold'}}>통계기간</p></div>
-                                <div style={{width: 180}}><p style={{fontSize: 15, color: 'black'}}>{
-                                    date.start === ''
-                                    ? date.start+"-"+date.finish
-                                    : "기간을 선택해 주세요"
-                                }</p></div>
-                                <div style={{width: 40}}></div>
+                            <div style={{display: "flex"}}>
+                                <div style={{flex: 1,borderRadius: 8, width: 300, height: 160, background: '#191d27', marginRight: 40}}>
+                                    <div style={{
+                                        width: "100%", height: 50, backgroundColor: '#3eb852',
+                                        borderTopLeftRadius:8,
+                                        borderTopRightRadius:8,
+                                        lineHeight:3
+                                    }}>
+                                        <p style={{verticalAlign: 'middle'}}>전일 평균</p>
+                                    </div>
+
+                                    <div style={{width: "100%"}}>
+                                        <table style={{width: "100%"}}>
+                                            <tr>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
+                                                </td>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].yesterday.value}</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
+                                                </td>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].yesterday.average}</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div style={{flex: 1, borderRadius: 8, width: 300, height: 160, background: '#191d27'}}>
+                                    <div style={{
+                                        width: "100%", height: 50, backgroundColor: '#0d8bea',
+                                        borderTopLeftRadius:8,
+                                        borderTopRightRadius:8,
+                                        lineHeight:3
+                                    }}>
+                                        <p>금일 평균</p>
+                                    </div>
+
+                                    <div style={{width: "100%"}}>
+                                        <table style={{width: "100%"}}>
+                                            <tr>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'left', marginLeft: 20}}>측정값</p>
+                                                </td>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].today.value}</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'left', marginLeft: 20}}>평균</p>
+                                                </td>
+                                                <td style={{width: "50%", height: 50}}>
+                                                    <p style={{textAlign: 'right', marginRight: 20}}>{loadSt.total[option].today.average}</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                        <div style={{width: 640, height: 457, backgroundColor: '#111319', borderRadius: 6, color: 'black !important', paddingTop: 30}}>
-
+                        <div style={{marginTop: 28, marginBottom: 10, width: 250, textAlign: 'left'}}>
+                            <p style={{fontFamily: 'NotoSansCJKkr-Bold', fontSize: 20}}>장비별 로드톤</p>
+                        </div>
+                        <div style={{width: 640, height: 457, backgroundColor: '#191d27', borderRadius: 6, color: 'black !important', paddingTop: 30}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <div style={{marginLeft: 20}}>
+                                    <p>2020.06.05</p>
+                                </div>
+                                <div style={{display: 'flex', justifyContent: 'flex-end', marginRight: 20}}>
+                                    <button style={{ width: 40, height: 20, border: 0}} onClick={() => updateData('day')}>
+                                        <p style={{textAlign: 'center'}}>일별</p>
+                                    </button>
+                                    <button style={{ width: 40, height: 20, border: 0, marginLeft: 10}} onClick={() => updateData('month')}>
+                                        <p style={{textAlign: 'center'}}>월별</p>
+                                    </button>
+                                    <button style={{ width: 40, height: 20, border: 0, marginLeft: 10}} onClick={() => updateData('year')}>
+                                        <p style={{textAlign: 'center'}}>년별</p>
+                                    </button>
+                                </div>
+                            </div>
                             <CharBox>
                             <Chart
                                 options={{
@@ -277,7 +311,7 @@ const PressStatistics = () => {
                                     },
                                     xaxis: {
                                         type: 'datetime',
-                                        min: '2020-05-25',
+                                        min: '2020-05-18',
                                         tickAmount: 12,
                                         labels: {
                                             style: {
@@ -287,7 +321,7 @@ const PressStatistics = () => {
                                         }
                                     },
                                     yaxis: {
-                                        max: pressSt.total[option].ymax,
+                                        max: loadSt.total[option].ymax,
                                         min: 0,
                                         tickAmount: 4,
                                         labels: {
@@ -302,7 +336,7 @@ const PressStatistics = () => {
                                     },
                                     annotations: {
                                         yaxis: [{
-                                            y: pressSt.total[option].average,
+                                            y: loadSt.total[option].average,
                                             borderColor: '#30dfdf',
                                             borderWidth: 2,
                                             label: {
@@ -323,37 +357,23 @@ const PressStatistics = () => {
                                         yaxis: {lines: {show: true}}
                                     },
                                 }}
-                                width={640}
-                                height={427}
-                                series={pressSt.machine[option]}
+                                width={595}
+                                height={326}
+                                series={loadSt.machine[option]}
                                 />
                             </CharBox>
 
                         </div>
-                        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                            <span>기간 단위</span>
-                            <form>
-                                <input style={{margin: 10}} type={"radio"}/>분
-                                <input style={{margin: 10}} type={"radio"}/>시
-                                <input style={{margin: 10}} type={"radio"}/>일
-                                <input style={{margin: 10}} type={"radio"}/>주
-                                <input style={{margin: 10}} type={"radio"}/>월
-                            </form>
-                        </div>
                     </div>
                 </div>
-                <div style={{backgroundColor: '#353b48', width: 390, height: 783, paddingTop: 10, borderRadius: 8, marginLeft: 20}}>
-                    <ReactShadowScroll
-                        scrollColor="#17181c"
-                        scrollColorHover="#2A2D34"
-                        shadow="0 2px 4px rgba(23, 24, 28, 0.2) inset, 0 -2px 4px rgba(0, 0, 0, 0.2) inset"
-                    >
+                <div style={{backgroundColor: '#2b2c3b', width: 390, height: 783, paddingTop: 10, borderRadius: 8, marginLeft: 20}}>
+
 
                     {
-                           pressSt.machine[option].length > 0 &&
-                           pressSt.machine[option].map((i: any, index) => {
+                        loadSt.machine[option].length > 0 &&
+                        loadSt.machine[option].map((i: any, index) => {
                           return (
-                          <div style={{width: 340, height: 120, borderRadius: 6, backgroundColor: '#111319', marginTop: 20, marginLeft: 20}}>
+                          <div style={{width: 340, height: 120, borderRadius: 6, backgroundColor: '#191d27', marginTop: 20, marginLeft: 20}}>
                               <div style={{display: "flex"}}>
                                   <div style={{width: 180, height: 120}}>
                                       <div>
@@ -403,7 +423,7 @@ const PressStatistics = () => {
 
                                               },
                                               yaxis: {
-                                                  max: pressSt.total[option].ymax,
+                                                  max: loadSt.total[option].ymax,
                                                   min: 0,
                                                   tickAmount: 4,
                                                   labels: {
@@ -422,7 +442,7 @@ const PressStatistics = () => {
                                               },
                                               annotations: {
                                                   yaxis: [{
-                                                      y: pressSt.total[option].average,
+                                                      y: loadSt.total[option].average,
                                                       borderColor: '#30dfdf',
                                                       borderWidth: 2,
 
@@ -449,7 +469,6 @@ const PressStatistics = () => {
                           </div>)
                         })
                     }
-                    </ReactShadowScroll>
                 </div>
 
 
@@ -492,4 +511,4 @@ const CharBox = Styled.div`
     color: black !important;
 `
 
-export default PressStatistics;
+export default LoadStatistics;

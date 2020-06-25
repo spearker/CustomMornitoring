@@ -4,6 +4,7 @@ import React, {createContext, Dispatch, useReducer, useContext} from 'react';
 
 type Action =
   | { type: 'OPEN_POPUP', data:IPopupTypes}
+  | { type: 'CHANGE_MODE', data:IPopupTypes}
   | { type: 'CLOSE_POPUP' }
 
   
@@ -25,6 +26,12 @@ function PopupReducer(state: IPopupTypes, action: Action): IPopupTypes {
             type: action.data.type,
             is_popup: true,
         }
+        case 'CHANGE_MODE':
+        //console.log(`OPEN_POPUP : ${action.data.contents}`)
+        return {
+            ...state,
+            mode: action.data.mode,
+        }
       case 'CLOSE_POPUP':
           console.log(`CLOSE_POPUP`)
           return {
@@ -43,6 +50,7 @@ export function PopupContextProvider({ children }: { children: React.ReactNode }
       contents: '',
       type: 'normal',
       is_popup: false,
+      mode: 'home',
     });
   
     return (

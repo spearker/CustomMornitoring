@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BG_COLOR,POINT_COLOR_2, BG_COLOR_SUB, BG_COLOR_SUB3,SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo.png'
 import Icon from '../../Assets/Images/ic_nav_temp.png'
 import { Link , useHistory} from 'react-router-dom';
@@ -11,10 +11,11 @@ interface Props{
   contents: {name:string, url:string}[]
   selected: boolean
   onClickEvent: any
+  onClickMode?: any
 }
 
 
- const NavGroupList= ({contents, selected, onClickEvent}: Props) => {
+ const NavGroupList= ({contents, selected, onClickMode, onClickEvent}: Props) => {
 
   const history = useHistory();
   useEffect(()=>{
@@ -22,7 +23,7 @@ interface Props{
   },[])
 
   return (
-      <>
+      <div >
        <ListDiv>
             <a onClick={onClickEvent}>{contents[0].name}</a>
       </ListDiv>
@@ -33,8 +34,8 @@ interface Props{
                 return
               }else{
                 return(
-                  <ListInnderDiv key={`list-${i}`}>
-                    <p onClick={()=>{window.scrollTo(0,0);history.push(v.url);}}  >· {v.name}</p>
+                  <ListInnderDiv key={`list-${i}`} onClick={onClickMode}>
+                    <p onClick={()=>{window.scrollTo(0,0);history.push(v.url);}}  ><span>· </span>{v.name}</p>
                   </ListInnderDiv>
   
                 )
@@ -47,7 +48,7 @@ interface Props{
       }
       
     
-      </>
+      </div>
 
       
   );
@@ -55,37 +56,48 @@ interface Props{
 
 
 const ListInnderDiv = Styled.div`
-  padding-top: 12px;
-  padding-bottom: 12px;
   text-align: left;
-  padding-left: 9px;
-  font-size: 17px;
+  font-size: 16px;
   color: white;
+  p, a{
+    display: block;
+    margin-left: 34px;
+    padding-top: 13px;
+    padding-bottom: 11px;
+  }
+  &:hover{
+    background-color: ${BG_COLOR_SUB3}60;
+  }
+  span{
+    color: #cccccc;
+    font-weight: bold;
+  }
   cursor: pointer;
+  color: #eeeeee;
+  
 `
 
 
 const ListDiv = Styled.div`
-  padding-top: 18px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid grey;
+
+  
   text-align: left;
-  font-size: 18px;
-  color: white;
+  font-size: 16px;
+  color: #eeeeee;
+  p, a{
+    display: block;
+    margin-left: 27px;
+    padding-top: 13px;
+    padding-bottom: 11px;
+    border-bottom: 1.3px solid ${BG_COLOR_SUB3};
+  }
   cursor: pointer;
-  margin-top: 6px;
+  &:hover{
+
+    background-color: ${BG_COLOR_SUB3};
+  }
 `
 
-const ListDivSelected = Styled.div`
-  padding-top: 18px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid ${POINT_COLOR};
-  text-align: left;
-  font-size: 18px;
-  font-weight: 600;
-  color: ${POINT_COLOR};
-  cursor: pointer;
-`
 
 
 export default NavGroupList;

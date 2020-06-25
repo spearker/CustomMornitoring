@@ -54,8 +54,8 @@ import SuperRegister from '../Pages/Super/Register';
 import SuperList from '../Pages/Super/List';
 import RegisterTask from '../Pages/Task/TaskRegister';
 import TaskList from '../Pages/Task/TaskList';
-import PressMonitoring from '../Pages/Monitoring/Press';
-import LoadMonitoring from '../Pages/Monitoring/Load';
+import PressMonitoring from '../Pages/PM_Monitoring/Press';
+
 import StatusList from '../Pages/List/Status';
 import RegisterProduct from '../Pages/Register/Product';
 import ProductList from '../Pages/List/Product';
@@ -96,12 +96,12 @@ import ProductKpi from '../Pages/Kpi/ProductKpi';
 import QualityKpi from '../Pages/Kpi/QualityKpi';
 import PriceKpi from '../Pages/Kpi/PriceKpi';
 import DuedateKpi from '../Pages/Kpi/DuedateKpi';
-import PressStatistics from '../Pages/Statistics/PressStatistics';
-import LoadStatistics from '../Pages/Statistics/LoadStatistics';
+import PressStatistics from '../Pages/PM_Statistics/PressStatistics';
+import LoadStatistics from '../Pages/PM_Statistics/LoadStatistics';
 import CmsMonitoring from '../Pages/Monitoring/CMS';
-import FullMonitoring from '../Pages/Monitoring/Full';
+import FullMonitoring from '../Pages/PM_Monitoring/Full';
 import CmsStatistics from '../Pages/Monitoring/Statistics';
-import LoadtonMonitoring from '../Pages/Monitoring/Loadton';
+import LoadtonMonitoring from '../Pages/PM_Monitoring/Loadton';
 import VibrationMonitoring from "../Pages/Monitoring/Vibration";
 
 import InputKeyin from '../Pages/Keyin/InputKeyin';
@@ -144,6 +144,7 @@ import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
 import FactoryEnvironmentalAnalysis from "../Pages/Statistics/FactoryEnvironmentalAnalysis";
+import CommingSoon from '../Pages/Common/CommingSoon';
 
 
 const Routers = () => {
@@ -315,7 +316,7 @@ const Routers = () => {
             <Route exact path="/monitoring/cms" component={CmsMonitoring}/>
             <Route exact path="/monitoring/statistics" component={CmsStatistics}/>
             <Route exact path="/monitoring/press" component={PressMonitoring}/>
-            <Route exact path="/monitoring/load" component={LoadMonitoring}/>
+
             <Route exact path="/monitoring/vibration" component={VibrationMonitoring}/>
 
             {/* 14.0 KPI 생산지수 */}
@@ -354,6 +355,9 @@ const Routers = () => {
             <Route exact path="/reports" component={Reports}/>
             <Route exact path="/list/product" component={ProductList} />
             <Route exact path="/barcode/setting" component={BarcodeSetting}/>
+
+            {/* 준비중 / 404 / 기타오류 */}
+            <Route exact path="/commingsoon" component={CommingSoon}/>
 
         </Switch>
     </div>

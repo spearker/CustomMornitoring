@@ -9,11 +9,12 @@ import { Link , useHistory} from 'react-router-dom';
 //대시보드 네비게이션 리스트
 interface Props{
   name: string,
-  url: string
+  url: string,
+  onClickEvent?: any
 }
 
 
- const NavList= ({name, url}: Props) => {
+ const NavList= ({name, url, onClickEvent}: Props) => {
 
   const history = useHistory();
   useEffect(()=>{
@@ -22,8 +23,8 @@ interface Props{
 
   return (
 
-       <ListDiv>
-            <a onClick={()=>history.push(url)}>{name}</a>
+      <ListDiv>
+            <a onClick={onClickEvent == undefined ? ()=>history.push(url) : ()=>onClickEvent}>{name}</a>
       </ListDiv>
 
   );
