@@ -92,6 +92,7 @@ const MoldMaintenanceContainer = () => {
   };
 
   return (
+
           <div style={{ position: "relative" }}>
             <Header title={"금형 보전 관리"} />
             <div

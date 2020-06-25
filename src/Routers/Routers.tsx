@@ -76,6 +76,7 @@ import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
+
 import MaintenanceRegister from '../Pages/Maintenance/register';
 import StockView from '../Pages/Stock/View'
 
@@ -87,6 +88,7 @@ import StockOutList from '../Pages/Stock/Out'
 import DefectiveList from '../Pages/Quality/DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
 import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory';
+
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Register/Barcode';
 import StockHistory from '../Pages/Stock/History';
@@ -100,6 +102,7 @@ import CmsMonitoring from '../Pages/Monitoring/CMS';
 import FullMonitoring from '../Pages/Monitoring/Full';
 import CmsStatistics from '../Pages/Monitoring/Statistics';
 import LoadtonMonitoring from '../Pages/Monitoring/Loadton';
+import VibrationMonitoring from "../Pages/Monitoring/Vibration";
 
 import InputKeyin from '../Pages/Keyin/InputKeyin';
 import KeyinList from '../Pages/Keyin/keyinList';
@@ -140,21 +143,23 @@ import ReadyTimeStatistics from '../Pages/Statistics/ReadyTimeStatistics';
 import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
+import FactoryEnvironmentalAnalysis from "../Pages/Statistics/FactoryEnvironmentalAnalysis";
+
 
 const Routers = () => {
 
     //const { isLoggedIn } = useContext(UserDataContext);
 
     useEffect(()=>{
-      const browse = navigator.userAgent.toLowerCase();
-      console.log('broswercheck : ' + navigator.userAgent + ' ' + window.location.pathname)
+        const browse = navigator.userAgent.toLowerCase();
+        console.log('broswercheck : ' + navigator.userAgent + ' ' + window.location.pathname)
 
 
-      if( (browse.indexOf('trident') != -1) || (browse.indexOf("msie") != -1) || browse.indexOf("edge") > -1) {
-          if(window.location.pathname !== '/oops')  {
-            window.location.href='/oops'
-          }
-      }
+        if( (browse.indexOf('trident') != -1) || (browse.indexOf("msie") != -1) || browse.indexOf("edge") > -1) {
+            if(window.location.pathname !== '/oops')  {
+                window.location.href='/oops'
+            }
+        }
 
 
     },[])
@@ -311,6 +316,7 @@ const Routers = () => {
             <Route exact path="/monitoring/statistics" component={CmsStatistics}/>
             <Route exact path="/monitoring/press" component={PressMonitoring}/>
             <Route exact path="/monitoring/load" component={LoadMonitoring}/>
+            <Route exact path="/monitoring/vibration" component={VibrationMonitoring}/>
 
             {/* 14.0 KPI 생산지수 */}
             <Route exact path="/kpi/product" component={ProductKpi} />
@@ -326,6 +332,7 @@ const Routers = () => {
             <Route exact path="/statistics/loss" component={FactoryLossSatistics} />
             <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics} />
             <Route exact path="/statistics/leadtime" component={LeadTimeAnalysis} />
+            <Route exact path="/statistics/environmental" component={FactoryEnvironmentalAnalysis}/>
 
             {/* 16.0 서비스 */}
             <Route exact path="/service" component={ServiceDesk}/>

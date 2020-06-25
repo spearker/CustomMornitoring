@@ -9,8 +9,9 @@ import MaintenanceHistoryContainer from '../../Containers/Maintenance/HistoryCon
 
 const MaintenanceHistory = () => {
 
+
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -18,12 +19,13 @@ const MaintenanceHistory = () => {
         <SubNavigation list={ROUTER_MENU_LIST[5]}/>
         <InnerBodyContainer>
         <MaintenanceHistoryContainer />
-         
-         
-        
+
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
   );
+
 }
 
 

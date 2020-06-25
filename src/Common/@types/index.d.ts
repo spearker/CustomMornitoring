@@ -219,6 +219,7 @@ interface ISearchedList{
   type: string,
   code: string,
 }
+
 // 리드타임
 interface LeadTimeAnalysis{
   name: string,

@@ -113,6 +113,7 @@ export const ROUTER_MENU_LIST = [
       { name : '프레스 모니터링', url : '/monitoring/press'},
       { name : '로드톤 모니터링', url : '/monitoring/loadton'},
       { name : 'CMS 모니터링', url : '/monitoring/cms'},
+      { name : '진동량 모니터링', url : '/monitoring/vibration' }
 
     ],
     [   //Kpi
@@ -136,6 +137,8 @@ export const ROUTER_MENU_LIST = [
       { name : '캠 정보 분석', url : '/statistics/cam'},
       { name : '로드톤 분석 및 통계', url : '/statistics/load'},
       { name : 'cms 분석 및 통계', url : '/statistics/cms'},
+      { name : '공장 환경 분석', url : '/statistics/environmental' }
+
     ],
     [ // 서비스 문의
       { name : '서비스 문의', url : '/service'},
