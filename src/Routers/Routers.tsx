@@ -130,7 +130,7 @@ import SetKeyinSunban from '../Pages/KeyinSet/sunban';
 import SetKeyinMilling from '../Pages/KeyinSet/milling';
 import SetKeyinMold from '../Pages/KeyinSet/mold';
 import SetKeyinTab from '../Pages/KeyinSet/tab';
-import OilMaintenance from '../Pages/PM_Maintenance/oil';
+import OilMaintenance from '../Pages/PM_Maintenance/OilMaintenance';
 import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
 import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
 import SearchMaintenance from '../Pages/Maintenance/search';
@@ -145,6 +145,10 @@ import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
 import FactoryEnvironmentalAnalysis from "../Pages/Statistics/FactoryEnvironmentalAnalysis";
 import CommingSoon from '../Pages/Common/CommingSoon';
+import BasicDocumentRegister from '../Pages/Basic/BasicDocumentRegister';
+import BasicStandardRegister from '../Pages/Basic/BasicStandardRegister';
+import BasicStandardList from '../Pages/Basic/BasicStandardList';
+import BasicDocumentList from '../Pages/Basic/BasicDocumentList';
 
 
 const Routers = () => {
@@ -185,6 +189,10 @@ const Routers = () => {
             <Route exact path="/dashboard" component={Dashboard} />
 
             {/* 2.0 기준정보관리 */}
+            <Route exact path="/basic/standard/list" component={BasicStandardList}/>
+            <Route exact path="/basic/standard/register" component={BasicStandardRegister}/>
+            <Route exact path="/basic/document/list" component={BasicDocumentList}/>
+            <Route exact path="/basic/document/register" component={BasicDocumentRegister}/>
 
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />

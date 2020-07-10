@@ -11,15 +11,14 @@ import BasicColorButton from '../Button/BasicColorButton';
 //alert 팝업창
 
 const AlertPopup = () => {
-    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const popUp = usePopup();
     const dispatch = usePopupDispatch();
     
 
-    useOnclickOutside(ref,() => {
-            dispatch({type: 'CLOSE_POPUP'})
-        }
-    );
+    const ref = useOnclickOutside(() => {
+        dispatch({type: 'CLOSE_POPUP'})
+      });
      
     const handleClickBtn = () => {
         dispatch({type: 'CLOSE_POPUP'})

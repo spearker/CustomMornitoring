@@ -10,11 +10,11 @@ import IC_ARROW_UP from '../../Assets/Images/ic_drop_up.png'
 //드롭다운 입력창
 interface IProps{
     title: string,
-    contents: string[],
-    target: string,
+    contents: any[],
+    target: any,
     onChangeEvent: any
 }
-const DropdownInput = ({ title,contents, target, onChangeEvent}: IProps) => {
+const DropdownCode = ({ title,contents, target, onChangeEvent}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const ref = useOnclickOutside(() => {
@@ -32,18 +32,18 @@ const DropdownInput = ({ title,contents, target, onChangeEvent}: IProps) => {
     return ( 
         <InputContainer title={title} >
             <div ref={ref} style={{width: 'calc(100% - 200px)', position:'relative'}}>
-                <InputBox onClick={handleClickBtn}>{target === "" ? '(선택)' : target}</InputBox>
+                <InputBox onClick={handleClickBtn}>{ target.value ?? '(선택)'}</InputBox>
                 <div onClick={()=>setIsOpen(true)} style={{position:'absolute', top:0, right:-17, zIndex:3, backgroundColor: POINT_COLOR, width: 33, height: 33,textAlign:'center', display:'inline-block'}}>
                     <img src={IC_ARROW} style={{width: 20, marginTop:6}}/>
                 </div>
                 {
                 isOpen ?
                 <>
-                    <div style={{position:'absolute', zIndex:4, top:0, left:0, width:'100%'}}>
-                     <InputBox onClick={handleClickBtn}>{target === "" ? '(선택)' : target}</InputBox>
+                    <div style={{position:'absolute', zIndex:4, top:0, left:0, width:'calc(100% - 17px)', maxHeight:220, overflowY: 'scroll'}}>
+                    
                     {contents.map((v,i)=>{
                         return(
-                            <InputBoxList key={i} onClick={()=>{onChangeEvent(i); setIsOpen(false)}}>{v}</InputBoxList>
+                            <InputBoxList key={i} onClick={()=>{onChangeEvent(v); setIsOpen(false)}}>{v.value}</InputBoxList>
                         )
                     
                     })}
@@ -95,4 +95,4 @@ const InputBoxList = Styled.div`
 `
 
 
-export default DropdownInput;
+export default DropdownCode;

@@ -15,12 +15,11 @@ interface IProps{
     onChangeEvent: any
 }
 const DropdownText = ({ title,contents, target, onChangeEvent}: IProps) => {
-    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-    useOnclickOutside(ref,() => {
+    const ref = useOnclickOutside(() => {
         setIsOpen(false);
-        }
-    );
+      });
     
     const handleClickBtn = () => {
         setIsOpen(!isOpen);

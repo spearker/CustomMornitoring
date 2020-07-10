@@ -41,7 +41,7 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
         <tbody>
           <tr className="p-bold" style={{ borderBottom: `10px solid ${BG_COLOR_SUB2}` }}>
             {/* 테이블 헤드 */}
-            <th style={{ textAlign: 'center', width: '40px', maxWidth: '45px' }}>No.</th>
+         
             {
               Object.keys(indexList).map((v, i) => {
                 return (
@@ -72,7 +72,6 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
            
                 <tr key={i} >
 
-                  <td onClick={() => onClickLinkUrl !== undefined ? history.push(onClickLinkUrl + v[pkKey]) : null} style={{ textAlign: 'center' }}>{i + 1}</td>
                   {
                     Object.keys(indexList).map((mv, mi) => {
                       return (
@@ -165,6 +164,9 @@ const TableWrap = Styled.div`
       min-height: 50px;
       overflow: hidden;
       white-space: nowrap;
+      &:first-child{
+        padding-left: 20px;
+      }
 
     }
     tr {

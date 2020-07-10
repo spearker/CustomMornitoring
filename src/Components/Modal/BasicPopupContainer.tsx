@@ -21,15 +21,14 @@ interface Props{
 
 const BasicPopupContainer = ({ title, isActive, onClickOpen, onClickConfirm, children }:Props) => {
 
-    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const popUp = usePopup();
     const dispatch = usePopupDispatch();
     
 
-    useOnclickOutside(ref,() => {
-            onClickOpen(false);
-        }
-    );
+    const ref = useOnclickOutside(() => {
+        onClickOpen(false);
+      });
      
     const handleClickBtn = () => {
 

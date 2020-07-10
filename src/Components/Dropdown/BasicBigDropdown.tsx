@@ -14,14 +14,13 @@ interface IProps{
     contents: any,
 }
 const BasicBigDropdown = ({select, contents, onClickEvent}: IProps) => {
-    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    //const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-
-    useOnclickOutside(ref,() => {
-            setIsOpen(false);
-        }
-    );
+    const ref = useOnclickOutside(() => {
+        setIsOpen(false);
+      });
      
+  
    
     const handleClickBtn = () => {
         setIsOpen(!isOpen);

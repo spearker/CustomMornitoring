@@ -221,6 +221,11 @@ interface ISearchedList{
   code: string,
 }
 
+interface IAddress{
+  pk: string,
+  name: string,
+  address: string,
+}
 // 리드타임
 interface LeadTimeAnalysis{
   name: string,

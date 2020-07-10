@@ -43,13 +43,12 @@ const CompanySetting = () => {
   const [list2, setList2] = useState<ITeam[]>([]);
   const [targetTeam, setTargetTeam] = useState<ITeam | null>(null);
   const [targetTeam2, setTargetTeam2] = useState<ITeam | null>(null);
-  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
-  useOnclickOutside(ref, () => {
+  const ref = useOnclickOutside(() => {
     setIsOpen(false);
-  }
-  );
+  });
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen);

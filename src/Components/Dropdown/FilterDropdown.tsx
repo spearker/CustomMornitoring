@@ -14,13 +14,13 @@ interface IProps{
     contents: any,
 }
 const FilterDropdown = ({select, contents, onClickEvent}: IProps) => {
-    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-
-    useOnclickOutside(ref,() => {
-            setIsOpen(false);
-        }
-    );
+    const ref = useOnclickOutside(() => {
+        setIsOpen(false);
+      });
+     
+  
      
    
     const handleClickBtn = () => {

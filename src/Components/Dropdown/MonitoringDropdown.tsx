@@ -13,13 +13,13 @@ interface IProps{
     contents: number[] | undefined, // [902, 901,902]
 }
 const MonitoringDropdown = ({select, contents, onClickEvent}: IProps) => {
-    const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
 
-    useOnclickOutside(ref,() => {
-            setIsOpen(false);
-        }
-    );
+    const ref = useOnclickOutside(() => {
+        setIsOpen(false);
+      });
+     
      
    
     const handleClickBtn = () => {

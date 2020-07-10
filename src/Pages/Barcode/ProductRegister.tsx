@@ -47,8 +47,6 @@ const ProductRegister = () => {
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
-  
-  
   const [list, setList] = useState<ISearchedList[]>([]);
   const [checkList, setCheckList] = useState<ISearchedList[]>([]);
   const [searchList, setSearchList] = useState<ISearchedList[]>([]);

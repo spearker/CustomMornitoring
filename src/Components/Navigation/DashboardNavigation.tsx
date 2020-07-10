@@ -11,7 +11,7 @@ import NavList from './NavList'
 import { useUserDispatch, useUser } from '../../Context/UserContext';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import NavGroupList from '../List/NavGroupList';
-import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
+import { ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
 import { usePopup, usePopupDispatch } from '../../Context/PopupContext';
 //대시보드 네비게이션
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
 
 
 const DashboardNavigation = ({ select, folding }: Props) => {
-  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const dispatch = useUserDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [mode, setMode] = useState<string>('')
@@ -33,10 +33,9 @@ const DashboardNavigation = ({ select, folding }: Props) => {
 
   const history = useHistory();
 
-  useOnclickOutside(ref, () => {
+  const ref = useOnclickOutside(() => {
     setIsOpen(false);
-  }
-  );
+  });
 
   useEffect(() => {
 
@@ -70,7 +69,35 @@ const DashboardNavigation = ({ select, folding }: Props) => {
       )
     });
 
-  const MesNavGroup =
+
+    const MesNavGroup =
+
+    Object.keys(MES_MENU_LIST).map((v, i) => {
+      return (
+        <NavGroupList
+          key={`nav-${i}`}
+          onClickEvent={() => {
+
+            if (isSelected === i) {
+              setIsSelected(999);
+            } else {
+              setIsSelected(i);
+
+            }
+          }}
+          onClickMode={() => dispatchp({
+            type: 'CHANGE_MODE',
+            data: {
+              mode: 'mes',
+              
+            }
+          })}
+          selected={isSelected === i  || select == v ? true : false} contents={MES_MENU_LIST[v]} />
+      )
+    });
+
+
+  const MesNavGroup2 =
 
     ROUTER_MENU_LIST.map((v, i) => {
       return (

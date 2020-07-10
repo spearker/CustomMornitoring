@@ -4,7 +4,7 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/oil';
+import Container from '../../Containers/PM_Maintenance/OilContainer';
 
 
 const OilMaintenance = () => {

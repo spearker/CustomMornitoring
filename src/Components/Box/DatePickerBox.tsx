@@ -52,13 +52,10 @@ const DatePickerBox = ({setListEvent , searchUrl, targetPk}: IProps) => {
       }
     }
   },[to, from])
-  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const ref = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
-    useOnclickOutside(ref,() => {
-        setIsOpen(false);
-        }
-    );
+  
     
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
