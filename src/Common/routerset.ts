@@ -141,15 +141,15 @@ export const ROUTER_MENU_LIST = [
 
   export const MES_MENU_LIST = {
     basic: [ // 기준정보 관리
-      { name : '기준 정보 관리', url : '/basic/machine/list'}, //상위메뉴
-      { name : '기계 기본정보', url : '/basic/machine/list'},
-      { name : '주변장치 기본정보', url : '/basic/submachine/list'},
-      { name : '금형 기본정보', url : '/basic/mold/list'},
-      { name : '품목 기본정보', url : '/basic/material/list'},
-      { name : '완제품 기본정보', url : '/basic/product/list'},
-      { name : '공장 기본정보', url : '/basic/factory/list'},
-      { name : '공장 세분화 관리', url : '/basic/place/list'},
-      { name : '바코드 표준 관리', url : '/basic/barcode/list'},
+      { name : '기준 정보 관리', url : '/basic/list/machine/'}, //상위메뉴
+      { name : '기계 기본정보', url : '/basic/list/machine'},
+      { name : '주변장치 기본정보', url : '/basic/list/submachine'},
+      { name : '금형 기본정보', url : '/basic/list/mold'},
+      { name : '품목 기본정보', url : '/basic/list/material'},
+      { name : '완제품 기본정보', url : '/basic/list/product'},
+      { name : '공장 기본정보', url : '/basic/list/factory'},
+      { name : '공장 세분화 관리', url : '/basic/list/place'},
+      { name : '바코드 표준 관리', url : '/basic/list/barcode'},
       { name : '표준 항목 관리', url : '/basic/standard/list'},
       { name : '표준 문서 관리', url : '/basic/document/list'},
     ],
@@ -158,36 +158,29 @@ export const ROUTER_MENU_LIST = [
   export const PM_MENU_LIST = {
     monitoring: [ // 
       { name : '프레스 모니터링', url :  '/commingsoon'},
-      { name : '프레스 모니터링', url :  '/pm/monitoring/press'},
+      { name : '프레스 상태 모니터링', url :  '/pm/monitoring/press'},
       { name : '로드모니터 모니터링', url :  '/pm/monitoring/loadton'},
       { name : '전력 모니터링', url : '/pm/monitoring/cms'},
-      { name : '대시보드', url :  '/commingsoon'},
+     
    
     ],
     maintenance:[ // 
-      { name : '프레스 보전관리', url : '/pm/maintenance/press'},
       { name : '프레스 보전관리', url : '/pm/maintenance/press'},
       { name : '금형 수명 주기', url : '/pm/maintenance/mold'},
       { name : '클러치&브레이크', url : '/commingsoon'},
       { name : '오일 교환 및 보충', url : '/pm/maintenance/oil'},
       { name : '오버톤', url : '/commingsoon'},
     ],
-    keyin : [ // 
-      { name : '프레스 Key-in', url : '/commingsoon'},
-      { name : 'Key-in 목록', url : '/commingsoon'},
-      { name : 'Key-in 입력', url : '/commingsoon'},
-      { name : 'Key-in 설정', url : '/commingsoon'},
-    ],
     analysis: [ // 
       { name : '프레스 데이터 분석', url : '/pm/analysis/press'},
-      { name : '불량 공정', url : '/commingsoon'},
+   
       { name : '생산량', url : '/commingsoon'},
       { name : '능력', url : '/commingsoon'},
       { name : '비가동시간', url : '/pm/analysis/readytime'},
     ],
     statistics : [ // 
       { name : '프레스 데이터 통계', url : '/pm/statistics/press'},
-      { name : '프레스 통계', url : '/pm/statistics/press'},
+     
       { name : '오일 공급', url : '/commingsoon'},
       { name : '비 가동시간', url : '/commingsoon'},
       { name : '금형 타발 수', url : '/commingsoon'},
@@ -195,8 +188,7 @@ export const ROUTER_MENU_LIST = [
       { name : '로드톤 ', url : '/pm/statistics/loadton'},
       { name : '능력', url : '/commingsoon'},
       { name : '에러', url : '/commingsoon'},
-      { name : '불량률', url : '/commingsoon'},
-      { name : '제품 별 톤', url : '/commingsoon'},
+    
     ],
     
   };

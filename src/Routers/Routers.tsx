@@ -149,7 +149,9 @@ import BasicDocumentRegister from '../Pages/Basic/BasicDocumentRegister';
 import BasicStandardRegister from '../Pages/Basic/BasicStandardRegister';
 import BasicStandardList from '../Pages/Basic/BasicStandardList';
 import BasicDocumentList from '../Pages/Basic/BasicDocumentList';
+import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister';
 
+import BasicListPage from '../Pages/Basic/BasicListPage';
 
 const Routers = () => {
 
@@ -193,6 +195,9 @@ const Routers = () => {
             <Route exact path="/basic/standard/register" component={BasicStandardRegister}/>
             <Route exact path="/basic/document/list" component={BasicDocumentList}/>
             <Route exact path="/basic/document/register" component={BasicDocumentRegister}/>
+
+            <Route exact path="/basic/machine/register" component={BasicMachineRegister}/>
+            <Route exact path="/basic/list/:id" component={BasicListPage}/>
 
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />

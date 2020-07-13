@@ -51,6 +51,7 @@ const BasicDocumentRegister = () => {
     items: {id: 'items', title: '표준항목', type:'checkbox', data:dummy},
   
   });
+ 
 
 
   useEffect(()=>{
