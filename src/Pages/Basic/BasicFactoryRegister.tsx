@@ -115,7 +115,7 @@ const BasicFactoryRegister = () => {
 
     
     const data = {
-      document_pk: document.id,
+      document_pk: document.pk,
       name: inputData.name,
       address: inputData.address,
       description: inputData.description,

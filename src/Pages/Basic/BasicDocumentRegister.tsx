@@ -48,7 +48,7 @@ const BasicDocumentRegister = () => {
   const [necessary, setNecessary] = useState<any>({
     document_name: {id: 'document_name', title: '문서명', type:'text', data:'',},
     standard_type: {id: 'standard_type', title: '카테고리', type:'dropdown', data:{id: 0, value: '기계 기준 정보 등록 문서'}},
-    items: {id: 'items', title: '표준항목', type:'checkbox', data:dummy},
+    items: {id: 'items', title: '표준항목 -(필수항목 체크)', type:'checkbox', data:dummy},
   
   });
  

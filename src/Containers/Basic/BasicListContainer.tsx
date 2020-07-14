@@ -53,13 +53,29 @@ const BasicListContainer = ({type}:Props) => {
       pk: 'PK',
       factory_name:'공장명',
       subdivided_name:'부속 공장명',
+    },
+    device:{
+      pk: 'PK',
+      device_name: '장치명',
+      device_type: '장치종류(코드)',
+      manufacturer_code: '제조번호',
+      location_name: '공장명',
+    },
+    mold:{
+      pk: 'PK',
+      mold_name: '금형이름',
+      mold_type: '금형종류(코드)',
+      limit: '최대타수',
+      current: '현재타수',
+      location_name: '공장명'
     }
+
   }
  
 
   const index_name = {
     machine: '기계 ',
-    submachine: '주변장치 ',
+    device: '주변장치 ',
     mold: '금형 ',
     factory:'공장 ',
     material: '품목 ',

@@ -119,7 +119,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key,
                 onChangeEvent(checkList); 
                 setKeyword('')}
             }
-            isVisible={isOpen} onClickClose={()=>{setIsOpen(false); setKeyword(''); }} title={`키워드로 ${title} 검색`} >
+            isVisible={isOpen} onClickClose={()=>{setIsOpen(false); setKeyword(''); }} title={`${title} 검색`} >
               <SearchInput 
                 description={'키워드로 검색해주세요'} 
                 value={keyword} 

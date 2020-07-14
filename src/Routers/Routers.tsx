@@ -154,6 +154,8 @@ import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister';
 import BasicListPage from '../Pages/Basic/BasicListPage';
 import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister';
 import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister';
+import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
+import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
 
 const Routers = () => {
 
@@ -204,7 +206,9 @@ const Routers = () => {
             <Route exact path="/basic/machine/register" component={BasicMachineRegister}/>
             <Route exact path="/basic/factory/register" component={BasicFactoryRegister}/>
             <Route exact path="/basic/subdivided/register" component={BasicSubdividedRegister}/>
-            
+            <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
+            <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
+           
 
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />

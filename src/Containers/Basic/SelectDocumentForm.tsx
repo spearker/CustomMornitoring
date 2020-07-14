@@ -7,7 +7,8 @@ import DropdownCode from '../../Components/Input/DropdownCode';
 import { TOKEN_NAME } from '../../Common/configset';
 
 const docDummy = [
-  {pk: 'qfqwf', name:'도큐먼트 1'},
+  {pk: null, name:'선택 안함'},
+  {pk: 'qfqwf', name:'도큐먼트 2'},
   {pk: 'ehki', name:'도큐먼트 2'},
   {pk: 'qfqw412f', name:'도큐먼트 3'},
   {pk: 'efgrhtjyu', name:'도큐먼트 4'},
@@ -21,12 +22,12 @@ interface Props{
 
 const SelectDocumentForm = ({category, onChangeEvent}:Props) => {
 
-  const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
+  const [document, setDocument] = useState<any>({pk:'', value:'(선택)'});
   const [documentList, setDocumentList] = useState<any[]>([]);
   const history = useHistory();
 
   useEffect(()=>{
-    setDocumentList(docDummy.map((v)=>{return({id: v.pk, value: v.name})}))
+    setDocumentList(docDummy.map((v)=>{return({pk: v.pk, value: v.name})}))
     getDocumentData();
   },[])
 
@@ -38,7 +39,7 @@ const SelectDocumentForm = ({category, onChangeEvent}:Props) => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
-         setDocumentList(res.results.map((v)=>{return({id: v.pk, value: v.name})}))
+         setDocumentList([{id: null, value:'선택 안함'}, ...res.results.map((v)=>{return({id: v.pk, value: v.name})})])
          
          
       }else{

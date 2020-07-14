@@ -37,10 +37,6 @@ const BasicStandardList = () => {
     validation1:'validation1(코드값)', 
   }
 
-
-
-
-
    /**
    * getList()
    * 목록 불러오기

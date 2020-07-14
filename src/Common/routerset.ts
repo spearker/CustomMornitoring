@@ -143,7 +143,7 @@ export const ROUTER_MENU_LIST = [
     basic: [ // 기준정보 관리
       { name : '기준 정보 관리', url : '/basic/list/machine/'}, //상위메뉴
       { name : '기계 기본정보', url : '/basic/list/machine'},
-      { name : '주변장치 기본정보', url : '/basic/list/submachine'},
+      { name : '주변장치 기본정보', url : '/basic/list/device'},
       { name : '금형 기본정보', url : '/basic/list/mold'},
       { name : '품목 기본정보', url : '/basic/list/material'},
       { name : '완제품 기본정보', url : '/basic/list/product'},
@@ -187,10 +187,8 @@ export const ROUTER_MENU_LIST = [
     ],
     statistics : [ // 
       { name : '프레스 데이터 통계', url : '/pm/statistics/press'},
-     
       { name : '오일 공급', url : '/commingsoon'},
       { name : '비 가동시간', url : '/commingsoon'},
-      { name : '금형 타발 수', url : '/commingsoon'},
       { name : '전력', url : '/commingsoon'},
       { name : '로드톤 ', url : '/pm/statistics/loadton'},
       { name : '능력', url : '/commingsoon'},

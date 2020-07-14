@@ -112,7 +112,7 @@ const BasicSubdividedRegister = () => {
 
     
     const data = {
-      document_pk: document.id,
+      document_pk: document.pk,
       factory: inputData.factory.pk,
       name: inputData.name,
       description: inputData.description,
