@@ -148,7 +148,7 @@ export const ROUTER_MENU_LIST = [
       { name : '품목 기본정보', url : '/basic/list/material'},
       { name : '완제품 기본정보', url : '/basic/list/product'},
       { name : '공장 기본정보', url : '/basic/list/factory'},
-      { name : '공장 세분화 관리', url : '/basic/list/place'},
+      { name : '공장 세분화 관리', url : '/basic/list/subdivided'},
       { name : '바코드 표준 관리', url : '/basic/list/barcode'},
       { name : '표준 항목 관리', url : '/basic/standard/list'},
       { name : '표준 문서 관리', url : '/basic/document/list'},

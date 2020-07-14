@@ -19,12 +19,13 @@ const dummy = [
   {title: '이름...',  type:0, data:'',  pk:'qdwefgr'},
 ]
 interface Props{
-  pk : string | number,
+  pk?: string | number,
+  loadDataUrl?: string,
   onChangeEssential : any,
   onChangeOptional: any,
 }
 
-const DocumentFormatInputList = ({pk, onChangeEssential, onChangeOptional}:Props) => {
+const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOptional}:Props) => {
 
   const [essential, setEssential] = useState<any[]>([]);
   const [optional, setOptional] = useState<any[]>([]);
@@ -35,7 +36,12 @@ const DocumentFormatInputList = ({pk, onChangeEssential, onChangeOptional}:Props
     //setDocumentList(docDummy)
     //setEssential(dummy);
     //setOptional(dummy);
-    getDocumentData();
+    if(pk === undefined){
+      getUpdateData();
+    }else{
+      getDocumentData();
+    }
+   
   },[])
 
   const getDocumentData = useCallback(async()=>{
@@ -49,7 +55,28 @@ const DocumentFormatInputList = ({pk, onChangeEssential, onChangeOptional}:Props
       if(res.status === 200 || res.status === "200"){
         setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
         setOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
+        onChangeEssential(essential);
+        onChangeOptional(optional);
+      }else{
+        //TODO:  기타 오류
+        alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
+      }
+    }
+  },[essential, optional ])
 
+  const getUpdateData = useCallback(async()=>{
+    
+    const res = await getRequest(loadDataUrl!, getToken(TOKEN_NAME))
+
+    if(res === false){
+      //TODO: 에러 처리
+      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다.')
+    }else{
+      if(res.status === 200 || res.status === "200"){
+        setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
+        setOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
+        onChangeEssential(essential);
+        onChangeOptional(optional);
       }else{
         //TODO:  기타 오류
         alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')

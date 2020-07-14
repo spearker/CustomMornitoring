@@ -36,13 +36,26 @@ const BasicListContainer = ({type}:Props) => {
     "등록순",
   ]
 
-  const index_machine = {
-    pk: 'PK',
-    machine_name:'기계명',
-    machine_type:'기계종류(코드값)',
-    manufacturer_code: '제조번호',
-    location_name: '공장명'
+  const index_list= {
+    machine: {
+      pk: 'PK',
+      machine_name:'기계명',
+      machine_type:'기계종류(코드)',
+      manufacturer_code: '제조번호',
+      location_name: '공장명'
+    },
+    factory:{
+      pk: 'PK',
+      name:'공장명',
+      address:'위치',
+    },
+    subdivided:{
+      pk: 'PK',
+      factory_name:'공장명',
+      subdivided_name:'부속 공장명',
+    }
   }
+ 
 
   const index_name = {
     machine: '기계 ',
@@ -51,7 +64,7 @@ const BasicListContainer = ({type}:Props) => {
     factory:'공장 ',
     material: '품목 ',
     product: '완제품 ', 
-    place:'공장 세분화 ',
+    subdivided:'공장 세분화',
     barcode: '바코드 표준 '
   }
 
@@ -81,11 +94,16 @@ const BasicListContainer = ({type}:Props) => {
 
   useEffect(()=>{
     getList()
+    setIndex(index_list[type])
+    /*
     if(type == 'machine'){
       setIndex(index_machine)
+    }else if(type == 'factory'){
+      setIndex(index_factory);
     }
+    */
 
-  },[])
+  },[type])
  
   
 

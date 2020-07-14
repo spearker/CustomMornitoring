@@ -152,6 +152,8 @@ import BasicDocumentList from '../Pages/Basic/BasicDocumentList';
 import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister';
 
 import BasicListPage from '../Pages/Basic/BasicListPage';
+import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister';
+import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister';
 
 const Routers = () => {
 
@@ -191,13 +193,18 @@ const Routers = () => {
             <Route exact path="/dashboard" component={Dashboard} />
 
             {/* 2.0 기준정보관리 */}
+
+            <Route exact path="/basic/list/:id" component={BasicListPage}/>
+            
             <Route exact path="/basic/standard/list" component={BasicStandardList}/>
             <Route exact path="/basic/standard/register" component={BasicStandardRegister}/>
             <Route exact path="/basic/document/list" component={BasicDocumentList}/>
             <Route exact path="/basic/document/register" component={BasicDocumentRegister}/>
 
             <Route exact path="/basic/machine/register" component={BasicMachineRegister}/>
-            <Route exact path="/basic/list/:id" component={BasicListPage}/>
+            <Route exact path="/basic/factory/register" component={BasicFactoryRegister}/>
+            <Route exact path="/basic/subdivided/register" component={BasicSubdividedRegister}/>
+            
 
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />

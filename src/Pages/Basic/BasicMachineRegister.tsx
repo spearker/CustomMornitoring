@@ -30,6 +30,7 @@ import OldFileInput from '../../Components/Input/OldFileInput';
 import DropdownCode from '../../Components/Input/DropdownCode';
 import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
 import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
+import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 
 
 const docDummy = [
@@ -57,6 +58,7 @@ const BasicMachineRegister = () => {
   const [type, setType] = useState<number>(1); //1: 프레스
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
+  const [factory, setFactory] = useState<any[]>([]);
 
   const [files, setFiles] = useState<any[3]>([null, null, null]);
   const [paths, setPaths] = useState<any[3]>([null, null, null]);
@@ -259,6 +261,20 @@ const BasicMachineRegister = () => {
                 <DropdownInput title={'기계 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
+                
+                <BasicSearchContainer 
+                      title={'공장'} 
+                      key={'pk'} 
+                      value={'name'}
+                      onChangeEvent={
+                        (input)=>{
+                          setFactory(input)
+                        }
+                      }
+                      solo={true}
+                      list={factory}
+                      searchUrl={'http://211.208.115.66:PORT/api/v1/factory/search?option=0&'}
+                />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'기계의 제조사명을 입력하세요'} />
@@ -279,8 +295,9 @@ const BasicMachineRegister = () => {
                  
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
-                :
-                <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+              :
+              <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+
             }
             </WhiteBoxContainer>
             
