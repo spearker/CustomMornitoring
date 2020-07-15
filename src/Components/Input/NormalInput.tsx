@@ -7,7 +7,7 @@ import InputContainer from '../../Containers/InputContainer';
 
 interface IProps {
     title: string,
-    description: string,
+    description?: string,
     value: string,
     onChangeEvent?: any
 }
@@ -19,9 +19,9 @@ const NormalInput = ({ title, description, value, onChangeEvent }: IProps) => {
     return (
         <InputContainer title={title}>
             {onChangeEvent !== null &&  onChangeEvent!== undefined ?
-                <InputBox type="text" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { onChangeEvent(e.target.value) }} placeholder={description} />
+                <InputBox type="text" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { onChangeEvent(e.target.value) }} placeholder={description ?? ''} />
                 :
-                <InputBox type="text" value={value} placeholder={description} disabled />
+                <InputBox type="text" value={value} placeholder={description ?? ''} disabled />
             }
         </InputContainer>
     );

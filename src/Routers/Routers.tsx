@@ -70,10 +70,12 @@ import SellList from '../Pages/Client/Sell';
 import ChangeStockIn from '../Pages/Stock/ChangeIn'
 import ChangeStockOut from '../Pages/Stock/ChangeOut'
 import RegisterInferior from  '../Pages/Quality/Register';
+/*
 import OutsourcingList from '../Pages/Outsourcing/List';
 import OutsourcingRegister from '../Pages/Outsourcing/Register';
 import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
+*/
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
 
@@ -156,6 +158,7 @@ import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister';
 import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister';
 import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
 import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
+import OutsourcingCompanyRegister from '../Pages/Outsourcing/OutsourcingCompanyRegister';
 
 const Routers = () => {
 
@@ -210,6 +213,10 @@ const Routers = () => {
             <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
            
 
+            {/* 외주정보 관리 */}
+            <Route exact path="/manage/" component={BasicDeviceRegister}/>
+            <Route exact path="/outsourcing/company/register" component={OutsourcingCompanyRegister}/>
+
             <Route exact path="/list/design" component={DesignList} />
             <Route exact path="/list/machine" component={MachineList} />
             <Route exact path="/list/submachine" component={SubList} />
@@ -247,13 +254,13 @@ const Routers = () => {
             <Route exact path="/register/client" component={RegisterClient}/>
             <Route exact path="/list/client" component={ClientList} />
 
-            {/* 5.0 외주관리 */}
+            {/* 5.0 외주관리 
             <Route exact path="/update/outsourcing" component={OutsourcingRegister}/>
             <Route exact path="/register/outsourcing" component={OutsourcingRegister}/>
             <Route exact path="/outsourcing/list" component={OutsourcingList}/>
             <Route exact path="/outsourcing/order" component={Order}/>
             <Route exact path="/outsourcing/contract" component={Contract}/>
-
+        */}
             {/* 6.0 바코드 관리 */}
             <Route exact path="/list/barcode/product" component={BarcodeProductList}/>
             <Route exact path="/connect/barcode" component={ProductRegister}/>

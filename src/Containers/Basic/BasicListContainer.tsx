@@ -74,14 +74,31 @@ const BasicListContainer = ({type}:Props) => {
  
 
   const index_name = {
-    machine: '기계 ',
-    device: '주변장치 ',
-    mold: '금형 ',
-    factory:'공장 ',
-    material: '품목 ',
-    product: '완제품 ', 
-    subdivided:'공장 세분화',
-    barcode: '바코드 표준 '
+    machine: '기계 기본정보 ',
+    device: '주변장치 기본정보 ',
+    mold: '금형 기본정보 ',
+    factory:'공장 기본정보 ',
+    material: '품목 기본정보 ',
+    product: '완제품 기본정보 ', 
+    subdivided:'공장 세분화 ',
+    barcode: '바코드 표준 ',
+    outsourcing_list: '외주사 ',
+    outsourcing_order: '외주 발주 ',
+    outsourcing_contract: '외주 수주 ',
+  }
+
+  const index_create_host = {
+    machine: `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    device: `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    mold: `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    factory:`http://211.208.115.66:PORT/api/v1/${type}/list`,
+    material: `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    product: `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    subdivided:`http://211.208.115.66:PORT/api/v1/${type}/list`,
+    barcode: `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    outsourcing_list:  `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    outsourcing_order:  `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    outsourcing_call:  `http://211.208.115.66:PORT/api/v1/${type}/list`,
   }
 
    /**
@@ -125,7 +142,7 @@ const BasicListContainer = ({type}:Props) => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest(`http://211.208.115.66:PORT/api/v1/${type}/delete`, {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest(index_create_host[type], {pk:id}, getToken(TOKEN_NAME))
     const tg = id;
     //console.log('--select id : ' + id)
     if(results === false){
@@ -145,7 +162,7 @@ const BasicListContainer = ({type}:Props) => {
   return (
         <>
           <div style={{position:'relative'}}>
-            <Header title={`${index_name[type]} 기본 정보 관리 (${list.length})`}/>
+            <Header title={`${index_name[type]} 관리 (${list.length})`}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
               <SmallButtonLink name="+ 등록하기" link={`/basic/${type}/register`}/> 
             
