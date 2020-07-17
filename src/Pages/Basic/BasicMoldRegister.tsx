@@ -16,7 +16,7 @@ import {    ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
 import { uploadTempFile } from '../../Common/fileFuctuons';
-import {getMachineTypeList} from '../../Common/codeTransferFunctions';
+import {getMachineTypeList, getMoldTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -57,7 +57,7 @@ const BasicMoldRegister = () => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [spec, setSpec] = useState<string>('');
  
-  const indexList = getMachineTypeList('kor');
+  const indexList = getMoldTypeList('kor');
   
   useEffect(()=>{
     
@@ -115,7 +115,7 @@ const BasicMoldRegister = () => {
   
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://61.101.55.224:9912/api/v1/molde/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -129,9 +129,9 @@ const BasicMoldRegister = () => {
          setLimit(data.limit)
          setDate(data.manufactured_at);
          setPk(data.pk);
-          setFactory([{pk: data.location_pk, value: data.location_name}])
+          setFactory([{pk: data.location_pk, name: data.location_name}])
          setMadeNo(data.manufacturer_code);
-         setType(Number(data.device_label));
+         setType(Number(data.mold_type));
          setInfoList(data.info_list);
          setSpec(data.mold_spec)
          const tempList = paths.slice();
@@ -271,13 +271,17 @@ const BasicMoldRegister = () => {
                     null
                 }
                 <br/>
-                <DocumentFormatInputList pk={document.pk} onChangeEssential={setEssential} onChangeOptional={setOptional}/>
-                
-                 
+                <DocumentFormatInputList 
+                  
+                  pk={!isUpdate ? document.pk : undefined}
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/mold/load?pk=${pk}` :''} 
+                  onChangeEssential={setEssential} onChangeOptional={setOptional}
+                  />
+                   
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
               :
-              <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+              <SelectDocumentForm category={2} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>

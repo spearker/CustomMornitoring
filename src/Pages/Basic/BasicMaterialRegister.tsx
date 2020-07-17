@@ -22,7 +22,7 @@ import InputContainer from '../../Containers/InputContainer';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import { uploadTempFile } from '../../Common/fileFuctuons';
-import {getMachineTypeList} from '../../Common/codeTransferFunctions';
+import {getMachineTypeList, getMaterialTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -33,13 +33,14 @@ import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputL
 import * as _ from 'lodash';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import { JsonStringifyList } from '../../Functions/JsonStringifyList';
+import useObjectInput from '../../Functions/UseInput';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
 
-// 공장 세분화 등록 페이지
+// 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const BasicSubdividedRegister = () => {
+const BasicMaterialRegister = () => {
   const history = useHistory();
-
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
  
   const [essential,setEssential] = useState<any[]>([]);
@@ -47,12 +48,15 @@ const BasicSubdividedRegister = () => {
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [pk, setPk] = useState<string>('');
-
-  const [inputData, setInputData] = useState<any>({
-    name:'',
-    factory:[],
-    description:'',
-    address:'',
+  const indexList = getMaterialTypeList('kor');
+  const [inputData, setInputData] = useObjectInput('CHANGE', {
+    pk:'',
+    material_name:'',
+    material_type:1,
+    location:[],
+    using_mold:[],
+    safe_stock:0,
+    material_spec:'',
   });
 
   useEffect(()=>{
@@ -67,7 +71,7 @@ const BasicSubdividedRegister = () => {
 
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://61.101.55.224:9912/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -75,14 +79,19 @@ const BasicSubdividedRegister = () => {
       if(res.status === 200 || res.status === "200"){
           const data = res.results;
           const form = {
-            pk: data.pk,
-            factory: [{pk: data.factory, name: data.factory_name}],
-            name: data.subdivided_name,
-            description: data.description,
-           
+
+            pk:data.pk,
+            material_name: data.material_name,
+            material_type:data.material_type,
+            location:[{pk: data.location_pk, name: data.location_name}],
+            using_mold: data.mold !== undefined ? [{pk: data.mold.mold_pk, name: data.mold.mold_name}] : [],
+            safe_stock: data.safe_stock,
+            material_spec:data.material_spec,
+            stock:  data.stock,
           };
 
-          setInputData(form)
+          setInputData('all', form)
+    
          
       }else{
         //TODO:  기타 오류
@@ -96,19 +105,22 @@ const BasicSubdividedRegister = () => {
     
     const data = {
       pk: getParameter('pk'),
-      factory: inputData.factory[0].pk,
-      name: inputData.name,
-      description: inputData.description,
+      material_name: inputData.material_name,
+      material_type: inputData.material_type, 
+      location: inputData.location[0].pk,
+      using_mold:  inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
+      safe_stock: inputData.safe_stock,
+      material_spec: inputData.material_spec,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://61.101.55.224:9912/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/material/update', data, getToken(TOKEN_NAME))
 
-     if(res === false){
+    if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
     }else{
       if(res.status === 200){
           alert('성공적으로 등록 되었습니다')
-          history.push('/basic/list/subdivided')
+          history.push('/basic/list/material')
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -119,25 +131,28 @@ const BasicSubdividedRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-    
+  
+
     const data = {
       document_pk: document.pk,
-      factory: inputData.factory[0].pk,
-      name: inputData.name,
-      description: inputData.description,
+      material_name: inputData.material_name,
+      material_type: inputData.material_type, 
+      location: inputData.location[0].pk,
+      using_mold: inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
+      safe_stock: inputData.safe_stock,
+      material_spec: inputData.material_spec,
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://61.101.55.224:9912/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/material/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
     }else{
       if(res.status === 200){
           alert('성공적으로 등록 되었습니다')
-        history.push('/basic/list/subdivided')
+          history.push('/basic/list/material')
       }else{
-        //TODO:  기타 오류
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
@@ -157,31 +172,36 @@ const BasicSubdividedRegister = () => {
                 document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
+                <NormalInput title={'품목 이름'}  value={inputData.material_name} onChangeEvent={(input)=>setInputData(`material_name`, input)} description={'이름을 입력해주세요.'}/>
+                <DropdownInput title={'품목 종류' } target={indexList[inputData.material_type]} contents={indexList} onChangeEvent={(input)=>setInputData(`material_type`, input)} />
                 <BasicSearchContainer 
-                      title={'공장'} 
+                      title={'공장 정보'} 
                       key={'pk'} 
                       value={'name'}
-                      onChangeEvent={
-                        (input)=>{
-                          let temp = _.cloneDeep(inputData); 
-                          temp.factory = input; 
-                          setInputData(temp)
-                        }
-                      }
+                      onChangeEvent={(input)=>setInputData(`location`, input)}
                       solo={true}
-                      list={inputData.factory}
+                      list={inputData.location}
                       searchUrl={'http://61.101.55.224:9912/api/v1/factory/search?option=0&'}
                 />
 
-                <NormalInput title={'세분화 이름'} value={inputData.name} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.name = input; setInputData(temp)}} />
-                
+                <NormalNumberInput title={'안전 재고'}  value={inputData.safe_stock} onChangeEvent={(input)=>setInputData(`safe_stock`, input)} description={''}/>
                 <br/>
                 <ListHeader title="선택 항목"/>
-                <NormalInput title={'설명'} value={inputData.description} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.description = input; setInputData(temp)}} />
+                <NormalInput title={'품목 스펙'}  value={inputData.material_spec} onChangeEvent={(input)=>setInputData(`material_spec`, input)} description={'이름을 입력해주세요.'}/>
+                <BasicSearchContainer 
+                      title={'사용 금형'} 
+                      key={'pk'} 
+                      value={'mold_name'}
+                      onChangeEvent={(input)=>setInputData(`using_mold`, input)}
+                      solo={true}
+                      list={inputData.using_mold}
+                      searchUrl={'http://61.101.55.224:9912/api/v1/mold/search?option=0&'}
+                />
+
                 <br/>
                 <DocumentFormatInputList 
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/subdivided/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/material/load?pk=${pk}` :''} 
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
@@ -189,7 +209,7 @@ const BasicSubdividedRegister = () => {
               </form>
                 :
                 
-                <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
+                <SelectDocumentForm category={3} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
             
@@ -207,4 +227,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default BasicSubdividedRegister;
+export default BasicMaterialRegister;

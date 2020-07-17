@@ -80,6 +80,13 @@ const BasicListContainer = ({type}:Props) => {
       category: '카테고리(코드)',
       name: '이름',
 
+    },
+    material:{
+      pk: 'PK',
+      material_name: '이름',
+      material_type: '카테고리(코드)',
+      location_name: '공장명',
+      stock: '재고'
     }
 
   }

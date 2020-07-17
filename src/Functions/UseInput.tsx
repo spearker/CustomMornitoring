@@ -13,9 +13,15 @@ function UserReducer(state: any, action: IAction): any {
     
     switch(action.type) {
         case 'CHANGE':
-            let temp = _.cloneDeep(state); 
-            temp[action.key!] = action.value; 
-            return temp;
+            if(action.key == 'all'){
+                let temp = _.cloneDeep(action.value); 
+                return temp;
+            }else{
+                let temp = _.cloneDeep(state); 
+                temp[action.key!] = action.value; 
+                return temp;
+            }
+            
         case 'RESET':
             let temp2 = _.cloneDeep(state); 
             temp2[action.key!] = '';

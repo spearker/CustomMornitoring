@@ -22,7 +22,7 @@ import InputContainer from '../../Containers/InputContainer';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import { uploadTempFile } from '../../Common/fileFuctuons';
-import {getMachineTypeList} from '../../Common/codeTransferFunctions';
+import {getMachineTypeList, getSubMachineTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -32,15 +32,8 @@ import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
 import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import { JsonStringifyList } from '../../Functions/JsonStringifyList';
+import {useHistory} from 'react-router-dom';
 
-
-const docDummy = [
-  {pk: 'qfqwf', name:'도큐먼트 1'},
-  {pk: 'ehki', name:'도큐먼트 2'},
-  {pk: 'qfqw412f', name:'도큐먼트 3'},
-  {pk: 'efgrhtjyu', name:'도큐먼트 4'},
-  {pk: 'kmcd', name:'도큐먼트 5'},
-]
 // 주변 장치 페이지
 const BasicDeviceRegister = () => {
 
@@ -66,8 +59,9 @@ const BasicDeviceRegister = () => {
   const [date, setDate]= useState<string>(moment().format('YYYY-MM-DD'));
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
  
-  const indexList = getMachineTypeList('kor');
-  
+  const indexList = getSubMachineTypeList('kor');
+  const history = useHistory();
+
   useEffect(()=>{
     
     if(getParameter('pk') !== "" ){
@@ -137,9 +131,9 @@ const BasicDeviceRegister = () => {
          setPhotoName(data.photo);
          setDate(data.manufactured_at);
          setPk(data.pk);
-        setFactory([{pk: data.location_pk, value: data.location_name}])
+        setFactory([{pk: data.location_pk, name: data.location_name}])
          setMadeNo(data.manufacturer_code);
-         setType(Number(data.device_label));
+         setType(Number(data.device_type));
          setInfoList(data.info_list)
          const tempList = paths.slice();
          tempList[0]= data.photo;
@@ -165,7 +159,7 @@ const BasicDeviceRegister = () => {
       pk: getParameter('pk'),
     
       device_name: name,
-      device_label: type,
+      device_type: type,
       manufacturer: made,
       manufacturer_code: madeNo,
       manufactured_at: date,
@@ -182,7 +176,8 @@ const BasicDeviceRegister = () => {
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-          alert('성공적으로 수정 되었습니다')
+          alert('성공적으로 수정 되었습니다');
+          history.push('/basic/list/device');
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -206,7 +201,7 @@ const BasicDeviceRegister = () => {
     const data = {
       document_pk: document.pk,
       device_name: name,
-      device_label: type,
+      device_type: type,
       manufacturer: made,
       manufacturer_code: madeNo,
       manufactured_at: date,
@@ -225,17 +220,7 @@ const BasicDeviceRegister = () => {
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-         setName('');
-         setMade('');
-         setPhotoName('');
-         setDate(moment().format('YYYY-MM-DD'))
-         setPk('');
-         setFactory([])
-         setMadeNo('');
-         setType(1);
-         setInfoList([]);
-         setPaths([null, null, null])
-        
+         history.push('/basic/list/device');
       }else{
         //TODO:  기타 오류
       }
@@ -289,13 +274,17 @@ const BasicDeviceRegister = () => {
                     null
                 }
                 <br/>
-                <DocumentFormatInputList pk={document.pk} onChangeEssential={setEssential} onChangeOptional={setOptional}/>
-                
+                <DocumentFormatInputList 
+                  
+                  pk={!isUpdate ? document.pk : undefined}
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/device/load?pk=${pk}` :''} 
+                  onChangeEssential={setEssential} onChangeOptional={setOptional}
+                  />
                  
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
               :
-              <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+              <SelectDocumentForm category={1} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>

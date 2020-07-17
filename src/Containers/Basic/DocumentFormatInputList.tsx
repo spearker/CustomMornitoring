@@ -54,7 +54,7 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
 
     if(res === false){
       //TODO: 에러 처리
-      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다.')
+      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 1')
     }else{
       if(res.status === 200 || res.status === "200"){
         setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
@@ -75,7 +75,7 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
 
     if(res === false){
       //TODO: 에러 처리
-      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다.')
+      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 2')
     }else{
       if(res.status === 200 || res.status === "200"){
         setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
