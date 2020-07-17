@@ -31,7 +31,7 @@ const BasicListContainer = ({type}:Props) => {
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
   const [index, setIndex] = useState({pk:'PK'});
-
+  const [page, setPage] = useState<number>(1);
   const optionList = [
     "등록순",
   ]
@@ -47,7 +47,7 @@ const BasicListContainer = ({type}:Props) => {
     factory:{
       pk: 'PK',
       name:'공장명',
-      address:'위치',
+      location:'위치',
     },
     subdivided:{
       pk: 'PK',
@@ -68,6 +68,18 @@ const BasicListContainer = ({type}:Props) => {
       limit: '최대타수',
       current: '현재타수',
       location_name: '공장명'
+    },
+    item:{
+      pk: 'PK',
+      category: '카테고리(코드)',
+      name: '이름',
+
+    },
+    document:{
+      pk: 'PK',
+      category: '카테고리(코드)',
+      name: '이름',
+
     }
 
   }
@@ -85,20 +97,40 @@ const BasicListContainer = ({type}:Props) => {
     outsourcing_list: '외주사 ',
     outsourcing_order: '외주 발주 ',
     outsourcing_contract: '외주 수주 ',
+    item: '표준 항목 ',
+    document: '표준 문서 ',
   }
 
   const index_create_host = {
-    machine: `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    device: `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    mold: `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    factory:`http://211.208.115.66:PORT/api/v1/${type}/list`,
-    material: `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    product: `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    subdivided:`http://211.208.115.66:PORT/api/v1/${type}/list`,
-    barcode: `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    outsourcing_list:  `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    outsourcing_order:  `http://211.208.115.66:PORT/api/v1/${type}/list`,
-    outsourcing_call:  `http://211.208.115.66:PORT/api/v1/${type}/list`,
+    machine: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    device: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    mold: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    factory:`http://61.101.55.224:9912/api/v1/${type}/list`,
+    material: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    product: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    subdivided:`http://61.101.55.224:9912/api/v1/${type}/list`,
+    barcode: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    outsourcing_list:  `http://61.101.55.224:9912/api/v1/${type}/list`,
+    outsourcing_order:  `http://61.101.55.224:9912/api/v1/${type}/list`,
+    outsourcing_call:  `http://61.101.55.224:9912/api/v1/${type}/list`,
+    item: `http://61.101.55.224:9912/api/v1/${type}/list`,
+    document: `http://61.101.55.224:9912/api/v1/${type}/list`,
+  }
+
+  const index_delete_host = {
+    machine: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    device: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    mold: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    factory:`http://61.101.55.224:9912/api/v1/${type}/delete`,
+    material: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    product: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    subdivided:`http://61.101.55.224:9912/api/v1/${type}/delete`,
+    barcode: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    outsourcing_list:  `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    outsourcing_order:  `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    outsourcing_call:  `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    item: `http://61.101.55.224:9912/api/v1/${type}/delete`,
+    document: `http://61.101.55.224:9912/api/v1/${type}/delete`,
   }
 
    /**
@@ -107,27 +139,33 @@ const BasicListContainer = ({type}:Props) => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest(`http://211.208.115.66:PORT/api/v1/${type}/list`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://61.101.55.224:9912/api/v1/${type}/list?page=${page}`, getToken(TOKEN_NAME))
 
     
-    if(results === false){
+    if(res === false){
       alert('[SERVER ERROR] 데이터를 로드 할 수 없습니다.')
     }else{
-      if(results.status === 200){
-        setList(results.results)
+      if(res.status === 200){
+        if(res.results === []){
+          return;
+        }
+        setList(res.results.items)
       }else{
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[list, keyword, option])
+  },[list, keyword, option, type])
 
 
 
   
 
   useEffect(()=>{
-    getList()
+    //alert(type)
+    setList([])
     setIndex(index_list[type])
+    getList()
+
     /*
     if(type == 'machine'){
       setIndex(index_machine)
@@ -142,7 +180,7 @@ const BasicListContainer = ({type}:Props) => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest(index_create_host[type], {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest(index_delete_host[type], {pk:id}, getToken(TOKEN_NAME))
     const tg = id;
     //console.log('--select id : ' + id)
     if(results === false){
@@ -169,7 +207,7 @@ const BasicListContainer = ({type}:Props) => {
             </div>
           </div>
           
-          <InfoTable indexList={index} type={type} pkKey={'pk'} onClickLinkUrl={`/basic/${type}/update?pk=`} contents={list} onClickRemove={onClickDelete}/>
+          <InfoTable indexList={index} type={type} pkKey={'pk'} onClickLinkUrl={`/basic/${type}/register?pk=`} contents={list} onClickRemove={onClickDelete}/>
         </>
   );
 }

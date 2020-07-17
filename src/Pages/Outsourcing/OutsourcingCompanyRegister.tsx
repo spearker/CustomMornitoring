@@ -36,6 +36,7 @@ import * as _ from 'lodash';
 import useObjectInput from '../../Functions/UseInput';
 import RadioInput from '../../Components/Input/RadioInput';
 import FileAddInput from '../../Components/Input/FileAddInput';
+import NormalAddressInput from '../../Components/Input/NormalAddressInput';
 
 
 // 외주사 등록
@@ -49,9 +50,9 @@ const OutsourcingCompanyRegister = () => {
     type: 0,
     photo: '',
     location: {
-      postcode: null,
-      extra_address:'',
-      address:'',
+      postcode: '',
+      roadAddress:'',
+      detail:'',
     },
     telephone: null,
     ceo_email: '',
@@ -79,7 +80,7 @@ const OutsourcingCompanyRegister = () => {
 
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8091/api/v1/outsourcing/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/outsourcing/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -103,7 +104,7 @@ const OutsourcingCompanyRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     } 
 
-    const res = await postRequest('http://211.208.115.66:8091/api/v1/outsourcing/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/outsourcing/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.');
@@ -126,7 +127,7 @@ const OutsourcingCompanyRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     } 
 
-    const res = await postRequest('http://211.208.115.66:PORT/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -160,7 +161,9 @@ const OutsourcingCompanyRegister = () => {
                 <RadioInput title={'사업자 구분'} target={inputData.type} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]} onChangeEvent={(input)=>setInputData(`type`, input)} />
                 <NormalInput title={'사업자/법인 번호'} value={inputData.number} onChangeEvent={(input)=>setInputData(`number`, input)} />
                 <FileAddInput title={'사업자 등록증 사진'} target={`image`} description={`사진 형식의 파일을 업로드 해주세요.`} value={inputData.photo} onChangeEvent={(input)=>setInputData(`photo`, input)} />
-                <NormalInput title={'회사 연락처'} value={inputData.telephone} onChangeEvent={(input)=>setInputData(`telephone`, input)} />
+                <NormalInput title={'회사 연락처'} value={inputData.phone} onChangeEvent={(input)=>setInputData(`telephone`, input)} />
+                
+                <NormalAddressInput title={'사업장 주소'} value={inputData.location} onChangeEvent={(input)=>setInputData(`location`, input)} description={'클릭하여 주소를 입력해주세요'} />
                 <NormalInput title={'회사 메일'} value={inputData.ceo_email} onChangeEvent={(input)=>setInputData(`ceo_email`, input)} />
                 <NormalInput title={'회사 팩스'} value={inputData.fax} onChangeEvent={(input)=>setInputData(`fax`, input)} />
                 <NormalInput title={'담당자명'} value={inputData.manager} onChangeEvent={(input)=>setInputData(`manager`, input)} />

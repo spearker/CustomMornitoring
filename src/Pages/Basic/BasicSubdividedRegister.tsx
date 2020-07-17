@@ -32,6 +32,7 @@ import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
 import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
 import * as _ from 'lodash';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
+import { JsonStringifyList } from '../../Functions/JsonStringifyList';
 
 
 // 공장 세분화 등록 페이지
@@ -65,14 +66,22 @@ const BasicSubdividedRegister = () => {
 
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:PORT/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
           const data = res.results;
-          setInputData(data)
+          const form = {
+            pk: data.pk,
+            factory: [{pk: data.factory, name: data.factory_name}],
+            name: data.subdivided_name,
+            description: data.description,
+           
+          };
+
+          setInputData(form)
          
       }else{
         //TODO:  기타 오류
@@ -86,14 +95,12 @@ const BasicSubdividedRegister = () => {
     
     const data = {
       pk: getParameter('pk'),
-      factory: inputData.factory.pk,
+      factory: inputData.factory[0].pk,
       name: inputData.name,
       description: inputData.description,
-      info_list: [...essential, ...optional].map((v, i)=>{
-        return {pk: v.id, value: v.data}
-      })
+      info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://211.208.115.66:8091/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -113,15 +120,13 @@ const BasicSubdividedRegister = () => {
     
     const data = {
       document_pk: document.pk,
-      factory: inputData.factory.pk,
+      factory: inputData.factory[0].pk,
       name: inputData.name,
       description: inputData.description,
-      info_list: [...essential, ...optional].map((v, i)=>{
-        return {pk: v.id, value: v.data}
-      })
+      info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://211.208.115.66:PORT/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -161,7 +166,7 @@ const BasicSubdividedRegister = () => {
                       }
                       solo={true}
                       list={inputData.factory}
-                      searchUrl={'http://211.208.115.66:PORT/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://61.101.55.224:9912/api/v1/factory/search?option=0&'}
                 />
 
                 <NormalInput title={'세분화 이름'} value={inputData.name} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.name = input; setInputData(temp)}} />
@@ -172,14 +177,15 @@ const BasicSubdividedRegister = () => {
                 <br/>
                 <DocumentFormatInputList 
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:PORT/api/v1/subdivided/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/subdivided/load?pk=${pk}` :''} 
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
                 :
-                <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+                
+                <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
             

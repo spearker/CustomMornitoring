@@ -41,7 +41,7 @@ const SearchedList = ({ pk , option,contents, widths, isSelected, isIconDimmed, 
           return(
             <div style={{ width: widths[i], color: isIconDimmed ? '#b3b3b3' : 'black'}}>
              
-              <p className="p-limit"> {i !== 0 ? <span>|&nbsp;&nbsp;</span> : <span >&nbsp;&nbsp;</span>}{v}</p>
+              <p className="p-limit" style={{paddingLeft:8}}>{v}</p>
             </div>
           )
         })

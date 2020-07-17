@@ -119,7 +119,7 @@ const ClientRegister = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8091/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -188,7 +188,7 @@ const ClientRegister = () => {
 
     };
 
-    const res = await postRequest('http://211.208.115.66:8091/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/customer/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -243,7 +243,7 @@ const ClientRegister = () => {
     };
     
 
-    const res = await postRequest('http://211.208.115.66:8091/api/v1/customer/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/customer/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

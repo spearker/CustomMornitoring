@@ -66,7 +66,7 @@ const ProcessList = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest(`http://211.208.115.66:8091/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
+    const results = await getRequest(`http://61.101.55.224:9912/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -90,7 +90,7 @@ const ProcessList = () => {
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     
    
-    const results = await getRequest(`http://211.208.115.66:8091/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
+    const results = await getRequest(`http://61.101.55.224:9912/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')

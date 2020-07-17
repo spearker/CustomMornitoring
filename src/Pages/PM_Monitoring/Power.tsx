@@ -22,7 +22,7 @@ const CmsPower: React.FunctionComponent = () => {
     //
     // const DataLoad = async () => {
     //
-    //     const results = await getRequest('http://211.208.115.66:8088/api/v1/cms/load?place=1', getToken(TOKEN_NAME))
+    //     const results = await getRequest('http://61.101.55.224:8088/api/v1/cms/load?place=1', getToken(TOKEN_NAME))
     //
     //     console.log(results)
     //

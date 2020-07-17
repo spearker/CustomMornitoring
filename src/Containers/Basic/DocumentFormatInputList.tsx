@@ -46,17 +46,21 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
 
   const getDocumentData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:PORT/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
+
+    if(pk === null){
+      return;
+    }
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
       alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다.')
     }else{
       if(res.status === 200 || res.status === "200"){
-        setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
-        setOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
-        onChangeEssential(essential);
-        onChangeOptional(optional);
+        setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
+        setOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
+        onChangeEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
+        onChangeOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
       }else{
         //TODO:  기타 오류
         alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
@@ -65,7 +69,8 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
   },[essential, optional ])
 
   const getUpdateData = useCallback(async()=>{
-    
+    //alert(pk)
+
     const res = await getRequest(loadDataUrl!, getToken(TOKEN_NAME))
 
     if(res === false){
@@ -73,10 +78,10 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
       alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다.')
     }else{
       if(res.status === 200 || res.status === "200"){
-        setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
-        setOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: null, title: v.item_name})}))
-        onChangeEssential(essential);
-        onChangeOptional(optional);
+        setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
+        setOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
+        onChangeEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
+        onChangeOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
       }else{
         //TODO:  기타 오류
         alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
@@ -96,11 +101,11 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
           essential.map((v, i) =>{
             if(v.type == 0){
                 return(
-                  <NormalNumberInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(essential); temp[i].data = input; setEssential(temp)}} />
+                  <NormalNumberInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(essential); temp[i].data = input; setEssential(temp); onChangeEssential(temp)}} />
                 )
               }else if(v.type == 1){
                 return(
-                  <DateInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(essential); temp[i].data = input; setEssential(temp)}} />
+                  <DateInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(essential); temp[i].data = input; setEssential(temp); onChangeEssential(temp)}} />
                 )
               }
             })
@@ -111,11 +116,11 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
           optional.map((v, i) =>{
             if(v.type == 0){
                 return(
-                  <NormalNumberInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(essential); temp[i].data = input; setOptional(temp); onChangeOptional(temp)}} />
+                  <NormalNumberInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(optional); temp[i].data = input; setOptional(temp); onChangeOptional(temp)}} />
                 )
               }else if(v.type == 1){
                 return(
-                  <DateInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(essential); temp[i].data = input; setOptional(temp); onChangeEssential(temp)}} />
+                  <DateInput title={v.title} value={v.data} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(optional); temp[i].data = input; setOptional(temp); onChangeEssential(temp)}} />
                 )
               }
             })

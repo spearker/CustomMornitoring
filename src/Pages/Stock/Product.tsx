@@ -70,7 +70,7 @@ const ProductList = () => {
               
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8091/api/v1/stock/history/product?'}/>
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://61.101.55.224:9912/api/v1/stock/history/product?'}/>
           
           <InfoTable indexList={index} pkKey={'pk'} typeKey={'reason'} typeChanger={machineCodeToName}  type={'stock'}  onClickLinkUrl="/stock/in" contents={list} />
         

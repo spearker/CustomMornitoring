@@ -31,18 +31,15 @@ import DropdownCode from '../../Components/Input/DropdownCode';
 import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
 import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
 import * as _ from 'lodash';
+import useObjectInput from '../../Functions/UseInput';
+import NormalAddressInput from '../../Components/Input/NormalAddressInput';
+import { JsonStringifyList } from '../../Functions/JsonStringifyList';
+import {useHistory} from 'react-router-dom';
 
-const docDummy = [
-  {pk: 'qfqwf', name:'도큐먼트 1'},
-  {pk: 'ehki', name:'도큐먼트 2'},
-  {pk: 'qfqw412f', name:'도큐먼트 3'},
-  {pk: 'efgrhtjyu', name:'도큐먼트 4'},
-  {pk: 'kmcd', name:'도큐먼트 5'},
-]
 // 공장 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const BasicFactoryRegister = () => {
-
+  const history = useHistory();
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
  
   const [essential,setEssential] = useState<any[]>([]);
@@ -51,12 +48,16 @@ const BasicFactoryRegister = () => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [pk, setPk] = useState<string>('');
 
-  const [inputData, setInputData] = useState<any>({
+  const [inputData, setInputData] = useObjectInput('CHANGE', {
     name:'',
     description:'',
-    address:'',
-  });
+    address: {
+      postcode: '',
+      roadAddress:'',
+      detail:'',
+    },
 
+  });
   useEffect(()=>{
     
     if(getParameter('pk') !== "" ){
@@ -69,15 +70,17 @@ const BasicFactoryRegister = () => {
 
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:PORT/api/v1/factory/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest(`http://61.101.55.224:9912/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
+      
     }else{
       if(res.status === 200 || res.status === "200"){
           const data = res.results;
-          setInputData(data)
-         
+          setInputData('name', data.name)
+          //setInputData('address', data.address)
+          setInputData('description', data.description)
       }else{
         //TODO:  기타 오류
       }
@@ -91,18 +94,19 @@ const BasicFactoryRegister = () => {
     const data = {
       pk: getParameter('pk'),
       address: inputData.address,
+      name: inputData.name,
       description: inputData.description,
-      info_list: [...essential, ...optional].map((v, i)=>{
-        return {pk: v.id, value: v.data}
-      })
+      info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://211.208.115.66:8091/api/v1/factory/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/factory/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
+
     }else{
       if(res.status === 200){
-          alert('성공적으로 수정 되었습니다')
+          alert('성공적으로 수정 되었습니다');
+          history.push('/basic/list/factory')
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -113,26 +117,28 @@ const BasicFactoryRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
+   
     
     const data = {
       document_pk: document.pk,
       name: inputData.name,
       address: inputData.address,
       description: inputData.description,
-      info_list: [...essential, ...optional].map((v, i)=>{
-        return {pk: v.id, value: v.data}
-      })
+      info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://211.208.115.66:PORT/api/v1/factory/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/factory/register', data, getToken(TOKEN_NAME))
 
+    
     if(res === false){
-      //TODO: 에러 처리
+      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
+
     }else{
       if(res.status === 200){
-         
+          alert('성공적으로 등록 되었습니다');
+          history.push('/basic/list/factory')
       }else{
-        //TODO:  기타 오류
+        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
@@ -151,22 +157,23 @@ const BasicFactoryRegister = () => {
                 document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
-                <NormalInput title={'공장명'} value={inputData.name} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.name = input; setInputData(temp)}} />
-                <NormalInput title={'위치'} value={inputData.address} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.address = input; setInputData(temp)}} />
+                <NormalInput title={'공장명'}  value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'공장 이름을 입력해주세요.'}/>
+                <NormalAddressInput title={'공장 주소'} value={inputData.address} onChangeEvent={(input)=>setInputData(`address`, input)}  />
                 <br/>
                 <ListHeader title="선택 항목"/>
-                <NormalInput title={'설명'} value={inputData.description} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.description = input; setInputData(temp)}} />
+                <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>
                 <br/>
                 <DocumentFormatInputList 
+                  
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:PORT/api/v1/factory/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/factory/load?pk=${pk}` :''} 
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
                 :
-                <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+                <SelectDocumentForm category={5} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
             

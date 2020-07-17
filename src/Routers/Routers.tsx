@@ -201,9 +201,9 @@ const Routers = () => {
 
             <Route exact path="/basic/list/:id" component={BasicListPage}/>
             
-            <Route exact path="/basic/standard/list" component={BasicStandardList}/>
-            <Route exact path="/basic/standard/register" component={BasicStandardRegister}/>
-            <Route exact path="/basic/document/list" component={BasicDocumentList}/>
+          
+            <Route exact path="/basic/item/register" component={BasicStandardRegister}/>
+           
             <Route exact path="/basic/document/register" component={BasicDocumentRegister}/>
 
             <Route exact path="/basic/machine/register" component={BasicMachineRegister}/>

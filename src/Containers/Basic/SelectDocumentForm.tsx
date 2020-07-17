@@ -33,13 +33,13 @@ const SelectDocumentForm = ({category, onChangeEvent}:Props) => {
 
   const getDocumentData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:PORT/api/v1/document/form/list?category=' + 0, getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/document/form/list?category=' + category, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
-         setDocumentList([{id: null, value:'선택 안함'}, ...res.results.map((v)=>{return({id: v.pk, value: v.name})})])
+         setDocumentList([{pk: null, value:'선택 안함'}, ...res.results.map((v)=>{return({pk: v.pk, value: v.name})})])
          
          
       }else{
@@ -55,7 +55,7 @@ const SelectDocumentForm = ({category, onChangeEvent}:Props) => {
      
                 
       <form style={{minHeight:400}}>
-        <DropdownCode title={'표준 문서 선택'} target={document} contents={documentList} onChangeEvent={(input)=>{setDocument(input); onChangeEvent(input)}} />
+        <DropdownCode title={'표준 문서 선택'} target={document} contents={documentList} onChangeEvent={(input)=>{ onChangeEvent(input)}} />
         <br/>
         <TextNotice>조회가능한 표준문서가 없다면, <span onClick={()=>history.push('/basic/document/register')}>표준문서 등록</span>에서 등록해주세요. </TextNotice>
       </form>

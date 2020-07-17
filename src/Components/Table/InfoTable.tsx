@@ -77,13 +77,16 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                       return (
                         v[mv] !== null && v[mv] !== undefined  ?
                           <td key={mv} className="p-limits" onClick={() => onClickLinkUrl !== undefined ? history.push(onClickLinkUrl + v[pkKey]) : null}  >
-                          {typeChanger !== undefined && typeKey !== undefined && mv === typeKey ? 
-                            typeChanger(type, Number(v[mv]), 'kor') //타입 
-                            :  
-                            String(v[mv]).indexOf('https://')  !== -1 || String(v[mv]).indexOf('http://') !== -1   ?
-                              <img src={v[mv]} style={{height:66}} />
+                          {
+
+                            typeof v[mv] === 'object' ?
+                              Object.keys(v[mv]).map(m => {
+                                return  v[mv][m] + ' '
+                              })
+                          
                             :
                             v[mv]
+             
                             
                           }
                          </td>

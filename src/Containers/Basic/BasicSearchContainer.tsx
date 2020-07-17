@@ -103,7 +103,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key,
                           const temp = [...list].filter(f => f.pk !== v.pk)
                           onChangeEvent(temp)
                         }} 
-                        title={v[key]} name={v[value]}/>                    
+                        title={v[value]} name={''}/>                    
                     )
                   })
                 }
@@ -130,15 +130,20 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key,
                   {
                     searchedList.map((v: ISearchedList, i)=>{ 
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['50%', '50%']} 
-                            contents={[v[key] ?? '', v[value] ?? '']} 
+                         <SearchedList key={i} pk={v.pk} widths={['80%']} 
+                            contents={[v[value]]} 
                             isIconDimmed={false} 
                             isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
                              onClickEvent={()=>{
-                              if(solo){
-                                const tempList = [...checkList, v]
-                                tempList.push(v)
-                                setCheckList(tempList);
+                              if(!solo){
+                                if(checkList.find((k)=> k.pk == v.pk)){
+                                  setCheckList(checkList.filter(f=> f.pk !== v.pk));
+                                }else{
+                                  const tempList = [...checkList, v]
+                                  tempList.push(v)
+                                  setCheckList(tempList);
+                                }
+                                
                               }else{
                                 setCheckList([v])
                               }

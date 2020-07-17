@@ -66,7 +66,7 @@ const FullMonitoring = () => {
     }
 
     console.log('-- monitoring data load -- ' )
-    const res = await getRequest(`http://211.208.115.66:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://61.101.55.224:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if(res === false){
       alert('서버에서 데이터를 받아올 수 없습니다.')

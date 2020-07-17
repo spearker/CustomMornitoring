@@ -34,12 +34,10 @@ const TextList = ({ title, name, onClickEvent,onClickSearch }: Props) => {
     
       <ListWrapDiv>
         <ListDiv>
-          <div style={{width: '20%'}}>
+          <div style={{width: '80%'}}>
           <p className="p-limit">&nbsp;&nbsp;{title}</p>
           </div>
-          <div style={{width: '80%'}}>
-            <p>|&nbsp;&nbsp;{name}</p>
-          </div>
+     
         </ListDiv>
         {
           onClickSearch !== undefined ?

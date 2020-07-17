@@ -140,7 +140,7 @@ const Dashboard = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getStatus = useCallback(async (index: number)=>{
-    const results = await getRequest('http://211.208.115.66:8087/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
+    const results = await getRequest('http://61.101.55.224:8087/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
@@ -161,7 +161,7 @@ const Dashboard = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getTasks = useCallback(async (index: number)=>{
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+    const results = await getRequest('http://61.101.55.224:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
@@ -212,7 +212,7 @@ const Dashboard = () => {
       pk: pk,
       status: value
     }
-    const results = await postRequest('http://211.208.115.66:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
+    const results = await postRequest('http://61.101.55.224:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
@@ -236,7 +236,7 @@ const Dashboard = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     //return;
-    const results = await getRequest('http://211.208.115.66:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+    const results = await getRequest('http://61.101.55.224:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('서버에서 데이터를 불러 올 수없습니다.')

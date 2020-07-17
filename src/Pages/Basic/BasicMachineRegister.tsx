@@ -32,7 +32,8 @@ import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
 import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import { JsonStringifyList } from '../../Functions/JsonStringifyList';
-
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import {useHistory} from 'react-router-dom';
 
 const docDummy = [
   {pk: 'qfqwf', name:'도큐먼트 1'},
@@ -44,9 +45,10 @@ const docDummy = [
 // 기계 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const BasicMachineRegister = () => {
+  const history = useHistory();
 
-  const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
-  const [documentList, setDocumentList] = useState<any[]>([]);
+  const [document, setDocument] = useState<any>({pk:'', value:'(선택)'});
+ 
  
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
@@ -60,7 +62,8 @@ const BasicMachineRegister = () => {
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
   const [factory, setFactory] = useState<any[]>([]);
-
+  const [slip_angle, setSlip_angle] = useState<number>(0);
+  const [tons, setTons] = useState<number>(0);
   const [files, setFiles] = useState<any[3]>([null, null, null]);
   const [paths, setPaths] = useState<any[3]>([null, null, null]);
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null, null]);
@@ -125,7 +128,7 @@ const BasicMachineRegister = () => {
   
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:8091/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -137,10 +140,12 @@ const BasicMachineRegister = () => {
          setPhotoName(data.photo);
          setDate(data.manufactured_at);
          setPk(data.pk);
-          setFactory([{pk: data.location_pk, value: data.location_name}])
+          setFactory([{pk: data.location_pk, name: data.location_name}])
          setMadeNo(data.manufacturer_code);
-         setType(Number(data.machine_label));
-         setInfoList(data.info_list)
+         setType(Number(data.machine_type));
+         setInfoList(data.info_list);
+         setSlip_angle(data.slip_angle ?? 0);
+         setTons(data.tons ?? 0);
          const tempList = paths.slice();
          tempList[0]= data.photo;
          tempList[1]= data.qualification;
@@ -152,7 +157,7 @@ const BasicMachineRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made,madeNo,date, type,photoName, name,oldPaths, infoList, paths,essential, optional, factory ]) 
+  },[pk, made,madeNo,date, slip_angle, tons, type,photoName, name,oldPaths, infoList, paths,essential, optional, factory ]) 
 
   
   const onsubmitFormUpdate = useCallback(async(e)=>{
@@ -164,30 +169,35 @@ const BasicMachineRegister = () => {
     const data = {
       pk: getParameter('pk'),
       machine_name: name,
-      machine_label: type,
+      machine_type: type,
       manufacturer: made,
       manufacturer_code: madeNo,
       manufactured_at: date,
+
       location: factory[0].pk,
       info_list: JsonStringifyList(essential, optional),
       photo: paths[0],
       qualification: paths[1],
-      capacity: paths[2]
+      capacity: paths[2],
+      tons: tons,
+      slip_angle: slip_angle,
+     
     };
 
-    const res = await postRequest('http://211.208.115.66:8091/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
     }else{
       if(res.status === 200){
           alert('성공적으로 수정 되었습니다')
+          history.push(`/basic/list/machine`);
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
-  },[pk, made, madeNo, name, type, date, madeNo, infoList, paths,essential, optional, factory ])
+  },[pk, made, madeNo, name, slip_angle, tons, type, date, madeNo, infoList, paths,essential, optional, factory ])
 
   /**
    * onsubmitForm()
@@ -205,7 +215,7 @@ const BasicMachineRegister = () => {
     const data = {
       document_pk: document.pk,
       machine_name: name,
-      machine_label: type,
+      machine_type: type,
       manufacturer: made,
       manufacturer_code: madeNo,
       manufactured_at: date,
@@ -213,35 +223,29 @@ const BasicMachineRegister = () => {
       info_list: JsonStringifyList(essential, optional),
       photo: paths[0],
       qualification: paths[1],
-      capacity: paths[2]
+      capacity: paths[2],
+      tons: tons,
+      slip_angle: slip_angle,
     };
     
 
-    const res = await postRequest('http://211.208.115.66:PORT/api/v1/machine/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
+      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
     }else{
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
-         setName('');
-         setMade('');
-         setPhotoName('');
-         setDate(moment().format('YYYY-MM-DD'))
-         setPk('');
-         setFactory([])
-      
-         setMadeNo('');
-         setType(1);
-         setInfoList([]);
-         setPaths([null, null, null])
+         history.push(`/basic/list/machine`);
         
       }else{
         //TODO:  기타 오류
+        alert('요청을 처리 할 수 없습니다.')
       }
     }
 
-  },[pk, made, madeNo, document, date, name, type, madeNo, infoList, paths, essential, optional, factory ])
+  },[pk, made, madeNo, slip_angle, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory ])
 
 
 
@@ -253,11 +257,12 @@ const BasicMachineRegister = () => {
             <Header title={isUpdate ? '기계 정보수정' : '기계 정보등록'}/>
             <WhiteBoxContainer>
               {
-                document.id !== '' || isUpdate == true?
+                document.pk !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'기계 이름'} value={name} onChangeEvent={setName} description={'고객사가 보유한 기계의 이름을 입력하세요'} />
                 <DropdownInput title={'기계 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
                 
@@ -272,12 +277,18 @@ const BasicMachineRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://211.208.115.66:PORT/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://61.101.55.224:9912/api/v1/factory/search?option=0&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'기계의 제조사명을 입력하세요'} />
-               
+                {
+                  type == 1 &&
+                  <>
+                  <NormalNumberInput title={'밀림 각도'} value={slip_angle} onChangeEvent={setSlip_angle} description={''} />
+                  <NormalNumberInput title={'정상 톤 값'} value={tons} onChangeEvent={setTons} description={''} />
+                  </>
+                }
                 <NormalFileInput title={'기계 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
@@ -289,7 +300,11 @@ const BasicMachineRegister = () => {
                     null
                 }
                 <br/>
-                <DocumentFormatInputList pk={document.pk} onChangeEssential={setEssential} onChangeOptional={setOptional}/>
+                <DocumentFormatInputList 
+                  pk={!isUpdate ? document.pk : undefined}
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/machine/load?pk=${pk}` :''} 
+                  onChangeEssential={setEssential} onChangeOptional={setOptional}
+                  />
                 
                  
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   

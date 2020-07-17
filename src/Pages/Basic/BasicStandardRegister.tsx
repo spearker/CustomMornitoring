@@ -31,11 +31,14 @@ import { onClickSearch, SEARCH_TYPES } from '../../Functions/SearchList';
 import DropdownCode from '../../Components/Input/DropdownCode';
 import { DROP_DOWN_LIST } from '../../Common/dropdownList';
 import * as _ from 'lodash';
+import {useHistory} from 'react-router-dom';
+
+
 
 // 기준정보 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const BasicStandardRegister = () => {
-
+  const history = useHistory();
   const [pk, setPk] = useState<string>('');
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [necessary, setNecessary] = useState<any>({
@@ -59,17 +62,17 @@ const BasicStandardRegister = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://211.208.115.66:PORT/api/v1/item/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:9912/api/v1/item/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
          
-         const temp = [...necessary];
-         temp[`standard_name`].data = res.name;
-         temp[`standard_type`].data = {id: res.category, value: DROP_DOWN_LIST.standard_type.filter(f=>f==res.catetory)[0].value};
-         temp[`standard_validation_type`].data = {id: res.validation1, value: DROP_DOWN_LIST.standard_validation_type.filter(f=>f==res.validation1)[0].value};
+         const temp = {...necessary};
+         temp[`standard_name`].data = res.results.name;
+         temp[`standard_type`].data = {id: res.results.category, value: DROP_DOWN_LIST[`standard_type`].filter(f=>f.id == res.results.category)[0].value};
+        temp[`standard_validation_type`].data = {id: res.results.validation1, value: DROP_DOWN_LIST[`standard_validation_type`].filter(f=> f.id == res.results.validation1)[0].value};
          setNecessary(temp);
          setPk(res.pk);
        
@@ -93,13 +96,14 @@ const BasicStandardRegister = () => {
       validation1: necessary['standard_validation_type'].data.id,
     };
 
-    const res = await postRequest('http://211.208.115.66:PORT/api/v1/item/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/item/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
     }else{
       if(res.status === 200){
           alert('성공적으로 수정 되었습니다')
+          history.push('/basic/list/item')
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -121,20 +125,21 @@ const BasicStandardRegister = () => {
       validation1: necessary['standard_validation_type'].data.id,
   
     };
-    alert(JSON.stringify(data ));
+    //alert(JSON.stringify(data ));
 
-    const res = await postRequest('http://211.208.115.66:PORT/api/v1/machine/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/item/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      //TODO: 에러 처리
+      alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다');
-        
+          alert('성공적으로 등록 되었습니다')
+          history.push('/basic/list/item')
       }else{
-        //TODO:  기타 오류
+        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
+
 
   },[pk, necessary ])
 
