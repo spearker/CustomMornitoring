@@ -59,7 +59,7 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
         </div>
 
 
-    );
+    ); 
 }
 
 

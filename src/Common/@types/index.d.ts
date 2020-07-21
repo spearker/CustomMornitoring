@@ -1,4 +1,6 @@
 // 기계 타입
+import {POINT_COLOR} from "../configset";
+
 interface IMachine{
     machine_name: string,
     machine_label?: number,
@@ -238,4 +240,37 @@ interface LeadTimeAnalysis{
   },
   timeLine: string[],
   time: string[]
+}
+
+interface IPressReadyTime{
+  manufacturer_code: string
+  machine_name: string
+  machine_ton: string
+  analyze:{
+    power_off: number
+    uptime: number
+    downtime: {
+      total: number
+      error : number
+      mold_change : number
+    }
+  }
+}
+
+interface IChartOption {
+  chart: {
+    width: string | number,
+    type: string,
+  },
+  labels: string[]
+  colors: string[]
+  title: {
+    style? : object
+    text: string
+  },
+  dataLabels?: object
+  legend: {
+    show: boolean
+  }
+
 }

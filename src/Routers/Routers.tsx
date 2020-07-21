@@ -141,7 +141,7 @@ import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
 import MachineMaintenance from '../Pages/PM_Maintenance/MachineMaintenance';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
 import MoldMaintenance from '../Pages/PM_Maintenance/mold';
-import ReadyTimeStatistics from '../Pages/PM_Analysis/ReadyTimeStatistics';
+import Old_ReadyTimeStatistics from '../Pages/PM_Analysis/Old_ReadyTimeStatistics';
 import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
@@ -160,8 +160,13 @@ import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
 import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
 import OutsourcingCompanyRegister from '../Pages/Outsourcing/OutsourcingCompanyRegister';
 import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister';
+
+import ReadyTimeContainer from "../Containers/Statistics/ReadyTimeContainer";
+import ReadyTimeStatics from "../Pages/PM_Statistics/ReadyTimeStatics";
+
 import OvertonMaintenance from "../Pages/Maintenance/Overton";
 import ClutchMaintenance from "../Pages/Maintenance/Clutch";
+
 
 const Routers = () => {
 
@@ -366,7 +371,8 @@ const Routers = () => {
             {/* 15.0 프레스 분석 및 통계 */}
             <Route exact path="/pm/statistics/press" component={PressStatistics} />
             <Route exact path="/pm/statistics/loadton" component={LoadStatistics} />
-            <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatistics} />
+            <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics} />
+            <Route exact path="/pm/statistics/readytime" component={Old_ReadyTimeStatistics} />
             <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
             <Route exact path="/statistics/loss" component={FactoryLossSatistics} />
             <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics} />
