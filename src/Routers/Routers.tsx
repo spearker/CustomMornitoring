@@ -79,7 +79,7 @@ import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
 
-import MaintenanceRegister from '../Pages/Maintenance/register';
+import MaintenanceRegister from '../Pages/Maintenance/Register';
 import StockView from '../Pages/Stock/View'
 
 import PressRecommend from '../Pages/Process/Press';
@@ -160,6 +160,8 @@ import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
 import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
 import OutsourcingCompanyRegister from '../Pages/Outsourcing/OutsourcingCompanyRegister';
 import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister';
+import OvertonMaintenance from "../Pages/Maintenance/Overton";
+import ClutchMaintenance from "../Pages/Maintenance/Clutch";
 
 const Routers = () => {
 
@@ -201,10 +203,10 @@ const Routers = () => {
             {/* 2.0 기준정보관리 */}
 
             <Route exact path="/basic/list/:id" component={BasicListPage}/>
-            
-          
+
+
             <Route exact path="/basic/item/register" component={BasicStandardRegister}/>
-           
+
             <Route exact path="/basic/document/register" component={BasicDocumentRegister}/>
 
             <Route exact path="/basic/machine/register" component={BasicMachineRegister}/>
@@ -213,6 +215,7 @@ const Routers = () => {
             <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
             <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
             <Route exact path="/basic/material/register" component={BasicMaterialRegister}/>
+
             <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
             {/* 외주정보 관리 */}
@@ -256,7 +259,7 @@ const Routers = () => {
             <Route exact path="/register/client" component={RegisterClient}/>
             <Route exact path="/list/client" component={ClientList} />
 
-            {/* 5.0 외주관리 
+            {/* 5.0 외주관리
             <Route exact path="/update/outsourcing" component={OutsourcingRegister}/>
             <Route exact path="/register/outsourcing" component={OutsourcingRegister}/>
             <Route exact path="/outsourcing/list" component={OutsourcingList}/>
@@ -280,6 +283,8 @@ const Routers = () => {
             <Route exact path="/maintenance/errorcode" component={ErrorCodeMaintenance} />
             <Route exact path="/maintenance/motor" component={MotorRotationMaintenance} />
             <Route exact path="/pm/maintenance/oil" component={OilMaintenance} />
+            <Route exact path="/pm/maintenance/clutch" component={ClutchMaintenance} />
+            <Route exact path="/pm/maintenance/overton" component={OvertonMaintenance} />
 
 
              {/* 8.0 공정 관리 */}

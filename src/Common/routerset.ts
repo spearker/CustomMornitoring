@@ -119,7 +119,7 @@ export const ROUTER_MENU_LIST = [
     ],
     [   //프레스 통계·분석
       { name : '통계·분석', url : '/commingsoon'},
-     
+
       { name : 'QDC 교환시기 분석', url : '/statistics/qdctime'},
       { name : '비가동시간 분석', url : '/statistics/readytime'},
       { name : '공정별 불량률 분석', url : '/statistics/loss'},
@@ -127,7 +127,7 @@ export const ROUTER_MENU_LIST = [
       { name : '최적 SPM 분석', url : '/statistics/optimalspm'},
       { name : '제조 리드타임 분석', url : '/statistics/leadtime'},
       { name : '캠 정보 분석', url : '/statistics/cam'},
-     
+
       { name : 'cms 분석 및 통계', url : '/statistics/cms'},
       { name : '공장 환경 분석', url : '/statistics/environmental' }
 
@@ -162,29 +162,29 @@ export const ROUTER_MENU_LIST = [
   }
 
   export const PM_MENU_LIST = {
-    monitoring: [ // 
+    monitoring: [ //
       { name : '프레스 모니터링', url :  '/commingsoon'},
       { name : '프레스 상태 모니터링', url :  '/pm/monitoring/press'},
       { name : '로드모니터 모니터링', url :  '/pm/monitoring/loadton'},
       { name : '전력 모니터링', url : '/pm/monitoring/cms'},
-     
-   
+
+
     ],
-    maintenance:[ // 
+    maintenance:[ //
       { name : '프레스 보전관리', url : '/pm/maintenance/press'},
       { name : '금형 수명 주기', url : '/pm/maintenance/mold'},
-      { name : '클러치&브레이크', url : '/commingsoon'},
+      { name : '클러치&브레이크', url : '/pm/maintenance/clutch'},
       { name : '오일 교환 및 보충', url : '/pm/maintenance/oil'},
-      { name : '오버톤', url : '/commingsoon'},
+      { name : '오버톤', url : '/pm/maintenance/overton'},
     ],
-    analysis: [ // 
+    analysis: [ //
       { name : '프레스 데이터 분석', url : '/pm/analysis/press'},
-   
+
       { name : '생산량', url : '/commingsoon'},
       { name : '능력', url : '/commingsoon'},
       { name : '비가동시간', url : '/pm/analysis/readytime'},
     ],
-    statistics : [ // 
+    statistics : [ //
       { name : '프레스 데이터 통계', url : '/pm/statistics/press'},
       { name : '오일 공급', url : '/commingsoon'},
       { name : '비 가동시간', url : '/commingsoon'},
@@ -192,7 +192,7 @@ export const ROUTER_MENU_LIST = [
       { name : '로드톤 ', url : '/pm/statistics/loadton'},
       { name : '능력', url : '/commingsoon'},
       { name : '에러', url : '/commingsoon'},
-    
+
     ],
-    
+
   };
