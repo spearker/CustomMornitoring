@@ -79,7 +79,7 @@ import Contract from '../Pages/Outsourcing/Contract';
 import BarcodeProductList from '../Pages/Barcode/ProductList'
 import ProductRegister from '../Pages/Barcode/ProductRegister';
 
-import MaintenanceRegister from '../Pages/Maintenance/Register';
+//import MaintenanceRegister from '../Pages/Maintenance/Register';
 import StockView from '../Pages/Stock/View'
 
 import PressRecommend from '../Pages/Process/Press';
@@ -220,7 +220,6 @@ const Routers = () => {
             <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
             <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
             <Route exact path="/basic/material/register" component={BasicMaterialRegister}/>
-
             <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
             {/* 외주정보 관리 */}
@@ -281,7 +280,7 @@ const Routers = () => {
             <Route exact path="/pm/maintenance/press" component={MachineMaintenance} />
             <Route exact path="/maintenance/submachine" component={SubmachineMaintenance} />
             <Route exact path="/pm/maintenance/mold" component={MoldMaintenance} />
-            <Route exact path="/maintenance/register" component={MaintenanceRegister} />
+          
             <Route exact path="/maintenance/list" component={MaintenanceList} />
             <Route exact path="/maintenance/history" component={MaintenanceHistory} />
             <Route exact path="/maintenance/search" component={SearchMaintenance} />
