@@ -24,7 +24,7 @@ const NormalAddressInput = ({ title, description, value, onChangeEvent ,onChange
     }, [])
 
     const handleComplete = useCallback((data) => {
-        console.log(data)
+      
         let fullAddress = data.address;
         let extraAddress = ''; 
         

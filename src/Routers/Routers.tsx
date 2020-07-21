@@ -92,7 +92,7 @@ import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
 import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory';
 
 import BasicBarcodeList from '../Pages/List/Barcode';
-import BasicBarcodeRegister from '../Pages/Register/Barcode';
+import BasicBarcodeRegister from '../Pages/Basic/BasicBarcodeRegister';
 import StockHistory from '../Pages/Stock/History';
 import ProductKpi from '../Pages/Kpi/ProductKpi';
 import QualityKpi from '../Pages/Kpi/QualityKpi';
@@ -213,7 +213,7 @@ const Routers = () => {
             <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
             <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
             <Route exact path="/basic/material/register" component={BasicMaterialRegister}/>
-           
+            <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
             {/* 외주정보 관리 */}
             <Route exact path="/manage/" component={BasicDeviceRegister}/>

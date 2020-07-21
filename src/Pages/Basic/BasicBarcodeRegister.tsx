@@ -22,7 +22,7 @@ import InputContainer from '../../Containers/InputContainer';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import { uploadTempFile } from '../../Common/fileFuctuons';
-import {getMachineTypeList} from '../../Common/codeTransferFunctions';
+import {getMachineTypeList, getBarcodeTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -35,10 +35,12 @@ import useObjectInput from '../../Functions/UseInput';
 import NormalAddressInput from '../../Components/Input/NormalAddressInput';
 import { JsonStringifyList } from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput';
 
-// 공장 등록 페이지
+// 바코드 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const BasicFactoryRegister = () => {
+const BasicBarcodeRegister = () => {
   const history = useHistory();
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
  
@@ -47,17 +49,15 @@ const BasicFactoryRegister = () => {
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [pk, setPk] = useState<string>('');
-
   const [inputData, setInputData] = useObjectInput('CHANGE', {
+    pk:'',
     name:'',
     description:'',
-    location: {
-      postcode: '',
-      roadAddress:'',
-      detail:'',
-    },
+    type: 0,
+    rules: [],
 
   });
+  const indexList = getBarcodeTypeList('kor');
   useEffect(()=>{
     
     if(getParameter('pk') !== "" ){
@@ -70,7 +70,7 @@ const BasicFactoryRegister = () => {
 
   const getData = useCallback(async()=>{
     
-    const res = await getRequest(`http://61.101.55.224:9912/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest(`http://61.101.55.224:9912/api/v1/barcode/standard/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -78,8 +78,10 @@ const BasicFactoryRegister = () => {
     }else{
       if(res.status === 200 || res.status === "200"){
           const data = res.results;
+          setInputData('pk', data.pk)
           setInputData('name', data.name)
-          setInputData('location', data.location)
+          setInputData('rules', data.rules)
+          setInputData('type', data.type)
           setInputData('description', data.description)
       }else{
         //TODO:  기타 오류
@@ -91,14 +93,20 @@ const BasicFactoryRegister = () => {
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
     
+    if(inputData.rules.includes(null) || inputData.rules.name == '' ){
+      alert('바코드 이름과 규칙을 반드시 입력해주세요.');
+      return;
+    }
+
     const data = {
       pk: getParameter('pk'),
-      address: inputData.location,
       name: inputData.name,
+      rules: inputData.rules,
+      type: inputData.type,
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://61.101.55.224:9912/api/v1/factory/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/barcode/standard/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
@@ -106,7 +114,7 @@ const BasicFactoryRegister = () => {
     }else{
       if(res.status === 200){
           alert('성공적으로 수정 되었습니다');
-          history.push('/basic/list/factory')
+          history.push('/basic/list/barcode')
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -117,17 +125,20 @@ const BasicFactoryRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-   
-    
+    if(inputData.rules.includes(null) || inputData.rules.name == '' )
+      return alert('바코드 이름과 규칙을 반드시 입력해주세요.');
+
+
     const data = {
       document_pk: document.pk,
       name: inputData.name,
-      address: inputData.location,
+      rules: inputData.rules,
+      type: inputData.type,
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://61.101.55.224:9912/api/v1/factory/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:9912/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
 
     
     if(res === false){
@@ -136,7 +147,7 @@ const BasicFactoryRegister = () => {
     }else{
       if(res.status === 200){
           alert('성공적으로 등록 되었습니다');
-          history.push('/basic/list/factory')
+          history.push('/basic/list/barcode')
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -151,29 +162,60 @@ const BasicFactoryRegister = () => {
     <DashboardWrapContainer index={'basic'}>
      <SubNavigation list={MES_MENU_LIST.basic}/>
         <InnerBodyContainer>
-            <Header title={isUpdate ? '공장 정보수정' : '공장 정보등록'}/>
+            <Header title={isUpdate ? '바코드 기준정보 수정' : '바코드 기준정보 등록'}/>
             <WhiteBoxContainer>
               {
                 document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
-                <NormalInput title={'공장명'}  value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'공장 이름을 입력해주세요.'}/>
-                <NormalAddressInput title={'공장 주소'} value={inputData.location} onChangeEvent={(input)=>setInputData(`location`, input)}  />
-                <br/>
+                <NormalInput title={'바코드명'} value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'바코드 이름을 입력해주세요.'}/>
+                <DropdownInput title={'바코드 종류'} target={indexList[inputData.type]} contents={indexList} onChangeEvent={(input)=>setInputData(`type`, input)}/>
+                
+                {
+                    inputData.rules.length > 0 && inputData.rules[0] !== null &&
+                    <BarcodeText><br/><span>현재 규칙</span><br/>{inputData.rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'')}</BarcodeText>
+                }
+                <FullAddInput title={'바코드 규칙'} onChangeEvent={()=>{
+                  let temp = _.cloneDeep(inputData.rules); 
+                  temp.push(null);
+                  setInputData(`rules`, temp)
+                }}>
+                  
+                  {
+                    inputData.rules.map((v, i)=>{
+                      return(
+                        <BarcodeRulesInput title={`규칙 ${i+1}`} value={v} 
+                        onRemoveEvent={()=>{
+                          let temp = _.cloneDeep(inputData.rules); 
+                          temp.splice(i, 1)
+                          setInputData(`rules`, temp)
+                        }} 
+                        onChangeEvent={(input)=>{ 
+                          let temp = _.cloneDeep(inputData.rules); 
+                          temp.splice(i, 1, input);
+                          setInputData(`rules`, temp)
+                        }} 
+                        />
+                      )
+                    })
+                  }
+                  </FullAddInput>
+    
+               <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>
                 <br/>
                 <DocumentFormatInputList 
                   
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/factory/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://61.101.55.224:9912/api/v1/barcode/standard/load?pk=${pk}` :''} 
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
               </form>
                 :
-                <SelectDocumentForm category={5} onChangeEvent={setDocument}/>
+                <SelectDocumentForm category={6} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
             
@@ -183,12 +225,18 @@ const BasicFactoryRegister = () => {
       
   );
 }
-const FullPageDiv = Styled.div`
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: ${BG_COLOR_SUB2}
+
+const BarcodeText = Styled.p`
+  text-align: center;
+  color: #555555;
+  font-size: 16px;
+  span{
+    font-weight: bold;
+    font-size: 13px;
+    padding-top: 14px;
+    color: #252525;
+  }
+
 `
 
-
-export default BasicFactoryRegister;
+export default BasicBarcodeRegister;
