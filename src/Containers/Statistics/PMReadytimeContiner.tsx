@@ -9,7 +9,6 @@ import moment from 'moment';
 import {getParameter, getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import ReactApexChart from "react-apexcharts";
-import {IChartOption, IPressReadyTime} from "../../Common/@types";
 import * as _ from 'lodash'
 import NoDataCard from "../../Components/Card/NoDataCard";
 
@@ -79,7 +78,7 @@ const PMReadyTimeContainer = () => {
      */
     const getData = useCallback(async()=>{
 
-        const res = await getRequest('http://61.101.55.224:9912/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://211.208.115.66:8099/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
         const analysis = dummyData.analyze
 
         let tmpChartOption = _.cloneDeep(chartOption)

@@ -91,7 +91,7 @@ const StockView = () => {
    */
   const getData = useCallback(async()=>{
     
-    const res = await getRequest('http://61.101.55.224:9912/api/v1/stock/history/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8099/api/v1/stock/history/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

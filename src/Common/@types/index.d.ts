@@ -1,6 +1,4 @@
 // 기계 타입
-import {POINT_COLOR} from "../configset";
-
 interface IMachine{
     machine_name: string,
     machine_label?: number,

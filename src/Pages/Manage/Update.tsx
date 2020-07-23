@@ -96,7 +96,7 @@ const CompanySetting = () => {
       status: status,
       team_pk : myTeam
     }
-    const results = await postRequest('http://61.101.55.224:9912/api/v1/member/update', data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8099/api/v1/member/update', data, getToken(TOKEN_NAME))
 
     if (results === false) {
       //setList([""])
@@ -121,7 +121,7 @@ const CompanySetting = () => {
   const getTarget = useCallback(async () => {
 
 
-    const results = await getRequest('http://61.101.55.224:9912/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
@@ -198,7 +198,7 @@ const CompanySetting = () => {
    * @returns X
    */
   const getList = useCallback(async () => {
-    const results = await getRequest('http://61.101.55.224:9912/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -228,7 +228,7 @@ const CompanySetting = () => {
     if(targetTeam == null){
       return;
     }
-    const results = await getRequest('http://61.101.55.224:9912/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {

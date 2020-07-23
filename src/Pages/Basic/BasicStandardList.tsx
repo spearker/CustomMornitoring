@@ -43,7 +43,7 @@ const BasicStandardList = () => {
    */
   const getList = useCallback(async ()=>{
    
-    const results = await getRequest('http://61.101.55.224:9912/api/v1/item/list', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8099/api/v1/item/list', getToken(TOKEN_NAME))
 
     
     if(results === false){
@@ -78,7 +78,7 @@ const BasicStandardList = () => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://61.101.55.224:9912/api/v1/item/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8099/api/v1/item/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id;
     //console.log('--select id : ' + id)
     if(results === false){

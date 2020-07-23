@@ -82,7 +82,7 @@ const OvertonMaintenanceContainer = ({type}:Props) => {
     const getList = useCallback(async ()=>{
         setList(dummy)
         /*
-        const res = await getRequest(`http://61.101.55.224:9912/api/v1/${type}/list?page=${page}`, getToken(TOKEN_NAME))
+        const res = await getRequest(`http://211.208.115.66:8099/api/v1/${type}/list?page=${page}`, getToken(TOKEN_NAME))
 
 
         if(res === false){

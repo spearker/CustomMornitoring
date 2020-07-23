@@ -136,7 +136,7 @@ const CompanySetting = () => {
       const data = {
         appointments: list
       }
-    const results = await postRequest('http://61.101.55.224:9912/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8099/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
