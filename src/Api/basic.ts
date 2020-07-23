@@ -1,4 +1,4 @@
-import client from './configs';
+import client from './configs/basic';
 import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 

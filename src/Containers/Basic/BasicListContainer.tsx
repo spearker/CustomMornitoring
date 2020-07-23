@@ -42,6 +42,7 @@ const BasicListContainer = ({type}:Props) => {
    */
   const getList = useCallback(async (pageType)=>{
     
+    
     const tempUrl = `${API_URLS[pageType].list}?page=${page}`
     const resultList = await getBasicList(tempUrl);
     setList(resultList);
