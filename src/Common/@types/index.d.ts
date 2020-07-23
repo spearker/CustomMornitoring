@@ -255,7 +255,14 @@ interface IPressReadyTime{
   }
 }
 
-interface IChartOption {
+interface IPressCapacity {
+  manufacturer_code: string
+  machine_name: string
+  machine_ton: string
+  analyze:number[]
+}
+
+interface IPieChartOption {
   chart: {
     width: string | number,
     type: string,
@@ -271,4 +278,36 @@ interface IChartOption {
     show: boolean
   }
 
+}
+
+interface IColumnChartOption {
+  chart: {
+    height: string | number,
+    type: "bar",
+    events?: {
+      click: (chart, w, e) => void
+    }
+  },
+  colors?: string[],
+  plotOptions?: {
+    bar: {
+      columnWidth: string,
+      distributed: boolean
+    }
+  },
+  dataLabels?: {
+    enabled: boolean
+  },
+  legend?: {
+    show: boolean
+  },
+  xaxis?: {
+    categories: string[],
+    labels: {
+      style: {
+        colors: string[],
+        fontSize: string | number
+      }
+    }
+  }
 }

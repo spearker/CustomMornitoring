@@ -3,17 +3,17 @@ import {PM_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
-import PMReadyTimeContainer from "../../Containers/Statistics/PMReadytimeContiner";
+import PMCapacityStaticsContiner from "../../Containers/Statistics/PMCapacityStaticsContiner";
 
-const ReadyTimeStatics = () => {
+const CapacityStatistics = () => {
     return (
         <DashboardWrapContainer index={'analysis'}>
             <SubNavigation list={PM_MENU_LIST.analysis}/>
             <InnerBodyContainer>
-                <PMReadyTimeContainer />
+                <PMCapacityStaticsContiner />
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default ReadyTimeStatics
+export default CapacityStatistics

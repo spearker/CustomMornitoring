@@ -160,12 +160,11 @@ import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
 import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
 import OutsourcingCompanyRegister from '../Pages/Outsourcing/OutsourcingCompanyRegister';
 import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister';
-
-import ReadyTimeContainer from "../Containers/Statistics/ReadyTimeContainer";
 import ReadyTimeStatics from "../Pages/PM_Statistics/ReadyTimeStatics";
 
 import OvertonMaintenance from "../Pages/Maintenance/Overton";
 import ClutchMaintenance from "../Pages/Maintenance/Clutch";
+import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
 
 
 const Routers = () => {
@@ -280,7 +279,7 @@ const Routers = () => {
             <Route exact path="/pm/maintenance/press" component={MachineMaintenance} />
             <Route exact path="/maintenance/submachine" component={SubmachineMaintenance} />
             <Route exact path="/pm/maintenance/mold" component={MoldMaintenance} />
-          
+
             <Route exact path="/maintenance/list" component={MaintenanceList} />
             <Route exact path="/maintenance/history" component={MaintenanceHistory} />
             <Route exact path="/maintenance/search" component={SearchMaintenance} />
@@ -372,6 +371,7 @@ const Routers = () => {
             <Route exact path="/pm/statistics/loadton" component={LoadStatistics} />
             <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics} />
             <Route exact path="/pm/statistics/readytime" component={Old_ReadyTimeStatistics} />
+            <Route exact path="/pm/analysis/capacity" component={CapacityStatistics} />
             <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
             <Route exact path="/statistics/loss" component={FactoryLossSatistics} />
             <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics} />

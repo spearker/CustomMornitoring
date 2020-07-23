@@ -32,7 +32,7 @@ const NoTimeDataBox = Styled.div`
     margin-top: 20px;
     color: #666d79;
     font-size: 18px;
-    padding: 222px 468px 222px 468px;
+    padding: 222px 452px 222px 452px;
     background-color: #111319;
 `
 
