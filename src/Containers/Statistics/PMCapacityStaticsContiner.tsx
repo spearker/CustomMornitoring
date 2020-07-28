@@ -22,7 +22,6 @@ const ChartInitOptions = {
                 download: false
             }
         },
-
         events: {
             click: function(chart, w, e) {
                 console.log(chart, w, e)
@@ -87,7 +86,7 @@ const  ChartOptionMiniLable= {
             "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
         ],
         labels: {
-          show: false,
+            show: false,
             style: {
                 fontSize: '12px'
             }
@@ -104,8 +103,6 @@ const MachineInitData = {
 
 const PMCapacityStaticsContiner = () => {
     const [series, setSeries] = useState<object[]>([])
-
-    const [chartOption, setChartOption] = useState(ChartInitOptions)
 
     const [selectMachine, setSelectMachine] = useState<string>('프레스 01')
 
@@ -170,7 +167,6 @@ const PMCapacityStaticsContiner = () => {
                                 <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
                             </div>
                             <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-
                                 <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
                             </div>
                         </ChartBorderMiniBox>

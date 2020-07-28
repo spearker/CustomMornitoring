@@ -31,7 +31,6 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
     },[])
 
     return (
-
         <DropBoxContainer ref={ref}>
             <BoxWrap onClick={()=>setIsOpen(!isOpen)} >
                 {
@@ -52,6 +51,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
                 <img src={IcDown} onClick={()=>{setIsOpen(true)}} style={{width: 14, height: 14}}/>
             </BoxWrap>
             {
+                isOpen &&
                     <InnerBoxWrap>
                         <BoxWrap style={{backgroundColor:'white', flexDirection: 'row', display:'flex'}}>
                             <div style={{display: "inline-block", float: "left", flex: 1, marginRight: 20}}>
@@ -98,9 +98,9 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
 }
 
 const DropBoxContainer = Styled.div`
-    margin-left:10px; min-width: 100px; 
-    position:relative; 
-    display: inline-block; 
+    margin-left:10px; min-width: 100px;
+    position:relative;
+    display: inline-block;
     z-index:100;
     float: right;
 `
@@ -130,6 +130,6 @@ const InnerBoxWrap = Styled.div`
     right:0;
     text-align: left;
     margin-top: 32px;
-
+`
 
 export default CalendarDropdown;

@@ -189,15 +189,12 @@ const PMReadyTimeContainer = () => {
                                                 float: "left",
                                                 marginTop: 8,
                                                 marginRight: 10,
-                                                marginTop: 5,
-                                                marginRight: 10,
-                                                marginLeft: 150
                                             }}/>
                                             <p style={{fontSize: 20, fontWeight: 'bold'}}>에러</p>
                                         </div>
                                     </td>
                                     <td>
-                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error}%</p>
+                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error}</p>
                                     </td>
                                 </tr>
                             </table>
@@ -231,7 +228,7 @@ const MapBox = Styled.div`
 `
 
 const TitleText = Styled.p`
-    margin-top: 10px;r
+    margin-top: 10px;
     font-size: 20px;
     font-weight: bold;
 `
@@ -247,6 +244,7 @@ const InnerText = Styled.div`
     display: inline-block;
     margin-top: 10px;
 `
+
 const TimeLineBox = Styled.div`
     background-color: #111319;
     padding: 14px 0 27px 0;
@@ -265,13 +263,6 @@ const ItemDataBox = Styled.div`
     height: 140px;
     margin-left: 100px;
     border-bottom: 0.5px solid #707070;
-
-  
-`
-
-const ItemDataBox = Styled.div`
-    width: 50px; 
-    margin-left: 30px;
 
 `
 

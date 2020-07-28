@@ -1,6 +1,4 @@
 // 기계 타입
-import {POINT_COLOR} from "../configset";
-
 interface IMachine{
     machine_name: string,
     machine_label?: number,
@@ -262,6 +260,13 @@ interface IPressCapacity {
   machine_name: string
   machine_ton: string
   analyze:number[]
+}
+
+interface IPressClutch {
+  manufacturer_code: string
+  machine_name: string
+  machine_ton: string
+  statement: number
 }
 
 interface IPressLoadTonMachineData {

@@ -124,7 +124,6 @@ const BasicBarcodeRegister = () => {
     };
 
     const res = await postRequest('http://211.208.115.66:8099/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
-
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
 

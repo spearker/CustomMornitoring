@@ -35,25 +35,24 @@ const BasicListContainer = ({type}:Props) => {
 
   },[pageType])
 
-  
+
    /**
    * getList()
    * 목록 불러오기
    */
   const getList = useCallback(async (pageType)=>{
-
     const tempUrl = `${API_URLS[pageType].list}?page=${page}`
     const resultList = await getBasicList(tempUrl);
     setList(resultList);
 
   },[list, keyword, option, pageType])
-        
+
   /**
    * onClickDelete()
    * 리스트 항목 삭제
    */
   const onClickDelete = useCallback(async (id)=>{
-    
+
     const tempUrl = `${API_URLS[pageType].delete}`
     const result = await deleteBasicList(tempUrl, id);
     if(result){
@@ -87,12 +86,12 @@ const BasicListContainer = ({type}:Props) => {
           </div>
           {
             pageType !== null &&
-            <InfoTable 
-              indexList={LIST_INDEX[pageType].index} 
-              type={type} 
-              pkKey={'pk'} 
-              onClickLinkUrl={getListUrl()} 
-              contents={list} 
+            <InfoTable
+              indexList={LIST_INDEX[pageType].index}
+              type={type}
+              pkKey={'pk'}
+              onClickLinkUrl={getListUrl()}
+              contents={list}
               onClickRemove={onClickDelete}/>
           }
         </>
