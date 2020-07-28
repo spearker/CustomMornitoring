@@ -166,7 +166,6 @@ import OvertonMaintenance from "../Pages/Maintenance/Overton";
 import ClutchMaintenance from "../Pages/Maintenance/Clutch";
 import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
 
-
 const Routers = () => {
 
     //const { isLoggedIn } = useContext(UserDataContext);
@@ -219,6 +218,7 @@ const Routers = () => {
             <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
             <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
             <Route exact path="/basic/material/register" component={BasicMaterialRegister}/>
+
             <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
             {/* 외주정보 관리 */}

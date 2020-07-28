@@ -7,26 +7,23 @@ import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import Container from '../../Containers/Maintenance/Mold';
 
 
-const MoldMaintenance = () => {
+const MoldMaintenance = ({match}:any) => {
 
-  useEffect(()=>{
+    const { id } = match.params;
 
-  },[])
-
-  return (
-    <DashboardWrapContainer index={'maintenance'}>
-        <SubNavigation list={PM_MENU_LIST.maintenance}/>
-        <InnerBodyContainer>
-        <Container />
+    return (
+        <DashboardWrapContainer index={'maintenance'}>
+            <SubNavigation list={PM_MENU_LIST.maintenance}/>
+            <InnerBodyContainer>
+                <Container />
 
 
 
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
-  );
+            </InnerBodyContainer>
+        </DashboardWrapContainer>
+    );
 }
 
 
 
 export default MoldMaintenance;
-

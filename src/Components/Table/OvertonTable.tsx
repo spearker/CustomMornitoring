@@ -1,26 +1,34 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Styled from "styled-components";
 import {BG_COLOR_SUB2, POINT_COLOR} from "../../Common/configset";
 import {useHistory} from "react-router-dom";
+import LineTable from "./LineTable";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 interface Props {
+    title: string
     indexList: any
     valueList: any[]
-    buttonList?: any[]
-    type:string
-    pkKey: string
+    EventList?: any[]
+    type?:string
+    pkKey?: string
+    mainOnClickEvent?: any
     onClickEvent?: any
-    onClickLink?: string
-    onClickRemove?: any
+    children: any
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({indexList,valueList,buttonList,type,pkKey,onClickEvent,onClickLink,onClickRemove}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,EventList,type,pkKey,mainOnClickEvent,onClickEvent, children}:Props) => {
+
     const history = useHistory()
+
+    React.useEffect(() => {
+        console.log('valueList', valueList)
+    }, [])
 
     return(
         <div>
             <div style={{textAlign:'left', }}>
-                <p className="p-bold" style={{fontSize: 20, marginBottom:15, marginTop:75}}>{'프레스 오버톤'}</p>
+                <p className="p-bold" style={{fontSize: 20, marginBottom:15, marginTop:75}}>{title}</p>
             </div>
             <TitleBar>
                 {
@@ -28,95 +36,60 @@ const OvertonTable:React.FunctionComponent<Props> = ({indexList,valueList,button
                         console.log(v)
                         return (
                             <p key={v} className="p-limits">{indexList[v]}</p>
+
+
                         )
                     })
                 }
+                {
+                    onClickEvent !== undefined ?
+                        <p className="p-limits"> </p>
+                        :
+                        null
+                }
             </TitleBar>
             {
-
-                valueList.map((v, i) => {
-                    {console.log(v)}
+                valueList !== undefined && valueList.map((v, i) => {
+                    /*
+                    v:  {
+                        pk: 'PK11212',
+                        machine_name: '프레스 01',
+                        machine_number: '000-000-00',
+                        manufacturer_code: '공정 01',
+                        machine_register_time: '2020.06.16 22:34:40',
+                        more_Action: false
+                    },
+                    */
                     return (
-
-                        <ValueBar key={i} >
-
+                        <ValueBar key={i}>
                             {
                                 Object.keys(indexList).map((mv, mi) => {
+                                    {console.log(v)}
+                                    //mv : [pk , machin_list, machine_name ... ]
                                     return (
-                                        v[mv] !== null && v[mv] !== undefined  ?
-                                            <td key={mv} className="p-limits"  onClick={() => onClickLink !== undefined ? history.push(onClickLink + v[pkKey]) : null}>
+                                            <p key={`td-${i}-${mv}`}
+                                               className="p-limits"
+                                               onClick={()=> mainOnClickEvent(v.pk,v.mold_name)}> {/* pk: 'PK11212' */}
                                                 {
-
                                                     typeof v[mv] === 'object' ?
                                                         Object.keys(v[mv]).map(m => {
                                                             return  v[mv][m] + ' '
                                                         })
-
                                                         :
                                                         v[mv]
-
-
                                                 }
-                                            </td>
-                                            :
-                                            null
+                                            </p>
 
                                     )
                                 })
                             }
-
                             {
-                                buttonList && buttonList.map((v,i)=>{
-                                    switch(v.Type) {
-                                        case 'DETAIL':
-                                            {
-                                                valueList.map((mv, mi) => {
+                                EventList && EventList.map((bv,bi)=>{
                                                 return(
-                                                onClickEvent !== undefined &&
-                                                <td style={{ textAlign:'right', paddingRight:8}}>
-                                                    <ButtonBox onClick={() => { onClickEvent(mv[pkKey]) }} >{v.Name}</ButtonBox>
-                                                </td>
+                                                <div className="p-limits">
+                                                    <ButtonBox onClick={()=>{onClickEvent([pkKey])}}>{bv.Name}</ButtonBox>
+                                                </div>
                                                     )
-                                                })
-                                            }
-                                            break
-                                        case 'CREATE':
-                                            {
-                                                valueList.map((mv, mi) => {
-                                                    return(
-                                                        onClickEvent !== undefined &&
-                                                        <td style={{ textAlign:'right', paddingRight:8}}>
-                                                            <ButtonBox onClick={() => { onClickEvent(mv[pkKey]) }} >{v.Name}</ButtonBox>
-                                                        </td>
-                                                    )
-                                                })
-                                            }
-                                                break
-                                        case 'UPDATE':
-                                            {
-                                                valueList.map((mv, mi) => {
-                                                    return(
-                                                        onClickEvent !== undefined &&
-                                                        <td style={{ textAlign:'right', paddingRight:8}}>
-                                                            <ButtonBox onClick={() => { onClickEvent(mv[pkKey]) }} >{v.Name}</ButtonBox>
-                                                        </td>
-                                                    )
-                                                })
-                                            }
-                                                break
-                                        case 'DELETE':
-                                            {
-                                                valueList.map((mv, mi) => {
-                                                    return(
-                                                        onClickRemove !== undefined &&
-                                                        <td style={{ textAlign:'right', paddingRight:8}}>
-                                                            <ButtonBox onClick={() => { onClickRemove(v[pkKey]) }} >삭제</ButtonBox>
-                                                        </td>
-                                                    )
-                                                })
-                                            }
-                                                break
-                                        }
                                 })
                             }
 
@@ -126,49 +99,68 @@ const OvertonTable:React.FunctionComponent<Props> = ({indexList,valueList,button
                     )
                 })
             }
+            <BlackBg>
+                {children == undefined  || children === null ? <p>데이터를 클릭해주세요</p> : children }
+            </BlackBg>
         </div>
     )
 }
 
 const TitleBar = Styled.div`
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     border-radius: 8px;
     background-color: #111319;
-    color: #ffffff
-    font-size: 14px;
     width: 100%;
     max-height: 40px;
     min-height: 40px;
     align-items: center;
+    p {
     text-align: left;
-    padding-left: 20px;
+    color: #ffffff
+    font-size: 14px;
+      &:first-child{
+        padding-left: 20px;
+      }
+    }
+`
+
+const BlackBg = Styled.div`
+    padding: 20px 0px 30px 20px;
+    border-radius: 6px;
+    background-color: #111319;
+    margin-top: 20px;
 `
 
 const ValueBar = Styled.div`
     margin-top: 12px;
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     border-radius: 8px;
     background-color: #353b48;
-    color: #ffffff
-    font-size: 14px;
     width: 100%;
     max-height: 40px;
     min-height: 40px;
     align-items: center;
+    p {
     text-align: left;
-    padding-left: 20px;
+    color: #ffffff
+    font-size: 14px;
+      &:first-child{
+        padding-left: 20px;
+      }
+    }
 `
 
 const ButtonBox = Styled.button`
-    padding: 7px 18px 7px 18px;
-    color: black;
+    color: white;
     border-radius: 5px;
-    background-color: ${POINT_COLOR};
+    background-color: #717c90;
     border: 0;
     font-size: 14px;
     font-weight: bold;
+    width: 112px;
+    height: 30px;
 `
 
 
