@@ -15,6 +15,7 @@ import BasicColorButton from '../../Components/Button/BasicColorButton';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import { openPopup } from '../../Common/popupFunctions';
 import { usePopupDispatch } from '../../Context/PopupContext';
+import { API_URLS, getServerStatus } from '../../Api/common';
 
 // 로그인 페이지 
 const Login = () => {
@@ -59,34 +60,34 @@ const Login = () => {
 
   },[email, password])
 
-  /**
-   * getServerStatus()
-   * : 로그인
-   * @param {string} email 이메일
-   * @param {string} password 패스워드
-   * @returns X
+  
+   /**
+   * getCheck()
+   * 서버상태 체크
    */
-  const getServerStatus = useCallback(async ()=>{
-
-    const results = await getRequestWithNoToken('http://61.101.55.224:8088/server/status')
+  const getCheck = useCallback(async ()=>{
+    
+    
+    const tempUrl = `${API_URLS.status.check}`
+    const results = await getServerStatus(tempUrl);
     if(results === false){
       dispatchp({
-          type: 'OPEN_POPUP',
-          data: {
-              type: 'error',
-              contents: '임시 알림 : 현재 백서버가 닫혀있습니다. - 로그인 및 테스트 불가'
-          }
-      })
-      setError('서버 상태 : 접속 불가')
+        type: 'OPEN_POPUP',
+        data: {
+            type: 'error',
+            contents: '임시 알림 : 현재 백서버가 닫혀있습니다. - 로그인 및 테스트 불가'
+        }
+    })
+      setError('[서버 상태] 접속 불가')
     }else{
       setError('')
     }
+  
 
   },[error])
-  
-  
+
   useEffect(()=>{
-    getServerStatus()
+    getCheck()
   },[])
 
   return (

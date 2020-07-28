@@ -7,6 +7,7 @@ import * as _ from 'lodash';
  * 기준 정보 목록 불러오기
  * @param {string} url 링크 주소
  * @returns {Array} list 
+ * @author 수민
  */
 export const getBasicList = async( url: string) =>{    
     const temp: IServerData = await client.get(url);
