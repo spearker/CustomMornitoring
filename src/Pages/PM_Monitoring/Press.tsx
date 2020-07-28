@@ -99,8 +99,6 @@ const PressMonitoring = () => {
       setTitile('프레스')
       },[])
 
-
-
     useEffect(()=>{
 
       const interval = setInterval(() => { getList(); }, 9000);
@@ -110,8 +108,6 @@ const PressMonitoring = () => {
           clearTimeout(interval);
         };
     },[])
-
-
 
   /**
    * onClickFilter()

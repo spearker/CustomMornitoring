@@ -40,6 +40,9 @@ const ChartInitOption = {
         text: "Number of leads"
     },
     dataLabels: {
+        style: {
+          fontSize: 20,
+        },
         formatter(val, opts) {
             const name = opts.w.globals.labels[opts.seriesIndex]
             return [name, val.toFixed(1) + '%']
@@ -47,6 +50,11 @@ const ChartInitOption = {
     },
     legend: {
         show: false
+    },
+    stroke: {
+        show: false,
+        width: 2,
+        dashArray: 0
     }
 }
 
@@ -67,7 +75,6 @@ const MachineInitData = {
 
 const PMReadyTimeContainer = () => {
     const [series, setSeries] = useState<number[]>([])
-
     const [chartOption, setChartOption] = useState(ChartInitOption)
 
     const [selectMachine, setSelectMachine] = useState<string>('')
@@ -132,26 +139,26 @@ const PMReadyTimeContainer = () => {
             {
 
                 selectMachine ? <TimeLineBox>
-                <div style={{width: 450, height: 450, marginLeft: 20, float: "left"}}>
+                <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
                     <ReactApexChart options={chartOption} series={series} type="pie"/>
                 </div>
-                    <CalendarDropdown select={selectDate} onClickEvent={(date) => setSelectDate(date)}></CalendarDropdown>
-                <div style={{height: 100, float: "left", marginTop: 50}}>
-                    <ItemDataBox>
-                        <div>
+                <div style={{flex: 1, float: "left"}}>
+                    <CalendarDropdown type={"single"} select={selectDate} onClickEvent={(date) => setSelectDate(date)}></CalendarDropdown>
+                    <ItemDataBox style={{marginTop: 50}}>
+                        <InnerText>
                             <TitleText>가동시간</TitleText>
-                            <ContentsText>{machineData.analyze.uptime}%</ContentsText>
-                        </div>
+                            <ContentsText>{parseFloat(String(machineData.analyze.uptime)).toFixed(2)}%</ContentsText>
+                        </InnerText>
                     </ItemDataBox>
                     <ItemDataBox>
-                        <div style={{float: 'left', display: "inline-block"}}>
+                        <InnerText>
                             <TitleText>비가동시간</TitleText>
-                            <ContentsText>{machineData.analyze.downtime.total}%</ContentsText>
-                        </div>
-                        <div style={{paddingTop: 40, width: 600 }}>
+                            <ContentsText>{parseFloat(String(machineData.analyze.downtime.total)).toFixed(2)}%</ContentsText>
+                        </InnerText>
+                        <div style={{paddingTop: 40,  }}>
                             <table>
                                 <tr>
-                                    <td style={{width: 300}}>
+                                    <td style={{width: 150}}>
                                         <div>
                                             <div style={{
                                                 display: "inline-block",
@@ -160,9 +167,8 @@ const PMReadyTimeContainer = () => {
                                                 height: 16,
                                                 backgroundColor: '#397485',
                                                 float: "left",
-                                                marginTop: 5,
+                                                marginTop: 8,
                                                 marginRight: 10,
-                                                marginLeft: 150
                                             }}/>
                                             <p style={{fontSize: 20, fontWeight: 'bold'}}>금형교체주기</p>
                                         </div>
@@ -172,7 +178,7 @@ const PMReadyTimeContainer = () => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style={{width: 300}}>
+                                    <td>
                                         <div>
                                             <div style={{
                                                 display: "inline-block",
@@ -181,6 +187,8 @@ const PMReadyTimeContainer = () => {
                                                 height: 16,
                                                 backgroundColor: '#ff341a',
                                                 float: "left",
+                                                marginTop: 8,
+                                                marginRight: 10,
                                                 marginTop: 5,
                                                 marginRight: 10,
                                                 marginLeft: 150
@@ -195,11 +203,11 @@ const PMReadyTimeContainer = () => {
                             </table>
                         </div>
                     </ItemDataBox>
-                    <ItemDataBox>
-                        <div>
+                    <ItemDataBox style={{border: 0}}>
+                        <InnerText>
                             <TitleText>전원 Off</TitleText>
-                            <ContentsText>{machineData.analyze.power_off}%</ContentsText>
-                        </div>
+                            <ContentsText>{parseFloat(String(machineData.analyze.power_off)).toFixed(2)}%</ContentsText>
+                        </InnerText>
                     </ItemDataBox>
                 </div>
             </TimeLineBox> : <NoDataCard contents={"기계를 선택해 주세요"}/>
@@ -223,6 +231,7 @@ const MapBox = Styled.div`
 `
 
 const TitleText = Styled.p`
+    margin-top: 10px;r
     font-size: 20px;
     font-weight: bold;
 `
@@ -232,6 +241,12 @@ const ContentsText = Styled.p`
     font-weight: bold;
 `
 
+const InnerText = Styled.div`
+    float: left;
+    width: 220px;
+    display: inline-block;
+    margin-top: 10px;
+`
 const TimeLineBox = Styled.div`
     background-color: #111319;
     padding: 14px 0 27px 0;
@@ -246,9 +261,18 @@ const TimeLineBox = Styled.div`
 `
 
 const ItemDataBox = Styled.div`
-    width: 300px;
-    height: 130px;
+    width: 500px;
+    height: 140px;
     margin-left: 100px;
+    border-bottom: 0.5px solid #707070;
+
+  
+`
+
+const ItemDataBox = Styled.div`
+    width: 50px; 
+    margin-left: 30px;
+
 `
 
 const MapFlexBox = Styled.div`

@@ -4,7 +4,7 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/Clutch';
+import Container from '../../Containers/PM_Maintenance/Clutch';
 import Header from "../../Components/Text/Header";
 
 
@@ -15,9 +15,6 @@ const ClutchMaintenance = () => {
             <SubNavigation list={PM_MENU_LIST.maintenance}/>
             <InnerBodyContainer>
                 <Container />
-
-
-
             </InnerBodyContainer>
         </DashboardWrapContainer>
     );

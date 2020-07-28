@@ -6,7 +6,7 @@ const dummyData:IPressClutch = {
     manufacturer_code:'factory1',
     machine_name: '프레스 01',
     machine_ton: '1000ton',
-    statement:0
+    statement:2
 }
 
 const ClutchMaintenanceContainer = () => {
@@ -20,7 +20,7 @@ const ClutchMaintenanceContainer = () => {
      * getList()
      * 클러치 정보 불러오기
      */
-    const getData = useCallback(async (pageType)=>{
+    const getData = useCallback(async ()=>{
 
         // const tempUrl = `${API_URLS[pageType].load}?pk=${pk}`
         // const resultData = await getCluchData(tempUrl);
@@ -29,7 +29,7 @@ const ClutchMaintenanceContainer = () => {
     },[data, pk])
 
     useEffect(() => {
-        getData('clutch')
+        getData()
     }, [])
 
     return (
@@ -57,13 +57,13 @@ const ClutchMaintenanceContainer = () => {
                     {
                         data && data.statement === 0 ?
                             <NormalBox>
-                                <div style={{marginTop: 63, marginLeft: 20}}>
-                                    <StatusText>정상</StatusText>
+                                <div>
+                                    <p>정상</p>
                                 </div>
                             </NormalBox> :
                             <NormalDisableBox>
                                 <div style={{marginTop: 63, marginLeft: 20}}>
-                                    <StatusDisableText>정상</StatusDisableText>
+                                    <p>정상</p>
                                 </div>
                             </NormalDisableBox>
                     }
@@ -71,12 +71,12 @@ const ClutchMaintenanceContainer = () => {
                         data && data.statement === 1 ?
                             <WarningBox>
                                 <div style={{marginTop: 63}}>
-                                    <StatusText>위험</StatusText>
+                                    <p>위험</p>
                                 </div>
                             </WarningBox> :
                             <WarningDisableBox>
                                 <div style={{marginTop: 63}}>
-                                    <StatusDisableText>위험</StatusDisableText>
+                                    <p>위험</p>
                                 </div>
                             </WarningDisableBox>
                     }
@@ -84,12 +84,12 @@ const ClutchMaintenanceContainer = () => {
                         data && data.statement === 2 ?
                             <ChangeBox>
                                 <div style={{marginTop: 63, marginRight: 20}}>
-                                    <StatusText>교체 요망</StatusText>
+                                    <p>교체 요망</p>
                                 </div>
                             </ChangeBox> :
                             <ChangeDisableBox>
                                 <div style={{marginTop: 63, marginRight: 20}}>
-                                    <StatusDisableText>교체 요망</StatusDisableText>
+                                    <p>교체 요망</p>
                                 </div>
                             </ChangeDisableBox>
                     }
@@ -118,18 +118,30 @@ const NormalBox = Styled.div`
     float: left;
     margin-right: 8px;
     background-image: linear-gradient(to bottom, #19b9df, #0f75bf);
+    div: {
+        margin-top: 63px;
+        margin-left: 20px;
+        p{
+            font-size: 50px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-family: NotoSansCJKkr-Bold;
+        }
+    }
 `
 
-const NormalDisableBox = Styled.div`
-    width: 352px;
-    height: 200px;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-    display: inline-block;
-    margin-top: 20px;
-    float: left;
-    margin-right: 8px;
+const NormalDisableBox = Styled(NormalBox)`
+    background-image: None;
     background-color: #242933;
+    p{
+        font-size: 50px;
+        text-align: center;
+        color: #42444b;
+        font-weight: bold;
+        font-family: NotoSansCJKkr-Bold;
+    }
+    
 `
 
 const WarningBox = Styled.div`
@@ -139,15 +151,29 @@ const WarningBox = Styled.div`
     display: inline-block;
     float: left;
     background-image: linear-gradient(to bottom, #5c55ff, #421ea2);
+    div: {
+        margin-top: 63px;
+        margin-left: 20px;
+        p{
+            font-size: 50px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-family: NotoSansCJKkr-Bold;
+        }
+    }
 `
 
-const WarningDisableBox = Styled.div`
-    width: 340px;
-    height: 200px;
-    margin-top: 20px;
-    display: inline-block;
-    float: left;
+const WarningDisableBox = Styled(WarningBox)`
+    background-image: None;
     background-color: #242933;
+    p{
+        font-size: 50px;
+        text-align: center;
+        color: #42444b;
+        font-weight: bold;
+        font-family: NotoSansCJKkr-Bold;
+    }
 `
 
 const ChangeBox = Styled.div`
@@ -160,18 +186,29 @@ const ChangeBox = Styled.div`
     float: left;
     margin-left: 8px;
     background-image: linear-gradient(to bottom, #f73251, #8e0505);
+    div{
+        margin-top: 63px;
+        margin-left: 20px;
+        p{
+            font-size: 50px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-family: NotoSansCJKkr-Bold;
+        }
+    }
 `
 
-const ChangeDisableBox = Styled.div`
-    width: 352px;
-    height: 200px;
-    border-top-right-radius: 100px;
-    border-bottom-right-radius: 100px;
-    display: inline-block;
-    margin-top: 20px;
-    float: left;
-    margin-left: 8px;
+const ChangeDisableBox = Styled(ChangeBox)`
+    background-image: None;
     background-color: #242933;
+    p{
+        font-size: 50px;
+        text-align: center;
+        color: #42444b;
+        font-weight: bold;
+        font-family: NotoSansCJKkr-Bold;
+    }
 `
 
 const StatusBox = Styled.div`
@@ -181,22 +218,6 @@ const StatusBox = Styled.div`
     border-radius: 6px;
     margin-top: 20px;
     margin-left: 20px;
-`
-
-const StatusText = Styled.p`
-    font-size: 50px;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    font-family: NotoSansCJKkr-Bold;
-`
-
-const StatusDisableText = Styled.p`
-    font-size: 50px;
-    text-align: center;
-    color: #42444b;
-    font-weight: bold;
-    font-family: NotoSansCJKkr-Bold;
 `
 
 const MapBox = Styled.div`
@@ -209,7 +230,6 @@ const MapBox = Styled.div`
   img{
     width: 100%;
   }
-
 `
 
 const MapFlexBox = Styled.div`

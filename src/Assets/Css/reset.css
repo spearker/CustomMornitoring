@@ -1,45 +1,45 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 
-@font-face { 
-    font-family:'NanumSquare'; 
-    src: url(../fonts/NanumSquareRegular.ttf) 
-    format('truetype'); 
+@font-face {
+    font-family:'NanumSquare';
+    src: url(../fonts/NanumSquareRegular.ttf)
+    format('truetype');
     unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+AC00-U+D7A3;
-} 
+}
 
-@font-face { 
-    font-family:'NanumSquareBold'; 
-    src: url(../fonts/NanumSquareExtraBold.ttf) 
-    format('truetype'); 
+@font-face {
+    font-family:'NanumSquareBold';
+    src: url(../fonts/NanumSquareExtraBold.ttf)
+    format('truetype');
     unicode-range: U+0041-005A, U+0061-007A, U+0030-0039, U+AC00-U+D7A3;
-} 
+}
 
-@font-face { 
-    font-family:'DINNextLTPro-Medium'; 
+@font-face {
+    font-family:'DINNextLTPro-Medium';
     src: url(../fonts/DINNextLTPro-Medium.otf)
-} 
+}
 
-@font-face { 
-    font-family:'DINNextLTPro-Bold'; 
+@font-face {
+    font-family:'DINNextLTPro-Bold';
     src: url(../fonts/DINNextLTPro-Bold.otf)
-} 
+}
 /* Hide scrollbar for Chrome, Safari and Opera */
 .div-no-scroll::-webkit-scrollbar {
     display: none;
   }
-  
+
 /* Hide scrollbar for IE and Edge */
 .div-no-scroll {
 -ms-overflow-style: none;
 }
 
 tspan{
-  
+
     fill: #ffffff96 !important;
 }
 
-body { 
+body {
     font-family:'Noto Sans KR' ;
     background-color: #3D3E43;
     height: 100%;
@@ -64,7 +64,7 @@ body {
 }
 
 .p-eng {
-    font-family: 'Roboto' !important; 
+    font-family: 'Roboto' !important;
     font-weight: bold;
 }
 
@@ -72,7 +72,7 @@ body {
     font-family: DINNextLTPro-Medium;
 }
 .p-eng-r {
-    font-family: 'Roboto' !important; 
+    font-family: 'Roboto' !important;
 }
 
 .p-num-b {
@@ -100,7 +100,7 @@ input[type=number]::-webkit-outer-spin-button {
        -moz-appearance: none;
             appearance: none;
 }
-/* Select box 스타일 초기화 */ 
+/* Select box 스타일 초기화 */
 select {
     -webkit-appearance: none;
        -moz-appearance: none;
@@ -128,8 +128,8 @@ button {
     -moz-osx-font-smoothing: inherit;
 
     /* Corrects inability to style clickable `input` types in iOS */
-    -webkit-appearance: none;	
-    transition: background 250ms ease-in-out, 
+    -webkit-appearance: none;
+    transition: background 250ms ease-in-out,
                 transform 150ms ease;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -185,11 +185,11 @@ img{
 
 g{
     fill:  white !important;
-   
+
 }
 .apexcharts-legend-text{
     color: white !important;
-   
+
   }
 
 

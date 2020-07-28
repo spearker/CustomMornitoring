@@ -103,7 +103,7 @@ import LoadStatistics from '../Pages/PM_Statistics/LoadStatistics';
 import CmsMonitoring from '../Pages/PM_Monitoring/CMS';
 import FullMonitoring from '../Pages/PM_Monitoring/Full';
 import CmsStatistics from '../Pages/PM_Monitoring/Statistics';
-import LoadtonMonitoring from '../Pages/PM_Monitoring/Loadton';
+import LoadtonMonitoring from '../Pages/PM_Monitoring/LoadTon';
 import VibrationMonitoring from "../Pages/Monitoring/Vibration";
 
 import InputKeyin from '../Pages/Keyin/InputKeyin';
@@ -165,6 +165,7 @@ import ReadyTimeStatics from "../Pages/PM_Statistics/ReadyTimeStatics";
 import OvertonMaintenance from "../Pages/Maintenance/Overton";
 import ClutchMaintenance from "../Pages/Maintenance/Clutch";
 import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
+import PowerStatistics from "../Pages/PM_Statistics/PowerStatistics";
 
 const Routers = () => {
 
@@ -218,7 +219,6 @@ const Routers = () => {
             <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
             <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
             <Route exact path="/basic/material/register" component={BasicMaterialRegister}/>
-
             <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
             {/* 외주정보 관리 */}
@@ -371,6 +371,7 @@ const Routers = () => {
             <Route exact path="/pm/statistics/loadton" component={LoadStatistics} />
             <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics} />
             <Route exact path="/pm/statistics/readytime" component={Old_ReadyTimeStatistics} />
+            <Route exact path="/pm/statistics/power" component={PowerStatistics} />
             <Route exact path="/pm/analysis/capacity" component={CapacityStatistics} />
             <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
             <Route exact path="/statistics/loss" component={FactoryLossSatistics} />

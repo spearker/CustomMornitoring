@@ -17,6 +17,12 @@ const dummyData = {
 const ChartInitOptions = {
     chart: {
         type: 'bar',
+        toolbar: {
+            tools: {
+                download: false
+            }
+        },
+
         events: {
             click: function(chart, w, e) {
                 console.log(chart, w, e)
@@ -29,6 +35,19 @@ const ChartInitOptions = {
             distributed: false
         }
     },
+    grid: {
+        borderColor: '#42444b',
+        xaxis: {
+            lines: {
+                show: true
+            }
+        },
+        yaxis: {
+            lines: {
+                show: true
+            }
+        },
+    },
     colors: ['#dd4bbe'],
     dataLabels: {
         enabled: false
@@ -36,15 +55,39 @@ const ChartInitOptions = {
     legend: {
         show: false
     },
+}
+
+const ChartOptionDetailLable = {
     yaxis: {
         min: 0,
-        max: 250
+        max: 250,
     },
     xaxis: {
         categories: [
             "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
         ],
         labels: {
+            style: {
+                fontSize: '12px'
+            }
+        }
+    }
+}
+
+const  ChartOptionMiniLable= {
+    yaxis: {
+        min: 0,
+        max: 250,
+        labels:{
+            show: false
+        }
+    },
+    xaxis: {
+        categories: [
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
+        ],
+        labels: {
+          show: false,
             style: {
                 fontSize: '12px'
             }
@@ -69,6 +112,8 @@ const PMCapacityStaticsContiner = () => {
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>('')
+
+    const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({start: '', end: ''})
 
     /**
      * getData()
@@ -100,7 +145,7 @@ const PMCapacityStaticsContiner = () => {
         //         //TODO:  기타 오류
         //     }
         // }
-    },[selectMachine, machineData, series, chartOption]);
+    },[selectMachine, machineData, series]);
 
     useEffect(()=>{
         getData().then(r =>
@@ -125,7 +170,8 @@ const PMCapacityStaticsContiner = () => {
                                 <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
                             </div>
                             <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-                                <ReactApexChart options={chartOption} series={series} type={'bar'} height={130} width={180}/>
+
+                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
                             </div>
                         </ChartBorderMiniBox>
                         : <ChartMiniBox>
@@ -134,7 +180,7 @@ const PMCapacityStaticsContiner = () => {
                                 <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
                             </div>
                             <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-                                <ReactApexChart options={chartOption} series={series} type={'bar'} height={130} width={180}/>
+                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
                             </div>
                         </ChartMiniBox>
                 }
@@ -145,11 +191,11 @@ const PMCapacityStaticsContiner = () => {
                         <div style={{float: "left", display: "inline-block"}}>
                             <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>{machineData.machine_name}</p>
                         </div>
-                        <CalendarDropdown select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                        <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
                     </div>
                 </div>
                 <div style={{width: 640, height: 619, backgroundColor: '#111319', margin: 0, padding: 0, clear: 'both', marginTop: 20}}>
-                    <ReactApexChart options={chartOption} series={series} type={'bar'} height={"98%"}></ReactApexChart>
+                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable}} series={series} type={'bar'} height={"98%"}></ReactApexChart>
                 </div>
             </ChartDetailBox>
         </div>

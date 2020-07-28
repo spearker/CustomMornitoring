@@ -1,4 +1,6 @@
 // 기계 타입
+import {POINT_COLOR} from "../configset";
+
 interface IMachine{
     machine_name: string,
     machine_label?: number,
@@ -262,52 +264,29 @@ interface IPressCapacity {
   analyze:number[]
 }
 
-interface IPieChartOption {
-  chart: {
-    width: string | number,
-    type: string,
-  },
-  labels: string[]
-  colors: string[]
-  title: {
-    style? : object
-    text: string
-  },
-  dataLabels?: object
-  legend: {
-    show: boolean
-  }
+interface IPressLoadTonMachineData {
+  machine_name: string
+  capacity: number
+  total_loadton: number
+  ch1_loadton: number
+  ch2_loadton: number
 
+  total_points: {
+    Xaxis: number[]
+    Yaxis: number[]
+  }
+  ch1_points: {
+    Xaxis: number[]
+    Yaxis: number[]
+  }
+  ch2_points: {
+    Xaxis: number[]
+    Yaxis: number[]
+  }
 }
 
-interface IColumnChartOption {
-  chart: {
-    height: string | number,
-    type: "bar",
-    events?: {
-      click: (chart, w, e) => void
-    }
-  },
-  colors?: string[],
-  plotOptions?: {
-    bar: {
-      columnWidth: string,
-      distributed: boolean
-    }
-  },
-  dataLabels?: {
-    enabled: boolean
-  },
-  legend?: {
-    show: boolean
-  },
-  xaxis?: {
-    categories: string[],
-    labels: {
-      style: {
-        colors: string[],
-        fontSize: string | number
-      }
-    }
-  }
+interface IPressLoadTonMonitoring {
+  machines: IPressLoadTonMachineData[]
+  factories: string[]
+  current_factory: string
 }

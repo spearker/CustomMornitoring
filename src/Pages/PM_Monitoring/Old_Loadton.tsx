@@ -32,7 +32,7 @@ import LoadTonCard from '../../Components/Card/LoadTonCard';
 import CMSMonitoringTabs from '../../Components/Tabs/CMSMonitoringTabs';
 import TEMP_IMG_1 from '../../Assets/Images/monitoring_loadton.png'
 // 로드톤 모니터링
-const LoadtonMonitoring = () => {
+const Old_LoadtonMonitoring = () => {
 
     const [statusFilter,setStatusFilter ]  = useState<string>('')
     const [arrayType, setArrayType] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
@@ -120,7 +120,7 @@ const LoadtonMonitoring = () => {
                     {
                         dataSet.LoadTonData &&
                             dataSet.LoadTonData.map((item, index) => {
-                                return(<LoadTonCard title={item.title} color={index} propData={{today: item.today, yesterday: item.yesterday}} limit={item.limit}/>)
+                                // return(<LoadTonCard title={item.title} color={index} propData={{today: item.today, yesterday: item.yesterday}} limit={item.limit}/>)
                             })
                     }
                     </div>
@@ -141,4 +141,4 @@ const WrapBox = Styled.div`
     margin-bottom: 2px;
 `
 
-export default LoadtonMonitoring;
+export default Old_LoadtonMonitoring;

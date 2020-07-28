@@ -5,7 +5,7 @@ import Header from '../../Components/Text/Header';
 import 'react-dropdown/style.css'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import InfoTable from '../../Components/Table/InfoTable';
-import { getBasicList, API_URLS, deleteBasicList } from '../../Api/basic';
+import { getBasicList, API_URLS, deleteBasicList } from '../../Api/mes/basic';
 
 interface Props{
   type: string
@@ -41,14 +41,13 @@ const BasicListContainer = ({type}:Props) => {
    * 목록 불러오기
    */
   const getList = useCallback(async (pageType)=>{
-    
-    
+
     const tempUrl = `${API_URLS[pageType].list}?page=${page}`
     const resultList = await getBasicList(tempUrl);
     setList(resultList);
 
   },[list, keyword, option, pageType])
-
+        
   /**
    * onClickDelete()
    * 리스트 항목 삭제
@@ -57,7 +56,6 @@ const BasicListContainer = ({type}:Props) => {
     
     const tempUrl = `${API_URLS[pageType].delete}`
     const result = await deleteBasicList(tempUrl, id);
-
     if(result){
       setList(list.filter(f => f.pk !== id));
     }
@@ -78,13 +76,13 @@ const BasicListContainer = ({type}:Props) => {
     }
 
   },[pageType])
- 
+
   return (
         <>
           <div style={{position:'relative'}}>
             <Header title={`${LIST_INDEX[type].title ?? '항목 없음'} 관리 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link={`/basic/${pageType}/register`}/> 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <SmallButtonLink name="+ 등록하기" link={`/basic/${pageType}/register`}/>
             </div>
           </div>
           {
