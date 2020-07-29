@@ -131,8 +131,6 @@ const PressMonitoring = () => {
                 <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
                 <MonitoringToggle contents={['카드형 보기', '목록형 보기']} select={arrayType} onClickEvent={setArrayType}/>
 
-
-
               </div>
               }
 

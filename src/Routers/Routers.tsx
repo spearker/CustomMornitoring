@@ -165,6 +165,7 @@ import ReadyTimeStatics from "../Pages/PM_Statistics/ReadyTimeStatics";
 import OvertonMaintenance from "../Pages/Maintenance/Overton";
 import ClutchMaintenance from "../Pages/Maintenance/Clutch";
 import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
+import MAP from "../Containers/PM_Monitoring/FactoryPressStatus";
 import PowerStatistics from "../Pages/PM_Statistics/PowerStatistics";
 
 const Routers = () => {
@@ -189,7 +190,7 @@ const Routers = () => {
     <div>
         <Switch>
 
-
+        <Route exact path="/map" component={MAP} />
             {/* 0.0 인트로 */}
             <Route exact path="/" component={Welcome} />
             <Route exact path="/login" component={Login} />
