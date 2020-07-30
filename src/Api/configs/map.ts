@@ -10,9 +10,9 @@ import { TOKEN_NAME } from '../../Common/configset';
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://211.208.115.66:8086/api'; 
+client.defaults.baseURL = 'http://211.208.115.66:8099/api'; 
 
-//client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
+client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
 
 client.interceptors.response.use(function (response) {
     //console.log(response.data.status)

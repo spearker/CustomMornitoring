@@ -11,7 +11,7 @@ import * as _ from 'lodash';
  */
 export const getBasicList = async( url: string) =>{
     const temp: IServerData = await client.get(url);
-    console.log(temp.results.items);
+    //console.log(temp.results.items);
     return temp.results.items!;
 }
 

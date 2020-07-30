@@ -15,7 +15,7 @@ import BasicColorButton from '../../Components/Button/BasicColorButton';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import { openPopup } from '../../Common/popupFunctions';
 import { usePopupDispatch } from '../../Context/PopupContext';
-import { API_URLS, getServerStatus } from '../../Api/common';
+import { API_URLS, getServerStatus } from '../../Api/mes/common';
 
 // 로그인 페이지 
 const Login = () => {
