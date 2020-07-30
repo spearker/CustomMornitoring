@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 /**
  * getClutchData()
- * 클러치 모니터링 불러오기
+ * 로드톤 모니터링 불러오기
  * @param {string} url 링크 주소
  * @returns {list} data object[]
  * @author 준희

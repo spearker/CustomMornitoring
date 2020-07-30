@@ -7,7 +7,7 @@ import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import ListKeyinMillingContainer from '../../Containers/ListKeyin/milling';
 import ListKeyinMaterialContainer from '../../Containers/ListKeyin/material';
 import ReadyTimeContainer from '../../Containers/Statistics/ReadyTimeContainer';
-import ReadyTimeStatisticsContainer from "../../Containers/PM_Statistics/Old_ReadTimeStatisticsContiner";
+import ReadyTimeStatisticsContainer from "../../Containers/PM_Statistics/ReadyTimeStatisticsContiner";
 import PowerContainer from "../../Containers/PM_Statistics/Power";
 
 

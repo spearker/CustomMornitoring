@@ -7,18 +7,18 @@ import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import ListKeyinMillingContainer from '../../Containers/ListKeyin/milling';
 import ListKeyinMaterialContainer from '../../Containers/ListKeyin/material';
 import ReadyTimeContainer from '../../Containers/Statistics/ReadyTimeContainer';
-import ReadyTimeStatisticsContainer from "../../Containers/PM_Statistics/Old_ReadTimeStatisticsContiner";
+import ReadyTimeStatisticsContainer from "../../Containers/PM_Statistics/ReadyTimeStatisticsContiner";
 
 
-const Old_ReadyTimeStatistics = () => {
+const ReadyTimeStatistics = () => {
 
   useEffect(()=>{
 
   },[])
 
   return (
-    <DashboardWrapContainer index={'analysis'}>
-        <SubNavigation list={PM_MENU_LIST.analysis}/>
+    <DashboardWrapContainer index={'statistics'}>
+        <SubNavigation list={PM_MENU_LIST.statistics}/>
         <InnerBodyContainer>
          <ReadyTimeStatisticsContainer />
         </InnerBodyContainer>
@@ -29,4 +29,4 @@ const Old_ReadyTimeStatistics = () => {
 
 
 
-export default Old_ReadyTimeStatistics;
+export default ReadyTimeStatistics;

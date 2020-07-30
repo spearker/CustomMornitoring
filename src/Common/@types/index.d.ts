@@ -276,22 +276,48 @@ interface IPressLoadTonMachineData {
   ch1_loadton: number
   ch2_loadton: number
 
-  total_points: {
-    Xaxis: number[]
-    Yaxis: number[]
-  }
-  ch1_points: {
-    Xaxis: number[]
-    Yaxis: number[]
-  }
-  ch2_points: {
-    Xaxis: number[]
-    Yaxis: number[]
-  }
+  total_points: ChartData,
+  ch1_points: ChartData,
+  ch2_points: ChartData,
 }
 
 interface IPressLoadTonMonitoring {
   machines: IPressLoadTonMachineData[]
   factories: string[]
   current_factory: string
+}
+
+interface IPressAbilityData{
+  pressPk:string,
+  basic_ability: ChartData,
+  avg_ability: ChartData,
+  max_tone: string
+}
+
+interface ChartData {
+  Xaxis: number[],
+  Yaxis: number[],
+}
+
+interface IPressOilSupplyData {
+  pressPk:string,
+  insert_oil_time: ChartData
+}
+
+interface IPressReadyTimeStatisticsData {
+  press_pk:string,
+  press_name:string,
+  press_ton: number,
+  runtime: {
+    operating_ratio: number,
+    diff: number,
+    kinds: string
+  },
+  downtime: {
+    time: string,
+    diff: number,
+    kinds: string
+  },
+  error_time: string,
+  qdc_time: string
 }

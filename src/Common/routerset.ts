@@ -185,11 +185,11 @@ export const ROUTER_MENU_LIST = [
     ],
     statistics : [ //
       { name : '프레스 데이터 통계', url : '/pm/statistics/press'},
-      { name : '오일 공급', url : '/commingsoon'},
+      { name : '오일 공급', url : '/pm/statistics/oil'},
       { name : '비 가동시간', url : '/pm/statistics/readytime'},
       { name : '전력', url : '/pm/statistics/power'},
       { name : '로드톤 ', url : '/pm/statistics/loadton'},
-      { name : '능력', url : '/commingsoon'},
+      { name : '능력', url : '/pm/statistics/ability'},
       { name : '에러', url : '/commingsoon'},
 
     ],

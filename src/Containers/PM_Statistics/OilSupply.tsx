@@ -1,0 +1,174 @@
+import React, {useCallback, useEffect, useState} from 'react'
+import moment from "moment";
+import IMG_TIME from "../../Assets/Images/img_timeline.png";
+import IMG_KEY from "../../Assets/Images/img_time_key_error.png";
+import Styled from "styled-components";
+import ReactApexChart from "react-apexcharts";
+import ListRadioButton from "../../Components/Button/ListRadioButton";
+import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import {API_URLS, getAbilityList, getOilSupplyData} from "../../Api/pm/statistics";
+
+const chartOption = {
+    chart: {
+        type: 'area',
+        height: 350,
+        zoom: {
+            enabled: false
+        },
+        toolbar: {
+            show: false
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: 'straight',
+        width: 2
+    },
+    fill: {
+        type: "gradient",
+        gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.35,
+            opacityTo: 0,
+        }
+    },
+    xaxis: {
+        tickAmount: 10
+    },
+    grid:{
+        borderColor: "#42444b",
+        xaxis:{
+            lines: {
+                show: true
+            }
+        },
+        yaxis:{
+            lines: {
+                show: true
+            }
+        }
+    },
+    yaxis: {
+        min: 0,
+        max: 120,
+        tickAmount: 24,
+        labels:{
+            show: true,
+            formatter: (value) => {
+                if(value > 60) {
+                    return
+                }else{
+                    if(value % 10 === 0){
+                        return Math.floor(value)
+                    }else{
+                        return
+                    }
+                }
+            }
+        },
+    },
+    legend: {
+       show: false
+    },
+    tooltip: {
+        enable:false
+    }
+}
+
+const dummyData: IPressOilSupplyData = {
+    pressPk:"dummyPK1",
+    insert_oil_time: {
+        Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
+        Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ],
+    }
+}
+
+const OilSupplyContainer = () => {
+    const [data, setData] = React.useState<IPressOilSupplyData>(dummyData)
+    const [pk, setPk] = React.useState()
+
+    const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
+
+    const getData = useCallback(async ()=>{
+
+        const tempUrl = `${API_URLS['oilSupply'].load}?pk=${pk}`
+        const resultData = await getOilSupplyData(tempUrl);
+        console.log(resultData)
+        setData(resultData);
+
+    },[data, pk])
+
+    useEffect(() => {
+        getData()
+        console.log(data)
+    },[])
+
+    return (
+        <div>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
+
+                <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>프레스 오일 공급</span>
+                </div>
+            </div>
+            <MapFlexBox>
+                <MapBox>
+                    <div style={{width:100, height: 40,color: "black", backgroundColor: 'skyblue'}}
+                         onClick={() => {
+
+                         }}
+                    >프레스1</div>
+                </MapBox>
+            </MapFlexBox>
+            <BlackContainer>
+                <div style={{height: 60}}>
+                    <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
+                        <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold', width: "50%"}}>{"프레스 01"} &nbsp; &nbsp; &nbsp; 평균 오일공급 시간</p>
+                    </div>
+                </div>
+                <ReactApexChart options={{...chartOption, labels: [' ', '28', '29', '30','01','02','03','04','(일/day)']}} type={'area'} height={414} series={[{name: "data", data:[58, 55, 55, 60, 57, 58, 60, 55, 56]}]}/>
+            </BlackContainer>
+        </div>
+    );
+}
+
+const BlackContainer = Styled.div`
+    width: 1100px;
+    height: 504px;
+    background-color: #111319;
+    border-radius: 6px;
+    margin-top: 20px;
+    .itemDiv{
+        height: 40px;
+        width: 50%;
+        p{
+            font-size: 20px;
+            font-weight: bold;
+            padding-Top: 20px;
+            text-Align: left;
+            margin-left: 20px;
+        }
+    }
+`
+
+const MapFlexBox = Styled.div`
+  display: flex;
+  margin-top: 21px;
+`
+
+const MapBox = Styled.div`
+  background-color: #17181c;
+  padding: 10px;
+  position: relative;
+  border-radius: 6px;
+  width: 100%;
+  margin-right: 20px;
+  img{
+    width: 100%;
+  }
+
+`
+
+export default OilSupplyContainer

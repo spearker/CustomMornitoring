@@ -19,7 +19,7 @@ const ListRadioButton = ({nameList, data, onClickEvent}: IProps) => {
           <div style={{float: "right", height: 40, width: 200}}>
               {
                   nameList.length > 0 && nameList.map((v, i) =>{
-                      return <Radio label={v} style={{float: "right", marginRight: 25, width: 50, height: 40}}  onClick={() => {
+                      return <Radio label={v} style={{float: "right", marginRight: 25, width: 50, height: 40}} checked={data[i]}  onClick={() => {
                           console.log("click", i)
                           onClickEvent && onClickEvent(i)
                       }}/>

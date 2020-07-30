@@ -141,7 +141,7 @@ import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
 import MachineMaintenance from '../Pages/PM_Maintenance/MachineMaintenance';
 import SubmachineMaintenance from '../Pages/Maintenance/submachine';
 import MoldMaintenance from '../Pages/PM_Maintenance/mold';
-import Old_ReadyTimeStatistics from '../Pages/PM_Analysis/Old_ReadyTimeStatistics';
+import ReadyTimeStatistics from '../Pages/PM_Analysis/ReadyTimeStatistics';
 import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
 import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
 import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
@@ -167,6 +167,8 @@ import ClutchMaintenance from "../Pages/Maintenance/Clutch";
 import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
 import MAP from "../Containers/PM_Monitoring/FactoryPressStatus";
 import PowerStatistics from "../Pages/PM_Statistics/PowerStatistics";
+import AbilityStatistics from "../Pages/PM_Statistics/AbilityStatistics";
+import OilSupplyStatistics from "../Pages/PM_Statistics/OilSupplyStatistics";
 
 const Routers = () => {
 
@@ -371,7 +373,9 @@ const Routers = () => {
             <Route exact path="/pm/statistics/press" component={PressStatistics} />
             <Route exact path="/pm/statistics/loadton" component={LoadStatistics} />
             <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics} />
-            <Route exact path="/pm/statistics/readytime" component={Old_ReadyTimeStatistics} />
+            <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatistics} />
+            <Route exact path="/pm/statistics/oil" component={OilSupplyStatistics} />
+            <Route exact path="/pm/statistics/ability" component={AbilityStatistics} />
             <Route exact path="/pm/statistics/power" component={PowerStatistics} />
             <Route exact path="/pm/analysis/capacity" component={CapacityStatistics} />
             <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />

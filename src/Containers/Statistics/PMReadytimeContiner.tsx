@@ -214,6 +214,11 @@ const PMReadyTimeContainer = () => {
     );
 }
 
+const MapFlexBox = Styled.div`
+  display: flex;
+  margin-top: 21px;
+`
+
 const MapBox = Styled.div`
   background-color: #17181c;
   padding: 10px;
@@ -266,9 +271,5 @@ const ItemDataBox = Styled.div`
 
 `
 
-const MapFlexBox = Styled.div`
-  display: flex;
-  margin-top: 21px;
-`
 
 export default PMReadyTimeContainer;

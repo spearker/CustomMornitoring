@@ -77,7 +77,7 @@ const PowerContainer = () => {
 
     // const getData = useCallback(async ()=>{
     //
-    //     // const tempUrl = `${API_URLS[pageType].load}?pk=${pk}`
+    //     // const tempUrl = `${API_URLS['power'].load}?pk=${pk}`
     //     // const resultData = await getCluchData(tempUrl);
     //     setData(dummyData);
     //
@@ -95,7 +95,7 @@ const PowerContainer = () => {
                 </div>
             </div>
             <BlackContainer>
-                <div style={{marginTop: 25}}>
+                <div style={{marginTop: 25, height: 80}}>
                     <div>
                         <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
                             <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>기간별 프레스 전력 비교</p>
