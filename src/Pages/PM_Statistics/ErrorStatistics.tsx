@@ -4,15 +4,17 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Maintenance/Overton';
+import Container from '../../Containers/PM_Statistics/Error';
 import Header from "../../Components/Text/Header";
 
 
-const OvertonMaintenance = ({match}:any) => {
+const ErrorStatistics = ({match}:any) => {
+
+    const { id } = match.params;
 
     return (
-        <DashboardWrapContainer index={'maintenance'}>
-            <SubNavigation list={PM_MENU_LIST.maintenance}/>
+        <DashboardWrapContainer index={'statistics'}>
+            <SubNavigation list={PM_MENU_LIST.statistics}/>
             <InnerBodyContainer>
                 <Container/>
 
@@ -25,4 +27,4 @@ const OvertonMaintenance = ({match}:any) => {
 
 
 
-export default OvertonMaintenance;
+export default ErrorStatistics;

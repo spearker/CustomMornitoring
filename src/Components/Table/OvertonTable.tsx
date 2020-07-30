@@ -10,14 +10,16 @@ interface Props {
     indexList: any
     valueList: any[]
     EventList?: any[]
-    type?:string
+    selectList?: any[]
     pkKey?: string
+    clickValue?: object
     mainOnClickEvent?: any
     onClickEvent?: any
     children: any
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,EventList,type,pkKey,mainOnClickEvent,onClickEvent, children}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,EventList,pkKey,clickValue,mainOnClickEvent,onClickEvent, children}:Props) => {
+
 
     const history = useHistory()
 
@@ -61,35 +63,35 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,
                     },
                     */
                     return (
-                        <ValueBar key={i}>
+                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
                             {
                                 Object.keys(indexList).map((mv, mi) => {
                                     {console.log(v)}
                                     //mv : [pk , machin_list, machine_name ... ]
                                     return (
-                                            <p key={`td-${i}-${mv}`}
-                                               className="p-limits"
-                                               onClick={()=> mainOnClickEvent(v.pk,v.mold_name)}> {/* pk: 'PK11212' */}
-                                                {
-                                                    typeof v[mv] === 'object' ?
-                                                        Object.keys(v[mv]).map(m => {
-                                                            return  v[mv][m] + ' '
-                                                        })
-                                                        :
-                                                        v[mv]
-                                                }
-                                            </p>
+                                        <p key={`td-${i}-${mv}`}
+                                           className="p-limits"
+                                           onClick={()=> (mainOnClickEvent(v))}>
+                                            {
+                                                typeof v[mv] === 'object' ?
+                                                    Object.keys(v[mv]).map(m => {
+                                                        return  v[mv][m] + ' '
+                                                    })
+                                                    :
+                                                    v[mv]
+                                            }
+                                        </p>
 
                                     )
                                 })
                             }
                             {
                                 EventList && EventList.map((bv,bi)=>{
-                                                return(
-                                                <div className="p-limits">
-                                                    <ButtonBox onClick={()=>{onClickEvent([pkKey])}}>{bv.Name}</ButtonBox>
-                                                </div>
-                                                    )
+                                    return(
+                                        <div className="p-limits">
+                                            <ButtonBox onClick={()=>{onClickEvent([pkKey])}}>{bv.Name}</ButtonBox>
+                                        </div>
+                                    )
                                 })
                             }
 
@@ -99,7 +101,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,
                     )
                 })
             }
-            <BlackBg>
+            <BlackBg /*style={{backgroundColor:  !== undefind ?  '#ff341a' : '#353b48'}}*/>
                 {children == undefined  || children === null ? <p>데이터를 클릭해주세요</p> : children }
             </BlackBg>
         </div>

@@ -17,6 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
+import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 
 //금형 보전 관리
 
@@ -33,6 +34,7 @@ const MoldMaintenanceContainer = () => {
   const [index, setIndex] = useState({pk:'PK'});
   const [selectPk, setSelectPk ]= useState<any>(null);
   const [selectMold, setSelectMold ]= useState<any>(null);
+  const [selectValue, setSelectValue ]= useState<any>(null);
 
   const indexList = {
     mold: {
@@ -43,16 +45,18 @@ const MoldMaintenanceContainer = () => {
     }
   }
 
-  const onClick = useCallback((pk,mold_name) => {
-    console.log(pk,mold_name);
-    if(pk === selectPk){
+  const onClick = useCallback((mold) => {
+    console.log('dsfewfewf',mold.pk,mold.mold_name);
+    if(mold.pk === selectPk){
       setSelectPk(null);
       setSelectMold(null);
+      setSelectValue(null);
     }else{
-      setSelectPk(pk);
-      setSelectMold(mold_name);
+      setSelectPk(mold.pk);
+      setSelectMold(mold.mold_name);
+      setSelectValue(mold)
       //TODO: api 요청
-      getData(pk);
+      getData(mold.pk);
     }
 
 
@@ -61,43 +65,23 @@ const MoldMaintenanceContainer = () => {
 
   const getData = useCallback( async(pk)=>{
     //TODO: 성공시
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/preservation/press/mold/load?pk=' + pk, getToken(TOKEN_NAME))
+    const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    const res = await getMoldData(tempUrl)
 
-    if(res === false){
-      alert('[SERVER ERROR] 데이터를 로드 할 수 없습니다.')
-    }else{
-      if(res.status === 200){
-        if(res.results === []){
-          return;
-        }
-        setDetailList(res.results)
-      }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-      }
-    }
+    setDetailList(res)
 
   },[detailList])
 
+  const WidthPercent = detailList.current_count/detailList.max_count*100
+
+  let firstData = 0
 
   const getList = useCallback(async ()=>{ // useCallback
+    //TODO: 성공시
+    const tempUrl = `${API_URLS['mold'].list}`
+    const res = await getMoldData(tempUrl)
 
-
-    const res = await getRequest(`http://211.208.115.66:8099/api/v1/preservation/press/mold/list`, getToken(TOKEN_NAME))
-
-
-    if(res === false){
-        alert('[SERVER ERROR] 데이터를 로드 할 수 없습니다.')
-    }else{
-        if(res.status === 200){
-            if(res.results === []){
-                return;
-            }
-            console.log(res.results)
-            setList(res.results)
-        }else{
-            alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-        }
-    }
+    setList(res)
 
   },[list])
 
@@ -112,20 +96,35 @@ const MoldMaintenanceContainer = () => {
           title={'금형 수명 주기'}
           indexList={index}
           valueList={list}
+          clickValue={selectValue}
           mainOnClickEvent={onClick}>
         {
           selectPk !== null ?
               <LineTable title={selectMold+' 수명 주기'}>
                 {
-                  <MoldBox>
+                  <CountingContainer>
                     <div>
                       <p>타수 카운팅</p>
                       <p>{detailList.max_count-detailList.current_count}회 남음</p>
                     </div>
                     <div>
+                      <MoldMaxBar>
+                        <div style={{width: WidthPercent+"%" }}>
 
+                        </div>
+                      </MoldMaxBar>
+                      <CountingNum>
+                        {[0,1,2,3,4,5].map((v, i)=>{
+                          return(
+                              <span>{v*=(detailList.max_count/5)}</span>
+                          )
+                        })}
+                      </CountingNum>
+                      <div style={{display: "flex",justifyContent:"flex-end"}}>
+                        <span>(회)</span>
+                      </div>
                     </div>
-                  </MoldBox>
+                  </CountingContainer>
                 }
               </LineTable>
               :
@@ -135,10 +134,42 @@ const MoldMaintenanceContainer = () => {
   );
 }
 
-const MoldBox = Styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 30px 30px 10px 0px;
+const CountingContainer = Styled.div`
+   display: flex;
+   flex-direction: row;
+   margin-right: 20px;
+   p {
+    font-size: 14px;
+      &:first-child{
+      font-family: NotoSansCJKkr-Bold;
+      }
+   }
+`
+
+const MoldMaxBar = Styled.div`
+  margin-top: 1px;
+  margin-left: 85px;
+  width: 870px;
+  height: 20px;
+  border: 0;
+  border-radius: 25px;
+  background-color: #1b2333;
+  div {
+    height: 20px;
+    border: 0;
+    border-radius: 25px;
+    background-color: #fd6b00;
+  }
+`
+
+const CountingNum = Styled.p`
+   margin-left: 85px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   span {
+      font-size: 14px;
+   }
 `
 
 export default MoldMaintenanceContainer;

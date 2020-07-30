@@ -10,53 +10,53 @@ interface Props {
 
 const LineTable: React.FunctionComponent<Props> = ({title,contentTitle,contentList,children}:Props) => {
     return(
-            <ClickBar>
-                <ClickTitle>{title}</ClickTitle>
-                <ContentTitle>
-                    {contentTitle !== undefined ?
-                        Object.keys(contentTitle).map((v, i) => {
-                            console.log(v)
-                            return (
-                                <p key={v} className="p-limits">{contentTitle[v]}</p>
-                            )
-                        }) :
-                        null
-                    }
-                </ContentTitle>
-                {contentList !== undefined ?
-                    contentList.map((v, i) => {
-                        {console.log('ㅇㅇㅇㅇ',v)}
+        <ClickBar>
+            <ClickTitle>{title}</ClickTitle>
+            <ContentTitle>
+                {contentTitle !== undefined ?
+                    Object.keys(contentTitle).map((v, i) => {
+                        console.log(v)
                         return (
-                            <Content key={i} >
-                                { contentTitle !== undefined ?
-                                    Object.keys(contentTitle).map((mv, mi) => {
-                                        return (
-                                            v[mv] !== null && v[mv] !== undefined  ?
-                                                <p key={mv} className="p-limits" >
-                                                    {
-                                                        typeof v[mv] === 'object' ?
-                                                            Object.keys(v[mv]).map(m => {
-                                                                return  v[mv][m] + ' '
-                                                            })
-                                                            :
-                                                            v[mv]
-                                                    }
-                                                </p>
-                                                :
-                                                null
-                                        )
-                                    }) :
-                                    null
-                                }
-                            </Content>
+                            <p key={v} className="p-limits">{contentTitle[v]}</p>
                         )
                     }) :
                     null
                 }
-                <div>
-                    {children == undefined  || children === null ? <></> : children }
-                </div>
-            </ClickBar>
+            </ContentTitle>
+            <div>
+                {children == undefined  || children === null ? <></> : children }
+            </div>
+            {contentList !== undefined ?
+                contentList.map((v, i) => {
+                    {console.log('ㅇㅇㅇㅇ',v)}
+                    return (
+                        <Content key={i} >
+                            { contentTitle !== undefined ?
+                                Object.keys(contentTitle).map((mv, mi) => {
+                                    return (
+                                        v[mv] !== null && v[mv] !== undefined  ?
+                                            <p key={mv} className="p-limits" >
+                                                {
+                                                    typeof v[mv] === 'object' ?
+                                                        Object.keys(v[mv]).map(m => {
+                                                            return  v[mv][m] + ' '
+                                                        })
+                                                        :
+                                                        v[mv]
+                                                }
+                                            </p>
+                                            :
+                                            null
+                                    )
+                                }) :
+                                null
+                            }
+                        </Content>
+                    )
+                }) :
+                null
+            }
+        </ClickBar>
     )
 }
 
@@ -84,7 +84,7 @@ const ContentTitle = Styled.div`
     width: 100%;
     align-items: center;
     text-align: left;
-    padding-left: 20px;
+    margin-top: 30px;
 `
 
 const Content = Styled.div`
@@ -96,15 +96,7 @@ const Content = Styled.div`
     width: 100%;
     align-items: center;
     text-align: left;
-    padding-left: 20px;
     margin-top: 15px;
-`
-
-const Line = Styled.hr`
-    margin: 10px 20px 12px 20px;
-    border-color: #353b48;
-    height: 1px;
-    background-color: #353b48;
 `
 
 export default LineTable

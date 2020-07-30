@@ -4,57 +4,58 @@ import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData} from "../../Api/pm/preservation";
-import Styled from "styled-components";
+import {API_URLS, getErrorData} from "../../Api/pm/statistics";
 
 
-
-const OvertonMaintenanceContainer = () => {
+const ErrorContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [option, setOption] = useState(0);
     const [keyword, setKeyword] = useState<string>('');
-    const [index, setIndex] = useState({pk:'PK'});
-    const [subIndex, setSubIndex] = useState({pk:'PK'})
+    const [index, setIndex] = useState({PressPk:'PK'});
+    const [subIndex, setSubIndex] = useState({errorPk:'PK'})
     const [page, setPage] = useState<number>(1);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMachine, setSelectMachine ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
 
+
     const indexList = {
-        overtone: {
-            pk: 'PK',
-            machine_name: '기계명',
-            machine_number: '기계 번호',
-            manufacturer_code: '공정명',
-            machine_register_time: '기계 등록 시간'
+        error: {
+            PressPk: 'PK',
+            PressName: '기계명',
+            PressNumber: '기계 번호',
+            statement: '상태',
+            pressRegisterDate: '기계 등록 시간'
         }
     }
 
     const detailTitle = {
-        overtone: {
-            pk: 'PK',
-            normaltone: '정상톤',
-            overtone: '오버톤',
-            overton_time: '오버톤 시간',
+        error: {
+            errorPk: 'PK',
+            keycamType:'키캠 상태',
+            loadton: '로드톤',
+            slideHeight: '슬라이드 높이',
+            pressErrorCode: '에러코드',
+            errorTime: '시간',
+            errorDate: '날짜'
         },
     }
 
     const onClick = useCallback(machine => {
-        console.log(machine.pk,machine.machine_name);
-        if(machine.pk === selectPk){
+        console.log(machine.PressPk,machine.machine_name);
+        if(machine.PressPk === selectPk){
             setSelectPk(null);
-            setSelectMachine(null)
-            setSelectValue(null)
+            setSelectMachine(null);
+            setSelectValue(null);
         }else{
-            setSelectPk(machine.pk);
-            setSelectMachine(machine.machine_name)
+            setSelectPk(machine.PressPk);
+            setSelectMachine(machine.machine_name);
             setSelectValue(machine)
             //TODO: api 요청
-            getData(machine.pk);
+            getData(machine.PressPk);
         }
-
 
 
 
@@ -62,8 +63,8 @@ const OvertonMaintenanceContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['overtone'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['error'].load}?pk=${pk}`
+        const res = await getErrorData(tempUrl)
 
         setDetailList(res)
 
@@ -71,32 +72,30 @@ const OvertonMaintenanceContainer = () => {
 
 
     const getList = useCallback(async ()=>{ // useCallback
-        const tempUrl = `${API_URLS['overtone'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['error'].list}`
+        const res = await getErrorData(tempUrl)
 
         setList(res)
 
     },[list])
 
     useEffect(()=>{
-        setIndex(indexList["overtone"])
-        setSubIndex(detailTitle["overtone"])
+        setIndex(indexList["error"])
+        setSubIndex(detailTitle['error'])
         getList()
 
     },[])
 
     return (
         <OvertonTable
-            title={'프레스 오버톤'}
+            title={'프레스 에러 로그'}
             indexList={index}
             valueList={list}
             clickValue={selectValue}
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <LineTable title={selectMachine+' 오버톤 상세내용'} contentTitle={subIndex} contentList={detailList}>
-                        <Line/>
-                    </LineTable>
+                    <LineTable title={selectMachine+' 상세 에러 로그'} contentTitle={subIndex} contentList={detailList}/>
                     :
                     null
             }
@@ -104,11 +103,6 @@ const OvertonMaintenanceContainer = () => {
     );
 }
 
-const Line = Styled.hr`
-    margin: 10px 20px 12px 0px;
-    border-color: #353b48;
-    height: 1px;
-    background-color: #353b48;
-`
 
-export default OvertonMaintenanceContainer;
+
+export default ErrorContainer;
