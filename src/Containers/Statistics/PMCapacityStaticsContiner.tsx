@@ -47,6 +47,16 @@ const ChartInitOptions = {
             }
         },
     },
+    fill: {
+        type: "gradient",
+        gradient: {
+            type: "vertical",
+            shadeIntensity: 0,
+            opacityFrom: 1,
+            opacityTo: .20,
+            stops:[0, 90, 100]
+        }
+    },
     colors: ['#dd4bbe'],
     dataLabels: {
         enabled: false
@@ -60,6 +70,18 @@ const ChartOptionDetailLable = {
     yaxis: {
         min: 0,
         max: 250,
+        tickAmount: 25,
+        labels:{
+            formatter:(value) => {
+                if(value===250){
+                    return "(생산량)"
+                }else{
+                    if(value%50===0){
+                        return value
+                    }
+                }
+            }
+        }
     },
     xaxis: {
         categories: [

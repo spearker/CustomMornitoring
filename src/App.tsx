@@ -2,6 +2,8 @@ import * as React from 'react';
 import { BrowserRouter, Route, Switch ,Link} from 'react-router-dom';
 import Routers from './Routers/Routers';
 import SuminRouters from './Routers/SuminRouters';
+import JunheeRouters from "./Routers/JunheeRouters";
+import JMRouters from './Routers/JMRouters';
 import Styled from 'styled-components'
 import AlertPopup from './Components/Modal/AlertPopup'
 import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from './Common/configset'
@@ -14,7 +16,6 @@ import { PopupContextProvider } from './Context/PopupContext';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './Common/i18n';
 import * as Promise from 'bluebird';
-import JMRouters from './Routers/JMRouters';
 
 
 const App = () => {
@@ -24,9 +25,10 @@ const App = () => {
         <UserContextProvider>
           <PopupContextProvider>
             <BrowserRouter>
-                <AppBodyContainer>   
+                <AppBodyContainer>
                   <AlertPopup/>
                   <Routers /> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
+                  <JunheeRouters/>
                   <SuminRouters />
                   <JMRouters /> 
                 </AppBodyContainer>
@@ -34,7 +36,7 @@ const App = () => {
           </PopupContextProvider>
         </UserContextProvider>
     </I18nextProvider>
-        
+
   );
 }
 const AppBodyContainer = Styled.div`

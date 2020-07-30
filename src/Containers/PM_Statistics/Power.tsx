@@ -22,7 +22,21 @@ const chartOption = {
     },
     yaxis:{
         max: 500,
-        min: 0
+        min: 0,
+        tickAmount: 25,
+        labels: {
+            formatter: (value) => {
+                if(value === 500){
+                    return "(KW)"
+                }else{
+                    if(value % 100 === 0){
+                        return value
+                    }else{
+                        return
+                    }
+                }
+            }
+        }
     },
     fill: {
         type: "gradient",
@@ -39,9 +53,16 @@ const chartOption = {
         align: "horizontal"
     },
     grid:{
-        show: true,
+        borderColor: "#42444b",
         yaxis: {
-            show: true
+            lines: {
+                show: true
+            }
+        },
+        xaxis: {
+            lines: {
+                show: true
+            }
         }
     },
     tooltip: {

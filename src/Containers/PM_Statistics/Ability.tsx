@@ -1,10 +1,7 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import moment from "moment";
-import IMG_TIME from "../../Assets/Images/img_timeline.png";
-import IMG_KEY from "../../Assets/Images/img_time_key_error.png";
 import Styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
-import ListRadioButton from "../../Components/Button/ListRadioButton";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getAbilityList} from "../../Api/pm/statistics";
 
@@ -102,7 +99,8 @@ const dummyData: IPressAbilityData = {
 
 const AbilityContainer = () => {
     const [data, setData] = React.useState<IPressAbilityData>(dummyData)
-    const [pk, setPk] = React.useState()
+    const [pk, setPk] = React.useState("v1_JNHPRESS_machine_5_null_1")
+    const [series, setSeries] = React.useState([{type: 'line', data: [[0,0]]}])
 
     const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
 
@@ -113,6 +111,17 @@ const AbilityContainer = () => {
         setData(dummyData);
 
     },[data, pk])
+
+    // useEffect(() => {
+    //     const {Yaxis} = data.basic_ability;
+    //     let tempSeries: number[][] = [[]];
+    //     data.basic_ability.Xaxis.map((v, i) => {
+    //         if (v) {
+    //             tempSeries.push([v, Yaxis[i]])
+    //         }
+    //     });
+    //     setSeries()
+    // }, [data])
 
     return (
         <div>
@@ -140,10 +149,7 @@ const AbilityContainer = () => {
                         <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
                     </div>
                 </div>
-                <ReactApexChart options={chartOption} type={'line'} height={400} series={[
-                    {type: 'line', data: [[0,210], [5,210], [10,110], [15,60], [20,55], [25, 50], [30, 45], [35, 43], [40, 42], [45,41],[50,40],[120,39]]},
-                    {type: 'area', data: [[1, 0], [7, 150], [13, 0]]}
-                ]}/>
+                <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
             </BlackContainer>
         </div>
     );

@@ -34,7 +34,7 @@ const ChartInitOption = {
         type: 'pie',
     },
     labels: ["가동시간", "", "", "", "비가동시간"],
-    colors: [POINT_COLOR, '#ff341a', '#397485', "rgba(98, 29, 167, .7 )", 'gray'],
+    colors: [POINT_COLOR, "rgba(98, 29, 167, .7 )", '#397485', '#ff341a', 'gray'],
     title: {
         style:{ color: 'white', fontSize: 20 },
         text: "Number of leads"
@@ -100,7 +100,7 @@ const PMReadyTimeContainer = () => {
         setMachineData(dummyData)
         setChartOption(tmpChartOption)
 
-        setSeries([analysis.uptime, analysis.downtime.error, analysis.downtime.mold_change, analysis.power_off, analysis.downtime.total])
+        setSeries([analysis.uptime, analysis.power_off, analysis.downtime.mold_change, analysis.downtime.error, analysis.downtime.total])
         // if(res === false){
         //     //TODO: 에러 처리
         // }else{
