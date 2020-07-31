@@ -23,7 +23,7 @@ import moment from 'moment';
 import MonitoringDropdown from '../../Components/Dropdown/MonitoringDropdown';
 import BasicBigDropdown from '../../Components/Dropdown/BasicBigDropdown';
 
-const LoadStatistics = () => {
+const Old_LoadStatistics = () => {
 
 
   const [list, setList] = useState<IBarcode[]>([]);
@@ -511,4 +511,4 @@ const CharBox = Styled.div`
     color: black !important;
 `
 
-export default LoadStatistics;
+export default Old_LoadStatistics;

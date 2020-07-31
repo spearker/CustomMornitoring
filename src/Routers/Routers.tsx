@@ -99,7 +99,7 @@ import QualityKpi from '../Pages/Kpi/QualityKpi';
 import PriceKpi from '../Pages/Kpi/PriceKpi';
 import DuedateKpi from '../Pages/Kpi/DuedateKpi';
 import PressStatistics from '../Pages/PM_Statistics/PressStatistics';
-import LoadStatistics from '../Pages/PM_Statistics/LoadStatistics';
+import LoadtoneStatistics from '../Pages/PM_Statistics/LoadtoneStatistics';
 import CmsMonitoring from '../Pages/PM_Monitoring/CMS';
 import FullMonitoring from '../Pages/PM_Monitoring/Full';
 import CmsStatistics from '../Pages/PM_Monitoring/Statistics';
@@ -369,7 +369,6 @@ const Routers = () => {
 
                 {/* 15.0 프레스 분석 및 통계 */}
                 <Route exact path="/pm/statistics/press" component={PressStatistics} />
-                <Route exact path="/pm/statistics/loadton" component={LoadStatistics} />
                 <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics} />
                 <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatistics} />
                 <Route exact path="/pm/statistics/power" component={PowerStatistics} />

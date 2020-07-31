@@ -20,7 +20,6 @@ interface Props {
 
 const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,EventList,pkKey,clickValue,mainOnClickEvent,onClickEvent, children}:Props) => {
 
-
     const history = useHistory()
 
     React.useEffect(() => {
