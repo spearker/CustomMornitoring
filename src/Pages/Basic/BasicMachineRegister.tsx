@@ -48,8 +48,8 @@ const BasicMachineRegister = () => {
   const history = useHistory();
 
   const [document, setDocument] = useState<any>({pk:'', value:'(선택)'});
- 
- 
+
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
@@ -69,11 +69,11 @@ const BasicMachineRegister = () => {
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null, null]);
   const [date, setDate]= useState<string>(moment().format('YYYY-MM-DD'));
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
- 
+
   const indexList = getMachineTypeList('kor');
-  
+
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       //alert(`수정 페이지 진입 - pk :` + param)
@@ -89,7 +89,7 @@ const BasicMachineRegister = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -104,31 +104,31 @@ const BasicMachineRegister = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
 
-  
+
+
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -151,15 +151,15 @@ const BasicMachineRegister = () => {
          tempList[1]= data.qualification;
          tempList[2]=data.capacity;
          setOldPaths(tempList);
-       
-         
+
+
       }else{
         //TODO:  기타 오류
       }
     }
-  },[pk, made,madeNo,date, slip_angle, tons, type,photoName, name,oldPaths, infoList, paths,essential, optional, factory ]) 
+  },[pk, made,madeNo,date, slip_angle, tons, type,photoName, name,oldPaths, infoList, paths,essential, optional, factory ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
     if(name === "" ){
@@ -181,10 +181,10 @@ const BasicMachineRegister = () => {
       capacity: paths[2],
       tons: tons,
       slip_angle: slip_angle,
-     
+
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
@@ -227,9 +227,9 @@ const BasicMachineRegister = () => {
       tons: tons,
       slip_angle: slip_angle,
     };
-    
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/machine/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -238,7 +238,7 @@ const BasicMachineRegister = () => {
       if(res.status === 200){
          alert('성공적으로 등록 되었습니다')
          history.push(`/basic/list/machine`);
-        
+
       }else{
         //TODO:  기타 오류
         alert('요청을 처리 할 수 없습니다.')
@@ -265,10 +265,10 @@ const BasicMachineRegister = () => {
 
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
-                
-                <BasicSearchContainer 
-                      title={'공장'} 
-                      key={'pk'} 
+
+                <BasicSearchContainer
+                      title={'공장'}
+                      key={'pk'}
                       value={'name'}
                       onChangeEvent={
                         (input)=>{
@@ -277,7 +277,7 @@ const BasicMachineRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://211.208.115.66:8099/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://211.208.115.66:8299/api/v1/factory/search?option=0&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -295,30 +295,30 @@ const BasicMachineRegister = () => {
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['기계사진', '스펙명판', '능력명판']} isImage={true} />
-                 
+
                     :
                     null
                 }
                 <br/>
-                <DocumentFormatInputList 
+                <DocumentFormatInputList
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8099/api/v1/machine/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/machine/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
-                
-                 
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
               :
               <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

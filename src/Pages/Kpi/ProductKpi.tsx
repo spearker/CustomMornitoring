@@ -29,7 +29,7 @@ const ProductKpi = () => {
   const dateArray = ['','','','','','','','','','','',''];
 
   const tempArray = new Array(12);
-  
+
   const monthArray = dateArray.map((v, i)=>{
     return(
       moment().subtract(i, 'month').format('MM')
@@ -57,7 +57,7 @@ const ProductKpi = () => {
   ]
   const index = {
     name:'바코드 규칙명',
-    type:'종류', 
+    type:'종류',
     code:'코드',
 
   }
@@ -72,7 +72,7 @@ const ProductKpi = () => {
       },
       colors:[POINT_COLOR, '#E91E63'],
     },
-    
+
     series: [{
       name: '완제품',
       data: [11, 23, 21, 23, 35, 34, 45, 52, 54, 57, 60, 61]
@@ -81,7 +81,7 @@ const ProductKpi = () => {
       data: [11, 24, 45, 50, 49, 54, 61, 60, 70, 65, 89, 91]
     }]
   }
-  
+
   const chartOption2 = {
     series: [{
       name: "STOCK ABC",
@@ -101,7 +101,7 @@ const ProductKpi = () => {
       stroke: {
         curve: 'straight'
       },
-      
+
       title: {
         text: 'Fundamental Analysis of Stocks',
         align: 'left'
@@ -123,7 +123,7 @@ const ProductKpi = () => {
     },
   }
 
-  
+
   const option_benefit = {
     options: {
       chart: {
@@ -134,13 +134,13 @@ const ProductKpi = () => {
       },
       colors:['#F44336'],
     },
-    
+
     series: [{
       name: '',
       data: [10, 12, 15, 20, 28, 10, 33, 13, 11, 27, 22, 33]
     }]
   }
-  
+
   const option_running = {
     options: {
       chart: {
@@ -151,7 +151,7 @@ const ProductKpi = () => {
       },
       colors:['#E91E63'],
     },
-    
+
     series: [{
       name: '',
       data: [62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9]
@@ -169,7 +169,7 @@ const ProductKpi = () => {
       },
       colors:['#E91E63'],
     },
-    
+
     series: [{
       name: '',
       data: [2.0, 2.0, 2.3, 2.2, 1.8, 1.9, 1.6, 1.4, 1.4, 1.2, 1.2, 1.1]
@@ -195,7 +195,7 @@ const ProductKpi = () => {
       stroke: {
         curve: 'straight'
       },
-      
+
       title: {
         text: 'Fundamental Analysis of Stocks',
         align: 'left'
@@ -217,17 +217,17 @@ const ProductKpi = () => {
     },
   }
 
-  
+
    /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-  
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -246,13 +246,13 @@ const ProductKpi = () => {
   /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
- 
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -275,10 +275,10 @@ const ProductKpi = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-  
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
-   
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+
+
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -293,14 +293,14 @@ const ProductKpi = () => {
 
   useEffect(()=>{
     getList()
-   
+
   },[])
 
-  
+
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){
@@ -313,9 +313,9 @@ const ProductKpi = () => {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
-    
-    
-  
+
+
+
   },[list])
 
 
@@ -323,7 +323,7 @@ const ProductKpi = () => {
 
     console.log('--select id : ' + id)
     window.location.href=`/update/material?pk=${id}`
-  
+
   },[]);
 
   const option_timeperproduce = {
@@ -379,14 +379,14 @@ const ProductKpi = () => {
         min: 0,
         max: 100
       },
-      
+
     },
-  
+
   }
 
 
   const option_price = {
-          
+
     series: [{
       name: '',
       data: [62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9]
@@ -394,7 +394,7 @@ const ProductKpi = () => {
     options: {
       chart: {
         type: 'area',
-       
+
         zoom: {
           enabled: false
         }
@@ -407,7 +407,7 @@ const ProductKpi = () => {
       },
       labels:[62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9],
 
-    
+
       xaxis: {
         categories: monthArray,
       },
@@ -418,8 +418,8 @@ const ProductKpi = () => {
         horizontalAlign: 'left'
       }
     },
-  
-  
+
+
   };
 
   return (
@@ -428,7 +428,7 @@ const ProductKpi = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`KPI 생산지수`}/>
-      
+
           </div>
           <div style={{display:'flex', width: '100%'}}>
           <ChartBox id="chart" >
@@ -439,17 +439,17 @@ const ProductKpi = () => {
             <ChartHeadText>매출액 증감</ChartHeadText>
             <Chart options={option_price.options} series={option_price.series} type="area" height={240} />
           </ChartBox>
-      
-    
+
+
           </div>
-         
+
           <div style={{display:'flex', width: '100%', marginTop:22}}>
           <ChartBox id="chart" >
             <ChartHeadText>시간당 생산량</ChartHeadText>
             <Chart options={option_timeperproduce.options} series={option_timeperproduce.series} type="line" height={320} />
           </ChartBox>
-         
-    
+
+
           </div>
           <div style={{display:'flex', width: '100%', marginTop:22}}>
           <ChartBox id="chart" >
@@ -464,12 +464,12 @@ const ProductKpi = () => {
             <ChartHeadText>설비가동률 증감</ChartHeadText>
             <Chart options={option_running.options} series={option_running.series} type="bar" height={240} />
           </ChartBox>
-    
+
           </div>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

@@ -43,7 +43,7 @@ import NormalAddressInput from '../../Components/Input/NormalAddressInput';
 const OutsourcingCompanyRegister = () => {
 
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
-  
+
   const [inputData, setInputData] = useObjectInput('CHANGE', {
     name:'',
     pathceo:'',
@@ -60,15 +60,15 @@ const OutsourcingCompanyRegister = () => {
     manager_phone: '',
     manager_email: '',
   });
- 
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [pk, setPk] = useState<string>('');
-  
+
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       //alert(`수정 페이지 진입 - pk :` + param)
@@ -79,32 +79,32 @@ const OutsourcingCompanyRegister = () => {
   },[])
 
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/outsourcing/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/outsourcing/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
          inputData(res.results)
-         
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[pk, essential, optional, inputData ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    
+
     const data = {
       ...inputData,
       document_pk: document.pk,
       info_list: JsonStringifyList(essential, optional)
-    } 
+    }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/outsourcing/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/outsourcing/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.');
@@ -125,9 +125,9 @@ const OutsourcingCompanyRegister = () => {
       ...inputData,
       document_pk: document.pk,
       info_list: JsonStringifyList(essential, optional)
-    } 
+    }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -162,7 +162,7 @@ const OutsourcingCompanyRegister = () => {
                 <NormalInput title={'사업자/법인 번호'} value={inputData.number} onChangeEvent={(input)=>setInputData(`number`, input)} />
                 <FileAddInput title={'사업자 등록증 사진'} target={`image`} description={`사진 형식의 파일을 업로드 해주세요.`} value={inputData.photo} onChangeEvent={(input)=>setInputData(`photo`, input)} />
                 <NormalInput title={'회사 연락처'} value={inputData.phone} onChangeEvent={(input)=>setInputData(`telephone`, input)} />
-                
+
                 <NormalAddressInput title={'사업장 주소'} value={inputData.location} onChangeEvent={(input)=>setInputData(`location`, input)} description={'클릭하여 주소를 입력해주세요'} />
                 <NormalInput title={'회사 메일'} value={inputData.ceo_email} onChangeEvent={(input)=>setInputData(`ceo_email`, input)} />
                 <NormalInput title={'회사 팩스'} value={inputData.fax} onChangeEvent={(input)=>setInputData(`fax`, input)} />
@@ -172,7 +172,7 @@ const OutsourcingCompanyRegister = () => {
 
                 <DocumentFormatInputList pk={document.pk} onChangeEssential={setEssential} onChangeOptional={setOptional}/>
 
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
 
               </form>
               :
@@ -180,11 +180,11 @@ const OutsourcingCompanyRegister = () => {
 
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

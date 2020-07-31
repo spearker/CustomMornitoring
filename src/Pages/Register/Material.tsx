@@ -66,25 +66,25 @@ const RegisterMaterial = () => {
         getData()
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 자재 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/material/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/material/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          const data = res.results;
-         
+
         setType(data.material_type);
          setName(data.material_name);
          setMade(data.distributor);
@@ -110,7 +110,7 @@ const RegisterMaterial = () => {
    * @param {string} made 유통사
    * @param {string} spec 종류
    * @param {string} code 코드
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -121,7 +121,7 @@ const RegisterMaterial = () => {
        return;
      }
 
-  
+
       let moldPk = new Array();
       if(list.length > 0){
         moldPk.push(list[0].pk)
@@ -143,8 +143,8 @@ const RegisterMaterial = () => {
         info_list : infoString
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/material/register', data, getToken(TOKEN_NAME))
-    
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/material/register', data, getToken(TOKEN_NAME))
+
     if(res === false){
       //TODO: 에러 처리
     }else{
@@ -153,7 +153,7 @@ const RegisterMaterial = () => {
          setName('')
          setCode('')
          setSpec('')
-      
+
          setType(0)
          setMade('')
          setInfo([])
@@ -177,15 +177,15 @@ const RegisterMaterial = () => {
    * @param {string} made 유통사
    * @param {string} spec 종류
    * @param {string} code 코드
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
     //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
     //return;
- 
-    
+
+
      let infoString ;
      if(info.length > 0){
        infoString = JSON.stringify(info)
@@ -199,13 +199,13 @@ const RegisterMaterial = () => {
         material_name: name,
         material_code: code,
         material_spec: spec,
-  
+
         material_type: type,
         distributor: made,
         info_list : infoString,
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/material/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/material/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -235,8 +235,8 @@ const RegisterMaterial = () => {
              <NormalInput title={'자재 코드'} value={code} onChangeEvent={setCode} description={'제조번호 혹은 공유 코드를 입력하세요'} />
              <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'자재의 상세 스펙(설명)을 입력하세요'} />
              <NormalInput title={'유통사'} value={made} onChangeEvent={setMade} description={'유통사를 입력하세요'} />
-             
-             
+
+
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                const tempInfo = info.slice();
                tempInfo.push({title:`자유 항목 ${info.length + 1}`, value:""});
@@ -245,30 +245,30 @@ const RegisterMaterial = () => {
               {
                 info.map((v: IInfo, i)=>{
                   return(
-                      <CustomIndexInput index={i} value={v} 
+                      <CustomIndexInput index={i} value={v}
                       onRemoveEvent={()=>{
                         const tempInfo = info.slice();
                         tempInfo.splice(i, 1)
                         setInfo(tempInfo)
-                      }} 
+                      }}
                       onChangeEvent={(obj: IInfo)=>{
                         const tempInfo = info.slice();
                         tempInfo.splice(i, 1, obj)
                         setInfo(tempInfo)
-                      }} 
+                      }}
                       />
                   )
                 })
               }
               </FullAddInput>
-      
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-           
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

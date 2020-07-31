@@ -8,7 +8,7 @@ import { useUserDispatch, useUser } from '../Context/UserContext';
 import { getRequest } from '../Common/requestFunctions';
 import { PM_MENU_LIST } from '../Common/routerset';
 
-//대시보드를 감싸는 wrap 박스 
+//대시보드를 감싸는 wrap 박스
 
 const DashboardWrapContainer = ({children, index}: any) => {
 
@@ -23,7 +23,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
     if(User.pk !== ""){
       return;
     }
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/user/load', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -42,7 +42,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
             company_name: results.results.company_name,
           }
         });
-        
+
         loadXHR(results.results.profile_img).then(function(blob) {
           setToken('sizl_photo', blob)
          })
@@ -56,23 +56,23 @@ const DashboardWrapContainer = ({children, index}: any) => {
   useEffect(()=>{
 
     loadUserInfo();
-    
+
   },[])
 
-  
+
   return (
     <>
     <DashboardWrapDiv >
       <DashboardNavigation select={index}/>
       <div style={{width: '100%', marginBottom:88, textAlign:'center'}}>
-        <ProfileBar title={Object.keys(PM_MENU_LIST).find(f => f == index) ? 'PM System' : 'MES System'} />  
+        <ProfileBar title={Object.keys(PM_MENU_LIST).find(f => f == index) ? 'PM System' : 'MES System'} />
        <div style={{minWidth: 1100}}>
         {children}
        </div>
       </div>
     </DashboardWrapDiv>
     </>
-      
+
   );
 }
 

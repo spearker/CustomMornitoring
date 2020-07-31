@@ -55,9 +55,9 @@ const ClientRegister = () => {
   const [oldPaths, setOldPaths] = useState<any[1]>([null]);
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
- 
 
-  
+
+
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
@@ -74,7 +74,7 @@ const ClientRegister = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -89,37 +89,37 @@ const ClientRegister = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
+
 
   /**
    * getData()
    * 기계 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 기계 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -138,11 +138,11 @@ const ClientRegister = () => {
          setPhoneM(data.manager_phone)
          setManager(data.manager)
          setEmail(data.ceo_email)
-      
+
          setInfoList(data.info_list)
          setAddress(data.address);
          setFax(data.fax);
-         
+
       }else{
         //TODO:  기타 오류
       }
@@ -161,7 +161,7 @@ const ClientRegister = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -169,7 +169,7 @@ const ClientRegister = () => {
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
- 
+
     const data = {
       pk: getParameter('pk'),
       name: name,
@@ -188,7 +188,7 @@ const ClientRegister = () => {
 
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -213,7 +213,7 @@ const ClientRegister = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -225,7 +225,7 @@ const ClientRegister = () => {
       return;
     }
     const data = {
-      
+
       name: name,
       number: no,
       type: type,
@@ -241,9 +241,9 @@ const ClientRegister = () => {
      // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
-    
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/customer/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/customer/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -255,7 +255,7 @@ const ClientRegister = () => {
          setPk('');
          setNo(undefined);
          setType(0);
-        
+
          setCeo('');
          setPaths([null])
          setOldPaths([null])
@@ -289,7 +289,7 @@ const ClientRegister = () => {
                 <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'} />
                 <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'} />
                 <RadioInput title={'사업자 구분'} target={type} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
-             
+
                 <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -307,7 +307,7 @@ const ClientRegister = () => {
                 <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager} description={'사업장 담당자(관리자) 이름을 입력하세요'} />
                 <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} description={'사업장 담당자(관리자) 연락처를 입력하세요'} />
                 <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM} description={'사업장 담당자(관리자) 이메일을 입력하세요'} />
-                  {/* 자유항목 입력 창 
+                  {/* 자유항목 입력 창
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
                   tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -316,32 +316,32 @@ const ClientRegister = () => {
                   {
                     infoList.map((v: IInfo, i)=>{
                       return(
-                          <CustomIndexInput index={i} value={v} 
+                          <CustomIndexInput index={i} value={v}
                           onRemoveEvent={()=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           onChangeEvent={(obj: IInfo)=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1, obj)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           />
                       )
                     })
                   }
                   </FullAddInput>
-                  
+
                 */}
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

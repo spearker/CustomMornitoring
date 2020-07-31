@@ -333,3 +333,7 @@ interface IPressElectricPowerData {
     press_data: number[]
   }[]
 }
+
+interface IPressLoadTonSatistics {
+
+}

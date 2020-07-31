@@ -40,7 +40,7 @@ const RegisterDesign = () => {
   const [date, setDate]= useState<string>(moment().format('YYYY-MM-DD'));
 
   const indexList = getMoldTypeList('kor');
-  //const indexList = 
+  //const indexList =
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
@@ -56,11 +56,11 @@ const RegisterDesign = () => {
    * 자재 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async ()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -85,7 +85,7 @@ const RegisterDesign = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -100,26 +100,26 @@ const RegisterDesign = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
+
 
   /**
    * onsubmitForm()
@@ -129,7 +129,7 @@ const RegisterDesign = () => {
    * @param {string} no 제조번호
    * @param {string} made 제조사
    * @param {string} type 금형종류
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -153,7 +153,7 @@ const RegisterDesign = () => {
         below_photo: paths[1]
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -184,7 +184,7 @@ const RegisterDesign = () => {
    * @param {string} made 제조사
    * @param {string} spec 스펙
    * @param {string} type 금형종류
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -199,7 +199,7 @@ const RegisterDesign = () => {
         pk: pk,
         manufacturer: made,
         product_code: no,
-        manufactured_at: date, 
+        manufactured_at: date,
         mold_name: name,
         product_spec:'',
         mold_label: type,
@@ -208,14 +208,14 @@ const RegisterDesign = () => {
         below_photo: paths[1]
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/mold/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
          alert('성공적으로 수정 되었습니다')
-         
+
       }else{
         alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
@@ -241,11 +241,11 @@ const RegisterDesign = () => {
                 <NormalInput title={'제조번호'} value={no} onChangeEvent={setNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
                 <NormalFileInput title={'금형 상 사진'} name={ paths[0]} thisId={'moldPhotoo0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'금형 하 사진'} name={ paths[1]} thisId={'moldPhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-                 
+
                  {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={[]} isImage={true} />
-                 
+
                     :
                     null
                   }
@@ -258,29 +258,29 @@ const RegisterDesign = () => {
                   {
                     infoList.map((v: IInfo, i)=>{
                       return(
-                          <CustomIndexInput index={i} value={v} 
+                          <CustomIndexInput index={i} value={v}
                           onRemoveEvent={()=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           onChangeEvent={(obj: IInfo)=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1, obj)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           />
                       )
                     })
                   }
                   </FullAddInput>
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

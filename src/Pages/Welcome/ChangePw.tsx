@@ -30,18 +30,18 @@ const ChangePw = () => {
    * @param {string} email 이메일
    * @param {string} pw 패스워드
    * @param {string} pwCheck 패스워드 확인
-   * @param {string} auth 이메일 인증코드 
+   * @param {string} auth 이메일 인증코드
    * @returns X
    */
   const onsubmitForm = useCallback(async ()=>{
-    
+
     //window.location.href= "/complete" //TODO: 지울것
 
     //발리데이션
     if(pw == '' ){
       alert(t('errorAllSubmit'))
       return
-    } 
+    }
     if(pw.length < 6 || pw !== pwCheck){
       alert(t('errorPassord'))
       setPwCheck('')
@@ -52,21 +52,21 @@ const ChangePw = () => {
       password: pw,
       auth_code: getParameter('authcode'),
     }
-    const results = await postRequestWithNoToken('http://211.208.115.66:8099/user/password/change', data)
+    const results = await postRequestWithNoToken('http://211.208.115.66:8299/user/password/change', data)
 
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
         alert(t('successChange'))
-        window.location.href= "/login" 
-        
+        window.location.href= "/login"
+
       }else if(results.status === 1001){
         alert(t('errorUse'))
         setEmail('')
-        window.location.href= "/login" 
+        window.location.href= "/login"
       }else{
-        //기타 에러처리 
+        //기타 에러처리
         alert('변경 실패하였습니다.')
       }
     }
@@ -92,7 +92,7 @@ const ChangePw = () => {
 
       </div>
     </WelcomeContainer>
-      
+
   );
 }
 

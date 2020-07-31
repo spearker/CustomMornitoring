@@ -61,12 +61,12 @@ const ProcessList = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest(`http://211.208.115.66:8099/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
+
+    const results = await getRequest(`http://211.208.115.66:8299/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -88,9 +88,9 @@ const ProcessList = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
-   
-    const results = await getRequest(`http://211.208.115.66:8099/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
+
+
+    const results = await getRequest(`http://211.208.115.66:8299/api/v1/process/list?keyword=${keyword}&orderBy=${option}`, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -122,7 +122,7 @@ const ProcessList = () => {
     }
 
 },[])
-  
+
   const changeStatusToString = useCallback((status: string)=>{
     if(status === 'active'){
         return '진행'
@@ -144,7 +144,7 @@ const ProcessList = () => {
 
     console.log('--select id : ' + id)
     window.location.href=`/update/line?pk=${id}`
-  
+
   },[])
 
   return (
@@ -154,7 +154,7 @@ const ProcessList = () => {
           <div style={{position:'relative'}}>
             <Header title={'공정 리스트'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-              <SmallButtonLink name="+ 등록하기" link="/process/register"/> 
+              <SmallButtonLink name="+ 등록하기" link="/process/register"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
@@ -168,14 +168,14 @@ const ProcessList = () => {
                 )
               })
             }
-          
+
           </ProcessWrapBox>
           :
           null}
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

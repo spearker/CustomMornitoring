@@ -35,7 +35,7 @@ const BasicMoldRegister = () => {
   const history = useHistory();
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
   const [documentList, setDocumentList] = useState<any[]>([]);
- 
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
@@ -56,11 +56,11 @@ const BasicMoldRegister = () => {
   const [date, setDate]= useState<string>(moment().format('YYYY-MM-DD'));
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [spec, setSpec] = useState<string>('');
- 
+
   const indexList = getMoldTypeList('kor');
-  
+
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       //alert(`수정 페이지 진입 - pk :` + param)
@@ -76,7 +76,7 @@ const BasicMoldRegister = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -91,38 +91,38 @@ const BasicMoldRegister = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
 
-  
+
+
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
          const data = res.results;
-         
+
          setName(data.mold_name);
          setMade(data.manufacturer);
          setPhotoName(data.photo);
@@ -138,15 +138,15 @@ const BasicMoldRegister = () => {
          tempList[0]= data.photo;
          tempList[1]= data.qualification;
          setOldPaths(tempList);
-       
-         
+
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[pk, made,limit,madeNo,date,spec, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
     if(name === "" ){
@@ -166,10 +166,10 @@ const BasicMoldRegister = () => {
       mold_spec: spec,
       upper: paths[0],
       below: paths[1],
-     
+
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/mold/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -210,9 +210,9 @@ const BasicMoldRegister = () => {
       upper: paths[0],
       below: paths[1],
     };
-    
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/mold/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/mold/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -244,9 +244,9 @@ const BasicMoldRegister = () => {
                 <DropdownInput title={'금형 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalNumberInput title={'최대 타수'} description={""} value={limit} onChangeEvent={setLimit}/>
-                <BasicSearchContainer 
-                      title={'공장/부속공장'} 
-                      key={'pk'} 
+                <BasicSearchContainer
+                      title={'공장/부속공장'}
+                      key={'pk'}
                       value={'name'}
                       onChangeEvent={
                         (input)=>{
@@ -255,7 +255,7 @@ const BasicMoldRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://211.208.115.66:8099/api/v1/factory/search?option=1&'}
+                      searchUrl={'http://211.208.115.66:8299/api/v1/factory/search?option=1&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -271,25 +271,25 @@ const BasicMoldRegister = () => {
                     null
                 }
                 <br/>
-                <DocumentFormatInputList 
-                  
+                <DocumentFormatInputList
+
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8099/api/v1/mold/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/mold/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
-                   
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
               :
               <SelectDocumentForm category={2} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

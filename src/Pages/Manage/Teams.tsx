@@ -65,16 +65,16 @@ const TeamsSetting = () => {
   },[target])
 
   const onClickAdd = useCallback(async (id) => {
-   
-    
+
+
     if(id === 0){
       const data = {
         name: name,
         mother_pk: null
       }
-      
+
       console.log('--select id : ' + id)
-      const results = await postRequest('http://211.208.115.66:8099/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
+      const results = await postRequest('http://211.208.115.66:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
       if (results === false) {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       } else {
@@ -83,7 +83,7 @@ const TeamsSetting = () => {
           setKeyword('')
           getList();
           setName('')
-  
+
         } else {
           alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         }
@@ -93,9 +93,9 @@ const TeamsSetting = () => {
         name: name2,
         mother_pk: target!==null?target.pk :null
       }
-      
+
       console.log('--select id : ' + id)
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -109,18 +109,18 @@ const TeamsSetting = () => {
       }
     }
     }
-    
+
   }, [list, list2, name, name2, keyword])
 
   /**
    * getData()
-   * 초기 팀 목록 조회 
-   * @param {string} url 
+   * 초기 팀 목록 조회
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async () => {
 
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -136,13 +136,13 @@ const TeamsSetting = () => {
 
   /**
    * getDataSubTeams()
-   * 목록 불러오기 
-   * @param {string} url 
+   * 목록 불러오기
+   * @param {string} url
    * @returns X
    */
   const getDataSubTeams = useCallback(async () => {
     if(target === null){return}
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/teams/list?pk=' +  target!.pk  + '&keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/teams/list?pk=' +  target!.pk  + '&keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -158,7 +158,7 @@ const TeamsSetting = () => {
   /**
      * getSearchList()
      * 목록 검색
-     * @param {string} url 
+     * @param {string} url
      * @returns X
      */
   const getSearchList = useCallback(async (e) => {
@@ -171,7 +171,7 @@ const TeamsSetting = () => {
         setList(results.results)
         setKeyword('')
         setList2([])
-        
+
       } else {
         alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
@@ -180,7 +180,7 @@ const TeamsSetting = () => {
 
   const onClickDelete = useCallback(async (id, abl) => {
 
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/member/teams/delete', { pk: id }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/member/teams/delete', { pk: id }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {
@@ -188,7 +188,7 @@ const TeamsSetting = () => {
     } else {
       if (results.status === 200) {
         getList()
-        
+
       }else if(results.status === 1000){
         alert('해당 부서(조직)에 소속 직원이 있어, 삭제가 불가합니다.')
       } else {
@@ -202,15 +202,15 @@ const TeamsSetting = () => {
 
   const onClickModify = useCallback(async (id, value) => {
 
-  
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/member/teams/update', { pk: id, name: value }, getToken(TOKEN_NAME))
+
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/member/teams/update', { pk: id, name: value }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {
       alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     } else {
       if (results.status === 200) {
-        
+
         alert('성공적으로 변경되었습니다!')
       } else {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
@@ -235,7 +235,7 @@ const TeamsSetting = () => {
     }
   }, [list, list2])
 
-  
+
   return (
     <DashboardWrapContainer index={1}>
       <SubNavigation list={ROUTER_MENU_LIST[1]} />
@@ -265,7 +265,7 @@ const TeamsSetting = () => {
               <ButtonBox onClick={() => onClickAdd(0)}> + 상위 부서 생성</ButtonBox>
             </div>
             <TeamTable indexList={index} depth={0} onClickModify={onClickModify} onChangeEvent={onChangeEvent} onClickEvent={setTarget} contents={list} onClickRemove={onClickDelete} />
-          
+
           </WhiteWrapDiv>
           {
             target !== null ?

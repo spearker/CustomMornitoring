@@ -42,7 +42,7 @@ import {useHistory} from 'react-router-dom';
 const BasicMaterialRegister = () => {
   const history = useHistory();
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
- 
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
@@ -60,7 +60,7 @@ const BasicMaterialRegister = () => {
   });
 
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       setIsUpdate(true)
@@ -70,8 +70,8 @@ const BasicMaterialRegister = () => {
   },[])
 
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -91,29 +91,29 @@ const BasicMaterialRegister = () => {
           };
 
           setInputData('all', form)
-    
-         
+
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[pk, optional, essential, inputData ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    
+
     const data = {
       pk: getParameter('pk'),
       material_name: inputData.material_name,
-      material_type: inputData.material_type, 
+      material_type: inputData.material_type,
       location: inputData.location[0].pk,
       using_mold:  inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
       safe_stock: inputData.safe_stock,
       material_spec: inputData.material_spec,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/material/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/material/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -131,12 +131,12 @@ const BasicMaterialRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-  
+
 
     const data = {
       document_pk: document.pk,
       material_name: inputData.material_name,
-      material_type: inputData.material_type, 
+      material_type: inputData.material_type,
       location: inputData.location[0].pk,
       using_mold: inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
       safe_stock: inputData.safe_stock,
@@ -144,7 +144,7 @@ const BasicMaterialRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/material/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/material/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -174,49 +174,49 @@ const BasicMaterialRegister = () => {
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'품목 이름'}  value={inputData.material_name} onChangeEvent={(input)=>setInputData(`material_name`, input)} description={'이름을 입력해주세요.'}/>
                 <DropdownInput title={'품목 종류' } target={indexList[inputData.material_type]} contents={indexList} onChangeEvent={(input)=>setInputData(`material_type`, input)} />
-                <BasicSearchContainer 
-                      title={'공장 정보'} 
-                      key={'pk'} 
+                <BasicSearchContainer
+                      title={'공장 정보'}
+                      key={'pk'}
                       value={'name'}
                       onChangeEvent={(input)=>setInputData(`location`, input)}
                       solo={true}
                       list={inputData.location}
-                      searchUrl={'http://211.208.115.66:8099/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://211.208.115.66:8299/api/v1/factory/search?option=0&'}
                 />
 
                 <NormalNumberInput title={'안전 재고'}  value={inputData.safe_stock} onChangeEvent={(input)=>setInputData(`safe_stock`, input)} description={''}/>
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'품목 스펙'}  value={inputData.material_spec} onChangeEvent={(input)=>setInputData(`material_spec`, input)} description={'이름을 입력해주세요.'}/>
-                <BasicSearchContainer 
-                      title={'사용 금형'} 
-                      key={'pk'} 
+                <BasicSearchContainer
+                      title={'사용 금형'}
+                      key={'pk'}
                       value={'mold_name'}
                       onChangeEvent={(input)=>setInputData(`using_mold`, input)}
                       solo={true}
                       list={inputData.using_mold}
-                      searchUrl={'http://211.208.115.66:8099/api/v1/mold/search?option=0&'}
+                      searchUrl={'http://211.208.115.66:8299/api/v1/mold/search?option=0&'}
                 />
 
                 <br/>
-                <DocumentFormatInputList 
+                <DocumentFormatInputList
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8099/api/v1/material/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/material/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
                 :
-                
+
                 <SelectDocumentForm category={3} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

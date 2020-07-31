@@ -33,7 +33,7 @@ import { DROP_DOWN_LIST } from '../../Common/dropdownList';
 import * as _ from 'lodash';
 import CheckboxInput from '../../Components/Input/CheckboxInput';
 const dummy = [
-  
+
 ]
 // 표준 문서 관리
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -45,9 +45,9 @@ const BasicDocumentRegister = () => {
     document_name: {id: 'document_name', title: '문서명', type:'text', data:'',},
     standard_type: {id: 'standard_type', title: '카테고리', type:'dropdown', data:{id: 0, value: '기계 기준 정보 등록 문서'}},
     items: {id: 'items', title: '표준항목 -(필수항목 체크)', type:'checkbox', data:dummy},
-  
+
   });
- 
+
   const [isChange, setIsChange]= useState<boolean>(true);
 
   useEffect(()=>{
@@ -70,8 +70,8 @@ const BasicDocumentRegister = () => {
    카테고리별 아이템로드
    */
   const getItems = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/item/involved?category=' + necessary['standard_type'].data.id, getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/item/involved?category=' + necessary['standard_type'].data.id, getToken(TOKEN_NAME))
     setIsChange(false)
     if(res === false){
       //TODO: 에러 처리
@@ -83,11 +83,11 @@ const BasicDocumentRegister = () => {
       if(res.status === 200 || res.status === "200"){
           const form = res.results;
           let temp = _.cloneDeep(necessary);
-       
+
           temp[`items`].data = form;
           setNecessary(temp);
           setPk(form.pk);
-        
+
 
       }else{
         //TODO:  기타 오류
@@ -98,14 +98,14 @@ const BasicDocumentRegister = () => {
       }
     }
   },[necessary, pk, isChange ])
-   
+
 
   /**
    수정하기 위한 데이터 조회
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/document/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/document/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -119,7 +119,7 @@ const BasicDocumentRegister = () => {
         setNecessary(temp);
         setPk(form.pk);
 
-         
+
       }else{
         //TODO:  기타 오류
       }
@@ -137,11 +137,11 @@ const BasicDocumentRegister = () => {
       name: necessary.document_name.data,
       category: necessary.standard_type.data.id,
       items: necessary.items.data.map((v)=> {return v.pk}),
-      validations: necessary.items.data.map((v)=> {return v.validation2}),  
+      validations: necessary.items.data.map((v)=> {return v.validation2}),
     };
     //alert(data);
-  
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/document/update', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/document/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
@@ -163,17 +163,17 @@ const BasicDocumentRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-   
+
     const data = {
         //pk: getParameter('pk'),
         name: necessary.document_name.data,
         category: necessary.standard_type.data.id,
         items: necessary.items.data.map((v)=> {return v.pk}),
-        validations: necessary.items.data.map((v)=> {return v.validation2}),  
+        validations: necessary.items.data.map((v)=> {return v.validation2}),
       };
       //alert(data);
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/document/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/document/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -213,9 +213,9 @@ const BasicDocumentRegister = () => {
                         return(
                           <DropdownCode title={necessary[v].title} target={necessary[v].data} contents={DROP_DOWN_LIST[necessary[v].id]} onChangeEvent={(input)=>{let temp = _.cloneDeep(necessary); temp[v].data = input; setNecessary(temp); setIsChange(true)}} />
                         )
-                          
-                      
-                      
+
+
+
                     }else if(necessary[v].type == 'date'){
                       return(
                         <DateInput title={necessary[v].title} description={""} value={necessary[v].data} onChangeEvent={(input)=>{let temp = _.cloneDeep(necessary); temp[v].data = input; setNecessary(temp)}} />
@@ -226,19 +226,19 @@ const BasicDocumentRegister = () => {
                       )
                     }
                 })}
-                        
-              
-              
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-           
-            
+
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
       </>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

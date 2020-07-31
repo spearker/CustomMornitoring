@@ -9,6 +9,7 @@ import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import LineTable from "../../Components/Table/LineTable";
+import {API_URLS, getPowerList} from "../../Api/pm/statistics";
 
 const dummyData = {
     manufacturer_code:'123-456-789',
@@ -150,27 +151,9 @@ const LoadtoneContiner = () => {
      * @returns X
      */
     const getData = useCallback(async()=>{
-        const res = await getRequest('http://61.101.55.224:9912/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
-        const analysis = dummyData.analyze
-
-        // let tmpChartOption = _.cloneDeep(chartOption)
-        // tmpChartOption.title.text = dummyData.machine_name;
-        //
-        // setChartOption(tmpChartOption)
-
-        setSeries([{data: [ ...analysis ]}])
-        // if(res === false){
-        //     //TODO: 에러 처리
-        // }else{
-        //     if(res.status === 200){
-        //         const data = res.results;
-        //
-        //     }else if(res.status === 1001 || res.data.status === 1002){
-        //         //TODO:  아이디 존재 확인
-        //     }else{
-        //         //TODO:  기타 오류
-        //     }
-        // }
+        // const tempUrl = `${API_URLS['power'].list}?start=${selectDate.start}&end=${selectDate.end}`
+        // const resultData = await getPowerList(tempUrl);
+        // console.log(resultData)
     },[selectMachine, machineData, series]);
 
     useEffect(()=>{
@@ -263,7 +246,7 @@ const LoadtoneContiner = () => {
                     </div>
                 </div>
                 <div style={{width: 640, height: 419, backgroundColor: '#000000', margin: 0, padding: 0, clear: 'both', marginTop: 20}}>
-                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable}} series={series} type={'bar'} height={"98%"}></ReactApexChart>
+                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable}} series={series} type={'area'} height={"98%"}></ReactApexChart>
                 </div>
             </ChartDetailBox>
         </div>

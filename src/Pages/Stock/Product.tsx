@@ -38,25 +38,25 @@ const ProductList = () => {
     date:'변동 날짜',
     register:'담당자',
 
-  
+
   }
 
 
 
-   
+
   useEffect(()=>{
-  
-   
+
+
   },[])
 
-  
+
 
 
 
   const onClickList = useCallback((id)=>{
-    history.push(`/stock/update?pk=${id}`) 
-  
-  
+    history.push(`/stock/update?pk=${id}`)
+
+
   },[])
 
   return (
@@ -65,18 +65,18 @@ const ProductList = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`생산 기록`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              
-              
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+
+
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8099/api/v1/stock/history/product?'}/>
-          
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8299/api/v1/stock/history/product?'}/>
+
           <InfoTable indexList={index} pkKey={'pk'} typeKey={'reason'} typeChanger={machineCodeToName}  type={'stock'}  onClickLinkUrl="/stock/in" contents={list} />
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

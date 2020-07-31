@@ -38,25 +38,25 @@ const StockIn = () => {
     date:'변동 날짜',
     register:'담당자',
 
-  
+
   }
 
 
 
-   
+
   useEffect(()=>{
-  
-   
+
+
   },[])
 
-  
+
 
 
 
   const onClickList = useCallback((id)=>{
-    history.push(`/stock/update?pk=${id}`) 
-  
-  
+    history.push(`/stock/update?pk=${id}`)
+
+
   },[])
 
   return (
@@ -65,18 +65,18 @@ const StockIn = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`입고 기록`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              
-              
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+
+
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8099/api/v1/stock/history/in?'}/>
-          
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8299/api/v1/stock/history/in?'}/>
+
           <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName} onClickLinkUrl="/stock/view?pk=" contents={list} />
-         
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

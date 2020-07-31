@@ -16,7 +16,7 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
 import BTN_DELETE from '../../Assets/Images/btn_delete_rank.png';
-     
+
 import NormalInput from '../../Components/Input/NormalInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import BasicGrayButtonLink from '../../Components/Button/BasicGrayButtonLink';
@@ -43,7 +43,7 @@ const MyPage = () => {
   const [file, setFile] = useState<any>();
   const [photo, setPhoto] = useState<any | null>();
   const [path, setPath] = useState<string | null>(null)
- 
+
   const User = useUser();
   const dispatch = useUserDispatch();
   const dispatchp = usePopupDispatch();
@@ -54,8 +54,8 @@ const MyPage = () => {
    */
   const loadUserInfo = async () => {
 
-    
-    const results = await getRequest( 'http://211.208.115.66:8099/api/v1/user/load', getToken(TOKEN_NAME))
+
+    const results = await getRequest( 'http://211.208.115.66:8299/api/v1/user/load', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -88,7 +88,7 @@ const MyPage = () => {
          loadXHR(results.results.profile_img).then(function(blob) {
           setToken('sizl_photo', blob)
          })
-    
+
       }else{
         //TODO : 지울것
         alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
@@ -97,15 +97,15 @@ const MyPage = () => {
   }
   /**
    * onClickSave()
-   * 프로필 수정 
-   * @param {string} pk 유저 pk 
+   * 프로필 수정
+   * @param {string} pk 유저 pk
    * @param {string} profile_img 이미지 데이터
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(async()=> {
       //alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
       //return;
-    
+
       const data = {
         pk: User.pk,
         profile_img: path
@@ -123,11 +123,11 @@ const MyPage = () => {
         }else{
           alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
         }
-          
+
       }
 
   },[file, User, path])
-  
+
    /**
    * getTarget()
    * 멤버 데이터 조회
@@ -138,11 +138,11 @@ const MyPage = () => {
   const getTarget = useCallback(async()=> {
 
     console.log(User.email)
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/view?pk=' + encodeURIComponent(User.email) , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/view?pk=' + encodeURIComponent(User.email) , getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
-    }else{    
+    }else{
       if(results.status === 200){
 
           setTarget(results.results)
@@ -160,7 +160,7 @@ const MyPage = () => {
     }
   },[target, joinType, joinDate, status, year, rank])
 
-  
+
   useEffect(()=>{
     dispatchp({
       type: 'CHANGE_MODE',
@@ -168,9 +168,9 @@ const MyPage = () => {
         mode: 'mes'
       }
     })
-   
+
     getTarget();
-   
+
   },[])
 
 
@@ -178,7 +178,7 @@ const MyPage = () => {
    * addFile()
    * 멤버 데이터 조회
    * @param {string} e.target.file 파일
-   * @returns X 
+   * @returns X
    */
   const addFile = useCallback(async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
@@ -190,8 +190,8 @@ const MyPage = () => {
     }
     console.log(event.target.files[0].type);
     if(event.target.files[0].type.includes('image')){ //이미지인지 판별
-      
-      
+
+
       setFile(event.target.files[0])
       const previewFile = URL.createObjectURL(event.target.files[0])
       setPreview(previewFile);
@@ -205,20 +205,20 @@ const MyPage = () => {
       }else{
         console.log(temp)
         setPath(temp)
-        
+
         console.log(previewFile);
         setPreview(previewFile)
         console.log(file)
         console.log(file)
       }
 
-   
+
     }else{
 
       setFile(null)
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   },[file, photo, path])
 
   const setPreview = useCallback((blobUrl)=>{
@@ -235,14 +235,14 @@ const MyPage = () => {
             <div style={{position:'relative'}}>
                 <Header title={'마이페이지'}/>
                 <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-                
+
                 </div>
             </div>
             {
 
             }
             <WhiteBoxContainer>
-             
+
                 <div>
                     <ReadOnlyInput title={'성명'} value={name}/>
                     <ReadOnlyInput title={'직급'} value={rank} />
@@ -250,14 +250,14 @@ const MyPage = () => {
                     <ReadOnlyInput title={'입사일'} value={joinDate} />
                     <ProfileInput photo={photo} title={'프로필 사진'} name={'profilePhoto'} thisId={'profilePhoto'} onChangeEvent={addFile} />
                 </div>
-          
+
               <div style={{textAlign:'center', marginTop:31}}>
               <BasicColorButton name="마이페이지 저장하기" onClickEvent={onClickSave} width={'360px'}/>
               </div>
             </WhiteBoxContainer>
           </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

@@ -38,25 +38,25 @@ const StockHistory = () => {
     date:'변동 날짜',
     register:'담당자',
 
-  
+
   }
 
 
 
-   
+
   useEffect(()=>{
-  
-   
+
+
   },[])
 
-  
+
 
 
 
   const onClickList = useCallback((id)=>{
-    history.push(`/stock/update?pk=${id}`) 
-  
-  
+    history.push(`/stock/update?pk=${id}`)
+
+
   },[])
 
   return (
@@ -65,19 +65,19 @@ const StockHistory = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`재고 변동 이력`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-            <SmallButtonLink name="+ 입고 등록" link="/stock/change/in"/> 
-            <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/> 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+            <SmallButtonLink name="+ 입고 등록" link="/stock/change/in"/>
+            <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/>
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8099/api/v1/stock/history/target?'}/>
-          
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://211.208.115.66:8299/api/v1/stock/history/target?'}/>
+
           <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName} onClickLinkUrl="/stock/history?pk=" contents={list} />
-        
+
 
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

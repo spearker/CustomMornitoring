@@ -46,7 +46,7 @@ const BasicStandardRegister = () => {
     standard_type: {id: 'standard_type', title: '카테고리', type:'dropdown', data:{id: 0, value: '기계 기준 정보 등록 문서'}},
     standard_validation_type: {id: 'standard_validation_type', title: 'validation', type:'dropdown', data:{id: 0, value: '숫자만 입력'}}
   });
-   
+
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
@@ -61,22 +61,22 @@ const BasicStandardRegister = () => {
    수정하기 위한 데이터 조회
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/item/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/item/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
-         
+
          const temp = {...necessary};
          temp[`standard_name`].data = res.results.name;
          temp[`standard_type`].data = {id: res.results.category, value: DROP_DOWN_LIST[`standard_type`].filter(f=>f.id == res.results.category)[0].value};
         temp[`standard_validation_type`].data = {id: res.results.validation1, value: DROP_DOWN_LIST[`standard_validation_type`].filter(f=> f.id == res.results.validation1)[0].value};
          setNecessary(temp);
          setPk(res.pk);
-       
-         
+
+
       }else{
         //TODO:  기타 오류
       }
@@ -96,7 +96,7 @@ const BasicStandardRegister = () => {
       validation1: necessary['standard_validation_type'].data.id,
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/item/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/item/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
@@ -118,16 +118,16 @@ const BasicStandardRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-   
+
     const data = {
       name: necessary['standard_name'].data,
       category: necessary['standard_type'].data.id,
       validation1: necessary['standard_validation_type'].data.id,
-  
+
     };
     //alert(JSON.stringify(data ));
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/item/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/item/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
@@ -144,8 +144,8 @@ const BasicStandardRegister = () => {
   },[pk, necessary ])
 
   const handleDataObject = useCallback((input, i)=>{
-    let temp = [...necessary]; 
-    temp[i].data = input; 
+    let temp = [...necessary];
+    temp[i].data = input;
     setNecessary(temp)
   },[necessary])
 
@@ -169,26 +169,26 @@ const BasicStandardRegister = () => {
                       return(
                         <DropdownCode title={necessary[v].title} target={necessary[v].data} contents={DROP_DOWN_LIST[necessary[v].id]} onChangeEvent={(input)=>{let temp = _.cloneDeep(necessary); temp[v].data = input; setNecessary(temp)}} />
                       )
-                        
+
                     }else if(necessary[v].type == 'date'){
                       return(
                         <DateInput title={necessary[v].title} description={""} value={necessary[v].data} onChangeEvent={(input)=>{let temp = _.cloneDeep(necessary); temp[v].data = input; setNecessary(temp)}} />
                       )
                     }
                 })}
-                        
-              
-              
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-           
-            
+
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
       </>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

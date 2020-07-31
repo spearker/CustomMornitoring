@@ -31,7 +31,7 @@ const StockList = () => {
   const index = {
     material_name:'자재 이름',
     material_code:'자재 번호',
-    distributor:'유통사', 
+    distributor:'유통사',
     stock:'재고',
   }
 
@@ -39,12 +39,12 @@ const StockList = () => {
    /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -62,12 +62,12 @@ const StockList = () => {
   /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -88,8 +88,8 @@ const StockList = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -104,10 +104,10 @@ const StockList = () => {
 
   useEffect(()=>{
     getList()
-   
+
   },[])
 
-  
+
   const onClickDelete = useCallback(async (id)=>{
 
     const results = await postRequest('http://61.101.55.224:8088/api/v1/material/delete', {pk:id}, getToken(TOKEN_NAME))
@@ -122,21 +122,21 @@ const StockList = () => {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
-    
-  
+
+
   },[])
 
 
 
   const onClickList = useCallback((id)=>{
-    history.push(`/stock/change/in?pk=${id}`) 
-  
-  
+    history.push(`/stock/change/in?pk=${id}`)
+
+
   },[])
   const onClickList2 = useCallback((id)=>{
-    history.push(`/stock/change/out?pk=${id}`) 
-  
-  
+    history.push(`/stock/change/out?pk=${id}`)
+
+
   },[])
   return (
       <DashboardWrapContainer index={8}>
@@ -145,24 +145,24 @@ const StockList = () => {
         <div style={{position:'relative'}}>
             <Header title={`재고 현황 (${list.length})`}/>
             <p style={{float:'left', color:'#ffffff90'}}>각 항목을 클릭하면, 해당 재고의 최근 변동 이력을 확인 할 수 있습니다.</p>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-            <SmallButtonLink name="+ 입고 등록" link="/stock/change/in"/> 
-            <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/> 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+            <SmallButtonLink name="+ 입고 등록" link="/stock/change/in"/>
+            <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+          <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={(e)=>{setKeyword(e.target.value)}}
                 onClickEvent={getSearchList}
                 />
-        
+
           <InfoTable indexList={index} pkKey={'pk'} type={'material'} onClickEvent={onClickList} onClickEventName={'입고'} onClickEvent2={onClickList2} onClickEventName2={'출고'}  onClickLinkUrl="/stock/history?pk=" contents={list} />
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

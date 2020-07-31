@@ -47,13 +47,13 @@ const RegisterInferior = () => {
   const [code, setCode] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
-  
+
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
-  
-  
+
+
   const [list, setList] = useState<ISearchedList[]>([]);
   const [checkList, setCheckList] = useState<ISearchedList[]>([]);
   const [searchList, setSearchList] = useState<ISearchedList[]>([]);
@@ -79,31 +79,31 @@ const RegisterInferior = () => {
         //getData()
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 공정 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
+
     const res = await getRequest('http://61.101.55.224:8088/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
 
-  
+
       if(res.status === 200){
-       
+
          const data = res.results;
          setName(data.name);
          setList(new Array(data.material));
          //setList(new Array(data.s))
-        
+
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -121,26 +121,26 @@ const RegisterInferior = () => {
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    
+
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
       pk: list[0].pk,
       date: date,
       amount : amount,
-      reason: 2, 
+      reason: 2,
       description: description,
       photo: paths[0],
 
 
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/stock/out', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/stock/out', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -153,7 +153,7 @@ const RegisterInferior = () => {
          setAmount(0)
          setDescription('')
          setPaths([null])
-        
+
       }else if(res.status === 1000){
         alert('수량을 다시 확인해주세요.')
       }else{
@@ -175,11 +175,11 @@ const RegisterInferior = () => {
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-     
+
     if (list.length < 1 ||  list2.length<1 ){
       alert('상품, 기준 바코드는 필수 항목입니다. ')
       return;
@@ -193,9 +193,9 @@ const RegisterInferior = () => {
       code: code,
       photo: paths[0],
       description: description,
-      
+
    }
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/barcode/product/update' + getParameter('pk'), data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/barcode/product/update' + getParameter('pk'), data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -214,10 +214,10 @@ const RegisterInferior = () => {
    *  키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     let type = "material";
 
@@ -233,10 +233,10 @@ const RegisterInferior = () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest(`http://211.208.115.66:8099/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -248,8 +248,8 @@ const RegisterInferior = () => {
         }else if(isPoupup2 === true){
           setSearchList2(results);
         }
-    
-         
+
+
       }else{
         //TODO:  기타 오류
       }
@@ -261,7 +261,7 @@ const RegisterInferior = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -276,26 +276,26 @@ const RegisterInferior = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
+
 
 
 
@@ -308,54 +308,54 @@ const RegisterInferior = () => {
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
              {/* 팝업 여는 버튼 + 재료 추가 */}
              <AddInput title={'불량 자재 선택'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
-                  setIsPoupup(true);  
-                  setCheckList(list); 
+                  setIsPoupup(true);
+                  setCheckList(list);
                   setKeyword('')}
                   }>
                 {
-                  list.map((v: ISearchedList, i)=>{ 
-                    return ( 
-                        <TextList key={i} 
+                  list.map((v: ISearchedList, i)=>{
+                    return (
+                        <TextList key={i}
                         onClickSearch={()=>{
                           setIsPoupup(true);
-                          setKeyword(''); 
+                          setKeyword('');
                           setIsSearched(false);
                         }}
                         onClickEvent={()=>{
                           setList([])
-                        }} 
-                        title={v.code !== undefined ? v.code : ""} name={v.name}/>                    
+                        }}
+                        title={v.code !== undefined ? v.code : ""} name={v.name}/>
                     )
                   })
                 }
                 </AddInput>
-        
+
                 <NormalNumberInput title={'발생 수량'} value={amount} onChangeEvent={setAmount} description={'불량 발생 수량을 입력해주세요'} />
-            
+
                 <DateInput title={'발생 날짜'} description={""} value={date} onChangeEvent={setDate} />
-                
+
                 <NormalInput title={'불량 사유'} value={description} onChangeEvent={setDescription} description={'불량 발생 사유 및 기타설명을 입력해주세요'} />
-              
+
                 <NormalFileInput title={'사진 첨부'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'불량 자재 사진을 등록해주세요(선택)'} />
-            
+
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true} />
-                 
+
                     :
                     null
                   }
-                
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
 
             {/* 상품-자재 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
+                setIsPoupup(false);
+                setList(checkList);
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setSearchList([]); setIsSearched(false)}} title={'상품(자재) 선택'} >
@@ -363,17 +363,17 @@ const RegisterInferior = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: ISearchedList, i)=>{ 
-                      return ( 
-                    
-                          <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code : ""]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                    searchList.map((v: ISearchedList, i)=>{
+                      return (
+
+                          <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code : ""]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
                               setCheckList(tempList)
-                            }} 
+                            }}
                           />
-                         
+
                         )
                     })
                     :
@@ -382,13 +382,13 @@ const RegisterInferior = () => {
                 </div>
             </SearchModalContainer>
 
-           
 
 
-            
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 export default RegisterInferior;

@@ -21,7 +21,7 @@ import {      ROUTER_MENU_LIST } from '../../Common/routerset';
 const CompanySetting = () => {
 
   const [list, setList] = useState<string[]>([""]);
- 
+
   const index = {
     email:'성명',
     name:'이메일',
@@ -29,10 +29,10 @@ const CompanySetting = () => {
 
   /**
    * onChangeListName()
-   * 직급직책 리스트의 이름 변경 
+   * 직급직책 리스트의 이름 변경
    * @param {number} index 리스트의 몇번째 순서
    * @param {string} e.target.value 인풋박스 입력값
-   * @returns X 
+   * @returns X
    */
   const onChangeListName = useCallback((e, index)=>{
         console.log(e.target.value)
@@ -58,7 +58,7 @@ const CompanySetting = () => {
               console.log('onclick up - ' + index)
               console.log(tempList)
                 tempList.splice(index-1, 0, tempList[index])
-                tempList.splice(index+1, 1)  
+                tempList.splice(index+1, 1)
             }
             setList(tempList);
           // code block
@@ -125,7 +125,7 @@ const CompanySetting = () => {
   /**
    * onClickSave()
    * 직급직책 저장
-   * @param {string[]} list 직급 배열 
+   * @param {string[]} list 직급 배열
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(async()=> {
@@ -136,7 +136,7 @@ const CompanySetting = () => {
       const data = {
         appointments: list
       }
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
@@ -144,7 +144,7 @@ const CompanySetting = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        
+
         alert('저장되었습니다')
         getRankList()
       }else{
@@ -174,12 +174,12 @@ const CompanySetting = () => {
           <InnerBodyContainer>
             <div style={{position:'relative'}}>
                 <Header title={'인사 관리'}/>
-               
+
             </div>
-       
+
           </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

@@ -30,24 +30,24 @@ const MaterialStock = () => {
   const index = {
     material_name:'자재 이름',
     material_code:'자재 번호',
-    distributor:'유통사', 
+    distributor:'유통사',
     stock:'수량',
   }
 
   useEffect(()=>{
     getList()
-   
+
   },[])
 
    /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -65,12 +65,12 @@ const MaterialStock = () => {
   /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -91,8 +91,8 @@ const MaterialStock = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/material/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -104,12 +104,12 @@ const MaterialStock = () => {
     }
   },[option, list, keyword])
 
-  
 
- 
+
+
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/material/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/material/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){
@@ -122,12 +122,12 @@ const MaterialStock = () => {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
-    
-    
-  
+
+
+
   },[list])
 
- 
+
   return (
       <DashboardWrapContainer index={0}>
         <SubNavigation list={ROUTER_MENU_LIST[0]}/>
@@ -135,23 +135,23 @@ const MaterialStock = () => {
         <div style={{position:'relative'}}>
             <Header title={`자재 기본 정보 (${list.length})`}/>
             <p style={{float:'left'}}>원자재 / 반제품 / 최종생산품</p>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link="/register/material"/> 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <SmallButtonLink name="+ 등록하기" link="/register/material"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+          <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={(e)=>{setKeyword(e.target.value)}}
                 onClickEvent={getSearchList}
                 />
-        
+
           <InfoTable indexList={index} pkKey={'pk'} type={'material'} typeKey={'material_type'} typeChanger={machineCodeToName} onClickLinkUrl="/update/material?pk=" contents={list} onClickRemove={onClickDelete}/>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

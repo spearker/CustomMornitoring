@@ -53,8 +53,8 @@ const StockView = () => {
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
-  
-  
+
+
   const [list, setList] = useState<ISearchedList[]>([]);
   const [checkList, setCheckList] = useState<ISearchedList[]>([]);
   const [searchList, setSearchList] = useState<ISearchedList[]>([]);
@@ -80,26 +80,26 @@ const StockView = () => {
         getData()
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/stock/history/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/stock/history/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
 
-  
+
       if(res.status === 200){
-       
+
          const data = res.results;
          setName(data.name);
          setAmount(data.amount);
@@ -108,11 +108,11 @@ const StockView = () => {
          setDescription(data.description);
          if(data.photo !== ""){
           setOldPaths([data.photo])
-      
+
          }
-       
-      
-        
+
+
+
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -125,46 +125,46 @@ const StockView = () => {
 
   return (
       <DashboardWrapContainer>
-       
+
         <InnerBodyContainer>
             <Header title={'입출고 기록'}/>
             <WhiteBoxContainer>
              <form  >
              <NormalInput title={'자재 이름'} value={name} description={''} />
-            
-        
+
+
                 <NormalInput title={'수량'} value={String(amount)} description={''} />
-            
+
                 <NormalInput title={'날짜'} description={""} value={date} />
                 {
                   description == '' ?
                   <NormalInput title={'불량 사유'} value={description} description={''} />
                   :
-                  
+
               null
                 } {
                    oldPaths[0] !== null?
                     <OldFileInput title={'첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true} />
-                 
+
                     :
                     null
                   }
-                
+
                 <NormalInput title={'등록자'} value={register} description={''} />
-            
-               
-           
+
+
+
               </form>
             </WhiteBoxContainer>
 
-        
-           
 
 
-            
+
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 export default StockView;

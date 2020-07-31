@@ -72,26 +72,26 @@ const ProductRegister = () => {
         getData()
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 공정 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/barcode/product/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/barcode/product/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
 
-  
+
       if(res.status === 200){
-       
+
          const data = res.results;
          setPk(getParameter('pk'))
          setName(data.name);
@@ -99,7 +99,7 @@ const ProductRegister = () => {
          setList2(new Array(data.basic_barcode))
          setCode(data.code);
          setOldPaths([data.photo]);
-        
+
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -117,12 +117,12 @@ const ProductRegister = () => {
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    
+
      if (list.length < 1 ||  list2.length<1 ){
       alert('상품, 기준 바코드는 필수 항목입니다. ')
       //return;
@@ -140,7 +140,7 @@ const ProductRegister = () => {
       photo: paths[0]
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -153,8 +153,8 @@ const ProductRegister = () => {
          setList2([])
          setPaths([]);
          setCode('');
-        
-        
+
+
       }else if(res.status === 1000){
         alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
       }else{
@@ -176,11 +176,11 @@ const ProductRegister = () => {
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-     
+
     if (list.length < 1 ||  list2.length<1 ){
       alert('상품, 기준 바코드는 필수 항목입니다. ')
       return;
@@ -192,14 +192,14 @@ const ProductRegister = () => {
    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
    const data = {
-      
+
        material_pk: list[0].pk,
       barcode_pk: list2[0].pk,
       code: code,
       photo: paths[0]
-      
+
    }
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/barcode/product/update' , data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/barcode/product/update' , data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -222,10 +222,10 @@ const ProductRegister = () => {
    *  키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     let type = "material";
 
@@ -241,10 +241,10 @@ const ProductRegister = () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest(`http://211.208.115.66:8099/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -256,8 +256,8 @@ const ProductRegister = () => {
         }else if(isPoupup2 === true){
           setSearchList2(results);
         }
-    
-         
+
+
       }else{
         //TODO:  기타 오류
       }
@@ -269,7 +269,7 @@ const ProductRegister = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -284,26 +284,26 @@ const ProductRegister = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
+
 
 
 
@@ -316,74 +316,74 @@ const ProductRegister = () => {
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
              {/* 팝업 여는 버튼 + 재료 추가 */}
              <AddInput title={'상품(자재) 선택'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
-                  setIsPoupup(true);  
-                  setCheckList(list); 
+                  setIsPoupup(true);
+                  setCheckList(list);
                   setKeyword('')
                   setList([])}
                   }>
                 {
-                  list.map((v: ISearchedList, i)=>{ 
-                    return ( 
-                        <TextList key={i} 
+                  list.map((v: ISearchedList, i)=>{
+                    return (
+                        <TextList key={i}
                         onClickSearch={()=>{
                           setIsPoupup(true);
-                          setKeyword(''); 
+                          setKeyword('');
                           setIsSearched(false);
                         }}
                         onClickEvent={()=>{
                           setList([])
-                        }} 
-                        title={v.name !== undefined ? v.name : ""} name={v.code}/>                    
+                        }}
+                        title={v.name !== undefined ? v.name : ""} name={v.code}/>
                     )
                   })
                 }
                 </AddInput>
-        
+
              <AddInput title={'기준 바코드 선택 '} icType="solo" onlyOne={list2.length > 0 ? true: false} onChangeEvent={()=>{
-                  setIsPoupup2(true);  
-                  setCheckList2(list2); 
+                  setIsPoupup2(true);
+                  setCheckList2(list2);
                   setKeyword('');
                   setList2([]);
              }}>
                 {
-                  list2.map((v: ISearchedList, i)=>{ 
-                    return ( 
-                        <TextList key={i} 
+                  list2.map((v: ISearchedList, i)=>{
+                    return (
+                        <TextList key={i}
                         onClickSearch={()=>{
                           setIsPoupup2(true)
-                          setKeyword(''); 
+                          setKeyword('');
                           setIsSearched(false);
                         }}
                         onClickEvent={()=>{
                           setList2([])
-                        }} 
-                        title={v.name !== undefined ?v.name :''} name={v.code}/>                    
+                        }}
+                        title={v.name !== undefined ?v.name :''} name={v.code}/>
                     )
                   })
                 }
                 </AddInput>
                 <NormalInput title={'나머지 바코드'} value={code} onChangeEvent={setCode} description={'기준 바코드 외의 나머지 코드를 입력해주세요'} />
-               
-                
+
+
                 <NormalFileInput title={'바코드 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'해당 상품의 바코드 이미지를 등록해주세요'} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true} />
-                 
+
                     :
                     null
                   }
-      
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
 
             {/* 상품-자재 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
+                setIsPoupup(false);
+                setList(checkList);
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setSearchList([]); setIsSearched(false)}} title={'상품(자재) 선택'} >
@@ -391,17 +391,17 @@ const ProductRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: ISearchedList, i)=>{ 
-                      return ( 
-                    
-                          <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code : ""]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                    searchList.map((v: ISearchedList, i)=>{
+                      return (
+
+                          <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code : ""]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
                               setCheckList(tempList)
-                            }} 
+                            }}
                           />
-                         
+
                         )
                     })
                     :
@@ -411,11 +411,11 @@ const ProductRegister = () => {
             </SearchModalContainer>
 
             {/* 바코드 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup2(false); 
-                setList2(checkList2); 
+                setIsPoupup2(false);
+                setList2(checkList2);
                 setKeyword('')}
             }
             isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false); setKeyword(''); setIsSearched(false); setSearchList2([]); }} title={'기준 바코드 선택'} >
@@ -423,17 +423,17 @@ const ProductRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList2.map((v: ISearchedList, i)=>{ 
+                    searchList2.map((v: ISearchedList, i)=>{
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
-                          
+
                               const tempList = checkList2.slice()
                               tempList.splice(0, 1, v)
                               setCheckList2(tempList)
-                            }} 
+                            }}
                           />
-                      
+
                       )})
                     :
                     null
@@ -442,10 +442,10 @@ const ProductRegister = () => {
             </SearchModalContainer>
 
 
-            
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

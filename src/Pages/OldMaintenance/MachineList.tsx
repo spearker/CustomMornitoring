@@ -35,12 +35,12 @@ const MachineMaintenance = () => {
   /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/preserve/list?keyword='+ keyword +'&orderBy=' + option + '&type=' + type ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/preserve/list?keyword='+ keyword +'&orderBy=' + option + '&type=' + type ,getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -56,12 +56,12 @@ const MachineMaintenance = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/preserve/list?keyword='+ keyword +'&orderBy=' + option + '&type=' + type ,getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/preserve/list?keyword='+ keyword +'&orderBy=' + option + '&type=' + type ,getToken(TOKEN_NAME))
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -82,8 +82,8 @@ const MachineMaintenance = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-   
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/preserve/list?keyword='+ keyword +'&orderBy=' + option + '&type=' + type ,getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/preserve/list?keyword='+ keyword +'&orderBy=' + option + '&type=' + type ,getToken(TOKEN_NAME))
      if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
@@ -104,11 +104,11 @@ const MachineMaintenance = () => {
 
     console.log('--select id : ' + id)
     window.location.href=`/update/design?pk=${id}`
-  
+
   },[])
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/preserve/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/preserve/delete', {pk:id}, getToken(TOKEN_NAME))
 
     const tg = id
     //console.log('--select id : ' + id)
@@ -122,7 +122,7 @@ const MachineMaintenance = () => {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
-  
+
   },[list])
 
 
@@ -132,25 +132,25 @@ const MachineMaintenance = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`기계 보전리스트 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link="/maintenance/register"/> 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <SmallButtonLink name="+ 등록하기" link="/maintenance/register"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+          <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={(e)=>{setKeyword(e.target.value)}}
                 onClickEvent={getSearchList}
                 />
-              
+
           <InfoTable indexList={index} widthList={['70%', '20%']} type={'maintenance'} pkKey={'pk'} onClickLinkUrl="/maintenance/update?type=machine&pk=" contents={list} onClickRemove={onClickDelete}/>
-    
-        
-       
+
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

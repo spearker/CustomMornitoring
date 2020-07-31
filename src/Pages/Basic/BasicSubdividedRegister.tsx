@@ -41,7 +41,7 @@ const BasicSubdividedRegister = () => {
   const history = useHistory();
 
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
- 
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
@@ -56,7 +56,7 @@ const BasicSubdividedRegister = () => {
   });
 
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       setIsUpdate(true)
@@ -66,8 +66,8 @@ const BasicSubdividedRegister = () => {
   },[])
 
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -79,21 +79,21 @@ const BasicSubdividedRegister = () => {
             factory: [{pk: data.factory, name: data.factory_name}],
             name: data.subdivided_name,
             description: data.description,
-           
+
           };
 
           setInputData(form)
-         
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[pk, optional, essential, inputData ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    
+
     const data = {
       pk: getParameter('pk'),
       factory: inputData.factory[0].pk,
@@ -101,7 +101,7 @@ const BasicSubdividedRegister = () => {
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
 
      if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -119,7 +119,7 @@ const BasicSubdividedRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-    
+
     const data = {
       document_pk: document.pk,
       factory: inputData.factory[0].pk,
@@ -128,7 +128,7 @@ const BasicSubdividedRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -157,46 +157,46 @@ const BasicSubdividedRegister = () => {
                 document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
-                <BasicSearchContainer 
-                      title={'공장'} 
-                      key={'pk'} 
+                <BasicSearchContainer
+                      title={'공장'}
+                      key={'pk'}
                       value={'name'}
                       onChangeEvent={
                         (input)=>{
-                          let temp = _.cloneDeep(inputData); 
-                          temp.factory = input; 
+                          let temp = _.cloneDeep(inputData);
+                          temp.factory = input;
                           setInputData(temp)
                         }
                       }
                       solo={true}
                       list={inputData.factory}
-                      searchUrl={'http://211.208.115.66:8099/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://211.208.115.66:8299/api/v1/factory/search?option=0&'}
                 />
 
                 <NormalInput title={'세분화 이름'} value={inputData.name} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.name = input; setInputData(temp)}} />
-                
+
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'설명'} value={inputData.description} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.description = input; setInputData(temp)}} />
                 <br/>
-                <DocumentFormatInputList 
+                <DocumentFormatInputList
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8099/api/v1/subdivided/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/subdivided/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
                 :
-                
+
                 <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

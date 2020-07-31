@@ -17,7 +17,7 @@ import { openPopup } from '../../Common/popupFunctions';
 import { usePopupDispatch } from '../../Context/PopupContext';
 import { API_URLS, getServerStatus } from '../../Api/mes/common';
 
-// 로그인 페이지 
+// 로그인 페이지
 const Login = () => {
 
   const dispatch = useUserDispatch();
@@ -39,7 +39,7 @@ const Login = () => {
       email: email,
       password: password,
     }
-    const results = await postRequestWithNoToken('http://211.208.115.66:8099/user/login', data)
+    const results = await postRequestWithNoToken('http://211.208.115.66:8299/user/login', data)
 
     if(results === false){
       //TODO: 에러 처리
@@ -51,23 +51,23 @@ const Login = () => {
         alert('아이디와 패스워드를 확인하세요.')
       }else if(results.status === 1003){
         alert('승인 대기중인 이메일 입니다. 관리자 승인 후 로그인 할 수 있습니다.')
-       
+
       }else{
-        //기타 에러처리 
-  
+        //기타 에러처리
+
       }
     }
 
   },[email, password])
 
-  
+
    /**
    * getCheck()
    * 서버상태 체크
    */
   const getCheck = useCallback(async ()=>{
-    
-    
+
+
     const tempUrl = `${API_URLS.status.check}`
     const results = await getServerStatus(tempUrl);
     if(results === false){
@@ -82,7 +82,7 @@ const Login = () => {
     }else{
       setError('')
     }
-  
+
 
   },[error])
 
@@ -104,11 +104,11 @@ const Login = () => {
                     <span style={{paddingLeft:8, paddingRight:8}}>|</span>
                     <Link to="/email">{t('signUp')}</Link>
                   </div>
-                  
+
             </div>
           </form>
       </WelcomeContainer>
-      
+
   );
 }
 

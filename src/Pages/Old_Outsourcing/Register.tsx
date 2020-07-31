@@ -57,9 +57,9 @@ const OutsourcingRegister = () => {
   const [oldPaths, setOldPaths] = useState<any[1]>([null]);
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
- 
 
-  
+
+
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
@@ -76,7 +76,7 @@ const OutsourcingRegister = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -91,37 +91,37 @@ const OutsourcingRegister = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
+
 
   /**
    * getData()
    * 기계 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 기계 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -140,11 +140,11 @@ const OutsourcingRegister = () => {
          setPhoneM(data.manager_phone)
          setManager(data.manager)
          setEmail(data.ceo_email)
-         
+
          //setInfoList(data.info_list)
          setAddress(data.address);
          setFax(data.fax);
-         
+
       }else{
         //TODO:  기타 오류
       }
@@ -163,7 +163,7 @@ const OutsourcingRegister = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -171,7 +171,7 @@ const OutsourcingRegister = () => {
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
- 
+
     const data = {
       pk: getParameter('pk'),
       name: name,
@@ -190,7 +190,7 @@ const OutsourcingRegister = () => {
 
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -215,7 +215,7 @@ const OutsourcingRegister = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -227,7 +227,7 @@ const OutsourcingRegister = () => {
       return;
     }
     const data = {
-      
+
       name: name,
       number: no,
       type: type,
@@ -243,9 +243,9 @@ const OutsourcingRegister = () => {
       info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
-    
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -257,7 +257,7 @@ const OutsourcingRegister = () => {
          setPk('');
          setNo(undefined);
          setType(0);
-        
+
          setCeo('');
          setPaths([null])
          setOldPaths([null])
@@ -280,8 +280,8 @@ const OutsourcingRegister = () => {
   const handleComplete = useCallback((data) => {
     console.log(data)
     let fullAddress = data.address;
-    let extraAddress = ''; 
-    
+    let extraAddress = '';
+
     if (data.addressType === 'R') {
       if (data.bname !== '') {
         extraAddress += data.bname;
@@ -293,7 +293,7 @@ const OutsourcingRegister = () => {
     }
     setIsOpen(false)
     setAddress(fullAddress + ' ')
-   
+
   },[address, isOpen])
 
 
@@ -310,8 +310,8 @@ const OutsourcingRegister = () => {
                 <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'} />
                 <RadioInput title={'사업자 구분'} target={type} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
                 <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
-                
-                
+
+
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
@@ -321,8 +321,8 @@ const OutsourcingRegister = () => {
                     :
                     null
                   }
-             
-                
+
+
                 <div onClick={()=>setIsOpen(true)}>
                 <NormalInput title={'사업장 주소'} value={address} onChangeEvent={setAddress} description={'사업자 등록증에 기재되어있는 주소를 입력하세요'} />
                 </div>
@@ -330,7 +330,7 @@ const OutsourcingRegister = () => {
                   isOpen &&
                   <DaumPostcode
                   onComplete={handleComplete}
-                
+
                  />
                 }
                 <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} description={'사업자 등록증에 기재되어있는 연락처를 입력하세요'} />
@@ -339,7 +339,7 @@ const OutsourcingRegister = () => {
                 <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager} description={'사업장 담당자(관리자) 이름을 입력하세요'} />
                 <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} description={'사업장 담당자(관리자) 연락처를 입력하세요'} />
                 <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM} description={'사업장 담당자(관리자) 이메일을 입력하세요'} />
-                  {/* 자유항목 입력 창 
+                  {/* 자유항목 입력 창
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
                   tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -348,32 +348,32 @@ const OutsourcingRegister = () => {
                   {
                     infoList.map((v: IInfo, i)=>{
                       return(
-                          <CustomIndexInput index={i} value={v} 
+                          <CustomIndexInput index={i} value={v}
                           onRemoveEvent={()=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           onChangeEvent={(obj: IInfo)=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1, obj)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           />
                       )
                     })
                   }
                   </FullAddInput>
                   */}
-                
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

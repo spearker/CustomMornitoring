@@ -35,18 +35,18 @@ const Signup = () => {
    * @param {string} pwCheck 패스워드 확인
    * @param {string} name 이름
    * @param {string} code 회사코드
-   * @param {string} auth 이메일 인증코드 
+   * @param {string} auth 이메일 인증코드
    * @returns X
    */
   const onsubmitForm = useCallback(async ()=>{
-  
+
     //window.location.href= "/complete" //TODO: 지울것
 
     //발리데이션
     if(pw == '' || name == '' || email ==='' || code === ''){
       alert(t('errorAllSubmit'))
       return
-    } 
+    }
     if(pw.length < 6 || pw !== pwCheck){
       alert(t('errorPassord'))
       setPwCheck('')
@@ -65,28 +65,28 @@ const Signup = () => {
       company_code: code,
       auth_code: auth,
     }
-    const results = await postRequestWithNoToken('http://211.208.115.66:8099/user/register', data)
+    const results = await postRequestWithNoToken('http://211.208.115.66:8299/user/register', data)
 
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
         alert(t('성공적으로 가입신청되었습니다.'))
-        window.location.href= "/complete" 
+        window.location.href= "/complete"
       }else if(results.status === 1001){
         alert(t('errorUse'))
         setEmail('')
-        window.location.href= "/login" 
+        window.location.href= "/login"
       }else if(results.status === 1003){
         alert(t('errorCode'))
         setCode('')
       }else if(results.status === 1004){
         alert(t('만료된 인증코드 입니다. 이메일인증을 다시 해주세요.'))
-        window.location.href= "/login" 
+        window.location.href= "/login"
         setCode('')
       }else{
-        //기타 에러처리 
-  
+        //기타 에러처리
+
       }
     }
 
@@ -114,14 +114,14 @@ const Signup = () => {
             <WelcomeInput type="password" value={pw} title={'Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPw(e.target.value)}} hint={t('enterPassword')}/>
             <WelcomeInput type="password" value={pwCheck} title={'Confirm Password'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setPwCheck(e.target.value)}} hint={t('enterPasswordRe')}/>
             <WelcomeInput type="text" value={code} title={'Company Code'} onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>): void =>{setCode(e.target.value)}} hint={t('enterCode')}/>
-           
+
             <div style={{textAlign:'center',marginTop:52}}>
                   <BasicColorButton onClickEvent={onsubmitForm} width="100%" name={t('signUp')} />
             </div>
 
       </div>
     </WelcomeContainer>
-      
+
   );
 }
 

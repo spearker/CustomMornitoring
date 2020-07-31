@@ -39,7 +39,7 @@ const BasicDeviceRegister = () => {
 
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
   const [documentList, setDocumentList] = useState<any[]>([]);
- 
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
@@ -58,12 +58,12 @@ const BasicDeviceRegister = () => {
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null, null]);
   const [date, setDate]= useState<string>(moment().format('YYYY-MM-DD'));
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
- 
+
   const indexList = getSubMachineTypeList('kor');
   const history = useHistory();
 
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       //alert(`수정 페이지 진입 - pk :` + param)
@@ -79,7 +79,7 @@ const BasicDeviceRegister = () => {
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -94,38 +94,38 @@ const BasicDeviceRegister = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
- 
 
-  
+
+
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/device/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/device/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200 || res.status === "200"){
          const data = res.results;
-         
+
          setName(data.device_name);
          setMade(data.manufacturer);
          setPhotoName(data.photo);
@@ -140,15 +140,15 @@ const BasicDeviceRegister = () => {
          tempList[1]= data.qualification;
          tempList[2]=data.capacity;
          setOldPaths(tempList);
-       
-         
+
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[pk, made,madeNo,date, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
     if(name === "" ){
@@ -157,7 +157,7 @@ const BasicDeviceRegister = () => {
     }
     const data = {
       pk: getParameter('pk'),
-    
+
       device_name: name,
       device_type: type,
       manufacturer: made,
@@ -170,7 +170,7 @@ const BasicDeviceRegister = () => {
       capacity: paths[2]
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/device/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/device/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -211,9 +211,9 @@ const BasicDeviceRegister = () => {
       qualification: paths[1],
       capacity: paths[2]
     };
-    
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/device/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/device/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -245,10 +245,10 @@ const BasicDeviceRegister = () => {
                 <DropdownInput title={'장치 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요 (장치에 부착되어있음)'} />
-                
-                <BasicSearchContainer 
-                      title={'공장'} 
-                      key={'pk'} 
+
+                <BasicSearchContainer
+                      title={'공장'}
+                      key={'pk'}
                       value={'name'}
                       onChangeEvent={
                         (input)=>{
@@ -257,42 +257,42 @@ const BasicDeviceRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://211.208.115.66:8099/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://211.208.115.66:8299/api/v1/factory/search?option=0&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={' 제조사명을 입력하세요'} />
-               
+
                 <NormalFileInput title={'장치 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['장치사진', '스펙명판', '능력명판']} isImage={true} />
-                 
+
                     :
                     null
                 }
                 <br/>
-                <DocumentFormatInputList 
-                  
+                <DocumentFormatInputList
+
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8099/api/v1/device/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/device/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
-                 
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
               :
               <SelectDocumentForm category={1} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

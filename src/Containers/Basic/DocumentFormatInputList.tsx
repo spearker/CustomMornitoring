@@ -41,16 +41,16 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
     }else{
       getDocumentData();
     }
-   
+
   },[])
 
   const getDocumentData = useCallback(async()=>{
-    
+
 
     if(pk === null){
       return;
     }
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -89,12 +89,12 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
     }
   },[essential, optional ])
 
- 
+
 
 
   return (
-     
-                
+
+
       <>
         {essential.length !== 0 && <ListHeader title="문서 필수 항목"/>}
         {
@@ -126,8 +126,8 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
             })
         }
       </>
-        
-      
+
+
   );
 }
 const TextNotice = Styled.p`

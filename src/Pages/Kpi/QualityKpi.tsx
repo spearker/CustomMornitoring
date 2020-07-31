@@ -51,7 +51,7 @@ const QualityKpi = () => {
   ]
   const index = {
     name:'바코드 규칙명',
-    type:'종류', 
+    type:'종류',
     code:'코드',
 
   }
@@ -66,7 +66,7 @@ const QualityKpi = () => {
       },
       colors:['#F44336', '#E91E63', '#9C27B0'],
     },
-    
+
     series: [{
       name: '생산품목',
       data: [30, 40, 45, 50, 49, 60, 70, 91]
@@ -75,7 +75,7 @@ const QualityKpi = () => {
       data: [30, 40, 45, 50, 49, 60, 70, 91]
     }]
   }
-  
+
   const chartOption2 = {
     series: [{
       name: "STOCK ABC",
@@ -95,7 +95,7 @@ const QualityKpi = () => {
       stroke: {
         curve: 'straight'
       },
-      
+
       title: {
         text: 'Fundamental Analysis of Stocks',
         align: 'left'
@@ -117,17 +117,17 @@ const QualityKpi = () => {
     },
   }
 
-  
+
    /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-  
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -146,13 +146,13 @@ const QualityKpi = () => {
   /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
- 
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -175,10 +175,10 @@ const QualityKpi = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-  
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
-   
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+
+
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -193,14 +193,14 @@ const QualityKpi = () => {
 
   useEffect(()=>{
     getList()
-   
+
   },[])
 
-  
+
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){
@@ -213,9 +213,9 @@ const QualityKpi = () => {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
-    
-    
-  
+
+
+
   },[list])
 
 
@@ -223,7 +223,7 @@ const QualityKpi = () => {
 
     console.log('--select id : ' + id)
     window.location.href=`/update/material?pk=${id}`
-  
+
   },[])
 
   return (
@@ -232,7 +232,7 @@ const QualityKpi = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`KPI 품질지수`}/>
-      
+
           </div>
           <div style={{display:'flex', width: '100%'}}>
           <ChartBox id="chart" >
@@ -247,9 +247,9 @@ const QualityKpi = () => {
             <ChartHeadText>검사불량률 </ChartHeadText>
             <Chart options={chartOption.options} series={chartOption.series} type="bar" height={240} />
           </ChartBox>
-    
+
           </div>
-         
+
           <div style={{display:'flex', width: '100%', marginTop:22}}>
           <ChartBox id="chart" >
             <ChartHeadText>반품률</ChartHeadText>
@@ -259,13 +259,13 @@ const QualityKpi = () => {
             <ChartHeadText>Claim 건수</ChartHeadText>
             <Chart options={chartOption.options} series={chartOption.series} type="bar" height={240} />
           </ChartBox>
-    
+
           </div>
-         
-        
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

@@ -21,7 +21,7 @@ const Members = () => {
   const [list, setList] = useState<IMmember[]>([]);
   const [keyword, setKeyword] = useState<string>("");
   const [option, setOption] = useState<number>(0);
- 
+
   const index = {
     name:'성명',
     team:'소속부서',
@@ -40,7 +40,7 @@ const Members = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getList = useCallback(async ()=> {
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/list?keyword='+keyword +'&orderBy='+option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/list?keyword='+keyword +'&orderBy='+option, getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -50,7 +50,7 @@ const Members = () => {
       }
       if(results.status === 200){
           setList(results.results)
-          
+
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -68,7 +68,7 @@ const Members = () => {
 
   },[])
 
- 
+
 
   return (
       <DashboardWrapContainer index={1}>
@@ -77,12 +77,12 @@ const Members = () => {
           <div style={{position:'relative'}}>
             <Header title={'구성원 관리'}/>
           </div>
-          
+
           <InfoTable indexList={index} type={'member'} pkKey={'pk'} onClickLinkUrl="/manage/members/update?pk=" contents={list} />
-    
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

@@ -41,7 +41,7 @@ import {useHistory} from 'react-router-dom';
 const BasicFactoryRegister = () => {
   const history = useHistory();
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
- 
+
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
 
@@ -59,7 +59,7 @@ const BasicFactoryRegister = () => {
 
   });
   useEffect(()=>{
-    
+
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
       setIsUpdate(true)
@@ -69,12 +69,12 @@ const BasicFactoryRegister = () => {
   },[])
 
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest(`http://211.208.115.66:8099/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest(`http://211.208.115.66:8299/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
-      
+
     }else{
       if(res.status === 200 || res.status === "200"){
           const data = res.results;
@@ -87,10 +87,10 @@ const BasicFactoryRegister = () => {
     }
   },[pk, optional, essential, inputData ])
 
-  
+
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    
+
     const data = {
       pk: getParameter('pk'),
       address: inputData.location,
@@ -98,7 +98,7 @@ const BasicFactoryRegister = () => {
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/factory/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/factory/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
@@ -117,8 +117,8 @@ const BasicFactoryRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-   
-    
+
+
     const data = {
       document_pk: document.pk,
       name: inputData.name,
@@ -127,9 +127,9 @@ const BasicFactoryRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/factory/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/factory/register', data, getToken(TOKEN_NAME))
 
-    
+
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
 
@@ -163,24 +163,24 @@ const BasicFactoryRegister = () => {
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>
                 <br/>
-                <DocumentFormatInputList 
-                  
+                <DocumentFormatInputList
+
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8099/api/v1/factory/load?pk=${pk}` :''} 
+                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/factory/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
                 :
                 <SelectDocumentForm category={5} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

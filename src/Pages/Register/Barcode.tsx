@@ -57,25 +57,25 @@ const RegisterBarcode = () => {
         getData()
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 자재 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/barcode/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/barcode/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
          const data = res.results;
-         
+
           setType(Number(data.type));
           setName(data.name);
           setCode(data.code);
@@ -99,7 +99,7 @@ const RegisterBarcode = () => {
    * @param {string} made 유통사
    * @param {string} spec 종류
    * @param {string} code 코드
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -123,8 +123,8 @@ const RegisterBarcode = () => {
 
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/barcode/register', data, getToken(TOKEN_NAME))
-    
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/barcode/register', data, getToken(TOKEN_NAME))
+
     if(res === false){
       //TODO: 에러 처리
     }else{
@@ -134,7 +134,7 @@ const RegisterBarcode = () => {
          setCode('')
          setSpec('')
          setType(0)
-    
+
 
       }else{
         alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
@@ -155,15 +155,15 @@ const RegisterBarcode = () => {
    * @param {string} made 유통사
    * @param {string} spec 종류
    * @param {string} code 코드
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
     //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
     //return;
- 
-    
+
+
 
     const data = {
         pk: pk,
@@ -184,7 +184,7 @@ const RegisterBarcode = () => {
     }
 
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/barcode/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/barcode/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -210,20 +210,20 @@ const RegisterBarcode = () => {
              <NormalInput title={'바코드 이름'} value={name} onChangeEvent={setName} description={'이름 혹은 별칭을 입력하세요'} />
              <NormalInput title={'바코드 규칙'} value={code} onChangeEvent={setCode} description={'규칙이 되는 기본 코드를 입력하세요 ex) SIZL-0000-0000'} />
              <DropdownInput title={'바코드 타입'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
-            
+
              <br/>
             <ListHeader title="선택 항목"/>
              <NormalInput title={'바코드 설명'} value={spec} onChangeEvent={setSpec} description={'바코드의 설명을 입력하세요'} />
-             
-      
-      
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+
+
+
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-           
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

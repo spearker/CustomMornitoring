@@ -52,13 +52,13 @@ const RegisterSubMachine = () => {
 
   },[])
 
-  
+
 
   /**
    * addFiles()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
     console.log(event.target.files[0]);
@@ -73,23 +73,23 @@ const RegisterSubMachine = () => {
       const tempFile  = event.target.files[0];
       console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0]);
-      
+
       if(res !== false){
-        console.log(res) 
+        console.log(res)
         const tempPatchList= paths.slice()
         tempPatchList[index] = res;
-        console.log(tempPatchList) 
+        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       }else{
         return
       }
-      
+
     }else{
-      
+
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
 
@@ -98,11 +98,11 @@ const RegisterSubMachine = () => {
    * 주변장치 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 장치 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/peripheral/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/peripheral/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -139,7 +139,7 @@ const RegisterSubMachine = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -161,7 +161,7 @@ const RegisterSubMachine = () => {
     };
 
 
-      const res = await postRequest('http://211.208.115.66:8099/api/v1/peripheral/update', data, getToken(TOKEN_NAME))
+      const res = await postRequest('http://211.208.115.66:8299/api/v1/peripheral/update', data, getToken(TOKEN_NAME))
 
       if(res === false){
         //TODO: 에러 처리
@@ -187,7 +187,7 @@ const RegisterSubMachine = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -203,7 +203,7 @@ const RegisterSubMachine = () => {
       device_label: type + 50,
       manufacturer: made,
       manufacturer_code: madeNo,
-     
+
       manufactured_at: date,
       info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
       device_photo: paths[0],
@@ -211,7 +211,7 @@ const RegisterSubMachine = () => {
       capacity_nameplate: paths[2]
     };
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -226,7 +226,7 @@ const RegisterSubMachine = () => {
          setType(1);
          setInfoList([]);
          setPaths([null, null, null])
-        
+
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -249,18 +249,18 @@ const RegisterSubMachine = () => {
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사 '} value={made} onChangeEvent={setMade} description={'장치의 제조사명을 입력하세요'} />
-                
+
                 <NormalFileInput title={'장치 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['장치사진', '스펙명판', '능력명판']} isImage={true} />
-                 
+
                     :
                     null
                   }
-                
+
                  {/* 자유항목 입력 창 */}
                  <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
@@ -270,30 +270,30 @@ const RegisterSubMachine = () => {
                   {
                     infoList.map((v: IInfo, i)=>{
                       return(
-                          <CustomIndexInput index={i} value={v} 
+                          <CustomIndexInput index={i} value={v}
                           onRemoveEvent={()=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           onChangeEvent={(obj: IInfo)=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1, obj)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           />
                       )
                     })
                   }
                   </FullAddInput>
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
-            
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
+
               </form>
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

@@ -30,7 +30,7 @@ const DesignList = () => {
   ]
   const index = {
     mold_name: '금형 이름',
-    mold_label:'금형 종류', 
+    mold_label:'금형 종류',
     manufacturer:'제조사',
     product_code:'제조 번호',
   }
@@ -38,12 +38,12 @@ const DesignList = () => {
   /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -60,12 +60,12 @@ const DesignList = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -87,8 +87,8 @@ const DesignList = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/mold/list?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -103,19 +103,19 @@ const DesignList = () => {
 
   useEffect(()=>{
     getList()
-   
+
   },[])
   const onClickModify = useCallback((id)=>{
 
     console.log('--select id : ' + id)
     window.location.href=`/update/design?pk=${id}`
-  
+
   },[])
 
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/mold/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/mold/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){
@@ -128,9 +128,9 @@ const DesignList = () => {
         alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
-    
-    
-  
+
+
+
   },[list])
 
 
@@ -140,23 +140,23 @@ const DesignList = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`금형 기본 정보 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-              <SmallButtonLink name="+ 등록하기" link="/register/design"/> 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+              <SmallButtonLink name="+ 등록하기" link="/register/design"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+          <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={(e)=>{setKeyword(e.target.value)}}
                 onClickEvent={getSearchList}
                 />
-      
+
           <InfoTable indexList={index} type={'mold'} pkKey={'pk'} typeKey={'mold_label'} typeChanger={machineCodeToName} onClickLinkUrl="/update/design?pk=" contents={list} onClickRemove={onClickDelete}/>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

@@ -53,7 +53,7 @@ const RegisterMaintenance = () => {
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
-  
+
   const [list, setList] = useState<ISearchedList[] >([]);
   const [checkList, setCheckList] = useState<ISearchedList[] >([]);
   const [searchList, setSearchList] = useState<ISearchedList[]>([]);
@@ -83,18 +83,18 @@ const RegisterMaintenance = () => {
         setType(getParameter('type'))
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 공정 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://211.208.115.66:8099/api/v1/preserve/view?pk=' + getParameter('pk') + '&type=' + getParameter('type')  , getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://211.208.115.66:8299/api/v1/preserve/view?pk=' + getParameter('pk') + '&type=' + getParameter('type')  , getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -106,7 +106,7 @@ const RegisterMaintenance = () => {
           setTempInfo(data.target)
           setInfoList(data.info_list)
           setType(data.type)
-        
+
       }else if(res.status === 1001 || res.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -124,13 +124,13 @@ const RegisterMaintenance = () => {
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    
-   
+
+
     //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     let tPk = '';
@@ -141,7 +141,7 @@ const RegisterMaintenance = () => {
     }else if(type==='peripheral'&& list !== []){
       tPk = list[0].pk
     }
- 
+
     if(tPk === '' || tPk== undefined){
       return
     }
@@ -152,7 +152,7 @@ const RegisterMaintenance = () => {
         info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
     }
 
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/preserve/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/preserve/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
@@ -187,20 +187,20 @@ const RegisterMaintenance = () => {
    * @param {string} material 자재 pk
    * @param {string} output 생산품 pk
    * @param {string} machine 기계 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    
+
     const data = {
          pk:getParameter('pk'),
         type: type,
         term: term,
         target_pk: tempInfo!== undefined ? tempInfo.pk : '',
         info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-        
+
     }
-    const res = await postRequest('http://211.208.115.66:8099/api/v1/preserve/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://211.208.115.66:8299/api/v1/preserve/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -220,10 +220,10 @@ const RegisterMaintenance = () => {
    *  키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     let type = "material";
 
@@ -241,10 +241,10 @@ const RegisterMaintenance = () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest(`http://211.208.115.66:8099/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1` , getToken(TOKEN_NAME))
+    const res = await getRequest(`http://211.208.115.66:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1` , getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -260,8 +260,8 @@ const RegisterMaintenance = () => {
         }else{
           return;
         }
-    
-         
+
+
       }else{
         //TODO:  기타 오류
       }
@@ -276,7 +276,7 @@ const RegisterMaintenance = () => {
             <WhiteBoxContainer>
              <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                {
-                 isUpdate ? 
+                 isUpdate ?
                 <NormalInput title={'이름'} value={tempInfo !== undefined ? tempInfo.name :''} description={''}/>
                  :
                <>
@@ -286,46 +286,46 @@ const RegisterMaintenance = () => {
                 <label htmlFor="cb"></label>
               </div>
               <div>
-                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>기계</span> 
+                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>기계</span>
               </div>
               <div style={{paddingLeft:1, paddingTop:5}}>
                 <input type="radio" id="cb2"  name="type"  checked={type === 'peripheral' ? true: false} onClick={(e)=>{setType('peripheral')}}/>
                 <label htmlFor="cb2"></label>
               </div>
               <div>
-                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>주변장치</span> 
+                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>주변장치</span>
               </div>
               <div style={{paddingLeft:1, paddingTop:5}}>
                 <input type="radio" id="cb3"  name="type" checked={type === 'mold' ? true: false}  onClick={(e)=>{setType('mold')}}/>
                 <label htmlFor="cb3"></label>
               </div>
               <div>
-                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>금형</span> 
+                <span style={{paddingLeft:4,fontSize:14, marginRight:20}}>금형</span>
               </div>
             </div>
              {/* 팝업 여는 버튼 + 보전 주변장치 추가 */}
              {
-               type === 'peripheral' ? 
-           
+               type === 'peripheral' ?
+
                <AddInput title={'보전 주변장치'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
-                setIsPoupup(true);  
-                setCheckList(list); 
+                setIsPoupup(true);
+                setCheckList(list);
                 setKeyword('')
                 setList([])}
                 }>
               {
-                list.map((v: ISearchedList, i)=>{ 
-                  return ( 
-                      <TextList key={i} 
+                list.map((v: ISearchedList, i)=>{
+                  return (
+                      <TextList key={i}
                       onClickSearch={()=>{
                         setIsPoupup(true);
-                        setKeyword(''); 
+                        setKeyword('');
                         setIsSearched(false);
                       }}
                       onClickEvent={()=>{
                         setList([])
-                      }} 
-                      title={v.name !== undefined ? v.name : ""} name={v.code}/>                    
+                      }}
+                      title={v.name !== undefined ? v.name : ""} name={v.code}/>
                   )
                 })
               }
@@ -334,26 +334,26 @@ const RegisterMaintenance = () => {
                 null}
                 {/* 팝업 여는 버튼 + 사용금형 추가 */}
                 {
-               type === 'mold' ? 
+               type === 'mold' ?
                <AddInput title={'보전 금형'} icType="solo" onlyOne={list2.length > 0 ? true: false} onChangeEvent={()=>{
-                setIsPoupup2(true);  
-                setCheckList2(list); 
+                setIsPoupup2(true);
+                setCheckList2(list);
                 setKeyword('')
                 setList2([])}
                 }>
               {
-                list2.map((v: ISearchedList, i)=>{ 
-                  return ( 
-                      <TextList key={i} 
+                list2.map((v: ISearchedList, i)=>{
+                  return (
+                      <TextList key={i}
                       onClickSearch={()=>{
                         setIsPoupup2(true);
-                        setKeyword(''); 
+                        setKeyword('');
                         setIsSearched(false);
                       }}
                       onClickEvent={()=>{
                         setList2([])
-                      }} 
-                      title={v.name !== undefined ? v.name : ""} name={v.code}/>                    
+                      }}
+                      title={v.name !== undefined ? v.name : ""} name={v.code}/>
                   )
                 })
               }
@@ -362,26 +362,26 @@ const RegisterMaintenance = () => {
 
                 {/* 팝업 여는 버튼 + 기계 정보 추가 */}
                 {
-               type === 'machine' ? 
+               type === 'machine' ?
                <AddInput title={'보전 기계'} icType="solo" onlyOne={list3.length > 0 ? true: false} onChangeEvent={()=>{
-                setIsPoupup3(true);  
-                setCheckList3(list3); 
+                setIsPoupup3(true);
+                setCheckList3(list3);
                 setKeyword('')
                 setList3([])}
                 }>
               {
-                list3.map((v: ISearchedList, i)=>{ 
-                  return ( 
-                      <TextList key={i} 
+                list3.map((v: ISearchedList, i)=>{
+                  return (
+                      <TextList key={i}
                       onClickSearch={()=>{
                         setIsPoupup3(true);
-                        setKeyword(''); 
+                        setKeyword('');
                         setIsSearched(false);
                       }}
                       onClickEvent={()=>{
                         setList3([])
-                      }} 
-                      title={v.name !== undefined ? v.name : ""} name={v.code}/>                    
+                      }}
+                      title={v.name !== undefined ? v.name : ""} name={v.code}/>
                   )
                 })
               }
@@ -391,8 +391,8 @@ const RegisterMaintenance = () => {
            </>
            }
             <NormalNumberInput title={'권장 점검 주기(일)'} value={term} onChangeEvent={setTerm} description={'권장 점검주기를 입력해주세요 (일 단위)'} />
-               
-           
+
+
             {/* 자유항목 입력 창 */}
             <FullAddInput title={'보전 기준'} onChangeEvent={()=>{
                   const tempInfo = infoList.slice();
@@ -402,35 +402,35 @@ const RegisterMaintenance = () => {
                   {
                     infoList.map((v: IInfo, i)=>{
                       return(
-                          <CustomIndexInput index={i} value={v} 
+                          <CustomIndexInput index={i} value={v}
                           onRemoveEvent={()=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           onChangeEvent={(obj: IInfo)=>{
                             const tempInfo = infoList.slice();
                             tempInfo.splice(i, 1, obj)
                             setInfoList(tempInfo)
-                          }} 
+                          }}
                           />
                       )
                     })
                   }
                   </FullAddInput>
-               
 
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
 
-        
+
             {/*  검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
+                setIsPoupup(false);
+                setList(checkList);
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setIsSearched(false); setSearchList([]); }} title={'기준 검색'} >
@@ -438,17 +438,17 @@ const RegisterMaintenance = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: ISearchedList, i)=>{ 
+                    searchList.map((v: ISearchedList, i)=>{
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
-                          
+
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
                               setCheckList(tempList)
-                            }} 
+                            }}
                           />
-                      
+
                       )})
                     :
                     null
@@ -457,11 +457,11 @@ const RegisterMaintenance = () => {
             </SearchModalContainer>
 
 
-          <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+          <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup2(false); 
-                setList2(checkList2); 
+                setIsPoupup2(false);
+                setList2(checkList2);
                 setKeyword('')}
             }
             isVisible={isPoupup2} onClickClose={()=>{setIsPoupup2(false); setKeyword(''); setIsSearched(false); setSearchList2([]); }} title={'검색'} >
@@ -469,17 +469,17 @@ const RegisterMaintenance = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList2.map((v: ISearchedList, i)=>{ 
+                    searchList2.map((v: ISearchedList, i)=>{
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
-                          
+
                               const tempList = checkList2.slice()
                               tempList.splice(0, 1, v)
                               setCheckList2(tempList)
-                            }} 
+                            }}
                           />
-                      
+
                       )})
                     :
                     null
@@ -488,11 +488,11 @@ const RegisterMaintenance = () => {
             </SearchModalContainer>
 
 
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup3(false); 
-                setList3(checkList3); 
+                setIsPoupup3(false);
+                setList3(checkList3);
                 setKeyword('')}
             }
             isVisible={isPoupup3} onClickClose={()=>{setIsPoupup3(false); setKeyword(''); setIsSearched(false); setSearchList3([]); }} title={'검색'} >
@@ -500,17 +500,17 @@ const RegisterMaintenance = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList3.map((v: ISearchedList, i)=>{ 
+                    searchList3.map((v: ISearchedList, i)=>{
                       return (
-                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList3.find((k)=> k.pk === v.pk)? true : false } 
+                         <SearchedList key={i} pk={v.pk} widths={['52%', '52%']} contents={[v.name, v.code !== undefined ? v.code: '']} isIconDimmed={false} isSelected={checkList3.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
-                          
+
                               const tempList = checkList3.slice()
                               tempList.splice(0, 1, v)
                               setCheckList3(tempList)
-                            }} 
+                            }}
                           />
-                      
+
                       )})
                     :
                     null
@@ -523,7 +523,7 @@ const RegisterMaintenance = () => {
 
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

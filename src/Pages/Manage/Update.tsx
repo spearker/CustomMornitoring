@@ -69,12 +69,12 @@ const CompanySetting = () => {
   ]
   /**
    * onClickSave()
-   * 프로필 수정 
-   * @param {string} pk 유저 pk 
+   * 프로필 수정
+   * @param {string} pk 유저 pk
    * @param {string} rank 직급
    * @param {string} year 연차
    * @param {string} joinDate 입사일
-   * @param {string} joinType 채용형태 
+   * @param {string} joinType 채용형태
    * @param {string} status 재직상태
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
@@ -96,7 +96,7 @@ const CompanySetting = () => {
       status: status,
       team_pk : myTeam
     }
-    const results = await postRequest('http://211.208.115.66:8099/api/v1/member/update', data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://211.208.115.66:8299/api/v1/member/update', data, getToken(TOKEN_NAME))
 
     if (results === false) {
       //setList([""])
@@ -121,7 +121,7 @@ const CompanySetting = () => {
   const getTarget = useCallback(async () => {
 
 
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
@@ -162,7 +162,7 @@ const CompanySetting = () => {
       if (results.status === 200) {
         if (results.results.length > 0) {
           setRankList(results.results)
-          
+
         } else {
           //setList([""])
         }
@@ -193,12 +193,12 @@ const CompanySetting = () => {
 
   /**
    * getData()
-   * 초기 팀 목록 조회 
-   * @param {string} url 
+   * 초기 팀 목록 조회
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async () => {
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -219,8 +219,8 @@ const CompanySetting = () => {
 
    /**
    * getDataSubTeams()
-   * 목록 불러오기 
-   * @param {string} url 
+   * 목록 불러오기
+   * @param {string} url
    * @returns X
    */
   const getDataSubTeams = useCallback(async () => {
@@ -228,7 +228,7 @@ const CompanySetting = () => {
     if(targetTeam == null){
       return;
     }
-    const results = await getRequest('http://211.208.115.66:8099/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
+    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -304,7 +304,7 @@ const CompanySetting = () => {
                               )
 
                             })}
-                            
+
                           </div>
                           <div onClick={() => setIsOpen2(false)} style={{ position: 'absolute', top: 0, right: -17, zIndex: 4, backgroundColor: POINT_COLOR, width: 33, height: 33, textAlign: 'center', display: 'inline-block' }}>
                             <img src={IC_ARROW_UP} style={{ width: 20, marginTop: 6 }} />
@@ -314,10 +314,10 @@ const CompanySetting = () => {
                         null
                     }
                     </div>
-                    
+
                   </div>
                 </InputContainer>
-                
+
                 <DateInput title={'입사일'} description={""} value={joinDate} onChangeEvent={setJoinDate} />
                 <DropdownText title={'채용형태'} contents={['공채', '특채', '경력직', '계약직', '파견직', '기타']} target={joinType} onChangeEvent={setJoinType} />
                 <DropdownText title={'상태'} contents={['재직', '휴직', '퇴직', '기타']} target={status} onChangeEvent={setStatus} />
