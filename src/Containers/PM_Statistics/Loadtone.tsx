@@ -119,11 +119,14 @@ const  ChartOptionMiniLable= {
     }
 }
 
-const MachineInitData = {
+const MachineInitData: IPressCapacity = {
     manufacturer_code:'',
     machine_name: '',
     machine_ton: '',
-    analyze:[0]
+    analyze:{
+        times: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+        productions: [1,2,3,4,5,6,7,8,9,10]
+    }
 }
 
 const LoadtoneContiner = () => {
@@ -153,7 +156,6 @@ const LoadtoneContiner = () => {
         // let tmpChartOption = _.cloneDeep(chartOption)
         // tmpChartOption.title.text = dummyData.machine_name;
         //
-        setMachineData(dummyData)
         // setChartOption(tmpChartOption)
 
         setSeries([{data: [ ...analysis ]}])
