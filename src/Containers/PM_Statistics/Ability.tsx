@@ -108,9 +108,14 @@ const AbilityContainer = () => {
 
         const tempUrl = `${API_URLS['ability'].load}?pk=${pk}&date=${selectDate}`
         const resultData = await getAbilityList(tempUrl);
+        console.log(data)
         setData(dummyData);
 
     },[data, pk])
+
+    // useEffect(() => {
+    //     getData()
+    // }, [])
 
     // useEffect(() => {
     //     const {Yaxis} = data.basic_ability;

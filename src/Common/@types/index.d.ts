@@ -240,7 +240,7 @@ interface LeadTimeAnalysis{
   time: string[]
 }
 
-interface IPressReadyTime{
+interface IPressReadyTimeAnalysis{
   manufacturer_code: string
   machine_name: string
   machine_ton: string
@@ -259,7 +259,10 @@ interface IPressCapacity {
   manufacturer_code: string
   machine_name: string
   machine_ton: string
-  analyze:number[]
+  analyze: {
+    times: number[],
+    productions: number[]
+  }
 }
 
 interface IPressClutch {
@@ -320,4 +323,13 @@ interface IPressReadyTimeStatisticsData {
   },
   error_time: string,
   qdc_time: string
+}
+
+interface IPressElectricPowerData {
+  dates: string[]
+  pressLog: {
+    press_pk: string,
+    press_name: string,
+    press_data: number[]
+  }[]
 }

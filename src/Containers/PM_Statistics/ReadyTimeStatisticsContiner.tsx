@@ -7,6 +7,8 @@ import ReactApexChart from "react-apexcharts";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import {API_URLS, getAbilityList, getReadyTimeData} from "../../Api/pm/statistics";
+import {API_URLS as URLS_MAP} from "../../Api/pm/map";
+import MapBoard from "../../Components/Map/MapBoard";
 
 const UP_COLOR = "#19b9df"
 const DOWN_COLOR = '#ff341a'
@@ -51,11 +53,14 @@ const ReadyTimeStatisticsContainer = () => {
 
     const [data, setData] = useState<IPressReadyTimeStatisticsData>(initData)
 
-    const [pk, setPk] = useState()
+    const [selectComponent, setSelectComponent] = useState<string>('');
+
+    const [pk, setPk] = useState('v1_JNHPRESS_machine_5_null_1')
 
     const getData = useCallback(async ()=>{
-        // const tempUrl = `${API_URLS['readyTime'].load}?pk=${pk}&date=${selectDate}`
-        // const resultData = await getReadyTimeData(tempUrl);
+        const tempUrl = `${API_URLS['readyTime'].load}?pk=${pk}&date=${selectDate}`
+        const resultData = await getReadyTimeData(tempUrl);
+        console.log(resultData)
         setData(dummyData)
     },[data, pk])
 
@@ -71,6 +76,12 @@ const ReadyTimeStatisticsContainer = () => {
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>프레스 비가동 시간</span>
                 </div>
             </div>
+            <MapBoard
+                type={1}//0: 모니터링 1:통계/분석
+                url={URLS_MAP.press.statics}
+                select={selectComponent} //pk
+                onChangeEvent={setSelectComponent}
+            />
             <BlackContainer>
                 <div style={{height: 75}}>
                     <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>

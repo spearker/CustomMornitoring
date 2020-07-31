@@ -2,9 +2,8 @@ import client from '../configs/basic';
 import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
-
 /**
- * getClutchData()
+ * getPowerList()
  * 전력 통계 정보 불러오기
  * @param {string} url 링크 주소
  * @returns {object} data object
@@ -18,7 +17,7 @@ export const getPowerList = async( url: string) =>{
 }
 
 /**
- * getClutchData()
+ * getAbilityList()
  * 능력 통계 정보 불러오기
  * @param {string} url 링크 주소
  * @returns {object} data object
@@ -32,7 +31,7 @@ export const getAbilityList = async( url: string) =>{
 }
 
 /**
- * getClutchData()
+ * getOilSupplyData()
  * 오일공급 통계 정보 불러오기
  * @param {string} url 링크 주소
  * @returns {object} data object
@@ -46,7 +45,7 @@ export const getOilSupplyData = async( url: string) =>{
 }
 
 /**
- * getClutchData()
+ * getReadyTimeData()
  * 비가동시간 통계 정보 불러오기
  * @param {string} url 링크 주소
  * @returns {object} data object
@@ -54,6 +53,20 @@ export const getOilSupplyData = async( url: string) =>{
  * @version 0.1
  */
 export const getReadyTimeData = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results!;
+}
+
+/**
+ * getCapacityTimeData()
+ * 생산 통계 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 준희
+ * @version 0.1
+ */
+export const getCapacityTimeData = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
     return temp.results!;
@@ -76,20 +89,23 @@ export const getErrorData = async( url: string) =>{
 
 export const API_URLS = {
     power: {
-        load:`/v1/Statistics/press/electric?type=&date=`
+        list:`/v1/Statistics/press/electric`
     },
     error: {
         list:   `/v1/statistics/press/error/list`,
         load:   `/v1/statistics/press/error/detail`
     },
     ability: {
-        load:`/v1/statistics/press/ability?`
+        load:`/v1/statistics/press/ability`
     },
     oilSupply: {
-        load:`/v1/statistics/press/oil?`
+        load:`/v1/statistics/press/oil`
     },
     readyTime: {
-        load:`/v1/statistics/press/downtime?`
+        load:`/v1/statistics/press/downtime`
+    },
+    capacity: {
+        load:`/v1/statistics/press/production`
     }
 
 }

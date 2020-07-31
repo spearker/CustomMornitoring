@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import moment from "moment";
 import IMG_TIME from "../../Assets/Images/img_timeline.png";
 import IMG_KEY from "../../Assets/Images/img_time_key_error.png";
@@ -6,6 +6,7 @@ import Styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import {API_URLS, getPowerList} from "../../Api/pm/statistics";
 
 const chartOption = {
     chart: {
@@ -71,7 +72,7 @@ const chartOption = {
 
 }
 
-const series= [
+const dummySeries= [
     {
         name: 'series1',
         data: [200, 240, 405, 340, 300, 385, 310, 280, 220,150, 400, 360, 200]
@@ -96,16 +97,23 @@ const series= [
 
 const PowerContainer = () => {
 
-    // const getData = useCallback(async ()=>{
-    //
-    //     // const tempUrl = `${API_URLS['power'].load}?pk=${pk}`
-    //     // const resultData = await getCluchData(tempUrl);
-    //     setData(dummyData);
-    //
-    // },[data, pk])
+    const [data, setData] = useState()
+    const [pk, setPk] = useState()
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [selectType, setSelectType] = useState([true, false])
+
+    const getData = useCallback(async ()=>{
+
+        const tempUrl = `${API_URLS['power'].list}?start=${selectDate.start}&end=${selectDate.end}`
+        const resultData = await getPowerList(tempUrl);
+        console.log(resultData)
+
+    },[data, pk])
+
+    useEffect(() => {
+        getData()
+    }, [])
 
     return (
         <div>
@@ -133,7 +141,7 @@ const PowerContainer = () => {
                         </div>
                     </div>
                 </div>
-                <ReactApexChart options={chartOption} type={'area'} height={620} series={series}/>
+                <ReactApexChart options={chartOption} type={'area'} height={620} series={dummySeries}/>
             </BlackContainer>
         </div>
     );

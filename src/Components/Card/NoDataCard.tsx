@@ -13,17 +13,20 @@ import { Link } from 'react-router-dom';
 
 interface Props{
     contents: string,
+    height: number
 }
 
 
 
 // 선택값이 없을 때 화면
 
-const NoDataCard = ({ contents }: Props) => {
+const NoDataCard = ({ contents, height }: Props) => {
 
     return (
-        <NoTimeDataBox>
-            {contents}
+        <NoTimeDataBox style={{height: height, display: "flex", alignItems: "center"}}>
+            <div style={{width: '100%'}}>
+                {contents}
+            </div>
         </NoTimeDataBox>
     );
 }
@@ -32,7 +35,7 @@ const NoTimeDataBox = Styled.div`
     margin-top: 20px;
     color: #666d79;
     font-size: 18px;
-    padding: 222px 452px 222px 452px;
+    width: 1100px;
     background-color: #111319;
 `
 

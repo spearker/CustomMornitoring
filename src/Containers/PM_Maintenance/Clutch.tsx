@@ -1,8 +1,25 @@
 import React, {useEffect, useState, useContext, useCallback, ReactElement, SetStateAction} from 'react';
 import Styled from "styled-components";
-import {API_URLS, getCluchData} from "../../Api/pm/preservation";
+import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
+import { API_URLS as URLS_MAP } from '../../Api/pm/map';
+import MapBoard from "../../Components/Map/MapBoard";
+import NoDataCard from "../../Components/Card/NoDataCard";
 
-const dummyData:IPressClutch = {
+const dummyData1:IPressClutch = {
+    manufacturer_code:'factory1',
+    machine_name: '프레스 01',
+    machine_ton: '1000ton',
+    statement:0
+}
+
+const dummyData2:IPressClutch = {
+    manufacturer_code:'factory1',
+    machine_name: '프레스 01',
+    machine_ton: '1000ton',
+    statement:1
+}
+
+const dummyData3:IPressClutch = {
     manufacturer_code:'factory1',
     machine_name: '프레스 01',
     machine_ton: '1000ton',
@@ -11,90 +28,108 @@ const dummyData:IPressClutch = {
 
 const ClutchMaintenanceContainer = () => {
 
-    const [selectMachine, setSelectMachine] = useState<string>('1')
+    const [selectMachine, setSelectMachine] = useState<string>('0')
 
-    const [pk, setPk] = useState<number>(1)
+    const [selectComponent, setSelectComponent] = useState<string>('');
+
+    const [pk, setPk] = useState<string>('v1_JNHPRESS_machine_5_null_1')
     const [data, setData] = useState<IPressClutch>()
 
     /**
      * getList()
      * 클러치 정보 불러오기
      */
-    const getData = useCallback(async ()=>{
+    const getData = useCallback(async (index: string)=>{
 
-        // const tempUrl = `${API_URLS[pageType].load}?pk=${pk}`
-        // const resultData = await getCluchData(tempUrl);
-        setData(dummyData);
+        const tempUrl = `${URLS_PRE['clutch'].load}?pk=${pk}`
+        const resultData = await getCluchData(tempUrl);
+        console.log("resultData", resultData)
+        if(index === '1'){
+            setData(dummyData1)
+        }else if(index === '2'){
+            setData(dummyData2)
+        }else if(index === '3'){
+            setData(dummyData3)
+        }
 
     },[data, pk])
 
     useEffect(() => {
-        getData()
+
     }, [])
+
+    useEffect(() => {
+        console.log(selectComponent)
+        if(selectComponent !== ''){
+            getData(selectComponent)
+        }
+    }, [selectComponent])
 
     return (
         <div>
-            <div style={{position:'relative', textAlign:'left', marginTop:48}}>
+            <div style={{position:'relative', textAlign:'left', marginTop:48, marginBottom: 20}}>
 
                 <div style={{display:'inline-block', textAlign:'left'}}>
                     <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>클러치&브레이크</span>
                 </div>
             </div>
-            <MapFlexBox>
-                <MapBox>
-                    <div style={{width:100, height: 40,color: "black", backgroundColor: 'skyblue'}}
-                         onClick={() => {
-                             setSelectMachine('1')
-                         }}
-                    >프레스1</div>
-                </MapBox>
-            </MapFlexBox>
-            <DetailBox>
-                <div style={{width: 200, height: 30, marginTop: 14}}>
-                    <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+")"}</p>
-                </div>
-                <StatusBox>
-                    {
-                        data && data.statement === 0 ?
-                            <NormalBox>
-                                <div>
-                                    <p>정상</p>
-                                </div>
-                            </NormalBox> :
-                            <NormalDisableBox>
-                                <div style={{marginTop: 63, marginLeft: 20}}>
-                                    <p>정상</p>
-                                </div>
-                            </NormalDisableBox>
-                    }
-                    {
-                        data && data.statement === 1 ?
-                            <WarningBox>
-                                <div style={{marginTop: 63}}>
-                                    <p>위험</p>
-                                </div>
-                            </WarningBox> :
-                            <WarningDisableBox>
-                                <div style={{marginTop: 63}}>
-                                    <p>위험</p>
-                                </div>
-                            </WarningDisableBox>
-                    }
-                    {
-                        data && data.statement === 2 ?
-                            <ChangeBox>
-                                <div style={{marginTop: 63, marginRight: 20}}>
-                                    <p>교체 요망</p>
-                                </div>
-                            </ChangeBox> :
-                            <ChangeDisableBox>
-                                <div style={{marginTop: 63, marginRight: 20}}>
-                                    <p>교체 요망</p>
-                                </div>
-                            </ChangeDisableBox>
-                    }
-                </StatusBox>
-            </DetailBox>
+            <MapBoard
+                type={1}//0: 모니터링 1:통계/분석
+                url={URLS_MAP.press.statics}
+                select={selectComponent} //pk
+                onChangeEvent={setSelectComponent}
+            />
+            {
+                data
+                    ? <DetailBox>
+                        <div style={{width: 200, height: 30, marginTop: 14}}>
+                            <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+")"}</p>
+                        </div>
+                        <StatusBox>
+                            {
+                                data && data.statement === 0 ?
+                                    <NormalBox>
+                                        <div>
+                                            <p>정상</p>
+                                        </div>
+                                    </NormalBox> :
+                                    <NormalDisableBox>
+                                        <div style={{marginTop: 63, marginLeft: 20}}>
+                                            <p>정상</p>
+                                        </div>
+                                    </NormalDisableBox>
+                            }
+                            {
+                                data && data.statement === 1 ?
+                                    <WarningBox>
+                                        <div style={{marginTop: 63}}>
+                                            <p>위험</p>
+                                        </div>
+                                    </WarningBox> :
+                                    <WarningDisableBox>
+                                        <div style={{marginTop: 63}}>
+                                            <p>위험</p>
+                                        </div>
+                                    </WarningDisableBox>
+                            }
+                            {
+                                data && data.statement === 2 ?
+                                    <ChangeBox>
+                                        <div style={{marginTop: 63, marginRight: 20}}>
+                                            <p>교체 요망</p>
+                                        </div>
+                                    </ChangeBox> :
+                                    <ChangeDisableBox>
+                                        <div style={{marginTop: 63, marginRight: 20}}>
+                                            <p>교체 요망</p>
+                                        </div>
+                                    </ChangeDisableBox>
+                            }
+                        </StatusBox>
+                    </DetailBox>
+                    : <NoDataCard contents={"기계를 선택해 주세요"} height={300}/>
+            }
+
         </div>
     );
 }
@@ -118,7 +153,7 @@ const NormalBox = Styled.div`
     float: left;
     margin-right: 8px;
     background-image: linear-gradient(to bottom, #19b9df, #0f75bf);
-    div: {
+    div{
         margin-top: 63px;
         margin-left: 20px;
         p{
@@ -151,7 +186,7 @@ const WarningBox = Styled.div`
     display: inline-block;
     float: left;
     background-image: linear-gradient(to bottom, #5c55ff, #421ea2);
-    div: {
+    div {
         margin-top: 63px;
         margin-left: 20px;
         p{

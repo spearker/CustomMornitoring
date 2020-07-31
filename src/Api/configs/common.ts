@@ -3,18 +3,18 @@ import { getToken } from '../../Common/tokenFunctions';
 import { TOKEN_NAME } from '../../Common/configset';
 
 /**
- * 
+ *
  * axios 인스턴스 기본 설정
  * - 토큰이 필요없는 common 기능
  * - 서버 상태체크
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://211.208.115.66:8088'; 
+client.defaults.baseURL = 'http://211.208.115.66:8288';
 
 client.interceptors.response.use(function (response) {
 
-    
+
     console.log(response.data.status)
     const returnError = getErrorCase(response.data.status)
 

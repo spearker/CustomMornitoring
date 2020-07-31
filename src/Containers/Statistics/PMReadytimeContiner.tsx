@@ -13,7 +13,7 @@ import * as _ from 'lodash'
 import NoDataCard from "../../Components/Card/NoDataCard";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 
-const dummyData:IPressReadyTime = {
+const dummyData:IPressReadyTimeAnalysis = {
     manufacturer_code:'factory1',
     machine_name: '프레스 01',
     machine_ton: '1000ton',
@@ -79,7 +79,7 @@ const PMReadyTimeContainer = () => {
 
     const [selectMachine, setSelectMachine] = useState<string>('')
 
-    const [machineData, setMachineData] = useState<IPressReadyTime>(MachineInitData);
+    const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>(MachineInitData);
     const [selectDate, setSelectDate] = useState<string>('')
 
     /**
@@ -207,7 +207,7 @@ const PMReadyTimeContainer = () => {
                         </InnerText>
                     </ItemDataBox>
                 </div>
-            </TimeLineBox> : <NoDataCard contents={"기계를 선택해 주세요"}/>
+            </TimeLineBox> : <NoDataCard contents={"기계를 선택해 주세요"} height={470}/>
 
             }
         </div>

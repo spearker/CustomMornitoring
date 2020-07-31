@@ -6,6 +6,7 @@ import {getToken} from "../../Common/tokenFunctions";
 import ReactApexChart from "react-apexcharts";
 import styled from "styled-components";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import {API_URLS, getCapacityTimeData} from "../../Api/pm/statistics";
 
 const dummyData = {
     manufacturer_code:'123-456-789',
@@ -104,9 +105,6 @@ const  ChartOptionMiniLable= {
         }
     },
     xaxis: {
-        categories: [
-            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
-        ],
         labels: {
             show: false,
             style: {
@@ -116,11 +114,14 @@ const  ChartOptionMiniLable= {
     }
 }
 
-const MachineInitData = {
+const MachineInitData: IPressCapacity = {
     manufacturer_code:'',
     machine_name: '',
     machine_ton: '',
-    analyze:[0]
+    analyze:{
+        times: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+        productions: [1,2,3,4,5,6,7,8,9,10]
+    }
 }
 
 const PMCapacityStaticsContiner = () => {
@@ -131,6 +132,7 @@ const PMCapacityStaticsContiner = () => {
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>('')
+    const [pk, setPK] = useState<string>('')
 
     const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({start: '', end: ''})
 
@@ -142,28 +144,8 @@ const PMCapacityStaticsContiner = () => {
      * @returns X
      */
     const getData = useCallback(async()=>{
-        const res = await getRequest('http://61.101.55.224:9912/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
-        const analysis = dummyData.analyze
-
-        // let tmpChartOption = _.cloneDeep(chartOption)
-        // tmpChartOption.title.text = dummyData.machine_name;
-        //
-        setMachineData(dummyData)
-        // setChartOption(tmpChartOption)
-
-        setSeries([{data: [ ...analysis ]}])
-        // if(res === false){
-        //     //TODO: 에러 처리
-        // }else{
-        //     if(res.status === 200){
-        //         const data = res.results;
-        //
-        //     }else if(res.status === 1001 || res.data.status === 1002){
-        //         //TODO:  아이디 존재 확인
-        //     }else{
-        //         //TODO:  기타 오류
-        //     }
-        // }
+        const tempUrl = `${API_URLS['capacity'].load}?pk=${pk}&date=${selectDate}`
+        const resultData = await getCapacityTimeData(tempUrl);
     },[selectMachine, machineData, series]);
 
     useEffect(()=>{
@@ -182,7 +164,7 @@ const PMCapacityStaticsContiner = () => {
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
                 {
-                    selectMachine === machineData.machine_name
+                    selectMachine === pk
                         ? <ChartBorderMiniBox>
                             <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
                                 <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
@@ -213,7 +195,7 @@ const PMCapacityStaticsContiner = () => {
                     </div>
                 </div>
                 <div style={{width: 640, height: 619, backgroundColor: '#111319', margin: 0, padding: 0, clear: 'both', marginTop: 20}}>
-                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable}} series={series} type={'bar'} height={"98%"}></ReactApexChart>
+                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'bar'} height={"98%"}></ReactApexChart>
                 </div>
             </ChartDetailBox>
         </div>
