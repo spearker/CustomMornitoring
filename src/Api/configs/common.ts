@@ -20,7 +20,7 @@ client.interceptors.response.use(function (response) {
 
     if(returnError){
       //alert(returnError)
-      Promise.reject();
+      return Promise.reject();
     }else{
       return response.data
     }

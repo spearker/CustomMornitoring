@@ -15,12 +15,11 @@ client.defaults.baseURL = 'http://211.208.115.66:8299/api';
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
 
 client.interceptors.response.use(function (response) {
-    //console.log(response.data.status)
+    console.log(response.data)
     const returnError = getErrorCase(response.data.status)
 
     if(returnError){
-      alert(returnError)
-      Promise.reject();
+      return Promise.reject(returnError);
     }else{
       return response.data
     }
