@@ -30,7 +30,7 @@ const App = () => {
                   <Routers /> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
                   <JunheeRouters/>
                   <SuminRouters />
-                  <JMRouters /> 
+                  <JMRouters />
                 </AppBodyContainer>
             </BrowserRouter>
           </PopupContextProvider>
