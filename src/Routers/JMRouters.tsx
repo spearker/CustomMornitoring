@@ -3,7 +3,10 @@ import { Route, Switch, Router } from 'react-router-dom';
 
 import MapTest from '../Containers/PM_Monitoring/FactoryPressStatus';
 import LoadtoneStatistics from "../Pages/PM_Statistics/LoadtoneStatistics";
-
+import MoldStatistics from "../Pages/PM_Statistics/MoldStatistics";
+import DefectiveStatistics from "../Pages/PM_Statistics/DefectiveStatistics";
+import ProductToneStatistics from "../Pages/PM_Statistics/ProductToneSatistics";
+import DefectiveAnalysis from "../Pages/PM_Analysis/DefectiveAnalysis";
 //정민님 라우터
 const JMRouters = () => {
 
@@ -11,7 +14,12 @@ const JMRouters = () => {
     return (
 
         <Switch>
+            <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis} />
+
             <Route exact path="/pm/statistics/loadton" component={LoadtoneStatistics} />
+            <Route exact path="/pm/statistics/mold" component={MoldStatistics} />
+            <Route exact path="/pm/statistics/defective" component={DefectiveStatistics} />
+            <Route exact path="/pm/statistics/product" component={ProductToneStatistics} />
         </Switch>
 
     );

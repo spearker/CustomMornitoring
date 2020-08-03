@@ -4,7 +4,7 @@ import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData} from "../../Api/pm/preservation";
+import {API_URLS, getOvertoneData} from "../../Api/pm/preservation";
 import Styled from "styled-components";
 
 
@@ -27,18 +27,18 @@ const OvertonMaintenanceContainer = () => {
         overtone: {
             pk: 'PK',
             machine_name: '기계명',
-            machine_number: '기계 번호',
-            manufacturer_code: '공정명',
-            machine_register_time: '기계 등록 시간'
+            manufacturer_code: '기계 번호',
+            factory_name: '공정명',
+            registered: '기계 등록 시간'
         }
     }
 
     const detailTitle = {
         overtone: {
             pk: 'PK',
-            normaltone: '정상톤',
-            overtone: '오버톤',
-            overton_time: '오버톤 시간',
+            normalton: '정상톤',
+            overTon: '오버톤',
+            registered: '오버톤 시간',
         },
     }
 
@@ -64,7 +64,7 @@ const OvertonMaintenanceContainer = () => {
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
         const tempUrl = `${API_URLS['overtone'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const res = await getOvertoneData(tempUrl)
 
         setDetailList(res)
 
@@ -73,7 +73,7 @@ const OvertonMaintenanceContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         const tempUrl = `${API_URLS['overtone'].list}`
-        const res = await getMoldData(tempUrl)
+        const res = await getOvertoneData(tempUrl)
 
         setList(res)
 

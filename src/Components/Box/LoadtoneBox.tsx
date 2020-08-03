@@ -20,7 +20,6 @@ const LoadtoneBox = ({title,children}:Props) => {
 }
 
 const TopBlackBox = Styled.div`
-    margin-left: 20px;
     border-width: 0;
     border-radius: 6px;
     width: 330px;

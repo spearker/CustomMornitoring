@@ -74,7 +74,6 @@ const MoldMaintenanceContainer = () => {
 
   const WidthPercent = detailList.current_count/detailList.max_count*100
 
-  let firstData = 0
 
   const getList = useCallback(async ()=>{ // useCallback
     //TODO: 성공시

@@ -113,6 +113,7 @@ const  ChartOptionMiniLable= {
     }
 }
 
+
 const MachineInitData: IPressLoadTonSatistics[] = []
 
 const LoadtoneContiner = () => {
@@ -174,22 +175,24 @@ const LoadtoneContiner = () => {
                 }
             </ChartListBox>
             <div style={{display:"flex",justifyContent:"space-between"}}>
-                <LoadtoneBox title={'전일 로드톤'}>
-                    <div style={{paddingTop: 25, paddingBottom: 27}}>
-                        <BottomBox>
-                            <div>
-                              <p>최소값</p>
-                              <p>141</p>
-                            </div>
-                        </BottomBox>
-                        <BottomBox>
-                            <div>
-                                <p>최대값</p>
-                                <p>151</p>
-                            </div>
-                        </BottomBox>
-                    </div>
-                </LoadtoneBox>
+                <div style={{marginLeft: 20}}>
+                    <LoadtoneBox title={'전일 로드톤'}>
+                        <div style={{paddingTop: 25, paddingBottom: 27}}>
+                            <BottomBox>
+                                <div>
+                                  <p>최소값</p>
+                                  <p>141</p>
+                                </div>
+                            </BottomBox>
+                            <BottomBox>
+                                <div>
+                                    <p>최대값</p>
+                                    <p>151</p>
+                                </div>
+                            </BottomBox>
+                        </div>
+                    </LoadtoneBox>
+                </div>
                 <LoadtoneBox title={'금일 로드톤'}>
                     <div style={{paddingTop: 25, paddingBottom: 27}}>
                         <BottomBox>

@@ -182,6 +182,7 @@ export const PM_MENU_LIST = {
     { name : '생산량', url : '/pm/analysis/capacity'},
     { name : '능력', url : '/pm/analysis/ability'},
     { name : '비가동시간', url : '/pm/analysis/readytime'},
+    { name : '불량 공정', url : '/pm/analysis/defective'}
   ],
   statistics : [ //
     { name : '프레스 데이터 통계', url : '/pm/statistics/press'},
@@ -191,7 +192,9 @@ export const PM_MENU_LIST = {
     { name : '로드톤 ', url : '/pm/statistics/loadton'},
     { name : '능력', url : '/pm/statistics/ability'},
     { name : '에러', url : '/pm/statistics/error'},
-
+    { name : '불량률', url : '/pm/statistics/defective'},
+    { name : '제품 별 톤', url : '/pm/statistics/product'},
+    { name : '금형 타발 수', url : '/pm/statistics/mold'},
   ],
 
 };

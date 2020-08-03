@@ -38,7 +38,6 @@ export const getOvertoneData = async( url: string) =>{
  * @param {string} url 링크 주소
  * @returns {object} data object
  * @author 준희
- * @version 0.1
  */
 export const getCluchData = async( url: string) =>{
     const temp: IServerData = await client.get(url);
