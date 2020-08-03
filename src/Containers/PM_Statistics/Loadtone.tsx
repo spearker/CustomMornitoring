@@ -113,7 +113,6 @@ const  ChartOptionMiniLable= {
     }
 }
 
-
 const MachineInitData: IPressLoadTonSatistics[] = []
 
 const LoadtoneContiner = () => {
@@ -236,7 +235,7 @@ const LoadtoneContiner = () => {
     );
 }
 
-const ChartListBox = styled.div`
+const ChartListBox = Styled.div`
     display: inline-block;
     width: 340px;
     height: 724px;
@@ -246,7 +245,7 @@ const ChartListBox = styled.div`
     float: left;
 `
 
-const ChartDetailBox = styled.div`
+const ChartDetailBox = Styled.div`
     display: inline-block;
     width: 640px;
     height: 524px;
@@ -258,21 +257,20 @@ const ChartDetailBox = styled.div`
     margin-top: 20px;
 `
 
-const ChartMiniBox = styled.div`
+const ChartMiniBox = Styled.div`
     width: 340px;
     height: 120px;
     border-radius: 6px;
     background-color: #111319;
 `
 
-const ChartBorderMiniBox = styled.div`
+const ChartBorderMiniBox = Styled.div`
     width: 340px;
     height: 120px;
     border-radius: 6px;
     background-color: #111319;
     border: 4px solid #19b9df; 
 `
-
 const BottomBox = Styled.div`
     width: 164px;
     height: 78px;

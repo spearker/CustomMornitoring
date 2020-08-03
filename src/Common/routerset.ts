@@ -174,7 +174,7 @@ export const PM_MENU_LIST = {
     { name : '프레스 보전관리', url : '/pm/maintenance/press'},
     { name : '금형 수명 주기', url : '/pm/maintenance/mold'},
     { name : '클러치&브레이크', url : '/pm/maintenance/clutch'},
-    { name : '오일 교환 및 보충', url : '/pm/maintenance/oil'},
+    // { name : '오일 교환 및 보충', url : '/pm/maintenance/oil'},
     { name : '오버톤', url : '/pm/maintenance/overton'},
   ],
   analysis: [ //

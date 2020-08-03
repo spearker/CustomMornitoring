@@ -11,6 +11,9 @@ import Charts from 'fusioncharts/fusioncharts.widgets.js';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import ReactFC from 'react-fusioncharts';
 import Chart from 'react-apexcharts'
+import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
+import {API_URLS as URLS_MAP} from "../../Api/pm/map";
+import MapBoard from "../../Components/Map/MapBoard";
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 const dummy_machines = [
   {
@@ -22,7 +25,7 @@ const dummy_machines = [
     pressure: "20",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
   {
     pk: '0002',
@@ -33,7 +36,7 @@ const dummy_machines = [
     pressure: "14",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
   {
     pk: '0003',
@@ -44,7 +47,7 @@ const dummy_machines = [
     pressure: "15",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
   {
     pk: '0004',
@@ -55,7 +58,7 @@ const dummy_machines = [
     pressure: "13",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
   {
     pk: '0005',
@@ -66,7 +69,7 @@ const dummy_machines = [
     pressure: "33",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
   {
     pk: '0006',
@@ -77,7 +80,7 @@ const dummy_machines = [
     pressure: "26",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
   {
     pk: '0007',
@@ -88,13 +91,13 @@ const dummy_machines = [
     pressure: "32",
     status: 'active',
     code: '0000-0000-0000',
-  
+
   },
-  
- 
+
+
 ]
 
-const dummy_xy = [ 
+const dummy_xy = [
   {x: 105 ,y: 66},
   {x: 185 ,y: 66},
   {x: 265 ,y: 66},
@@ -107,7 +110,7 @@ const dummy_xy = [
 
 const ranges = [
   {
-    value:70, //end value of range, type=number, required 
+    value:70, //end value of range, type=number, required
     color:"#13e1f9" //color of range, type=string, default='#000'
   },
   {
@@ -120,22 +123,39 @@ const ranges = [
   }
 ]
 
-
-   
-   
 const OilMaintenanceContainer = () => {
 
   const [selectedMachine, setSelectedMachine] = useState<any>('');
   const TODAY_START = new Date(moment().format('YYYY-MM-DD 00:00:00')).getTime();
   const TODAY_END = new Date(moment().format('YYYY-MM-DD 24:00:00')).getTime();
 
+  const [selectComponent, setSelectComponent] = useState<string>('4EP99L_factory0');
+  const [data, setData] = useState('')
+
   const getWidthPercent = ( start, end ) =>{
     return Math.floor((new Date(moment().format(end)).getTime() - new Date(moment().format(start)).getTime()) / (TODAY_END - TODAY_START) * 100)
   }
+
+  const getData = useCallback(async ()=>{
+
+    const tempUrl = `${URLS_PRE['oil'].load}?pk=${selectComponent}`
+    const resultData = await getCluchData(tempUrl);
+    console.log("resultData", resultData)
+    // if(index === '1'){
+    //     setData(dummyData1)
+    // }else if(index === '2'){
+    //     setData(dummyData2)
+    // }else if(index === '3'){
+    //     setData(dummyData3)
+    // }
+    setData(resultData)
+
+  },[ selectComponent])
+
   useEffect(()=>{
-   
-  },[])
-  
+    getData()
+  },[selectComponent])
+
   const dataSource = {
     chart: {
       caption: "",
@@ -179,47 +199,25 @@ const OilMaintenanceContainer = () => {
     width: 300,
     height:  150,
     dataFormat: "JSON",
-             
+
     dataSource: dataSource
   };
 
   return (
     <div>
       <div style={{position:'relative', textAlign:'left', marginTop:48}}>
-        
-        <div style={{display:'inline-block', textAlign:'left'}}>           
+
+        <div style={{display:'inline-block', textAlign:'left'}}>
           <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>오일 펌프 보전 관리</span>
         </div>
       </div>
       <MapFlexBox>
-          <MapBox>
-              <img src={IMG_MAP} />
-              {
-                dummy_machines.map((m, i)=>{
-                  if(selectedMachine.pk == m.pk){
-                  
-                  return(
-                    <PressSimbolSelected
-                      key={'sp-'+ i} 
-                      onClick={()=>setSelectedMachine(m)}
-                      style={{ left: dummy_xy[i].x, top: dummy_xy[i].y}}>
-                      {m.name}<br />({m.ton}ton)
-                    </PressSimbolSelected>
-                  )
-                  }else{
-                    return(
-                      <PressSimbol
-                        key={'sp-'+ i} 
-                        onClick={()=>setSelectedMachine(m)}
-                        style={{ left: dummy_xy[i].x, top: dummy_xy[i].y}}>
-                        {m.name}<br />({m.ton}ton)
-                      </PressSimbol>
-                    )
-                  }
-
-                })
-              }
-          </MapBox>
+        <MapBoard
+            type={1}//0: 모니터링 1:통계/분석
+            url={URLS_MAP.press.statics}
+            select={selectComponent} //pk
+            onChangeEvent={setSelectComponent}
+        />
           <SideInfoBox>
               {
                 selectedMachine == '' ?
@@ -227,10 +225,10 @@ const OilMaintenanceContainer = () => {
                 :
                 <>
                 <p>{selectedMachine.name}</p>
-           
+
                 </>
               }
-            
+
             {
                 selectedMachine !== '' &&
                 <>
@@ -247,28 +245,28 @@ const OilMaintenanceContainer = () => {
                     {selectedMachine.ampare}<span>A</span>
                   </BigDataText>
                   </div>
-               
+
                 </div>
                 <div >
                 <UnderBarText>현재압력</UnderBarText>
                 <BigDataText style={{textAlign:'right', float:'right'}}>
-              
+
               {selectedMachine.pressure}<span>pa</span>
-           </BigDataText> 
+           </BigDataText>
                 <CharBox>
                   <ReactFC {...chartConfigs} />
                 </CharBox>
 
-                
-              
-               
+
+
+
                 </div>
                 </>
           }
 
           </SideInfoBox>
       </MapFlexBox>
-      
+
         {
           selectedMachine == '' ?
           <NoTimeDataBox>
@@ -276,7 +274,7 @@ const OilMaintenanceContainer = () => {
           </NoTimeDataBox>
           :
           <TimeLineBox>
-  
+
           </TimeLineBox>
         }
     </div>

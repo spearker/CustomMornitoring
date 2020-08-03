@@ -3,6 +3,7 @@ import Styled from 'styled-components'
 import {BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR, TOKEN_NAME} from '../../Common/configset';
 import {getParameter, getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
+import moment from "moment";
 import ReactApexChart from "react-apexcharts";
 import styled from "styled-components";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
@@ -126,7 +127,7 @@ const PMCapacityStaticsContiner = () => {
 
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
-    const [selectDate, setSelectDate] = useState<string>('')
+    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [pk, setPK] = useState<string>('v1_SEAIN_machine_1_null_1')
 
     const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({start: '', end: ''})
@@ -156,26 +157,31 @@ const PMCapacityStaticsContiner = () => {
                 <div style={{marginTop: 25, marginBottom: 23}}>
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
+
                 {
-                    selectMachine === pk
-                        ? <ChartBorderMiniBox>
-                            <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
-                                <img src={tempImage} style={{width: 114, }}/>
-                            </div>
-                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
-                                <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
-                                <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                            </div>
-                        </ChartBorderMiniBox>
-                        : <ChartMiniBox>
-                            <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
-                                <img src={tempImage} style={{width: 114, }}/>
-                            </div>
-                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
-                                <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
-                                <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                            </div>
-                        </ChartMiniBox>
+                    machineData.machine_name !== '' && <div>
+                        {
+                            selectMachine === pk
+                            ? <ChartBorderMiniBox>
+                                <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
+                                    <img src={tempImage} style={{width: 114, }}/>
+                                </div>
+                                <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
+                                    <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
+                                    <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
+                                </div>
+                            </ChartBorderMiniBox>
+                            : <ChartMiniBox>
+                                <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
+                                    <img src={tempImage} style={{width: 114, }}/>
+                                </div>
+                                <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
+                                    <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
+                                    <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
+                                </div>
+                            </ChartMiniBox>
+                        }
+                    </div>
                 }
             </ChartListBox>
             <ChartDetailBox>

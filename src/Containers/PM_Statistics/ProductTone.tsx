@@ -146,7 +146,7 @@ const ProductToneContainer = () => {
 
     useEffect(()=>{
         // getList()
-        setIndex(indexList["ProductTone"])
+        setIndex(indexList["productTone"])
         setList(dummy)
         setDetailList(detaildummy)
     },[])

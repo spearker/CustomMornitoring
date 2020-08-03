@@ -57,6 +57,9 @@ export const API_URLS = {
     overtone: {
         list: `/v1/preservation/press/overTon/list`,
         load: `/v1/preservation/press/overTon/load`
+    },
+    oil: {
+        load: `/v1/preservation/press/oil/load`
     }
 }
 
