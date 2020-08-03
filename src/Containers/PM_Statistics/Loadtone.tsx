@@ -11,13 +11,6 @@ import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getPowerList} from "../../Api/pm/statistics";
 
-const dummyData = {
-    manufacturer_code:'123-456-789',
-    machine_name: '프레스 01',
-    machine_ton: '1000ton',
-    analyze:[0,0,0,0,10,30,70,100,100,150,130,90,80,40,20,10,5,3,1,0,0,0,0,0]
-}
-
 const ChartInitOptions = {
     chart: {
         type: 'bar',
@@ -120,22 +113,14 @@ const  ChartOptionMiniLable= {
     }
 }
 
-const MachineInitData: IPressCapacity = {
-    manufacturer_code:'',
-    machine_name: '',
-    machine_ton: '',
-    analyze:{
-        times: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-        productions: [1,2,3,4,5,6,7,8,9,10]
-    }
-}
+const MachineInitData: IPressLoadTonSatistics[] = []
 
 const LoadtoneContiner = () => {
     const [series, setSeries] = useState<object[]>([])
 
     const [selectMachine, setSelectMachine] = useState<string>('프레스 01')
 
-    const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
+    const [machineData, setMachineData] = useState<IPressLoadTonSatistics[]>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>('')
 
@@ -172,25 +157,20 @@ const LoadtoneContiner = () => {
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
                 {
-                    selectMachine === machineData.machine_name
-                        ? <ChartBorderMiniBox>
-                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
-                                <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
-                                <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                            </div>
-                            <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
-                            </div>
-                        </ChartBorderMiniBox>
-                        : <ChartMiniBox>
-                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
-                                <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
-                                <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                            </div>
-                            <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
-                            </div>
-                        </ChartMiniBox>
+                    machineData.map((v,i) => {
+                        return(
+                            <ChartMiniBox>
+                                <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
+                                    <p style={{fontWeight: 'bold', textAlign: "left"}}>{v.pressName + "(" + v.max_ton+")"}</p>
+                                    <p style={{ textAlign: "left"}}>{}</p>
+                                </div>
+                                <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
+                                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
+                                </div>
+                            </ChartMiniBox>
+                        )
+                    })
+
                 }
             </ChartListBox>
             <div style={{display:"flex",justifyContent:"space-between"}}>

@@ -5,7 +5,7 @@ import PressStatusMarker from './Marker/PressStatusMarker';
 import { toUnicode } from 'punycode';
 import PressNameMarker from './Marker/PressNameMarker';
 import FactorySelector from './FactorySelector';
-import { getMapData, getMapListData } from '../../Api/pm/map';
+import { getMonitoringMapData, getMapListData } from '../../Api/pm/map';
 import { API_URLS } from '../../Api/pm/map';
 
 interface Props{
@@ -81,7 +81,7 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
     const [selectFactory, setSelectFactory] = useState<Factory>({pk: '', name: ''});
 
     const [facotories, setFactories]= useState<Factory[]>([]);
-   
+
     const [components, setComponents]= useState<any[]>([]);
 
     const [mapData, setMapData] = useState<any>(initialData);
@@ -92,40 +92,51 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
     * getMapData()
     * 지도 데이터 가져오기
     */
-    const getMapData = useCallback(async (factoryPk)=>{
-        console.log(factoryPk);
+    const getMapData = useCallback(async (facPk)=>{
+        console.log('getMapData()');
         //지도 데이터 초기화
-        setComponents(dummy_map_data.components);
-        setMapData(dummy_map_data);
+        //setComponents(dummy_map_data.components);
+        //setMapData(dummy_map_data);
 
-        //const resultObj = await getMapData(url + `?factory=${factoryPk}` +  `?type=${type}`);
-        //console.log(resultObj);
-        //setMapData(resultObj);
-    },[components, mapData, selectFactory ]);
+        const resultObj = await getMonitoringMapData(url + `?factory=${facPk}` +  `&type=${type}`);
+        if(resultObj){
+            //console.log('지도 들어가기')
+            setMapData(resultObj);
+            setComponents(resultObj.components)
+        }else{
+            alert('[데이터 없음] 공장 도면이 등록되어야 사용 할 수 있는 기능힙니다. 공장 도면을 등록해주세요!')
+        }
+        console.log(resultObj);
+
+    },[components, mapData, selectFactory, type]);
 
      /*
     * getFactoryData()
     * 공장 데이터 가져오기
     */
    const getFactoryData = useCallback(async ()=>{
-        
-        console.log('factory get==' + dummy_factory2.length)
+
+        //onsole.log('factory get==' + dummy_factory2.length)
         //한번 지도 데이터 초기화
-        setComponents(dummy_map_data.components);
-        setMapData(dummy_map_data);
-        setSelectFactory({pk: '2', name: '공장 2'});
-        setFactories(dummy_factory)
-        
-        //const results = await getMapListData(API_URLS.factory.list);
-        //console.log(results);
-        //setFactories(results);
-        
+        //setComponents(dummy_map_data.components);
+        //setMapData(dummy_map_data);
+        //setSelectFactory({pk: '2', name: '공장 2'});
+        //setFactories(dummy_factory)
+        const results = await getMonitoringMapData(API_URLS.factory.list);
+        setFactories(results);
+
+        if(results.length <= 0){
+            alert('조회 가능한 공장 데이터가 없습니다.')
+            return;
+        }else{
+            setSelectFactory({pk: results[0].pk, name: results[0].name});
+        }
 
     },[selectFactory, facotories, dummy_factory]);
 
 
     useEffect(()=>{
-       
+
         //리랜더링 x의 경우
 
         //공장 데이터 받아오기
@@ -140,14 +151,14 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
     useEffect(()=>{
 
         if(selectFactory.pk !== ''){
-            //getMapData(selectFactory.pk);
-            
+            getMapData(selectFactory.pk);
+
         }
 
-    },[selectFactory]);
+    },[selectFactory.pk]);
 
     useEffect(()=>{
-
+        /*
         //기존 스케쥴러가 있는 경우 종료
         if(intervalId !== null){
             console.log('-- monitoring end -- ' )
@@ -159,12 +170,12 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
             const interval = setInterval(() => { getMapData(selectFactory.pk); }, 2000);
             setIntervalId(interval)
         }
-       
+
         return () => {
             console.log('-- monitoring end -- ' )
             clearTimeout(intervalId);
         };
-
+*/
     },[selectFactory]);
 
 
@@ -174,8 +185,8 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
         <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory} />
         <MapBoardWrapper style={{width: Number(mapData.map_width) + 'pk', height: mapData.map_img == null ? '340px' : 'auto'}}  >
                 <InnerWrapper>
-               
-                
+
+
                 {
                     components.map((v,i)=>{
                         if(mapData.component_size == 'PRESS'){
@@ -188,7 +199,7 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
                                 )
                         }else{
                             return(
-        
+
                                 <PressNameMarker key={i} component={v} select={select} onChangeEvent={onChangeEvent}/>
                             )
                         }
@@ -200,7 +211,7 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
             </InnerWrapper>
         </MapBoardWrapper>
         </>
-        
+
     )
 }
 

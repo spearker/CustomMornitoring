@@ -13,6 +13,9 @@ import {       ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import LoadTonCard from '../../Components/Card/LoadTonCard';
 import CMSMonitoringTabs from '../../Components/Tabs/CMSMonitoringTabs';
 import TEMP_IMG_1 from '../../Assets/Images/monitoring_loadton.png'
+import {API_URLS, getLoadTonList} from "../../Api/pm/monitoring";
+import {API_URLS as URLS_MAP} from "../../Api/pm/map";
+import MapBoard from "../../Components/Map/MapBoard";
 
 const dummyData: IPressLoadTonMonitoring = {
     machines: [{
@@ -42,9 +45,10 @@ const dummyData: IPressLoadTonMonitoring = {
 // 로드톤 모니터링
 const LoadtonMonitoring = () => {
 
-    const [statusFilter,setStatusFilter ]  = useState<string>('')
     const [arrayType, setArrayType] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
     const [list, setList] = useState<IPressLoadTonMonitoring>(dummyData); //['공장 모니터링' , '기계별 모니터링']
+
+    const [selectComponent, setSelectComponent] = useState<string>('4EP99L_factory0');
 
     /**
      * getList()
@@ -52,15 +56,16 @@ const LoadtonMonitoring = () => {
      */
     const getData = useCallback(async ()=>{
 
-        // const tempUrl = `${API_URLS[pageType].load}?pk=${pk}`
-        // const resultData = await getCluchData(tempUrl);
+        const tempUrl = `${API_URLS['loadTon'].list}?factory=${selectComponent}`
+        const resultData = await getLoadTonList(tempUrl);
+        console.log(resultData)
         setList(dummyData);
 
     },[list])
 
     useEffect(() => {
         getData()
-    })
+    },[selectComponent])
 
     return (
         <DashboardWrapContainer index={'monitoring'}>

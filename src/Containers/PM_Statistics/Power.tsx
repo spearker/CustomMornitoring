@@ -105,15 +105,15 @@ const PowerContainer = () => {
 
     const getData = useCallback(async ()=>{
 
-        const tempUrl = `${API_URLS['power'].list}?start=${selectDate.start}&end=${selectDate.end}`
-        const resultData = await getPowerList(tempUrl);
+        const tempUrl = `${API_URLS['power'].list}?startDate=${selectDate.start}&endDate=${selectDate.end}`
+        const resultData = await getPowerList(`/v1/statistics/press/loadton?date=${selectDate.start}`);
         console.log(resultData)
 
     },[data, pk])
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [selectDate])
 
     return (
         <div>

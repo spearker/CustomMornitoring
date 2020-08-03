@@ -1,4 +1,4 @@
-import client from '../configs/basic';
+import client from '../configs/monitoring';
 import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
@@ -21,6 +21,9 @@ export const API_URLS = {
     loadTon: {
         list:`/v1/monitoring/loadton/details`
     },
+    press: {
+        monitoring: `/v1/monitoring/press/details`
+    }
 
   }
 

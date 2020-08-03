@@ -30,6 +30,10 @@ import { useHistory } from 'react-router-dom';
 import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
 import TEMP_IMG_1 from '../../Assets/Images/monitoring_press.png'
 import CMS from "../../Assets/Images/image_cms.png";
+import {API_URLS, getLoadTonList} from "../../Api/pm/monitoring";
+import {API_URLS as MAP_URLS} from "../../Api/pm/map";
+import MapBoard from "../../Components/Map/MapBoard";
+
 // 모니터링 공통
 const PressMonitoring = () => {
 
@@ -68,28 +72,17 @@ const PressMonitoring = () => {
     }
 
     console.log('-- monitoring data load -- ' )
-    const res = await getRequest(`http://61.101.55.224:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
+      const tempUrl = `${API_URLS['press'].monitoring}`
+      const resultData = await getLoadTonList(tempUrl);
     setIsFirstLoad(true)
-    if(res === false){
-      alert('서버에서 데이터를 받아올 수 없습니다.')
-
-      window.location.href="/dashboard"
-    }else{
-      if(res.status === 200){
-         const data = res.results;
-         setList(data);
-         //alert(data.info_list);
-         console.log(data.info_list)
-         const arr = data[0].info_list.map((v, i)=>{
-          return( v['title'] )
-         })
-         setOptionList(arr)
-      }else{
-        alert('서버에서 데이터를 받아올 수 없습니다.')
-
-        window.location.href="/dashboard"
-      }
-    }
+     const data = resultData;
+     setList(data);
+     //alert(data.info_list);
+     console.log(data.info_list)
+     const arr = data[0].info_list.map((v, i)=>{
+      return( v['title'] )
+     })
+     setOptionList(arr)
   },[list, optionList]);
 
     useEffect(()=>{
@@ -140,70 +133,11 @@ const PressMonitoring = () => {
           </div>
           {
             arrayType2 === 0 ?
-                <div style={{position:'relative'}}>
-                    <img src={TEMP_IMG_1} style={{marginTop:15,width:1100,height:780}}/>
-                    {/*//*/}
-                    {/*//     <p style={{position:"absolute",left:148,top:365,fontSize:18}}>{dBox.length > 0 ? dBox[0].name : '-'} </p>*/}
-                    {/*//     <p style={{position:"absolute",left:173,top:553,fontSize:15,color:'#000'}}>{dBox.length > 0 ? dBox[0].ampere : '-'}A</p>*/}
-                    {/*//*/}
-                    {/*//     <p style={{position:"absolute",left:395,top:120,fontSize:15}}>{mList.length > 0 ? mList[0].name : '-'}</p>*/}
-                    {/*//     /!*<img src={setting} style={{position:"absolute",left:295,top:75}}/>*!/*/}
-                    {/*//     <p style={{position:"absolute",left:435,top:143,fontSize:13}}>{mList.length > 0 ? mList[0].option : '-'}ton</p>*/}
-                    {/*//     <p style={{position:"absolute",left:464,top:291,fontSize:15, color:'#000'}}>{mList.length > 0 ? mList[0].percent : '-'}%</p>*/}
-                    {/*//     <p style={{position:"absolute",left:455,top:319,fontSize:15,color:'#000'}}>{mList.length > 0 ? mList[0].ampere : '-'}A</p>*/}
-                    {/*//*/}
-                    {/*//     <p style={{position:"absolute",left:412,top:413,fontSize:18}}>{bList.length > 0 ? bList[0].pk : '-'}</p>*/}
-                    {/*//     <img src={setting} style={{position:"absolute",left:500,top:415}}/>*/}
-                    {/*//     <p style={{position:"absolute",left:450,top:457,fontSize:15}}>{bList.length > 0 ? bList[0].percent : '-'}%</p>*/}
-                    {/*//     <p style={{position:"absolute",left:459,top:484,fontSize:15}}>{bList.length > 0 ? bList[0].ampere : '-'}A</p>*/}
-                    {/*//*/}
-                    {/*//     <p style={{position:"absolute",left:872,top:354,fontSize:18}}>{mList.length > 0 ? mList[1].name : '-'}</p>*/}
-                    {/*//     <img src={setting} style={{position:"absolute",left:961,top:358,width:15,height:15}}/>*/}
-                    {/*//     <p style={{position:"absolute",left:894,top:382,fontSize:13}}>{mList.length > 0 ? mList[1].option : '-'}ton</p>*/}
-                    {/*//     <p style={{position:"absolute",left:920,top:528,fontSize:15, color:'#000'}}>{mList.length > 0 ? mList[1].percent : '-'}%</p>*/}
-                    {/*//     <p style={{position:"absolute",left:919,top:556,fontSize:15, color:'#000'}}>{mList.length > 0 ? mList[1].ampere : '-'}A</p>*/}
-                    {/*//*/}
-                    {/*//     <p style={{position:"absolute",left:666,top:413,fontSize:18}}>{bList.length > 0 ? bList[1].pk : '-'}</p>*/}
-                    {/*//     <img src={setting} style={{position:"absolute",left:762,top:415}}/>*/}
-                    {/*//     <p style={{position:"absolute",left:712,top:457,fontSize:15}}>{bList.length > 0 ? bList[1].percent : '-'}%</p>*/}
-                    {/*//     <p style={{position:"absolute",left:723,top:484,fontSize:15}}>{bList.length > 0 ? bList[1].ampere : '-'}A</p>*/}
-
-                    <p style={{position:"absolute",left:238,top:73,fontSize:12}}>프레스01</p>
-                    <p style={{position:"absolute",left:242,top:89,fontSize:10}}>1000ton</p>
-                    <p style={{position:"absolute",left:280,top:193,fontSize:12, color:'#000'}}>진행</p>
-                    <p style={{position:"absolute",left:263,top:213,fontSize:12, color:'#000'}}>3,800A</p>
-
-                    <p style={{position:"absolute",left:358,top:73,fontSize:12}}>프레스02</p>
-                    <p style={{position:"absolute",left:366,top:89,fontSize:10}}>800ton</p>
-                    <p style={{position:"absolute",left:399,top:193,fontSize:12, color:'#000'}}>진행</p>
-                    <p style={{position:"absolute",left:392,top:214,fontSize:12, color:'#000'}}>800A</p>
-
-                    <p style={{position:"absolute",left:478,top:73,fontSize:12}}>프레스03</p>
-                    <p style={{position:"absolute",left:487,top:89,fontSize:10}}>800ton</p>
-                    <p style={{position:"absolute",left:522,top:193,fontSize:12, color:'#000'}}>진행</p>
-                    <p style={{position:"absolute",left:505,top:214,fontSize:12, color:'#000'}}>1,800A</p>
-
-                    <p style={{position:"absolute",left:598,top:73,fontSize:12}}>프레스04</p>
-                    <p style={{position:"absolute",left:607,top:89,fontSize:10}}>800ton</p>
-                    <p style={{position:"absolute",left:638,top:193,fontSize:12, color:'#000'}}>중지</p>
-                    <p style={{position:"absolute",left:632,top:213,fontSize:12, color:'#000'}}>700A</p>
-
-                    <p style={{position:"absolute",left:718,top:73,fontSize:12}}>프레스05</p>
-                    <p style={{position:"absolute",left:724,top:89,fontSize:10}}>1000ton</p>
-                    <p style={{position:"absolute",left:759,top:193,fontSize:12, color:'#000'}}>대기</p>
-                    <p style={{position:"absolute",left:742,top:213,fontSize:12, color:'#000'}}>2,100A</p>
-
-                    <p style={{position:"absolute",left:838,top:73,fontSize:12}}>프레스06</p>
-                    <p style={{position:"absolute",left:842,top:89,fontSize:10}}>1000ton</p>
-                    <p style={{position:"absolute",left:879,top:193,fontSize:12, color:'#000'}}>완료</p>
-                    <p style={{position:"absolute",left:862,top:213,fontSize:12, color:'#000'}}>2,100A</p>
-
-                    <p style={{position:"absolute",left:958,top:73,fontSize:12}}>프레스07</p>
-                    <p style={{position:"absolute",left:962,top:89,fontSize:10}}>1000ton</p>
-                    <p style={{position:"absolute",left:1000,top:193,fontSize:12, color:'#000'}}>중지</p>
-                    <p style={{position:"absolute",left:983,top:213,fontSize:12, color:'#000'}}>2,100A</p>
-
-                </div>
+                <MapBoard
+                    autoRendering={true}
+                    type={0}
+                    url={MAP_URLS['press'].monitoring}
+                />
             :
 
           <>

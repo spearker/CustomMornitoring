@@ -12,6 +12,9 @@ import ReactApexChart from "react-apexcharts";
 import * as _ from 'lodash'
 import NoDataCard from "../../Components/Card/NoDataCard";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import {API_URLS as URLS_MAP} from "../../Api/pm/map";
+import MapBoard from "../../Components/Map/MapBoard";
+import {API_URLS, getAnalysisReadyTime} from "../../Api/pm/analysis";
 
 const dummyData:IPressReadyTimeAnalysis = {
     manufacturer_code:'factory1',
@@ -19,11 +22,11 @@ const dummyData:IPressReadyTimeAnalysis = {
     machine_ton: '1000ton',
     analyze:{
         power_off: 10,
-        uptime: 42,
+        runtime: 42,
         downtime: {
             total: 48,
             error: 15,
-            mold_change: 10,
+            qdc: 10,
         }
     }
 }
@@ -37,7 +40,7 @@ const ChartInitOption = {
     colors: [POINT_COLOR, "rgba(98, 29, 167, .7 )", '#397485', '#ff341a', 'gray'],
     title: {
         style:{ color: 'white', fontSize: 20 },
-        text: "Number of leads"
+        text: ""
     },
     dataLabels: {
         style: {
@@ -64,11 +67,11 @@ const MachineInitData = {
     machine_ton: '',
     analyze:{
         power_off: 0,
-        uptime: 0,
+        runtime: 0,
         downtime: {
             total: 0,
             error: 0,
-            mold_change: 0,
+            qdc: 0,
         }
     }
 }
@@ -77,10 +80,10 @@ const PMReadyTimeContainer = () => {
     const [series, setSeries] = useState<number[]>([])
     const [chartOption, setChartOption] = useState(ChartInitOption)
 
-    const [selectMachine, setSelectMachine] = useState<string>('')
+    const [selectComponent, setSelectComponent] = useState<string>('');
 
     const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>(MachineInitData);
-    const [selectDate, setSelectDate] = useState<string>('')
+    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
 
     /**
      * getData()
@@ -90,34 +93,26 @@ const PMReadyTimeContainer = () => {
      * @returns X
      */
     const getData = useCallback(async()=>{
+        const tempUrl = `${API_URLS['readyTime'].load}?pk=${selectComponent}&date=${selectDate}`
+        const resultData = await getAnalysisReadyTime(tempUrl);
 
-        const res = await getRequest('http://211.208.115.66:8299/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
-        const analysis = dummyData.analyze
+        if(typeof resultData.analyze.downtime.qdc !== 'number'){
+            alert('[SERVER ERROR] qdc time error')
+            return
+        }
 
-        let tmpChartOption = _.cloneDeep(chartOption)
-        tmpChartOption.title.text = dummyData.machine_name;
+        console.log(resultData.analyze.downtime.qdc)
 
-        setMachineData(dummyData)
-        setChartOption(tmpChartOption)
-
-        setSeries([analysis.uptime, analysis.power_off, analysis.downtime.mold_change, analysis.downtime.error, analysis.downtime.total])
-        // if(res === false){
-        //     //TODO: 에러 처리
-        // }else{
-        //     if(res.status === 200){
-        //         const data = res.results;
-        //
-        //     }else if(res.status === 1001 || res.data.status === 1002){
-        //         //TODO:  아이디 존재 확인
-        //     }else{
-        //         //TODO:  기타 오류
-        //     }
-        // }
-    },[selectMachine, machineData, series, chartOption]);
+        setSeries([resultData.analyze.runtime, resultData.analyze.power_off, resultData.analyze.downtime.qdc, resultData.analyze.downtime.error, resultData.analyze.downtime.total])
+        setMachineData(resultData)
+    },[ machineData, series, chartOption, selectComponent]);
 
     useEffect(()=>{
-        getData()
-    },[])
+        console.log(selectComponent)
+        if(selectComponent !== '') {
+            getData()
+        }
+    },[selectComponent])
 
     return (
         <div>
@@ -127,18 +122,16 @@ const PMReadyTimeContainer = () => {
                     <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>비가동시간 분석</span>
                 </div>
             </div>
-            <MapFlexBox>
-                <MapBox>
-                    <div style={{width:100, height: 40,color: "black", backgroundColor: 'skyblue'}}
-                        onClick={() => {
-                            setSelectMachine('1')
-                        }}
-                    >프레스1</div>
-                </MapBox>
-            </MapFlexBox>
+            <MapBoard
+                type={1}//0: 모니터링 1:통계/분석
+                url={URLS_MAP.press.statics}
+                select={selectComponent} //pk
+                onChangeEvent={setSelectComponent}
+            />
             {
 
-                selectMachine ? <TimeLineBox>
+                selectComponent ? <TimeLineBox>
+                    <p style={{paddingLeft:20}}>{machineData.machine_name}</p>
                 <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
                     <ReactApexChart options={chartOption} series={series} type="pie"/>
                 </div>
@@ -147,7 +140,7 @@ const PMReadyTimeContainer = () => {
                     <ItemDataBox style={{marginTop: 50}}>
                         <InnerText>
                             <TitleText>가동시간</TitleText>
-                            <ContentsText>{parseFloat(String(machineData.analyze.uptime)).toFixed(2)}%</ContentsText>
+                            <ContentsText>{parseFloat(String(machineData.analyze.runtime)).toFixed(2)}%</ContentsText>
                         </InnerText>
                     </ItemDataBox>
                     <ItemDataBox>
@@ -155,7 +148,7 @@ const PMReadyTimeContainer = () => {
                             <TitleText>비가동시간</TitleText>
                             <ContentsText>{parseFloat(String(machineData.analyze.downtime.total)).toFixed(2)}%</ContentsText>
                         </InnerText>
-                        <div style={{paddingTop: 40,  }}>
+                        <div style={{paddingTop: 40, }}>
                             <table>
                                 <tr>
                                     <td style={{width: 150}}>
@@ -174,7 +167,7 @@ const PMReadyTimeContainer = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.mold_change}%</p>
+                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.qdc.toFixed(2)}%</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -194,7 +187,7 @@ const PMReadyTimeContainer = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error}</p>
+                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error.toFixed(2)}</p>
                                     </td>
                                 </tr>
                             </table>

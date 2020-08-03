@@ -9,6 +9,7 @@ import ListRadioButton from "../../Components/Button/ListRadioButton";
 import {API_URLS, getAbilityList, getReadyTimeData} from "../../Api/pm/statistics";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const UP_COLOR = "#19b9df"
 const DOWN_COLOR = '#ff341a'
@@ -55,19 +56,21 @@ const ReadyTimeStatisticsContainer = () => {
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
-    const [pk, setPk] = useState('v1_JNHPRESS_machine_5_null_1')
+    const [pk, setPk] = useState('v1_SEAIN_machine_1_null_1')
 
     const getData = useCallback(async ()=>{
-        const tempUrl = `${API_URLS['readyTime'].load}?pk=${pk}&date=${selectDate}`
+        const tempUrl = `${API_URLS['readyTime'].load}?pk=${selectComponent}&date=${selectDate}`
         const resultData = await getReadyTimeData(tempUrl);
         console.log(resultData)
-        setData(dummyData)
-    },[data, pk])
+        setData(resultData)
+    },[data, pk, selectComponent])
 
     useEffect(() => {
-        getData()
-        console.log(data)
-    },[])
+        console.log(selectComponent)
+        if(selectComponent !== ''){
+            getData()
+        }
+    },[selectComponent])
 
     return (
         <div>
@@ -82,31 +85,55 @@ const ReadyTimeStatisticsContainer = () => {
                 select={selectComponent} //pk
                 onChangeEvent={setSelectComponent}
             />
-            <BlackContainer>
+            {
+                data.press_pk !== ''
+                    ?
+                <BlackContainer>
                 <div style={{height: 75}}>
                     <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
-                        <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold', width: "50%"}}>{data.press_name+"("+data.press_ton+"ton)"}</p>
+                        <p style={{
+                            textAlign: "left",
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            width: "50%"
+                        }}>{data.press_name + "(" + data.press_ton + "ton)"}</p>
                     </div>
-                    <div style={{marginRight: 30, paddingTop: 25 }}>
-                        <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                    <div style={{marginRight: 30, paddingTop: 25}}>
+                        <CalendarDropdown type={'single'} select={selectDate}
+                                          onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
                     </div>
                 </div>
                 <ItemBox style={{height: 80}}>
                     <div className={"division"}>
                         <div className={"quarter"}>
-                            <p style={{fontSize: 20, textAlign:"left", marginLeft: 15}}>일일 총 가동률</p>
+                            <p style={{fontSize: 20, textAlign: "left", marginLeft: 15}}>일일 총 가동률</p>
                         </div>
                         <div className={"quarter"}>
-                            <p style={{fontSize: 70, fontWeight: "bold"}}>{data.runtime.operating_ratio.toFixed(1)}<span style={{fontSize: 40}}> %</span></p>
+                            {/*{*/}
+                            {/*    data.runtime.operating_ratio !== "NaN"*/}
+                            {/*        ? <p style={{fontSize: 70, fontWeight: "bold"}}>{data.runtime.operating_ratio.toFixed(1)}<span style={{fontSize: 40}}> %</span></p>*/}
+                            {/*        : <p style={{fontSize: 70, fontWeight: "bold"}}>{data.runtime.operating_ratio}<span style={{fontSize: 40}}> %</span></p>*/}
+                            {/*}*/}
+                            <p style={{fontSize: 70, fontWeight: "bold"}}>{
+                                data.runtime.operating_ratio !== "NaN"
+                                 ? data.runtime.operating_ratio.toFixed(1)
+                                 : "0"
+                            }<span
+                                style={{fontSize: 40}}> %</span></p>
                         </div>
                     </div>
                     <div className={"division"}>
                         <div className={"quarter"}>
-                            <p style={{fontSize: 20, textAlign:"left", marginLeft: 15}}>전일 대비 증감률</p>
+                            <p style={{fontSize: 20, textAlign: "left", marginLeft: 15}}>전일 대비 증감률</p>
                         </div>
                         <div className={"quarter"}>
-                            <RightText style={{fontSize: 70, color: data.runtime.kinds==="up" ? UP_COLOR : DOWN_COLOR}}>
-                                {data.runtime.diff.toFixed(1)}<span style={{fontSize: 40}}> %</span>
+                            <RightText
+                                style={{fontSize: 70, color: data.runtime.kinds === "up" ? UP_COLOR : DOWN_COLOR}}>
+                                {
+                                    data.runtime.diff !== "NaN"
+                                        ? data.runtime.diff.toFixed(1)
+                                        : "0"
+                                }<span style={{fontSize: 40}}> %</span>
                             </RightText>
                         </div>
                     </div>
@@ -145,15 +172,22 @@ const ReadyTimeStatisticsContainer = () => {
                             <LeftText>전일 대비 증감률</LeftText>
                         </div>
                         <div className={"quarter"} style={{display: 'flex', alignItems: "flex-end"}}>
-                            <div style={{ width: '100%'}}>
-                                <RightText style={{ fontSize: 70, color: data.downtime.kinds==="up" ? UP_COLOR : DOWN_COLOR }}>
-                                    {data.downtime.diff.toFixed(1)}<span style={{fontSize: 40}}> %</span>
+                            <div style={{width: '100%'}}>
+                                <RightText
+                                    style={{fontSize: 70, color: data.downtime.kinds === "up" ? UP_COLOR : DOWN_COLOR}}>
+                                    {
+                                        data.downtime.diff !== "NaN"
+                                            ? data.downtime.diff.toFixed(1)
+                                            : "0"
+                                    }<span style={{fontSize: 40}}> %</span>
                                 </RightText>
                             </div>
                         </div>
                     </div>
                 </ItemBox>
             </BlackContainer>
+            : <NoDataCard contents={"기계를 선택해 주세요"} height={480}/>
+            }
 
         </div>
     )

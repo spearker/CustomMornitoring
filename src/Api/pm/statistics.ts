@@ -103,7 +103,7 @@ export const getErrorData = async( url: string) =>{
 
 export const API_URLS = {
     power: {
-        list:`/v1/Statistics/press/electric`
+        list:`/v1/statistics/press/electric`
     },
     error: {
         list:   `/v1/statistics/press/error/list`,

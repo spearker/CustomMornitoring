@@ -246,11 +246,11 @@ interface IPressReadyTimeAnalysis{
   machine_ton: string
   analyze:{
     power_off: number
-    uptime: number
+    runtime: number | string
     downtime: {
       total: number
       error : number
-      mold_change : number
+      qdc : number
     }
   }
 }
@@ -310,15 +310,15 @@ interface IPressOilSupplyData {
 interface IPressReadyTimeStatisticsData {
   press_pk:string,
   press_name:string,
-  press_ton: number,
+  press_ton: number | "NaN",
   runtime: {
-    operating_ratio: number,
-    diff: number,
+    operating_ratio: number | "NaN",
+    diff: number | "NaN",
     kinds: string
   },
   downtime: {
     time: string,
-    diff: number,
+    diff: number | "NaN",
     kinds: string
   },
   error_time: string,
@@ -335,5 +335,13 @@ interface IPressElectricPowerData {
 }
 
 interface IPressLoadTonSatistics {
-
+  pressPk:string,
+  pressName:string,
+  pressCode:string,
+  max_ton: string,
+  day_max_ton: string,
+  day_min_ton: string,
+  yesterday_max_ton:string,
+  yesterday_min_ton:string,
+  ton_data: string
 }

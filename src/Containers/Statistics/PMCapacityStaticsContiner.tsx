@@ -8,12 +8,7 @@ import styled from "styled-components";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getCapacityTimeData} from "../../Api/pm/statistics";
 
-const dummyData = {
-    manufacturer_code:'123-456-789',
-    machine_name: '프레스 01',
-    machine_ton: '1000ton',
-    analyze:[0,0,0,0,10,30,70,100,100,150,130,90,80,40,20,10,5,3,1,0,0,0,0,0]
-}
+import tempImage from "../../Assets/Images/temp_machine.png"
 
 const ChartInitOptions = {
     chart: {
@@ -132,7 +127,7 @@ const PMCapacityStaticsContiner = () => {
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>('')
-    const [pk, setPK] = useState<string>('')
+    const [pk, setPK] = useState<string>('v1_SEAIN_machine_1_null_1')
 
     const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({start: '', end: ''})
 
@@ -149,9 +144,7 @@ const PMCapacityStaticsContiner = () => {
     },[selectMachine, machineData, series]);
 
     useEffect(()=>{
-        getData().then(r =>
-            console.log(r)
-        )
+        getData()
     },[])
 
     return (
@@ -166,21 +159,21 @@ const PMCapacityStaticsContiner = () => {
                 {
                     selectMachine === pk
                         ? <ChartBorderMiniBox>
-                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
+                            <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
+                                <img src={tempImage} style={{width: 114, }}/>
+                            </div>
+                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
                                 <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
                                 <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                            </div>
-                            <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
                             </div>
                         </ChartBorderMiniBox>
                         : <ChartMiniBox>
-                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
+                            <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
+                                <img src={tempImage} style={{width: 114, }}/>
+                            </div>
+                            <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
                                 <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
                                 <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                            </div>
-                            <div style={{width: 160, height: 100, display: "inline-block", float: "left"}}>
-                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionMiniLable}} series={series} type={'bar'} height={130} width={180}/>
                             </div>
                         </ChartMiniBox>
                 }

@@ -5,27 +5,6 @@ import { API_URLS as URLS_MAP } from '../../Api/pm/map';
 import MapBoard from "../../Components/Map/MapBoard";
 import NoDataCard from "../../Components/Card/NoDataCard";
 
-const dummyData1:IPressClutch = {
-    manufacturer_code:'factory1',
-    machine_name: '프레스 01',
-    machine_ton: '1000ton',
-    statement:0
-}
-
-const dummyData2:IPressClutch = {
-    manufacturer_code:'factory1',
-    machine_name: '프레스 01',
-    machine_ton: '1000ton',
-    statement:1
-}
-
-const dummyData3:IPressClutch = {
-    manufacturer_code:'factory1',
-    machine_name: '프레스 01',
-    machine_ton: '1000ton',
-    statement:2
-}
-
 const ClutchMaintenanceContainer = () => {
 
     const [selectMachine, setSelectMachine] = useState<string>('0')
@@ -39,20 +18,21 @@ const ClutchMaintenanceContainer = () => {
      * getList()
      * 클러치 정보 불러오기
      */
-    const getData = useCallback(async (index: string)=>{
+    const getData = useCallback(async ()=>{
 
-        const tempUrl = `${URLS_PRE['clutch'].load}?pk=${pk}`
+        const tempUrl = `${URLS_PRE['clutch'].load}?pk=${selectComponent}`
         const resultData = await getCluchData(tempUrl);
         console.log("resultData", resultData)
-        if(index === '1'){
-            setData(dummyData1)
-        }else if(index === '2'){
-            setData(dummyData2)
-        }else if(index === '3'){
-            setData(dummyData3)
-        }
+        // if(index === '1'){
+        //     setData(dummyData1)
+        // }else if(index === '2'){
+        //     setData(dummyData2)
+        // }else if(index === '3'){
+        //     setData(dummyData3)
+        // }
+        setData(resultData)
 
-    },[data, pk])
+    },[data, pk, selectComponent])
 
     useEffect(() => {
 
@@ -60,9 +40,7 @@ const ClutchMaintenanceContainer = () => {
 
     useEffect(() => {
         console.log(selectComponent)
-        if(selectComponent !== ''){
-            getData(selectComponent)
-        }
+        getData()
     }, [selectComponent])
 
     return (

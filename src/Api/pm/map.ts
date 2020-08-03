@@ -4,12 +4,12 @@ import * as _ from 'lodash';
 
 /**
  * getMonitoringMapData();
- * 프레스 현황 불러오기 
+ * 프레스 현황 불러오기
  * @param {string} url 링크 주소
  * @returns {Object} 데이터
  * @author 수민
  */
-export const getMapData = async( url: string) =>{    
+export const getMonitoringMapData = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
     return temp.results!;
@@ -22,7 +22,7 @@ export const getMapData = async( url: string) =>{
  * @returns {Array} 데이터
  * @author 수민
  */
-export const getMapListData = async( url: string) =>{    
+export const getMapListData = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
     return temp.results!;
@@ -37,7 +37,7 @@ export const API_URLS = {
     factory: {
         list: `/v1/factory/keys`,
     }
-  
+
 }
 
 

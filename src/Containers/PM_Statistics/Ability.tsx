@@ -4,6 +4,8 @@ import Styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getAbilityList} from "../../Api/pm/statistics";
+import {API_URLS as URLS_MAP} from "../../Api/pm/map";
+import MapBoard from "../../Components/Map/MapBoard";
 
 const chartOption = {
     chart: {
@@ -102,6 +104,8 @@ const AbilityContainer = () => {
     const [pk, setPk] = React.useState("v1_JNHPRESS_machine_5_null_1")
     const [series, setSeries] = React.useState([{type: 'line', data: [[0,0]]}])
 
+    const [selectComponent, setSelectComponent] = useState<string>('');
+
     const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
 
     const getData = useCallback(async ()=>{
@@ -136,15 +140,12 @@ const AbilityContainer = () => {
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>프레스 능력</span>
                 </div>
             </div>
-            <MapFlexBox>
-                <MapBox>
-                    <div style={{width:100, height: 40,color: "black", backgroundColor: 'skyblue'}}
-                         onClick={() => {
-
-                         }}
-                    >프레스1</div>
-                </MapBox>
-            </MapFlexBox>
+            <MapBoard
+                type={1}//0: 모니터링 1:통계/분석
+                url={URLS_MAP.press.statics}
+                select={selectComponent} //pk
+                onChangeEvent={setSelectComponent}
+            />
             <BlackContainer>
                 <div>
                     <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>

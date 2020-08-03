@@ -97,17 +97,17 @@ const OilSupplyContainer = () => {
 
     const getData = useCallback(async ()=>{
 
-        const tempUrl = `${API_URLS['oilSupply'].load}?pk=${pk}`
+        const tempUrl = `${API_URLS['oilSupply'].load}?pk=${selectComponent}`
         const resultData = await getOilSupplyData(tempUrl);
         console.log(resultData)
         setData(resultData);
 
-    },[data, pk])
+    },[data, pk, selectComponent])
 
 
     useEffect(() => {
         getData()
-    },[])
+    },[selectComponent])
 
     return (
         <div>
