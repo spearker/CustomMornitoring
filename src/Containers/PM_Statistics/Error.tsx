@@ -5,6 +5,7 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getErrorData} from "../../Api/pm/statistics";
+import Styled from "styled-components";
 
 
 const ErrorContainer = () => {
@@ -13,8 +14,8 @@ const ErrorContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [option, setOption] = useState(0);
     const [keyword, setKeyword] = useState<string>('');
-    const [index, setIndex] = useState({PressPk:'PK'});
-    const [subIndex, setSubIndex] = useState({errorPk:'PK'})
+    const [index, setIndex] = useState({pressName: '기계명'});
+    const [subIndex, setSubIndex] = useState({keycamType: '키캠 상태'})
     const [page, setPage] = useState<number>(1);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMachine, setSelectMachine ]= useState<any>(null);
@@ -23,9 +24,8 @@ const ErrorContainer = () => {
 
     const indexList = {
         error: {
-            PressPk: 'PK',
-            PressName: '기계명',
-            PressNumber: '기계 번호',
+            pressName: '기계명',
+            pressNumber: '기계 번호',
             statement: '상태',
             pressRegisterDate: '기계 등록 시간'
         }
@@ -33,7 +33,6 @@ const ErrorContainer = () => {
 
     const detailTitle = {
         error: {
-            errorPk: 'PK',
             keycamType:'키캠 상태',
             loadton: '로드톤',
             slideHeight: '슬라이드 높이',
@@ -44,17 +43,17 @@ const ErrorContainer = () => {
     }
 
     const onClick = useCallback(machine => {
-        console.log(machine.PressPk,machine.machine_name);
-        if(machine.PressPk === selectPk){
+        console.log(machine.pressPk,machine.pressName);
+        if(machine.pressPk === selectPk){
             setSelectPk(null);
             setSelectMachine(null);
             setSelectValue(null);
         }else{
-            setSelectPk(machine.PressPk);
-            setSelectMachine(machine.machine_name);
+            setSelectPk(machine.pressPk);
+            setSelectMachine(machine.pressName);
             setSelectValue(machine)
             //TODO: api 요청
-            getData(machine.PressPk);
+            getData(machine.pressPk);
         }
 
 
@@ -66,7 +65,7 @@ const ErrorContainer = () => {
         const tempUrl = `${API_URLS['error'].load}?pk=${pk}`
         const res = await getErrorData(tempUrl)
 
-        setDetailList(res)
+        setDetailList(res.errorList)
 
     },[detailList])
 
@@ -80,7 +79,7 @@ const ErrorContainer = () => {
     },[list])
 
     useEffect(()=>{
-        setIndex(indexList["error"])
+        setIndex(indexList['error'])
         setSubIndex(detailTitle['error'])
         getList()
 
@@ -95,7 +94,9 @@ const ErrorContainer = () => {
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <LineTable title={selectMachine+' 상세 에러 로그'} contentTitle={subIndex} contentList={detailList}/>
+                    <LineTable title={selectMachine+' 상세 에러 로그'} contentTitle={subIndex} contentList={detailList}>
+                        <Line/>
+                    </LineTable>
                     :
                     null
             }
@@ -103,6 +104,11 @@ const ErrorContainer = () => {
     );
 }
 
-
+const Line = Styled.hr`
+    margin: 10px 20px 12px 0px;
+    border-color: #353b48;
+    height: 1px;
+    background-color: #353b48;
+`
 
 export default ErrorContainer;

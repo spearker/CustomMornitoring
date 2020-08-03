@@ -15,8 +15,8 @@ const OvertonMaintenanceContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [option, setOption] = useState(0);
     const [keyword, setKeyword] = useState<string>('');
-    const [index, setIndex] = useState({pk:'PK'});
-    const [subIndex, setSubIndex] = useState({pk:'PK'})
+    const [index, setIndex] = useState({machine_name:'기계명'});
+    const [subIndex, setSubIndex] = useState({tons:'정상톤'})
     const [page, setPage] = useState<number>(1);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMachine, setSelectMachine ]= useState<any>(null);
@@ -25,7 +25,6 @@ const OvertonMaintenanceContainer = () => {
 
     const indexList = {
         overtone: {
-            pk: 'PK',
             machine_name: '기계명',
             manufacturer_code: '기계 번호',
             factory_name: '공정명',
@@ -35,8 +34,7 @@ const OvertonMaintenanceContainer = () => {
 
     const detailTitle = {
         overtone: {
-            pk: 'PK',
-            normalton: '정상톤',
+            tons: '정상톤',
             overTon: '오버톤',
             registered: '오버톤 시간',
         },

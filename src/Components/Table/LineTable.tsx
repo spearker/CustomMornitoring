@@ -64,8 +64,9 @@ const ClickBar = Styled.div`
     color: #ffffff
     width: 100%;
     text-align: left;
-    max-height: 430px;
+    max-height: 430px !important;
     min-height: 110px;
+    overflow-y: scroll;
     border-radius: 6px;
 `
 
@@ -96,7 +97,7 @@ const Content = Styled.div`
     width: 100%;
     align-items: center;
     text-align: left;
-    margin-top: 15px;
+    margin-top: 20px;
 `
 
 export default LineTable

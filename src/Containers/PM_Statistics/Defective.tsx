@@ -155,77 +155,57 @@ const DefectiveContainer = () => {
                 valueList={list}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
-                {
-                    selectPk !== null ?
-                        <></>
-                        :
-                        null
-                }
+                {/*{*/}
+                {/*    selectPk !== null ?*/}
+                {/*        <div style={{display:"flex",flexDirection:"row"}}>*/}
+
+                {/*            <div>*/}
+                {/*            <CapacityContainer>*/}
+                {/*            </CapacityContainer>*/}
+                {/*            <LineContainer>*/}
+                {/*            </LineContainer>*/}
+                {/*            </div>*/}
+
+                {/*            <GraphContainer>*/}
+                {/*                <div style={{display:"flex",flexDirection:"row"}}>*/}
+                {/*                    <p>공정 04 불량률</p>*/}
+                {/*                </div>*/}
+                {/*            </GraphContainer>*/}
+                {/*        </div>*/}
+                {/*        :*/}
+                {/*        null*/}
+                {/*}*/}
             </OvertonTable>
     );
 }
 
-const CountingContainer = Styled.div`
-   display: flex;
-   flex-direction: row;
-   margin-right: 20px;
-   p {
-    font-size: 14px;
-      &:first-child{
-      font-family: NotoSansCJKkr-Bold;
-      }
-   }
+const CapacityContainer = Styled.div`
+  width: 391px;
+  height: 154px;
+  border-radius: 6px;
+  background-color: #ffffff;
 `
-const MoldArrowContainer = Styled.div`
-  margin-top: 1px;
-  margin-left: 85px;
-  width: 870px;
-  height: 20px;
-  border: 0;
-  border-radius: 25px;
-  div {
-    width: 10px;
-    height: 20px;
-    border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
+
+const LineContainer = Styled.div`
+  margin-top: 20px;
+  width: 391px;
+  height: 154px;
+  border-radius: 6px;
+  background-color: #ffffff;
+`
+
+
+const GraphContainer = Styled.div`
+  margin-left: 20px;
+  width: 690px;
+  height: 522px;
+  border-radius: 6px;
+  background-color: #202020;
+  p {
+    padding: 20px 230px 15px 20px;
+    font-size: 20px;
+    font-family: NotoSansCJKkr-Bold;
   }
-`
-
-const MoldMaxBar = Styled.div`
-  margin-top: 1px;
-  margin-left: 85px;
-  width: 870px;
-  height: 20px;
-  border: 0;
-  border-radius: 25px;
-  background-color: #1b2333;
-  div {
-    height: 20px;
-    border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
-  }
-`
-
-const CountingNum = Styled.p`
-   margin-left: 85px;
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   span {
-      font-size: 14px;
-   }
-`
-
-const BottomBox = Styled.div`
-    display: inline-block;
-    p {
-        font-size: 20px;
-         &:first-child{
-            font-size: 40px;
-            }
-    }
 `
 
 export default DefectiveContainer;

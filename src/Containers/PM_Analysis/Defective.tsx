@@ -222,14 +222,5 @@ const CountingNum = Styled.p`
    }
 `
 
-const BottomBox = Styled.div`
-    display: inline-block;
-    p {
-        font-size: 20px;
-         &:first-child{
-            font-size: 40px;
-            }
-    }
-`
 
 export default DefectiveContainer;

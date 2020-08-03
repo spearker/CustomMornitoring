@@ -31,14 +31,13 @@ const MoldMaintenanceContainer = () => {
     current_count: 0,
     pk: ""
   });
-  const [index, setIndex] = useState({pk:'PK'});
+  const [index, setIndex] = useState({mold_name: '금형 명'});
   const [selectPk, setSelectPk ]= useState<any>(null);
   const [selectMold, setSelectMold ]= useState<any>(null);
   const [selectValue, setSelectValue ]= useState<any>(null);
 
   const indexList = {
     mold: {
-      pk: 'PK',
       mold_name: '금형 명',
       location_name: '제조사 명',
       mold_type: '제조 번호',
