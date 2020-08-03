@@ -260,7 +260,7 @@ interface IPressCapacity {
   machine_name: string
   machine_ton: string
   analyze: {
-    times: number[],
+    times: string[],
     productions: number[]
   }
 }

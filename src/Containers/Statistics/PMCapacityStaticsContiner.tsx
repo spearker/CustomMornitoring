@@ -7,7 +7,7 @@ import moment from "moment";
 import ReactApexChart from "react-apexcharts";
 import styled from "styled-components";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import {API_URLS, getCapacityTimeData} from "../../Api/pm/statistics";
+import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
 
 import tempImage from "../../Assets/Images/temp_machine.png"
 
@@ -115,13 +115,14 @@ const MachineInitData: IPressCapacity = {
     machine_name: '',
     machine_ton: '',
     analyze:{
-        times: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+        times: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"],
         productions: [1,2,3,4,5,6,7,8,9,10]
     }
 }
 
 const PMCapacityStaticsContiner = () => {
-    const [series, setSeries] = useState<object[]>([])
+    const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
+    const [series, setSeries] = useState<object[]>([{name: "value1", data: MachineInitData.analyze.productions}])
 
     const [selectMachine, setSelectMachine] = useState<string>('프레스 01')
 
@@ -142,7 +143,25 @@ const PMCapacityStaticsContiner = () => {
     const getData = useCallback(async()=>{
         const tempUrl = `${API_URLS['capacity'].load}?pk=${pk}&date=${selectDate}`
         const resultData = await getCapacityTimeData(tempUrl);
+        setMachineData(resultData)
+        let tempList: number[] = []
+
+        times.map((v, i) => {
+            let listIndex = resultData.analyze.times.indexOf(v)
+            if(listIndex !== -1){
+                tempList.push(resultData.analyze.productions[listIndex])
+            }else{
+                tempList.push(0)
+            }
+        })
+        console.log(tempList)
+        setSeries([{name: 'data', data:tempList}])
     },[selectMachine, machineData, series]);
+
+    const getList = useCallback(async () => {
+        const tempUrl = `${API_URLS['press'].load}?pk=${pk}&date=${selectDate}`
+        const resultData = await getCapacityTimeData(tempUrl);
+    }, [])
 
     useEffect(()=>{
         getData()
@@ -157,7 +176,6 @@ const PMCapacityStaticsContiner = () => {
                 <div style={{marginTop: 25, marginBottom: 23}}>
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
-
                 {
                     machineData.machine_name !== '' && <div>
                         {
@@ -201,7 +219,7 @@ const PMCapacityStaticsContiner = () => {
     );
 }
 
-const ChartListBox = styled.div`
+const ChartListBox = Styled.div`
     display: inline-block;
     width: 340px;
     height: 724px;
@@ -211,7 +229,7 @@ const ChartListBox = styled.div`
     float: left;
 `
 
-const ChartDetailBox = styled.div`
+const ChartDetailBox = Styled.div`
     display: inline-block;
     width: 640px;
     height: 724px;
@@ -222,14 +240,14 @@ const ChartDetailBox = styled.div`
     margin-left: 20px;
 `
 
-const ChartMiniBox = styled.div`
+const ChartMiniBox = Styled.div`
     width: 340px;
     height: 120px;
     border-radius: 6px;
     background-color: #111319;
 `
 
-const ChartBorderMiniBox = styled.div`
+const ChartBorderMiniBox = Styled.div`
     width: 340px;
     height: 120px;
     border-radius: 6px;

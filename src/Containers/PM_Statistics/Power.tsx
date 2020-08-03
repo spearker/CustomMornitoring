@@ -22,12 +22,12 @@ const chartOption = {
         curve: 'straight'
     },
     yaxis:{
-        max: 500,
-        min: 0,
+        max: 6000,
+        min: 5000,
         tickAmount: 25,
         labels: {
             formatter: (value) => {
-                if(value === 500){
+                if(value === 6000){
                     return "(KW)"
                 }else{
                     if(value % 100 === 0){
@@ -97,7 +97,7 @@ const dummySeries= [
 
 const PowerContainer = () => {
 
-    const [data, setData] = useState()
+    const [data, setData] = useState(dummySeries)
     const [pk, setPk] = useState()
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
@@ -106,10 +106,20 @@ const PowerContainer = () => {
     const getData = useCallback(async ()=>{
 
         const tempUrl = `${API_URLS['power'].list}?startDate=${selectDate.start}&endDate=${selectDate.end}`
-        const resultData = await getPowerList(`/v1/statistics/press/loadton?date=${selectDate.start}`);
+        const resultData = await getPowerList(tempUrl);
         console.log(resultData)
 
-    },[data, pk])
+        let tempArray: {name: string, data: number[]}[] = [];
+
+        resultData.press_data.map(index => {
+            tempArray.push({name: index.press_name, data: index.press_data})
+        })
+
+        console.log(tempArray)
+
+        setData(tempArray)
+
+    },[pk, selectDate])
 
     useEffect(() => {
         getData()
@@ -141,7 +151,7 @@ const PowerContainer = () => {
                         </div>
                     </div>
                 </div>
-                <ReactApexChart options={chartOption} type={'area'} height={620} series={dummySeries}/>
+                <ReactApexChart options={chartOption} type={'area'} height={620} series={data}/>
             </BlackContainer>
         </div>
     );
