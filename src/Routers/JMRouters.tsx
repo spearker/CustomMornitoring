@@ -7,11 +7,11 @@ import MoldStatistics from "../Pages/PM_Statistics/MoldStatistics";
 import DefectiveStatistics from "../Pages/PM_Statistics/DefectiveStatistics";
 import ProductToneStatistics from "../Pages/PM_Statistics/ProductToneSatistics";
 import DefectiveAnalysis from "../Pages/PM_Analysis/DefectiveAnalysis";
-import ScheduleProduction from "../Pages/Production/Schedule";
-import WorkProduction from "../Pages/Production/Worker";
-import VoucherProduction from "../Pages/Production/Voucher";
-import OrderBusiness from "../Pages/Business/Order";
-import ShipmentBusiness from "../Pages/Business/Shipment";
+import ScheduleProduction from "../Pages/Project/Schedule";
+import WorkProduction from "../Pages/Project/Worker";
+import VoucherProduction from "../Pages/Project/Voucher";
+import OrderBusiness from "../Pages/Marketing/Order";
+import ShipmentBusiness from "../Pages/Marketing/Shipment";
 //정민님 라우터
 const JMRouters = () => {
 
@@ -26,12 +26,12 @@ const JMRouters = () => {
             <Route exact path="/pm/statistics/defective" component={DefectiveStatistics} />
             <Route exact path="/pm/statistics/product" component={ProductToneStatistics} />
 
-            <Route exact path="/production/schedule/list" component={ScheduleProduction} />
-            <Route exact path="/production/work/history" component={WorkProduction} />
-            <Route exact path="/production/voucher/list" component={VoucherProduction}/>
+            <Route exact path="/project/schedule/list" component={ScheduleProduction} />
+            <Route exact path="/project/work/history" component={WorkProduction} />
+            <Route exact path="/project/voucher/list" component={VoucherProduction}/>
 
-            <Route exact path="/business/order/list" component={OrderBusiness}/>
-            <Route exact path="/business/shipment/list" component={ShipmentBusiness}/>
+            <Route exact path="/marketing/order/list" component={OrderBusiness}/>
+            <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/>
         </Switch>
     );
 }

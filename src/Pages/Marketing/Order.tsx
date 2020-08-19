@@ -4,15 +4,15 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import { ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
-import Container from '../../Containers/Business/Shipment';
+import Container from '../../Containers/Marketing/Order';
 import Header from "../../Components/Text/Header";
 
 
-const ShipmentBusiness = () => {
+const OrderBusiness = () => {
 
     return (
-        <DashboardWrapContainer index={'business'}>
-            <SubNavigation list={MES_MENU_LIST.business}/>
+        <DashboardWrapContainer index={'marketing'}>
+            <SubNavigation list={MES_MENU_LIST.marketing}/>
             <InnerBodyContainer>
                 <Container/>
 
@@ -25,4 +25,4 @@ const ShipmentBusiness = () => {
 
 
 
-export default ShipmentBusiness;
+export default OrderBusiness;

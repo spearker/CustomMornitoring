@@ -3,17 +3,15 @@ import Styled from 'styled-components'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset';
-import Container from '../../Containers/Production/Worker';
+import { ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
+import Container from '../../Containers/Marketing/Shipment';
 import Header from "../../Components/Text/Header";
 
-
-const WorkProduction = () => {
-
+const ShipmentBusiness = () => {
 
     return (
-        <DashboardWrapContainer index={'production'}>
-            <SubNavigation list={MES_MENU_LIST.production}/>
+        <DashboardWrapContainer index={'marketing'}>
+            <SubNavigation list={MES_MENU_LIST.marketing}/>
             <InnerBodyContainer>
                 <Container/>
 
@@ -26,4 +24,4 @@ const WorkProduction = () => {
 
 
 
-export default WorkProduction;
+export default ShipmentBusiness;

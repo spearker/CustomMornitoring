@@ -3,17 +3,16 @@ import Styled from 'styled-components'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset';
-import Container from '../../Containers/Production/Voucher';
+import { ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
+import Container from '../../Containers/Project/Schedule';
 import Header from "../../Components/Text/Header";
 
 
-const VoucherProduction = () => {
-
+const ScheduleProduction = () => {
 
     return (
-        <DashboardWrapContainer index={'production'}>
-            <SubNavigation list={MES_MENU_LIST.production}/>
+        <DashboardWrapContainer index={'project'}>
+            <SubNavigation list={MES_MENU_LIST.project}/>
             <InnerBodyContainer>
                 <Container/>
 
@@ -26,4 +25,4 @@ const VoucherProduction = () => {
 
 
 
-export default VoucherProduction;
+export default ScheduleProduction;
