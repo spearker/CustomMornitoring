@@ -103,7 +103,6 @@ const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: n
 }
 
 const DefectiveContainer = () => {
-
     const [data, setData] = React.useState(dummyData)
     const [list, setList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any>({
@@ -260,7 +259,6 @@ const DefectiveContainer = () => {
                                 </div>
                             </CapacityContainer>
                         </div>
-
                         <GraphContainer>
                             <div>
                                 <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
