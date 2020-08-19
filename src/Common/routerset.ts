@@ -159,6 +159,17 @@ export const MES_MENU_LIST = {
     { name : '외주 수주 관리', url : '/outsourcing/contract/list'},
     { name : '외주 현황', url : '/outsourcing/list'},
   ],
+  production: [
+    { name : '생산 관리' , url: '/production/schedule/list'}, //상위메뉴
+    { name : '생산 계획 관리 리스트', url: '/production/schedule/list'},
+    { name : '작업 이력', url: '/production/work/history'},
+    { name : '전표 리스트', url: '/production/voucher/list'},
+  ],
+  business: [
+    { name : '영업 관리', url: '/business/order/list'},
+    { name : '수주 리스트', url: '/business/order/list'},
+    { name : '출하 리스트', url: '/business/shipment/list'},
+  ]
 }
 
 export const PM_MENU_LIST = {

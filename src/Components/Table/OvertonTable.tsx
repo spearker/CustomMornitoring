@@ -4,21 +4,30 @@ import {BG_COLOR_SUB2, POINT_COLOR} from "../../Common/configset";
 import {useHistory} from "react-router-dom";
 import LineTable from "./LineTable";
 import useOnclickOutside from "react-cool-onclickoutside";
+import CalendarDropdown from "../Dropdown/CalendarDropdown";
+import moment from "moment";
 
 interface Props {
     title: string
+    calendar?: boolean
+    titleOnClickEvent?: any
     indexList: any
     valueList: any[]
     EventList?: any[]
-    selectList?: any[]
+    allCheckbox?: boolean
+    checkBox?: boolean
     pkKey?: string
     clickValue?: object
     mainOnClickEvent?: any
     onClickEvent?: any
-    children: any
+    noChildren?: boolean
+    children?: any
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,EventList,pkKey,clickValue,mainOnClickEvent,onClickEvent, children}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,checkBox,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
+
+    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+
 
     const history = useHistory()
 
@@ -28,25 +37,58 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,
 
     return(
         <div>
-            <div style={{textAlign:'left', }}>
-                <p className="p-bold" style={{fontSize: 20, marginBottom:15, marginTop:75}}>{title}</p>
-            </div>
+            <Title>
+                <p className="p-bold" style={{fontSize: 20 }}>{title}</p>
+                <div>
+                {calendar !== undefined || false ?
+                    <div>
+                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                    </div>
+                    :
+                    null
+                }
+                {
+                    titleOnClickEvent && titleOnClickEvent.map((bv,bi)=>{
+                        return(
+                            <div>
+                                <TitleButtonBox onClick={()=>{onClickEvent([pkKey])}} style={{width: bv.Width}} >{bv.Name}</TitleButtonBox>
+                            </div>
+                        )
+                    })
+                }
+                </div>
+            </Title>
             <TitleBar>
+                {
+                    allCheckbox !== undefined || false ?
+                        <div style={{paddingRight:10, paddingLeft: 10, paddingTop:5}}>
+                            <input type="checkbox" id='all' onClick={(e) => true} />
+                            <label htmlFor='all' style={{backgroundColor: "white"}}></label>
+                        </div>
+                        :
+                        (
+                            checkBox !== undefined || false ?
+                            <div style={{paddingRight:10, paddingLeft: 10}}>
+                                <p> </p>
+                            </div>
+                            :
+                            null
+                        )
+                }
                 {
                     Object.keys(indexList).map((v, i) => {
                         console.log(v)
                         return (
                             <p key={v} className="p-limits">{indexList[v]}</p>
-
-
                         )
                     })
                 }
                 {
-                    onClickEvent !== undefined ?
-                        <p className="p-limits"> </p>
-                        :
-                        null
+                        EventList && EventList.map((bv,bi)=> {
+                            return (
+                                <p className="p-limits" > </p>
+                            )
+                        })
                 }
             </TitleBar>
             {
@@ -64,19 +106,35 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,
                     return (
                         <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
                             {
+                                checkBox !== undefined || false ?
+                                    <div style={{paddingRight:10, paddingLeft: 10, paddingTop: 5}}>
+                                        <input type="checkbox" id={`check-${i}-${v}`} onClick={(e) => true} />
+                                        <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
+                                    </div>
+                                    :
+                                    null
+                            }
+                            {
                                 Object.keys(indexList).map((mv, mi) => {
                                     {console.log(v)}
                                     //mv : [pk , machin_list, machine_name ... ]
                                     return (
+                                        typeof v[mv] === 'object' ?
+                                            <select className="p-limits" style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48',borderColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
+                                                <option value={''}>선택</option>
+                                                {
+                                                    Object.keys(v[mv]).map(m => {
+                                                        return(
+                                                            <option value={v[mv][m]}>{v[mv][m]}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                            :
                                         <p key={`td-${i}-${mv}`}
                                            className="p-limits"
                                            onClick={()=> (mainOnClickEvent(v))}>
                                             {
-                                                typeof v[mv] === 'object' ?
-                                                    Object.keys(v[mv]).map(m => {
-                                                        return  v[mv][m] + ' '
-                                                    })
-                                                    :
                                                     v[mv]
                                             }
                                         </p>
@@ -88,7 +146,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,
                                 EventList && EventList.map((bv,bi)=>{
                                     return(
                                         <div className="p-limits">
-                                            <ButtonBox onClick={()=>{onClickEvent([pkKey])}}>{bv.Name}</ButtonBox>
+                                            <ButtonBox onClick={()=>{onClickEvent([pkKey])}} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
                                         </div>
                                     )
                                 })
@@ -100,12 +158,31 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,indexList,valueList,
                     )
                 })
             }
-            <BlackBg /*style={{backgroundColor:  !== undefind ?  '#ff341a' : '#353b48'}}*/>
-                {children == undefined  || children === null ? <p>데이터를 클릭해주세요</p> : children }
-            </BlackBg>
+            {noChildren !== undefined || false ?
+                null :
+                <BlackBg /*style={{backgroundColor:  !== undefind ?  '#ff341a' : '#353b48'}}*/>
+                    {children === undefined || children === null ? <p>데이터를 클릭해주세요</p> : children}
+                </BlackBg>
+            }
         </div>
     )
 }
+
+const Title = Styled.div`
+   textAlign: left;
+   display: flex; 
+   flex-direction: row;
+   justify-content: space-between;
+   margin-bottom: 15px;
+   margin-top: 41px;
+   div {
+   display: flex;
+   flex-direction: row;
+        div {
+        padding-left: 15px
+        }
+   }
+`
 
 const TitleBar = Styled.div`
     display: flex;
@@ -118,7 +195,7 @@ const TitleBar = Styled.div`
     align-items: center;
     p {
     text-align: left;
-    color: #ffffff
+    color: #ffffff;
     font-size: 14px;
       &:first-child{
         padding-left: 20px;
@@ -143,9 +220,17 @@ const ValueBar = Styled.div`
     max-height: 40px;
     min-height: 40px;
     align-items: center;
+    select {
+     height: 40px;
+     background-color: #353b48;
+     border-color: #353b48;
+     text-align: left;
+     color: #ffffff;
+     font-size: 14px;
+    }
     p {
     text-align: left;
-    color: #ffffff
+    color: #ffffff;
     font-size: 14px;
       &:first-child{
         padding-left: 20px;
@@ -153,8 +238,19 @@ const ValueBar = Styled.div`
     }
 `
 
-const ButtonBox = Styled.button`
+const TitleButtonBox = Styled.button`
     color: white;
+    border-radius: 5px;
+    background-color: #717c90;
+    border: 0;
+    font-size: 14px;
+    font-weight: bold;
+    width: 70px;
+    height: 30px;
+`
+
+const ButtonBox = Styled.button`
+    color: black;
     border-radius: 5px;
     background-color: #717c90;
     border: 0;

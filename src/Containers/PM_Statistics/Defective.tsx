@@ -19,10 +19,92 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
+import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import moment from "moment";
+import ListRadioButton from "../../Components/Button/ListRadioButton";
+import ReactApexChart from "react-apexcharts";
 
+
+const chartOption = {
+    chart: {
+        type: 'area',
+        height: 350,
+        zoom: {
+            enabled: false
+        },
+        toolbar: {
+            show: false
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: 'straight',
+        width: 2
+    },
+    fill: {
+        type: "gradient",
+        gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.35,
+            opacityTo: 0,
+        }
+    },
+    xaxis: {
+        tickAmount: 10
+    },
+    grid:{
+        borderColor: "#42444b",
+        xaxis:{
+            lines: {
+                show: true
+            }
+        },
+        yaxis:{
+            lines: {
+                show: true
+            }
+        }
+    },
+    yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 20,
+        labels:{
+            show: true,
+            formatter: (value) => {
+                if(value === 100) {
+                    return "(%)"
+                }else{
+                    if(value % 20 === 0){
+                        return Math.floor(value)
+                    }else{
+                        return
+                    }
+                }
+            }
+        },
+    },
+    legend: {
+        show: false
+    },
+    tooltip: {
+        enable:false
+    }
+}
+
+const dummyData: IPressOilSupplyData = {
+    pressPk:"dummyPK1",
+    insert_oil_time: {
+        Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
+        Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ],
+    }
+}
 
 const DefectiveContainer = () => {
 
+    const [data, setData] = React.useState<IPressOilSupplyData>(dummyData)
     const [list, setList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any>({
         pk: "",
@@ -33,6 +115,7 @@ const DefectiveContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
 
     const indexList = {
         defective: {
@@ -155,43 +238,90 @@ const DefectiveContainer = () => {
                 valueList={list}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
-                {/*{*/}
-                {/*    selectPk !== null ?*/}
-                {/*        <div style={{display:"flex",flexDirection:"row"}}>*/}
+                {
+                    selectPk !== null ?
+                        <div style={{display:"flex",flexDirection:"row"}}>
 
-                {/*            <div>*/}
-                {/*            <CapacityContainer>*/}
-                {/*            </CapacityContainer>*/}
-                {/*            <LineContainer>*/}
-                {/*            </LineContainer>*/}
-                {/*            </div>*/}
+                            <div>
+                                <LineContainer>
+                                    <div style={{display:"flex",flexDirection: "row",justifyContent:"space-between"}}>
+                                        <p>생산량</p>
+                                        <p>0<span>ea</span></p>
+                                    </div>
+                                </LineContainer>
+                                <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
+                                    <div>
+                                        <p>전체 불량률</p>
+                                        <p>5.01</p>
+                                    </div>
+                                    <div>
+                                        <p>전체 불량 갯수</p>
+                                        <p>50</p>
+                                    </div>
+                                </CapacityContainer>
+                            </div>
 
-                {/*            <GraphContainer>*/}
-                {/*                <div style={{display:"flex",flexDirection:"row"}}>*/}
-                {/*                    <p>공정 04 불량률</p>*/}
-                {/*                </div>*/}
-                {/*            </GraphContainer>*/}
-                {/*        </div>*/}
-                {/*        :*/}
-                {/*        null*/}
-                {/*}*/}
+                            <GraphContainer>
+                                    <div>
+                                        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
+                                            <div style={{alignSelf:"center"}}>
+                                                <p>공정 04 불량률</p>
+                                            </div>
+                                                <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                                        </div>
+                                            <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                                    </div>
+                            </GraphContainer>
+                        </div>
+                        :
+                        null
+                }
             </OvertonTable>
     );
 }
 
 const CapacityContainer = Styled.div`
   width: 391px;
-  height: 154px;
+  height: 82px;
   border-radius: 6px;
-  background-color: #ffffff;
+  background-color: #202020;
+  div{
+    width: 190px;
+    height: 80px;
+    float: left;
+    display: inline-block;
+    &:first-child{
+            border-right: 1px solid #ffffff;
+            }
+    p {
+        font-family: NotoSansCJKkr-Bold;
+        font-size: 42px;
+         &:first-child{
+            font-size: 15px;
+            }
+    }
+  }
 `
 
 const LineContainer = Styled.div`
-  margin-top: 20px;
+  margin-bottom: 20px;
   width: 391px;
-  height: 154px;
+  height: 100px;
   border-radius: 6px;
-  background-color: #ffffff;
+  background-color: #202020;
+  p{
+    font-family: NotoSansCJKkr-Bold;
+    font-size: 40px;
+    padding: 12px 20px 32px 20px;
+     &:first-child{
+           margin-top: 20px;
+           font-size: 15px;
+            }          
+     span {
+        font-size: 24px;
+        font-family: NotoSansCJKkr-Bold;
+    }
+  }
 `
 
 
@@ -202,9 +332,11 @@ const GraphContainer = Styled.div`
   border-radius: 6px;
   background-color: #202020;
   p {
-    padding: 20px 230px 15px 20px;
     font-size: 20px;
     font-family: NotoSansCJKkr-Bold;
+    &:first-child{
+            font-size: 15px;
+            }
   }
 `
 

@@ -19,7 +19,88 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
+import ReactApexChart from "react-apexcharts";
 
+const ChartInitOptions = {
+    chart: {
+        type: 'scatter',
+        toolbar: {show: false},
+        events: {
+            click: function(chart, w, e) {
+                console.log(chart, w, e)
+            }
+        }
+    },
+    tooltip: {
+        enabled: false
+    },
+    plotOptions: {
+        scatter: {
+            columnWidth: '55%',
+            distributed: false
+        }
+    },
+    grid: {
+        borderColor: '#42444b',
+        xaxis: {
+            lines: {
+                show: true
+            }
+        },
+        yaxis: {
+            lines: {
+                show: true
+            }
+        },
+    },
+    colors: ['#ffffff','#ff341a'],
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    markers: {
+        strokeOpacity: 0,
+        size: 3,
+    }
+}
+
+const ChartOptionDetailLable = {
+    yaxis: {
+        min: 0,
+        max: 250,
+        tickAmount: 25,
+        labels:{
+            formatter:(value) => {
+                if(value===250){
+                    return "(ton)"
+                }else{
+                    if(value%50===0){
+                        return value
+                    }
+                }
+            }
+        }
+    },
+    xaxis: {
+        type: 'numeric',
+        tickAmount: 24,
+        // categories: ["10","20","30","40","50","60","70","80","90","100","110","120"],
+        min: 0,
+        max: 120,
+        labels: {
+            style: {
+                fontSize: '12px'
+            },
+            formatter: (value) => {
+                if(value%10 === 0){
+                    return value
+                }
+            }
+        }
+    }
+}
 
 const ProductToneContainer = () => {
 
@@ -29,14 +110,47 @@ const ProductToneContainer = () => {
         max_count: 0,
         current_count: 0,
     });
-    const [index, setIndex] = useState({pk:'PK'});
+    const [index, setIndex] = useState({product_name:'품목'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
 
+    const MachineInitData = {
+        manufacturer_code:'',
+        machine_name: '',
+        machine_ton: '',
+        white: {
+            Xaxis: [1,2,3,4,5,6,7,8,9,10],
+            Yaxis: [1,2,3,4,5,6,7,8,9,10]
+        },
+        red: {
+            Xaxis: [11,12,13,14,15,16,17,18,19,20],
+            Yaxis: [11,12,13,14,15,16,17,18,19,20]
+        },
+    }
+
+    const [series, setSeries] = useState<object[]>([{name: "value1", data: [[1, 120]]},{name: "value2", data: [[2, 120]]}])
+
+    useEffect(() => {
+        let tmpList: number[][] = [];
+        MachineInitData.white.Xaxis.map((v, i) => {
+            tmpList.push([v,MachineInitData.white.Yaxis[i]])
+        })
+
+        let tmpList2: number[][] = [];
+        MachineInitData.red.Xaxis.map((v, i) => {
+            tmpList2.push([v,MachineInitData.red.Yaxis[i]])
+        })
+
+        console.log("alasdkfjlkasjdfljsdalfjlsajdfkjsadlfjklsdjflk", tmpList)
+
+        console.log("alasdkfjlkasjdfljsdalfjlsajdfkjsadlfjklsdjsdfdsfsdfsdflk", tmpList2)
+
+        setSeries([{name: "value1", data: tmpList},{name: "value2", data: tmpList2}])
+    }, [])
+
     const indexList = {
         productTone: {
-            pk: 'PK1',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -49,56 +163,52 @@ const ProductToneContainer = () => {
 
     const dummy = [
         {
-            pk: 'PK1',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
             all_dot: '00 ea',
             normal_dot: '00 ea',
             bad_dot: '6 ea',
             defective_product: '5 ea'
         },
         {
-            pk: 'PK2',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            all_dot: '총 dot 개수',
-            normal_dot: '정상 dot 개수',
-            bad_dot: '불량 dot 개수',
-            defective_product: '불량품 개수'
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            all_dot: '00 ea',
+            normal_dot: '00 ea',
+            bad_dot: '6 ea',
+            defective_product: '5 ea'
         },
         {
-            pk: 'PK3',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            all_dot: '총 dot 개수',
-            normal_dot: '정상 dot 개수',
-            bad_dot: '불량 dot 개수',
-            defective_product: '불량품 개수'
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            all_dot: '00 ea',
+            normal_dot: '00 ea',
+            bad_dot: '6 ea',
+            defective_product: '5 ea'
         },
         {
-            pk: 'PK4',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            all_dot: '총 dot 개수',
-            normal_dot: '정상 dot 개수',
-            bad_dot: '불량 dot 개수',
-            defective_product: '불량품 개수'
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            all_dot: '00 ea',
+            normal_dot: '00 ea',
+            bad_dot: '6 ea',
+            defective_product: '5 ea'
         },
         {
-            pk: 'PK5',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            all_dot: '총 dot 개수',
-            normal_dot: '정상 dot 개수',
-            bad_dot: '불량 dot 개수',
-            defective_product: '불량품 개수'
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            all_dot: '00 ea',
+            normal_dot: '00 ea',
+            bad_dot: '6 ea',
+            defective_product: '5 ea'
         },
     ]
+
 
     const detaildummy = [
         {
@@ -151,9 +261,6 @@ const ProductToneContainer = () => {
         setDetailList(detaildummy)
     },[])
 
-    const WidthPercent = detaildummy[0].current_count/detaildummy[0].max_count*100
-
-
     return (
         <div>
             <OvertonTable
@@ -165,7 +272,9 @@ const ProductToneContainer = () => {
                 {
                     selectPk !== null ?
                         <LineTable title={'품목(품목명) 별 톤 그래프 보기'}>
-
+                            <ChartDiv>
+                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
+                            </ChartDiv>
                         </LineTable>
                         :
                         null
@@ -175,66 +284,15 @@ const ProductToneContainer = () => {
     );
 }
 
-const CountingContainer = Styled.div`
-   display: flex;
-   flex-direction: row;
-   margin-right: 20px;
-   p {
-    font-size: 14px;
-      &:first-child{
-      font-family: NotoSansCJKkr-Bold;
-      }
-   }
-`
-const MoldArrowContainer = Styled.div`
-  margin-top: 1px;
-  margin-left: 85px;
-  width: 870px;
-  height: 20px;
-  border: 0;
-  border-radius: 25px;
-  div {
-    width: 10px;
-    height: 20px;
+const ChartDiv = Styled.div`
+    width: 95%;
+    height: 250px;
+    background-color: #111319;
+    margin: 0;
+    padding: 0; 
+    clear: both;
+    .apexcharts-marker{
     border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
-  }
-`
-
-const MoldMaxBar = Styled.div`
-  margin-top: 1px;
-  margin-left: 85px;
-  width: 870px;
-  height: 20px;
-  border: 0;
-  border-radius: 25px;
-  background-color: #1b2333;
-  div {
-    height: 20px;
-    border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
-  }
-`
-
-const CountingNum = Styled.p`
-   margin-left: 85px;
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   span {
-      font-size: 14px;
-   }
-`
-
-const BottomBox = Styled.div`
-    display: inline-block;
-    p {
-        font-size: 20px;
-         &:first-child{
-            font-size: 40px;
-            }
     }
 `
 

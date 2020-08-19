@@ -19,7 +19,87 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
+import ReactApexChart from "react-apexcharts";
+import SettingToneBox from "../../Components/Box/SettingToneBox";
 
+
+const ChartInitOptions = {
+    chart: {
+        type: 'scatter',
+        toolbar: {show: false},
+        events: {
+            click: function(chart, w, e) {
+                console.log(chart, w, e)
+            }
+        }
+    },
+    plotOptions: {
+        scatter: {
+            columnWidth: '55%',
+            distributed: false
+        }
+    },
+    grid: {
+        borderColor: '#42444b',
+        xaxis: {
+            lines: {
+                show: true
+            }
+        },
+        yaxis: {
+            lines: {
+                show: true
+            }
+        },
+    },
+    colors: ['#ffffff'],
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    markers: {
+        size: 3,
+        strokeOpacity: 0,
+    }
+}
+
+const ChartOptionDetailLable = {
+    yaxis: {
+        min: 0,
+        max: 250,
+        tickAmount: 25,
+        labels:{
+            formatter:(value) => {
+                if(value===250){
+                    return "(ton)"
+                }else{
+                    if(value%50===0){
+                        return value
+                    }
+                }
+            }
+        }
+    },
+    xaxis: {
+        type: 'numeric',
+        tickAmount: 24,
+        // categories: ["10","20","30","40","50","60","70","80","90","100","110","120"],
+        min: 0,
+        max: 120,
+        labels: {
+            style: {
+                fontSize: '12px'
+            },
+            formatter: (value) => {
+                if(value%10 === 0){
+                    return value
+                }
+            }
+        }
+    }
+}
 
 const DefectiveContainer = () => {
 
@@ -29,68 +109,85 @@ const DefectiveContainer = () => {
         max_count: 0,
         current_count: 0,
     });
-    const [index, setIndex] = useState({pk:'PK'});
+    const [index, setIndex] = useState({product_name:'품목'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
 
+    const MachineInitData = {
+        manufacturer_code:'',
+        machine_name: '',
+        machine_ton: '',
+        temp: {
+            Xaxis: [1,2,3,4,5,6,7,8,9,10],
+            Yaxis: [1,2,3,4,5,6,7,8,9,10]
+        }
+    }
+
+    const [series, setSeries] = useState<object[]>([{name: "value1", data: [[1, 120]]}])
+
+    useEffect(() => {
+        let tmpList: number[][] = [];
+        MachineInitData.temp.Xaxis.map((v, i) => {
+            tmpList.push([v,MachineInitData.temp.Yaxis[i]])
+        })
+
+        console.log("alasdkfjlkasjdfljsdalfjlsajdfkjsadlfjklsdjflk", tmpList)
+
+        setSeries([{name: "value1", data: tmpList}])
+    }, [])
+
     const indexList = {
         defective: {
-            pk: 'PK',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
+            setting_ton: '설정 톤',
+            normal_ton: '정상 톤',
             work_registered: '작업기간',
         }
     }
 
     const dummy = [
         {
-            pk: 'PK1',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '97 ton',
-            worker: '100 ±5 ton',
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            setting_ton: '97 ton',
+            normal_ton: '100 ±5 ton',
             work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
         },
         {
-            pk: 'PK2',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            setting_ton: '97 ton',
+            normal_ton: '100 ±5 ton',
+            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
         },
         {
-            pk: 'PK3',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            setting_ton: '97 ton',
+            normal_ton: '100 ±5 ton',
+            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
         },
         {
-            pk: 'PK4',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            setting_ton: '97 ton',
+            normal_ton: '100 ±5 ton',
+            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
         },
         {
-            pk: 'PK5',
             product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
+            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
+            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            setting_ton: '97 ton',
+            normal_ton: '100 ±5 ton',
+            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
         },
     ]
 
@@ -106,7 +203,6 @@ const DefectiveContainer = () => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
         if(mold.pk === selectPk){
             setSelectPk(null);
-            setSelectMold(null);
             setSelectValue(null);
         }else{
             setSelectPk(mold.pk);
@@ -145,8 +241,6 @@ const DefectiveContainer = () => {
         setDetailList(detaildummy)
     },[])
 
-    const WidthPercent = detaildummy[0].current_count/detaildummy[0].max_count*100
-
 
     return (
         <OvertonTable
@@ -155,71 +249,28 @@ const DefectiveContainer = () => {
             valueList={list}
             clickValue={selectValue}
             mainOnClickEvent={onClick}>
-            {
-                selectPk !== null ?
-                    <LineTable title={selectMold}>
                         {
-
+                            selectPk !== null ?
+                                <LineTable title={'품목(품목명) 의 공정 04'}>
+                                    <SettingToneBox settingTone={97} normalTone={99} maxTone={120} minTone={93}/>
+                                    <ChartDiv>
+                                        <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
+                                    </ChartDiv>
+                                </LineTable>
+                                :
+                                null
                         }
-                    </LineTable>
-                    :
-                    null
-            }
         </OvertonTable>
     );
 }
 
-const CountingContainer = Styled.div`
-   display: flex;
-   flex-direction: row;
-   margin-right: 20px;
-   p {
-    font-size: 14px;
-      &:first-child{
-      font-family: NotoSansCJKkr-Bold;
-      }
-   }
-`
-const MoldArrowContainer = Styled.div`
-  margin-top: 1px;
-  margin-left: 85px;
-  width: 870px;
-  height: 20px;
-  border: 0;
-  border-radius: 25px;
-  div {
-    width: 10px;
-    height: 20px;
-    border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
-  }
-`
-
-const MoldMaxBar = Styled.div`
-  margin-top: 1px;
-  margin-left: 85px;
-  width: 870px;
-  height: 20px;
-  border: 0;
-  border-radius: 25px;
-  background-color: #1b2333;
-  div {
-    height: 20px;
-    border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
-  }
-`
-
-const CountingNum = Styled.p`
-   margin-left: 85px;
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   span {
-      font-size: 14px;
-   }
+const ChartDiv = Styled.div`
+    width: 95%;
+    height: 280px;
+    background-color: #111319;
+    margin: 0;
+    padding: 0; 
+    clear: both;
 `
 
 
