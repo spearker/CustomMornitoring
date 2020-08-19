@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset';
+import {POINT_COLOR} from '../../Common/configset'
 import InputContainer from '../../Containers/InputContainer';
 import IMG_PROFILE from '../../Assets/Images/img_profile.png';
 
@@ -17,15 +17,15 @@ interface IProps{
 const ProfileInput = ({title, name, thisId, photo, onChangeEvent}: IProps) => {
 
   useEffect(()=>{
-   
+
   },[])
 
-  return ( 
+  return (
         <InputContainer title={title}>
             <div style={{textAlign:'center'}}>
              <ImageBox src={photo === '' || photo === null ? IMG_PROFILE : photo} />
             { onChangeEvent !== null ?
-            <InputWrapBox> 
+            <InputWrapBox>
                 <label htmlFor={thisId}  style={{border: 0, backgroundColor:POINT_COLOR, padding: '5px 12px 5px 12px', width:84, cursor:'pointer'}}>변경</label>
                 <input type="file" name={name} id={thisId} style={{display:'none'}} onChange={onChangeEvent}/>
             </InputWrapBox>
@@ -33,7 +33,7 @@ const ProfileInput = ({title, name, thisId, photo, onChangeEvent}: IProps) => {
             null
             }
             </div>
-        </InputContainer> 
+        </InputContainer>
   );
 }
 

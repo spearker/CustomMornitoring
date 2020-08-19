@@ -70,7 +70,7 @@ const ReadyTimeStatisticsContainer = () => {
         if(selectComponent !== ''){
             getData()
         }
-    },[selectComponent])
+    },[selectComponent, selectDate])
 
     return (
         <div>

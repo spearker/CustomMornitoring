@@ -60,8 +60,8 @@ const ClutchMaintenanceContainer = () => {
             {
                 data
                     ? <DetailBox>
-                        <div style={{width: 200, height: 30, marginTop: 14}}>
-                            <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+")"}</p>
+                        <div style={{width: 200, height: 30, paddingTop: 14}}>
+                            <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+"ton)"}</p>
                         </div>
                         <StatusBox>
                             {
@@ -229,25 +229,8 @@ const StatusBox = Styled.div`
     height: 200px;
     background-color: #17181c;
     border-radius: 6px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 20px;
-`
-
-const MapBox = Styled.div`
-  background-color: #17181c;
-  padding: 10px;
-  position: relative;
-  border-radius: 6px;
-  width: 100%;
-  margin-right: 20px;
-  img{
-    width: 100%;
-  }
-`
-
-const MapFlexBox = Styled.div`
-  display: flex;
-  margin-top: 21px;
 `
 
 export default ClutchMaintenanceContainer;

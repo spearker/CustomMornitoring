@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
+import {POINT_COLOR} from '../../Common/configset'
 import { Link } from 'react-router-dom';
 
 
@@ -22,7 +21,7 @@ const SmallButtonLink = ({name, link}: IProps) => {
     font-weight: bold;
 `
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -31,7 +30,7 @@ const SmallButtonLink = ({name, link}: IProps) => {
         <ButtonBox>{name}</ButtonBox>
       </Link>
     </div>
-      
+
   );
 }
 

@@ -189,8 +189,6 @@ const Routers = () => {
     return (
         <div>
             <Switch>
-
-
                 {/* 0.0 인트로 */}
                 <Route exact path="/" component={Welcome} />
                 <Route exact path="/login" component={Login} />
@@ -369,8 +367,8 @@ const Routers = () => {
 
                 {/* 15.0 프레스 분석 및 통계 */}
                 <Route exact path="/pm/statistics/press" component={PressStatistics} />
-                <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics} />
-                <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatistics} />
+                <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatistics} />
+                <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatics} />
                 <Route exact path="/pm/statistics/power" component={PowerStatistics} />
                 <Route exact path="/pm/analysis/capacity" component={CapacityStatistics} />
                 <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />

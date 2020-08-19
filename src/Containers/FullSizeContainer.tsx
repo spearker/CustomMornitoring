@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../Common/configset'
+import { BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME} from '../Common/configset'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
-import ProfileBar from '../Components/Navigation/ProfileBar';
 import { getToken } from '../Common/tokenFunctions';
 import { useUserDispatch, useUser } from '../Context/UserContext';
 import { getRequest } from '../Common/requestFunctions';
@@ -45,28 +44,28 @@ const FullSizeContainer = ({children}: any) => {
       }
     }
   }
-  
+
   useEffect(()=>{
 
     loadUserInfo();
-    
-  },[])
 
-  
+  },[loadUserInfo])
+
+
   return (
 
     <DashboardWrapDiv >
       <DashboardNavigation folding={true}/>
       <div style={{width: '100%', marginBottom:88, textAlign:'center'}}>
        <SearchBarWrapDiv>
-      </SearchBarWrapDiv> 
+      </SearchBarWrapDiv>
        <div style={{minWidth: 1100}}>
         {children}
        </div>
       </div>
     </DashboardWrapDiv>
 
-      
+
   );
 }
 

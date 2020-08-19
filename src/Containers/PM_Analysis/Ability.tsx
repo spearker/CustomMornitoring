@@ -121,21 +121,23 @@ const AbilityContainer = () => {
 
         dummyData.basic_ability.Xaxis.map((v,i) => {
             dummylineList.push([v, dummyData.basic_ability.Yaxis[i]])
+            return null
         })
 
         dummyData.avg_ability.Xaxis.map((v, i) => {
             dummyroundList.push([v, dummyData.avg_ability.Yaxis[i]])
+            return null
         })
 
         setSeries([{type: 'line', data: dummylineList}, {type: 'area', data: dummyroundList}])
 
         // setSeries()
 
-    },[data, pk])
+    },[data, pk, selectDate])
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [getData])
 
     // useEffect(() => {
     //     const {Yaxis} = data.basic_ability;
@@ -194,24 +196,6 @@ const BlackContainer = Styled.div`
             margin-left: 20px;
         }
     }
-`
-
-const MapFlexBox = Styled.div`
-  display: flex;
-  margin-top: 21px;
-`
-
-const MapBox = Styled.div`
-  background-color: #17181c;
-  padding: 10px;
-  position: relative;
-  border-radius: 6px;
-  width: 100%;
-  margin-right: 20px;
-  img{
-    width: 100%;
-  }
-
 `
 
 export default AbilityContainer

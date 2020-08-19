@@ -3,7 +3,6 @@ import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {ROUTER_MENU_LIST} from "../../Common/routerset";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
-import BasicBigDropdown from "../../Components/Dropdown/BasicBigDropdown";
 import SearchInput from "../../Components/Input/SearchInput";
 import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 
@@ -143,6 +142,8 @@ const OptimalSPMStatistics = () => {
                                                 }}>{item.optimalSPM}</p>
                                             </div>
                                         </div>)
+                                }else{
+                                    return
                                 }
                             })
                         }

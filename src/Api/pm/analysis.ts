@@ -38,6 +38,7 @@ export const API_URLS = {
         load:`/v1/analysis/press/production`
     },
     pressList: {
+        list: '/v1/analysis/press/list'
         list: '/v1/analysis/press/allPressInfo'
     }
 }

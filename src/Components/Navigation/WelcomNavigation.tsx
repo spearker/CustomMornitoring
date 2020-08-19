@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SERVICE_TITLE, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {SERVICE_TITLE} from '../../Common/configset'
 import { Link } from 'react-router-dom';
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 const WelcomeNavigation = () => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <NavInnerDiv >
-        <Link to="/"><p className="p-eng">{SERVICE_TITLE}</p></Link>   
+        <Link to="/"><p className="p-eng">{SERVICE_TITLE}</p></Link>
     </NavInnerDiv>
   );
 }

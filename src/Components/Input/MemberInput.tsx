@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import InputContainer from '../../Containers/InputContainer';
-import IMG_PROFILE from '../../Assets/Images/img_profile.png';
-import IcRemove from '../../Assets/Images/ic_remove_profile.png';
+import {POINT_COLOR} from '../../Common/configset'
 import IMG_NONE from '../../Assets/Images/ic_profile_none.png';
 import icDelete from '../../Assets/Images/ic_minus.png'
 import IconSquareButton from '../Button/IconSquareButton';
@@ -28,22 +24,22 @@ interface IProps{
 }
 const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent, type, onRemoveEvent}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
   const buttonBox = Styled.button`
   padding: 3px 11px 3px 3px;
   background-color: ${POINT_COLOR};
 `
-  return ( 
+  return (
         <div style={{fontSize:14, minWidth:'49%'}}>
         <div style={{  display:'flex', position:'relative',alignItems: 'center',paddingTop:17, paddingBottom:17}}>
         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 100, display:'inline-block'}}>{title === "" ? " " : `· ${title}`}</p>
             <div style={{display:'inline-block', textAlign:'center'}}>
                 {
-                isMultiRegistered && contents!==undefined? 
+                isMultiRegistered && contents!==undefined?
                 contents.length === 0 ?
                 <div>
-                   
+
                 </div>
                 :
                 contents.map((v, i)=>{
@@ -52,15 +48,15 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
                             <MemberTagDiv >
                                 <p style={{marginLeft:7, textAlign:'left'}} className="p-limit">{v.name}</p>
                                 <div onClick={()=>onRemoveEvent(i)} style={{marginLeft: 'auto',width:27}}>
-                                    <IconSquareButton color="#e7e9eb" width="27px" imageSize="18px" image={icDelete} dim={true}/>  
-                                </div> 
+                                    <IconSquareButton color="#e7e9eb" width="27px" imageSize="18px" image={icDelete} dim={true}/>
+                                </div>
                             </MemberTagDiv>
-                          
+
                         </div>
                     )
                 })
                 :
-                    target !== undefined && target !== null? 
+                    target !== undefined && target !== null?
                     <div style={{display:'flex', alignItems: 'center'}}>
                         {
                             target.image === '' || target.image === null ?
@@ -76,18 +72,18 @@ const MemberInput = ({title, isMultiRegistered, contents, target, onChangeEvent,
                     <p className="p-limits" style={{marginLeft:8}}>&nbsp;</p>
                     </div>
                 }
-                 
+
             </div>
             {
-                onChangeEvent !== undefined ? 
+                onChangeEvent !== undefined ?
                 <div style={{marginLeft:'auto'}}>
                      <button type="button" style={{padding: '3px 11px 3px 11px', backgroundColor:POINT_COLOR}} onClick={onChangeEvent}>{isMultiRegistered ? '추가' : '변경'}</button>
                 </div>
                 :
                 null
-            }   
-           
-        </div> 
+            }
+
+        </div>
         </div>
   );
 }

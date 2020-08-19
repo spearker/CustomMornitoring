@@ -9,6 +9,7 @@ import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getAbilityList, getOilSupplyData} from "../../Api/pm/statistics";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const chartOption = {
     chart: {
@@ -37,7 +38,7 @@ const chartOption = {
         }
     },
     xaxis: {
-        tickAmount: 10
+        tickAmount: 10,
     },
     grid:{
         borderColor: "#42444b",
@@ -81,6 +82,7 @@ const chartOption = {
 
 const dummyData: IPressOilSupplyData = {
     pressPk:"dummyPK1",
+    pressName: "프레스 01",
     insert_oil_time: {
         Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
         Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ],
@@ -88,10 +90,8 @@ const dummyData: IPressOilSupplyData = {
 }
 
 const OilSupplyContainer = () => {
-    const [data, setData] = React.useState<IPressOilSupplyData>(dummyData)
+    const [data, setData] = React.useState<IPressOilSupplyData>()
     const [pk, setPk] = React.useState('v1_JNHPRESS_machine_5_null_1')
-
-    const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
@@ -123,14 +123,18 @@ const OilSupplyContainer = () => {
                 select={selectComponent} //pk
                 onChangeEvent={setSelectComponent}
             />
-            <BlackContainer>
-                <div style={{height: 60}}>
-                    <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
-                        <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold', width: "50%"}}>{"프레스 01"} &nbsp; &nbsp; &nbsp; 평균 오일공급 시간</p>
-                    </div>
-                </div>
-                <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
-            </BlackContainer>
+            {
+                data
+                    ?<BlackContainer>
+                        <div style={{height: 60}}>
+                            <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
+                                <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold', width: "50%"}}>{data.pressName} &nbsp; &nbsp; &nbsp; 평균 오일공급 시간</p>
+                            </div>
+                        </div>
+                        <ReactApexChart options={{...chartOption, labels: [...data.insert_oil_time.Xaxis]}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                    </BlackContainer>
+                    : <NoDataCard contents={"기계를 선택해 주세요"} height={504}/>
+            }
         </div>
     );
 }
@@ -152,24 +156,6 @@ const BlackContainer = Styled.div`
             margin-left: 20px;
         }
     }
-`
-
-const MapFlexBox = Styled.div`
-  display: flex;
-  margin-top: 21px;
-`
-
-const MapBox = Styled.div`
-  background-color: #17181c;
-  padding: 10px;
-  position: relative;
-  border-radius: 6px;
-  width: 100%;
-  margin-right: 20px;
-  img{
-    width: 100%;
-  }
-
 `
 
 export default OilSupplyContainer

@@ -1,23 +1,12 @@
 import React, {
   useEffect,
   useState,
-  useContext,
   useCallback,
-  ReactElement,
 } from "react";
 import Styled from "styled-components";
-import DashboardWrapContainer from "../DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import { ROUTER_MENU_LIST } from "../../Common/routerset";
-import InnerBodyContainer from "../InnerBodyContainer";
-import Header from "../../Components/Text/Header";
-import ReactShadowScroll from "react-shadow-scroll";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
 
 //금형 보전 관리
 
@@ -44,6 +33,15 @@ const MoldMaintenanceContainer = () => {
     }
   }
 
+  const getData = useCallback( async(pk)=>{
+    //TODO: 성공시
+    const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    const res = await getMoldData(tempUrl)
+
+    setDetailList(res)
+
+  },[])
+
   const onClick = useCallback((mold) => {
     console.log('dsfewfewf',mold.pk,mold.mold_name);
     if(mold.pk === selectPk){
@@ -57,19 +55,7 @@ const MoldMaintenanceContainer = () => {
       //TODO: api 요청
       getData(mold.pk);
     }
-
-
-
-  }, [list, selectPk]);
-
-  const getData = useCallback( async(pk)=>{
-    //TODO: 성공시
-    const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    const res = await getMoldData(tempUrl)
-
-    setDetailList(res)
-
-  },[detailList])
+  }, [selectPk, getData]);
 
   const WidthPercent = detailList.current_count/detailList.max_count*100
 
@@ -81,13 +67,12 @@ const MoldMaintenanceContainer = () => {
 
     setList(res)
 
-  },[list])
+  },[])
 
   useEffect(()=>{
     getList()
     setIndex(indexList["mold"])
-
-  },[])
+  },[getData, index, getList, indexList])
 
   return (
       <OvertonTable

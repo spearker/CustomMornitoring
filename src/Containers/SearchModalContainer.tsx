@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import IcPlus from '../../Assets/Images/ic_plus_gray.png'
-import WhiteBoxContainer from './WhiteBoxContainer';
-import PopupButtons from '../Components/Button/PopupButtons';
+import { POINT_COLOR } from '../Common/configset'
 
 //기본형 모달
 
@@ -20,12 +16,12 @@ interface IProps{
 }
 const SearchModalContainer = ({title, tab1, tab2, selected, onClickClose, isVisible, children, onClickEvent,}: IProps) => {
 
-    
+
   useEffect(()=>{
-   
+
   },[])
 
-  return ( 
+  return (
         isVisible ?
             <>
             <WrapHoverBox onClick={onClickClose}/>
@@ -36,14 +32,14 @@ const SearchModalContainer = ({title, tab1, tab2, selected, onClickClose, isVisi
                         <div style={{ paddingTop:20}}>
                              <p style={{fontWeight:'bold', color:'black', marginBottom:19}}>· {title}</p>
                         </div>
-                    
+
                         :
                         null
                     }
                     <div style={{paddingBottom:66, maxHeight:480, overflow:'auto'}}>
                     {children}
                     </div>
-        
+
                     <div className="p-bold" style={{marginTop:60,width:'100%', position:'absolute', display:'flex', zIndex:4, bottom:0, left:0,  color:'black', justifyItems:'center', alignItems:'center',textAlign:'center', fontSize:14}}>
                         <div style={{ width:'50%', padding:9, backgroundColor: '#e7e9eb', color:'#717c90', cursor:'pointer'}} onClick={onClickClose}>
                             <p>취소</p>

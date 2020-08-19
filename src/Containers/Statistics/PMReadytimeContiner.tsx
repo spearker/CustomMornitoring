@@ -129,7 +129,6 @@ const PMReadyTimeContainer = () => {
                 onChangeEvent={setSelectComponent}
             />
             {
-
                 selectComponent ? <TimeLineBox>
                     <p style={{paddingLeft:20}}>{machineData.machine_name}</p>
                 <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
@@ -187,7 +186,7 @@ const PMReadyTimeContainer = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error.toFixed(2)}</p>
+                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error.toFixed(2)}%</p>
                                     </td>
                                 </tr>
                             </table>

@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
@@ -15,18 +13,18 @@ interface IProps{
 }
 const NormalNumberInput = ({title, line, description, value, onChangeEvent}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
 
-  return ( 
+  return (
         <InputContainer title={title} line={line}>
             { onChangeEvent !== null ?
             <InputBox type="number" value={value} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent(e.target.value)}} placeholder={description}/>
             :
             <InputBox type="number" value={value} placeholder={description} disabled/>
             }
-        </InputContainer> 
+        </InputContainer>
   );
 }
 

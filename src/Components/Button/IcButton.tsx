@@ -8,11 +8,11 @@ interface IProps{
     image: any,
     dim : boolean //누를수 있는지 없는지 상태
     onClickEvent?: any
-
+    customStyle?: object
 }
-const IcButton = ({image, dim, onClickEvent}: IProps) => {
+const IcButton = ({image, dim, onClickEvent, customStyle}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
 
@@ -25,11 +25,11 @@ const IcButton = ({image, dim, onClickEvent}: IProps) => {
   `
   return (
 
-       <ButtonBox type="submit" onClick={()=>onClickEvent}>
+       <ButtonBox type="submit" style={customStyle} onClick={()=>onClickEvent}>
          <img src={image} style={{width: 14}}/>
        </ButtonBox>
 
-      
+
   );
 }
 

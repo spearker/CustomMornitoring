@@ -240,6 +240,14 @@ interface LeadTimeAnalysis{
   time: string[]
 }
 
+interface IPressMachineType{
+  machine_img: string
+  machine_name: string
+  machine_ton: number
+  manufacturer_code: string
+  pk: string
+}
+
 interface IPressReadyTimeAnalysis{
   manufacturer_code: string
   machine_name: string
@@ -304,6 +312,7 @@ interface ChartData {
 
 interface IPressOilSupplyData {
   pressPk:string,
+  pressName: string,
   insert_oil_time: ChartData
 }
 
@@ -344,4 +353,16 @@ interface IPressLoadTonSatistics {
   yesterday_max_ton:string,
   yesterday_min_ton:string,
   ton_data: string
+}
+
+interface IProductionAdd {
+  type: 0|1|2
+  manager: string,
+  material: string,
+  from: string,
+  to: string,
+  procedure: string,
+  amount: Number,
+  supplier: string,
+  deadline: string
 }

@@ -1,15 +1,9 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR, TOKEN_NAME} from '../../Common/configset';
-import {getParameter, getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
 import ReactApexChart from "react-apexcharts";
-import styled from "styled-components";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
-import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getPowerList} from "../../Api/pm/statistics";
 
 const ChartInitOptions = {
     chart: {

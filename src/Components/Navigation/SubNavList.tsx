@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import Icon from '../../Assets/Images/ic_nav_temp.png'
+import {POINT_COLOR} from '../../Common/configset'
 import { Link } from 'react-router-dom';
 
 
 //대시보드 네비게이션 리스트
 interface Props{
   no?: string, //메뉴 고유 넘버
-  select?: boolean, // 버튼 선택여부 
+  select?: boolean, // 버튼 선택여부
   url: string, //링크 url
   name: string,
 }
@@ -18,7 +16,7 @@ interface Props{
 const SubNavList = ({no, select, url, name}: Props) => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -35,7 +33,7 @@ const SubNavList = ({no, select, url, name}: Props) => {
       }
       </>
 
-      
+
   );
 }
 

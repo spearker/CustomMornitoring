@@ -4,7 +4,6 @@ import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_
 import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 import useOnclickOutside from 'react-cool-onclickoutside';
-import IcButton from '../Button/IcButton';
 import IC_ARROW from '../../Assets/Images/ic_drop_down.png'
 import IC_ARROW_UP from '../../Assets/Images/ic_drop_up.png'
 //드롭다운 입력창
@@ -20,16 +19,16 @@ const DropdownCode = ({ title,contents, target, onChangeEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-    
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
 
     useEffect(()=>{
-    
+
     },[])
 
-    return ( 
+    return (
         <InputContainer title={title} >
             <div ref={ref} style={{width: 'calc(100% - 200px)', position:'relative'}}>
                 <InputBox onClick={handleClickBtn}>{ target.value ?? '(선택)'}</InputBox>
@@ -40,12 +39,12 @@ const DropdownCode = ({ title,contents, target, onChangeEvent}: IProps) => {
                 isOpen ?
                 <>
                     <div style={{position:'absolute', zIndex:4, top:0, left:0, width:'calc(100% - 17px)', maxHeight:220, overflowY: 'scroll'}}>
-                    
+
                     {contents.map((v,i)=>{
                         return(
                             <InputBoxList key={i} onClick={()=>{onChangeEvent(v); setIsOpen(false)}}>{v.value}</InputBoxList>
                         )
-                    
+
                     })}
                     </div>
                     <div onClick={()=>setIsOpen(false)} style={{position:'absolute', top:0, right:-17, zIndex:4, backgroundColor: POINT_COLOR, width: 33, height: 33,textAlign:'center', display:'inline-block'}}>
@@ -56,7 +55,7 @@ const DropdownCode = ({ title,contents, target, onChangeEvent}: IProps) => {
                 null
             }
             </div>
-        </InputContainer> 
+        </InputContainer>
     );
 }
 

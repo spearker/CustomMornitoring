@@ -10,6 +10,7 @@ import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
 
 import tempImage from "../../Assets/Images/temp_machine.png"
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const ChartInitOptions = {
     chart: {
@@ -20,8 +21,11 @@ const ChartInitOptions = {
             }
         },
         events: {
-            click: function(chart, w, e) {
+            click: function (chart, w, e) {
                 console.log(chart, w, e)
+            },
+            beforeMount: (chartContext, config) => {
+                console.log(chartContext, config)
             }
         }
     },
@@ -51,7 +55,7 @@ const ChartInitOptions = {
             shadeIntensity: 0,
             opacityFrom: 1,
             opacityTo: .20,
-            stops:[0, 90, 100]
+            stops: [0, 90, 100]
         }
     },
     colors: ['#dd4bbe'],
@@ -61,22 +65,13 @@ const ChartInitOptions = {
     legend: {
         show: false
     },
-}
-
-const ChartOptionDetailLable = {
-    yaxis: {
-        min: 0,
-        max: 250,
-        tickAmount: 25,
-        labels:{
-            formatter:(value) => {
-                if(value===250){
-                    return "(생산량)"
-                }else{
-                    if(value%50===0){
-                        return value
-                    }
-                }
+    tooltip: {
+        x: {
+            show: false
+        },
+        y: {
+            formatter: (i) => {
+                return i.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "개"
             }
         }
     },
@@ -91,23 +86,8 @@ const ChartOptionDetailLable = {
         }
     }
 }
+const detailChartOption = {
 
-const  ChartOptionMiniLable= {
-    yaxis: {
-        min: 0,
-        max: 250,
-        labels:{
-            show: false
-        }
-    },
-    xaxis: {
-        labels: {
-            show: false,
-            style: {
-                fontSize: '12px'
-            }
-        }
-    }
 }
 
 const MachineInitData: IPressCapacity = {
@@ -116,22 +96,22 @@ const MachineInitData: IPressCapacity = {
     machine_ton: '',
     analyze:{
         times: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"],
-        productions: [1,2,3,4,5,6,7,8,9,10]
+        productions: []
     }
 }
 
 const PMCapacityStaticsContiner = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
-    const [series, setSeries] = useState<object[]>([{name: "value1", data: MachineInitData.analyze.productions}])
+    const [series, setSeries] = useState<{ name: string, data: number[], max: number }[]>([{name: "value1", data: MachineInitData.analyze.productions, max: 0}])
+    const [pressList, setPressList] = useState<IPressMachineType[]>([])
 
-    const [selectMachine, setSelectMachine] = useState<string>('프레스 01')
+    const [selectMachine, setSelectMachine] = useState<string>('')
 
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [pk, setPK] = useState<string>('v1_SEAIN_machine_1_null_1')
 
-    const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({start: '', end: ''})
+    const [max, setMax] = useState<number>(20000)
 
     /**
      * getData()
@@ -141,22 +121,37 @@ const PMCapacityStaticsContiner = () => {
      * @returns X
      */
     const getData = useCallback(async()=>{
-        const tempUrl = `${API_URLS['capacity'].load}?pk=${pk}&date=${selectDate}`
+        const tempUrl = `${API_URLS['capacity'].load}?pk=${selectMachine}&date=${selectDate}`
         const resultData = await getCapacityTimeData(tempUrl);
         setMachineData(resultData)
-        let tempList: number[] = []
 
+        let tmp: number[] = []
         times.map((v, i) => {
             let listIndex = resultData.analyze.times.indexOf(v)
             if(listIndex !== -1){
-                tempList.push(resultData.analyze.productions[listIndex])
+                tmp.push(resultData.analyze.productions[listIndex])
             }else{
-                tempList.push(0)
+                tmp.push(0)
             }
         })
-        console.log(tempList)
-        setSeries([{name: 'data', data:tempList}])
-    },[selectMachine, machineData, series]);
+        console.log(tmp)
+
+        let tmpMax = maxData(Math.max.apply(null, tmp))
+
+        setSeries([{name: '생산량', data:tmp, max: tmpMax }])
+    },[selectMachine, machineData, series, selectDate]);
+
+    const getList = useCallback(async () => {
+        const tempUrl = `${API_URLS['pressList'].list}`
+        const resultData = await getCapacityTimeData(tempUrl);
+        console.log(resultData)
+        setPressList(resultData)
+
+    }, [])
+
+    const maxData = (x) => {
+        return (x%10000)?x-x%10000+10000:x+10000
+    }
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['press'].load}?pk=${pk}&date=${selectDate}`
@@ -164,8 +159,13 @@ const PMCapacityStaticsContiner = () => {
     }, [])
 
     useEffect(()=>{
-        getData()
+        getList()
+        // getData()
     },[])
+
+    useEffect(()=>{
+        getData()
+    },[selectMachine, selectDate])
 
     return (
         <div>
@@ -177,44 +177,79 @@ const PMCapacityStaticsContiner = () => {
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
                 {
+                    pressList.map((v, i) => {
+
+                        console.log(series[0])
+                            if(selectMachine === v.pk){
+                                return(<ChartBorderMiniBox>
+                                    <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left" , paddingTop: 10}}>
+                                        <img src={v.machine_img ? v.machine_img : tempImage} style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                                    </div>
+                                    <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
+                                        <p style={{fontWeight: 'bold', textAlign: "left"}}>{v.machine_name + "(" + v.machine_ton+"t)"}</p>
+                                        <p style={{ textAlign: "left"}}>{v.manufacturer_code}</p>
+                                    </div>
+                                </ChartBorderMiniBox>)
+                            }else{
+                                return(<ChartMiniBox onClick={() => {setSelectMachine(v.pk)}}>
+                                    <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left", paddingTop: 10}}>
+                                        <img src={v.machine_img ? v.machine_img : tempImage} style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                                    </div>
+                                    <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
+                                        <p style={{fontWeight: 'bold', textAlign: "left"}}>{v.machine_name + "(" + v.machine_ton+"t)"}</p>
+                                        <p style={{ textAlign: "left"}}>{v.manufacturer_code}</p>
+                                    </div>
+                                </ChartMiniBox>)
+                            }
+                    })
+                }
+                {
                     machineData.machine_name !== '' && <div>
-                        {
-                            selectMachine === pk
-                            ? <ChartBorderMiniBox>
-                                <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
-                                    <img src={tempImage} style={{width: 114, }}/>
-                                </div>
-                                <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
-                                    <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
-                                    <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                                </div>
-                            </ChartBorderMiniBox>
-                            : <ChartMiniBox>
-                                <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left"}}>
-                                    <img src={tempImage} style={{width: 114, }}/>
-                                </div>
-                                <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 21}}>
-                                    <p style={{fontWeight: 'bold', textAlign: "left"}}>{machineData.machine_name + "(" + machineData.machine_ton+")"}</p>
-                                    <p style={{ textAlign: "left"}}>{machineData.manufacturer_code}</p>
-                                </div>
-                            </ChartMiniBox>
-                        }
+
                     </div>
                 }
             </ChartListBox>
-            <ChartDetailBox>
-                <div style={{marginTop: 25, paddingBottom: 23}}>
-                    <div>
-                        <div style={{float: "left", display: "inline-block"}}>
-                            <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>{machineData.machine_name}</p>
+            {
+                selectMachine !== ''
+                    ? <ChartDetailBox>
+                        {console.log("datafladkjlkajsdlkfjlkadsjfljskljdslfjlk")}
+                        <div style={{marginTop: 25, paddingBottom: 23}}>
+                            <div>
+                                <div style={{float: "left", display: "inline-block"}}>
+                                    <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>{machineData.machine_name}</p>
+                                </div>
+                                <CalendarDropdown type={'single'} select={selectDate} onClickEvent={async (i) => setSelectDate(i)}></CalendarDropdown>
+                            </div>
                         </div>
-                        <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
-                    </div>
-                </div>
-                <div style={{width: 640, height: 619, backgroundColor: '#111319', margin: 0, padding: 0, clear: 'both', marginTop: 20}}>
-                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'bar'} height={"98%"}></ReactApexChart>
-                </div>
-            </ChartDetailBox>
+                        <div style={{width: 640, height: 619, backgroundColor: '#111319', margin: 0, padding: 0, clear: 'both', marginTop: 20}}>
+                            <ReactApexChart options={{
+                                ...ChartInitOptions,
+                                yaxis: {
+                                    min: 0,
+                                    max: Math.round(Math.max.apply(null, series[0].data)*1.1)+100,
+                                    tickAmount: 25,
+                                    labels:{
+                                        formatter:(value,index) => {
+                                            if(Math.round(value) === Math.round(Math.max.apply(null, series[0].data)*1.1)+100){
+                                                return "(생산량)"
+                                            }else{
+                                                if(index%5 === 0){
+                                                    return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                }else{
+                                                    return
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }} series={series} type={'bar'} height={"98%"}></ReactApexChart>
+                        </div>
+                    </ChartDetailBox>
+                    : <ChartDetailBox>
+                        <NoDataCard contents={'기계를 선택해 주세요'} height={684} color={'#353b48'}/>
+                    </ChartDetailBox>
+            }
         </div>
     );
 }
@@ -238,6 +273,9 @@ const ChartDetailBox = Styled.div`
     border-radius: 6px;
     float: left;
     margin-left: 20px;
+    .apexcharts-tooltip{
+        color: black;
+    }
 `
 
 const ChartMiniBox = Styled.div`
@@ -245,6 +283,10 @@ const ChartMiniBox = Styled.div`
     height: 120px;
     border-radius: 6px;
     background-color: #111319;
+    margin-bottom: 20px;
+    img{
+        object-fit: resize;
+    }
 `
 
 const ChartBorderMiniBox = Styled.div`
@@ -252,7 +294,8 @@ const ChartBorderMiniBox = Styled.div`
     height: 120px;
     border-radius: 6px;
     background-color: #111319;
-    border: 4px solid #19b9df; 
+    border: 4px solid #19b9df;
+    margin-bottom: 20px; 
 `
 
 export default PMCapacityStaticsContiner;
