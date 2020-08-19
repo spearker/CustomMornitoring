@@ -6,8 +6,9 @@ import React, {
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
+import SettingToneBox from "../../Components/Box/SettingToneBox";
 import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
-
+import ReactApexChart from "react-apexcharts";
 
 const ChartInitOptions = {
     chart: {
@@ -255,7 +256,7 @@ const ChartDiv = Styled.div`
     height: 280px;
     background-color: #111319;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     clear: both;
 `
 

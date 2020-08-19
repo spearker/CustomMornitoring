@@ -1,12 +1,106 @@
 import React, {
     useEffect,
     useState,
+    useContext,
     useCallback,
+    ReactElement,
 } from "react";
 import Styled from "styled-components";
+import DashboardWrapContainer from "../DashboardWrapContainer";
+import SubNavigation from "../../Components/Navigation/SubNavigation";
+import { ROUTER_MENU_LIST } from "../../Common/routerset";
+import InnerBodyContainer from "../InnerBodyContainer";
+import Header from "../../Components/Text/Header";
+import ReactShadowScroll from "react-shadow-scroll";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {getRequest} from "../../Common/requestFunctions";
+import {getToken} from "../../Common/tokenFunctions";
+import {TOKEN_NAME} from "../../Common/configset";
+import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
+import LoadtoneBox from "../../Components/Box/LoadtoneBox";
+import ReactApexChart from "react-apexcharts";
+
+const ChartInitOptions = {
+    chart: {
+        type: 'scatter',
+        toolbar: {show: false},
+        events: {
+            click: function(chart, w, e) {
+                console.log(chart, w, e)
+            }
+        }
+    },
+    tooltip: {
+        enabled: false
+    },
+    plotOptions: {
+        scatter: {
+            columnWidth: '55%',
+            distributed: false
+        }
+    },
+    grid: {
+        borderColor: '#42444b',
+        xaxis: {
+            lines: {
+                show: true
+            }
+        },
+        yaxis: {
+            lines: {
+                show: true
+            }
+        },
+    },
+    colors: ['#ffffff','#ff341a'],
+    dataLabels: {
+        enabled: false
+    },
+    legend: {
+        show: false
+    },
+    markers: {
+        strokeOpacity: 0,
+        size: 3,
+    }
+}
+
+const ChartOptionDetailLable = {
+    yaxis: {
+        min: 0,
+        max: 250,
+        tickAmount: 25,
+        labels:{
+            formatter:(value) => {
+                if(value===250){
+                    return "(ton)"
+                }else{
+                    if(value%50===0){
+                        return value
+                    }
+                }
+            }
+        }
+    },
+    xaxis: {
+        type: 'numeric',
+        tickAmount: 24,
+        // categories: ["10","20","30","40","50","60","70","80","90","100","110","120"],
+        min: 0,
+        max: 120,
+        labels: {
+            style: {
+                fontSize: '12px'
+            },
+            formatter: (value) => {
+                if(value%10 === 0){
+                    return value
+                }
+            }
+        }
+    }
+}
 
 const ProductToneContainer = () => {
 
@@ -140,7 +234,7 @@ const ProductToneContainer = () => {
 
 
 
-    }, [selectPk]);
+    }, [list, selectPk]);
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
@@ -149,7 +243,7 @@ const ProductToneContainer = () => {
 
         setDetailList(res)
 
-    },[])
+    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -158,7 +252,7 @@ const ProductToneContainer = () => {
 
         setList(res)
 
-    },[])
+    },[list])
 
     useEffect(()=>{
         // getList()

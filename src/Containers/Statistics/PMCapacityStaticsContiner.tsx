@@ -153,11 +153,6 @@ const PMCapacityStaticsContiner = () => {
         return (x%10000)?x-x%10000+10000:x+10000
     }
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['press'].load}?pk=${pk}&date=${selectDate}`
-        const resultData = await getCapacityTimeData(tempUrl);
-    }, [])
-
     useEffect(()=>{
         getList()
         // getData()
