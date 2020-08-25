@@ -3,17 +3,17 @@ import {PM_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
-import ProductionRegisterContainer from "../../Containers/Production/ProductionRegister";
+import ProcessRegisterContainer from "../../Containers/Process/Register";
 
-const ProductionRegister = () => {
+const ProcessRegister = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
             <SubNavigation list={PM_MENU_LIST.statistics}/>
             <InnerBodyContainer>
-                <ProductionRegisterContainer />
+                <ProcessRegisterContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default ProductionRegister
+export default ProcessRegister

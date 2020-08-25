@@ -7,7 +7,7 @@ import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 //드롭다운 컴포넌트
 
 interface IProps{
-    select?: string,
+    select?: string | Number,
     onClickEvent: any
     contents: any,
     text: string
@@ -29,7 +29,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, customStyle}: I
     },[])
 
     return (
-        <div style={{position:'relative', display:'inline-block', zIndex:3, width: 917}} ref={ref}>
+        <div style={{position:'relative', display:'inline-block', width: 917}} ref={ref}>
             <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                 <div style={{display:'inline-block', height: 32, width: 885}}>
                     {
@@ -45,7 +45,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, customStyle}: I
             </BoxWrap>
             {
                 isOpen ?
-                    <div style={{position:'absolute', top:0, right:0, textAlign:'left'}}>
+                    <div style={{position:'absolute', top:0, right:0, textAlign:'left', width: 917, zIndex: 3}}>
                         <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                             <div style={{display:'inline-block', height: 32, width: 885}}>
                                 {
@@ -60,16 +60,21 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, customStyle}: I
                         </BoxWrap>
                         {
                             contents.map((v, i)=>{
-                                return(
-                                    <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50'}}>
-                                        <div style={{display:'inline-block', width: 885, paddingLeft: 5}}>
-                                            <p style={{margin:0}} key={i} onClick={()=>{
-                                                onClickEvent(v);
-                                                setIsOpen(false)
-                                            }}>{v}</p>
-                                        </div>
-                                    </BoxWrap>
-                                )
+                                if(v !== ''){
+                                    return(
+                                        <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50'}}>
+                                            <div style={{display:'inline-block', width: 885, paddingLeft: 5}}>
+                                                <p style={{margin:0}} key={i} onClick={()=>{
+                                                    onClickEvent(i);
+                                                    setIsOpen(false)
+                                                }}>{v}</p>
+                                            </div>
+                                        </BoxWrap>
+                                    )
+                                }else{
+                                    return
+                                }
+
                             })
                         }
                     </div>

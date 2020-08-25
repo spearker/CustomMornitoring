@@ -362,7 +362,17 @@ interface IProductionAdd {
   from: string,
   to: string,
   procedure: string,
-  amount: Number,
+  amount: number,
   supplier: string,
   deadline: string
+}
+
+interface IProcessRegister {
+  type: number
+  name: string
+  processes?: {
+    machine_pk: string
+    recommend?: number
+  }[]
+  description: string
 }

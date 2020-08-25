@@ -9,6 +9,8 @@ import ContractRegister from "../Pages/Marketing/ContractRegister";
 import ContractModify from "../Pages/Marketing/ContractModify";
 import OrderModify from "../Pages/Marketing/OrderModify";
 import OrderRegister from "../Pages/Marketing/OrderRegister";
+import BarcodeRegister from "../Pages/Barcode/BarcodeRegister";
+import BarcodeModify from "../Pages/Barcode/BarcodeModify";
 
 const JunheeRouters = () => {
 
@@ -23,6 +25,9 @@ const JunheeRouters = () => {
                 <Route exact path="/marketing/contract/modify" component={ContractModify} />
                 <Route exact path="/marketing/order/register" component={OrderRegister} />
                 <Route exact path="/marketing/order/modify" component={OrderModify} />
+                {/*바코드관리*/}
+                <Route exact path="/barcode/modify" component={BarcodeRegister} />
+                <Route exact path="/barcode/order/modify" component={BarcodeModify} />
                 {/* pm */}
                 <Route exact path="/pm/statistics/oil" component={OilSupplyStatistics} />
                 <Route exact path="/pm/statistics/ability" component={AbilityStatistics} />

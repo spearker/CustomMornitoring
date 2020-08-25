@@ -127,11 +127,11 @@ const ProductionRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 총 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChangeText={(e:Number) => setChitData({...chitData, amount: e})}/></td>
+                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
                         </tr>
                         <tr>
                             <td>• 납품 업체</td>
-                            <td><Input placeholder="납품 업체를 입력해 주세요" onChangeText={(e:Number) => setChitData({...chitData, amount: e})}/></td>
+                            <td><Input placeholder="납품 업체를 입력해 주세요" onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
                         </tr>
                         <tr>
                             <td>• 납기 일</td>

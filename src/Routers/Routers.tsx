@@ -167,6 +167,7 @@ import ClutchMaintenance from "../Pages/Maintenance/Clutch";
 import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
 import PowerStatistics from "../Pages/PM_Statistics/PowerStatistics";
 import ErrorStatistics from "../Pages/PM_Statistics/ErrorStatistics";
+import ProcessRegister from "../Pages/Process/Register";
 
 const Routers = () => {
 
@@ -290,7 +291,7 @@ const Routers = () => {
 
 
                 {/* 8.0 공정 관리 */}
-                <Route exact path="/process/register" component={RegisterProcess} />
+                <Route exact path="/process/register" component={ProcessRegister} />
                 <Route exact path="/process/list" component={ProcessList} />
                 <Route exact path="/recommend/press" component={PressRecommend} />
                 <Route exact path="/register/process" component={RegisterProcess}/>

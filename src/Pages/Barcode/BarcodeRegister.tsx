@@ -3,17 +3,18 @@ import {PM_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
-import ChitRegisterContainer from "../../Containers/Production/ChitRegister";
+import ContractModifyContainer from "../../Containers/Marketing/ContractModify";
+import BarcodeRegisterContainer from "../../Containers/Barcode/BarcodeRegisterContainter";
 
-const ChitRegister = () => {
+const BarcodeRegister = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
             <SubNavigation list={PM_MENU_LIST.statistics}/>
             <InnerBodyContainer>
-                <ChitRegisterContainer />
+                <BarcodeRegisterContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default ChitRegister
+export default BarcodeRegister
