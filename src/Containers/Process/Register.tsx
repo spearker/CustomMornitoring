@@ -66,18 +66,29 @@ const ProcessRegisterContainer = () => {
                             <td>• 타입</td>
                             <td>
                                 <RegisterDropdown
-                                    onClickEvent={(e: number) => setProcessData({...processData, type: e})}
+                                    onClickEvent={(e: number) => {
+                                        if(e === 1){
+                                            let tmpList = processData.processes
+                                            //@ts-ignore
+                                            tmpList.push({machine_pk: '', recommend: 0})
+                                            setProcessData({
+                                                ...processData,
+                                                processes: tmpList
+                                            })
+                                        }
+                                        return setProcessData({...processData, type: e})
+                                    }}
                                     select={typeList[processData.type]}
                                     contents={typeList} text={'타입을 선택해 주세요'}
                                 />
                             </td>
                         </tr>
                         <tr>
-                            <td>• 품목(품목명)</td>
+                            <td>• 공정명</td>
                             <td><Input placeholder="공장명을 입력해 주세요." onChangeText={(e:string) => setProcessData({...processData, name: e})}/></td>
                         </tr>
                         {
-                            processData.processes && processData.processes.length === 0
+                            processData.processes && processData.processes.length !== 0
                                 && processData.processes.map((v, i) => {
                                     return(
                                         <tr>
@@ -89,16 +100,21 @@ const ProcessRegisterContainer = () => {
                                     )
                                 })
                         }
-                        <tr>
-                            <td>{processData.processes && processData.processes.length === 0 ? '' : '• 공정'}</td>
-                            <td>
-                                <ProcessAddButton>
-                                    <div>
-
-                                    </div>
-                                </ProcessAddButton>
-                            </td>
-                        </tr>
+                        {
+                            processData.type !== 0 &&
+                            <tr>
+                                <td>{processData.processes && processData.processes.length !== 0 ? '' : '• 공정'}</td>
+                                <td>
+                                    <ProcessAddButton>
+                                        <div style={{width: 919, height: 34, backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
+                                            <div style={{marginTop: 5}}>
+                                                <p style={{color: '#b3b3b3', }}>+ 공정 추가</p>
+                                            </div>
+                                        </div>
+                                    </ProcessAddButton>
+                                </td>
+                            </tr>
+                        }
                         <tr>
                             <td>• 설명</td>
                             <td><Input placeholder="설명을 입력해 주세요." onChangeText={(e:string) => setProcessData({...processData, description: e})}/></td>
