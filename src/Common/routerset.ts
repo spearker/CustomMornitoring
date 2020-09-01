@@ -172,7 +172,8 @@ export const MES_MENU_LIST = {
     { name : '출하 리스트', url: '/marketing/shipment/list'},
   ],
   process: [
-    { name : '공정 관리', url: '/process/segment/lsit'},
+    { name: '공정 관리', url: '/process/process/list'},
+    { name: '공정 리스트', url: '/process/process/list'},
     { name : '공정별 세분화 리스트', url: '/process/segment/list'}
   ],
   barcode: [
@@ -184,11 +185,12 @@ export const MES_MENU_LIST = {
     { name : '제품 품질 현황', url: '/quality/current/list'}
   ],
   stock: [
-    { name : '재고 관리', url:'/stock/wip/list'},
+    { name: '재고 관리', url: '/stock/status/list'},
+    { name: '재고 현황', url: '/stock/status/list'},
     { name : '재공재고 관리', url:'/stock/wip/list'},
     { name : '외주 재고 관리', url:'/stock/outsource/list'},
     { name : '원자재 관리', url: '/stock/rawmaterial/list'},
-    { name : '완제품 관리', url: '/stock/finishmaterial/list'}
+    { name : '완제품 관리', url: '/stock/finishmaterial/list'},
   ],
   mold: [
     { name : '금형 관리', url: '/mold/current/list'},

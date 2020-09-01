@@ -4,6 +4,7 @@ import Routers from './Routers/Routers';
 import SuminRouters from './Routers/SuminRouters';
 import JunheeRouters from "./Routers/JunheeRouters";
 import JMRouters from './Routers/JMRouters';
+import YejiRouters from './Routers/YejiRouters'
 import Styled from 'styled-components'
 import AlertPopup from './Components/Modal/AlertPopup'
 import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from './Common/configset'
@@ -31,6 +32,7 @@ const App = () => {
                   <JunheeRouters/>
                   <SuminRouters />
                   <JMRouters />
+                  <YejiRouters/>
                 </AppBodyContainer>
             </BrowserRouter>
           </PopupContextProvider>
