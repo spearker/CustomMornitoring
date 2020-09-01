@@ -114,8 +114,8 @@ const DefectiveContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
-    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
-
+   // const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+    // 이부분 라이브러리 import 가 안되어있어서 우선 주석처리함 왜??
     const indexList = {
         defective: {
             pk: 'PK',
@@ -259,15 +259,19 @@ const DefectiveContainer = () => {
                             </CapacityContainer>
                         </div>
                         <GraphContainer>
-                            <div>
-                                <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
-                                    <div style={{alignSelf:"center"}}>
-                                        <p>공정 04 불량률</p>
+                            {
+                                /** 이부분 라이브러리 import 가 안되어있어서 우선 주석처리함 왜??
+                                  <div>
+                                        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
+                                            <div style={{alignSelf:"center"}}>
+                                                <p>공정 04 불량률</p>
+                                            </div>
+                                            <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                                        </div>
+                                        <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
                                     </div>
-                                    <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
-                                </div>
-                                <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
-                            </div>
+                                 */
+                            }
                         </GraphContainer>
                     </div>
                     :

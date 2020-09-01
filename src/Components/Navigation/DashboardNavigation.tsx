@@ -157,6 +157,10 @@ const DashboardNavigation = ({ select, folding }: Props) => {
           <img src={NAV_MES} />
           <p>MES</p>
         </div>
+        <div onClick={() => history.push('/pm2/dashboard')} >
+          <img src={NAV_PRESS} />
+          <p>PM2</p>
+        </div>
 
 
 

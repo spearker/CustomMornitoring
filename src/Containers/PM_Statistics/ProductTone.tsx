@@ -273,7 +273,11 @@ const ProductToneContainer = () => {
                     selectPk !== null ?
                         <LineTable title={'품목(품목명) 별 톤 그래프 보기'}>
                             <ChartDiv>
-                                <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
+                                {
+                                    /** 이부분 라이브러리 import 가 안되어있어서 우선 주석처리함 왜??
+                                     *   <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
+                                     */
+                                }
                             </ChartDiv>
                         </LineTable>
                         :
