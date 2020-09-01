@@ -65,7 +65,7 @@ const Signup = () => {
       company_code: code,
       auth_code: auth,
     }
-    const results = await postRequestWithNoToken('http://211.208.115.66:8299/user/register', data)
+    const results = await postRequestWithNoToken('http://192.168.0.14:8290/user/register', data)
 
     if(results === false){
       //TODO: 에러 처리

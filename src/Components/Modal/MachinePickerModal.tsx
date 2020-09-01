@@ -243,7 +243,8 @@ const InnerBoxWrap = Styled.button`
     height: 14px;
     }
 `
-            
+
+
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;

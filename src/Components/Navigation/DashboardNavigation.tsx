@@ -62,7 +62,7 @@ const DashboardNavigation = ({ select, folding }: Props) => {
             type: 'CHANGE_MODE',
             data: {
               mode: 'pm',
-              
+
             }
           })}
           selected={isSelected === i  || select == v ? true : false} contents={PM_MENU_LIST[v]} />
@@ -89,7 +89,7 @@ const DashboardNavigation = ({ select, folding }: Props) => {
             type: 'CHANGE_MODE',
             data: {
               mode: 'mes',
-              
+
             }
           })}
           selected={isSelected === i  || select == v ? true : false} contents={MES_MENU_LIST[v]} />
@@ -124,7 +124,7 @@ const DashboardNavigation = ({ select, folding }: Props) => {
 
   return (
     <>
-      
+
       <NavDivLeft>
         <div onClick={() => {
           dispatchp({
@@ -157,10 +157,10 @@ const DashboardNavigation = ({ select, folding }: Props) => {
           <img src={NAV_MES} />
           <p>MES</p>
         </div>
-        <div onClick={() => history.push('/pm2/dashboard')} >
-          <img src={NAV_PRESS} />
-          <p>PM2</p>
-        </div>
+        {/*<div onClick={() => history.push('/pm2/dashboard')} >*/}
+        {/*  <img src={NAV_PRESS} />*/}
+        {/*  <p>PM2</p>*/}
+        {/*</div>*/}
 
 
 
@@ -175,21 +175,21 @@ const DashboardNavigation = ({ select, folding }: Props) => {
           </div>
         }
 
-  
+
         <div >
           { nav.mode === 'pm' && PmNavGroup }
           { nav.mode === 'mes' && MesNavGroup }
-          
+
 
           <p style={{ fontSize: 12,paddingLeft: 27, color: 'gray', paddingBottom: 120, paddingTop: 30 }}>
             Copyright© 2020 Zestech <br />
             All Rights Reserved.
                   </p>
         </div>
-    
+
       </NavDiv>
     }
-     
+
 
     </>
 

@@ -50,7 +50,7 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
     if(pk === null){
       return;
     }
-    const res = await getRequest('http://211.208.115.66:8299/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8299/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

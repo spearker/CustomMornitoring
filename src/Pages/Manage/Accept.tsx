@@ -32,7 +32,7 @@ const AcceptMember = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getList = useCallback(async ()=> {
-    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/load/temp', getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8299/api/v1/member/load/temp', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -57,7 +57,7 @@ const AcceptMember = () => {
   const onClickAccept = useCallback(async(id)=>{
 
     console.log('--select id : ' + id)
-    const results = await postRequest('http://211.208.115.66:8299/api/v1/member/accept', {user_pk:id} ,getToken(TOKEN_NAME))
+    const results = await postRequest('http://192.168.0.14:8299/api/v1/member/accept', {user_pk:id} ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('승인 실패하였습니다. 관리자에게 문의하세요.')

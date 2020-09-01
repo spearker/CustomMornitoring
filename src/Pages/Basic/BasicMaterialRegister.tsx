@@ -71,7 +71,7 @@ const BasicMaterialRegister = () => {
 
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://211.208.115.66:8299/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8299/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -113,7 +113,7 @@ const BasicMaterialRegister = () => {
       material_spec: inputData.material_spec,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://211.208.115.66:8299/api/v1/material/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.14:8299/api/v1/material/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -144,7 +144,7 @@ const BasicMaterialRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://211.208.115.66:8299/api/v1/material/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.14:8299/api/v1/material/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -181,7 +181,7 @@ const BasicMaterialRegister = () => {
                       onChangeEvent={(input)=>setInputData(`location`, input)}
                       solo={true}
                       list={inputData.location}
-                      searchUrl={'http://211.208.115.66:8299/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://192.168.0.14:8299/api/v1/factory/search?option=0&'}
                 />
 
                 <NormalNumberInput title={'안전 재고'}  value={inputData.safe_stock} onChangeEvent={(input)=>setInputData(`safe_stock`, input)} description={''}/>
@@ -195,13 +195,13 @@ const BasicMaterialRegister = () => {
                       onChangeEvent={(input)=>setInputData(`using_mold`, input)}
                       solo={true}
                       list={inputData.using_mold}
-                      searchUrl={'http://211.208.115.66:8299/api/v1/mold/search?option=0&'}
+                      searchUrl={'http://192.168.0.14:8299/api/v1/mold/search?option=0&'}
                 />
 
                 <br/>
                 <DocumentFormatInputList
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://211.208.115.66:8299/api/v1/material/load?pk=${pk}` :''}
+                  loadDataUrl={isUpdate? `http://192.168.0.14:8299/api/v1/material/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 

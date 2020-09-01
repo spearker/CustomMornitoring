@@ -11,7 +11,6 @@ import * as _ from 'lodash';
  * @author 준희
  */
 export const postProcessRegister = async( url: string, bodyData: object) =>{
-
     const temp: IServerData = await client.get(url, bodyData);
     return temp
 }
@@ -39,7 +38,7 @@ export const API_URLS = {
         delete: `/process/delete`,
     },
     machine: {
-        search: `/machine/search`
+        list: `/machine/search`
     }
 
 }

@@ -79,10 +79,12 @@ const PressMonitoring = () => {
      setList(data);
      //alert(data.info_list);
      console.log(data.info_list)
-     const arr = data[0].info_list.map((v, i)=>{
-      return( v['title'] )
-     })
-     setOptionList(arr)
+      if(data.info_list) {
+          const arr = data[0].info_list!.map((v, i) => {
+              return (v['title'])
+          })
+          setOptionList(arr)
+      }
   },[list, optionList]);
 
     useEffect(()=>{

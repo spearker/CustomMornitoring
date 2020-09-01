@@ -191,10 +191,6 @@ const ButtonWrap = Styled.button`
     }
 `
 
-const ProcessAddButton = Styled.button`
-    
-`
-        
 const InputText = Styled.p`
     color: #b3b3b3;
     font-size: 15px;

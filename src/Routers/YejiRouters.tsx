@@ -12,8 +12,8 @@ import WorkProduction from "../Pages/Project/Worker";
 import VoucherProduction from "../Pages/Project/Voucher";
 import OrderBusiness from "../Pages/Marketing/Order";
 import ShipmentBusiness from "../Pages/Marketing/Shipment";
-import ProcessList from '../Pages/ProcessManagement/ProcessList';
-import StockList from '../Pages/InventoryManagement/StockList';
+import ProcessList from '../Pages/Process/ProcessList';
+import StockList from '../Pages/Stock/StockList';
 // import ProcessList from '../Pages/ProcessManagement/ProcessList';
 
 const  YejiRouters = () => {

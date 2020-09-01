@@ -46,7 +46,7 @@ const BasicDocumentList = () => {
    */
   const getList = useCallback(async ()=>{
 
-    const results = await getRequest('http://211.208.115.66:8299/api/v1/document/list', getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8299/api/v1/document/list', getToken(TOKEN_NAME))
 
 
     if(results === false){
@@ -73,7 +73,7 @@ const BasicDocumentList = () => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://211.208.115.66:8299/api/v1/document/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://192.168.0.14:8299/api/v1/document/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id;
     //console.log('--select id : ' + id)
     if(results === false){

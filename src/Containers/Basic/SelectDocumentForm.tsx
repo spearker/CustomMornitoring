@@ -33,7 +33,7 @@ const SelectDocumentForm = ({category, onChangeEvent}:Props) => {
 
   const getDocumentData = useCallback(async()=>{
 
-    const res = await getRequest('http://211.208.115.66:8299/api/v1/document/form/list?category=' + category, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8299/api/v1/document/form/list?category=' + category, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

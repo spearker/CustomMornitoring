@@ -72,7 +72,7 @@ const MoldMaintenanceContainer = () => {
   useEffect(()=>{
     getList()
     setIndex(indexList["mold"])
-  },[getData, index, getList, indexList])
+  },[])
 
   return (
       <OvertonTable

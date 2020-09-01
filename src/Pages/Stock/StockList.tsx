@@ -3,17 +3,17 @@ import {MES_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
-import ProcessListContainer from "../../Containers/ProcessManagement/ProcessList";
+import StockListContainer from "../../Containers/Stock/StockListContainer";
 
-const ProcessList = () => {
+const StockList = () => {
     return (
-        <DashboardWrapContainer index={'process'}>
-            <SubNavigation list={MES_MENU_LIST.process}/>
+        <DashboardWrapContainer index={'stock'}>
+            <SubNavigation list={MES_MENU_LIST.stock}/>
             <InnerBodyContainer>
-                <ProcessListContainer/>
+                <StockListContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default ProcessList
+export default StockList

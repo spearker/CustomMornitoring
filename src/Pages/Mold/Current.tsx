@@ -3,18 +3,17 @@ import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {MES_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import CurrentContainer from "../../Containers/Mold/Current";
+import MoldRegisterContainer from "../../Containers/Mold/MoldRegister";
 
-
-const MoldCurrent = () => {
+const MoldRegister = () => {
     return (
         <DashboardWrapContainer index={'mold'}>
             <SubNavigation list={MES_MENU_LIST.mold}/>
             <InnerBodyContainer>
-                <CurrentContainer/>
+                <MoldRegisterContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default MoldCurrent
+export default MoldRegister

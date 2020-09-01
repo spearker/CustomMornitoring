@@ -10,7 +10,7 @@ import WelcomeInput from '../../Components/Input/WelcomeInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import { useTranslation } from 'react-i18next';
 
-// 회원가입을 위한 이메일 입력 페이지 
+// 회원가입을 위한 이메일 입력 페이지
 
 const Email = () => {
 
@@ -44,7 +44,7 @@ const Email = () => {
       base_url: subDomain
     }
 
-    const results = await postRequestWithNoToken('http://61.101.55.224:8090/email/send', data)
+    const results = await postRequestWithNoToken('http://192.168.0.14:8290/email/send', data)
     console.log(results)
     if(results === false){
       //TODO: 에러 처리
@@ -62,7 +62,7 @@ const Email = () => {
   },[email, check, error, subDomain])
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -76,7 +76,7 @@ const Email = () => {
                 <label htmlFor="cb"></label>
               </div>
               <div>
-                <span style={{paddingLeft:7,fontSize:14}}>{t('checkRules')}</span> 
+                <span style={{paddingLeft:7,fontSize:14}}>{t('checkRules')}</span>
               </div>
             </div>
             <div style={{textAlign:'center',marginTop:52}}>
@@ -84,7 +84,7 @@ const Email = () => {
             </div>
           </div>
         </WelcomeContainer>
-      
+
   );
 }
 

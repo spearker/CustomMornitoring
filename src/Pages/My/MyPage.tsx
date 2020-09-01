@@ -55,7 +55,7 @@ const MyPage = () => {
   const loadUserInfo = async () => {
 
 
-    const results = await getRequest( 'http://211.208.115.66:8299/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest( 'http://192.168.0.14:8299/api/v1/user/load', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
@@ -138,7 +138,7 @@ const MyPage = () => {
   const getTarget = useCallback(async()=> {
 
     console.log(User.email)
-    const results = await getRequest('http://211.208.115.66:8299/api/v1/member/view?pk=' + encodeURIComponent(User.email) , getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8299/api/v1/member/view?pk=' + encodeURIComponent(User.email) , getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리

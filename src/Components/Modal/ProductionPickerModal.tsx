@@ -9,7 +9,6 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import {getItemSearch, API_URLS} from "../../Api/mes/manageStock";
 
-
 //드롭다운 컴포넌트
 
 interface IProps{
@@ -82,7 +81,6 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
                             select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {itemName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
-                      
                     </div>
                     <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>

@@ -39,7 +39,7 @@ const Login = () => {
       email: email,
       password: password,
     }
-    const results = await postRequestWithNoToken('http://211.208.115.66:8299/user/login', data)
+    const results = await postRequestWithNoToken('http://192.168.0.14:8299/user/login', data)
 
     if(results === false){
       //TODO: 에러 처리
