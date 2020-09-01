@@ -18,109 +18,94 @@ import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
-import FactoryBox from "../../Components/Box/FactoryBox";
-import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 
 
 
-const ScheduleContainer = () => {
+const WipContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({manager_name:'계획자명'});
+    const [index, setIndex] = useState({ item_pk: '품목'});
+    const [subIndex, setSubIndex] = useState({ writer: '작성자' })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
 
     const indexList = {
-        schedule: {
-            manager_name: '계획자',
-            material_name: '품목(품목명)',
-            schedule: '일정',
-            supplier_name: '납품 업체',
-            amount: '총 수량',
-            state: '현황'
+        wip: {
+            item_pk: '품목(품목명)',
+            materials_type: '자재 종류',
+            stock_type: '재고 분류',
+            stock_quantity: '재고량',
+            storage_location: '보관장소',
+            safety_stock: '안전재고'
         }
+    }
+
+
+    const detailTitle = {
+        wip: {
+            writer: '작성자',
+            sortation:'구분' ,
+            stock_quantity:'수량',
+            before_quantity:'변경전 재고량',
+            date:'날짜',
+        },
     }
 
     const dummy = [
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            item_pk: '품목00',
+            materials_type: '완제품',
+            stock_type: '재공재고',
+            stock_quantity: '1,000,000',
+            storage_location: '창고01',
+            safety_stock: '9,999,999'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            item_pk: '품목00',
+            materials_type: '반제품',
+            stock_type: '재공재고',
+            stock_quantity: '1,000,000',
+            storage_location: '창고01',
+            safety_stock: '9,999,999'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            item_pk: '품목00',
+            materials_type: '',
+            stock_type: '재공재고',
+            stock_quantity: '1,000,000',
+            storage_location: '창고01',
+            safety_stock: '9,999,999'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            item_pk: '품목00',
+            materials_type: '자재 종류',
+            stock_type: '재공재고',
+            stock_quantity: '1,000,000',
+            storage_location: '창고01',
+            safety_stock: '9,999,999'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
-        },
-    ]
-
-    const titleeventdummy = [
-        {
-            Name: '등록하기',
-            Width: 90,
-        },
-        {
-            Name: '취소',
-        }
-    ]
-
-    const detailTitle = {
-        schedule: {
-            part_name: '부품명',
-            repair_content: '수리 내용',
-            repair_status: '수리 상태',
-            complete_date: '완료 날짜',
-        },
-    }
-
-    const eventdummy = [
-        {
-            Name: '삭제',
-            Width: 60,
-            Color: 'white'
+            item_pk: '품목00',
+            materials_type: '자재 종류',
+            stock_type: '재공재고',
+            stock_quantity: '1,000,000',
+            storage_location: '창고01',
+            safety_stock: '9,999,999'
         },
     ]
 
     const detaildummy = [
         {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
+            writer: '김담당',
+            sortation:'정상 입고' ,
+            stock_quantity:'9,999,999,999',
+            before_quantity:'9,999,999,999',
+            date:'2020.08.09',
+        },
     ]
 
     const onClick = useCallback((mold) => {
@@ -140,6 +125,29 @@ const ScheduleContainer = () => {
 
 
     }, [list, selectPk]);
+
+    const eventdummy = [
+        {
+            Name: '입고',
+            Width: 60,
+            Color: 'white'
+        },
+        {
+            Name: '출고',
+            Width: 60,
+            Color: 'white'
+        },
+    ]
+
+    const titleeventdummy = [
+        {
+            Name: '등록하기',
+            Width: 90,
+        },
+        {
+            Name: '삭제',
+        }
+    ]
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
@@ -161,37 +169,33 @@ const ScheduleContainer = () => {
 
     useEffect(()=>{
         // getList()
-        setIndex(indexList["schedule"])
+        setIndex(indexList["wip"])
         setList(dummy)
-        setTitleEventList(titleeventdummy)
-        setEventList(eventdummy)
         setDetailList(detaildummy)
+        setEventList(eventdummy)
+        setTitleEventList(titleeventdummy)
+        setSubIndex(detailTitle['wip'])
     },[])
 
     return (
         <div>
             <OvertonTable
-                title={'생산 계획 리스트'}
+                title={'재공재고 관리'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
                 indexList={index}
                 valueList={list}
-                clickValue={selectValue}
                 EventList={eventList}
                 checkBox={true}
+                clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                    <LineTable title={'대한민국_품목 01'} >
-                        <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
-                            <FactoryBox title={'공정 A'}/>
-                        </VoucherDropdown>
-                        <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
-
-                        </VoucherDropdown>
-                    </LineTable>
-                    :
-                    null
+                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                            <Line/>
+                        </LineTable>
+                        :
+                        null
                 }
             </OvertonTable>
         </div>
@@ -205,4 +209,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default ScheduleContainer
+export default WipContainer

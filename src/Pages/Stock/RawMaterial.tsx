@@ -1,20 +1,20 @@
+
 import React from "react";
 import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {MES_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import BarcodeListContainer from "../../Containers/Barcode/Barcode";
+import RawMaterialContainer from "../../Containers/Stock/RawMaterial";
 
-const BarcodeList = () => {
+const StockRawMaterial = () => {
     return (
-        <DashboardWrapContainer index={'barcode'}>
-            <SubNavigation list={MES_MENU_LIST.barcode}/>
+        <DashboardWrapContainer index={'stock'}>
+            <SubNavigation list={MES_MENU_LIST.stock}/>
             <InnerBodyContainer>
-                <BarcodeListContainer/>
+                <RawMaterialContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default BarcodeList
-
+export default StockRawMaterial

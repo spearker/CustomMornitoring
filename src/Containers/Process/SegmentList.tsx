@@ -18,73 +18,65 @@ import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
-import FactoryBox from "../../Components/Box/FactoryBox";
-import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 
 
 
-const ScheduleContainer = () => {
+const SegmentListContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({manager_name:'계획자명'});
+    const [index, setIndex] = useState({ process_name: '프로세스 명'});
+    const [subIndex, setSubIndex] = useState({order: '공정 순서'})
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
 
     const indexList = {
-        schedule: {
-            manager_name: '계획자',
-            material_name: '품목(품목명)',
-            schedule: '일정',
-            supplier_name: '납품 업체',
-            amount: '총 수량',
-            state: '현황'
+        segment: {
+            process_name: '프로세스 명',
+            material_name: '(품목)품목명',
+            status: '현황/상태'
         }
+    }
+
+
+    const detailTitle = {
+        segment: {
+            order:'공정 순서',
+            type: '공정 타입',
+            detail_order: '상세 공정 순',
+            machine_name: '기계명',
+            recommend_spm: '권장 SPM',
+        },
     }
 
     const dummy = [
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            process_name: '프로세스명 01',
+            material_name: '(품목)품목명',
+            status: '진행중'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            process_name: '라인',
+            material_name: '(품목)품목명',
+            status: 'Off'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            process_name: '검수',
+            material_name: '(품목)품목명',
+            status: '에러'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            process_name: '라인',
+            material_name: '(품목)품목명',
+            status: '상태'
         },
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
+            process_name: '라인',
+            material_name: '(품목)품목명',
+            status: '상태'
         },
     ]
 
@@ -94,32 +86,32 @@ const ScheduleContainer = () => {
             Width: 90,
         },
         {
-            Name: '취소',
+            Name: '삭제',
         }
     ]
 
-    const detailTitle = {
-        schedule: {
-            part_name: '부품명',
-            repair_content: '수리 내용',
-            repair_status: '수리 상태',
-            complete_date: '완료 날짜',
-        },
-    }
-
-    const eventdummy = [
-        {
-            Name: '삭제',
-            Width: 60,
-            Color: 'white'
-        },
-    ]
 
     const detaildummy = [
         {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
+            order:'1차',
+            type: '라인',
+            detail_order: ['라인 1차','라인 2차','라인 3차'],
+            machine_name: ['기계명 01','기계명 02','기계명 03'],
+            recommend_spm: ['100','100','100'],
+        },
+        {
+            order:'2차',
+            type: '단발',
+            detail_order: '',
+            machine_name: '기계명 00',
+            recommend_spm: '100',
+        },
+        {
+            order:'3차',
+            type: '검수',
+            detail_order: ['라인 1차','라인 2차','라인 3차'],
+            machine_name: ['기계명 01','기계명 02','기계명 03'],
+            recommend_spm: ['100','100','100'],
         }
     ]
 
@@ -161,37 +153,31 @@ const ScheduleContainer = () => {
 
     useEffect(()=>{
         // getList()
-        setIndex(indexList["schedule"])
+        setIndex(indexList["segment"])
         setList(dummy)
         setTitleEventList(titleeventdummy)
-        setEventList(eventdummy)
         setDetailList(detaildummy)
+        setSubIndex(detailTitle['segment'])
     },[])
 
     return (
         <div>
             <OvertonTable
-                title={'생산 계획 리스트'}
-                titleOnClickEvent={titleEventList}
+                title={'프로세스 리스트(공정별 세분화)'}
                 allCheckbox={true}
+                titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                EventList={eventList}
                 checkBox={true}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                    <LineTable title={'대한민국_품목 01'} >
-                        <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
-                            <FactoryBox title={'공정 A'}/>
-                        </VoucherDropdown>
-                        <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
-
-                        </VoucherDropdown>
-                    </LineTable>
-                    :
-                    null
+                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>
+                            <Line/>
+                        </LineTable>
+                        :
+                        null
                 }
             </OvertonTable>
         </div>
@@ -205,4 +191,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default ScheduleContainer
+export default SegmentListContainer;

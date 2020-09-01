@@ -39,7 +39,7 @@ interface IInfo {
 }
 
 // 재고 변경 페이지(출고)
-const ChangeOut = () => {
+const Old_ChangeOut = () => {
 
   const [pk, setPk] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -313,4 +313,4 @@ const ChangeOut = () => {
 
   );
 }
-export default ChangeOut;
+export default Old_ChangeOut;

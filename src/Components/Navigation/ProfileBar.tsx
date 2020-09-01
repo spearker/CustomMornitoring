@@ -84,7 +84,7 @@ const ProfileBar = ({title}: Props) => {
                   */}
                   <div style={{textAlign:'right', marginLeft:'auto', width:'70%' }}>
            
-                    <a className="p-eng" style={{float:'right',marginTop: 2}}onClick={onClickLogout}>
+                    <a className="p-eng" style={{float:'right',marginTop: 2}} onClick={onClickLogout}>
                       Log out
                     </a>
                     

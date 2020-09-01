@@ -22,7 +22,7 @@ import { useHistory } from 'react-router-dom'
 import DatePickerBox from '../../Components/Box/DatePickerBox';
 
 //특정 재고의 불량 변동 이력
-const DefectiveList = () => {
+const Old_DefectiveList = () => {
   const history = useHistory();
 
   const [list, setList] = useState<IMaterial[]>([]);
@@ -81,4 +81,4 @@ const DefectiveList = () => {
 
 
 
-export default DefectiveList;
+export default Old_DefectiveList;

@@ -11,8 +11,8 @@ import { changeStatusToString } from '../../Common/statusFunctions';
 
 // 장비 현황 썸네일 카드
 const StatusCard2 = ({target}) => {
-  
-  
+
+
   const getColor = (status) => {
       if(status === 'active'){
           return '#25b4b4'
@@ -25,31 +25,31 @@ const StatusCard2 = ({target}) => {
       }else{
         return '#717c90'
       }
-      return 
+      return
   }
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <CardWrap>
         <div style={{color:'white',backgroundColor: `${getColor(target.status)}` ,borderRadius:4, textAlign:'left', fontSize:15, padding:'7px 13px 4px 13px', }}>
-         
+
           <img src={target.is_connect ? icCloudOn : icCloudOff} style={{width:24}} />
           <img className="rotating" src={target.status === 'active' ? icCircleRotate : icCircle} style={{width:17, marginTop: 4, float:'right'}} />
         </div>
         <div style={{marginTop:'-2px'}}>
-          
+
           <ImageBox src={target.photo === "" ? tempIamge : target.photo}/>
-          
+
           <div >
             <p className="p-bold p-limit" style={{fontSize:16,marginBottom:8}}>{target.name}</p>
-   
+
           </div>
           </div>
-        
-    </CardWrap>  
+
+    </CardWrap>
   );
 }
 
@@ -76,7 +76,7 @@ const CardWrap = Styled.div`
   width: 100%;
   max-width: 152px;
   background-color: white;
-  &:first-child{
+  &:dafirst-child{
     margin-left: 20px;
   }
   &:last-child{

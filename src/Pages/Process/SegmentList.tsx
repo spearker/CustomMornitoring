@@ -3,18 +3,17 @@ import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {MES_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import BarcodeListContainer from "../../Containers/Barcode/Barcode";
+import SegmentListContainer from "../../Containers/Process/SegmentList";
 
-const BarcodeList = () => {
+const SegmentList = () => {
     return (
-        <DashboardWrapContainer index={'barcode'}>
-            <SubNavigation list={MES_MENU_LIST.barcode}/>
+        <DashboardWrapContainer index={'process'}>
+            <SubNavigation list={MES_MENU_LIST.process}/>
             <InnerBodyContainer>
-                <BarcodeListContainer/>
+                <SegmentListContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default BarcodeList
-
+export default SegmentList

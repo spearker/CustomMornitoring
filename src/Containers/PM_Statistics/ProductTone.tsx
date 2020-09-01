@@ -13,13 +13,13 @@ import InnerBodyContainer from "../InnerBodyContainer";
 import Header from "../../Components/Text/Header";
 import ReactShadowScroll from "react-shadow-scroll";
 import OvertonTable from "../../Components/Table/OvertonTable";
+import ReactApexChart from "react-apexcharts";
 import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
-import ReactApexChart from "react-apexcharts";
 
 const ChartInitOptions = {
     chart: {

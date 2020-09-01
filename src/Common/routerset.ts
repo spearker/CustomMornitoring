@@ -159,9 +159,10 @@ export const MES_MENU_LIST = {
     { name : '외주 수주 관리', url : '/outsourcing/contract/list'},
     { name : '외주 현황', url : '/outsourcing/list'},
   ],
-  project: [
+  project: [ //생산관리
     { name : '생산 관리' , url: '/project/schedule/list'}, //상위메뉴
-    { name : '생산 계획 관리 리스트', url: '/project/schedule/list'},
+    { name : '생산 계획 리스트', url: '/project/schedule/list'},
+    { name : '생산 계획 관리 리스트', url: '/project/schedulemanage/list'},
     { name : '작업 이력', url: '/project/work/history'},
     { name : '전표 리스트', url: '/project/voucher/list'},
   ],
@@ -169,6 +170,30 @@ export const MES_MENU_LIST = {
     { name : '영업 관리', url: '/marketing/order/list'},
     { name : '수주 리스트', url: '/marketing/order/list'},
     { name : '출하 리스트', url: '/marketing/shipment/list'},
+  ],
+  process: [
+    { name : '공정 관리', url: '/process/segment/lsit'},
+    { name : '공정별 세분화 리스트', url: '/process/segment/list'}
+  ],
+  barcode: [
+    { name : '바코드 관리', url: '/barcode/current/list'},
+    { name : '바코드 현황', url: '/barcode/current/list'}
+  ],
+  quality: [
+    { name : '품질 관리', url: '/quality/quality/list'},
+    { name : '제품 품질 현황', url: '/quality/current/list'}
+  ],
+  stock: [
+    { name : '재고 관리', url:'/stock/wip/list'},
+    { name : '재공재고 관리', url:'/stock/wip/list'},
+    { name : '외주 재고 관리', url:'/stock/outsource/list'},
+    { name : '원자재 관리', url: '/stock/rawmaterial/list'},
+    { name : '완제품 관리', url: '/stock/finishmaterial/list'}
+  ],
+  mold: [
+    { name : '금형 관리', url: '/mold/current/list'},
+    { name : '금형 수리 현황', url: '/mold/current/list'},
+    { name : '금형 수리 완료', url: '/mold/repair/list'}
   ]
 }
 

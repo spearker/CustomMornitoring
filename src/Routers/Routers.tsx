@@ -33,7 +33,7 @@ import RegisterLine from '../Pages/Register/Line';
 import RegisterMaterial from '../Pages/Register/Material';
 import RegisterDesign from '../Pages/Register/Design'
 import RegisterProcess from '../Pages/Register/Process'
-import RegisterBarcode from '../Pages/Barcode/ProductRegister'
+import RegisterBarcode from '../Pages/Barcode/Old_ProductRegister'
 import RegisterClient from '../Pages/Client/Register'
 
 // 데이터조회
@@ -42,12 +42,12 @@ import MachineList from '../Pages/List/Machine';
 import SubList from '../Pages/List/SubMachine';
 import LineList from '../Pages/List/Line';
 import MaterialList from '../Pages/List/Material';
-import MaterialStock from '../Pages/Stock/Material';
-import ProductStock from '../Pages/Stock/Product';
+import MaterialStock from '../Pages/Stock/Old_Material';
+import ProductStock from '../Pages/Stock/Old_Product';
 import ProcessList from '../Pages/List/Process';
 import ClientList from '../Pages/Client/List';
-import BarcodeList from '../Pages/Barcode/List';
-import BarcodeSetting from '../Pages/Barcode/Setting';
+import BarcodeList from '../Pages/Barcode/Old_List';
+import BarcodeSetting from '../Pages/Barcode/Old_Setting';
 
 // 어드민, 데이터 등록 관련
 import SuperRegister from '../Pages/Super/Register';
@@ -67,8 +67,8 @@ import Ranks from '../Pages/Manage/Ranks'
 import Teams from '../Pages/Manage/Teams'
 import BuyList from '../Pages/Client/Buy';
 import SellList from '../Pages/Client/Sell';
-import ChangeStockIn from '../Pages/Stock/ChangeIn'
-import ChangeStockOut from '../Pages/Stock/ChangeOut'
+import ChangeStockIn from '../Pages/Stock/Old_ChangeIn'
+import ChangeStockOut from '../Pages/Stock/Old_ChangeOut'
 import RegisterInferior from  '../Pages/Quality/Register';
 /*
 import OutsourcingList from '../Pages/Outsourcing/List';
@@ -76,24 +76,24 @@ import OutsourcingRegister from '../Pages/Outsourcing/Register';
 import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 */
-import BarcodeProductList from '../Pages/Barcode/ProductList'
-import ProductRegister from '../Pages/Barcode/ProductRegister';
+import BarcodeProductList from '../Pages/Barcode/Old_ProductList'
+import Old_ProductRegister from '../Pages/Barcode/Old_ProductRegister';
 
 //import MaintenanceRegister from '../Pages/Maintenance/Register';
-import StockView from '../Pages/Stock/View'
+import StockView from '../Pages/Stock/Old_View'
 
 import PressRecommend from '../Pages/Process/Press';
-import StockList from '../Pages/Stock/List';
-import ProductStockList from '../Pages/Stock/Product';
-import StockInList from '../Pages/Stock/In';
-import StockOutList from '../Pages/Stock/Out'
-import DefectiveList from '../Pages/Quality/DefectiveList'
+import StockList from '../Pages/Stock/Old_List';
+import ProductStockList from '../Pages/Stock/Old_Product';
+import StockInList from '../Pages/Stock/Old_In';
+import StockOutList from '../Pages/Stock/Old_Out'
+import Old_DefectiveList from '../Pages/Quality/Old_DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
 import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory';
 
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Basic/BasicBarcodeRegister';
-import StockHistory from '../Pages/Stock/History';
+import StockHistory from '../Pages/Stock/Old_History';
 import ProductKpi from '../Pages/Kpi/ProductKpi';
 import QualityKpi from '../Pages/Kpi/QualityKpi';
 import PriceKpi from '../Pages/Kpi/PriceKpi';
@@ -271,8 +271,8 @@ const Routers = () => {
         */}
                 {/* 6.0 바코드 관리 */}
                 <Route exact path="/list/barcode/product" component={BarcodeProductList}/>
-                <Route exact path="/connect/barcode" component={ProductRegister}/>
-                <Route exact path="/connect/barcode/update" component={ProductRegister}/>
+                <Route exact path="/connect/barcode" component={Old_ProductRegister}/>
+                <Route exact path="/connect/barcode/update" component={Old_ProductRegister}/>
                 <Route exact path="/barcode/register" component={RegisterBarcode}/>
 
                 {/* 7.0 보전 관리 */}
@@ -319,7 +319,7 @@ const Routers = () => {
 
                 {/* 11.0 품질관리 */}
                 <Route exact path="/defective/register" component={DefectiveRegister} />
-                <Route exact path="/defective/list" component={DefectiveList} />
+                <Route exact path="/defective/list" component={Old_DefectiveList} />
                 <Route exact path="/inferior/register" component={RegisterInferior}/>
 
 

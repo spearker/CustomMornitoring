@@ -3,18 +3,17 @@ import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {MES_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import BarcodeListContainer from "../../Containers/Barcode/Barcode";
+import WipContainer from "../../Containers/Stock/Wip";
 
-const BarcodeList = () => {
+const StockWip = () => {
     return (
-        <DashboardWrapContainer index={'barcode'}>
-            <SubNavigation list={MES_MENU_LIST.barcode}/>
+        <DashboardWrapContainer index={'stock'}>
+            <SubNavigation list={MES_MENU_LIST.stock}/>
             <InnerBodyContainer>
-                <BarcodeListContainer/>
+                <WipContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default BarcodeList
-
+export default StockWip

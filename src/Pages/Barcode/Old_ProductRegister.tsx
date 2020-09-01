@@ -37,7 +37,7 @@ interface IInfo {
 
 // 바코드- 상품 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const ProductRegister = () => {
+const Old_ProductRegister = () => {
 
   const [pk, setPk] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -450,4 +450,4 @@ const ProductRegister = () => {
 }
 
 
-export default ProductRegister;
+export default Old_ProductRegister;
