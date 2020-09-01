@@ -208,7 +208,6 @@ const Routers = () => {
 
                 <Route exact path="/basic/list/:id" component={BasicListPage}/>
 
-
                 <Route exact path="/basic/item/register" component={BasicStandardRegister}/>
 
                 <Route exact path="/basic/document/register" component={BasicDocumentRegister}/>
@@ -263,17 +262,18 @@ const Routers = () => {
                 <Route exact path="/list/client" component={ClientList} />
 
                 {/* 5.0 외주관리
-            <Route exact path="/update/outsourcing" component={OutsourcingRegister}/>
-            <Route exact path="/register/outsourcing" component={OutsourcingRegister}/>
-            <Route exact path="/outsourcing/list" component={OutsourcingList}/>
-            <Route exact path="/outsourcing/order" component={Order}/>
-            <Route exact path="/outsourcing/contract" component={Contract}/>
-        */}
+                <Route exact path="/update/outsourcing" component={OutsourcingRegister}/>
+                <Route exact path="/register/outsourcing" component={OutsourcingRegister}/>
+                <Route exact path="/outsourcing/list" component={OutsourcingList}/>
+                <Route exact path="/outsourcing/order" component={Order}/>
+                <Route exact path="/outsourcing/contract" component={Contract}/>
+                */}
+
                 {/* 6.0 바코드 관리 */}
-                <Route exact path="/list/barcode/product" component={BarcodeProductList}/>
-                <Route exact path="/connect/barcode" component={Old_ProductRegister}/>
-                <Route exact path="/connect/barcode/update" component={Old_ProductRegister}/>
-                <Route exact path="/barcode/register" component={RegisterBarcode}/>
+                {/*<Route exact path="/list/barcode/product" component={BarcodeProductList}/>*/}
+                {/*<Route exact path="/connect/barcode" component={ProductRegister}/>*/}
+                {/*<Route exact path="/connect/barcode/update" component={ProductRegister}/>*/}
+                {/*<Route exact path="/barcode/register" component={RegisterBarcode}/>*/}
 
                 {/* 7.0 보전 관리 */}
                 <Route exact path="/pm/maintenance/press" component={MachineMaintenance} />

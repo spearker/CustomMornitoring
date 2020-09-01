@@ -11,9 +11,9 @@ interface IProps{
     onClickEvent: any
     contents: any,
     text: string
-    customStyle? : any
+    type: 'string' | 'number'
 }
-const RegisterDropdown = ({select, contents, onClickEvent, text, customStyle}: IProps) => {
+const RegisterDropdown = ({select, contents, onClickEvent, text, type}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +52,6 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, customStyle}: I
                                     select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select}</p>
                                         : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                                 }
-
                             </div>
                             <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
                                 <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
@@ -65,7 +64,11 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, customStyle}: I
                                         <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50'}}>
                                             <div style={{display:'inline-block', width: 885, paddingLeft: 5}}>
                                                 <p style={{margin:0}} key={i} onClick={()=>{
-                                                    onClickEvent(i);
+                                                    if(type === "number"){
+                                                        onClickEvent(i);
+                                                    }else{
+                                                        onClickEvent(v)
+                                                    }
                                                     setIsOpen(false)
                                                 }}>{v}</p>
                                             </div>

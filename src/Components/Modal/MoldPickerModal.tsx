@@ -25,58 +25,10 @@ const DummyMachine = [
         machine_type: "프레스",
         manufacturer: "-",
         manufacturer_code: '123-456-789'
-    },{
-        pk: "pk2",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk3",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk4",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk5",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk6",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk7",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk8",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
+    }
 ]
 
-const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
+const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
@@ -97,6 +49,7 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
     useEffect(() => {
         console.log(searchName)
     },[searchName])
+
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
@@ -141,9 +94,9 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 금형 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
@@ -153,9 +106,9 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 195}}>기계명</th>
-                                        <th style={{width: 195}}>기계 종류</th>
-                                        <th style={{width: 225}}>제조사</th>
-                                        <th style={{width: 225}}>제조번호</th>
+                                        <th style={{width: 195}}>타입</th>
+                                        <th style={{width: 225}}>보관 위치</th>
+                                        <th style={{width: 225}}>바코드 번호</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
@@ -243,7 +196,7 @@ const InnerBoxWrap = Styled.button`
     height: 14px;
     }
 `
-            
+
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
@@ -305,4 +258,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default MachinePickerModal;
+export default MoldPickerModal;

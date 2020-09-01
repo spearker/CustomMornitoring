@@ -2,13 +2,13 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
 import useOnclickOutside from 'react-cool-onclickoutside';
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
+import IcSearchButton from "../../Assets/Images/ic_search.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
-import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getSearchMachine, postProcessRegister} from "../../Api/mes/process";
+import {getItemSearch, API_URLS} from "../../Api/mes/manageStock";
+
 
 //드롭다운 컴포넌트
 
@@ -18,85 +18,53 @@ interface IProps{
     text: string
 }
 
-const DummyMachine = [
+const DummyItem = [
     {
-        pk: "pk1",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },{
-        pk: "pk2",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
+        item_pk: 'dummy01',
+        item_name: '더미 품목 1',
+        item_type: '더미 타입 1'
     },
     {
-        pk: "pk3",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
+        item_pk: 'dummy02',
+        item_name: '더미 품목 2',
+        item_type: '더미 타입 1'
     },
     {
-        pk: "pk4",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
+        item_pk: 'dummy03',
+        item_name: '더미 품목 3',
+        item_type: '더미 타입 2'
     },
     {
-        pk: "pk5",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
+        item_pk: 'dummy04',
+        item_name: '더미 품목 4',
+        item_type: '더미 타입 2'
     },
     {
-        pk: "pk6",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
+        item_pk: 'dummy05',
+        item_name: '더미 품목 5',
+        item_type: '더미 타입 5'
     },
     {
-        pk: "pk7",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk8",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
+        item_pk: 'dummy06',
+        item_name: '더미 품목 6',
+        item_type: '더미 타입 5'
     },
 ]
 
-const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
+const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-    const [machineName, setMachineName] = useState('')
-
-    const [machineList, setMachineList] = useState(DummyMachine)
-    const [searchName, setSearchName] = useState<string>()
+    const [itemName, setItemName] = useState('')
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}`
-        const resultData = await getSearchMachine(tempUrl);
+        const tempUrl = `${API_URLS['machine'].list}?item_name=${itemName}`
+        const resultData = await getItemSearch(tempUrl);
         console.log(resultData)
-    }, [searchName])
-
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
+    }, [itemName])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
@@ -111,13 +79,13 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {itemName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
-
+                      
                     </div>
                     <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
+                        <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
                 </BoxWrap>
@@ -141,10 +109,10 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}} onChange={(e) => setItemName(e.target.value)}/>
+                            <SearchButton style={{flex: 4}}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
@@ -152,27 +120,23 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 195}}>기계명</th>
-                                        <th style={{width: 195}}>기계 종류</th>
-                                        <th style={{width: 225}}>제조사</th>
-                                        <th style={{width: 225}}>제조번호</th>
+                                        <th style={{width: 278}}>&nbsp; 기계명</th>
+                                        <th style={{width: 520}}>기계 종류</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        machineList.map((v,i) => {
+                                        DummyItem.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
-                                                    <td><span>{v.machine_name}</span></td>
-                                                    <td><span>{v.machine_type}</span></td>
-                                                    <td><span>{v.manufacturer}</span></td>
-                                                    <td><span>{v.manufacturer_code}</span></td>
+                                                    <td><span>&nbsp; {v.item_name}</span></td>
+                                                    <td><span>{v.item_type}</span></td>
                                                     <td>
                                                         <button
                                                             onClick={() => {
-                                                                setMachineName(v.machine_name)
-                                                                return onClickEvent({name:'888888', pk: v.pk})
+                                                                setItemName(v.item_name)
+                                                                return onClickEvent({name: v.item_name, pk: v.item_pk, type: v.item_type})
                                                             }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            style={{backgroundColor: select ? v.item_pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>
@@ -224,26 +188,6 @@ const BoxWrap = Styled.button`
     }
 `
 
-const InnerBoxWrap = Styled.button`
-    padding: 5px 15px 4px 15px;
-    border-radius: 0px;
-    color: white;
-    min-width: 100px;
-    background-color: ${BG_COLOR_SUB};
-    border: none;
-    font-weight: bold;
-    text-algin: left;
-    p{
-        text-algin: left;
-     }
-    font-size: 13px;
-    img {
-    margin-right: 7px;
-    width: 14px;
-    height: 14px;
-    }
-`
-            
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
@@ -267,6 +211,26 @@ const SearchButton = Styled.button`
         width: 20px;
         height: 20px;
         margin-top: 5px;
+    }
+`
+
+const InnerBoxWrap = Styled.button`
+    padding: 5px 15px 4px 15px;
+    border-radius: 0px;
+    color: white;
+    min-width: 100px;
+    background-color: ${BG_COLOR_SUB};
+    border: none;
+    font-weight: bold;
+    text-algin: left;
+    p{
+        text-algin: left;
+     }
+    font-size: 13px;
+    img {
+    margin-right: 7px;
+    width: 14px;
+    height: 14px;
     }
 `
 
@@ -305,4 +269,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default MachinePickerModal;
+export default ProductionPickerModal;

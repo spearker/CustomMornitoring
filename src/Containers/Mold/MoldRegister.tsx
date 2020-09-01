@@ -1,18 +1,20 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
-import {Input} from 'semantic-ui-react'
-import searchImage from "../../Assets/Images/ic_search.png"
-import IcButton from "../../Components/Button/IcButton";
+import {Button, Header, Input, Select} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
+import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
 import {POINT_COLOR} from "../../Common/configset";
-import {API_URLS, postProductionRegister} from "../../Api/mes/production";
+import IcButton from "../../Components/Button/IcButton";
+import searchImage from "../../Assets/Images/ic_search.png";
+import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
+import {API_URLS, postContractModify} from "../../Api/mes/business";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 
-const typeDummy = [
-    '수주 처리',
-    '안전 재고 확보',
-    '주문 예측',
+const factoryDummy = [
+    '더미 업체 1',
+    '더미 업체 2',
+    '더미 업체 3',
 ]
 
 const productionDummy = [
@@ -26,42 +28,39 @@ const listDummy = [
     { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
 ]
 
-const ProductionRegisterContainer = () => {
+const MoldRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
-    const [typeList, setTypelist] = useState<string[]>(typeDummy)
-    const [selectType, setSelectType] = useState<string>()
+    const [selectOpen, setSelectOpen] = useState<boolean>(false)
+    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
+    const [factoryList, setFactoryList] = useState<string[]>(factoryDummy)
+    const [selectFactory, setSelectFactory] = useState<string>()
     const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
         factory: undefined,
         production: undefined
     })
-    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
         start: moment().format("YYYY-MM-DD"),
         end: moment().format("YYYY-MM-DD"),
     })
 
-    const [chitData, setChitData] = useState<IProductionAdd>({
-        type: 0,
-        manager: '',
-        material: '',
-        from: '',
-        to: '',
-        procedure: '',
-        amount: 0,
-        supplier: '',
-        deadline: ''
+    const [contractData, setContractData] = useState<{pk: string, customer_pk: string, material_pk: string, amount: Number, date: string}>({
+        pk: '',
+        customer_pk: '',
+        material_pk: '',
+        amount: 2000,
+        date: moment().format('YYYY-MM-DD'),
     })
 
-    const postChitRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['production'].add}`
-        const resultData = await postProductionRegister(tempUrl, chitData);
-    }, [chitData])
+    const postContractRegisterData = useCallback(async () => {
+        const tempUrl = `${API_URLS['contract'].update}`
+        const resultData = await postContractModify(tempUrl, contractData);
+    }, [contractData])
 
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>생산 계획 등록</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>수주 수정</span>
                 </div>
             </div>
             <ContainerMain>
@@ -71,21 +70,17 @@ const ProductionRegisterContainer = () => {
                 <div>
                     <table style={{color: "black"}}>
                         <tr>
-                            <td>• 타입</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'타입을 선택해 주세요'}/></td>
-                        </tr>
-                        <tr>
-                            <td>• 계획자</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, manager: e})}/></td>
+                            <td>• 금형 명</td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
                             <td>
                                 <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 889}}>
+                                    <div style={{width: 885}}>
                                         <div style={{marginTop: 5}}>
                                             {
-                                                chitData.material === ''
+                                                contractData.material_pk === ''
                                                     ?<InputText>&nbsp; 품목(품목명)을 선택해 주세요</InputText>
                                                     :<InputText style={{color: '#111319'}}></InputText>
                                             }
@@ -102,42 +97,14 @@ const ProductionRegisterContainer = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td>• 생산 계획 일정</td>
+                            <td>• 수리 담당자</td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 완료 예정일</td>
                             <td>
                                 <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
-                                    <div style={{width: 821, display: 'table-cell'}}>
-                                        <div style={{marginTop: 5}}>
-                                            {
-                                                selectDateRange.start === ''
-                                                    ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}>&nbsp; {selectDateRange.start} ~ {selectDateRange.end}</InputText>
-                                            }
-                                        </div>
-                                    </div>
-                                    <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
-                                        setSelectDateRange({start, end: !end ? selectDateRange.end : end})
-                                        setChitData({...chitData, from: start, to: !end ? selectDateRange.end : end})
-                                    }} text={'기간 선택'} type={'range'} customStyle={{ height: 32, marginLeft: 0}}/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>• 공정 경로</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, manager: e})}/></td>
-                        </tr>
-                        <tr>
-                            <td>• 총 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
-                        </tr>
-                        <tr>
-                            <td>• 납품 업체</td>
-                            <td><Input placeholder="납품 업체를 입력해 주세요" onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
-                        </tr>
-                        <tr>
-                            <td>• 납기 일</td>
-                            <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
-                                    <div style={{width: 821, display: 'table-cell'}}>
+                                    <div style={{width: 817, display: 'table-cell'}}>
                                         <div style={{marginTop: 5}}>
                                             {
                                                 selectDate === ''
@@ -148,16 +115,16 @@ const ProductionRegisterContainer = () => {
                                     </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
-                                        setChitData({...chitData, deadline: select})
+                                        setContractData({...contractData, date: select})
                                     }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div style={{marginTop: 130}}>
+                <div style={{marginTop: 72}}>
                     <ButtonWrap onClick={async () => {
-                        await postChitRegisterData()
+                        await postContractRegisterData()
                     }}>
                         <div style={{width: 360, height: 46}}>
                             <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
@@ -171,7 +138,7 @@ const ProductionRegisterContainer = () => {
 
 const ContainerMain = Styled.div`
     width: 1060px;
-    height: 827px;
+    height: 493px;
     border-radius: 6px;
     background-color: white;
     padding: 35px 20px 0 20px;
@@ -193,11 +160,12 @@ const ContainerMain = Styled.div`
         font-size: 15px;
         input{
             padding-left: 8px;
-            width: calc( 917px - 8px );
+            font-famaily: NotoSansCJKkr;
             height: 32px;
-            font-size: 15px;
             border: 0.5px solid #b3b3b3;
+            width: calc( 100% - 8px );
             background-color: #f4f6fa;
+            font-size: 15px;
             &::placeholder:{
                 color: #b3b3b3;
             };
@@ -240,7 +208,7 @@ const ButtonWrap = Styled.button`
       width: 14px;
       height: 14px;
     }
-  `
+`
 
 const InputText = Styled.p`
     color: #b3b3b3;
@@ -250,4 +218,4 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
-export default ProductionRegisterContainer
+export default MoldRegisterContainer

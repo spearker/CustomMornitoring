@@ -71,7 +71,7 @@ const ContractModifyContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 거래처 명</td>
-                            <td><RegisterDropdown onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>

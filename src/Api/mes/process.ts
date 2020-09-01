@@ -1,4 +1,4 @@
-import client from '../configs/common';
+import client from '../configs/basic';
 import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
@@ -11,10 +11,24 @@ import * as _ from 'lodash';
  * @author 준희
  */
 export const postProcessRegister = async( url: string, bodyData: object) =>{
-    const temp: IServerData = await client.post(url, bodyData);
+
+    const temp: IServerData = await client.get(url, bodyData);
     return temp
 }
 
+/**
+ * getSearchMachine()
+ * 기계 검색하기
+ * @param {string} url 링크 주소
+ * @param {Object} keyword 기계명
+ * @returns {Object} 기게정보 리스트
+ * @author 준희
+ */
+
+export const getSearchMachine = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    return temp
+}
 
 export const API_URLS = {
     process:{

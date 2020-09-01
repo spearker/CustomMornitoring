@@ -8,9 +8,9 @@ import {POINT_COLOR} from "../../Common/configset";
 import IcButton from "../../Components/Button/IcButton";
 import searchImage from "../../Assets/Images/ic_search.png";
 import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
-import {API_URLS, postContractModify} from "../../Api/mes/business";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
+import {API_URLS, postProcessRegister} from "../../Api/mes/process";
 
 const typeDummy = [
     '단발',
@@ -45,8 +45,13 @@ const ProcessRegisterContainer = () => {
     const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].update}`
-        const resultData = await postContractModify(tempUrl, processData);
+        const tempUrl = `${API_URLS['process'].register}`
+        const resultData = await postProcessRegister(tempUrl, processData);
+        console.log(resultData)
+    }, [processData])
+
+    useEffect(() => {
+        console.log(processData)
     }, [processData])
 
     return (
@@ -66,14 +71,26 @@ const ProcessRegisterContainer = () => {
                             <td>• 타입</td>
                             <td>
                                 <RegisterDropdown
-                                    onClickEvent={(e: number) => {
-                                        if(e === 1){
-                                            let tmpList = processData.processes
-                                            //@ts-ignore
-                                            tmpList.push({machine_pk: '', recommend: 0})
-                                            setProcessData({
+                                    type={'string'}
+                                    onClickEvent={async (e: number) => {
+
+                                        if(e === 0){
+                                            console.log("0번")
+                                            await setProcessData({
                                                 ...processData,
-                                                processes: tmpList
+                                                processes: [{machine_pk: '', recommend: 0}]
+                                            })
+                                        }else if(e === 1){
+                                            console.log("1번")
+                                            await setProcessData({
+                                                ...processData,
+                                                processes: [{machine_pk: '', recommend: 0}, {machine_pk: '', recommend: 0}]
+                                            })
+                                        }else{
+                                            console.log("나머지")
+                                            await setProcessData({
+                                                ...processData,
+                                                processes: []
                                             })
                                         }
                                         return setProcessData({...processData, type: e})
@@ -105,7 +122,15 @@ const ProcessRegisterContainer = () => {
                             <tr>
                                 <td>{processData.processes && processData.processes.length !== 0 ? '' : '• 공정'}</td>
                                 <td>
-                                    <ProcessAddButton>
+                                    <ProcessAddButton onClick={() => {
+                                        let tmpList = processData.processes
+                                        //@ts-ignore
+                                        tmpList.push({machine_pk: '', recommend: 0})
+                                        setProcessData({
+                                            ...processData,
+                                            processes: tmpList
+                                        })
+                                    }}>
                                         <div style={{width: 919, height: 34, backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
                                             <div style={{marginTop: 5}}>
                                                 <p style={{color: '#b3b3b3', }}>+ 공정 추가</p>
@@ -210,14 +235,6 @@ const ButtonWrap = Styled.button`
 `
 const ProcessAddButton = Styled.button`
     
-`
-
-const InputText = Styled.p`
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
 `
 
 export default ProcessRegisterContainer
