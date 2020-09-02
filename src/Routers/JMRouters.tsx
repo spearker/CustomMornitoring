@@ -57,6 +57,16 @@ const JMRouters = () => {
 
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
+
+            <Route exact path="/basic/list/machine/" component={MoldCurrent}/>
+            <Route exact path="/basic/list/device" component={MoldCurrent}/>
+            <Route exact path="/basic/list/mold" component={MoldCurrent}/>
+            <Route exact path="/basic/list/material" component={MoldCurrent}/>
+            <Route exact path="/basic/list/factory" component={MoldCurrent}/>
+            <Route exact path="/basic/list/subdivided" component={MoldCurrent}/>
+            <Route exact path="/basic/list/barcode" component={MoldCurrent}/>
+            <Route exact path="/basic/list/item" component={MoldCurrent}/>
+            <Route exact path="/basic/list/document" component={MoldCurrent}/>
         </Switch>
     );
 }

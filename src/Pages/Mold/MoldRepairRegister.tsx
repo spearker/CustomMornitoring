@@ -1,4 +1,3 @@
-
 import React from "react";
 import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {MES_MENU_LIST} from "../../Common/routerset";
@@ -12,6 +11,7 @@ const MoldRepairRegister = () => {
             <SubNavigation list={MES_MENU_LIST.mold}/>
             <InnerBodyContainer>
                 <MoldRepairRegisterContainer/>
+
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

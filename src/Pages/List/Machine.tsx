@@ -24,7 +24,9 @@ const MachineList = () => {
 
   const [list, setList] = useState<IMachine[]>([]);
   const [option, setOption] = useState(0);
+  const [page, setPage] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
+  const [type, setType] = useState(0);
 
   const optionList = [
     "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순"
@@ -45,7 +47,7 @@ const MachineList = () => {
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/machine/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8299/api/v1/machine/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -68,7 +70,7 @@ const MachineList = () => {
    */
   const getList = useCallback(async ()=>{
 
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/machine/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8299/api/v1/machine/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
 
 
     if(results === false){
@@ -94,7 +96,7 @@ const MachineList = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/machine/list?keyword='+ keyword +'&orderBy=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8299/api/v1/machine/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')

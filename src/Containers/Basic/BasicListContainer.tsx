@@ -21,7 +21,7 @@ const BasicListContainer = ({type}:Props) => {
   const [list, setList] = useState<any>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const [pageType, setPageType] = useState<string>(type);
 
   useEffect(()=>{
@@ -41,7 +41,7 @@ const BasicListContainer = ({type}:Props) => {
    * 목록 불러오기
    */
   const getList = useCallback(async (pageType)=>{
-    const tempUrl = `${API_URLS[pageType].list}?page=${page}`
+    const tempUrl = `${API_URLS[pageType].list}?page=${page}&keyword=${keyword}&type=${option}`
     const resultList = await getBasicList(tempUrl);
     setList(resultList);
 
