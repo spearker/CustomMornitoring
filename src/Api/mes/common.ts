@@ -4,12 +4,12 @@ import * as _ from 'lodash';
 
 /**
  * getServerStatus()
- * 서버 상태 불러오기 
+ * 서버 상태 불러오기
  * @param {string} url 링크 주소
- * @returns {Boolean} 성공 실패 여부 true/false 리턴 
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 수민
  */
-export const getServerStatus = async( url: string) =>{    
+export const getServerStatus = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     return true
 }
@@ -17,9 +17,9 @@ export const getServerStatus = async( url: string) =>{
 
 export const API_URLS = {
     status: {
-        check:`/server/status`,
+        check:`/server/state`,
     },
-  
+
   }
 
 

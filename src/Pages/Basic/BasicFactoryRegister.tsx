@@ -164,7 +164,6 @@ const BasicFactoryRegister = () => {
                 <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>
                 <br/>
                 <DocumentFormatInputList
-
                   pk={!isUpdate ? document.pk : undefined}
                   loadDataUrl={isUpdate? `http://192.168.0.14:8299/api/v1/factory/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
