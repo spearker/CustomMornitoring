@@ -17,5 +17,4 @@ const MoldRepairRegister = () => {
     )
 }
 
-
 export default MoldRepairRegister

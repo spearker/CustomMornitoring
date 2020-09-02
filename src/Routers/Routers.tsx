@@ -270,12 +270,10 @@ const Routers = () => {
                 */}
 
                 {/* 6.0 바코드 관리 */}
-
                 {/*<Route exact path="/list/barcode/product" component={BarcodeProductList}/>*/}
                 {/*<Route exact path="/connect/barcode" component={ProductRegister}/>*/}
                 {/*<Route exact path="/connect/barcode/update" component={ProductRegister}/>*/}
                 {/*<Route exact path="/barcode/register" component={RegisterBarcode}/>*/}
-
 
                 {/* 7.0 보전 관리 */}
                 <Route exact path="/pm/maintenance/press" component={MachineMaintenance} />

@@ -17,4 +17,3 @@ const MoldRegister = () => {
 }
 
 export default MoldRegister
-
