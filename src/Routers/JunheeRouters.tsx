@@ -15,12 +15,16 @@ import ManageStockRegister from "../Pages/ManageStock/ManageStockRegister";
 import ProcessDetailRegister from "../Pages/Process/DetailRegister";
 import MoldRegister from "../Pages/Mold/MoldRegister";
 import MoldRepairRegister from "../Pages/Mold/MoldRepairRegister";
+import OutsourcingRegister from "../Pages/Outsourcing/OutsourcingRegister"
+
 
 const JunheeRouters = () => {
 
     return (
         <div>
             <Switch>
+                {/* 외주관리 */}
+                <Route exact path="/outsourcing/register" component={OutsourcingRegister} />
                 {/* 생산관리 */}
                 <Route exact path="/project/chit/register" component={ChitRegister} />
                 <Route exact path="/project/production/register" component={ProductionRegister} />

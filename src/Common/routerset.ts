@@ -153,16 +153,10 @@ export const MES_MENU_LIST = {
     { name : '표준 문서 관리', url : '/basic/list/document'},
   ],
   outsourcing: [ // 기준정보 관리
-    // { name : '외주 관리', url : '/outsourcing/company/list'}, //상위메뉴
-    // { name : '외주사 리스트', url : '/outsourcing/company/list'},
-    // { name : '외주 발주 관리', url : '/outsourcing/order/list'},
-    // { name : '외주 수주 관리', url : '/outsourcing/contract/list'},
-    // { name : '외주 현황', url : '/outsourcing/list'},
-    { name : '외주 관리', url : '/commingsoon'}, //상위메뉴
-    { name : '외주사 리스트', url : '/commingsoon'},
-    { name : '외주 발주 관리', url : '/commingsoon'},
-    { name : '외주 수주 관리', url : '/commingsoon'},
-    { name : '외주 현황', url : '/commingsoon'},
+    { name: '외주 관리', url: '/outsourcing/current/list' }, //상위메뉴
+    { name: '외주처 관리', url: '/outsourcing/current/list' },
+    { name: '발주 관리', url: '/outsourcing/order/list' },
+    { name: '수주 관리', url: '/outsourcing/contract/list' },
   ],
   project: [ //생산관리
     { name : '생산 관리' , url: '/project/schedule/list'}, //상위메뉴

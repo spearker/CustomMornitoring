@@ -324,6 +324,7 @@ const SearchButton = Styled.button`
     }
 `
 
+
 const CheckButton = Styled.button`
     position: absolute;
     bottom: 0px;

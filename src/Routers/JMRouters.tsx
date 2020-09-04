@@ -22,6 +22,10 @@ import MoldRepair from "../Pages/Mold/Repair";
 import MoldCurrent from "../Pages/Mold/Current";
 import ScheduleManageProduction from "../Pages/Project/ScheduleManage";
 import ScheduleProduction from "../Pages/Project/Schedule";
+import OutsourcingCurrent from "../Pages/Outsourcing/Current"
+import OutsourcingOrder from "../Pages/Outsourcing/Order"
+import OutsourcingContract from "../Pages/Outsourcing/Contract"
+
 //정민님 라우터
 const JMRouters = () => {
 
@@ -40,6 +44,10 @@ const JMRouters = () => {
             <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction} />
             <Route exact path="/project/work/history" component={WorkProduction} />
             <Route exact path="/project/voucher/list" component={VoucherProduction}/>
+
+            <Route export path="/outsourcing/current/list" component={OutsourcingCurrent} />
+            <Route exact path="/outsourcing/order/list" component={OutsourcingOrder} />
+            <Route exact path="/outsourcing/contract/list" component={OutsourcingContract} />
 
             <Route exact path="/marketing/order/list" component={OrderBusiness}/>
             <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/>
