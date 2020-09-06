@@ -179,7 +179,7 @@ const CurrentContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'원자재 관리'}
+                title={'금형 수리 현황'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
                 indexList={index}

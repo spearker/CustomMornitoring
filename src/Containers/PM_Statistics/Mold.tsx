@@ -6,25 +6,22 @@ import React, {
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMoldData,} from "../../Api/pm/statistics";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
+import icCurrentValue from "../../Assets/Images/ic_current_down.png"
 
 const MoldContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>({
-        pk: "",
-        max_count: 0,
-        current_count: 0,
-    });
-    const [index, setIndex] = useState({pk:'PK'});
+    const [index, setIndex] = useState({ mold_name: '금형 명' });
+    const [detailList,setDetailList] = useState<any>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [widthPercent, setWidthPercent] = useState<number>(0)
 
     const indexList = {
         mold: {
-            pk: 'PK',
             mold_name: '금형 명',
             location_name: '제조사 명',
             mold_number: '제조 번호',
@@ -33,31 +30,26 @@ const MoldContainer = () => {
 
     const dummy = [
         {
-            pk: 'PK1',
             mold_name: '금형 01',
             location_name: '(주)시즐',
             mold_number: '1234-123-1349(제조번호)',
         },
         {
-            pk: 'PK2',
             mold_name: '금형 02',
             location_name: '(주)시즐',
             mold_number: '1234-143-1349(제조번호)',
         },
         {
-            pk: 'PK3',
             mold_name: '금형 03',
             location_name: '(주)시즐',
             mold_number: '1234-153-1349(제조번호)',
         },
         {
-            pk: 'PK4',
             mold_name: '금형 04',
             location_name: '(주)시즐',
             mold_number: '1234-323-1349(제조번호)',
         },
         {
-            pk: 'PK5',
             mold_name: '금형 05',
             location_name: '(주)시즐',
             mold_number: '1234-523-1349(제조번호)',
@@ -66,10 +58,10 @@ const MoldContainer = () => {
 
     const detaildummy = [
         {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
+            max_count: 50000,
+            today_count: 1000,
+            current_count: 38898
+        },
     ]
 
     const onClick = useCallback((mold) => {
@@ -113,9 +105,10 @@ const MoldContainer = () => {
         setIndex(indexList["mold"])
         setList(dummy)
         setDetailList(detaildummy)
-    },[dummy, detaildummy])
 
-    const WidthPercent = detaildummy[0].current_count/detaildummy[0].max_count*100
+    },[])
+
+    const WidthPercent=detaildummy[0].current_count/detaildummy[0].max_count*100
 
     return (
         <div>
@@ -135,9 +128,9 @@ const MoldContainer = () => {
                                     </div>
                                     <div>
                                        <MoldArrowContainer>
-                                           <div style={{marginLeft: WidthPercent+"%"}}>
+                                           <img src={icCurrentValue} style={{marginLeft: WidthPercent-1.2+"%"}}>
 
-                                           </div>
+                                           </img>
                                        </MoldArrowContainer>
                                         <MoldMaxBar>
                                             <div style={{width: WidthPercent+"%" }}>
@@ -146,8 +139,10 @@ const MoldContainer = () => {
                                         </MoldMaxBar>
                                         <CountingNum>
                                             {[0,1,2,3,4,5].map((v, i)=>{
+
+                                                const value = v*=(detailList[0].max_count/5);
                                                 return(
-                                                    <span>{v*=(detaildummy[0].max_count/5)}</span>
+                                                    <span>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                                                 )
                                             })}
                                         </CountingNum>
@@ -166,35 +161,32 @@ const MoldContainer = () => {
                 selectPk !== null ?
             <div style={{display:"flex",justifyContent:"space-between", marginTop: 20}}>
                 <LoadtoneBox title={'현재 타수 카운팅'}>
-                    <div style={{paddingTop: 25, paddingBottom: 27}}>
+                    <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                               <p>38,898</p>
+                               <p>{(detailList[0].current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                                <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
-                            <p>77.9 %</p>
                         </BottomBox>
                     </div>
                 </LoadtoneBox>
                 <LoadtoneBox title={'금일 타수 카운팅'}>
-                    <div style={{paddingTop: 25, paddingBottom: 27}}>
+                    <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                                <p>1,000</p>
+                                <p>{(detailList[0].today_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))}</p>
                                 <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
-                            <p>00.0 %</p>
                         </BottomBox>
                     </div>
                 </LoadtoneBox>
                 <LoadtoneBox title={'남은 타수 카운팅'}>
-                    <div style={{paddingTop: 25, paddingBottom: 27}}>
+                    <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                                <p>11,102</p>
+                                <p>{(detailList[0].max_count-detailList[0].current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                                 <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
-                            <p>00.0 %</p>
                         </BottomBox>
                     </div>
                 </LoadtoneBox>
@@ -224,13 +216,6 @@ const MoldArrowContainer = Styled.div`
   height: 20px;
   border: 0;
   border-radius: 25px;
-  div {
-    width: 10px;
-    height: 20px;
-    border: 0;
-    border-radius: 25px;
-    background-color: #fd6b00;
-  }
 `
 
 const MoldMaxBar = Styled.div`

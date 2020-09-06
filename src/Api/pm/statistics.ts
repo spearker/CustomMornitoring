@@ -87,24 +87,80 @@ export const getErrorData = async( url: string) =>{
     return temp.results!;
 }
 
+/**
+ * getDefectiveData()
+ * 불량률 통계 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+
+export const getDefectiveData = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results!;
+}
+
+/**
+ * getProductData()
+ * 제품별톤 통계 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+
+export const getProductData = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results!;
+}
+
+/**
+ * getMoldData()
+ * 금형 타발 수 통계 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+
+export const getMoldData = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results!;
+}
+
 export const API_URLS = {
     power: {
         list:`/v1/statistics/press/electric`
     },
     error: {
-        list:   `/v1/statistics/press/error/list`,
-        load:   `/v1/statistics/press/error/detail`
+        list: `/v1/statistics/press/error/list`,
+        load: `/v1/statistics/press/error/detail`
     },
     ability: {
-        load:`/v1/statistics/press/ability`
+        load: `/v1/statistics/press/ability`
     },
     oilSupply: {
-        load:`/v1/statistics/press/oil`
+        load: `/v1/statistics/press/oil`
     },
     readyTime: {
-        load:`/v1/statistics/press/downtime`
+        load: `/v1/statistics/press/downtime`
     },
-
+    defective: {
+        list: '/v1/statistics/press/defective/list',
+        load: '/v1/statistics/press/defective/load'
+    },
+    product: {
+        list: '/v1/statistics/press/product/list',
+        load: '/v1/statistics/press/product/load'
+    },
+    mold: {
+        list: '/v1/statistics/press/mold/list',
+        load: '/v1/statistics/press/mold/load'
+    }
 }
 
 

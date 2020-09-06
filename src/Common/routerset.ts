@@ -204,8 +204,6 @@ export const PM_MENU_LIST = {
     { name : '프레스 상태 모니터링', url :  '/pm/monitoring/press'},
     { name : '로드모니터 모니터링', url :  '/pm/monitoring/loadton'},
     { name : '전력 모니터링', url : '/pm/monitoring/cms'},
-
-
   ],
   maintenance:[ //
     { name : '프레스 보전관리', url : '/pm/maintenance/press'},

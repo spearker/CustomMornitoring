@@ -7,50 +7,8 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import SettingToneBox from "../../Components/Box/SettingToneBox";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getDefectiveData,} from "../../Api/pm/analysis";
 import ReactApexChart from "react-apexcharts";
-
-const ChartInitOptions = {
-    chart: {
-        type: 'scatter',
-        toolbar: {show: false},
-        events: {
-            click: function(chart, w, e) {
-                console.log(chart, w, e)
-            }
-        }
-    },
-    plotOptions: {
-        scatter: {
-            columnWidth: '55%',
-            distributed: false
-        }
-    },
-    grid: {
-        borderColor: '#42444b',
-        xaxis: {
-            lines: {
-                show: true
-            }
-        },
-        yaxis: {
-            lines: {
-                show: true
-            }
-        },
-    },
-    colors: ['#ffffff'],
-    dataLabels: {
-        enabled: false
-    },
-    legend: {
-        show: false
-    },
-    markers: {
-        size: 3,
-        strokeOpacity: 0,
-    }
-}
 
 const ChartOptionDetailLable = {
     yaxis: {
@@ -90,12 +48,72 @@ const ChartOptionDetailLable = {
 
 const DefectiveContainer = () => {
 
+    const ChartInitOptions = {
+        chart: {
+            type: 'scatter',
+            toolbar: {show: false},
+            events: {
+                click: function(chart, w, e) {
+                    console.log(chart, w, e)
+                }
+            }
+        },
+        plotOptions: {
+            scatter: {
+                columnWidth: '55%',
+                distributed: false
+            }
+        },
+        grid: {
+            borderColor: '#42444b',
+            xaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+        },
+        colors: ['#ffffff'],
+        dataLabels: {
+            enabled: false
+        },
+        legend: {
+            show: false
+        },
+        markers: {
+            size: 3,
+            strokeOpacity: 0,
+        },
+        tooltip: {
+            custom: ({}) => {
+                return  '<div style=" border-width: 0;    border-radius: 10px;    width: 170px;    height: 122px;    font-family: NotoSansCJKkr-Bold;    padding: 10px;">' +
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'설정톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].settingTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'평균톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].normalTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'최대톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].maxTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'최소톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].minTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '</div>'
+            }
+        }
+    }
+
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>({
-        pk: "",
-        max_count: 0,
-        current_count: 0,
-    });
+    const [detailList,setDetailList] = useState<any>([]);
     const [index, setIndex] = useState({product_name:'품목'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -106,8 +124,8 @@ const DefectiveContainer = () => {
         machine_name: '',
         machine_ton: '',
         temp: {
-            Xaxis: [1,2,3,4,5,6,7,8,9,10],
-            Yaxis: [1,2,3,4,5,6,7,8,9,10]
+            Xaxis: [4,7,8,9,10,11,12,13,14,15],
+            Yaxis: [100,105,97,110,101,112,102,104,106,103]
         }
     }
 
@@ -180,9 +198,10 @@ const DefectiveContainer = () => {
 
     const detaildummy = [
         {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
+            settingTone: 97,
+            normalTone: 99,
+            maxTone: 120,
+            minTone: 93
         }
     ]
 
@@ -205,8 +224,8 @@ const DefectiveContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
+        const res = await getDefectiveData(tempUrl)
 
         setDetailList(res)
 
@@ -214,8 +233,8 @@ const DefectiveContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['defective'].list}`
+        const res = await getDefectiveData(tempUrl)
 
         setList(res)
 
@@ -239,7 +258,6 @@ const DefectiveContainer = () => {
                         {
                             selectPk !== null ?
                                 <LineTable title={'품목(품목명) 의 공정 04'}>
-                                    <SettingToneBox settingTone={97} normalTone={99} maxTone={120} minTone={93}/>
                                     <ChartDiv>
                                         <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
                                     </ChartDiv>
@@ -258,7 +276,10 @@ const ChartDiv = Styled.div`
     margin: 0;
     padding: 0;
     clear: both;
+    .apexcharts-tooltip{
+        background-color: #ffffff;
+        opacity: 0.65;
+    }
 `
-
 
 export default DefectiveContainer;

@@ -30,6 +30,20 @@ export const getCapacityTimeData = async( url: string) =>{
     return temp.results!;
 }
 
+/**
+ * getDefectiveList()
+ * 불량 공정 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const getDefectiveData = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results!;
+}
+
 export const API_URLS = {
     readyTime: {
         load:`/v1/analysis/press/downtime`
@@ -39,6 +53,10 @@ export const API_URLS = {
     },
     pressList: {
         list: '/v1/analysis/press/list'
+    },
+    defective: {
+        list: '/v1/analysis/press/defective/list',
+        load: '/v1/analysis/press/defective/load'
     }
 }
 

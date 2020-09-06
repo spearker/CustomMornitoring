@@ -18,8 +18,8 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
+import {API_URLS, getProductData} from "../../Api/pm/statistics";
 
 const ChartInitOptions = {
     chart: {
@@ -120,12 +120,12 @@ const ProductToneContainer = () => {
         machine_name: '',
         machine_ton: '',
         white: {
-            Xaxis: [1,2,3,4,5,6,7,8,9,10],
-            Yaxis: [1,2,3,4,5,6,7,8,9,10]
+            Xaxis: [4,7,8,9,10,11,12,13,14,15],
+            Yaxis: [100,105,97,110,101,112,102,104,106,103]
         },
         red: {
-            Xaxis: [11,12,13,14,15,16,17,18,19,20],
-            Yaxis: [11,12,13,14,15,16,17,18,19,20]
+            Xaxis: [2,12,13,5,4,16,3,6,9,11],
+            Yaxis: [97,80,130,134,128,140,150,138,130,80]
         },
     }
 
@@ -238,8 +238,8 @@ const ProductToneContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['product'].load}?pk=${pk}`
+        const res = await getProductData(tempUrl)
 
         setDetailList(res)
 
@@ -247,8 +247,8 @@ const ProductToneContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['product'].list}`
+        const res = await getProductData(tempUrl)
 
         setList(res)
 
@@ -274,9 +274,7 @@ const ProductToneContainer = () => {
                         <LineTable title={'품목(품목명) 별 톤 그래프 보기'}>
                             <ChartDiv>
                                 {
-                                    /** 이부분 라이브러리 import 가 안되어있어서 우선 주석처리함 왜??
-                                     *   <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
-                                     */
+                                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
                                 }
                             </ChartDiv>
                         </LineTable>

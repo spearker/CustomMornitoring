@@ -17,12 +17,12 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import moment from "moment";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import ReactApexChart from "react-apexcharts";
+import {API_URLS, getDefectiveData} from "../../Api/pm/statistics";
 
 
 const chartOption = {
@@ -110,15 +110,14 @@ const DefectiveContainer = () => {
         max_count: 0,
         current_count: 0,
     });
-    const [index, setIndex] = useState({pk:'PK'});
+    const [index, setIndex] = useState({ product_name: '품목(품목명)' });
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
-   // const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
-    // 이부분 라이브러리 import 가 안되어있어서 우선 주석처리함 왜??
+    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+
     const indexList = {
         defective: {
-            pk: 'PK',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -130,7 +129,6 @@ const DefectiveContainer = () => {
 
     const dummy = [
         {
-            pk: 'PK1',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -139,7 +137,6 @@ const DefectiveContainer = () => {
             work_registered: '2020.0707~2020.0909',
         },
         {
-            pk: 'PK2',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -148,7 +145,6 @@ const DefectiveContainer = () => {
             work_registered: '2020.0707~2020.0909',
         },
         {
-            pk: 'PK3',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -157,7 +153,6 @@ const DefectiveContainer = () => {
             work_registered: '2020.0707~2020.0909',
         },
         {
-            pk: 'PK4',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -166,7 +161,6 @@ const DefectiveContainer = () => {
             work_registered: '2020.0707~2020.0909',
         },
         {
-            pk: 'PK5',
             product_name: '품목(품목명)',
             factory_name: '공정명',
             segmentation_factory: '세분화 공정',
@@ -204,8 +198,8 @@ const DefectiveContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
+        const res = await getDefectiveData(tempUrl)
 
         setDetailList(res)
 
@@ -213,8 +207,8 @@ const DefectiveContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['defective'].list}`
+        const res = await getDefectiveData(tempUrl)
 
         setList(res)
 
@@ -244,7 +238,7 @@ const DefectiveContainer = () => {
                             <LineContainer>
                                 <div style={{display:"flex",flexDirection: "row",justifyContent:"space-between"}}>
                                     <p>생산량</p>
-                                    <p>0<span>ea</span></p>
+                                    <p>50<span>ea</span></p>
                                 </div>
                             </LineContainer>
                             <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
@@ -260,7 +254,6 @@ const DefectiveContainer = () => {
                         </div>
                         <GraphContainer>
                             {
-                                /** 이부분 라이브러리 import 가 안되어있어서 우선 주석처리함 왜??
                                   <div>
                                         <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
                                             <div style={{alignSelf:"center"}}>
@@ -268,9 +261,8 @@ const DefectiveContainer = () => {
                                             </div>
                                             <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
                                         </div>
-                                        <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                                        <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={444} width={630} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
                                     </div>
-                                 */
                             }
                         </GraphContainer>
                     </div>
@@ -328,7 +320,7 @@ const LineContainer = Styled.div`
 
 const GraphContainer = Styled.div`
   margin-left: 20px;
-  width: 690px;
+  width: 650px;
   height: 522px;
   border-radius: 6px;
   background-color: #202020;
