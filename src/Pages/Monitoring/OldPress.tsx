@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-      
+
 import MonitoringTable from '../../Components/Table/MonitoringTable';
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
 import HeaderLive from '../../Components/Text/HeaderLive';
@@ -39,7 +39,7 @@ const PressMonitoring = () => {
     temperature:'온도',
     keycam_status:'키캠상태',
     motor_status:'모터상태',
-    error:'에러', 
+    error:'에러',
     live_time:'가동시간',
     rest_time:'비가동시간'
 
@@ -49,21 +49,21 @@ const PressMonitoring = () => {
    * getData()
    * 모니터링 데이터 조회
    * @param {string} url 요청 주소
-   * @returns X 
+   * @returns X
    */
   const getList = useCallback(async()=>{
-    if (document.hidden) { // Opera 12.10 and Firefox 18 and later support 
+    if (document.hidden) { // Opera 12.10 and Firefox 18 and later support
       console.log('-- hidden browser -- ')
       //setCount(999)
       return
     }
 
     console.log('-- monitoring data load -- ' )
-    const res = await getRequest(`http://61.101.55.224:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://192.168.0.14:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if(res === false){
       alert('서버에서 데이터를 받아올 수 없습니다.')
-   
+
       window.location.href="/dashboard"
     }else{
       if(res.status === 200){
@@ -77,14 +77,14 @@ const PressMonitoring = () => {
          setOptionList(arr)
       }else{
         alert('서버에서 데이터를 받아올 수 없습니다.')
-       
+
         window.location.href="/dashboard"
       }
     }
   },[list, optionList]);
 
   useEffect(()=>{
-    getList() 
+    getList()
     setIsFirstLoad(true)
     //const interval = setInterval(() => { getListTemp(tab)}, 1800)
     //setTimer(interval);
@@ -92,22 +92,22 @@ const PressMonitoring = () => {
         //removeTimer();
         //clearInterval(interval);
         //setTimer(null)
-      };    
+      };
     },[])
     useEffect(()=>{
-      
+
       const interval = setInterval(() => { getList();  }, 4000)
- 
+
       return () => {
-          
+
           console.log('-- monitoring end -- ' )
           clearTimeout(interval);
           //setTimer(null)
         };
   },[])
-   
-    
-  
+
+
+
   /**
    * onClickFilter()
    * 리스트 필터 변경
@@ -121,9 +121,9 @@ const PressMonitoring = () => {
 
   return (
       <DashboardWrapContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

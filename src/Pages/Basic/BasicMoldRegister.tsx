@@ -115,7 +115,7 @@ const BasicMoldRegister = () => {
 
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://192.168.0.14:8299/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -169,7 +169,7 @@ const BasicMoldRegister = () => {
 
     };
 
-    const res = await postRequest('http://192.168.0.14:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -212,7 +212,7 @@ const BasicMoldRegister = () => {
     };
 
 
-    const res = await postRequest('http://192.168.0.14:8299/api/v1/mold/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -255,7 +255,7 @@ const BasicMoldRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://192.168.0.14:8299/api/v1/factory/search?option=1&'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?option=1&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -274,7 +274,7 @@ const BasicMoldRegister = () => {
                 <DocumentFormatInputList
 
                   pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://192.168.0.14:8299/api/v1/mold/load?pk=${pk}` :''}
+                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/mold/load?pk=${pk}` :''}
                   onChangeEssential={setEssential} onChangeOptional={setOptional}
                   />
 

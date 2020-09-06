@@ -92,7 +92,9 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                 }
             </TitleBar>
             {
-                valueList !== undefined && valueList.map((v, i) => {
+                valueList !== undefined && valueList.length === 0
+                    ? (<ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></ValueBar>)
+                    : valueList.map((v, i) => {
                     /*
                     v:  {
                         pk: 'PK11212',

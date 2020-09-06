@@ -43,7 +43,7 @@ const DefectiveRegister = () => {
   const [path, setPath] = useState<string | null>(null);
 
   const indexList = getMachineTypeList('kor');
-  
+
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
@@ -58,7 +58,7 @@ const DefectiveRegister = () => {
    * addFile()
    * 사진 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFile = async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
@@ -77,7 +77,7 @@ const DefectiveRegister = () => {
       const temp = await uploadTempFile(event.target.files[0]);
       if(temp ===false){
         console.log(temp)
-        
+
         setFile(null)
         setPhotoName('')
         return
@@ -85,14 +85,14 @@ const DefectiveRegister = () => {
         setPath(temp)
         return
       }
-      
+
     }else{
       setPhotoName('')
       setFile(null)
       setPath(null)
       alert('이미지 형식만 업로드 가능합니다.')
     }
-    
+
   }
 
   /**
@@ -100,11 +100,11 @@ const DefectiveRegister = () => {
    * 기계 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 기계 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/machine/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/machine/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -122,7 +122,7 @@ const DefectiveRegister = () => {
          setInfoList(data.info_list)
          setFile(null);
          setPath(null);
-         
+
       }else{
         //TODO:  기타 오류
       }
@@ -141,7 +141,7 @@ const DefectiveRegister = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -161,7 +161,7 @@ const DefectiveRegister = () => {
       machine_photo: path
     };
 
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -185,7 +185,7 @@ const DefectiveRegister = () => {
    * @param {string} made 제조정보
    * @param {string} type 종류
    * @param {string} madeNo 제조사넘버
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -206,9 +206,9 @@ const DefectiveRegister = () => {
       info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
       machine_photo: path
     };
-    
 
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/machine/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -240,15 +240,15 @@ const DefectiveRegister = () => {
             <Header title={isUpdate ? '불량 자재 수정' : '불량 자재 등록'}/>
             <WhiteBoxContainer>
               <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
-                
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
-            
+
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

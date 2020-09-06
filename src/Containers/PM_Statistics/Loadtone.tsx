@@ -131,7 +131,7 @@ const LoadtoneContiner = () => {
      * @returns X
      */
     const getData = useCallback(async()=>{
-        // const res = await getRequest('http://61.101.55.224:9912/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
+        // const res = await getRequest('http://192.168.0.14:9912/api/v1/analysis/downtime?pk=' + getParameter('pk') + '&date=' + getParameter('date'), getToken(TOKEN_NAME))
         // const analysis = dummyData.analyze
         //
         // // let tmpChartOption = _.cloneDeep(chartOption)
@@ -170,7 +170,11 @@ const LoadtoneContiner = () => {
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
                 {
-                    machineData.map((v,i) => {
+                    machineData.length === 0
+                    ? <div style={{width: "100%", height: "80%", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <div style={{flex: 1}}><p style={{textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></div>
+                        </div>
+                    : machineData.map((v,i) => {
                         return(
                             <ChartMiniBox>
                                 <div style={{width: 150,height: 100, float: 'left', display: "inline-block", marginTop: 10, marginLeft: 10}}>
@@ -193,13 +197,13 @@ const LoadtoneContiner = () => {
                             <BottomBox>
                                 <div>
                                   <p>최소값</p>
-                                  <p>141</p>
+                                  <p>-</p>
                                 </div>
                             </BottomBox>
                             <BottomBox>
                                 <div>
                                     <p>최대값</p>
-                                    <p>151</p>
+                                    <p>-</p>
                                 </div>
                             </BottomBox>
                         </div>
@@ -210,13 +214,13 @@ const LoadtoneContiner = () => {
                         <BottomBox>
                             <div>
                                 <p>최소값</p>
-                                <p>130</p>
+                                <p>-</p>
                             </div>
                         </BottomBox>
                         <BottomBox>
                             <div>
                                 <p>최대값</p>
-                                <p>135</p>
+                                <p>-</p>
                             </div>
                         </BottomBox>
                     </div>

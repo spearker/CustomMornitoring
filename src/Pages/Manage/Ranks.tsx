@@ -21,7 +21,7 @@ import {      ROUTER_MENU_LIST } from '../../Common/routerset';
 const Ranks = () => {
 
   const [list, setList] = useState<string[]>([""]);
- 
+
   const index = {
     email:'성명',
     name:'이메일',
@@ -29,10 +29,10 @@ const Ranks = () => {
 
   /**
    * onChangeListName()
-   * 직급직책 리스트의 이름 변경 
+   * 직급직책 리스트의 이름 변경
    * @param {number} index 리스트의 몇번째 순서
    * @param {string} e.target.value 인풋박스 입력값
-   * @returns X 
+   * @returns X
    */
   const onChangeListName = useCallback((e, index)=>{
         console.log(e.target.value)
@@ -58,7 +58,7 @@ const Ranks = () => {
               console.log('onclick up - ' + index)
               console.log(tempList)
                 tempList.splice(index-1, 0, tempList[index])
-                tempList.splice(index+1, 1)  
+                tempList.splice(index+1, 1)
             }
             setList(tempList);
           // code block
@@ -102,7 +102,7 @@ const Ranks = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getRankList = useCallback(async()=> {
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
     if(results === false){
         //setList([""])
@@ -125,7 +125,7 @@ const Ranks = () => {
   /**
    * onClickSave()
    * 직급직책 저장
-   * @param {string[]} list 직급 배열 
+   * @param {string[]} list 직급 배열
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(async()=> {
@@ -136,7 +136,7 @@ const Ranks = () => {
       const data = {
         appointments: list
       }
-    const results = await postRequest('http://61.101.55.224:8088/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
+    const results = await postRequest('http://192.168.0.14:8088/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
@@ -144,7 +144,7 @@ const Ranks = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        
+
         alert('저장되었습니다')
         getRankList()
       }else{
@@ -193,7 +193,7 @@ const Ranks = () => {
                                       <a onClick={()=>onClickModify('DOWN', i)}><img src={BTN_DOWN} style={{width:40, marginRight:10}}/></a>
                                       <a onClick={()=>onClickModify('DELETE', i)}><img src={BTN_DELETE} style={{width:40}}/></a>
                                     </div>
-                                </div>    
+                                </div>
                             )
                         })
                     }
@@ -201,7 +201,7 @@ const Ranks = () => {
             </WhiteBoxContainer>
           </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

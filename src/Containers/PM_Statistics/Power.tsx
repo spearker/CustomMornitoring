@@ -102,6 +102,7 @@ const PowerContainer = () => {
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [selectType, setSelectType] = useState([true, false])
+    const [labels, setLabels] = useState([])
 
     const getData = useCallback(async ()=>{
 
@@ -116,7 +117,7 @@ const PowerContainer = () => {
         })
 
         console.log(tempArray)
-
+        setLabels(resultData.dates)
         setData(tempArray)
 
     },[pk, selectDate])
@@ -124,6 +125,10 @@ const PowerContainer = () => {
     useEffect(() => {
         getData()
     }, [selectDate])
+
+    useEffect(() => {
+        console.log(labels)
+    }, [labels])
 
     return (
         <div>
@@ -151,7 +156,10 @@ const PowerContainer = () => {
                         </div>
                     </div>
                 </div>
-                <ReactApexChart options={chartOption} type={'area'} height={620} series={data}/>
+                {
+                    console.log(labels)
+                }
+                <ReactApexChart options={{...chartOption, labels}} type={'area'} height={620} series={data}/>
             </BlackContainer>
         </div>
     );
@@ -172,6 +180,9 @@ const BlackContainer = Styled.div`
             text-Align: left;
             margin-left: 20px;
         }
+    }
+    .apexcharts-tooltip{
+        color: black;
     }
 `
 

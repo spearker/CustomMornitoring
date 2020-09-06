@@ -96,7 +96,7 @@ const CompanySetting = () => {
       status: status,
       team_pk : myTeam
     }
-    const results = await postRequest('http://192.168.0.14:8299/api/v1/member/update', data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/member/update', data, getToken(TOKEN_NAME))
 
     if (results === false) {
       //setList([""])
@@ -121,7 +121,7 @@ const CompanySetting = () => {
   const getTarget = useCallback(async () => {
 
 
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/view?pk=' + getParameter("pk"), getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
@@ -153,7 +153,7 @@ const CompanySetting = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getRankList = useCallback(async () => {
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
     if (results === false) {
       //setList([""])
@@ -198,7 +198,7 @@ const CompanySetting = () => {
    * @returns X
    */
   const getList = useCallback(async () => {
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -228,7 +228,7 @@ const CompanySetting = () => {
     if(targetTeam == null){
       return;
     }
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {

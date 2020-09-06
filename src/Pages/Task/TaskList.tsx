@@ -31,7 +31,7 @@ import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import { useUser } from '../../Context/UserContext';
 import 'react-dropdown/style.css'
-     
+
 import StatusTable from '../../Components/Table/StatusTable';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import TaskTable from '../../Components/Table/TaskTable';
@@ -57,7 +57,7 @@ const TaskList = () => {
  const [tab, setTab] = useState<string>(tabList[0]);
 
  const optionList = [
-  "등록순", "이름순", "시작시간 순", "마감시간 순", 
+  "등록순", "이름순", "시작시간 순", "마감시간 순",
 ]
 const indexList = {
   status: '상태',
@@ -92,7 +92,7 @@ const indexList = {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-       
+
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -101,10 +101,10 @@ const indexList = {
     }
   },[option])
 
- 
+
  /**
    * onClickTaskStatus()
-   * 작업 내역의 상태 변경 
+   * 작업 내역의 상태 변경
    * @param {string} pk 작업지시서 pk
    * @param {string} value 상태값
    * @returns X
@@ -116,7 +116,7 @@ const indexList = {
       pk: pk,
       status: value
     }
-    const results = await postRequest('http://61.101.55.224:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
+    const results = await postRequest('http://192.168.0.14:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
@@ -124,24 +124,24 @@ const indexList = {
       if(results.status === 200){
         alert('성공적으로 변경되었습니다.')
         getData();
-        
-      
+
+
       }else{
         alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
       }
     }
   },[])
 
- 
+
  /**
    * getSearchList()
    * 목록 검색
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
 
     if(res === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -154,19 +154,19 @@ const indexList = {
       }
     }
   },[list, option, keyword, ])
-  
+
   /**
    * getData()
    * 기계 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 기계 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
 
-   
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
+
+
 
     if(res === false){
       //TODO: 에러 처리
@@ -174,15 +174,15 @@ const indexList = {
       if(res.status === 200){
          const data = res.results;
          setList(data)
-         
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[list , keyword, option])
 
-  
-  
+
+
 
   return (
     <DashboardWrapContainer index={7}>
@@ -190,21 +190,21 @@ const indexList = {
     <InnerBodyContainer>
     <div style={{position:'relative', width:'100%'}}>
         <Header title={`작업지시서 관리 (${list.length})`}/>
-        <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-          <SmallButtonLink name="+ 등록하기" link="/task/register"/> 
+        <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+          <SmallButtonLink name="+ 등록하기" link="/task/register"/>
           <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
         </div>
       </div>
-   
-          
+
+
          {/* 작업내역  */}
          <div style={{marginTop:5}}>
-          
+
               <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickTaskStatus}/>
           </div>
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

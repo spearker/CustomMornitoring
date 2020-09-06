@@ -243,60 +243,6 @@ const InnerBoxWrap = Styled.button`
     height: 14px;
     }
 `
-            
-const SearchBox = Styled(Input)`
-    input{
-        padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
-        height: 28px;
-        border: 0.5px solid #b3b3b3;
-        width: calc( 100% - 8px );
-        background-color: #f4f6fa;
-        font-size: 15px;
-        &::placeholder:{
-            color: #b3b3b3;
-        };
-     }
-`
-
-const SearchButton = Styled.button`
-    width: 32px;
-    height: 32px;
-    background-color: ${POINT_COLOR};
-    img{
-        width: 20px;
-        height: 20px;
-        margin-top: 5px;
-    }
-`
-
-
-const SearchBox = Styled(Input)`
-    input{
-        padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
-        height: 28px;
-        border: 0.5px solid #b3b3b3;
-        width: calc( 100% - 8px );
-        background-color: #f4f6fa;
-        font-size: 15px;
-        &::placeholder:{
-            color: #b3b3b3;
-        };
-     }
-`
-
-const SearchButton = Styled.button`
-    width: 32px;
-    height: 32px;
-    background-color: ${POINT_COLOR};
-    img{
-        width: 20px;
-        height: 20px;
-        margin-top: 5px;
-    }
-`
-
 
 const SearchBox = Styled(Input)`
     input{

@@ -31,8 +31,8 @@ const SuperList = () => {
     pk:'PK',
     company_name:'회사 이름',
     created:'생성일',
-    user_pk:'관리자 PK', 
-    user_email:'관리자 이메일', 
+    user_pk:'관리자 PK',
+    user_email:'관리자 이메일',
     company_code:'회사코드'
   }
   const onsubmitForm = useCallback((e)=>{
@@ -42,26 +42,26 @@ const SuperList = () => {
   },[email, name, pw, pwCheck])
 
   useEffect(()=>{
-    
+
     // 리슽트 받기
-    Axios.get('http://61.101.55.224:8086/api/v2/super/company/load')
+    Axios.get('http://192.168.0.14:8286/api/v2/super/company/load')
     .then(function (res: IServerResponse) {
       console.log(res);
       if(res.data.status === 200){
-        //welcome/auth로 이동 
+        //welcome/auth로 이동
         console.log(res.data.results)
         setCompanyList(res.data.results)
       }else{
-        //기타 에러처리 
+        //기타 에러처리
         alert('SERVER ERROR CHECK : ' + res.data.status)
-        
+
       }
     })
     .catch(function (error) {
       console.log(error);
       setError('로그인 할 수 없습니다')
     });
-    
+
   },[])
   const onClickModify = useCallback((id)=>{
 
@@ -69,7 +69,7 @@ const SuperList = () => {
 
   },[])
   return (
-    
+
         <FullPageDiv>
             <SubNavigation list={ROUTER_SUPER_ADMIN}/>
             <InnerDiv >
@@ -78,7 +78,7 @@ const SuperList = () => {
 
             </InnerDiv>
         </FullPageDiv>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

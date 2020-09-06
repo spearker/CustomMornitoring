@@ -26,7 +26,7 @@ const ForgotPw = () => {
    * @returns X
    */
   const onsubmitForm = useCallback(async ()=>{
-  
+
 
     setError('')
 
@@ -35,12 +35,12 @@ const ForgotPw = () => {
       setEmail('')
       return
     }
-  
+
     let data: object = {
       email : email,
       base_url: subDomain
     }
-    const results = await postRequestWithNoToken('http://61.101.55.224:8090/email/password/send', data)
+    const results = await postRequestWithNoToken('http://192.168.0.14:8290/email/password/send', data)
 
     if(results === false){
       //TODO: 에러 처리
@@ -58,7 +58,7 @@ const ForgotPw = () => {
   },[email, error, subDomain])
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -71,7 +71,7 @@ const ForgotPw = () => {
             </div>
           </div>
         </WelcomeContainer>
-      
+
   );
 }
 

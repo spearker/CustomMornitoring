@@ -7,9 +7,11 @@ import PressNameMarker from './Marker/PressNameMarker';
 import FactorySelector from './FactorySelector';
 import { getMonitoringMapData, getMapListData } from '../../Api/pm/map';
 import { API_URLS } from '../../Api/pm/map';
+import PressCMSMarker from "./Marker/PressCMSMarker";
 
 interface Props{
     url: string, //api 요청 url,
+    mapType?: 'basic' | 'cms' //지도 타입
     type: string | number, //지도 타입
     select?: string, //select pk
     onChangeEvent?: any,//setSelect Event
@@ -27,11 +29,11 @@ const dummy_map_data = {
     components: [
        {
            pk: '1',
-           name: '기계',
-           opertaion: 0,
-           ratio: 100,
-           photo: null,
+           machine_name: '기계',
+           machine_photo: null,
            tons: 5,
+           duty_cycle: 20,
+           current: 30,
            left: 40,
            bottom: 40,
        },
@@ -76,7 +78,7 @@ const initialData = {
 
 }
 
-const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
+const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, select}:Props) => {
 
     const [selectFactory, setSelectFactory] = useState<Factory>({pk: '', name: ''});
 
@@ -84,7 +86,7 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
 
     const [components, setComponents]= useState<any[]>([]);
 
-    const [mapData, setMapData] = useState<any>(initialData);
+    const [mapData, setMapData] = useState<any>(dummy_map_data);
 
     const [intervalId, setIntervalId]= useState<any>(null);
 
@@ -99,13 +101,16 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
         //setMapData(dummy_map_data);
 
         const resultObj = await getMonitoringMapData(url + `?factory=${facPk}` +  `&type=${type}`);
+
         if(resultObj){
             //console.log('지도 들어가기')
             setMapData(resultObj);
+
             setComponents(resultObj.components)
         }else{
             alert('[데이터 없음] 공장 도면이 등록되어야 사용 할 수 있는 기능힙니다. 공장 도면을 등록해주세요!')
         }
+
         console.log(resultObj);
 
     },[components, mapData, selectFactory, type]);
@@ -185,18 +190,26 @@ const MapBoard = ({autoRendering, type, url, onChangeEvent, select}:Props) => {
         <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory} />
         <MapBoardWrapper style={{width: Number(mapData.map_width) + 'pk', height: mapData.map_img == null ? '340px' : 'auto'}}  >
                 <InnerWrapper>
-
-
+                {
+                    components.length === 0 &&
+                    <div style={{width: "100%", height: "100%", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <div style={{flex: 1}}><p style={{textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></div>
+                    </div>
+                }
                 {
                     components.map((v,i)=>{
                         if(mapData.component_size == 'PRESS'){
                             return(
                                 <PressStatusMarker key={i} component={v}/>
                                 )
-                        }if(mapData.component_size == 'BRAKE'){
+                        }else if(mapData.component_size == 'BRAKE'){
                             return(
                                 <PressStatusMarker key={i} component={v}/>
                                 )
+                        }else if(mapType === "cms"){
+                            return(
+                                <PressCMSMarker key={i} component={v}/>
+                            )
                         }else{
                             return(
 

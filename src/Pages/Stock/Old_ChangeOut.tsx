@@ -110,7 +110,7 @@ const Old_ChangeOut = () => {
 
     }
 
-    const res = await postRequest('http://192.168.0.14:8299/api/v1/stock/out', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/out', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -199,7 +199,7 @@ const Old_ChangeOut = () => {
     }
     setIsSearched(true)
 
-    const res = await getRequest(`http://192.168.0.14:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://203.234.183.22:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

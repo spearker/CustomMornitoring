@@ -73,10 +73,10 @@ const RegisterLine= () => {
    * 라인 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 기계 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
+
     const res = await getRequest(BASE_URL + '/api/v1/procedure/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
@@ -102,10 +102,10 @@ const RegisterLine= () => {
    * 라인 키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     //alert('테스트 : keyword - ' + keyword);
     //return;
@@ -113,10 +113,10 @@ const RegisterLine= () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/procedure/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/procedure/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -136,10 +136,10 @@ const RegisterLine= () => {
    * 주변기기 키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch2 = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     //alert('테스트 : keyword - ' + keyword);
     //return;
@@ -147,10 +147,10 @@ const RegisterLine= () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/peripheral/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/peripheral/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -169,7 +169,7 @@ const RegisterLine= () => {
    * onClickCheck()
    * 체크박스 선택
    * @param {string} id 체크 항목의 pk
-   * @returns X 
+   * @returns X
    */
   const onClickCheck = useCallback((id: string)=>{
 
@@ -182,7 +182,7 @@ const RegisterLine= () => {
       if(checkList.length === 0){
         let tempArray = new Array();
         tempArray.push(id);
-        setCheckList(tempArray);  
+        setCheckList(tempArray);
       }else{
         let tempArray = checkList.map((v)=>(v));
         tempArray.push(id);
@@ -229,20 +229,20 @@ const RegisterLine= () => {
          setList2([]);
          setNo('');
          setInfo('')
-      
+
       }else{
         alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
-  
-   
+
+
   },[ no, info, list, list2])
 
   return (
       <DashboardWrapContainer>
-     
-      
+
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '라인 정보수정' : '라인 정보등록'}/>
             <WhiteBoxContainer>
@@ -251,55 +251,55 @@ const RegisterLine= () => {
                 <NormalInput title={'라인 상세정보'} value={info} onChangeEvent={setInfo} description={'라인의 상세 정보를 자유롭게 작성하세요'} />
                 {/* 팝업 여는 버튼 + 기계추가 */}
                 <AddInput title={'기계 추가'} icType="solo" onChangeEvent={()=>{
-                  setIsPoupup(true);  
-                  setCheckList(list); 
+                  setIsPoupup(true);
+                  setCheckList(list);
                   setKeyword('')}
                   }>
                 {
-                  list.map((v, i)=>{ 
-                    return ( 
+                  list.map((v, i)=>{
+                    return (
                         <TextList key={i} onClickEvent={()=>{
                           const tempList = list.slice()
                           const idx = list.indexOf(v)
                           tempList.splice(idx, 1)
                           setList(tempList)
-                        }} 
-                        title={''} name={v.machine_name}/>                    
+                        }}
+                        title={''} name={v.machine_name}/>
                     )
                   })
                 }
                 </AddInput>
                 {/* 팝업 여는 버튼 + 주변장치 */}
                 <AddInput title={'주변장치 추가'} icType="solo" onChangeEvent={()=>{
-                  setIsPoupup2(true);  
-                  setCheckList2(list2); 
+                  setIsPoupup2(true);
+                  setCheckList2(list2);
                   setKeyword('')}
                   }>
                 {
-                  list2.map((v, i)=>{ 
-                    return ( 
+                  list2.map((v, i)=>{
+                    return (
                         <TextList key={i} onClickEvent={()=>{
                           const tempList = list2.slice()
                           const idx = list2.indexOf(v)
                           tempList.splice(idx, 1)
                           setList2(tempList)
-                        }} 
-                        title={v.device_code} name={v.device_name}/>                    
+                        }}
+                        title={v.device_code} name={v.device_name}/>
                     )
                   })
                 }
                 </AddInput>
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />  
-                
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
+
               </form>
             </WhiteBoxContainer>
 
             {/* 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
+                setIsPoupup(false);
+                setList(checkList);
                 setSearchList([]);
                 setKeyword('')}
             }
@@ -308,10 +308,10 @@ const RegisterLine= () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: IMachine, i)=>{ 
-                      return ( 
+                    searchList.map((v: IMachine, i)=>{
+                      return (
                           !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가
-                          <AddList key={i} pk={''} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                          <AddList key={i} pk={''} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false }
                             onClickEvent={()=>{
                               const tempList = checkList.slice()
                               if(checkList.find((k, index)=> k.pk === v.pk) ){
@@ -322,8 +322,8 @@ const RegisterLine= () => {
                                   tempList.splice(0, 0, v)
                                   setCheckList(tempList)
                               }
-                            }} 
-                            title={''} name={v.machine_name} 
+                            }}
+                            title={''} name={v.machine_name}
                           />
                           :
                           <AddList key={i} pk={''} dim={true} selected={false} onClickEvent={()=>{}} title={v.pk} name={v.machine_name} />
@@ -337,11 +337,11 @@ const RegisterLine= () => {
 
 
             {/* 주변장치 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup2(false); 
-                setList2(checkList2); 
+                setIsPoupup2(false);
+                setList2(checkList2);
                 setSearchList2([]);
                 setKeyword('')}
             }
@@ -350,10 +350,10 @@ const RegisterLine= () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList2.map((v: ISubMachine, i)=>{ 
-                      return ( 
+                    searchList2.map((v: ISubMachine, i)=>{
+                      return (
                           !v.is_registered ? //다른 라인에 등록되어있으면 선택 불가
-                          <AddList key={i} pk={v.pk} dim={false} selected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                          <AddList key={i} pk={v.pk} dim={false} selected={checkList2.find((k)=> k.pk === v.pk)? true : false }
                             onClickEvent={()=>{
                               const tempList = checkList2.slice()
                               if(checkList2.find((k, index)=> k.pk === v.pk) ){
@@ -364,8 +364,8 @@ const RegisterLine= () => {
                                   tempList.splice(0, 0, v)
                                   setCheckList2(tempList)
                               }
-                            }} 
-                            title={v.device_code} name={v.device_name} 
+                            }}
+                            title={v.device_code} name={v.device_name}
                           />
                           :
                           <AddList key={i} pk={v.pk} dim={true} selected={false} onClickEvent={()=>{}} title={v.device_code} name={v.device_name} />
@@ -378,9 +378,9 @@ const RegisterLine= () => {
             </SearchModalContainer>
 
         </InnerBodyContainer>
-      
+
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

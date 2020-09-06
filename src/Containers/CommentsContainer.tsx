@@ -28,13 +28,13 @@ const CommentsContainer = ({children, pk}: Props) => {
     const textBoxRef = useRef(null);
     const [isCreated, setIsCreated] = useState<boolean>(false)
     useEffect(()=>{
-    
+
     },[])
 /**
    * addFile()
    * 파일 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFile = useCallback(async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
@@ -49,22 +49,22 @@ const CommentsContainer = ({children, pk}: Props) => {
         const temp = await uploadTempFile(event.target.files[0]);
         if(temp ===false){
           console.log(temp)
-          
+
           setFile(null)
-          
+
           return
         }else{
           console.log(temp)
           setPath(temp)
-    
+
         }
-      
+
       }else{
         alert('10MB 이하의 파일만 업로드 가능합니다.')
         setFile(null)
         return;
       }
-    
+
   },[file, path])
 
      /**
@@ -78,7 +78,7 @@ const CommentsContainer = ({children, pk}: Props) => {
       return;
     }
 
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/task/comment/list?pk=' + pk, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/task/comment/list?pk=' + pk, getToken(TOKEN_NAME))
 
     if(results === false){
         alert('데이터를 불러올 수 없습니다.')
@@ -92,7 +92,7 @@ const CommentsContainer = ({children, pk}: Props) => {
         alert('데이터를 불러올 수 없습니다.')
       }
     }
-  
+
   },[]);
 
   /**
@@ -111,7 +111,7 @@ const CommentsContainer = ({children, pk}: Props) => {
       comment_pk: id,
 
     }
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/task/comment/blind', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/task/comment/blind', data, getToken(TOKEN_NAME))
 
     if(res === false){
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -131,19 +131,19 @@ const CommentsContainer = ({children, pk}: Props) => {
    * addComment()
    * 파일 등록
    * @param {string} pk 작업지시서, 게시글 pk
-   * @returns X 
+   * @returns X
    */
   const addComment = useCallback(async(e, pk: string)=>{
-    
+
     e.preventDefault();
- 
+
       const data = {
         pk: pk,
         comment: text,
         file: path
       }
-   
-      const res = await postRequest('http://61.101.55.224:8088/api/v1/task/comment/put', data, getToken(TOKEN_NAME))
+
+      const res = await postRequest('http://192.168.0.14:8088/api/v1/task/comment/put', data, getToken(TOKEN_NAME))
       setIsCreated(true)
       if(res === false){
         setIsCreated(false)
@@ -158,7 +158,7 @@ const CommentsContainer = ({children, pk}: Props) => {
            setPath(null)
            //setIsCreated(false)
            //textBoxRef.current !== null ? textBoxRef.current!.text(null) :  setText('');
-         
+
         }else{
           setIsCreated(false)
           alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -168,12 +168,12 @@ const CommentsContainer = ({children, pk}: Props) => {
   },[text, file, pk, path,textBoxRef, isCreated])
 
   return (
- 
+
     <WhiteWrapDiv>
         <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:14, marginTop:20}}/>
         <p className="p-bold" style={{fontSize: 14, marginBottom:8, display:'inline-block', marginRight:12}}>· 댓글</p>
         <img src={isOpen ? IC_UP : IC_DOWN} style={{float:'right', width:19}} onClick={()=>{setIsOpen(!isOpen); onClickOpenComment(pk)}} />
-    
+
         {
             isOpen ?
             <div style={{marginTop:12}}>
@@ -196,20 +196,20 @@ const CommentsContainer = ({children, pk}: Props) => {
                       {text}
                       </textarea>
                     }
-                  
+
                     <div style={{textAlign:'right', marginTop:12, marginBottom:12}}>
                         <span style={{marginRight:10, fontSize:14}}>{file !== null ?file.name : ''}</span>
-                        <LabelBox htmlFor={'file'}  style={{cursor:'pointer'}}>파일 선택</LabelBox>   
+                        <LabelBox htmlFor={'file'}  style={{cursor:'pointer'}}>파일 선택</LabelBox>
                         <ButtonBox onClick={(e)=>{addComment(e, pk)}}>댓글등록</ButtonBox>
                     </div>
                 </div>
-            <input type="file" name="file" id={'file'} style={{display:'none'}} onChange={addFile}/> 
+            <input type="file" name="file" id={'file'} style={{display:'none'}} onChange={addFile}/>
         </div>
         :
         null}
-    </WhiteWrapDiv>    
- 
-      
+    </WhiteWrapDiv>
+
+
   );
 }
 

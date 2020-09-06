@@ -23,6 +23,9 @@ export const API_URLS = {
     },
     press: {
         monitoring: `/v1/monitoring/press/details`
+    },
+    power: {
+        monitoring: `v1/monitoring/cms/map`
     }
 
   }

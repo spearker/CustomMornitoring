@@ -63,7 +63,7 @@ const ReadyTimeStatisticsContainer = () => {
         const resultData = await getReadyTimeData(tempUrl);
         console.log(resultData)
         setData(resultData)
-    },[data, pk, selectComponent])
+    },[data, pk, selectComponent, selectDate])
 
     useEffect(() => {
         console.log(selectComponent)

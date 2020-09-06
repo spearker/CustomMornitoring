@@ -26,7 +26,7 @@ const MaterialList = () => {
   const index = {
     material_name:'자재 이름',
     material_code:'자재 번호',
-    distributor:'유통사', 
+    distributor:'유통사',
     material_spec:'스펙',
     stock:'수량'
   }
@@ -39,7 +39,7 @@ const MaterialList = () => {
    */
   const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/material/list/'+filter,getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/material/list/'+filter,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -55,12 +55,12 @@ const MaterialList = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/material/list/0',getToken(TOKEN_NAME))
+
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/material/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -76,7 +76,7 @@ const MaterialList = () => {
 
   useEffect(()=>{
     getList();
-   
+
   },[])
 
   const onClickModify = useCallback(async (id, stock)=>{
@@ -90,12 +90,12 @@ const MaterialList = () => {
       if(results.status === 200){
         alert('성공적으로 변경되었습니다.')
         getList()
-        
+
       }else{
         alert('요청 실패하였습니다. 잠시후 이용하세요.')
       }
     }
-  
+
   },[])
 
   return (
@@ -109,14 +109,14 @@ const MaterialList = () => {
             </div>
           </div>
 
-          <NormalTable widthList={['253px', '130px', '130px', '270px', '180px']} 
+          <NormalTable widthList={['253px', '130px', '130px', '270px', '180px']}
           onChangeEvent={
             setList
           }
           indexList={index} keyName={'pk'} eventType="input" buttonName='변경' onClickEvent={onClickModify} contents={list}/>
           </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

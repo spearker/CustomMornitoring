@@ -105,14 +105,14 @@ const PMReadyTimeContainer = () => {
 
         setSeries([resultData.analyze.runtime, resultData.analyze.power_off, resultData.analyze.downtime.qdc, resultData.analyze.downtime.error, resultData.analyze.downtime.total])
         setMachineData(resultData)
-    },[ machineData, series, chartOption, selectComponent]);
+    },[ machineData, series, chartOption, selectComponent, selectDate]);
 
     useEffect(()=>{
         console.log(selectComponent)
         if(selectComponent !== '') {
             getData()
         }
-    },[selectComponent])
+    },[selectComponent, selectDate])
 
     return (
         <div>

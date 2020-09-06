@@ -94,7 +94,7 @@ const Dashboard = () => {
   },[])
 
 
- 
+
 
   /**
    * onClickChangeDay()
@@ -107,7 +107,7 @@ const Dashboard = () => {
   },[targetDate])
 
   useEffect(()=>{
-    
+
     setList(
       [
         { date: '2020-05-31' ,  issue: 0 },
@@ -136,11 +136,11 @@ const Dashboard = () => {
    * getStatus()
    * 장비 현황 조회
    * @param {string} url 요청 주소
-   * @param {string} pageIndex 페이지 인덱스 
+   * @param {string} pageIndex 페이지 인덱스
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getStatus = useCallback(async (index: number)=>{
-    const results = await getRequest('http://61.101.55.224:8087/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8087/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
@@ -161,7 +161,7 @@ const Dashboard = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getTasks = useCallback(async (index: number)=>{
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
@@ -200,7 +200,7 @@ const Dashboard = () => {
 
   /**
    * onClickTaskStatus()
-   * 작업 내역의 상태 변경 
+   * 작업 내역의 상태 변경
    * @param {string} pk 작업지시서 pk
    * @param {string} value 상태값
    * @returns X
@@ -212,7 +212,7 @@ const Dashboard = () => {
       pk: pk,
       status: value
     }
-    const results = await postRequest('http://61.101.55.224:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
+    const results = await postRequest('http://192.168.0.14:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
@@ -236,14 +236,14 @@ const Dashboard = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     //return;
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('서버에서 데이터를 불러 올 수없습니다.')
     }else{
       if(results.status === 200){
           setTaskList(results.results)
-          
+
       }else{
         alert('서버에서 데이터를 불러 올 수없습니다.')
       }
@@ -259,11 +259,11 @@ const Dashboard = () => {
             <div style={{display:'flex', alignItems:'center'}}>
               <SubHeader title={'전체 장비현황'}/>
               <img src={IC_REFRESH} onClick={()=>{getStatus(1); setPage(1)}} style={{width:20, height:20,marginLeft:7, cursor:'pointer'}}/>
-             
+
             </div>
-           
+
             <div style={{  color:'black',borderRadius:5 ,height:'150', backgroundColor: BG_COLOR_SUB3, display:'flex', alignItems: 'center',justifyContent: 'center',marginTop:13, marginBottom:30}}>
-              <div  style={{width:'4%'}}> 
+              <div  style={{width:'4%'}}>
                <img onClick={ page > 1 ? ()=>onClickChangePage(page-1) :()=>{} } src={IC_BEFORE} style={{cursor:'pointer',width:24, height:24, margin:10, zIndex:3}} />
               </div>
               <div style={{flexWrap: 'wrap', flexDirection: 'row',marginTop: 25, width:'90%', marginBottom: 17, textAlign:'center'}}>
@@ -281,13 +281,13 @@ const Dashboard = () => {
                   })
                 }
                 </div>
-                
+
                 <div style={{marginTop:7, }}>
                   <DotPagenation stock={Math.ceil(dummy.length/6)} selected={page} onClickEvent={onClickChangePage}/>
                 </div>
               </div>
-              
-              <div style={{width:'4%'}}> 
+
+              <div style={{width:'4%'}}>
                 <img onClick={ page < Math.ceil(dummy.length/6) ? ()=>onClickChangePage(page+1) :()=>{} } src={IC_NEXT} style={{cursor:'pointer',width:24, margin:10}} />
               </div>
             </div>
@@ -301,7 +301,7 @@ const Dashboard = () => {
                 <FilterButton onClick={()=>setTaskFilter('done')} style={{backgroundColor: changeStatusToColor('done')}}>완료</FilterButton>
                 <FilterButton onClick={()=>setTaskFilter('share')} style={{backgroundColor: changeStatusToColor('share')}}>공유</FilterButton>
                 <FilterButton onClick={()=>setTaskFilter('ready')} style={{backgroundColor: changeStatusToColor('ready')}}>대기</FilterButton>
-  
+
             <div style={{display:'inline-block', float:'right', }}>
               <div style={{display:'flex', alignItems:'center'}}>
               <ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 작업 지시서 추가하기</>}</ColorButtonLink>
@@ -310,7 +310,7 @@ const Dashboard = () => {
             </div>
             <div style={{marginTop:12}}>
               <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskFilter === 'all' ? taskList : taskList.filter(f=>f.status === taskFilter)} onClickEvent={onClickTaskStatus}/>
-                
+
             </div>
             {
               taskList.length === 0 &&
@@ -318,11 +318,11 @@ const Dashboard = () => {
                 등록된 작업지시서가 없습니다.
               </NullBox>
             }
-            
+
           </div>
     </InnerBodyContainer>
   </DashboardWrapContainer>
-      
+
   );
 }
 

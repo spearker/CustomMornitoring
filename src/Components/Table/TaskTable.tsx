@@ -46,16 +46,16 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     setOpenTarget("")
   },[contents])
 
-  
+
   /**
    * onChangeStock()
    * 생산자재 수량 변경
    * @param {string} pk id
    * @param {string} amount 수량
-   * @returns X 
+   * @returns X
    */
   const onChangeStock = useCallback(async(pk, amount)=>{
-  
+
     if(task == null || task.pk == undefined){
       return;
     }
@@ -68,20 +68,20 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       amount: amount
 
     }
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/task/amount', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/task/amount', data, getToken(TOKEN_NAME))
 
     if(res === false){
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }else{
         if(res.status === 200){
            alert('성공적으로 변경 되었습니다')
-           
+
         }else{
           alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
       }
 
-    
+
   },[task])
 
   /**
@@ -94,15 +94,15 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     if(pk === undefined || pk === ""){
       return;
     }
-   
+
     //alert(pk)
 
-    const results = await getRequest('http://61.101.55.224:8088/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8088/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
       alert(' 데이터를 불러올 수 없습니다.')
       setTask(null)
-      
+
     }else{
       if(results.status === 200){
         setTask(results.results)
@@ -116,7 +116,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
         setTask(null)
       }
     }
-  
+
   },[openTarget, task, process]);
 
 
@@ -131,14 +131,14 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       return;
     }
 
-    const results = await getRequest('http://61.101.55.224:8087/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8087/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
       alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
     }else{
       if(results.status === 200){
         //setTask(results.results)
-       
+
         setProcess(results.results)
         //setReplyList(results.results.replyList)
       }else{
@@ -146,7 +146,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
         alert('데이터를 불러올 수 없습니다.')
       }
     }
-  
+
   },[openTarget, task, process]);
 
 
@@ -166,7 +166,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
             <td>공정</td>
             <td>작업자</td>
             <td>댓글</td>
-            
+
           </tr>
           {/* 테이블 바디 */}
           {
@@ -189,7 +189,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                     )
                   })
                 }
-              
+
               </tr>
               <tr style={{backgroundColor:'#f4f6fa'}}>
                 {
@@ -197,7 +197,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                   null
                   :
                   <td colSpan={7} style={{paddingLeft:8, color:'black'}} >
-                      
+
                       <div className="div-no-scroll" style={{ maxHeight:700, overflow:'auto'}}>
                       {/* 헤더 */}
                       <div style={{ marginTop:24}}>
@@ -214,7 +214,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                         <div style={{paddingLeft:12,position:'relative'}}>
                         <p style={{float:'right', position:'absolute', right:0, top:21}}>작성일 : {task.created}</p>
                           <ReadOnlyInputTask title={'상세 업무내용'} value={task.description}/>
-                          </div>  
+                          </div>
                         </div>
                         {/* 공정내용 */}
                         <div style={{paddingLeft:12, minHeight:200, paddingTop:18}}>
@@ -228,16 +228,16 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                           })
                         }
                         </ProcessWrapBox>
-                      
+
                         </div>
 
-                        
+
                         {/* 댓글, 등록자, 파일 리스트 */}
                         <div style={{paddingLeft:12, marginBottom:12}}>
                         <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
                         <span className="p-bold" style={{width: 128, float:'left', display:'inline-block'}}>·  첨부 파일</span>
                         <div style={{ marginLeft:128, color:'black', minHeight: 70}}>
-                          { 
+                          {
                             task.files.map((f,i)=>{
 
                               return(
@@ -277,16 +277,16 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
                             <span className="p-limit" style={{width: 500, display:'inline-block'}}>{task.referencers}</span>
                           </div>
                         </div>
-                      
+
                         </div>
                         <CommentsContainer pk={openTarget}>
-                            
+
                         </CommentsContainer>
                         </div>
-                      
-                      
+
+
                       </div>
-                      
+
                   </td>
                 }
               </tr>
@@ -294,11 +294,11 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
               )
             })
           }
-          
+
         </tbody>
       </table>
     </TableWrap>
-      
+
   );
 }
 const ImageBox = Styled.img`

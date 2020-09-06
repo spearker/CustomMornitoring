@@ -12,7 +12,7 @@ import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-     
+
 import StatusTable from '../../Components/Table/StatusTable';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import { useUser } from '../../Context/UserContext';
@@ -25,7 +25,7 @@ const StatusList = () => {
   const [option, setOption] = useState(0);
   const me = useUser();
   const optionList = [
-    "등록순", "이름순", "라인순", 
+    "등록순", "이름순", "라인순",
   ]
   const index = {
     status:'상태',
@@ -46,7 +46,7 @@ const StatusList = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     //return;
-    const results = await getRequest('http://61.101.55.224:8087/api/v1/status/list/' + filter, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.14:8087/api/v1/status/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
       alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
@@ -61,7 +61,7 @@ const StatusList = () => {
 
   useEffect(()=>{
     onClickFilter(0)
-   
+
   },[])
 
   const onClickModify = useCallback((id, type)=>{
@@ -71,7 +71,7 @@ const StatusList = () => {
     }else{ //peripheral
       window.location.href=`/update/submachine?pk=${id}`
     }
-  
+
   },[])
 
 
@@ -82,10 +82,10 @@ const StatusList = () => {
             <Header title={'기계 및 장비 현황'}/>
             <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
               {
-                me.is_admin ? 
+                me.is_admin ?
                 <>
-              
-              <SmallButtonLink name="+ 기계 추가" link="/register/machine"/> 
+
+              <SmallButtonLink name="+ 기계 추가" link="/register/machine"/>
               <SmallButtonLink name="+ 주변장치 추가" link="/register/submachine"/>
               </>
               :
@@ -95,10 +95,10 @@ const StatusList = () => {
           </div>
 
           <StatusTable widthList={['100px', '140px','240px', '140px', '140px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={me.is_admin ? onClickModify :null}/>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

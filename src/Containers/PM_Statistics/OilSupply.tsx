@@ -59,7 +59,10 @@ const chartOption = {
         tickAmount: 24,
         labels:{
             show: true,
-            formatter: (value) => {
+            formatter: (value, index) => {
+                if(index===24){
+                    return '(단위/초s)'
+                }
                 if(value > 60) {
                     return
                 }else{
@@ -99,8 +102,17 @@ const OilSupplyContainer = () => {
 
         const tempUrl = `${API_URLS['oilSupply'].load}?pk=${selectComponent}`
         const resultData = await getOilSupplyData(tempUrl);
-        console.log(resultData)
-        setData(resultData);
+        let XaxisData = resultData.insert_oil_time.Xaxis
+
+        XaxisData[XaxisData.length -1] = ("(일/day)")
+
+       setData({
+            ...resultData,
+            insert_oil_time: {
+                ...resultData.insert_oil_time,
+                Xaxis: XaxisData
+            }
+        });
 
     },[data, pk, selectComponent])
 
@@ -144,16 +156,16 @@ const BlackContainer = Styled.div`
     height: 504px;
     background-color: #111319;
     border-radius: 6px;
+    padding-left: 10px;
     margin-top: 20px;
     .itemDiv{
         height: 40px;
-        width: 50%;
+        width: 100%;
         p{
             font-size: 20px;
             font-weight: bold;
             padding-Top: 20px;
             text-Align: left;
-            margin-left: 20px;
         }
     }
 `

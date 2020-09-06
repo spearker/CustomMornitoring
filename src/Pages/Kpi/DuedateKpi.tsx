@@ -127,7 +127,7 @@ const DuedateKpi = () => {
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
 
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -152,7 +152,7 @@ const DuedateKpi = () => {
   const getList = useCallback(async ()=>{
 
 
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
       alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -176,7 +176,7 @@ const DuedateKpi = () => {
     setOption(filter)
     //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-    const results = await getRequest('http://192.168.0.14:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
 
 
@@ -200,7 +200,7 @@ const DuedateKpi = () => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://192.168.0.14:8299/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){

@@ -20,8 +20,9 @@ const FactoryPressStatus = () => {
     return(
         <FactoryPressStatusWrapper>
             <p>선택 컴포 : {selectComponent}</p>
-            <MapBoard 
-                type={1}//0: 모니터링 1:통계/분석
+            <MapBoard
+                type={0}//0: 모니터링 1:통계/분석
+                mapType={"cms"}
                 url={API_URLS.press.statics}
                 select={selectComponent} //pk
                 onChangeEvent={setSelectComponent}

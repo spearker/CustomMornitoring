@@ -387,7 +387,8 @@ const Routers = () => {
 
                 {/*슈퍼 어드민*/}
                 <Route exact path="/super/register" component={SuperRegister} />
-                <Route exact path="/super/list" component={SuperList} />
+                <Route exact path="/super/list
+                " component={SuperList} />
 
 
                 {/* 안쓰는것 */}

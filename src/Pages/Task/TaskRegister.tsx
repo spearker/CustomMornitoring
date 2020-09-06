@@ -60,7 +60,7 @@ const TaskRegister = () => {
 
   const [select, setSelect] = useState<IProcess[]>();
   const [selectIndex, setSelectIndex] = useState<number>(999);
- 
+
  //검색관련
  //생산품 검색
  const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -101,8 +101,8 @@ const TaskRegister = () => {
     machine_name:'기계 이름',
     machine_label:'기계 종류',
     machine_code:'기계 번호',
-    manufacturer:'제조사', 
-    manufacturer_code:'제조사 번호', 
+    manufacturer:'제조사',
+    manufacturer_code:'제조사 번호',
     manufacturer_detail:'제조사 상세정보'
   }
 
@@ -128,11 +128,11 @@ const TaskRegister = () => {
   //
   useEffect(()=>{
 
-    
+
     if(list.length > 0){
       getRecommendData()
     }
-    
+
   },[list])
 
   /**
@@ -140,16 +140,16 @@ const TaskRegister = () => {
      * 추천 데이터 받기
      * @param {string} url 요청 주소
      * @param {string} pk 자재 pk
-     * @returns X 
+     * @returns X
      */
     const getRecommendData = useCallback(async()=>{
-      
+
       if(list.length < 1 || isUpdate){
         return;
       }
       const keyword = list[0].pk;
 
-      const res = await getRequest('http://61.101.55.224:8089/api/v1/task/recommend?pk=' + encodeURIComponent(keyword), getToken(TOKEN_NAME))
+      const res = await getRequest('http://192.168.0.14:8089/api/v1/task/recommend?pk=' + encodeURIComponent(keyword), getToken(TOKEN_NAME))
 
 
       if(res === false){
@@ -163,7 +163,7 @@ const TaskRegister = () => {
           }else{
             setRecommend(data)
           }
- 
+
         }else{
           alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
         }
@@ -186,7 +186,7 @@ const TaskRegister = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-       
+
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -195,15 +195,15 @@ const TaskRegister = () => {
     }
   },[option])
 
-  
 
- 
+
+
   /**
    * onClickSearch()
    *  키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
     //alert('keyword')
@@ -226,10 +226,10 @@ const TaskRegister = () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest(`http://61.101.55.224:8088/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://192.168.0.14:8088/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -247,23 +247,23 @@ const TaskRegister = () => {
         }else{
           return;
         }
-    
-         
+
+
       }else{
         //TODO:  기타 오류
       }
     }
   },[keyword])
- 
+
   /**
    * onClickSearchMaterial()
    * 생산제품 키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearchMaterial = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     //alert('테스트 : keyword - ' + keyword);
     //return;
@@ -271,10 +271,10 @@ const TaskRegister = () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/material/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/material/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -284,7 +284,7 @@ const TaskRegister = () => {
          setKeyword('')
          setSearchList(results);
       }else if(res.status === 1001){
-        //TODO:  오류 처리 
+        //TODO:  오류 처리
       }else{
         //TODO:  기타 오류
       }
@@ -296,10 +296,10 @@ const TaskRegister = () => {
    * 생산제품 키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearchProcess = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     //alert('테스트 : keyword - ' + keyword);
     //return;
@@ -307,10 +307,10 @@ const TaskRegister = () => {
       alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/material/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/material/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -320,7 +320,7 @@ const TaskRegister = () => {
          setKeyword('')
          setSearchList(results);
       }else if(res.status === 1001){
-        //TODO:  오류 처리 
+        //TODO:  오류 처리
       }else{
         //TODO:  기타 오류
       }
@@ -343,7 +343,7 @@ const TaskRegister = () => {
               console.log('onclick up - ' + index)
               console.log(tempList)
                 tempList.splice(index-1, 0, tempList[index])
-                tempList.splice(index+1, 1)  
+                tempList.splice(index+1, 1)
             }
             setList2(tempList);
           // code block
@@ -375,12 +375,12 @@ const TaskRegister = () => {
 
   },[list2])
 
- 
+
   /**
    * addFile()
    * 파일 등록
    * @param {object(file)} event.target.files[0] 파일
-   * @returns X 
+   * @returns X
    */
   const addFile = useCallback(async (event: any): Promise<void> => {
     console.log(event.target.files[0]);
@@ -397,11 +397,11 @@ const TaskRegister = () => {
     if(event.target.files[0].size < 10000000){ //10MB 이하 판별
       const tempData = event.target.files[0]
       const tempPath = await uploadTempFile(event.target.files[0]);
-      
+
 
       if(tempPath ===false){
         console.log(tempPath)
-        
+
         return
       }else{
         let tempFileLsit = fileList.slice();
@@ -412,19 +412,19 @@ const TaskRegister = () => {
         setPathList(tempPathList)
         return
       }
-     
+
     }else{
       alert('9MB 이하의 파일만 업로드 가능합니다.')
       return;
     }
-    
+
   },[fileList, pathList, oldFileList])
 
    /**
    * onsubmitFormUpdate()
    * 작업지시서 정보 수정
    * @param {string} pk 작업지시서 pk
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -448,7 +448,7 @@ const TaskRegister = () => {
     const data = {
         pk: getParameter('pk'),
         title: title,
-        description : description, 
+        description : description,
         product_pk: list[0].pk,
         amount: amount,
         process: tempProcess,
@@ -458,16 +458,16 @@ const TaskRegister = () => {
         delete_file : removefileList,
     }
 
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/task/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/task/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-       
+
          alert('성공적으로 수정 되었습니다');
 
-         
+
       }else{
         alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
@@ -477,7 +477,7 @@ const TaskRegister = () => {
   /**
    * onsubmitForm()
    * 작업지시서 정보 등록
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -498,18 +498,18 @@ const TaskRegister = () => {
     list2.forEach(v => {
       tempProcess.push(v['pk'])
     });
-    let data: any = ""; 
+    let data: any = "";
     if(tempOpt === 'auto'){
 
       let tempPc = new Array();
       recommend[selectIndex].forEach((v, i)=>{
-        
+
         tempPc.push(v.pk)
       })
       data = {
-       
+
         title: title,
-        description : description, 
+        description : description,
         product_pk: list[0].pk,
         amount: amount,
         process: tempPc,
@@ -520,9 +520,9 @@ const TaskRegister = () => {
     }
     }else{
       data = {
-       
+
         title: title,
-        description : description, 
+        description : description,
         product_pk: list[0].pk,
         amount: amount,
         process: tempProcess,
@@ -532,9 +532,9 @@ const TaskRegister = () => {
         files: pathList,
     }
     }
-    
 
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/task/register', data, getToken(TOKEN_NAME))
+
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/task/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -542,7 +542,7 @@ const TaskRegister = () => {
       if(res.status === 200){
 
          alert('성공적으로 등록 되었습니다');
-         
+
          setTitle('');
          setDescription('');
          setList([]);
@@ -551,7 +551,7 @@ const TaskRegister = () => {
          setAmount(0);
          setReferencerList([]);
          setRecommend([])
-         
+
       }else{
         alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
@@ -564,11 +564,11 @@ const TaskRegister = () => {
    * 작업지시서 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 기계 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
-    const res = await getRequest('http://61.101.55.224:8088/api/v1/task/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+    const res = await getRequest('http://192.168.0.14:8088/api/v1/task/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
     const tempM = new Array()
     const tempOut = new Array()
     if(res === false){
@@ -585,7 +585,7 @@ const TaskRegister = () => {
          setAmount(data.amount);
          setReferencerList(data.referencers);
          setOldFileList(data.files)
-         
+
       }else{
         //TODO:  기타 오류
       }
@@ -598,7 +598,7 @@ const TaskRegister = () => {
    * 작업지시서 파일첨부
    * @param {string} url 요청 주소
    * @param {string} pk 작업지시서 pk
-   * @returns X 
+   * @returns X
    */
   const onSubmitFile = useCallback(async(id)=>{
     console.log(fileList)
@@ -607,8 +607,8 @@ const TaskRegister = () => {
     fileList.forEach((v, i)=>{
       data.append('file',v);
     });
-    const res = await postRequest('http://61.101.55.224:8088/api/v1/task/file',data, getToken(TOKEN_NAME))
-    
+    const res = await postRequest('http://192.168.0.14:8088/api/v1/task/file',data, getToken(TOKEN_NAME))
+
     if(res === false){
       alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
     }else{
@@ -619,9 +619,9 @@ const TaskRegister = () => {
       }
     }
   },[fileList])
-  
+
   return (
-    
+
       <DashboardWrapContainer index={7}>
         <SubNavigation list={ROUTER_MENU_LIST[7]}/>
         <InnerBodyContainer>
@@ -639,23 +639,23 @@ const TaskRegister = () => {
                 <div style={{width:'55%'}}>
 
                 <AddInput line={false} title={'생산제품 (*필수)'} icType="solo" onlyOne={list.length > 0 ? true: false} onChangeEvent={()=>{
-                  setIsPoupup(true);  
-                  setCheckList(list); 
+                  setIsPoupup(true);
+                  setCheckList(list);
                   setKeyword('')}
                   }>
                 {
-                  list.map((v: IMaterial, i)=>{ 
-                    return ( 
-                        <TextList key={i} 
+                  list.map((v: IMaterial, i)=>{
+                    return (
+                        <TextList key={i}
                         onClickSearch={()=>{
                           setIsPoupup(true);
-                          setKeyword(''); 
+                          setKeyword('');
                           setIsSearched(true);
                         }}
                         onClickEvent={()=>{
                           setList([])
-                        }} 
-                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>                    
+                        }}
+                        title={v.material_code !== undefined ? v.material_code : ""} name={v.material_name}/>
                     )
                   })
                 }
@@ -668,10 +668,10 @@ const TaskRegister = () => {
                 <p style={{fontSize: 14,textAlign:'left', marginTop:5, fontWeight: 700, display:'inline-block', marginRight:20}}>·  생산목표량</p>
                   <InputBox type="number" value={amount} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{setAmount(e.target.value)}} placeholder={'수량을 입력하세요(필수)'}/>
                 </div>
-           
+
             </div>
 
-          
+
                 {/* 공정 선택 */}
                 <div style={{marginTop:16, marginBottom:24}}>
                   {
@@ -679,7 +679,7 @@ const TaskRegister = () => {
                       <BasicToggle contents={['추천공정선택', '수동공정선택']} select={option} onClickEvent={setOption}/>
                       :null
                   }
-               
+
                     {
                       option === 0 && !isUpdate ?
                       list.length < 1 ?
@@ -692,7 +692,7 @@ const TaskRegister = () => {
                         {
                           recommend.map((v,i)=>{
                             return(
-                              <ProcessTable pk={String(i)} select={selectIndex} contents={v} indexList={['','명칭','기계 정보','금형정보', '자재정보']} widthList={['1%','14%','30%','15%','40%']} 
+                              <ProcessTable pk={String(i)} select={selectIndex} contents={v} indexList={['','명칭','기계 정보','금형정보', '자재정보']} widthList={['1%','14%','30%','15%','40%']}
                               onClickSelect={
                                 (value: number)=>{
                                   setSelectIndex(value);
@@ -703,18 +703,18 @@ const TaskRegister = () => {
                             )
                           })
                         }
-                          
+
                       </div>
                       :
                       list2.length < 1 ?
                       <div style={{marginTop:60, marginBottom:60}}>
                       <p style={{ paddingBottom:10, textAlign:'center', color:"#aaaaaa"}}>공정을 추가해주세요</p>
                       <SmallButton name={'+ 추가하기'} onClickEvent={()=>setIsPoupup2(true)} color={'#d3d3d3'}  />
-                      
+
                      </div>
                       :
                       <div>
-                       <ProcessTable pk={''} contents={list2} indexList={['명칭','','기계 정보','금형정보', '자재정보']} widthList={['12%','10%','25%','15%','38%']} 
+                       <ProcessTable pk={''} contents={list2} indexList={['명칭','','기계 정보','금형정보', '자재정보']} widthList={['12%','10%','25%','15%','38%']}
                        onClickSearch={()=>{setIsPoupup2(true);setCheckList2(list2);}}
                        onClickModify={onClickWhere}
                        />
@@ -737,15 +737,15 @@ const TaskRegister = () => {
                       image: ""
                     }}
                 />
-                
+
                 <p style={{borderRight:'dotted 1px #d3d3d3',  height:27, width:'1%',  marginRight:6}}></p>
- 
-               
+
+
                   <MemberInput
                     title={'작업자'}
                     onChangeEvent={()=>{
-                      setIsPoupup3(true);  
-                      setWorker(check); 
+                      setIsPoupup3(true);
+                      setWorker(check);
                       setKeyword('')
                     }}
                     isMultiRegistered={false}
@@ -766,8 +766,8 @@ const TaskRegister = () => {
                         setReferencerList(tempList)
                     }}
                     onChangeEvent={()=>{
-                      setIsPoupup4(true);  
-                      setCheckList4(referencerList); 
+                      setIsPoupup4(true);
+                      setCheckList4(referencerList);
                       setKeyword('')
                     }}
                     isMultiRegistered={true}
@@ -790,12 +790,12 @@ const TaskRegister = () => {
                         <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
                         <span className="p-bold" style={{width: 98, float:'left', display:'inline-block'}}>·  첨부 파일</span>
                         <input type="file" name="file" id={'machinePhoto'} style={{display:'none'}} onChange={addFile}/>
-                        <div style={{ marginLeft:108, color:'black'}}> 
-                       
+                        <div style={{ marginLeft:108, color:'black'}}>
+
                         {
-                          fileList.map((v, i)=>{ 
-                            return ( 
-                                <FileTumbCard key={i} 
+                          fileList.map((v, i)=>{
+                            return (
+                                <FileTumbCard key={i}
                                   name={v.name}
                                   type={v.type}
                                   url={v.url}
@@ -810,15 +810,15 @@ const TaskRegister = () => {
                                     setFileList(tempList)
                                     setPathList(tempPathList)
 
-                                }} 
-                                />                    
+                                }}
+                                />
                             )
                           })
                         }
                         {
-                          oldFileList.map((v, i)=>{ 
-                            return ( 
-                                <FileTumbCard key={i} 
+                          oldFileList.map((v, i)=>{
+                            return (
+                                <FileTumbCard key={i}
                                   name={v.name}
                                   type={v.type}
                                   url={v.url}
@@ -832,8 +832,8 @@ const TaskRegister = () => {
                                     tempRemoveList.push(v.pk)
                                     setRemoveFileList(tempRemoveList)
                                     setOldFileList(tempList)
-                                }} 
-                                />                    
+                                }}
+                                />
                             )
                           })
                         }
@@ -845,23 +845,23 @@ const TaskRegister = () => {
                           </label>
                           :null
                         }
-                      
-                    
+
+
                         </div>
-                     
+
                 </div>
                 <hr style={{border:'solid 0.5px #d3d3d3', marginBottom:18, marginTop:18,}}/>
-                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />   
+                <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
                 </form>
           </WhiteBoxContainer>
 
-           
+
             {/* 재료 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
+                setIsPoupup(false);
+                setList(checkList);
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false); setKeyword(''); setSearchList([]); setIsSearched(false)}} title={'생산제품 및 자재'} >
@@ -869,17 +869,17 @@ const TaskRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: IMaterial, i)=>{ 
-                      return ( 
-                    
-                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                    searchList.map((v: IMaterial, i)=>{
+                      return (
+
+                          <SearchedList key={i} pk={v.pk} widths={['40%', '45%', '15%']} contents={[v.material_name, v.material_code !== undefined ? v.material_code : "", String(v.stock)]} isIconDimmed={false} isSelected={checkList.find((k)=> k.pk === v.pk)? true : false }
                              onClickEvent={()=>{
                               const tempList = checkList.slice()
                               tempList.splice(0, 1, v)
                               setCheckList(tempList)
-                            }} 
+                            }}
                           />
-                         
+
                         )
                     })
                     :
@@ -888,11 +888,11 @@ const TaskRegister = () => {
                 </div>
             </SearchModalContainer>
             {/* 프로세스 검색창 */}
-           <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+           <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup2(false); 
-                setList2(checkList2); 
+                setIsPoupup2(false);
+                setList2(checkList2);
                 setIsSearched(false);
                 setKeyword('')}
             }
@@ -902,10 +902,10 @@ const TaskRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList2.map((v: IProcess, i)=>{ 
-                      return ( 
-                        
-                          <SearchedList key={i} pk={(v.pk !== undefined ? v.pk : '')} widths={['18%', '20%', '20%', '20%','21%']} contents={[v.name !== undefined ? v.name: '', v.material !== undefined ?  v.material.material_name : '', v.machine.machine_name, v.mold_name !== undefined ? v.mold_name : '' ,v.output.material_name]} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false } 
+                    searchList2.map((v: IProcess, i)=>{
+                      return (
+
+                          <SearchedList key={i} pk={(v.pk !== undefined ? v.pk : '')} widths={['18%', '20%', '20%', '20%','21%']} contents={[v.name !== undefined ? v.name: '', v.material !== undefined ?  v.material.material_name : '', v.machine.machine_name, v.mold_name !== undefined ? v.mold_name : '' ,v.output.material_name]} isIconDimmed={false} isSelected={checkList2.find((k)=> k.pk === v.pk)? true : false }
                             onClickEvent={()=>{
                               const tempList = checkList2.slice()
                               if(checkList2.find((k, index)=> k.pk === v.pk) ){
@@ -916,8 +916,8 @@ const TaskRegister = () => {
                                   tempList.splice(0, 0, v)
                                   setCheckList2(tempList)
                               }
-                            }} 
-       
+                            }}
+
                           />
                         )
                     })
@@ -930,11 +930,11 @@ const TaskRegister = () => {
 
 
             {/* 작업자 검색창 */}
-           <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+           <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup3(false); 
-                setWorker(check); 
+                setIsPoupup3(false);
+                setWorker(check);
                 setIsSearched(false);
                 setKeyword('')}
             }
@@ -944,17 +944,17 @@ const TaskRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList3.map((v: IMemberSearched, i)=>{ 
-                      return ( 
-                        
-                          <SearchedList key={i} pk={v.pk} widths={['100%']} contents={[v.name + ' ' + v.appointment]} isIconDimmed={false} isSelected={check === v ? true : false } 
+                    searchList3.map((v: IMemberSearched, i)=>{
+                      return (
+
+                          <SearchedList key={i} pk={v.pk} widths={['100%']} contents={[v.name + ' ' + v.appointment]} isIconDimmed={false} isSelected={check === v ? true : false }
                             onClickEvent={()=>{
                               check === v ?
                               setCheck(null)
                               :
                               setCheck(v)
-                            }} 
-       
+                            }}
+
                           />
                         )
                     })
@@ -966,10 +966,10 @@ const TaskRegister = () => {
             </SearchModalContainer>
 
             {/* 참조자 검색창 */}
-           <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+           <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup4(false); 
+                setIsPoupup4(false);
                 setReferencerList(checkList4);
                 setIsSearched(false);
                 setKeyword('')}
@@ -980,10 +980,10 @@ const TaskRegister = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList4.filter((f)=>worker == null  || f.pk !== worker.pk).map((v: IMemberSearched, i)=>{ 
-                      return ( 
-                        
-                          <SearchedList key={i} pk={v.pk} widths={['100%']} contents={[v.name + ' ' + v.appointment]} isIconDimmed={false}  isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false } 
+                    searchList4.filter((f)=>worker == null  || f.pk !== worker.pk).map((v: IMemberSearched, i)=>{
+                      return (
+
+                          <SearchedList key={i} pk={v.pk} widths={['100%']} contents={[v.name + ' ' + v.appointment]} isIconDimmed={false}  isSelected={checkList4.find((k)=> k.pk === v.pk)? true : false }
                            onClickEvent={()=>{
                               const tempList = checkList4.slice()
                               if(checkList4.find((k, index)=> k.pk === v.pk) ){
@@ -994,8 +994,8 @@ const TaskRegister = () => {
                                   tempList.splice(0, 0, v)
                                   setCheckList4(tempList)
                               }
-                            }} 
-       
+                            }}
+
                           />
                         )
                     })
@@ -1008,9 +1008,9 @@ const TaskRegister = () => {
 
 
         </InnerBodyContainer>
-                  
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

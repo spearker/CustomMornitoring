@@ -56,21 +56,21 @@ const FullMonitoring = () => {
    * getData()
    * 모니터링 데이터 조회
    * @param {string} url 요청 주소
-   * @returns X 
+   * @returns X
    */
   const getList = useCallback(async()=>{
-    if (document.hidden) { // Opera 12.10 and Firefox 18 and later support 
+    if (document.hidden) { // Opera 12.10 and Firefox 18 and later support
       console.log('-- hidden browser -- ')
       //setCount(999)
       return
     }
 
     console.log('-- monitoring data load -- ' )
-    const res = await getRequest(`http://61.101.55.224:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://192.168.0.14:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if(res === false){
       alert('서버에서 데이터를 받아올 수 없습니다.')
-   
+
       window.location.href="/dashboard"
     }else{
       if(res.status === 200){
@@ -84,29 +84,29 @@ const FullMonitoring = () => {
          setOptionList(arr)
       }else{
         alert('서버에서 데이터를 받아올 수 없습니다.')
-       
+
         window.location.href="/dashboard"
       }
     }
   },[list, optionList]);
 
     useEffect(()=>{
-      getList() 
+      getList()
       setIsFirstLoad(true)
       setTitile('프레스')
       },[])
     useEffect(()=>{
-      
+
       const interval = setInterval(() => { getList();  }, 9000)
- 
-      return () => {   
+
+      return () => {
           //console.log('-- monitoring end -- ' )
           clearTimeout(interval);
         };
     },[])
-   
-    
-  
+
+
+
   /**
    * onClickFilter()
    * 리스트 필터 변경
@@ -123,15 +123,15 @@ const FullMonitoring = () => {
         <SubNavigation list={PM_MENU_LIST.monitoring} isFull={true}/>
         <div style={{marginLeft: 44, marginRight:44}}>
           <div style={{position:'relative'}}>
-              <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>        
+              <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>
               <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
-               
+
               </div>
           </div>
           <WrapBox>
             <MonitoringTabs contents={
               [{title:'전체', value:'all'},{title:'대기', value:'ready'},{title:'진행', value:'active'},{title:'중지', value:'stop'},{title:'완료', value:'done'},{title:'에러', value:'error'}]
-            } 
+            }
               onClickEvent={setStatusFilter}
               />
               <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
@@ -147,7 +147,7 @@ const FullMonitoring = () => {
                 <MonitoringOptionButton title={'항목 골라보기'} color={'#b3b3b3'} onClickEvent={()=>{setIsPopup(true);setCheckList(selectedList);}} />
                 <MonitoringOptionButton title={'초기화'} color={'#b3b3b3'} onClickEvent={()=>{onClickRefresh()}}/>
               </div>
-              
+
           </WrapBox><br/>
           <ListWrap>
 
@@ -155,9 +155,9 @@ const FullMonitoring = () => {
           {
             list.map((v:IMonitoringList,i)=>{
               if(statusFilter === 'all'){
-                
+
                 return(
-                  <MonitoringCardSmall key={ 'm-' + i} contents={v}  optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}  
+                  <MonitoringCardSmall key={ 'm-' + i} contents={v}  optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
                   onClickEvent={()=>{
                     if(openList.indexOf(v.pk) !== -1){ // 열렸으면
                       setOpenList(openList.filter(f => f !== v.pk))
@@ -166,13 +166,13 @@ const FullMonitoring = () => {
                       setOpenList(openList.concat(v.pk))
                       console.log('삭제' + v.pk)
                     }
-                  }} 
+                  }}
                   isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
                 )
               }else{
                 if(v.status === statusFilter){
                   return(
-                    <MonitoringCardSmall key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}  
+                    <MonitoringCardSmall key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
                     onClickEvent={()=>{
                       if(openList.indexOf(v.pk) !== -1){ // 열렸으면
                         setOpenList(openList.filter(f => f !== v.pk))
@@ -181,51 +181,51 @@ const FullMonitoring = () => {
                         setOpenList(openList.concat(v.pk))
                         console.log('삭제' + v.pk)
                       }
-                    }} 
+                    }}
                     isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
                   )
                 }
               }
-              
+
             })
           }
          </ListWrap>
         </div>
-        <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+        <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
                 setSelectedList(checkList);
-                
-                setIsPopup(false); 
+
+                setIsPopup(false);
             }}
             isVisible={isPopup} onClickClose={()=>{setIsPopup(false)}} title={'항목 선택 하기'} >
-              
+
                 <div style={{width: '100%',maxHeight: 380, overflowY: 'scroll'}}>
                   {
-                    optionList.map((v, i)=>{ 
+                    optionList.map((v, i)=>{
                       if(v == 903 || v == 902 || v == 901 ){
                         return;
                       }
-                      return ( 
-                    
-                          <SearchedList key={'s' + i} pk={String(v)} widths={['100%']} contents={[transferCodeToName('title', v,'kor')]} isIconDimmed={false} isSelected={checkList.find((c)=> c === v) ? true : false } 
+                      return (
+
+                          <SearchedList key={'s' + i} pk={String(v)} widths={['100%']} contents={[transferCodeToName('title', v,'kor')]} isIconDimmed={false} isSelected={checkList.find((c)=> c === v) ? true : false }
                              onClickEvent={()=>{
                               if(checkList.find((f)=> f === v)){
                                 setCheckList(checkList.filter((f)=> f!== v))
                               }else{
                                 setCheckList(checkList.concat(v))
                               }
-                         
-                            }} 
+
+                            }}
                           />
-                         
+
                         )
                       })
                   }
                 </div>
             </SearchModalContainer>
       </FullSizeContainer>
-      
+
   );
 }
 
