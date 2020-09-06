@@ -147,7 +147,7 @@ const OutsourcingCompanyRegister = () => {
 
   return (
     <DashboardWrapContainer index={'basic'}>
-     <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '회사 정보수정' : '회사 정보등록'}/>
             <WhiteBoxContainer>

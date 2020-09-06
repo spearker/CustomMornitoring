@@ -8,7 +8,7 @@ import SegmentListContainer from "../../Containers/Process/SegmentList";
 const SegmentList = () => {
     return (
         <DashboardWrapContainer index={'process'}>
-            <SubNavigation list={MES_MENU_LIST.process}/>
+
             <InnerBodyContainer>
                 <SegmentListContainer/>
             </InnerBodyContainer>

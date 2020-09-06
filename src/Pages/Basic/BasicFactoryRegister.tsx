@@ -149,7 +149,7 @@ const BasicFactoryRegister = () => {
 
   return (
     <DashboardWrapContainer index={'basic'}>
-     <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '공장 정보수정' : '공장 정보등록'}/>
             <WhiteBoxContainer>

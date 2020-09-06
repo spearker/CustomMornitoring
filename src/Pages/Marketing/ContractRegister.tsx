@@ -8,7 +8,7 @@ import ContractRegisterContainer from "../../Containers/Marketing/ContractRegist
 const ContractRegister = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <ContractRegisterContainer/>
             </InnerBodyContainer>

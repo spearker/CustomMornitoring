@@ -8,7 +8,7 @@ import ManageStockRegisterContainer from "../../Containers/ManageStock/ManageSto
 const ManageStockRegister = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <ManageStockRegisterContainer/>
             </InnerBodyContainer>

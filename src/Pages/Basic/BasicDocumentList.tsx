@@ -92,7 +92,7 @@ const BasicDocumentList = () => {
 
   return (
       <DashboardWrapContainer index={'basic'}>
-        <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={`표준 문서 관리 (${list.length})`}/>

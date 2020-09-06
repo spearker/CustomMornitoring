@@ -200,7 +200,7 @@ export const MES_MENU_LIST = {
 
 export const PM_MENU_LIST = {
   monitoring: [ //
-    { name : '프레스 모니터링', url :  '/commingsoon'},
+    { name : '프레스 모니터링', url :  '/pm/monitoring/press'},
     { name : '프레스 상태 모니터링', url :  '/pm/monitoring/press'},
     { name : '로드모니터 모니터링', url :  '/pm/monitoring/loadton'},
     { name : '전력 모니터링', url : '/pm/monitoring/cms'},
@@ -209,7 +209,7 @@ export const PM_MENU_LIST = {
     { name : '프레스 보전관리', url : '/pm/maintenance/press'},
     { name : '금형 수명 주기', url : '/pm/maintenance/mold'},
     { name : '클러치&브레이크', url : '/pm/maintenance/clutch'},
-    // { name : '오일 교환 및 보충', url : '/pm/maintenance/oil'},
+    { name : '오일 교환 및 보충', url : '/commingsoon'},
     { name : '오버톤', url : '/pm/maintenance/overton'},
   ],
   analysis: [ //

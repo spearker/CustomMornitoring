@@ -19,7 +19,7 @@ const PowerStatistics = () => {
 
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <PowerContainer/>
             </InnerBodyContainer>

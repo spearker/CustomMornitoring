@@ -8,7 +8,7 @@ import OutSourceContainer from "../../Containers/Stock/OutSource";
 const StockOutSource = () => {
     return (
         <DashboardWrapContainer index={'stock'}>
-            <SubNavigation list={MES_MENU_LIST.stock}/>
+
             <InnerBodyContainer>
                 <OutSourceContainer/>
             </InnerBodyContainer>

@@ -8,7 +8,7 @@ import PMCapacityStaticsContiner from "../../Containers/Statistics/PMCapacitySta
 const CapacityStatistics = () => {
     return (
         <DashboardWrapContainer index={'analysis'}>
-            <SubNavigation list={PM_MENU_LIST.analysis}/>
+
             <InnerBodyContainer>
                 <PMCapacityStaticsContiner />
             </InnerBodyContainer>

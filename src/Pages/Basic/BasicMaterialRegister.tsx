@@ -164,7 +164,7 @@ const BasicMaterialRegister = () => {
 
   return (
     <DashboardWrapContainer index={'basic'}>
-     <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '공장 세분화 정보수정' : '공장 세분화 정보등록'}/>
             <WhiteBoxContainer>

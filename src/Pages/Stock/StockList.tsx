@@ -8,7 +8,7 @@ import StockListContainer from "../../Containers/Stock/StockListContainer";
 const StockList = () => {
     return (
         <DashboardWrapContainer index={'stock'}>
-            <SubNavigation list={MES_MENU_LIST.stock}/>
+
             <InnerBodyContainer>
                 <StockListContainer/>
             </InnerBodyContainer>

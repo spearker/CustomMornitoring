@@ -10,17 +10,17 @@ import Container from '../../Containers/PM_Maintenance/OilContainer';
 const OilMaintenance = () => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <DashboardWrapContainer index={'maintenance'}>
-        <SubNavigation list={PM_MENU_LIST.maintenance}/>
+
         <InnerBodyContainer>
         <Container />
-         
-         
-        
+
+
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
   );

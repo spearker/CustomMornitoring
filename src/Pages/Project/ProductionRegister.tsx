@@ -8,7 +8,7 @@ import ProductionRegisterContainer from "../../Containers/Project/ProductionRegi
 const ProductionRegister = () => {
     return (
         <DashboardWrapContainer index={'project'}>
-            <SubNavigation list={MES_MENU_LIST.project}/>
+
             <InnerBodyContainer>
                 <ProductionRegisterContainer />
             </InnerBodyContainer>

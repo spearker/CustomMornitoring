@@ -143,7 +143,7 @@ const BasicBarcodeRegister = () => {
 
   return (
     <DashboardWrapContainer index={'basic'}>
-     <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '바코드 기준정보 수정' : '바코드 기준정보 등록'}/>
             <WhiteBoxContainer>

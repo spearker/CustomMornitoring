@@ -8,7 +8,7 @@ import OilSupplyContainer from "../../Containers/PM_Statistics/OilSupply";
 const OilSupplyStatistics = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <OilSupplyContainer/>
             </InnerBodyContainer>

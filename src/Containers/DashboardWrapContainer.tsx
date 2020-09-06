@@ -82,7 +82,7 @@ const DashboardWrapDiv = Styled.div`
     min-height: 100vh;
     heigth: 100%;
     min-width: 1180px;
-    background-color: ${BG_COLOR_SUB2};
+    background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
 `
 
 export default DashboardWrapContainer;

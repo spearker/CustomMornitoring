@@ -232,7 +232,7 @@ const BasicMoldRegister = () => {
 
   return (
     <DashboardWrapContainer index={'basic'}>
-     <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '금형 정보수정' : '금형 정보등록'}/>
             <WhiteBoxContainer>

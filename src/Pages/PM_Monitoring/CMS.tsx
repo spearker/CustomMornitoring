@@ -14,7 +14,7 @@ const CmsMonitoring: React.FunctionComponent = () => {
 
     return(
         <DashboardWrapContainer index={'monitoring'}>
-        <SubNavigation list={PM_MENU_LIST.monitoring}/>
+
             <InnerBodyContainer>
 
                 {

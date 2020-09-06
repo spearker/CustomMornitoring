@@ -12,7 +12,7 @@ const ScheduleProduction = () => {
 
     return (
         <DashboardWrapContainer index={'project'}>
-            <SubNavigation list={MES_MENU_LIST.project}/>
+
             <InnerBodyContainer>
                 <Container/>
 

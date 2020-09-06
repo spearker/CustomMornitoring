@@ -8,7 +8,6 @@ import ReadyTimeStatisticsContainer from "../../Containers/PM_Statistics/ReadyTi
 const ReadyTimeStatics = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
             <InnerBodyContainer>
                 <ReadyTimeStatisticsContainer />
             </InnerBodyContainer>

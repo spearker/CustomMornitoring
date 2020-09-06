@@ -8,7 +8,7 @@ import ChitRegisterContainer from "../../Containers/Project/ChitRegister";
 const ChitRegister = () => {
     return (
         <DashboardWrapContainer index={'project'}>
-            <SubNavigation list={MES_MENU_LIST.project}/>
+
             <InnerBodyContainer>
                 <ChitRegisterContainer />
             </InnerBodyContainer>

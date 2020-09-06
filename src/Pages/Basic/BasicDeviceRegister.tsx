@@ -233,7 +233,7 @@ const BasicDeviceRegister = () => {
 
   return (
     <DashboardWrapContainer index={'basic'}>
-     <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '주변장치 정보수정' : '주변장치 정보등록'}/>
             <WhiteBoxContainer>

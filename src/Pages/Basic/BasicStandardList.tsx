@@ -97,7 +97,7 @@ const BasicStandardList = () => {
 
   return (
       <DashboardWrapContainer index={'basic'}>
-        <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={`표준 항목 관리 (${list.length})`}/>

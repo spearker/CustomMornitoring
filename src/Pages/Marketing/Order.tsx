@@ -12,7 +12,7 @@ const OrderBusiness = () => {
 
     return (
         <DashboardWrapContainer index={'marketing'}>
-            <SubNavigation list={MES_MENU_LIST.marketing}/>
+
             <InnerBodyContainer>
                 <Container/>
 

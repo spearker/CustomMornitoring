@@ -8,7 +8,7 @@ import ContractModifyContainer from "../../Containers/Marketing/ContractModify";
 const ContractModify = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <ContractModifyContainer/>
             </InnerBodyContainer>

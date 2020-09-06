@@ -195,7 +195,7 @@ const BasicDocumentRegister = () => {
   return (
     <>
       <DashboardWrapContainer index={'basic'}>
-        <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '표준 문서 수정' : '표준 문서 등록'}/>
             <WhiteBoxContainer>

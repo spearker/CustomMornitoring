@@ -8,7 +8,7 @@ import BarcodeListContainer from "../../Containers/Barcode/Barcode";
 const BarcodeList = () => {
     return (
         <DashboardWrapContainer index={'barcode'}>
-            <SubNavigation list={MES_MENU_LIST.barcode}/>
+
             <InnerBodyContainer>
                 <BarcodeListContainer/>
             </InnerBodyContainer>

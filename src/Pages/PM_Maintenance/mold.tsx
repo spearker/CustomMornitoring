@@ -15,7 +15,7 @@ const MoldMaintenance = () => {
 
   return (
     <DashboardWrapContainer index={'maintenance'}>
-        <SubNavigation list={PM_MENU_LIST.maintenance}/>
+
         <InnerBodyContainer>
         <Container />
 

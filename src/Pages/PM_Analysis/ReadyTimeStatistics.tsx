@@ -14,7 +14,7 @@ const ReadyTimeStatistics = () => {
 
   return (
     <DashboardWrapContainer index={'analysis'}>
-        <SubNavigation list={PM_MENU_LIST.analysis}/>
+
         <InnerBodyContainer>
          <PMReadyTimeContainer />
         </InnerBodyContainer>

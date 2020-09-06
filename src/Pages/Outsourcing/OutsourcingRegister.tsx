@@ -8,7 +8,6 @@ import OutsourcingRegisterContainer from "../../Containers/Outsourcing/Outsourci
 const OutsourcingRegister = () => {
     return (
         <DashboardWrapContainer index={'outsourcing'}>
-            <SubNavigation list={MES_MENU_LIST.outsourcing} />
             <InnerBodyContainer>
                 <OutsourcingRegisterContainer />
             </InnerBodyContainer>

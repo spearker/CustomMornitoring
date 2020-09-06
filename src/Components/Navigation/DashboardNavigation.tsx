@@ -209,7 +209,7 @@ const TwoDepthDiv = Styled.div`
   background-color: #212228;
 `
 const NavDiv = Styled.div`
-  background-color: ${BG_COLOR};
+  opacity: 100%;
   min-width: 200px;
   min-height: 100vh;
   display: inline-block;
@@ -221,7 +221,7 @@ const NavDiv = Styled.div`
 `
 
 const NavDivLeft = Styled.div`
-  background-color: #0F0F11;
+  opacity: 100%
   heigth: 100%;
   text-align: center;
   font-size: 13px;

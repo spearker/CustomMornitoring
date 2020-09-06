@@ -8,7 +8,7 @@ import ProcessRegisterContainer from "../../Containers/Process/Register";
 const ProcessRegister = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <ProcessRegisterContainer/>
             </InnerBodyContainer>

@@ -8,7 +8,7 @@ import OrderModifyContainer from "../../Containers/Marketing/OrderModify";
 const OrderModify = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <OrderModifyContainer/>
             </InnerBodyContainer>

@@ -8,7 +8,7 @@ import ProcessDetailRegisterContainer from "../../Containers/Process/DetailRegis
 const ProcessDetailRegister = () => {
     return (
         <DashboardWrapContainer index={'project'}>
-            <SubNavigation list={MES_MENU_LIST.project}/>
+
             <InnerBodyContainer>
                 <ProcessDetailRegisterContainer/>
             </InnerBodyContainer>

@@ -8,7 +8,7 @@ import QualityListContainer from "../../Containers/Qaulity/QualityList";
 const QualityList = () => {
     return (
         <DashboardWrapContainer index={'quality'}>
-            <SubNavigation list={MES_MENU_LIST.quality}/>
+
             <InnerBodyContainer>
                 <QualityListContainer/>
             </InnerBodyContainer>

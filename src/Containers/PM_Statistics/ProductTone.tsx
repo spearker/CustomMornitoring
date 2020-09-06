@@ -21,51 +21,6 @@ import {TOKEN_NAME} from "../../Common/configset";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import {API_URLS, getProductData} from "../../Api/pm/statistics";
 
-const ChartInitOptions = {
-    chart: {
-        type: 'scatter',
-        toolbar: {show: false},
-        events: {
-            click: function(chart, w, e) {
-                console.log(chart, w, e)
-            }
-        }
-    },
-    tooltip: {
-        enabled: false
-    },
-    plotOptions: {
-        scatter: {
-            columnWidth: '55%',
-            distributed: false
-        }
-    },
-    grid: {
-        borderColor: '#42444b',
-        xaxis: {
-            lines: {
-                show: true
-            }
-        },
-        yaxis: {
-            lines: {
-                show: true
-            }
-        },
-    },
-    colors: ['#ffffff','#ff341a'],
-    dataLabels: {
-        enabled: false
-    },
-    legend: {
-        show: false
-    },
-    markers: {
-        strokeOpacity: 0,
-        size: 3,
-    }
-}
-
 const ChartOptionDetailLable = {
     yaxis: {
         min: 0,
@@ -99,17 +54,77 @@ const ChartOptionDetailLable = {
                 }
             }
         }
-    }
+    },
 }
 
 const ProductToneContainer = () => {
 
+    const ChartInitOptions = {
+        chart: {
+            type: 'scatter',
+            toolbar: {show: false},
+            events: {
+                click: function(chart, w, e) {
+                    console.log(chart, w, e)
+                }
+            }
+        },
+        plotOptions: {
+            scatter: {
+                columnWidth: '55%',
+                distributed: false
+            }
+        },
+        grid: {
+            borderColor: '#42444b',
+            xaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+        },
+        colors: ['#ffffff','#ff341a'],
+        dataLabels: {
+            enabled: false
+        },
+        legend: {
+            show: false
+        },
+        markers: {
+            strokeOpacity: 0,
+            size: 3,
+        },
+        tooltip: {
+            custom: ({}) => {
+                return  '<div style=" border-width: 0;    border-radius: 10px;    width: 170px;    height: 122px;    font-family: NotoSansCJKkr-Bold;    padding: 10px;">' +
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'설정톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].settingTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'평균톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].normalTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'최대톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].maxTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
+                    '<p style="color: black">'+'최소톤'+'</p>'+
+                    '<p style="color: black">'+`${detailList[0].minTone}`+' ton'+'</p>'+
+                    '</div>'+
+                    '</div>'
+            }
+        }
+    }
+
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>({
-        pk: "",
-        max_count: 0,
-        current_count: 0,
-    });
+    const [detailList,setDetailList] = useState<any>([]);
     const [index, setIndex] = useState({product_name:'품목'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -212,9 +227,10 @@ const ProductToneContainer = () => {
 
     const detaildummy = [
         {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
+            settingTone: 97,
+            normalTone: 99,
+            maxTone: 120,
+            minTone: 93
         }
     ]
 

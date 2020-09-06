@@ -152,7 +152,7 @@ const BasicStandardRegister = () => {
   return (
     <>
       <DashboardWrapContainer index={'basic'}>
-        <SubNavigation list={MES_MENU_LIST.basic}/>
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '표준 항목 수정' : '표준 항목 등록'}/>
             <WhiteBoxContainer>

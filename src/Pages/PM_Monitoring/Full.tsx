@@ -120,7 +120,6 @@ const FullMonitoring = () => {
 
   return (
     <FullSizeContainer index={'monitoring'}>
-        <SubNavigation list={PM_MENU_LIST.monitoring} isFull={true}/>
         <div style={{marginLeft: 44, marginRight:44}}>
           <div style={{position:'relative'}}>
               <HeaderLive title={ title + ' 모니터링'} isTurn={isFirstLoad}/>

@@ -8,7 +8,7 @@ import WipContainer from "../../Containers/Stock/Wip";
 const StockWip = () => {
     return (
         <DashboardWrapContainer index={'stock'}>
-            <SubNavigation list={MES_MENU_LIST.stock}/>
+
             <InnerBodyContainer>
                 <WipContainer/>
             </InnerBodyContainer>

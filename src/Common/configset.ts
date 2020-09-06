@@ -10,12 +10,12 @@ export const SYSTEM_NAME: string = 'Mes System' as const
 export const COMPANY_LOGO: string = 'Mes System' as const
 export const COMPANY_NAME: string = 'Mes System' as const
 
-//스타일 커스텀을 위한 변수 
+//스타일 커스텀을 위한 변수
 export const MAX_WIDTH: string = '1040px' as const
 export const POINT_COLOR: string = '#19B9DF' as const
 export const POINT_COLOR_2: string = '#FDBD39' as const
 export const BG_COLOR: string = '#161619'  as const
 export const BG_COLOR_SUB: string = '#2A2D34'  as const
-export const BG_COLOR_SUB2: string = '#2A2D34'  as const
+export const BG_COLOR_SUB2: string = '#2A2D3400'  as const
 export const BUTTON_TEXT_COLOR: string = '#ffffff' as const
 export const BG_COLOR_SUB3: string = '#353b48' as const

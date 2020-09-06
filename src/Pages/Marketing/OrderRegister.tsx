@@ -8,7 +8,7 @@ import OrderRegisterContainer from "../../Containers/Marketing/OrderRegister";
 const OrderRegister = () => {
     return (
         <DashboardWrapContainer index={'statistics'}>
-            <SubNavigation list={PM_MENU_LIST.statistics}/>
+
             <InnerBodyContainer>
                 <OrderRegisterContainer/>
             </InnerBodyContainer>

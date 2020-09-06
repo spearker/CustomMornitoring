@@ -8,7 +8,6 @@ import CurrentListContainer from "../../Containers/Outsourcing/Current";
 const CurrentList = () => {
     return (
         <DashboardWrapContainer index={'outsourcing'}>
-            <SubNavigation list={MES_MENU_LIST.outsourcing} />
             <InnerBodyContainer>
                 <CurrentListContainer />
             </InnerBodyContainer>

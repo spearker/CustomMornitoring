@@ -8,7 +8,6 @@ import ProcessListContainer from "../../Containers/Process/ProcessList";
 const ProcessList = () => {
     return (
         <DashboardWrapContainer index={'process'}>
-            <SubNavigation list={MES_MENU_LIST.process}/>
             <InnerBodyContainer>
                 <ProcessListContainer/>
             </InnerBodyContainer>

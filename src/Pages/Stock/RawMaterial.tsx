@@ -9,7 +9,7 @@ import RawMaterialContainer from "../../Containers/Stock/RawMaterial";
 const StockRawMaterial = () => {
     return (
         <DashboardWrapContainer index={'stock'}>
-            <SubNavigation list={MES_MENU_LIST.stock}/>
+
             <InnerBodyContainer>
                 <RawMaterialContainer/>
             </InnerBodyContainer>

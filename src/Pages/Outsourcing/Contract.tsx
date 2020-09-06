@@ -8,7 +8,6 @@ import ContracttListContainer from "../../Containers/Outsourcing/Contract";
 const ContracttList = () => {
     return (
         <DashboardWrapContainer index={'outsourcing'}>
-            <SubNavigation list={MES_MENU_LIST.outsourcing} />
             <InnerBodyContainer>
                 <ContracttListContainer />
             </InnerBodyContainer>

@@ -25,15 +25,15 @@ const BasicMachineList = ({match}: any) => {
 
   const { id } = match.params;
 
- 
+
   return (
       <DashboardWrapContainer index={'basic'}>
-        <SubNavigation list={MES_MENU_LIST.basic}/>
-        <InnerBodyContainer>     
+
+        <InnerBodyContainer>
           <BasicListContainer type={id}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

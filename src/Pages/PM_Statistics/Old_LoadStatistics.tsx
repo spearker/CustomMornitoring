@@ -194,7 +194,7 @@ const Old_LoadStatistics = () => {
 
   return (
       <DashboardWrapContainer index={'monitoring'}>
-        <SubNavigation list={PM_MENU_LIST.statistics}/>
+
         <InnerBodyContainer>
         <div style={{position:'relative', textAlign:'left', marginTop:48}}>
 

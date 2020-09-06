@@ -8,7 +8,7 @@ import MoldRepairRegisterContainer from "../../Containers/Mold/MoldRepairRegiste
 const MoldRepairRegister = () => {
     return (
         <DashboardWrapContainer index={'mold'}>
-            <SubNavigation list={MES_MENU_LIST.mold}/>
+
             <InnerBodyContainer>
                 <MoldRepairRegisterContainer/>
 

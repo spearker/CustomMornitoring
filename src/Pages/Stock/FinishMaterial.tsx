@@ -8,7 +8,7 @@ import FinishMaterialContainer from "../../Containers/Stock/FinishMaterial";
 const StockFinishMaterial = () => {
     return (
         <DashboardWrapContainer index={'stock'}>
-            <SubNavigation list={MES_MENU_LIST.stock}/>
+
             <InnerBodyContainer>
                 <FinishMaterialContainer/>
             </InnerBodyContainer>

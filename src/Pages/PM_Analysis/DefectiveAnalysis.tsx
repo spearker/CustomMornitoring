@@ -14,7 +14,7 @@ const DefectiveAnalysis= ({match}:any) => {
 
     return (
         <DashboardWrapContainer index={'analysis'}>
-            <SubNavigation list={PM_MENU_LIST.analysis}/>
+
             <InnerBodyContainer>
                 <Container/>
 

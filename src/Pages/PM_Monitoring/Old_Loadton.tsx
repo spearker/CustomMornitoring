@@ -39,7 +39,7 @@ const Old_LoadtonMonitoring = () => {
 
   return (
       <DashboardWrapContainer index={'monitoring'}>
-        <SubNavigation list={PM_MENU_LIST.monitoring}/>
+
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
               <HeaderLive title={ ' 로드톤 모니터링'} isTurn={true}/>

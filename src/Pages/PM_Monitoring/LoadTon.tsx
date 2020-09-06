@@ -69,7 +69,7 @@ const LoadtonMonitoring = () => {
 
     return (
         <DashboardWrapContainer index={'monitoring'}>
-            <SubNavigation list={PM_MENU_LIST.monitoring}/>
+
             <InnerBodyContainer>
                 <div style={{position:'relative'}}>
                     <WrapBox>
