@@ -26,35 +26,38 @@ const LineTable: React.FunctionComponent<Props> = ({title,contentTitle,contentLi
             <div>
                 {children == undefined  || children === null ? <></> : children }
             </div>
-            {contentList !== undefined ?
-                contentList.map((v, i) => {
-                    {console.log('ㅇㅇㅇㅇ',v)}
-                    return (
-                        <Content key={i} >
-                            { contentTitle !== undefined ?
-                                Object.keys(contentTitle).map((mv, mi) => {
-                                    return (
-                                        v[mv] !== null && v[mv] !== undefined  ?
-                                            <p key={mv} className="p-limits" >
-                                                {
-                                                    typeof v[mv] === 'object' ?
-                                                        Object.keys(v[mv]).map(m => {
-                                                            return  v[mv][m] + ' '
-                                                        })
-                                                        :
-                                                        v[mv]
-                                                }
-                                            </p>
-                                            :
-                                            null
-                                    )
-                                }) :
-                                null
-                            }
-                        </Content>
-                    )
-                }) :
-                null
+            {contentList !== undefined && contentList.length === 0
+                ? (<Content style={{backgroundColor: '#000000'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를
+                    불러오지 못했습니다.</p></Content>)
+                : contentList?.map((v, i) => {
+                        {
+                            console.log('ㅇㅇㅇㅇ', v)
+                        }
+                        return (
+                            <Content key={i}>
+                                {contentTitle !== undefined ?
+                                    Object.keys(contentTitle).map((mv, mi) => {
+                                        return (
+                                            v[mv] !== null && v[mv] !== undefined ?
+                                                <p key={mv} className="p-limits">
+                                                    {
+                                                        typeof v[mv] === 'object' ?
+                                                            Object.keys(v[mv]).map(m => {
+                                                                return v[mv][m] + ' '
+                                                            })
+                                                            :
+                                                            v[mv]
+                                                    }
+                                                </p>
+                                                :
+                                                null
+                                        )
+                                    }) :
+                                    null
+                                }
+                            </Content>
+                        )
+                    })
             }
         </ClickBar>
     )

@@ -154,7 +154,7 @@ const BasicSubdividedRegister = () => {
             <Header title={isUpdate ? '공장 세분화 정보수정' : '공장 세분화 정보등록'}/>
             <WhiteBoxContainer>
               {
-                document.id !== '' || isUpdate == true?
+                // document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <BasicSearchContainer
@@ -179,17 +179,12 @@ const BasicSubdividedRegister = () => {
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'설명'} value={inputData.description} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.description = input; setInputData(temp)}} />
                 <br/>
-                <DocumentFormatInputList
-                  pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/subdivided/load?pk=${pk}` :''}
-                  onChangeEssential={setEssential} onChangeOptional={setOptional}
-                  />
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
-                :
-
-                <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
+                // :
+                //
+                // <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
 

@@ -102,7 +102,6 @@ export const LIST_INDEX = {
   machine: {
       title:'기계 기본정보',
       index:{
-          pk: 'PK',
           machine_name:'기계명',
           machine_type:'기계종류(코드)',
           manufacturer_code: '제조번호',
@@ -112,7 +111,6 @@ export const LIST_INDEX = {
   device: {
     title:'주변장치 기본정보',
     index:{
-      pk: 'PK',
       device_name: '장치명',
       device_type: '장치종류(코드)',
       manufacturer_code: '제조번호',
@@ -122,7 +120,6 @@ export const LIST_INDEX = {
   material: {
     title:'품목 기본정보',
     index:{
-      pk: 'PK',
       material_name: '이름',
       material_type: '카테고리(코드)',
       location_name: '공장명',
@@ -132,7 +129,6 @@ export const LIST_INDEX = {
   mold: {
     title:'금형 기본 정보',
     index:{
-      pk: 'PK',
       mold_name: '금형이름',
       mold_type: '금형종류(코드)',
       limit: '최대타수',
@@ -143,7 +139,6 @@ export const LIST_INDEX = {
   factory: {
     title:'공장 기본정보',
     index:{
-      pk: 'PK',
       name:'공장명',
       location:'위치',
     }
@@ -151,7 +146,6 @@ export const LIST_INDEX = {
   subdivided: {
     title:'공장 세분화',
     index:{
-      pk: 'PK',
       subdivided_name:'부속 공장명',
       factory_name:'공장명',
     }
@@ -159,7 +153,6 @@ export const LIST_INDEX = {
   item: {
     title:'표준 항목',
     index:{
-      pk: 'PK',
       category: '카테고리(코드)',
       name: '이름',
     }
@@ -167,7 +160,6 @@ export const LIST_INDEX = {
   document: {
     title:'표준 문서',
     index:{
-      pk: 'PK',
       category: '카테고리(코드)',
       name: '이름',
     }
@@ -175,7 +167,6 @@ export const LIST_INDEX = {
   barcode: {
     title:'바코드 표준',
     index:{
-      pk: 'PK',
       name: '이름',
       type: '타입(코드)',
       rules: '규칙',

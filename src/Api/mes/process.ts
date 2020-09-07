@@ -3,6 +3,21 @@ import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
 /**
+ * getProcessList()
+ * 공정 리스트 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const getProcessList = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results!;
+}
+
+
+/**
  * postProcessRegister()
  * 공정 등록하기
  * @param {string} url 링크 주소

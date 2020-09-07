@@ -54,6 +54,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "serve": "npx serve -s",
     "eject": "react-scripts eject",
     "server": "node index.js"
   },

@@ -16,3 +16,4 @@ const OutsourcingRegister = () => {
 }
 
 export default OutsourcingRegister
+

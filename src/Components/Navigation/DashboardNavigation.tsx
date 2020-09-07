@@ -138,22 +138,39 @@ const DashboardNavigation = ({ select, folding }: Props) => {
           <img src={NAV_HOME} />
           <p>Home</p>
         </div>
-        <div onClick={() => dispatchp({
-          type: 'CHANGE_MODE',
-          data: {
-            mode: 'pm'
-          }
-        })}
-          style={nav.mode == 'pm' ? { backgroundColor: POINT_COLOR } : {}}>
+        <div onClick={() =>
+        {if(nav.mode !== 'pm'){
+            dispatchp({
+                type: 'CHANGE_MODE',
+                data: {
+                    mode: 'pm'
+                }})
+        } else {
+            dispatchp({
+                type: 'CHANGE_MODE',
+                data: {
+                    mode: 'home'
+                }})
+        }
+        }} style={nav.mode == 'pm' ? { backgroundColor: POINT_COLOR } : {}}>
           <img src={NAV_PRESS} />
           <p>PM</p>
         </div>
-        <div onClick={() => dispatchp({
+        <div onClick={() =>
+        {if(nav.mode !== 'mes'){
+          dispatchp({
           type: 'CHANGE_MODE',
           data: {
             mode: 'mes'
-          }
-        })} style={nav.mode == 'mes' ? { backgroundColor: POINT_COLOR } : {}}>
+          }})
+        } else {
+        dispatchp({
+            type: 'CHANGE_MODE',
+            data: {
+                mode: 'home'
+            }})
+        }
+        }} style={nav.mode == 'mes' ? { backgroundColor: POINT_COLOR } : {}}>
           <img src={NAV_MES} />
           <p>MES</p>
         </div>
