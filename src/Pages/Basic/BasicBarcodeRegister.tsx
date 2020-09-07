@@ -148,7 +148,7 @@ const BasicBarcodeRegister = () => {
             <Header title={isUpdate ? '바코드 기준정보 수정' : '바코드 기준정보 등록'}/>
             <WhiteBoxContainer>
               {
-                document.id !== '' || isUpdate == true?
+                // document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'바코드명'} value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'바코드 이름을 입력해주세요.'}/>
@@ -187,18 +187,18 @@ const BasicBarcodeRegister = () => {
                <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>
-                <br/>
-                <DocumentFormatInputList
+                {/*<br/>*/}
+                {/*<DocumentFormatInputList*/}
 
-                  pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/barcode/standard/load?pk=${pk}` :''}
-                  onChangeEssential={setEssential} onChangeOptional={setOptional}
-                  />
+                {/*  pk={!isUpdate ? document.pk : undefined}*/}
+                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/barcode/standard/load?pk=${pk}` :''}*/}
+                {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
+                {/*  />*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
-                :
-                <SelectDocumentForm category={6} onChangeEvent={setDocument}/>
+                // :
+                // <SelectDocumentForm category={6} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
 

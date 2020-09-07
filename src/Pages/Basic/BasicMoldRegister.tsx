@@ -237,13 +237,14 @@ const BasicMoldRegister = () => {
             <Header title={isUpdate ? '금형 정보수정' : '금형 정보등록'}/>
             <WhiteBoxContainer>
               {
-                document.id !== '' || isUpdate == true?
+                // document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'금형 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
                 <DropdownInput title={'금형 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalNumberInput title={'최대 타수'} description={""} value={limit} onChangeEvent={setLimit}/>
+                <NormalInput title={'금형 스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요. ex)W: String, L: String'} />
                 <BasicSearchContainer
                       title={'공장/부속공장'}
                       key={'pk'}
@@ -261,7 +262,6 @@ const BasicMoldRegister = () => {
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
-                <NormalInput title={'금형 스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요. ex)W: String, L: String'} />
                 <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} />
                 <NormalFileInput title={'하금형 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'하금형 사진을 찍어 등록해주세요'} />
                 {
@@ -271,17 +271,17 @@ const BasicMoldRegister = () => {
                     null
                 }
                 <br/>
-                <DocumentFormatInputList
+                {/*<DocumentFormatInputList*/}
 
-                  pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/mold/load?pk=${pk}` :''}
-                  onChangeEssential={setEssential} onChangeOptional={setOptional}
-                  />
+                {/*  pk={!isUpdate ? document.pk : undefined}*/}
+                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/mold/load?pk=${pk}` :''}*/}
+                {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
+                {/*  />*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
-              :
-              <SelectDocumentForm category={2} onChangeEvent={setDocument}/>
+              // :
+              // <SelectDocumentForm category={2} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>

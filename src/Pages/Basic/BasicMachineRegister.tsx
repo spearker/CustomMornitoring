@@ -53,7 +53,7 @@ const BasicMachineRegister = () => {
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
   const [factory, setFactory] = useState<any[]>([]);
-  const [slip_angle, setSlip_angle] = useState<number>(0);
+  const [volt, setVolt] = useState<number>(0);
   const [tons, setTons] = useState<number>(0);
   const [files, setFiles] = useState<any[3]>([null, null, null]);
   const [paths, setPaths] = useState<any[3]>([null, null, null]);
@@ -135,7 +135,7 @@ const BasicMachineRegister = () => {
          setMadeNo(data.manufacturer_code);
          setType(Number(data.machine_type));
          setInfoList(data.info_list);
-         setSlip_angle(data.slip_angle ?? 0);
+         setVolt(data.slip_angle ?? 0);
          setTons(data.tons ?? 0);
          const tempList = paths.slice();
          tempList[0]= data.photo;
@@ -148,7 +148,7 @@ const BasicMachineRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made,madeNo,date, slip_angle, tons, type,photoName, name,oldPaths, infoList, paths,essential, optional, factory ])
+  },[pk, made,madeNo,date, volt, tons, type,photoName, name,oldPaths, infoList, paths,essential, optional, factory ])
 
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
@@ -171,7 +171,7 @@ const BasicMachineRegister = () => {
       qualification: paths[1],
       capacity: paths[2],
       tons: tons,
-      slip_angle: slip_angle,
+      volt: volt,
 
     };
 
@@ -188,7 +188,7 @@ const BasicMachineRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, name, slip_angle, tons, type, date, madeNo, infoList, paths,essential, optional, factory ])
+  },[pk, made, madeNo, name, volt, tons, type, date, madeNo, infoList, paths,essential, optional, factory ])
 
   /**
    * onsubmitForm()
@@ -216,7 +216,7 @@ const BasicMachineRegister = () => {
       qualification: paths[1],
       capacity: paths[2],
       tons: tons,
-      slip_angle: slip_angle,
+      slip_angle: volt,
     };
 
 
@@ -236,7 +236,7 @@ const BasicMachineRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, slip_angle, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory ])
+  },[pk, made, madeNo, volt, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory ])
 
 
 
@@ -248,7 +248,7 @@ const BasicMachineRegister = () => {
             <Header title={isUpdate ? '기계 정보수정' : '기계 정보등록'}/>
             <WhiteBoxContainer>
               {
-                document.pk !== '' || isUpdate == true?
+                // document.pk !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'기계 이름'} value={name} onChangeEvent={setName} description={'고객사가 보유한 기계의 이름을 입력하세요'} />
@@ -256,6 +256,8 @@ const BasicMachineRegister = () => {
 
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'} />
+
+                <NormalNumberInput title={'전압'} value={volt} onChangeEvent={setVolt} description={'전압값을 입력해주세요'} />
 
                 <BasicSearchContainer
                       title={'공장'}
@@ -268,7 +270,7 @@ const BasicMachineRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -276,8 +278,8 @@ const BasicMachineRegister = () => {
                 {
                   type == 1 &&
                   <>
-                  <NormalNumberInput title={'밀림 각도'} value={slip_angle} onChangeEvent={setSlip_angle} description={''} />
-                  <NormalNumberInput title={'정상 톤 값'} value={tons} onChangeEvent={setTons} description={''} />
+                  {/*<NormalNumberInput title={'밀림 각도'} value={slip_angle} onChangeEvent={setSlip_angle} description={''} />*/}
+                  <NormalNumberInput title={'정상 톤 값'} value={tons} onChangeEvent={setTons} description={'기계의 톤 값을 입력해주세요.'} />
                   </>
                 }
                 <NormalFileInput title={'기계 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
@@ -291,17 +293,17 @@ const BasicMachineRegister = () => {
                     null
                 }
                 <br/>
-                <DocumentFormatInputList
-                  pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/machine/load?pk=${pk}` :''}
-                  onChangeEssential={setEssential} onChangeOptional={setOptional}
-                  />
+                {/*<DocumentFormatInputList*/}
+                {/*  pk={!isUpdate ? document.pk : undefined}*/}
+                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/machine/load?pk=${pk}` :''}*/}
+                {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
+                {/*  />*/}
 
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
-              :
-              <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
+              // :
+              // <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>

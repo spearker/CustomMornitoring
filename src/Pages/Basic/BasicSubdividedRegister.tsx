@@ -170,7 +170,7 @@ const BasicSubdividedRegister = () => {
                       }
                       solo={true}
                       list={inputData.factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
                 />
 
                 <NormalInput title={'세분화 이름'} value={inputData.name} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.name = input; setInputData(temp)}} />

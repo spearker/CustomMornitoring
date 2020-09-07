@@ -166,10 +166,10 @@ const BasicMaterialRegister = () => {
     <DashboardWrapContainer index={'basic'}>
 
         <InnerBodyContainer>
-            <Header title={isUpdate ? '공장 세분화 정보수정' : '공장 세분화 정보등록'}/>
+            <Header title={isUpdate ? '품목 정보수정' : '품목 정보등록'}/>
             <WhiteBoxContainer>
               {
-                document.id !== '' || isUpdate == true?
+                // document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'품목 이름'}  value={inputData.material_name} onChangeEvent={(input)=>setInputData(`material_name`, input)} description={'이름을 입력해주세요.'}/>
@@ -181,35 +181,37 @@ const BasicMaterialRegister = () => {
                       onChangeEvent={(input)=>setInputData(`location`, input)}
                       solo={true}
                       list={inputData.location}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
                 />
 
                 <NormalNumberInput title={'안전 재고'}  value={inputData.safe_stock} onChangeEvent={(input)=>setInputData(`safe_stock`, input)} description={''}/>
+
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'품목 스펙'}  value={inputData.material_spec} onChangeEvent={(input)=>setInputData(`material_spec`, input)} description={'이름을 입력해주세요.'}/>
-                <BasicSearchContainer
-                      title={'사용 금형'}
-                      key={'pk'}
-                      value={'mold_name'}
-                      onChangeEvent={(input)=>setInputData(`using_mold`, input)}
-                      solo={true}
-                      list={inputData.using_mold}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?option=0&'}
-                />
 
-                <br/>
-                <DocumentFormatInputList
-                  pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/material/load?pk=${pk}` :''}
-                  onChangeEssential={setEssential} onChangeOptional={setOptional}
-                  />
+                {/*<br/>*/}
+                {/*<DocumentFormatInputList*/}
+                {/*  pk={!isUpdate ? document.pk : undefined}*/}
+                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/material/load?pk=${pk}` :''}*/}
+                {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
+                {/*  />*/}
+
+                <BasicSearchContainer
+                    title={'사용 금형'}
+                    key={'pk'}
+                    value={'mold_name'}
+                    onChangeEvent={(input)=>setInputData(`using_mold`, input)}
+                    solo={true}
+                    list={inputData.using_mold}
+                    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}
+                />
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
-                :
-
-                <SelectDocumentForm category={3} onChangeEvent={setDocument}/>
+                // :
+                //
+                // <SelectDocumentForm category={3} onChangeEvent={setDocument}/>
             }
             </WhiteBoxContainer>
 

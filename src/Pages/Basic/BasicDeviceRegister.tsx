@@ -14,7 +14,7 @@ import { getToken } from '../../Common/tokenFunctions';
 import BasicModal from '../../Containers/SearchModalContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {    ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
+import { ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
 import IcButton from '../../Components/Button/IcButton';
@@ -238,7 +238,7 @@ const BasicDeviceRegister = () => {
             <Header title={isUpdate ? '주변장치 정보수정' : '주변장치 정보등록'}/>
             <WhiteBoxContainer>
               {
-                document.id !== '' || isUpdate == true?
+                // document.id !== '' || isUpdate == true?
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'장치 이름'} value={name} onChangeEvent={setName} description={'장치 이름을 입력하세요'} />
@@ -247,7 +247,7 @@ const BasicDeviceRegister = () => {
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요 (장치에 부착되어있음)'} />
 
                 <BasicSearchContainer
-                      title={'공장'}
+                      title={'공장/부속공장'}
                       key={'pk'}
                       value={'name'}
                       onChangeEvent={
@@ -257,7 +257,7 @@ const BasicDeviceRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?option=0&'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -273,18 +273,18 @@ const BasicDeviceRegister = () => {
                     :
                     null
                 }
-                <br/>
-                <DocumentFormatInputList
+                {/*<br/>*/}
+                {/*<DocumentFormatInputList*/}
 
-                  pk={!isUpdate ? document.pk : undefined}
-                  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/device/load?pk=${pk}` :''}
-                  onChangeEssential={setEssential} onChangeOptional={setOptional}
-                  />
+                {/*  pk={!isUpdate ? document.pk : undefined}*/}
+                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/device/load?pk=${pk}` :''}*/}
+                {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
+                {/*  />*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
-              :
-              <SelectDocumentForm category={1} onChangeEvent={setDocument}/>
+              // :
+              // <SelectDocumentForm category={1} onChangeEvent={setDocument}/>
 
             }
             </WhiteBoxContainer>

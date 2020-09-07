@@ -16,6 +16,7 @@ interface Props{
     select?: string, //select pk
     onChangeEvent?: any,//setSelect Event
     autoRendering?: boolean//실시간 데이터 갱신여부
+    state?: 0 | 10 | 11
 }
 interface Factory{
     pk: string | number,
@@ -78,7 +79,7 @@ const initialData = {
 
 }
 
-const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, select}:Props) => {
+const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, select, state}:Props) => {
 
     const [selectFactory, setSelectFactory] = useState<Factory>({pk: '', name: ''});
 
