@@ -158,6 +158,10 @@ export const MES_MENU_LIST = {
     { name: '발주 관리', url: '/outsourcing/order/list' },
     { name: '수주 관리', url: '/outsourcing/contract/list' },
   ],
+  customer: [
+    { name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
+    { name: '거래처 리스트', url: '/customer/current/list'}
+  ],
   project: [ //생산관리
     { name : '생산 관리' , url: '/project/schedule/list'}, //상위메뉴
     { name : '생산 계획 리스트', url: '/project/schedule/list'},

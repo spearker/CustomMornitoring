@@ -25,6 +25,7 @@ import ScheduleProduction from "../Pages/Project/Schedule";
 import OutsourcingCurrent from "../Pages/Outsourcing/Current"
 import OutsourcingOrder from "../Pages/Outsourcing/Order"
 import OutsourcingContract from "../Pages/Outsourcing/Contract"
+import CurrentCustomer from "../Pages/Customer/Customer";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -44,6 +45,8 @@ const JMRouters = () => {
             <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction} />
             <Route exact path="/project/work/history" component={WorkProduction} />
             <Route exact path="/project/voucher/list" component={VoucherProduction}/>
+
+            <Route exact path="/customer/current/list" component={CurrentCustomer}/>
 
             <Route export path="/outsourcing/current/list" component={OutsourcingCurrent} />
             <Route exact path="/outsourcing/order/list" component={OutsourcingOrder} />

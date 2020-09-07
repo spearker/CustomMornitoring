@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 export const getProcessList = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
-    return temp.results!;
+    return temp.results;
 }
 
 
