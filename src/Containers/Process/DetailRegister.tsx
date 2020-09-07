@@ -33,25 +33,6 @@ const ProcessDetailRegisterContainer = () => {
                                 <td><Input placeholder="프로세스명 or 세분화 공정 명을 입력해 주세요." onChangeText={(e:string) => setProcessName(e)}/></td>
                             </tr>
                             <tr>
-                                <td>• 생산 계획 일정</td>
-                                <td>
-                                    <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
-                                        <div style={{width: 821, display: 'table-cell'}}>
-                                            <div style={{marginTop: 5}}>
-                                                {
-                                                    selectDate === ''
-                                                        ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                        :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
-                                                }
-                                            </div>
-                                        </div>
-                                        <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
-                                            setSelectDate(select)
-                                        }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td style={{verticalAlign: 'top'}}>• 등록 공정 검색</td>
                                 <td>
                                     <div style={{flexDirection: 'row', display: 'flex'}}>

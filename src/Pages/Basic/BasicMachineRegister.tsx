@@ -216,7 +216,7 @@ const BasicMachineRegister = () => {
       qualification: paths[1],
       capacity: paths[2],
       tons: tons,
-      slip_angle: volt,
+      volt: volt,
     };
 
 

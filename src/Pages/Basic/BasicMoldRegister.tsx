@@ -50,6 +50,8 @@ const BasicMoldRegister = () => {
   const [factory, setFactory] = useState<any[]>([]);
 
   const [limit, setLimit] = useState<number>(0);
+  const [now, setNow] = useState<number>(0);
+  const [repair, setRepair] = useState<number>(0);
   const [files, setFiles] = useState<any[3]>([null, null]);
   const [paths, setPaths] = useState<any[3]>([null, null]);
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
@@ -243,8 +245,9 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
                 <DropdownInput title={'금형 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
+                <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
                 <NormalNumberInput title={'최대 타수'} description={""} value={limit} onChangeEvent={setLimit}/>
-                <NormalInput title={'금형 스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요. ex)W: String, L: String'} />
+                <NormalNumberInput title={'점검 타수'} description={""} value={repair} onChangeEvent={setRepair}/>
                 <BasicSearchContainer
                       title={'공장/부속공장'}
                       key={'pk'}
@@ -256,12 +259,17 @@ const BasicMoldRegister = () => {
                       }
                       solo={true}
                       list={factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?option=1&'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?&'}
                 />
+                <NormalInput title={'금형 치수 L'} value={spec} onChangeEvent={setSpec} description={'치수를 입력하세요.'} />
+                <NormalInput title={'금형 치수 W'} value={spec} onChangeEvent={setSpec} description={'치수를 입력하세요.'} />
+                <NormalInput title={'금형 치수 T'} value={spec} onChangeEvent={setSpec} description={'치수를 입력하세요.'} />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />
-                <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
+                <NormalNumberInput title={'현재 타수'} description={""} value={now} onChangeEvent={setNow}/>
+                {/*<NormalInput title={'책임자(정)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
+                {/*<NormalInput title={'책임자(부)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
                 <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} />
                 <NormalFileInput title={'하금형 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'하금형 사진을 찍어 등록해주세요'} />
                 {

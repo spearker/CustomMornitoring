@@ -11,6 +11,7 @@ import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import {API_URLS, postProcessRegister} from "../../Api/mes/process";
+import {machineCodes} from "../../Common/codeTransferFunctions";
 
 const typeDummy = [
     '단발',
@@ -50,6 +51,30 @@ const ProcessRegisterContainer = () => {
         console.log(resultData)
     }, [processData])
 
+    const changeType = async (e: number) => {
+        if(e === 0){
+            console.log("0번")
+            await setProcessData({
+                ...processData,
+                processes: [{machine_pk: '', recommend: 0}]
+            })
+        }else if(e === 1){
+            console.log("1번")
+            await setProcessData({
+                ...processData,
+                processes: [{machine_pk: '', recommend: 0}, {machine_pk: '', recommend: 0}]
+            })
+        }else{
+            console.log("나머지")
+            await setProcessData({
+                ...processData,
+                processes: []
+            })
+        }    }
+
+    useEffect(() => {
+        changeType(processData.type)
+    }, [processData.type])
     useEffect(() => {
         console.log(processData)
     }, [processData])
@@ -71,30 +96,8 @@ const ProcessRegisterContainer = () => {
                             <td>• 타입</td>
                             <td>
                                 <RegisterDropdown
-                                    type={'string'}
-                                    onClickEvent={async (e: number) => {
-
-                                        if(e === 0){
-                                            console.log("0번")
-                                            await setProcessData({
-                                                ...processData,
-                                                processes: [{machine_pk: '', recommend: 0}]
-                                            })
-                                        }else if(e === 1){
-                                            console.log("1번")
-                                            await setProcessData({
-                                                ...processData,
-                                                processes: [{machine_pk: '', recommend: 0}, {machine_pk: '', recommend: 0}]
-                                            })
-                                        }else{
-                                            console.log("나머지")
-                                            await setProcessData({
-                                                ...processData,
-                                                processes: []
-                                            })
-                                        }
-                                        return setProcessData({...processData, type: e})
-                                    }}
+                                    type={'number'}
+                                    onClickEvent={async (e: number) =>  setProcessData({...processData, type: e})}
                                     select={typeList[processData.type]}
                                     contents={typeList} text={'타입을 선택해 주세요'}
                                 />
@@ -102,7 +105,7 @@ const ProcessRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 공정명</td>
-                            <td><Input placeholder="공장명을 입력해 주세요." onChangeText={(e:string) => setProcessData({...processData, name: e})}/></td>
+                            <td><Input placeholder="공장명을 입력해 주세요." onChange={(e) => setProcessData({...processData, name: e.target.value})}/></td>
                         </tr>
                         {
                             processData.processes && processData.processes.length !== 0
@@ -112,7 +115,20 @@ const ProcessRegisterContainer = () => {
                                             <td>• {i+1}번 공정</td>
                                             <td><MachinePickerModal select={
                                                 selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
-                                            } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => setSelectMachine(e)}/></td>
+                                            } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
+                                                let tmpList = processData.processes
+
+                                                if(selectMachine && selectMachine.pk){
+                                                    console.log(selectMachine.pk)
+                                                    if (tmpList) {
+                                                        tmpList[i] = {machine_pk: selectMachine.pk, recommend: 0}
+                                                    }
+                                                }
+
+                                                console.log(tmpList)
+                                                setSelectMachine(e)
+                                                return setProcessData({...processData, processes: tmpList})
+                                            }}/></td>
                                         </tr>
                                     )
                                 })
@@ -142,7 +158,7 @@ const ProcessRegisterContainer = () => {
                         }
                         <tr>
                             <td>• 설명</td>
-                            <td><Input placeholder="설명을 입력해 주세요." onChangeText={(e:string) => setProcessData({...processData, description: e})}/></td>
+                            <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요." onChangeText={(e:string) => setProcessData({...processData, description: e})}/></td>
                         </tr>
                     </table>
                 </div>

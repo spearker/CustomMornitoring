@@ -11,7 +11,7 @@ import * as _ from 'lodash';
  * @author 준희
  */
 export const postProcessRegister = async( url: string, bodyData: object) =>{
-    const temp: IServerData = await client.get(url, bodyData);
+    const temp: IServerData = await client.post(url, bodyData);
     return temp
 }
 
@@ -31,14 +31,14 @@ export const getSearchMachine = async( url: string) =>{
 
 export const API_URLS = {
     process:{
-        register: `/process/register`,
-        update: `/process/update`,
-        load: `/process/load`,
-        list: `/process/list`,
-        delete: `/process/delete`,
+        register: `/v1/process/register`,
+        update: `/v1/process/update`,
+        load: `/v1/process/load`,
+        list: `/v1/process/list`,
+        delete: `/v1/process/delete`,
     },
     machine: {
-        list: `/machine/search`
+        list: `/v1/machine/search`
     }
 
 }

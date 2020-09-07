@@ -20,60 +20,12 @@ interface IProps{
 
 const DummyMachine = [
     {
-        pk: "pk1",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },{
-        pk: "pk2",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk3",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk4",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk5",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk6",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk7",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
-    {
-        pk: "pk8",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    },
+        pk: "",
+        machine_name: "",
+        machine_type: "",
+        manufacturer: "",
+        manufacturer_code: ''
+    }
 ]
 
 const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
@@ -91,7 +43,7 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}`
         const resultData = await getSearchMachine(tempUrl);
-        console.log(resultData)
+        setMachineList(resultData.results)
     }, [searchName])
 
     useEffect(() => {
@@ -170,7 +122,7 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                                                         <button
                                                             onClick={() => {
                                                                 setMachineName(v.machine_name)
-                                                                return onClickEvent({name:'888888', pk: v.pk})
+                                                                return onClickEvent({name: v.machine_name, pk: v.pk})
                                                             }}
                                                             style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
