@@ -18,7 +18,7 @@ import { getRequest } from "../../Common/requestFunctions";
 import { getToken } from "../../Common/tokenFunctions";
 import { API_URLS, getCluchData, getMoldData, } from "../../Api/pm/preservation";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
-
+import { useHistory } from "react-router-dom"
 
 
 const StockListContainer = () => {
@@ -38,10 +38,11 @@ const StockListContainer = () => {
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
     const [subIndex, setSubIndex] = useState({writer: "작성자"})
+    const history = useHistory()
 
     const indexList = {
-        stock_list: {  
-            item_name: "품목(품목명)", 
+        stock_list: {
+            item_name: "품목(품목명)",
             // 자재 종류가 없습니다
             stock_type: "재고 분류",
             stock_quantity: "재고량",
@@ -52,35 +53,35 @@ const StockListContainer = () => {
 
     const dummy = [
         {
-            item_name: "품목명00", 
+            item_name: "품목명00",
             stock_type: "일반",
             stock_quantity: "1,000,000",
             storage_location: "창고01",
             safety_stock: "9,999,999"
         },
         {
-            item_name: "품목명01", 
+            item_name: "품목명01",
             stock_type: "재공재고",
             stock_quantity: "1,000,000",
             storage_location: "창고01",
             safety_stock: "9,999,999"
         },
         {
-            item_name: "품목명02", 
-            stock_type: "외주 재고",
-            stock_quantity: "1,000,000",
-            storage_location: "창고01",
-            safety_stock: "9,999,999" 
-        },
-        {
-            item_name: "품목명03", 
+            item_name: "품목명02",
             stock_type: "외주 재고",
             stock_quantity: "1,000,000",
             storage_location: "창고01",
             safety_stock: "9,999,999"
         },
         {
-            item_name: "품목명04", 
+            item_name: "품목명03",
+            stock_type: "외주 재고",
+            stock_quantity: "1,000,000",
+            storage_location: "창고01",
+            safety_stock: "9,999,999"
+        },
+        {
+            item_name: "품목명04",
             stock_type: "일반",
             stock_quantity: "1,000,000",
             storage_location: "창고01",
@@ -92,6 +93,7 @@ const StockListContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
+            Link: ()=>history.push('/manageStock/register')
         },
         {
             Name: '삭제',
@@ -112,7 +114,7 @@ const StockListContainer = () => {
     ]
 
     const detailTitle = {
-        item_detailList: {  
+        item_detailList: {
             writer: "작성자",
             sortation: "구분",
             stock_quantity: "수량",

@@ -19,6 +19,7 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
+import {useHistory} from "react-router-dom";
 
 
 
@@ -38,6 +39,7 @@ const VoucherContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const history = useHistory();
 
     const indexList = {
         voucher: {
@@ -107,6 +109,7 @@ const VoucherContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
+            Link: ()=>history.push('/project/chit/register')
         },
         {
             Name: '삭제',

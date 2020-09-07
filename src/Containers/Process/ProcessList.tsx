@@ -18,6 +18,7 @@ import { getRequest } from "../../Common/requestFunctions";
 import { getToken } from "../../Common/tokenFunctions";
 import { API_URLS, getCluchData, getMoldData, } from "../../Api/pm/preservation";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
+import {useHistory} from "react-router-dom";
 
 
 
@@ -38,12 +39,13 @@ const ProcessListContainer = () => {
     const [selectProcess, setSelectProcess] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
     const [subIndex, setSubIndex] = useState({machine_pk: "공정 순"})
+    const history = useHistory();
 
     const indexList = {
         info_list: {
             type: "타입",
             name: "공정 명",
-            status: "현황/상태" 
+            status: "현황/상태"
         }
     }
 
@@ -51,27 +53,27 @@ const ProcessListContainer = () => {
         {
             type: "단발",
             name: "공정 01",
-            status: "진행중" 
+            status: "진행중"
         },
         {
             type: "라인",
             name: "공정 02",
-            status: "Off" 
+            status: "Off"
         },
         {
             type: "검수",
             name: "공정 03",
-            status: "에러" 
+            status: "에러"
         },
         {
             type: "라인",
             name: "공정 04",
-            status: "상태" 
+            status: "상태"
         },
         {
             type: "라인",
             name: "공정 05",
-            status: "상태" 
+            status: "상태"
         }
     ]
 
@@ -79,6 +81,7 @@ const ProcessListContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
+            Link: ()=>history.push('/process/detail/register')
         },
         {
             Name: '삭제',

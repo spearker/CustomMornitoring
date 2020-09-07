@@ -158,7 +158,7 @@ import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister';
 import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister';
 import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
 import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
-import OutsourcingCompanyRegister from '../Pages/Outsourcing/OutsourcingCompanyRegister';
+import Old_OutsourcingCompanyRegister from '../Pages/Outsourcing/Old_OutsourcingCompanyRegister';
 import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister';
 import ReadyTimeStatics from "../Pages/PM_Statistics/ReadyTimeStatics";
 
@@ -222,7 +222,7 @@ const Routers = () => {
 
                 {/* 외주정보 관리 */}
                 <Route exact path="/manage/" component={BasicDeviceRegister}/>
-                <Route exact path="/outsourcing/company/register" component={OutsourcingCompanyRegister}/>
+                <Route exact path="/outsourcing/company/register" component={Old_OutsourcingCompanyRegister}/>
 
                 <Route exact path="/list/design" component={DesignList} />
                 <Route exact path="/list/machine" component={MachineList} />

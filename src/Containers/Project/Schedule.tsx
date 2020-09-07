@@ -20,6 +20,7 @@ import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
 import FactoryBox from "../../Components/Box/FactoryBox";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
+import {useHistory} from "react-router-dom";
 
 
 
@@ -33,6 +34,7 @@ const ScheduleContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const history = useHistory();
 
     const indexList = {
         schedule: {
@@ -92,6 +94,7 @@ const ScheduleContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
+            Link: ()=>history.push('/project/production/register')
         },
         {
             Name: '취소',

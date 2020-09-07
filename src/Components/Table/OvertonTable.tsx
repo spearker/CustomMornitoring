@@ -28,9 +28,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
 
-
-    const history = useHistory()
-
     React.useEffect(() => {
         console.log('valueList', valueList)
     }, [])
@@ -51,7 +48,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                     titleOnClickEvent && titleOnClickEvent.map((bv,bi)=>{
                         return(
                             <div>
-                                <TitleButtonBox onClick={()=>{onClickEvent([pkKey])}} style={{width: bv.Width}} >{bv.Name}</TitleButtonBox>
+                                <TitleButtonBox onClick={bv.Link} style={{width: bv.Width}} >{bv.Name}</TitleButtonBox>
                             </div>
                         )
                     })

@@ -18,7 +18,7 @@ import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
-
+import {useHistory} from 'react-router-dom'
 
 
 const SegmentListContainer = () => {
@@ -32,6 +32,7 @@ const SegmentListContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const history = useHistory();
 
     const indexList = {
         segment: {
@@ -84,6 +85,7 @@ const SegmentListContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
+            Link: ()=>history.push('/process/detail/register')
         },
         {
             Name: '삭제',

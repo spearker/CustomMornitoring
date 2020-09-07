@@ -40,7 +40,7 @@ import NormalAddressInput from '../../Components/Input/NormalAddressInput';
 
 
 // 외주사 등록
-const OutsourcingCompanyRegister = () => {
+const Old_OutsourcingCompanyRegister = () => {
 
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
 
@@ -195,4 +195,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default OutsourcingCompanyRegister;
+export default Old_OutsourcingCompanyRegister;
