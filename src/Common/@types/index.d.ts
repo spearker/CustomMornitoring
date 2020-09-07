@@ -376,3 +376,18 @@ interface IProcessRegister {
   }[]
   description: string
 }
+
+interface ICustomerRegister {
+  name: string
+  ceo_name: string
+  type: 0 | 1
+  number: string
+  photo: string
+  address: { postcode: string, roadAddress:string, detail: string}
+  telephone: string
+  ceo_email: string
+  fax: string
+  manager: string
+  manager_phone: string
+  manager_email: string
+}

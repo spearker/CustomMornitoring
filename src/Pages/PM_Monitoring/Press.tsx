@@ -77,8 +77,8 @@ const PressMonitoring = () => {
     setIsFirstLoad(true)
      const data = resultData;
      setList(data);
-     //alert(data.info_list);
-     console.log(data.info_list)
+     alert(data.info_list);
+     console.log(data)
       if(data.info_list) {
           const arr = data[0].info_list!.map((v, i) => {
               return (v['title'])

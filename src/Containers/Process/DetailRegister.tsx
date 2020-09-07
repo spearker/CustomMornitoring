@@ -13,6 +13,9 @@ import styled from "styled-components";
 const ProcessDetailRegisterContainer = () => {
     const [processName, setProcessName] = useState<string>()
     const [selectDate, setSelectDate] = useState<string>()
+    const [searchData, setSearchData] = useState<string>()
+
+    const [processList, setProcessList] = useState()
 
     return (
         <div>
@@ -25,7 +28,7 @@ const ProcessDetailRegisterContainer = () => {
                 <div>
                     <p className={'title'}>필수 항목</p>
                 </div>
-                <div style={{marginTop: 72}}>
+                <div style={{marginTop: 30}}>
                     <div>
                         <table style={{color: "black"}}>
                             <tr>
@@ -38,23 +41,22 @@ const ProcessDetailRegisterContainer = () => {
                                     <div style={{flexDirection: 'row', display: 'flex'}}>
                                         <div style={{ width: 360, height: 211, marginRight: 20 }}>
                                             <div style={{width: 360, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                                                <SearchBox placeholder="기계명을 입력해주세요." style={{width: 360-28}} onChange={(e) => {}}/>
-                                                <SearchButton style={{width: 32}} onClick={() => {}}>
+                                                <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => setSearchData(e.target.value)}/>
+                                                <SearchButton style={{width: 32}} onClick={() => {
+
+                                                }}>
                                                     <img src={IcSearchButton}/>
                                                 </SearchButton>
                                             </div>
-                                           <div style={{height: 169, width: 'calc(100%-20px)', backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3', paddingLeft: 20}}>
+                                           <div style={{height: 169, width: 'calc(100%-20px)', backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
                                                <div>
                                                    <MachineTable style={{margin: 0, padding: 0}}>
-                                                       <tr>
+                                                       <tr style={{borderBottom: '1px solid #b3b3b3'}}>
                                                            <th><span>공정명</span></th>
                                                            <th><span>타입</span></th>
                                                            <th style={{width: 32}}></th>
                                                        </tr>
-                                                       <tr>
-                                                           <td>공정명 01</td>
-                                                           <td>단발</td>
-                                                       </tr>
+
                                                    </MachineTable>
                                                </div>
                                            </div>

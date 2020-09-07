@@ -112,16 +112,25 @@ const BasicBarcodeRegister = () => {
 
     if(inputData.rules.includes(null) || inputData.rules.name == '' )
       return alert('바코드 이름과 규칙을 반드시 입력해주세요.');
-
-
-    const data = {
-      document_pk: document.pk,
-      name: inputData.name,
-      rules: inputData.rules,
-      type: inputData.type,
-      description: inputData.description,
-      info_list: JsonStringifyList(essential, optional)
-    };
+    let data
+    if(inputData.description){
+      data = {
+        document_pk: document.pk,
+        name: inputData.name,
+        rules: inputData.rules,
+        type: inputData.type,
+        description: inputData.description,
+        info_list: JsonStringifyList(essential, optional)
+      };
+    }else{
+      data = {
+        document_pk: document.pk,
+        name: inputData.name,
+        rules: inputData.rules,
+        type: inputData.type,
+        info_list: JsonStringifyList(essential, optional)
+      };
+    }
 
     const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
     if(res === false){

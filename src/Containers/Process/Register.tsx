@@ -117,12 +117,8 @@ const ProcessRegisterContainer = () => {
                                                 selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
                                             } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
                                                 let tmpList = processData.processes
-
-                                                if(selectMachine && selectMachine.pk){
-                                                    console.log(selectMachine.pk)
-                                                    if (tmpList) {
-                                                        tmpList[i] = {machine_pk: selectMachine.pk, recommend: 0}
-                                                    }
+                                                if (tmpList && e.pk) {
+                                                    tmpList[i] = {machine_pk: e.pk, recommend: 0}
                                                 }
 
                                                 console.log(tmpList)
@@ -158,7 +154,7 @@ const ProcessRegisterContainer = () => {
                         }
                         <tr>
                             <td>• 설명</td>
-                            <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요." onChangeText={(e:string) => setProcessData({...processData, description: e})}/></td>
+                            <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요." onChange={(e) => setProcessData({...processData, description: e.target.value})}/></td>
                         </tr>
                     </table>
                 </div>

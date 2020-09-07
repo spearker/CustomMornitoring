@@ -50,14 +50,16 @@ const BasicMoldRegister = () => {
   const [factory, setFactory] = useState<any[]>([]);
 
   const [limit, setLimit] = useState<number>(0);
-  const [now, setNow] = useState<number>(0);
-  const [repair, setRepair] = useState<number>(0);
+  const [inspect, setInspect] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(0);
   const [files, setFiles] = useState<any[3]>([null, null]);
   const [paths, setPaths] = useState<any[3]>([null, null]);
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
   const [date, setDate]= useState<string>(moment().format('YYYY-MM-DD'));
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [spec, setSpec] = useState<string>('');
+  const [mold_spec_w, setMold_spec_w] = useState<string>('');
+  const [mold_spec_l, setMold_spec_l] = useState<string>('');
+  const [mold_spec_t, setMold_spec_t] = useState<string>('');
 
   const indexList = getMoldTypeList('kor');
 
@@ -129,13 +131,17 @@ const BasicMoldRegister = () => {
          setMade(data.manufacturer);
          setPhotoName(data.photo);
          setLimit(data.limit)
+         setInspect(data.inspect)
+         setCurrent(data.current)
          setDate(data.manufactured_at);
          setPk(data.pk);
           setFactory([{pk: data.location_pk, name: data.location_name}])
          setMadeNo(data.manufacturer_code);
          setType(Number(data.mold_type));
          setInfoList(data.info_list);
-         setSpec(data.mold_spec)
+         setMold_spec_w(data.mold_spec_w);
+         setMold_spec_l(data.mold_spec_l);
+         setMold_spec_t(data.mold_spec_t);
          const tempList = paths.slice();
          tempList[0]= data.photo;
          tempList[1]= data.qualification;
@@ -146,7 +152,7 @@ const BasicMoldRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made,limit,madeNo,date,spec, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
+  },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
 
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
@@ -161,11 +167,15 @@ const BasicMoldRegister = () => {
       mold_type: type,
       manufactured_at: date,
       limit: limit,
+      inspect: inspect,
+      current: current,
       location: factory[0].pk,
       info_list: JsonStringifyList(essential, optional),
       manufacturer: made,
       manufacturer_code: madeNo,
-      mold_spec: spec,
+      mold_spec_l: mold_spec_l,
+      mold_spec_w: mold_spec_w,
+      mold_spec_t: mold_spec_t,
       upper: paths[0],
       below: paths[1],
 
@@ -183,7 +193,7 @@ const BasicMoldRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, name,limit, spec, type, date, madeNo, infoList, paths,essential, optional, factory ])
+  },[pk, made, madeNo, name,limit, inspect, mold_spec_w, mold_spec_l, mold_spec_t, type, date, madeNo, infoList, paths,essential, optional, factory ])
 
   /**
    * onsubmitForm()
@@ -204,11 +214,15 @@ const BasicMoldRegister = () => {
       mold_type: type,
       manufactured_at: date,
       limit: limit,
+      inspect: inspect,
+      current: current,
       location: factory[0].pk,
       info_list: JsonStringifyList(essential, optional),
       manufacturer: made,
       manufacturer_code: madeNo,
-      mold_spec: spec,
+      mold_spec_l: mold_spec_l,
+      mold_spec_w: mold_spec_w,
+      mold_spec_t: mold_spec_t,
       upper: paths[0],
       below: paths[1],
     };
@@ -227,7 +241,7 @@ const BasicMoldRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, document, spec, limit,date, name, type, madeNo, infoList, paths, essential, optional , factory])
+  },[pk, made, madeNo, document, mold_spec_w, mold_spec_l, mold_spec_t, limit,date, name, type, madeNo, infoList, paths, essential, optional , factory])
 
 
 
@@ -247,7 +261,7 @@ const BasicMoldRegister = () => {
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
                 <NormalNumberInput title={'최대 타수'} description={""} value={limit} onChangeEvent={setLimit}/>
-                <NormalNumberInput title={'점검 타수'} description={""} value={repair} onChangeEvent={setRepair}/>
+                <NormalNumberInput title={'점검 타수'} description={""} value={inspect}onChangeEvent={setInspect}/>
                 <BasicSearchContainer
                       title={'공장/부속공장'}
                       key={'pk'}
@@ -261,13 +275,13 @@ const BasicMoldRegister = () => {
                       list={factory}
                       searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?&'}
                 />
-                <NormalInput title={'금형 치수 L'} value={spec} onChangeEvent={setSpec} description={'치수를 입력하세요.'} />
-                <NormalInput title={'금형 치수 W'} value={spec} onChangeEvent={setSpec} description={'치수를 입력하세요.'} />
-                <NormalInput title={'금형 치수 T'} value={spec} onChangeEvent={setSpec} description={'치수를 입력하세요.'} />
+                <NormalInput title={'금형 치수 L'} value={mold_spec_l} onChangeEvent={setMold_spec_l} description={'치수를 입력하세요.'} />
+                <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
+                <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />
-                <NormalNumberInput title={'현재 타수'} description={""} value={now} onChangeEvent={setNow}/>
+                <NormalNumberInput title={'현재 타수'} description={""} value={current} onChangeEvent={setCurrent}/>
                 {/*<NormalInput title={'책임자(정)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
                 {/*<NormalInput title={'책임자(부)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
                 <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} />

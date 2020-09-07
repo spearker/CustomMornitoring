@@ -60,7 +60,7 @@ const MoldRegisterContainer = () => {
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>수주 수정</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>금형 등록</span>
                 </div>
             </div>
             <ContainerMain>
