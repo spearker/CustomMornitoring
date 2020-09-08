@@ -17,7 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getSegmentList} from "../../Api/mes/process";
 import {useHistory} from 'react-router-dom'
 
 
@@ -27,7 +27,7 @@ const SegmentListContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ process_name: '프로세스 명'});
+    const [index, setIndex] = useState({ name: "공정별 세분화 명"});
     const [subIndex, setSubIndex] = useState({order: '공정 순서'})
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -36,9 +36,8 @@ const SegmentListContainer = () => {
 
     const indexList = {
         segment: {
-            process_name: '프로세스 명',
-            material_name: '(품목)품목명',
-            status: '현황/상태'
+            name: "공정별 세분화 명",
+            status: "현황"
         }
     }
 
@@ -137,8 +136,8 @@ const SegmentListContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['segment'].load}?pk=${pk}`
+        const res = await getSegmentList(tempUrl)
 
         setDetailList(res)
 
@@ -146,17 +145,17 @@ const SegmentListContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['segment'].list+'?page=1'}`
+        const res = await getSegmentList(tempUrl)
 
         setList(res)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["segment"])
-        setList(dummy)
+        // setList(dummy)
         setTitleEventList(titleeventdummy)
         setDetailList(detaildummy)
         setSubIndex(detailTitle['segment'])

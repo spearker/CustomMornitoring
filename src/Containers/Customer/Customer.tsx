@@ -15,7 +15,7 @@ const ClientContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ name: '거래처 명' });
+    const [index, setIndex] = useState({  number: "0000111101001111" });
     const [detailList,setDetailList] = useState<any>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
@@ -25,59 +25,15 @@ const ClientContainer = () => {
     const history = useHistory();
 
     const indexList = {
-    customer: {
-            name: '거래처 명',
-            telephone: '회사 전화번호',
-            fax: '팩스 번호',
-            ceo_name: '대표자',
-            registered: '날짜'
+        customer: {
+            name: "거래처 명",
+            telephone: "전화 번호",
+            fax: "팩스 번호",
+            ceo_name: "대표자",
+            number: "사업자 번호",
+            registered: "등록 날짜",
         }
     }
-
-    const dummy = [
-        {
-            name: '거래처 01',
-            telephone: '000-0000-0000',
-            fax: '000-000-0000',
-            ceo_name: '김대표',
-            registered: '2020.06.16'
-        },
-        {
-            name: '거래처 02',
-            telephone: '000-0000-0000',
-            fax: '000-000-0000',
-            ceo_name: '김대표',
-            registered: '2020.06.16'
-        },
-        {
-            name: '거래처 03',
-            telephone: '000-0000-0000',
-            fax: '000-000-0000',
-            ceo_name: '김대표',
-            registered: '2020.06.16'
-        },
-        {
-            name: '거래처 04',
-            telephone: '000-0000-0000',
-            fax: '000-000-0000',
-            ceo_name: '김대표',
-            registered: '2020.06.16'
-        },
-        {
-            name: '거래처 05',
-            telephone: '000-0000-0000',
-            fax: '000-000-0000',
-            ceo_name: '김대표',
-            registered: '2020.06.16'
-        },
-        {
-            name: '거래처 06',
-            telephone: '000-0000-0000',
-            fax: '000-000-0000',
-            ceo_name: '김대표',
-            registered: '2020.06.16'
-        },
-    ]
 
     const eventdummy = [
         {
@@ -135,20 +91,19 @@ const ClientContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['customer'].list}?keyword=&type=0&page=0`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=&type=1&page=1`
         const res = await getCustomerData(tempUrl)
-
-        setList(res)
-
+        console.log(res.info_list)
+        setList(res.info_list)
     },[])
 
     useEffect(()=>{
         getList()
-        // setIndex(indexList["customer"])
+        setIndex(indexList["customer"])
         // setList(dummy)
         // setDetailList(detaildummy)
-        // setTitleEventList(titleeventdummy)
-        // setEventList(eventdummy)
+        setTitleEventList(titleeventdummy)
+        setEventList(eventdummy)
     },[])
 
     return (

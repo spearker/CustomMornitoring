@@ -197,6 +197,7 @@ export const MES_MENU_LIST = {
   ],
   mold: [
     { name : '금형 관리', url: '/mold/current/list'},
+    { name : '금형 등록', url: '/mold/register'},
     { name : '금형 수리 현황', url: '/mold/current/list'},
     { name : '금형 수리 완료', url: '/mold/repair/list'}
   ]

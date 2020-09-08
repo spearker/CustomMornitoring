@@ -126,7 +126,7 @@ const CurrentContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=> history.push('/mold/register')
+            Link: ()=> history.push('/mold/repair/register')
         },
         {
             Name: '삭제',

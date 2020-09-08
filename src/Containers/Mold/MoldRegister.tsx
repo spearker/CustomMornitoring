@@ -8,31 +8,44 @@ import {POINT_COLOR} from "../../Common/configset";
 import IcButton from "../../Components/Button/IcButton";
 import searchImage from "../../Assets/Images/ic_search.png";
 import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
-import {API_URLS, postContractModify} from "../../Api/mes/business";
+import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 
-const factoryDummy = [
-    '더미 업체 1',
-    '더미 업체 2',
-    '더미 업체 3',
+const typeDummy = [
+    '타입 A',
+    '타입 B',
+    '타입 C',
 ]
 
-const productionDummy = [
-    '더미 품목 1',
-    '더미 품목 2',
-    '더미 품목 3',
+const locationDummy = [
+    '창고01',
+    '창고02',
+    '창고03',
 ]
 
-const listDummy = [
-    { project_pk: 'dummy01', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
-    { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
+const companyDummy = [
+    '(주)대한민국',
+    '(주)한국',
+    '(주)조선',
 ]
+
 
 const MoldRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
+    const [moldData, setMoldData] = useState<string>()
     const [selectOpen, setSelectOpen] = useState<boolean>(false)
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [factoryList, setFactoryList] = useState<string[]>(factoryDummy)
+    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
+    const [processData, setProcessData] = useState<IProcessRegister>({
+        type: 1,
+        name: '',
+        processes: [{machine_pk: '', recommend: 0}],
+        description: ''
+    })
+    const [typeList, setTypeList] = useState<string[]>(typeDummy)
+    const [locationList, setLocationList] = useState<string[]>(locationDummy)
+    const [companyList, setCompanyList] = useState<string[]>(locationDummy)
     const [selectFactory, setSelectFactory] = useState<string>()
     const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
         factory: undefined,
@@ -43,17 +56,23 @@ const MoldRegisterContainer = () => {
         end: moment().format("YYYY-MM-DD"),
     })
 
-    const [contractData, setContractData] = useState<{pk: string, customer_pk: string, material_pk: string, amount: Number, date: string}>({
-        pk: '',
-        customer_pk: '',
-        material_pk: '',
-        amount: 2000,
-        date: moment().format('YYYY-MM-DD'),
+    const [contractData, setContractData] = useState<{mold_type:string,mold_name:string,part_name:string[],mold_location:string,delivery_company:string,mold_barcode:string,registered: string}>({
+        mold_type: '',
+        mold_name: '',
+        part_name: [''],
+        mold_location: '',
+        delivery_company: '',
+        mold_barcode: '',
+        registered: moment().format('YYYY-MM-DD'),
     })
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].update}`
-        const resultData = await postContractModify(tempUrl, contractData);
+        const tempUrl = `${API_URLS['mold'].register}`
+        const resultData = await postMoldRegister(tempUrl, contractData);
+    }, [contractData])
+
+    useEffect(() => {
+        console.log(contractData)
     }, [contractData])
 
     return (
@@ -70,35 +89,75 @@ const MoldRegisterContainer = () => {
                 <div>
                     <table style={{color: "black"}}>
                         <tr>
-                            <td>• 금형 명</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
+                            <td>• 타입</td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({...contractData,mold_type: e})} select={contractData.mold_type} contents={typeList} text={'타입을 선택해 주세요'}/></td>
                         </tr>
                         <tr>
-                            <td>• 품목(품목명)</td>
-                            <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 885}}>
-                                        <div style={{marginTop: 5}}>
-                                            {
-                                                contractData.material_pk === ''
-                                                    ?<InputText>&nbsp; 품목(품목명)을 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}></InputText>
+                            <td>• 금형명</td>
+                            <td><Input placeholder="금형 이름을 입력하세요." onChange={(e) => setContractData({...contractData,mold_name: e.target.value})} /></td>
+                        </tr>
+                        {
+                            processData.processes && processData.processes.length !== 0
+                            && contractData.part_name.map((v, i) => {
+                                return(
+                                    <tr>
+                                        {i === 0 ?
+                                            <td>• 부품명</td>
+                                            :
+                                            <td></td>
+                                        }
+                                        <td><Input placeholder={'부품명을 검색해 주세요'} onChange={(e) => {
+                                            let tmpList = contractData.part_name
+                                            if (tmpList) {
+                                                tmpList[i] = e.target.value
                                             }
-                                        </div>
-                                    </div>
-                                    <div style={{width: 32}} onClick={()=> {
-                                        setOpen(true)
+
+                                            return setContractData({...contractData, part_name: tmpList})
+                                        }}/></td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        {
+                            processData.type !== 0 &&
+                            <tr>
+                                <td>{processData.processes && processData.processes.length !== 0 ? '' : '• 공정'}</td>
+                                <td>
+                                    <button onClick={() => {
+                                        const list = contractData.part_name.concat('')
+
+                                        setContractData({
+                                            ...contractData,
+                                            part_name: list
+                                        })
                                     }}>
-                                        <IcButton customStyle={{width: 32, height: 32}} image={searchImage} dim={true} onClickEvent={() => {
-                                            setOpen(true)
-                                        }}/>
-                                    </div>
+                                        <div style={{width: 919, height: 34, backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
+                                            <div style={{marginTop: 5}}>
+                                                <p style={{color: '#b3b3b3', }}>+ 부품 추가</p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>• 보관위치</td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({...contractData,mold_location:e})} select={contractData.mold_location} contents={locationList} text={'보관 위치를 선택해 주세요'}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 납품업체</td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({...contractData,delivery_company:e})} select={contractData.delivery_company} contents={companyList} text={'납품 업체를 선택해 주세요'}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 바코드 번호</td>
+                            <td>
+                                <div style={{width: 919, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
+                                    <Input disabled placeholder={'바코드 번호 생성 버튼을 눌러주세요.'} style={{flex: 85, height: 28}}/>
+                                    <SearchButton style={{flex: 15}}>
+                                        <p>바코드 번호 생성</p>
+                                    </SearchButton>
                                 </div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>• 수리 담당자</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
                         </tr>
                         <tr>
                             <td>• 완료 예정일</td>
@@ -107,15 +166,13 @@ const MoldRegisterContainer = () => {
                                     <div style={{width: 817, display: 'table-cell'}}>
                                         <div style={{marginTop: 5}}>
                                             {
-                                                selectDate === ''
-                                                    ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                                                    <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                                             }
                                         </div>
                                     </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
-                                        setContractData({...contractData, date: select})
+                                        setContractData({...contractData, registered: select})
                                     }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>
@@ -138,7 +195,7 @@ const MoldRegisterContainer = () => {
 
 const ContainerMain = Styled.div`
     width: 1060px;
-    height: 493px;
+    height: auto;
     border-radius: 6px;
     background-color: white;
     padding: 35px 20px 0 20px;
@@ -197,6 +254,7 @@ const CheckButton = Styled.button`
 
 const ButtonWrap = Styled.button`
     padding: 4px 12px 4px 12px;
+    margin-bottom: 50px;
     border-radius: 5px;
     color: black;
     background-color: ${POINT_COLOR};
@@ -216,6 +274,14 @@ const InputText = Styled.p`
     text-align: left;
     vertical-align: middle;
     font-weight: regular;
+`
+
+
+const SearchButton = Styled.button`
+    width: 32px;
+    height: 35px;
+    background-color: ${POINT_COLOR};
+    border: 1px solid #b3b3b3;
 `
 
 export default MoldRegisterContainer

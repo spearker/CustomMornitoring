@@ -16,7 +16,7 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import { getRequest } from "../../Common/requestFunctions";
 import { getToken } from "../../Common/tokenFunctions";
-import { API_URLS, getCluchData, getMoldData, } from "../../Api/pm/preservation";
+import { API_URLS, getProcessList } from "../../Api/mes/process";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 
@@ -28,24 +28,20 @@ const ProcessListContainer = () => {
     const [BOMlist, setBOMList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any>({
-        machine_pk: "",
-        machine_name: "",
-        recommend: 0
-    });
+    const [detailList, setDetailList] = useState<any>([]);
     const [index, setIndex] = useState({ type: "타입" });
     const [BOMindex, setBOMIndex] = useState({ material_name: '품목(품목명)' });
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectProcess, setSelectProcess] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
-    const [subIndex, setSubIndex] = useState({machine_pk: "공정 순"})
+    const [subIndex, setSubIndex] = useState({  machine_name: "테스트 프레스",})
     const history = useHistory();
 
     const indexList = {
         info_list: {
             type: "타입",
             name: "공정 명",
-            status: "현황/상태"
+            status: "현황"
         }
     }
 
@@ -81,7 +77,7 @@ const ProcessListContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/process/detail/register')
+            Link: ()=>history.push('/process/register')
         },
         {
             Name: '삭제',
@@ -90,9 +86,8 @@ const ProcessListContainer = () => {
 
     const detailTitle = {
         processes:  {
-            machine_pk: "공정 순",
-            machine_name: "기계 명",
-            recommend: "권장 SPM"
+            machine_name: "테스트 프레스",
+            recommend: "0"
         }
     }
 
@@ -131,35 +126,40 @@ const ProcessListContainer = () => {
             setSelectProcess(process.name);
             setSelectValue(process)
             //TODO: api 요청
-            // getData(process.pk)
+            getData(process.pk)
         }
 
     }, [list, selectPk]);
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['process'].load}?pk=${pk}`
+        const res = await getProcessList(tempUrl)
 
-        setDetailList(res)
+        res.processes.map(()=>{
+
+            res.processess.push()
+        })
+        console.log(res.processes)
+        setDetailList(res.processes)
 
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['process'].list+'?page=1'}`
+        const res = await getProcessList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     }, [list])
 
     useEffect(() => {
-        // getList()
+        getList()
         setIndex(indexList["info_list"])
         setTitleEventList(titleeventdummy)
-        setList(dummy)
-        setDetailList(detailValue)
+        // setList(dummy)
+        // setDetailList(detailValue)
         setSubIndex(detailTitle['processes'])
     }, [])
 

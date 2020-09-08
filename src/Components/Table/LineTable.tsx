@@ -29,7 +29,7 @@ const LineTable: React.FunctionComponent<Props> = ({title,contentTitle,contentLi
             {contentList !== undefined && contentList.length === 0
                 ? (<Content style={{backgroundColor: '#000000'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를
                     불러오지 못했습니다.</p></Content>)
-                : contentList?.map((v, i) => {
+                : contentList&&contentList.map((v, i) => {
                         {
                             console.log('ㅇㅇㅇㅇ', v)
                         }
