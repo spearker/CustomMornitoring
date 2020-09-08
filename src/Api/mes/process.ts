@@ -81,8 +81,14 @@ export const API_URLS = {
         delete: `/v1/process/delete`,
         search: `/v1/process/search`,
     },
-    segment: {
-        register: `/v1/process/segment/register`
+    segment:{
+        register: `/v1/process/segment/register`,
+        list: '/v1/process/segment/list',
+        load: '/v1/process/segment/load'
+    },
+    segment:{
+        list: '/v1/process/segment/list',
+        load: '/v1/process/segment/load'
     },
     segment:{
         list: '/v1/process/segment/list',

@@ -45,7 +45,6 @@ const VoucherContainer = () => {
         voucher: {
             registerer_name: '등록자',
             supplier_name: '납품 업체',
-            deadline: '납기일',
             material_name: '품목(품목명)',
             goal: '생산 할 수량',
             current_amount: '현재 생산 수량'
@@ -56,7 +55,6 @@ const VoucherContainer = () => {
         {
             registerer_name: '홍길동',
             supplier_name: '(주)대한민국',
-            deadline: '2020.09.09',
             material_name: '품목(품목명)',
             goal: '999,999,999,999',
             current_amount: '99,999'
@@ -64,7 +62,6 @@ const VoucherContainer = () => {
         {
             registerer_name: '홍길동',
             supplier_name: '(주)대한민국',
-            deadline: '2020.09.09',
             material_name: '품목(품목명)',
             goal: '999,999,999,999',
             current_amount: '99,999'
@@ -72,7 +69,6 @@ const VoucherContainer = () => {
         {
             registerer_name: '홍길동',
             supplier_name: '(주)대한민국',
-            deadline: '2020.09.09',
             material_name: '품목(품목명)',
             goal: '999,999,999,999',
             current_amount: '99,999'
@@ -80,7 +76,6 @@ const VoucherContainer = () => {
         {
             registerer_name: '홍길동',
             supplier_name: '(주)대한민국',
-            deadline: '2020.09.09',
             material_name: '품목(품목명)',
             goal: '999,999,999,999',
             current_amount: '99,999'
@@ -88,7 +83,6 @@ const VoucherContainer = () => {
         {
             registerer_name: '홍길동',
             supplier_name: '(주)대한민국',
-            deadline: '2020.09.09',
             material_name: '품목(품목명)',
             goal: '999,999,999,999',
             current_amount: '99,999'
@@ -234,11 +228,6 @@ const VoucherContainer = () => {
                                        </BarcodeNum>
                                        <ButtonBox>수정</ButtonBox>
                                     </BarcodeContainer>
-                            </VoucherDropdown>
-                            <VoucherDropdown pk={'123'} name={'공정 경로'}>
-                                <div>
-
-                                </div>
                             </VoucherDropdown>
                             <VoucherDropdown pk={'124'} name={'BOM'} clickValue={'124'}>
                                 <div style={{display:"flex", flexDirection:"row"}}>

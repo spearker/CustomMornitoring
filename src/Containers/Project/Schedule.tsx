@@ -28,9 +28,12 @@ const ScheduleContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
+    const [detailTitleEventList, setDetailTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({manager_name:'계획자명'});
+    const [voucherIndex, setVoucherIndex] = useState({name:'등록자'});
+    const [voucherList, setVoucherList] = useState<any[]>([])
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -101,6 +104,13 @@ const ScheduleContainer = () => {
         }
     ]
 
+    const detailTitleEvent = [
+        {
+            Name: '생산 계획 배포',
+            Width: 130
+        }
+    ]
+
     const detailTitle = {
         schedule: {
             part_name: '부품명',
@@ -109,6 +119,24 @@ const ScheduleContainer = () => {
             complete_date: '완료 날짜',
         },
     }
+
+    const voucherIndexList = {
+        schedule: {
+            name: '등록자',
+            date: '작업 날짜',
+            amount: '작업 수량',
+            state: '현황'
+        }
+    }
+
+    const voucherdummy =[
+        {
+            name: '김담당',
+            date: '2020.02.02',
+            amount: '999,999,999,999',
+            state: '배포 완료'
+        }
+    ]
 
     const eventdummy = [
         {
@@ -167,8 +195,11 @@ const ScheduleContainer = () => {
         setIndex(indexList["schedule"])
         setList(dummy)
         setTitleEventList(titleeventdummy)
+        setDetailTitleEventList(detailTitleEvent)
         setEventList(eventdummy)
         setDetailList(detaildummy)
+        setVoucherIndex(voucherIndexList["schedule"])
+        setVoucherList(voucherdummy)
     },[])
 
     return (
@@ -185,12 +216,11 @@ const ScheduleContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                    <LineTable title={'대한민국_품목 01'} >
-                        <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
-                            <FactoryBox title={'공정 A'}/>
-                        </VoucherDropdown>
+                    <LineTable title={'대한민국_품목 01'}  titleOnClickEvent={detailTitleEventList}>
                         <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
-
+                            <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList} >
+                                <Line/>
+                            </LineTable>
                         </VoucherDropdown>
                     </LineTable>
                     :

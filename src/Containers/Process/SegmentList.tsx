@@ -174,7 +174,7 @@ const SegmentListContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList} objectLine={true}>
                             <Line/>
                         </LineTable>
                         :

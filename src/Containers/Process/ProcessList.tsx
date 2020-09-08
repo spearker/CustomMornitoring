@@ -19,6 +19,7 @@ import { getToken } from "../../Common/tokenFunctions";
 import { API_URLS, getProcessList } from "../../Api/mes/process";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 
@@ -86,8 +87,9 @@ const ProcessListContainer = () => {
 
     const detailTitle = {
         processes:  {
-            machine_name: "테스트 프레스",
-            recommend: "0"
+            type: '공정명',
+            machine_name: "기계",
+            recommend: "권장 SPM"
         }
     }
 
@@ -136,12 +138,12 @@ const ProcessListContainer = () => {
         const tempUrl = `${API_URLS['process'].load}?pk=${pk}`
         const res = await getProcessList(tempUrl)
 
-        res.processes.map(()=>{
-
-            res.processess.push()
+        const getprocesses = res.processes.map((v,i)=>{
+            const processType = transferCodeToName('process',res.type,0)
+            return {...v, type: processType+' '+(i+1)+'차'}
         })
-        console.log(res.processes)
-        setDetailList(res.processes)
+        console.log(getprocesses)
+        setDetailList(getprocesses)
 
     }, [detailList])
 
@@ -150,7 +152,12 @@ const ProcessListContainer = () => {
         const tempUrl = `${API_URLS['process'].list+'?page=1'}`
         const res = await getProcessList(tempUrl)
 
-        setList(res.info_list)
+        const getprocesses = res.info_list.map((v,i)=>{
+            const processType = transferCodeToName('process',v.type,0)
+            return {...v, type: processType}
+        })
+
+        setList(getprocesses)
 
     }, [list])
 

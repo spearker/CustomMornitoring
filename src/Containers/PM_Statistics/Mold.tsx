@@ -160,7 +160,7 @@ const MoldContainer = () => {
             {
                 selectPk !== null ?
             <div style={{display:"flex",justifyContent:"space-between", marginTop: 20}}>
-                <LoadtoneBox title={'현재 타수 카운팅'}>
+                <LoadtoneBox title={'누적 타수 카운팅'}>
                     <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
@@ -170,7 +170,7 @@ const MoldContainer = () => {
                         </BottomBox>
                     </div>
                 </LoadtoneBox>
-                <LoadtoneBox title={'금일 타수 카운팅'}>
+                <LoadtoneBox title={'전일 타수 카운팅'}>
                     <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>

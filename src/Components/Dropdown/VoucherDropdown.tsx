@@ -24,18 +24,20 @@ const VoucherDropdown = ({pk,name,clickValue,onClickEvent,children}:IProps) => {
                 }
             </div>
             <Line/>
+            <div style={{padding: "0 20px 0 20px"}}>
                 {clickValue === pk ?
                     (children === undefined || children === null ? null : children)
                     :
                     null
                 }
+            </div>
         </div>
     )
 }
 
 
 const Line = Styled.hr`
-    margin: 10px 20px 12px 0px;
+    margin: 10px 20px -12px 0px;
     border-color: #353b48;
     height: 1px;
     background-color: #353b48;

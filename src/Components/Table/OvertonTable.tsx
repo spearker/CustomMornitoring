@@ -203,7 +203,7 @@ const TitleBar = Styled.div`
 `
 
 const BlackBg = Styled.div`
-    padding: 20px 0px 30px 20px;
+    padding: 20px 20px 30px 20px;
     border-radius: 6px;
     background-color: #111319;
     margin-top: 20px;
