@@ -1,230 +1,345 @@
-import React, { useCallback, useState } from 'react'
-import Styled from "styled-components";
-import { Input } from 'semantic-ui-react'
-import searchImage from "../../Assets/Images/ic_search.png"
-import IcButton from "../../Components/Button/IcButton";
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import moment from "moment";
-import { POINT_COLOR } from "../../Common/configset";
-import { API_URLS, postProductionRegister } from "../../Api/mes/production";
-import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import React, { useEffect, useState, useContext , useCallback} from 'react';
+import Styled, { withTheme } from 'styled-components'
+import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
+import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
+import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
+import ButtonBox from '../../Components/Button/BasicButton'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
+import Header from '../../Components/Text/Header';
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
+import NormalInput from '../../Components/Input/NormalInput';
+import RegisterButton from '../../Components/Button/RegisterButton';
+import NormalFileInput from '../../Components/Input/NormalFileInput';
+import { getToken } from '../../Common/tokenFunctions';
+import BasicModal from '../../Containers/SearchModalContainer';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import {    ROUTER_MENU_LIST } from '../../Common/routerset';
+import DropdownInput from '../../Components/Input/DropdownInput';
+import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
+import IcButton from '../../Components/Button/IcButton';
+import InputContainer from '../../Containers/InputContainer';
+import FullAddInput from '../../Components/Input/FullAddInput';
+import CustomIndexInput from '../../Components/Input/CustomIndexInput';
+import { uploadTempFile } from '../../Common/fileFuctuons';
+import {getMachineTypeList} from '../../Common/codeTransferFunctions';
+import DateInput from '../../Components/Input/DateInput';
+import moment from 'moment';
+import ListHeader from '../../Components/Text/ListHeader';
+import OldFileInput from '../../Components/Input/OldFileInput';
+import RadioInput from '../../Components/Input/RadioInput';
+import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import {useHistory} from 'react-router-dom'
 
-const typeDummy = [
-    '수주 처리',
-    '안전 재고 확보',
-    '주문 예측',
-]
+// 거래처 등록 페이지
+// 주의! isUpdate가 true 인 경우 수정 페이지로 사용
+const OutsourcingRegister = () => {
+    const history = useHistory()
 
-const productionDummy = [
-    '더미 품목 1',
-    '더미 품목 2',
-    '더미 품목 3',
-]
+    const [pk, setPk] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [no, setNo] = useState<number>();
+    const [type, setType] = useState<number>(0); //0: 법인, 1:개인
+    const [phone, setPhone]= useState<string>('');
+    const [address, setAddress]= useState<string>('');
+    const [fax, setFax]= useState<string>('');
+    const [phoneM, setPhoneM]= useState<string>('');
+    const [emailM, setEmailM]= useState<string>('');
+    const [email, setEmail]= useState<string>('');
+    const [manager, setManager]= useState<string>('');
+    const [ceo, setCeo]= useState<string>('');
+    const [infoList, setInfoList] = useState<IInfo[]>([]);
 
-const listDummy = [
-    { project_pk: 'dummy01', factory: '더미 업체 1', production: '더미 품목 1', planDate: { start: '2020-08-15', end: '2020-08-17' } },
-    { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: { start: '2020-08-15', end: '2020-08-17' } },
-]
+    const [paths, setPaths] = useState<any[1]>([null]);
+    const [oldPaths, setOldPaths] = useState<any[1]>([null]);
 
-const ProductionRegisterContainer = () => {
-    const [open, setOpen] = useState<boolean>(false)
-    const [typeList, setTypelist] = useState<string[]>(typeDummy)
-    const [selectType, setSelectType] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{ factory?: string, production?: string }>({
-        factory: undefined,
-        production: undefined
-    })
-    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({
-        start: moment().format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD"),
-    })
+    const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
-    const [chitData, setChitData] = useState<IProductionAdd>({
-        type: 0,
-        manager: '',
-        material: '',
-        from: '',
-        to: '',
-        procedure: '',
-        amount: 0,
-        supplier: '',
-        deadline: ''
-    })
 
-    const postChitRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['production'].add}`
-        const resultData = await postProductionRegister(tempUrl, chitData);
-    }, [chitData])
+
+    useEffect(()=>{
+        if(getParameter('pk') !== "" ){
+            setPk(getParameter('pk'))
+            //alert(`수정 페이지 진입 - pk :` + param)
+            setIsUpdate(true)
+            getData()
+        }
+
+    },[])
+
+
+
+    /**
+     * addFiles()
+     * 사진 등록
+     * @param {object(file)} event.target.files[0] 파일
+     * @returns X
+     */
+    const addFiles = async (event: any, index: number): Promise<void> => {
+        console.log(event.target.files[0]);
+        console.log(index)
+        if(event.target.files[0] === undefined){
+
+            return;
+        }
+        console.log(event.target.files[0].type);
+        if(event.target.files[0].type.includes('image')){ //이미지인지 판별
+
+            const tempFile  = event.target.files[0];
+            console.log(tempFile)
+            const res = await uploadTempFile(event.target.files[0]);
+
+            if(res !== false){
+                console.log(res)
+                const tempPatchList= paths.slice()
+                tempPatchList[index] = res;
+                console.log(tempPatchList)
+                setPaths(tempPatchList)
+                return
+            }else{
+                return
+            }
+
+        }else{
+
+            alert('이미지 형식만 업로드 가능합니다.')
+        }
+
+    }
+
+
+
+    /**
+     * getData()
+     * 기계 정보 수정을 위한 조회
+     * @param {string} url 요청 주소
+     * @param {string} pk 기계 pk
+     * @returns X
+     */
+    const getData = useCallback(async()=>{
+
+        const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+        if(res === false){
+            //TODO: 에러 처리
+        }else{
+            if(res.status === 200){
+                const data = res.results;
+                setName(data.name);
+                setPk(data.pk);
+                setNo(Number(data.number));
+                setType(Number(data.type));
+                setPk(data.pk);
+                setCeo(data.ceo);
+                setOldPaths([data.photo])
+                setPhone(data.telephone);
+                setEmailM(data.manager_email);
+                setPhoneM(data.manager_phone)
+                setManager(data.manager)
+                setEmail(data.ceo_email)
+
+                setInfoList(data.info_list)
+                setAddress(data.address);
+                setFax(data.fax);
+
+            }else{
+                //TODO:  기타 오류
+            }
+        }
+    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
+
+    /**
+     * onsubmitFormUpdate()
+     * 기계 정보 수정 요청
+     * @param {string} url 요청 주소
+     * @param {string} pk 기계 pk
+     * @param {string} name 이름
+     * @param {string} no 넘버
+     * @param {object(file)} file 사진 파일
+     * @param {string} info 상세정보
+     * @param {string} made 제조정보
+     * @param {string} type 종류
+     * @param {string} madeNo 제조사넘버
+     * @returns X
+     */
+    const onsubmitFormUpdate = useCallback(async(e)=>{
+        e.preventDefault();
+        if(name === "" ){
+            alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
+        const data = {
+            pk: getParameter('pk'),
+            name: name,
+            number: no,
+            type: type,
+            ceo: ceo,
+            photo: paths[0],
+            telephone: phone,
+            ceo_email: email,
+            manager: manager,
+            manager_phone: phoneM,
+            manager_email: emailM,
+            address: address,
+            fax: fax,
+            //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+
+        };
+
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+
+        if(res === false){
+            alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        }else{
+            if(res.status === 200){
+                alert('성공적으로 수정 되었습니다')
+                setIsUpdate(false)
+                history.goBack()
+            }else{
+                alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+
+    /**
+     * onsubmitForm()
+     * 기계 정보 등록
+     * @param {string} url 요청 주소
+     * @param {string} name 이름
+     * @param {string} no 넘버
+     * @param {string} info 상세정보
+     * @param {string} made 제조정보
+     * @param {string} type 종류
+     * @param {string} madeNo 제조사넘버
+     * @returns X
+     */
+    const onsubmitForm = useCallback(async(e)=>{
+        e.preventDefault();
+        console.log(infoList)
+        //alert(JSON.stringify(infoList))
+        console.log(JSON.stringify(infoList))
+        if(name === "" ){
+            alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+        const data = {
+
+            name: name,
+            number: no,
+            type: type,
+            ceo_name: ceo,
+            photo: paths[0],
+            telephone: phone,
+            ceo_email: email,
+            manager: manager,
+            manager_phone: phoneM,
+            manager_email: emailM,
+            address: address,
+            fax: fax,
+            // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+
+        };
+
+
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+
+        if(res === false){
+            //TODO: 에러 처리
+        }else{
+            if(res.status === 200){
+                alert('성공적으로 등록 되었습니다')
+                const data = res.results;
+                setName('');
+                setPk('');
+                setNo(undefined);
+                setType(0);
+
+                setCeo('');
+                setPaths([null])
+                setOldPaths([null])
+                setPhone('');
+                setEmailM('');
+                setPhoneM('')
+                setEmail('')
+
+                setInfoList([])
+                setAddress('');
+                setFax('');
+
+            }else{
+                //TODO:  기타 오류
+            }
+        }
+
+    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+
+
+
 
     return (
         <div>
-            <div style={{ position: 'relative', textAlign: 'left', marginTop: 48 }}>
-                <div style={{ display: 'inline-block', textAlign: 'left', marginBottom: 23 }}>
-                    <span style={{ fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold", color: 'white' }}>외주처 등록</span>
-                </div>
-            </div>
-            <ContainerMain>
-                <div>
-                    <p className={'title'}>필수 항목</p>
-                </div>
-                <div>
-                    <table style={{ color: "black" }}>
-                        <tr>
-                            <td>• 사업장 이름</td>
-                            <td><Input placeholder="사업장 이름을 입력하세요." onChangeText={(e: string) => setChitData({ ...chitData, manager: e })} /></td>
-                        </tr>
-                        <tr>
-                            <td>• 대표자 명</td>
-                            <td><Input placeholder="대표자 명을 입력하세오." onChangeText={(e: string) => setChitData({ ...chitData, manager: e })} /></td>
-                        </tr>
-                        <tr>
-                            <td>• 사업자 구분</td>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>• 사업자 번호</td>
-                            <td><Input placeholder="사업자 번호를 입력하세요. (-제외)" type={'number'} onChangeText={(e: number) => setChitData({ ...chitData, amount: e })} /></td>
-                        </tr>
-                    </table>
-                </div>
+            <Header title={isUpdate ? '거래처 정보수정' : '거래처 정보등록'}/>
+            <WhiteBoxContainer>
+                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
+                    <ListHeader title="필수 항목"/>
+                    <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'} />
+                    <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'} />
+                    <RadioInput title={'사업자 구분'} target={type} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
 
-                <div>
-                    <p style={{ marginTop: 35 }} className={'title'}>선택 항목</p>
-                </div>
+                    <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
+                    <br/>
+                    <ListHeader title="선택 항목"/>
+                    <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
+                    {
+                        isUpdate ?
+                            <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true} />
+                            :
+                            null
+                    }
+                    <NormalInput title={'사업장 주소'} value={address} onChangeEvent={setAddress} description={'사업자 등록증에 기재되어있는 주소를 입력하세요'} />
+                    <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} description={'사업자 등록증에 기재되어있는 연락처를 입력하세요'} />
+                    <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail} description={'사업장 이메일을 입력하세요'} />
+                    <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax} description={'사업장 팩스번호를 입력하세요'} />
+                    <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager} description={'사업장 담당자(관리자) 이름을 입력하세요'} />
+                    <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} description={'사업장 담당자(관리자) 연락처를 입력하세요'} />
+                    <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM} description={'사업장 담당자(관리자) 이메일을 입력하세요'} />
+                    {/* 자유항목 입력 창
+             <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
+              const tempInfo = infoList.slice();
+              tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
+              setInfoList(tempInfo)
+            }}>
+              {
+                infoList.map((v: IInfo, i)=>{
+                  return(
+                      <CustomIndexInput index={i} value={v}
+                      onRemoveEvent={()=>{
+                        const tempInfo = infoList.slice();
+                        tempInfo.splice(i, 1)
+                        setInfoList(tempInfo)
+                      }}
+                      onChangeEvent={(obj: IInfo)=>{
+                        const tempInfo = infoList.slice();
+                        tempInfo.splice(i, 1, obj)
+                        setInfoList(tempInfo)
+                      }}
+                      />
+                  )
+                })
+              }
+              </FullAddInput>
 
-                <div>
-                    <table style={{ color: "black" }}>
-                        <tr>
-                            <td>• 사업자 등록증 사진</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>• 사업장 주소</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>• 사업장 대표 연락처</td>
-                            <td><Input placeholder="사업자 등록증에 기재되어 있는 연락처를 입력하세요." type={'number'} onChangeText={(e: number) => setChitData({ ...chitData, amount: e })} /></td>
-                        </tr>
-                        <tr>
-                            <td>• 사업장 이메일</td>
-                            <td><Input placeholder="사업장 이메일을 입력하세요." onChangeText={(e: string) => setChitData({ ...chitData, manager: e })} /></td>
-                        </tr>
-                        <tr>
-                            <td>• 사업장 대표 FAX</td>
-                            <td><Input placeholder="사업장 팩스번호를 입력하세요." type={'number'} onChangeText={(e: number) => setChitData({ ...chitData, amount: e })} /></td>
-                        </tr>
-                        <tr>
-                            <td>• 담당자 이름</td>
-                            <td><Input placeholder="사업장 담당자(관리자)의 이름을 입력하세요." onChangeText={(e: string) => setChitData({ ...chitData, manager: e })} /></td>
-                        </tr>
-                        <tr>
-                            <td>• 담당자 연락처</td>
-                            <td><Input placeholder="사업장 담당자(관리자)의 연락처를 입력하세요." type={'number'} onChangeText={(e: number) => setChitData({ ...chitData, amount: e })} /></td>
-                        </tr>
-
-                        <tr>
-                            <td>• 담당자 이메일</td>
-                            <td><Input placeholder="사업장 담당자(관리자)의 이메일을 입력하세요." onChangeText={(e: number) => setChitData({ ...chitData, amount: e })} /></td>
-                        </tr>
-                    </table>
-                </div>
-                <div style={{ marginTop: 30, textAlign: 'center' }}>
-                    <ButtonWrap onClick={async () => {
-                        await postChitRegisterData()
-                    }}>
-                        <div style={{ width: 360, height: 46 }}>
-                            <p style={{ fontSize: 18, marginTop: 8 }}>등록하기</p>
-                        </div>
-                    </ButtonWrap>
-                </div>
-
-            </ContainerMain>
+            */}
+                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
+                </form>
+            </WhiteBoxContainer>
         </div>
-    )
+    );
 }
 
-const ContainerMain = Styled.div`
-    width: 1100px;
-    height: 1073px;
-    border-radius: 6px;
-    background-color: white;
-    padding: 35px 20px 0 20px;
-    .title {
-        font-size: 18px;
-        font-famaily: NotoSansCJKkr;
-        font-weight: bold;
-        color: #19b8df;
-        text-align: left;
-    }
-    table{
-        width: 100%;
-        height: 100%;
-        margin-top: 35px;
-    }
-    td{
-        font-famaily: NotoSansCJKkr;
-        font-weight: bold;
-        font-size: 15px;
-        input{
-            padding-left: 8px;
-            width: calc( 917px - 8px );
-            height: 32px;
-            font-size: 15px;
-            border: 0.5px solid #b3b3b3;
-            background-color: #f4f6fa;
-            &::placeholder:{
-                color: #b3b3b3;
-            };
-        }
-        &:first-child{
-            width: 133px;
-            text-align: left;
-        }
-    }
-    tr{
-        height: 65px;
-    }
-`
 
-const CheckButton = Styled.button`
-    position: absolute;
-    bottom: 0px;
-    height: 46px;
-    width: 225px;
-    div{
-        width: 100%;
-    }
-    span{
-        line-height: 46px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-    }
-`
 
-const ButtonWrap = Styled.button`
-    padding: 4px 12px 4px 12px;
-    border-radius: 5px;
-    color: black;
-    background-color: ${POINT_COLOR};
-    border: none;
-    font-weight: bold;
-    font-size: 13px;
-    img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
-    }
-  `
 
-const InputText = Styled.p`
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
-`
-
-export default ProductionRegisterContainer
+export default OutsourcingRegister;

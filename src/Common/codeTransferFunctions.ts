@@ -81,6 +81,13 @@ export const barcodes = [
 
 ]
 
+export const processcodes = [
+    {code: 0, name: '단발'},
+    {code: 1, name: '연속'},
+    {code: 4, name: '조립'},
+    {code: 5, name: '검수'},
+]
+
 export const getMoldTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
@@ -208,6 +215,12 @@ export const transferCodeToName = (type, value, leng) =>{
                 str = v.name
             }
         })
+    }else if(type === 'process'){
+        processcodes.forEach((v: {code: number, name: string},i)=>{
+            if (v.code === value){
+                str = v.name
+            }
+        })
     }
 
     return str;
@@ -250,12 +263,18 @@ export const transferStringToCode = (type, value, leng) =>{
                 num = v.code
             }})
 
-    }else if(type === 'stock'){
-        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    }else if(type === 'stock') {
+        stockReasonCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
-            }})
-
+            }
+        })
+    }else if(type === 'process'){
+        processcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
+                num = v.code
+            }
+        })
     }
 
     return num;
@@ -295,6 +314,12 @@ export const machineCodeToName = (type, value, leng) =>{
             }
         })
     }else if(type === 'stock'){
+        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
+            if (v.code === value){
+                str = v.name
+            }
+        })
+    }else if(type === ''){
         stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
             if (v.code === value){
                 str = v.name

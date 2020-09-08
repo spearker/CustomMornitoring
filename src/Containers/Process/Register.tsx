@@ -174,7 +174,7 @@ const ProcessRegisterContainer = () => {
 
 const ContainerMain = Styled.div`
     width: 1060px;
-    height: 827px;
+    height: auto;
     border-radius: 6px;
     background-color: white;
     padding: 35px 20px 0 20px;
@@ -233,6 +233,7 @@ const CheckButton = Styled.button`
 
 const ButtonWrap = Styled.button`
     padding: 4px 12px 4px 12px;
+    margin-bottom: 20px;
     border-radius: 5px;
     color: black;
     background-color: ${POINT_COLOR};

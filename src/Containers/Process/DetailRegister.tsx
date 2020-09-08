@@ -7,21 +7,62 @@ import IcButton from "../../Components/Button/IcButton";
 import searchIcon from "../../Assets/Images/ic_search.png"
 import PopupButtons from "../../Components/Button/PopupButtons";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
+import IcPlushButton from "../../Assets/Images/plus_ic.png";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import styled from "styled-components";
+import {API_URLS, getSearchProcess, postProcessRegister} from "../../Api/mes/process";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
+
+interface IMachineData {
+    machine_name: string,
+    machine_type: number,
+    other_info: { title: string, value: string }[]
+}
+
+interface IDetailRegister {
+    pk: string,
+    process_name: string,
+    process_type: number,
+    machines: IMachineData []
+}
 
 const ProcessDetailRegisterContainer = () => {
     const [processName, setProcessName] = useState<string>()
-    const [selectDate, setSelectDate] = useState<string>()
     const [searchData, setSearchData] = useState<string>()
 
-    const [processList, setProcessList] = useState()
+    const [processList, setProcessList] = useState<IDetailRegister[]>([])
+    const [machineList, setMachineList] = useState<IMachineData[]>([])
+
+    const [processPKList, setProcessPKList] = useState<string[]>([])
+    const [processDataList, setProcessDataList] = useState<{ name: string, type: number, machines: string }[]>([
+        { name: '', type: -1, machines: '' }
+    ])
+
+    const getSearchProcessList = useCallback(async () => {
+        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}`
+        const resultData = await getSearchProcess(tempUrl);
+        console.log(resultData)
+        setProcessList(resultData.results)
+    }, [searchData])
+
+    const postProcessRegisterFunc = async () => {
+        const tempUrl = `${API_URLS['segment'].register}`
+        const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList});
+        console.log(resultData)
+    }
+
+    useEffect(() => {
+        getSearchProcessList()
+    }, [])
+    useEffect(() => {
+        console.log(processPKList)
+    }, [processPKList])
 
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>공정별 세분 등록</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>공정별 세분화 등록</span>
                 </div>
             </div>
             <ContainerMain>
@@ -33,7 +74,7 @@ const ProcessDetailRegisterContainer = () => {
                         <table style={{color: "black"}}>
                             <tr>
                                 <td>• 세분화 공정명</td>
-                                <td><Input placeholder="프로세스명 or 세분화 공정 명을 입력해 주세요." onChangeText={(e:string) => setProcessName(e)}/></td>
+                                <td><Input placeholder="프로세스명 or 세분화 공정 명을 입력해 주세요." onChange={(e) => setProcessName(e.target.value)}/></td>
                             </tr>
                             <tr>
                                 <td style={{verticalAlign: 'top'}}>• 등록 공정 검색</td>
@@ -51,11 +92,48 @@ const ProcessDetailRegisterContainer = () => {
                                            <div style={{height: 169, width: 'calc(100%-20px)', backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
                                                <div>
                                                    <MachineTable style={{margin: 0, padding: 0}}>
-                                                       <tr style={{borderBottom: '1px solid #b3b3b3'}}>
+                                                       <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>
                                                            <th><span>공정명</span></th>
                                                            <th><span>타입</span></th>
-                                                           <th style={{width: 32}}></th>
+                                                           <th style={{width: 28}}></th>
                                                        </tr>
+                                                       {
+                                                           processList.map((v, i) => {
+                                                               console.log(v)
+                                                                return (
+                                                                    <tr style={{borderBottom: '1px solid #b3b3b35f', padding: 0}}>
+                                                                        <td><span>{v.process_name}</span></td>
+                                                                        <td><span>{transferCodeToName('process', v.process_type, 0)}</span></td>
+                                                                        <td style={{width: 28, height: 28}}>
+                                                                            <div>
+                                                                                <SearchButton style={{
+                                                                                    backgroundColor: '#00000000',
+                                                                                    border: 0,
+                                                                                    width: 28,
+                                                                                    height: 28
+                                                                                }} onClick={() => {
+                                                                                    let tmpList = [...processPKList, v.pk]
+                                                                                    let tmpList2 = processDataList
+                                                                                    setProcessPKList(tmpList)
+                                                                                    setMachineList(v.machines)
+
+                                                                                    tmpList2.push({
+                                                                                        name: v.process_name,
+                                                                                        type: v.process_type,
+                                                                                        machines: v.machines[0].machine_name + ' 외 ' + v.machines.length + '개'
+                                                                                    })
+
+                                                                                    setProcessDataList(tmpList2)
+
+                                                                                }}>
+                                                                                    <img src={IcPlushButton} style={{width: 28, height: 28}}/>
+                                                                                </SearchButton>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                           })
+                                                       }
 
                                                    </MachineTable>
                                                </div>
@@ -63,15 +141,28 @@ const ProcessDetailRegisterContainer = () => {
                                         </div>
                                         <div style={{ backgroundColor: '#f4f6fa', width: 507, height: 191, padding: '10px 20px', border: '1px solid #b3b3b3'}}>
                                             <p style={{textAlign: 'left'}}>설정</p>
-                                            <ReactShadowScroll>
-                                                <MachineTable style={{marginTop: 0}}>
-                                                    <tr>
-                                                        <th><span>기계명</span></th>
-                                                        <th><span>옵션</span></th>
-                                                        <th><span>옵션</span></th>
-                                                    </tr>
-                                                </MachineTable>
-                                            </ReactShadowScroll>
+                                            {/*<ReactShadowScroll>*/}
+                                                <div style={{height: 169, width: 'calc(100%-20px)', backgroundColor: '#f4f6fa'}}>
+                                                    <MachineTable style={{margin: 0, padding: 0}}>
+                                                        <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>
+                                                            <th><span>기계명</span></th>
+                                                            <th><span>옵션</span></th>
+                                                            <th style={{height: 32 }}><span>옵션</span></th>
+                                                        </tr>
+                                                        {
+                                                            machineList.map((v, i) => {
+                                                                return (
+                                                                    <tr style={{borderBottom: '1px solid #b3b3b35f'}}>
+                                                                        <td><span>{v.machine_name}</span></td>
+                                                                        <td><span>{ v.other_info[0] && v.other_info[0]}</span></td>
+                                                                        <td><span>{ v.other_info[0] && v.other_info[0]}</span></td>
+                                                                    </tr>
+                                                                )
+                                                            })
+                                                        }
+                                                    </MachineTable>
+                                                </div>
+                                            {/*</ReactShadowScroll>*/}
                                         </div>
                                     </div>
                                     <div style={{paddingTop: 20, marginBottom: 10}}>
@@ -90,6 +181,28 @@ const ProcessDetailRegisterContainer = () => {
                                             </div>
                                         </HeaderTable>
                                         <div style={{width: 929, height: 132, backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3', marginTop: 10}}>
+                                            <ReactShadowScroll style={{width: "100%", height: 132}}>
+                                            {
+                                                processDataList.map((v, i) => {
+                                                    if(v.name === ''){
+                                                        return
+                                                    }
+                                                    return (
+                                                        <HeaderTable>
+                                                            <div style={{width: 141}}>
+                                                                <p>{v.name}</p>
+                                                            </div>
+                                                            <div style={{width: 130}}>
+                                                                <p>{v.type}</p>
+                                                            </div>
+                                                            <div style={{width: 638}}>
+                                                                <p>{v.machines}</p>
+                                                            </div>
+                                                        </HeaderTable>
+                                                    )
+                                                })
+                                            }
+                                            </ReactShadowScroll>
 
                                         </div>
                                     </div>
@@ -98,7 +211,7 @@ const ProcessDetailRegisterContainer = () => {
                         </table>
                     </div>
                     <ButtonWrap onClick={async () => {
-
+                        postProcessRegisterFunc()
                     }}>
                         <div style={{width: 360, height: 46}}>
                             <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
@@ -154,12 +267,12 @@ const ContainerMain = Styled.div`
 `
 
 const MachineTable = styled.table`
+    table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0px;
     tr{
         height: 28px;
-        padding: 0px;
         th{
             text-align: left;
         }

@@ -44,6 +44,20 @@ export const getSearchMachine = async( url: string) =>{
     return temp
 }
 
+/**
+ * getSearchMachine()
+ * 공정 검색하기
+ * @param {string} url 링크 주소
+ * @param {Object} keyword 공정명
+ * @returns {Object} 기게정보 리스트
+ * @author 준희
+ */
+
+export const getSearchProcess = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    return temp
+}
+
 export const API_URLS = {
     process:{
         register: `/v1/process/register`,
@@ -51,10 +65,14 @@ export const API_URLS = {
         load: `/v1/process/load`,
         list: `/v1/process/list`,
         delete: `/v1/process/delete`,
+        search: `/v1/process/search`,
+    },
+    segment: {
+        register: `/v1/process/segment/register`
     },
     machine: {
         list: `/v1/machine/search`
-    }
+    },
 
 }
 
