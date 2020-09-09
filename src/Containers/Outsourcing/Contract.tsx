@@ -42,7 +42,8 @@ const ContractContainer = () => {
             name: '외주처 명',
             material_name: '제품 명',
             quantity: '수량',
-            ceo_name: '대표자명',
+            unpaid: '미납 수량',
+            ceo_name: '대표자 명',
             registered: '등록 날짜',
         }
     }
@@ -51,8 +52,9 @@ const ContractContainer = () => {
     const detailTitle = {
         contract: {
             writer: '작성자',
-            delivery_date: '납기일',
-            address: '회사 주소',
+            price_per_unit: '개당 단가',
+            total_price: '총 금액',
+            location: '납품 장소',
             payment_condition: '대금 지급 조건',
             statement: '상태',
         },
@@ -182,7 +184,7 @@ const ContractContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'외주 수주 리스트'}
+                title={'외주처 수주 리스트'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
                 /* detaileOnClickEvent={detailEventList} */

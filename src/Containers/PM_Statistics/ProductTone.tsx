@@ -62,12 +62,21 @@ const ProductToneContainer = () => {
     const ChartInitOptions = {
         chart: {
             type: 'scatter',
-            toolbar: {show: false},
             events: {
                 click: function(chart, w, e) {
                     console.log(chart, w, e)
                 }
-            }
+            },
+            toolbar: {
+                show: true,
+                tools: {
+                    download: false,
+                    selection: true,
+                    zoom: false,
+                    zoomin: true,
+                    zoomout: true,
+                }
+            },
         },
         plotOptions: {
             scatter: {

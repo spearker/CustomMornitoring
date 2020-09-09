@@ -100,7 +100,24 @@ const ScheduleContainer = () => {
             Link: ()=>history.push('/project/production/register')
         },
         {
-            Name: '취소',
+            Name: '수정',
+        },
+        {
+            Name: '삭제',
+        }
+    ]
+
+    const detailTitleEvent = [
+        {
+            Name: '생산 계획 배포',
+            Width: 130
+        }
+    ]
+
+    const detailTitleEvent = [
+        {
+            Name: '생산 계획 배포',
+            Width: 130
         }
     ]
 
@@ -136,14 +153,6 @@ const ScheduleContainer = () => {
             amount: '999,999,999,999',
             state: '배포 완료'
         }
-    ]
-
-    const eventdummy = [
-        {
-            Name: '삭제',
-            Width: 60,
-            Color: 'white'
-        },
     ]
 
     const detaildummy = [
@@ -196,7 +205,6 @@ const ScheduleContainer = () => {
         setList(dummy)
         setTitleEventList(titleeventdummy)
         setDetailTitleEventList(detailTitleEvent)
-        setEventList(eventdummy)
         setDetailList(detaildummy)
         setVoucherIndex(voucherIndexList["schedule"])
         setVoucherList(voucherdummy)
@@ -211,7 +219,6 @@ const ScheduleContainer = () => {
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                EventList={eventList}
                 checkBox={true}
                 mainOnClickEvent={onClick}>
                 {

@@ -27,10 +27,23 @@ interface Props {
 const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,checkBox,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+    const [checked, setChecked] = useState<any[]>([])
+    const [allChecked, setAllChecked] = useState(false)
+
+    const mainOnClickFunc = (v:string) => {
+        mainOnClickEvent(v)
+    }
 
     React.useEffect(() => {
         console.log('valueList', valueList)
-    }, [])
+        let tmpArr: boolean[] = []
+        const arrData = valueList.map((v, i) => {
+            tmpArr.push(false)
+        })
+
+        setChecked(tmpArr)
+    }, [valueList])
+
 
     return(
         <div>
@@ -59,7 +72,24 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                 {
                     allCheckbox !== undefined || false ?
                         <div style={{paddingRight:10, paddingLeft: 10, paddingTop:5}}>
-                            <input type="checkbox" id='all' onClick={(e) => true} />
+                            <input type="checkbox" id={'all'} onClick={(e) => {
+                                if(allChecked === false) {
+                                    let tmpArr: boolean[] = checked
+                                    tmpArr = tmpArr.map(() => true)
+                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                    setChecked(tmpArr)
+                                    setAllChecked(true)
+                                    return true
+                                } else {
+                                    let tmpArr: boolean[] = checked
+                                    tmpArr = tmpArr.map(() => false)
+                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                    setChecked(tmpArr)
+                                    console.log(checked)
+                                    setAllChecked(false)
+                                    return false
+                                }
+                            }} />
                             <label htmlFor='all' style={{backgroundColor: "white"}}></label>
                         </div>
                         :
@@ -74,7 +104,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                 }
                 {
                     Object.keys(indexList).map((v, i) => {
-                        console.log(v)
                         return (
                             <p key={v} className="p-limits">{indexList[v]}</p>
                         )
@@ -106,16 +135,27 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                         <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
                             {
                                 checkBox !== undefined || false ?
-                                    <div style={{paddingRight:10, paddingLeft: 10, paddingTop: 5}}>
-                                        <input type="checkbox" id={`check-${i}-${v}`} onClick={(e) => true} />
-                                        <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
+                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                            <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]} onClick={(e) => {
+                                                let tmpArr: boolean[] = checked
+                                                tmpArr = tmpArr.map((vm,vi)=>{
+                                                     if(vi===i){
+                                                         return !vm
+                                                     } else {
+                                                        return  vm
+                                                     }
+                                                 })
+                                                // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                                setChecked(tmpArr)
+                                                return false
+                                            }}/>
+                                            <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
                                     </div>
                                     :
                                     null
                             }
                             {
                                 Object.keys(indexList).map((mv, mi) => {
-                                    {console.log(v)}
                                     //mv : [pk , machin_list, machine_name ... ]
                                     return (
                                         typeof v[mv] === 'object' ?
@@ -169,7 +209,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
 
 const Title = Styled.div`
    textAlign: left;
-   display: flex; 
+   display: flex;
    flex-direction: row;
    justify-content: space-between;
    margin-bottom: 15px;

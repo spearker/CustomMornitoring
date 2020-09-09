@@ -51,7 +51,16 @@ const DefectiveContainer = () => {
     const ChartInitOptions = {
         chart: {
             type: 'scatter',
-            toolbar: {show: false},
+            toolbar: {
+                show: true,
+                tools: {
+                    download: false,
+                    selection: true,
+                    zoom: false,
+                    zoomin: true,
+                    zoomout: true,
+                }
+            },
             events: {
                 click: function(chart, w, e) {
                     console.log(chart, w, e)

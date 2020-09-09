@@ -15,12 +15,16 @@ const chartOption = {
     chart: {
         type: 'area',
         height: 350,
-        zoom: {
-            enabled: false
-        },
         toolbar: {
-            show: false
-        }
+            show: true,
+            tools: {
+                download: false,
+                selection: true,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
+            }
+        },
     },
     dataLabels: {
         enabled: false

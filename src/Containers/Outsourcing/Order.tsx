@@ -50,6 +50,8 @@ const OrderContainer = () => {
     const detailTitle = {
         order: {
             writer: '작성자',
+            price_per_unit: '개당 단가',
+            total_price: '총 금액',
             delivery_date: '납기일',
             address: '회사 주소',
             payment_condition: '대금 지급 조건',
@@ -181,7 +183,7 @@ const OrderContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'외주 발주 리스트'}
+                title={'외주처 발주 리스트'}
                 titleOnClickEvent={titleEventList}
                 /* detaileOnClickEvent={detailEventList} */
                 allCheckbox={true}
