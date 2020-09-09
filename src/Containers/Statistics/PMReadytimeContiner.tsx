@@ -76,14 +76,14 @@ const MachineInitData = {
     }
 }
 
-const PMReadyTimeContainer = () => {
+const  PMReadyTimeContainer = () => {
     const [series, setSeries] = useState<number[]>([])
     const [chartOption, setChartOption] = useState(ChartInitOption)
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
     const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>(MachineInitData);
-    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
+    const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format("YYYY-MM-DD"))
 
     /**
      * getData()
@@ -103,7 +103,8 @@ const PMReadyTimeContainer = () => {
 
         console.log(resultData.analyze.downtime.qdc)
 
-        setSeries([resultData.analyze.runtime, resultData.analyze.power_off, resultData.analyze.downtime.qdc, resultData.analyze.downtime.error, resultData.analyze.downtime.total])
+        setSeries([resultData.analyze.runtime, resultData.analyze.power_off, resultData.analyze.downtime.qdc, resultData.analyze.downtime.error,
+            resultData.analyze.downtime.total-(resultData.analyze.downtime.qdc + resultData.analyze.downtime.error)])
         setMachineData(resultData)
     },[ machineData, series, chartOption, selectComponent, selectDate]);
 
@@ -118,8 +119,8 @@ const PMReadyTimeContainer = () => {
         <div>
             <div style={{position:'relative', textAlign:'left', marginTop:48}}>
 
-                <div style={{display:'inline-block', textAlign:'left'}}>
-                    <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>비가동시간 분석</span>
+                <div style={{display:'inline-block', textAlign:'left', marginBottom: 20}}>
+                    <span style={{fontSize:20, fontWeight: 'bold', marginRight:18, marginLeft: 3}}>비가동시간 분석</span>
                 </div>
             </div>
             <MapBoard
@@ -134,16 +135,36 @@ const PMReadyTimeContainer = () => {
                 <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
                     <ReactApexChart options={chartOption} series={series} type="pie"/>
                 </div>
-                <div style={{flex: 1, float: "left"}}>
+                <div style={{flex: 1, float: "left", marginBottom: 10}}>
                     <CalendarDropdown type={"single"} select={selectDate} onClickEvent={(date) => setSelectDate(date)}></CalendarDropdown>
                     <ItemDataBox style={{marginTop: 50}}>
                         <InnerText>
+                            <div style={{
+                                display: "inline-block",
+                                borderRadius: 8,
+                                width: 16,
+                                height: 16,
+                                backgroundColor: POINT_COLOR,
+                                float: "left",
+                                marginTop: 8,
+                                marginRight: 10,
+                            }}/>
                             <TitleText>가동시간</TitleText>
                             <ContentsText>{parseFloat(String(machineData.analyze.runtime)).toFixed(2)}%</ContentsText>
                         </InnerText>
                     </ItemDataBox>
                     <ItemDataBox>
                         <InnerText>
+                            <div style={{
+                                display: "inline-block",
+                                borderRadius: 8,
+                                width: 16,
+                                height: 16,
+                                backgroundColor: 'grey',
+                                float: "left",
+                                marginTop: 8,
+                                marginRight: 10,
+                            }}/>
                             <TitleText>비가동시간</TitleText>
                             <ContentsText>{parseFloat(String(machineData.analyze.downtime.total)).toFixed(2)}%</ContentsText>
                         </InnerText>
@@ -194,6 +215,16 @@ const PMReadyTimeContainer = () => {
                     </ItemDataBox>
                     <ItemDataBox style={{border: 0}}>
                         <InnerText>
+                            <div style={{
+                                display: "inline-block",
+                                borderRadius: 8,
+                                width: 16,
+                                height: 16,
+                                backgroundColor: "rgba(98, 29, 167, .7 )",
+                                float: "left",
+                                marginTop: 8,
+                                marginRight: 10,
+                            }}/>
                             <TitleText>전원 Off</TitleText>
                             <ContentsText>{parseFloat(String(machineData.analyze.power_off)).toFixed(2)}%</ContentsText>
                         </InnerText>

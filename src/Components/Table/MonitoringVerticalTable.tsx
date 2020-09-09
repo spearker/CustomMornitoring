@@ -30,13 +30,13 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
     }else{
       setList(contents)
     }
-    
+
   },[status])
 
 
   useEffect(()=>{
-    
-    
+
+
   },[])
 
 
@@ -44,7 +44,7 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
     <WrapDiv>
       {
         list.length > 0 ?
-      
+
       <TableWrapDiv>
           <tbody>
             <tr>
@@ -57,7 +57,7 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
                 })
               }
             </tr>
-            
+
             <tr>
               <td>
                 기계번호
@@ -102,7 +102,7 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
                   }
                 )
                 }
-              
+
             </tr>
             <tr>
               <td>
@@ -138,7 +138,7 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
                 list.length > 0 && list[0].info_list.filter(v => filterList!.indexOf( Number(v.title)) !== -1 ).map((m, i)=>{
                   return (
                     <tr key={'i'+ i}>
-                      <td> {transferCodeToName('title', m['title'], 'kor')}</td>
+                      <td> {transferCodeToName('title', m['title'])}</td>
                       {
                         list.map((c)=>{
                           return (
@@ -146,7 +146,7 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
 
                               if(ci['title'] == m['title']){
                                 return(<td>{ci['value']}</td>)
-                              } 
+                              }
 
                             })
                           )
@@ -156,14 +156,14 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
                     )
                 })
               }
-            
+
           </tbody>
       </TableWrapDiv>
         :
         <p style={{margin:100}}>모니터링 데이터가 없습니다</p>
             }
     </WrapDiv>
-      
+
   );
 }
 const DownloadButton = Styled.a`

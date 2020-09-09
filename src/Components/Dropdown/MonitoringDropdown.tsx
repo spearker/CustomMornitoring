@@ -19,30 +19,30 @@ const MonitoringDropdown = ({select, contents, onClickEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-     
-     
-   
+
+
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
-    
+
     },[])
 
-  return ( 
+  return (
         <div style={{marginLeft:10, minWidth:100, position:'relative', display:'inline-block', zIndex:3 }} ref={ref}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} >               
-                    <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>{select === 'all' ? '전체보기' : transferCodeToName('title',select,'kor')}</p>
+                <BoxWrap onClick={()=>{setIsOpen(true)}} >
+                    <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>{select === 'all' ? '전체보기' : transferCodeToName('title', select)}</p>
                     <img src={IcDown} onClick={()=>{setIsOpen(true)}} style={{width: 14, height: 14, float:'right', marginTop:2}}/>
                 </BoxWrap>
             {
-                isOpen ?       
+                isOpen ?
                 <div style={{position:'absolute',  top:0, right:0, textAlign:'left'}}>
-                    <BoxWrap style={{borderRadius:0, backgroundColor:'BG_COLOR', paddingBottom:5}}>               
-                        <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>{select === 'all' ? '전체보기' : transferCodeToName('title',select,'kor')}</p>
+                    <BoxWrap style={{borderRadius:0, backgroundColor:'BG_COLOR', paddingBottom:5}}>
+                        <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>{select === 'all' ? '전체보기' : transferCodeToName('title', select)}</p>
                         <img src={IcDown} style={{width: 14, height: 14, float:'right', marginTop:2}}/>
                     </BoxWrap>
-                    <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50',backgroundColor:'#717C90'}}>   
+                    <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50',backgroundColor:'#717C90'}}>
                         <p style={{paddingBottom:3}} onClick={()=>{
                         onClickEvent('all');
                         setIsOpen(false)
@@ -51,22 +51,22 @@ const MonitoringDropdown = ({select, contents, onClickEvent}: IProps) => {
                     {
                         contents !== undefined && contents!.map((v, i)=>{
                             return(
-                                <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50',backgroundColor:'#717C90'}}>   
-                                
+                                <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50',backgroundColor:'#717C90'}}>
+
                                     <p style={{paddingBottom:3}} key={i} onClick={()=>{
-                                    onClickEvent(v); 
+                                    onClickEvent(v);
                                     setIsOpen(false)
-                                    }}>{transferCodeToName('title',v,'kor')}</p>
+                                    }}>{transferCodeToName('title', v)}</p>
                                 </BoxWrap>
-                            )       
+                            )
                         })
                     }
                 </div>
                 :
                 null
-        
+
             }
-        </div> 
+        </div>
   );
 }
 

@@ -207,8 +207,8 @@ const FullMonitoring = () => {
                       }
                       return (
 
-                          <SearchedList key={'s' + i} pk={String(v)} widths={['100%']} contents={[transferCodeToName('title', v,'kor')]} isIconDimmed={false} isSelected={checkList.find((c)=> c === v) ? true : false }
-                             onClickEvent={()=>{
+                          <SearchedList key={'s' + i} pk={String(v)} widths={['100%']} contents={[transferCodeToName('title', v)]} isIconDimmed={false} isSelected={checkList.find((c)=> c === v) ? true : false }
+                                        onClickEvent={()=>{
                               if(checkList.find((f)=> f === v)){
                                 setCheckList(checkList.filter((f)=> f!== v))
                               }else{

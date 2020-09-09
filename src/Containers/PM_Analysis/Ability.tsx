@@ -86,7 +86,7 @@ const chartOption = {
 
 }
 
-const dummyData: IPressAbilityData = {
+const dummyData = {
     pressPk:"pk01",
     basic_ability: {
         Xaxis: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 120],
@@ -100,7 +100,7 @@ const dummyData: IPressAbilityData = {
 }
 
 const AbilityContainer = () => {
-    const [data, setData] = React.useState<IPressAbilityData>(dummyData)
+    const [data, setData] = React.useState(dummyData)
     const [pk, setPk] = React.useState("v1_JNHPRESS_machine_5_null_1")
     const [series, setSeries] = React.useState([{type: 'line', data: [[0,0]]}])
 

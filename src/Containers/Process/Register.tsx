@@ -12,6 +12,8 @@ import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import {API_URLS, postProcessRegister} from "../../Api/mes/process";
 import {machineCodes} from "../../Common/codeTransferFunctions";
+import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
+import {useHistory} from "react-router-dom";
 
 const typeDummy = [
     '단발',
@@ -34,21 +36,26 @@ const listDummy = [
 ]
 
 const ProcessRegisterContainer = () => {
+    const history = useHistory();
     const [typeList, setTypeList] = useState<string[]>(typeDummy)
 
     const [processData, setProcessData] = useState<IProcessRegister>({
         type: 0,
         name: '',
-        processes: [{machine_pk: '', recommend: 0}],
+        processes: [{machine_pk: ''}],
         description: ''
     })
 
     const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
+    const [selectMold, setSelectMold] = useState<{ name?: string, pk?: string }>()
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['process'].register}`
         const resultData = await postProcessRegister(tempUrl, processData);
         console.log(resultData)
+        if(resultData.status === 200){
+            history.goBack()
+        }
     }, [processData])
 
     const changeType = async (e: number) => {
@@ -56,13 +63,13 @@ const ProcessRegisterContainer = () => {
             console.log("0번")
             await setProcessData({
                 ...processData,
-                processes: [{machine_pk: '', recommend: 0}]
+                processes: [{machine_pk: ''}]
             })
         }else if(e === 1){
             console.log("1번")
             await setProcessData({
                 ...processData,
-                processes: [{machine_pk: '', recommend: 0}, {machine_pk: '', recommend: 0}]
+                processes: [{machine_pk: ''}, {machine_pk: ''}]
             })
         }else{
             console.log("나머지")
@@ -111,21 +118,39 @@ const ProcessRegisterContainer = () => {
                             processData.processes && processData.processes.length !== 0
                                 && processData.processes.map((v, i) => {
                                     return(
-                                        <tr>
-                                            <td>• {i+1}번 공정</td>
-                                            <td><MachinePickerModal select={
-                                                selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
-                                            } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
-                                                let tmpList = processData.processes
-                                                if (tmpList && e.pk) {
-                                                    tmpList[i] = {machine_pk: e.pk, recommend: 0}
-                                                }
+                                        <tbody>
+                                            <tr>
+                                                <td>• {i+1}번 공정</td>
+                                                <td><MachinePickerModal select={
+                                                    selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
+                                                } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
+                                                    let tmpList = processData.processes
+                                                    if (tmpList && e.pk) {
+                                                        tmpList[i] = {...tmpList[i], machine_pk: e.pk}
+                                                    }
 
-                                                console.log(tmpList)
-                                                setSelectMachine(e)
-                                                return setProcessData({...processData, processes: tmpList})
-                                            }}/></td>
-                                        </tr>
+                                                    console.log(tmpList)
+                                                    setSelectMachine(e)
+                                                    return setProcessData({...processData, processes: tmpList})
+                                                }}/></td>
+                                            </tr>
+                                            <tr>
+                                                <td> &nbsp; 사용 금형</td>
+                                                <td><MoldPickerModal select={
+                                                    selectMold && (selectMold.name && selectMold.pk) ? selectMold : undefined
+                                                } text={'금형명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
+                                                    let tmpList = processData.processes
+                                                    if (tmpList && e.pk) {
+                                                        tmpList[i] = {...tmpList[i], mold_pk: e.pk, }
+                                                    }
+
+                                                    console.log(tmpList)
+                                                    setSelectMold(e)
+                                                    return setProcessData({...processData, processes: tmpList})
+                                                }}/></td>
+                                            </tr>
+                                        </tbody>
+
                                     )
                                 })
                         }
@@ -137,7 +162,7 @@ const ProcessRegisterContainer = () => {
                                     <ProcessAddButton onClick={() => {
                                         let tmpList = processData.processes
                                         //@ts-ignore
-                                        tmpList.push({machine_pk: '', recommend: 0})
+                                        tmpList.push({machine_pk: ''})
                                         setProcessData({
                                             ...processData,
                                             processes: tmpList

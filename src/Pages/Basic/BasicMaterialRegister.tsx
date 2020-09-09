@@ -197,15 +197,15 @@ const BasicMaterialRegister = () => {
                 {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                 {/*  />*/}
 
-                <BasicSearchContainer
-                    title={'사용 금형'}
-                    key={'pk'}
-                    value={'mold_name'}
-                    onChangeEvent={(input)=>setInputData(`using_mold`, input)}
-                    solo={true}
-                    list={inputData.using_mold}
-                    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}
-                />
+                {/*<BasicSearchContainer*/}
+                {/*    title={'사용 금형'}*/}
+                {/*    key={'pk'}*/}
+                {/*    value={'mold_name'}*/}
+                {/*    onChangeEvent={(input)=>setInputData(`using_mold`, input)}*/}
+                {/*    solo={true}*/}
+                {/*    list={inputData.using_mold}*/}
+                {/*    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}*/}
+                {/*/>*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>

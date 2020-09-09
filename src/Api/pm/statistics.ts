@@ -141,7 +141,7 @@ export const API_URLS = {
         load: `/v1/statistics/press/error/detail`
     },
     ability: {
-        load: `/v1/statistics/press/ability`
+        load: `/v1/statistics/press/capacity`
     },
     oilSupply: {
         load: `/v1/statistics/press/oil`
@@ -160,6 +160,9 @@ export const API_URLS = {
     mold: {
         list: '/v1/statistics/press/mold/list',
         load: '/v1/statistics/press/mold/load'
+    },
+    loadTon: {
+        load: `/v1/statistics/press/loadtonAvg`
     }
 }
 

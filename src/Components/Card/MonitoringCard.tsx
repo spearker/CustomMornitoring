@@ -29,7 +29,7 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
 
 
   useEffect(()=>{
-   
+
   },[])
 
   const StatusDiv = Styled.p`
@@ -66,18 +66,18 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
         {
           contents.running_time!== undefined &&
           <>
-          <p style={{width:190}} className="p-limits">가동시간 
+          <p style={{width:190}} className="p-limits">가동시간
           {' ' + contents.running_time}
           </p>
-          <p style={{width:200}} className="p-limits">비가동시간  
+          <p style={{width:200}} className="p-limits">비가동시간
           {' ' + contents.ready_time}
           </p>
-          <p style={{width:200}} className="p-limits">가동율 
+          <p style={{width:200}} className="p-limits">가동율
           {' ' + contents.percent + '%'}
           </p>
           </>
-        } 
-        
+        }
+
 
          <img src={!isOpen ? IC_DOWN : IC_UP} onClick={onClickEvent} style={{width:20, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
          <img src={!contents.is_connect ? icCloudOff : icCloudOn} style={{width:21, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
@@ -85,20 +85,20 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
       <DownloadButton href={contents.file !== undefined ? contents.file : ''} target="_blank">설명서다운로드</DownloadButton>
       <ErrorText>{contents.status === 'error' && contents.error!== undefined ?  contents.error : <span style={{color:'#717c90'}}>에러 정보가 없습니다.</span>} </ErrorText>
       <BodyDiv>
-         
+
         {
-          optionList !== undefined && 
+          optionList !== undefined &&
           contents.info_list.filter(f => optionList.indexOf(Number(f.title)) !== -1).map((v,i)=>{
-           
-  
+
+
             if(!isOpen ){
               if(i < 10){
                 return(
                   <>
                   <CardDiv>
-                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title,'kor')}</p>
+                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
                     <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.value }</ValueText>
-                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title,'kor')}&nbsp;</p>
+                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
                   </CardDiv>
                   </>
                 )
@@ -107,9 +107,9 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
               return(
                 <>
                   <CardDiv>
-                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title,'kor')}</p>
+                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
                     <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.value }</ValueText>
-                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title,'kor')}&nbsp;</p>
+                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
                   </CardDiv>
                   </>
               )

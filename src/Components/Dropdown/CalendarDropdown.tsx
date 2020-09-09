@@ -57,6 +57,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
                             <div style={{display: "inline-block", float: "left", flex: 1, marginRight: 20}}>
                                 {type === 'range' && <p>시작 날짜</p>}
                                 <Calendar
+                                    maxDate={moment().subtract(1, 'days').toDate()}
                                     onChange={(date)=>{
                                         if(type === 'range'){
                                             if(selectRange){
@@ -78,6 +79,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
                                 <div style={{display: "inline-block", float: "left", flex: 1}}>
                                     {type === 'range' && <p>종료 날짜</p>}
                                     <Calendar
+                                        maxDate={moment().subtract(1, 'days').toDate()}
                                         onChange={(date)=>{
                                             if(selectRange){
                                                 onClickEvent(selectRange.start, moment(String(date)).format("YYYY-MM-DD"))

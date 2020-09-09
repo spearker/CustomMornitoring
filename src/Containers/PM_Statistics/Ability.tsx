@@ -11,7 +11,16 @@ const chartOption = {
     chart: {
         height: 350,
         type: 'area',
-        toolbar: false,
+        toolbar: {
+            show: true,
+            tools: {
+                download: false,
+                selection: true,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
+            }
+        },
     },
     colors: ['#bfbfbf', 'rgba(25, 185, 223, 0.5)'],
     dataLabels: {
@@ -23,12 +32,10 @@ const chartOption = {
         width: 2
     },
     yaxis:{
-        max: 240,
-        min: 0,
         tickAmount: 24,
         labels:{
-            formatter: (value, timestamp, index) => {
-                if(value === 240){
+            formatter: (value, index) => {
+                if(index === 24){
                     return "(ton)"
                 }else{
                     if(value % 50 === 0){
@@ -46,19 +53,26 @@ const chartOption = {
     xaxis: {
         type: 'numeric',
         tickAmount: 24,
-        labels:{
-            formatter: (value, timestamp, index) => {
-                if(value === 120){
-                    return "(mm)"
-                }else{
-                    if(value % 10 === 0){
-                        return Math.floor(value)
-                    }else{
-                        return
-                    }
-                }
-            }
-        },
+        max: 300,
+        min: 90,
+        // labels:{
+        //     formatter: (value, timestamp, index) => {
+        //
+        //
+        //         if(value === 360){
+        //             return "(mm)"
+        //         }else{
+        //             if(index%2){
+        //                 return Math.floor(value)
+        //             }
+        //             // if(value % 10 === 0){
+        //             //     return Math.floor(value)
+        //             // }else{
+        //             //     return
+        //             // }
+        //         }
+        //     }
+        // },
         tooltip: {
             enable: false
         }
@@ -86,22 +100,16 @@ const chartOption = {
 
 }
 
-const dummyData: IPressAbilityData = {
-    pressPk:"pk01",
-    basic_ability: {
-        Xaxis: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 120],
-        Yaxis: [210, 210, 110, 60, 55, 50, 45, 43, 42, 41, 40, 39],
-    },
-    avg_ability: {
-        Xaxis: [1,7,13],
-        Yaxis: [0 ,150,0],
-    },
-    max_tone: "50"
-}
 
 const AbilityContainer = () => {
-    const [data, setData] = React.useState<IPressAbilityData>(dummyData)
-    const [pk, setPk] = React.useState("v1_JNHPRESS_machine_5_null_1")
+    const [data, setData] = React.useState<IPressAbilityData>({
+        pressPk: '',
+        pressName: '',
+        x_degree: [],
+        y_capacity: [],
+        y_ton: []
+    })
+    const [pk, setPk] = React.useState()
     const [series, setSeries] = React.useState([{type: 'line', data: [[0,0]]}])
 
     const [selectComponent, setSelectComponent] = useState<string>('');
@@ -110,22 +118,26 @@ const AbilityContainer = () => {
 
     const getData = useCallback(async ()=>{
 
-        const tempUrl = `${API_URLS['ability'].load}?pk=${pk}&date=${selectDate}`
-        // const resultData = await getAbilityList(tempUrl);
+        console.log('ap')
 
-        console.log(data)
-        setData(dummyData);
+        const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&date=${selectDate}`
+        const resultData = await getAbilityList(tempUrl);
+
+        console.log(resultData)
+        setData(resultData.results);
 
         let dummylineList: number[][] = []
         let dummyroundList: number[][] = []
 
-        dummyData.basic_ability.Xaxis.map((v,i) => {
-            dummylineList.push([v, dummyData.basic_ability.Yaxis[i]])
+        await resultData.x_degree.map((v,i) => {
+            dummylineList.push([Number(v), Number(resultData.y_capacity[i])])
             return null
         })
 
-        dummyData.avg_ability.Xaxis.map((v, i) => {
-            dummyroundList.push([v, dummyData.avg_ability.Yaxis[i]])
+        console.log(dummylineList)
+
+        resultData.x_degree.map((v, i) => {
+            dummyroundList.push([Number(v), Number(resultData.y_ton[i])])
             return null
         })
 
@@ -133,11 +145,11 @@ const AbilityContainer = () => {
 
         // setSeries()
 
-    },[data, pk, selectDate])
+    },[data, selectComponent, selectDate])
 
     useEffect(() => {
         getData()
-    }, [getData])
+    }, [selectComponent, selectDate])
 
     // useEffect(() => {
     //     const {Yaxis} = data.basic_ability;
@@ -173,7 +185,9 @@ const AbilityContainer = () => {
                         <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
                     </div>
                 </div>
-                <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
+                <div style={{marginTop: 30}}>
+                    <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
+                </div>
             </BlackContainer>
         </div>
     );

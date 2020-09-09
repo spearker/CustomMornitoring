@@ -29,7 +29,7 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
 
 
   useEffect(()=>{
-   
+
   },[])
 
   const StatusDiv = Styled.p`
@@ -66,7 +66,7 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
       <StatusDiv>{changeStatusToString(contents.status)}</StatusDiv>
       <span style={{width:190}} className="p-limits">{contents.line!== undefined && ' (' + contents.line + ') '}{contents.name} </span>
         <p style={{width:190}} className="p-limits">{contents.code} </p>
-        
+
          <img src={!isOpen ? IC_DOWN : IC_UP} onClick={onClickEvent} style={{width:20, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
          <img src={!contents.is_connect ? icCloudOff : icCloudOn} style={{width:21, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
       </NavDiv>
@@ -75,33 +75,33 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
       <TimeDiv>
         {contents.running_time!== undefined &&
         <>
-      <p className="p-limits">가동시간 
+      <p className="p-limits">가동시간
         { ' ' + contents.running_time  }
          </p>
-         <p className="p-limits">비가동시간 
+         <p className="p-limits">비가동시간
         { ' ' + contents.ready_time }
          </p>
-         <p className="p-limits">가동율 
+         <p className="p-limits">가동율
          {' ' + contents.percent + '%'}
          </p>
          </>
 }
       </TimeDiv>
       <BodyDiv>
-         
+
         {
-          optionList !== undefined && 
+          optionList !== undefined &&
           contents.info_list.filter(f => optionList.indexOf(Number(f.title)) !== -1).map((v,i)=>{
-           
-  
+
+
             if(!isOpen ){
               if(i < 5){
                 return(
                   <>
                   <CardDiv>
-                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title,'kor')}</p>
+                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
                     <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.value }</ValueText>
-                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title,'kor')}&nbsp;</p>
+                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
                   </CardDiv>
                   </>
                 )
@@ -110,11 +110,11 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
               return(
                 <>
                   <CardDiv>
-                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title,'kor')}</p>
+                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
                     <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.value }</ValueText>
-                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title,'kor')}&nbsp;</p>
+                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
                   </CardDiv>
-                  
+
                   </>
               )
             }

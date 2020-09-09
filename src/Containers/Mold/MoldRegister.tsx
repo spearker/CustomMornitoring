@@ -10,7 +10,7 @@ import searchImage from "../../Assets/Images/ic_search.png";
 import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
-import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
+import { useHistory } from "react-router-dom"
 
 const typeDummy = [
     '타입 A',
@@ -32,6 +32,7 @@ const companyDummy = [
 
 
 const MoldRegisterContainer = () => {
+    const history = useHistory();
     const [open, setOpen] = useState<boolean>(false)
     const [moldData, setMoldData] = useState<string>()
     const [selectOpen, setSelectOpen] = useState<boolean>(false)
@@ -40,7 +41,7 @@ const MoldRegisterContainer = () => {
     const [processData, setProcessData] = useState<IProcessRegister>({
         type: 1,
         name: '',
-        processes: [{machine_pk: '', recommend: 0}],
+        processes: [{machine_pk: ''}],
         description: ''
     })
     const [typeList, setTypeList] = useState<string[]>(typeDummy)
@@ -69,6 +70,9 @@ const MoldRegisterContainer = () => {
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['mold'].register}`
         const resultData = await postMoldRegister(tempUrl, contractData);
+        if(resultData.status === 200){
+            history.push('/mold/current/list')
+        }
     }, [contractData])
 
     useEffect(() => {

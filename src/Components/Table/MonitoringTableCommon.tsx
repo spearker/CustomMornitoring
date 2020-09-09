@@ -35,7 +35,7 @@ const MonitoringTableCommon = ({pk, contents, openTarget}: Props) => {
           {
             contents.length > 0 && contents[0].info_list.map((v, i)=>{
               return(
-              <th style={{fontSize:13}} key={'th-'+ i}>{transferCodeToName('title', v['title'],'kor')}</th>
+              <th style={{fontSize:13}} key={'th-'+ i}>{transferCodeToName('title', v['title'])}</th>
               )
             })
           }
@@ -52,7 +52,7 @@ const MonitoringTableCommon = ({pk, contents, openTarget}: Props) => {
                 {
                   v.info_list.map((mv, mi)=>{
                     return(
-                      
+
                       <td key={'td-' + mi}>
                         {mv['value']}
                       </td>
@@ -64,11 +64,11 @@ const MonitoringTableCommon = ({pk, contents, openTarget}: Props) => {
               )
             })
           }
-          
+
         </tbody>
       </table>
     </TableWrap>
-      
+
   );
 }
 

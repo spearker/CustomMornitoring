@@ -11,7 +11,7 @@ import { transferCodeToName } from '../../Common/codeTransferFunctions';
 
 
 interface Props{
-  
+
   contents: IMonitoringList[],
   select: number | string,
 
@@ -27,7 +27,7 @@ const MonitoringTableFilter = ({contents, select}: Props) => {
     <TableWrap>
       <table style={{paddingRight:24}}>
         <tbody>
-          
+
           {/* 테이블 바디 */}
           {
             contents.map((v, i)=>{
@@ -36,26 +36,26 @@ const MonitoringTableFilter = ({contents, select}: Props) => {
                   <tr key={'tr-'+i} style={{width:'100%'}}>
                   <td style={{width:110, color:'#f1f1f1'}} ><StatusTag text={String(v.status)}/></td>
                   <td style={{width:200, color:'#f1f1f1'}}>{v.name} ({v.code})</td>
-                  
+
                   <td style={{textAlign:'right', fontSize:17, paddingRight:16}}>
-                       
-                       {v.info_list.find((v)=> v['title'] === select) == undefined  ? '':   transferCodeToName('title', select, 'kor') + ' : ' + v.info_list.find((v)=> v['title'] === select)!['value'] +' ' + transferCodeToName('unit', select,'kor')} 
+
+                       {v.info_list.find((v)=> v['title'] === select) == undefined  ? '':   transferCodeToName('title', select) + ' : ' + v.info_list.find((v)=> v['title'] === select)!['value'] +' ' + transferCodeToName('unit', select)}
                    </td>
 
                 </tr>
                 )
               }
-               
-              
-              
+
+
+
             })
           }
-          
+
         </tbody>
       </table>
       <table>
         <tbody>
-          
+
           {/* 테이블 바디 */}
           {
             contents.map((v, i)=>{
@@ -64,26 +64,26 @@ const MonitoringTableFilter = ({contents, select}: Props) => {
                   <tr key={'tr-'+i} style={{width:'100%'}}>
                   <td style={{width:110, color:'#f1f1f1'}} ><StatusTag text={String(v.status)}/></td>
                   <td style={{width:200, color:'#f1f1f1'}}>{v.name} ({v.code})</td>
-                  
+
                   <td style={{textAlign:'right', fontSize:17, paddingRight:16}}>
-                       
-                       {v.info_list.find((v)=> v['title'] === select) == undefined  ? '':   transferCodeToName('title', select, 'kor') + ' : ' + v.info_list.find((v)=> v['title'] === select)!['value'] +' ' + transferCodeToName('unit', select,'kor')} 
+
+                       {v.info_list.find((v)=> v['title'] === select) == undefined  ? '':   transferCodeToName('title', select) + ' : ' + v.info_list.find((v)=> v['title'] === select)!['value'] +' ' + transferCodeToName('unit', select)}
                    </td>
 
                 </tr>
                 )
               }
-               
-              
-              
+
+
+
             })
           }
-          
+
         </tbody>
       </table>
-      
+
     </TableWrap>
-      
+
   );
 }
 

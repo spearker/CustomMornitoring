@@ -139,7 +139,7 @@ const ProcessListContainer = () => {
         const res = await getProcessList(tempUrl)
 
         const getprocesses = res.processes.map((v,i)=>{
-            const processType = transferCodeToName('process',res.type,0)
+            const processType = transferCodeToName('process', res.type)
             return {...v, type: processType+' '+(i+1)+'차'}
         })
         console.log(getprocesses)
@@ -153,7 +153,7 @@ const ProcessListContainer = () => {
         const res = await getProcessList(tempUrl)
 
         const getprocesses = res.info_list.map((v,i)=>{
-            const processType = transferCodeToName('process',v.type,0)
+            const processType = transferCodeToName('process', v.type)
             return {...v, type: processType}
         })
 

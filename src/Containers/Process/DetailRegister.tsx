@@ -103,7 +103,7 @@ const ProcessDetailRegisterContainer = () => {
                                                                 return (
                                                                     <tr style={{borderBottom: '1px solid #b3b3b35f', padding: 0}}>
                                                                         <td><span>{v.process_name}</span></td>
-                                                                        <td><span>{transferCodeToName('process', v.process_type, 0)}</span></td>
+                                                                        <td><span>{transferCodeToName('process', v.process_type)}</span></td>
                                                                         <td style={{width: 28, height: 28}}>
                                                                             <div>
                                                                                 <SearchButton style={{

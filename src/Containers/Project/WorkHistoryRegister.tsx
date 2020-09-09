@@ -8,6 +8,9 @@ import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, postProductionRegister} from "../../Api/mes/production";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
+import ChitPickerModal from "../../Components/Modal/ChitPickerModal";
 
 const typeDummy = [
     '수주 처리',
@@ -26,13 +29,16 @@ const listDummy = [
     { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
 ]
 
-const ProductionRegisterContainer = () => {
+interface modalData { name?:string, pk?: string }
+
+const WorkHistoryRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
     const [selectType, setSelectType] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
-        factory: undefined,
-        production: undefined
+    const [modalSelect, setModalSelect] = useState<{chit?:modalData, factory?:modalData , production?:modalData }>({
+        chit: {},
+        factory: {},
+        production: {}
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
@@ -40,28 +46,27 @@ const ProductionRegisterContainer = () => {
         end: moment().format("YYYY-MM-DD"),
     })
 
-    const [chitData, setChitData] = useState<IProductionAdd>({
-        type: 0,
-        manager: '',
-        material: '',
+    const [workHistoryData, setWorkHistoryData] = useState({
+        chit_pk:'',
+        worker_name: '',
+        material_pk: '',
+        process_pk: '',
         from: '',
         to: '',
-        procedure: '',
-        amount: 0,
-        supplier: '',
-        deadline: ''
+        amount: ''
     })
+
 
     const postChitRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['production'].add}`
-        const resultData = await postProductionRegister(tempUrl, chitData);
-    }, [chitData])
+        const resultData = await postProductionRegister(tempUrl, workHistoryData);
+    }, [workHistoryData])
 
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>생산 계획 등록</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>작업 이력 등록</span>
                 </div>
             </div>
             <ContainerMain>
@@ -71,67 +76,77 @@ const ProductionRegisterContainer = () => {
                 <div>
                     <table style={{color: "black"}}>
                         <tr>
-                            <td>• 타입</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'타입을 선택해 주세요'}/></td>
+                            <td>• 전표</td>
+                            <td><ChitPickerModal select={modalSelect.chit} onClickEvent={(e) => {
+                                setModalSelect({...modalSelect, chit: e})
+                                setWorkHistoryData({...workHistoryData, chit_pk: e})
+                            }} text={'전표를 선택해 주세요'} /></td>
                         </tr>
                         <tr>
-                            <td>• 계획자</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, manager: e})}/></td>
+                            <td>• 작업자명</td>
+                            <td><Input placeholder="입력해 주세요." onChange={(e) => setWorkHistoryData({...workHistoryData, worker_name: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 889}}>
-                                        <div style={{marginTop: 5}}>
-                                            {
-                                                chitData.material === ''
-                                                    ?<InputText>&nbsp; 품목(품목명)을 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}></InputText>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div style={{width: 32}} onClick={()=> {
-                                        setOpen(true)
-                                    }}>
-                                        <IcButton customStyle={{width: 32, height: 32}} image={searchImage} dim={true} onClickEvent={() => {
-                                            setOpen(true)
-                                        }}/>
-                                    </div>
-                                </div>
+                                <ChitPickerModal select={modalSelect.production} onClickEvent={(e) => {
+                                    setModalSelect({...modalSelect, production: e})
+                                    setWorkHistoryData({...workHistoryData, material_pk: e})
+                                }} text={'품목(품목명)을 선택해 주세요'}></ChitPickerModal>
                             </td>
                         </tr>
                         <tr>
-                            <td>• 생산 계획 일정</td>
+                            <td>• 공정명</td>
+                            <td>
+                                <ProcessPickerModal select={modalSelect.factory} onClickEvent={(e) => {
+                                    setModalSelect({...modalSelect, factory: e})
+                                    setWorkHistoryData({...workHistoryData, process_pk: e})
+                                }} text={'공정명을 선택해 주세요'}></ProcessPickerModal>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 작업 시작일</td>
                             <td>
                                 <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
                                     <div style={{width: 821, display: 'table-cell'}}>
                                         <div style={{marginTop: 5}}>
                                             {
                                                 selectDateRange.start === ''
-                                                    ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}>&nbsp; {selectDateRange.start} ~ {selectDateRange.end}</InputText>
+                                                    ?<InputText>&nbsp; 작업 시작일을 선택해 주세요</InputText>
+                                                    :<InputText style={{color: '#111319'}}>&nbsp; {selectDateRange.start}</InputText>
                                             }
                                         </div>
                                     </div>
-                                    <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
-                                        setSelectDateRange({start, end: !end ? selectDateRange.end : end})
-                                        setChitData({...chitData, from: start, to: !end ? selectDateRange.end : end})
-                                    }} text={'기간 선택'} type={'range'} customStyle={{ height: 32, marginLeft: 0}}/>
+                                    <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(date) => {
+                                        setSelectDateRange({...selectDateRange, start: date})
+                                        setWorkHistoryData({...workHistoryData, from: date})
+                                    }} text={'기간 선택'} type={'default'} customStyle={{ height: 32, marginLeft: 0}} zIndex={1}/>
                                 </div>
                             </td>
                         </tr>
-                        {/*<tr>*/}
-                        {/*    <td>• 공정 경로</td>*/}
-                        {/*    <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, manager: e})}/></td>*/}
-                        {/*</tr>*/}
                         <tr>
-                            <td>• 총 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
+                            <td>• 작업 종료일</td>
+                            <td>
+                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
+                                    <div style={{width: 821, display: 'table-cell'}}>
+                                        <div style={{marginTop: 5}}>
+                                            {
+                                                selectDateRange.start === ''
+                                                    ?<InputText>&nbsp; 작업 종료일 선택해 주세요</InputText>
+                                                    :<InputText style={{color: '#111319'}}>&nbsp; {selectDateRange.end}</InputText>
+                                            }
+                                        </div>
+                                    </div>
+                                    <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(date) => {
+                                        setSelectDateRange({...selectDateRange, end: date})
+                                        setWorkHistoryData({...workHistoryData, to: date})
+                                    }} text={'기간 선택'} type={'default'} customStyle={{ height: 32, marginLeft: 0}} zIndex={1}/>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>• 납품 업체</td>
-                            <td><Input placeholder="납품 업체를 입력해 주세요" onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
+                            <td>• 총 수량</td>
+                            <td><Input placeholder="총 생산 수량을 입력해 주세요." type={'number'} onChange={(e) => setWorkHistoryData({...workHistoryData, amount: e.target.value})}/></td>
                         </tr>
                         {/*<tr>*/}
                         {/*    <td>• 납기 일</td>*/}
@@ -193,8 +208,8 @@ const ContainerMain = Styled.div`
         font-size: 15px;
         input{
             padding-left: 8px;
-            width: calc( 917px - 8px );
-            height: 32px;
+            width: calc( 915px - 8px );
+            height: 28px;
             font-size: 15px;
             border: 0.5px solid #b3b3b3;
             background-color: #f4f6fa;
@@ -250,4 +265,4 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
-export default ProductionRegisterContainer
+export default WorkHistoryRegisterContainer

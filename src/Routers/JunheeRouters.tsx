@@ -17,6 +17,7 @@ import MoldRegister from "../Pages/Mold/MoldRegister";
 import MoldRepairRegister from "../Pages/Mold/MoldRepairRegister";
 import OutsourcingRegister from "../Pages/Outsourcing/OutsourcingRegister"
 import CustomerRegister from "../Pages/Customer/CustomerRegister";
+import WorkHistoryRegister from "../Pages/Project/WorkHistoryRegister";
 
 
 const JunheeRouters = () => {
@@ -29,6 +30,7 @@ const JunheeRouters = () => {
                 {/* 생산관리 */}
                 <Route exact path="/project/chit/register" component={ChitRegister} />
                 <Route exact path="/project/production/register" component={ProductionRegister} />
+                <Route exact path="/project/work/history/register" component={WorkHistoryRegister} />
                 {/*영업관리*/}
                 <Route exact path="/marketing/contract/register" component={ContractRegister} />
                 <Route exact path="/marketing/contract/modify" component={ContractModify} />

@@ -9,6 +9,7 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import {API_URLS, getSearchMachine, postProcessRegister} from "../../Api/mes/process";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 //드롭다운 컴포넌트
 
@@ -18,32 +19,30 @@ interface IProps{
     text: string
 }
 
-const DummyMachine = [
-    {
-        pk: "pk1",
-        machine_name: "기계명 1",
-        machine_type: "프레스",
-        manufacturer: "-",
-        manufacturer_code: '123-456-789'
-    }
-]
-
 const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
 
-    const [machineList, setMachineList] = useState(DummyMachine)
-    const [searchName, setSearchName] = useState<string>()
+    const [machineList, setMachineList] = useState([{
+        pk: "",
+        mold_name: "",
+        mold_type: 0,
+        limit: 0,
+        current: 0,
+        location_name: ''
+    }])
+    const [searchName, setSearchName] = useState<string>('')
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}`
         const resultData = await getSearchMachine(tempUrl);
         console.log(resultData)
+        setMachineList(resultData.results)
     }, [searchName])
 
     useEffect(() => {
@@ -55,8 +54,8 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
-        console.log(select)
-    },[select])
+        getList()
+    },[])
 
     return (
         <div>
@@ -105,25 +104,23 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 195}}>기계명</th>
-                                        <th style={{width: 195}}>타입</th>
-                                        <th style={{width: 225}}>보관 위치</th>
-                                        <th style={{width: 225}}>바코드 번호</th>
+                                        <th style={{width: 250}}>금형명</th>
+                                        <th style={{width: 250}}>타입</th>
+                                        <th style={{width: 325}}>공장명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
-                                                    <td><span>{v.machine_name}</span></td>
-                                                    <td><span>{v.machine_type}</span></td>
-                                                    <td><span>{v.manufacturer}</span></td>
-                                                    <td><span>{v.manufacturer_code}</span></td>
+                                                    <td><span>{v.mold_name}</span></td>
+                                                    <td><span>{transferCodeToName('mold',v.mold_type)}</span></td>
+                                                    <td><span>{v.location_name}</span></td>
                                                     <td>
                                                         <button
                                                             onClick={() => {
-                                                                setMachineName(v.machine_name)
-                                                                return onClickEvent({name:'888888', pk: v.pk})
+                                                                setMachineName(v.mold_name)
+                                                                return onClickEvent({name: v.mold_name, pk: v.pk})
                                                             }}
                                                             style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >

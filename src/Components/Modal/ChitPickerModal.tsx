@@ -18,22 +18,17 @@ interface IProps{
     text: string
 }
 
-const DummyMachine = [
-    {
-        pk: "",
-        machine_name: "",
-        machine_type: "",
-        manufacturer: "",
-        manufacturer_code: ''
-    }
-]
-
-const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
+const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-    const [machineName, setMachineName] = useState('')
+    const [processName, setProcessName] = useState('')
 
-    const [machineList, setMachineList] = useState(DummyMachine)
+    const [machineList, setMachineList] = useState([{
+        pk: "",
+        registerer: "",
+        suppleier_name: "",
+        material_name: "",
+    }])
     const [searchName, setSearchName] = useState<string>('')
 
     // const ref = useOnclickOutside(() => {
@@ -41,21 +36,24 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}`
         const resultData = await getSearchMachine(tempUrl);
+
         setMachineList(resultData.results)
+
     }, [searchName])
 
     useEffect(() => {
-        console.log(searchName)
-    },[searchName])
+        getList()
+    },[])
+
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
-        getList()
-    },[])
+        console.log(select)
+    },[select])
 
     return (
         <div>
@@ -63,10 +61,9 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                            select && select.name === '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {processName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
-
                     </div>
                     <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
@@ -93,9 +90,9 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 전표 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
@@ -104,25 +101,23 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 195}}>기계명</th>
-                                        <th style={{width: 195}}>기계 종류</th>
-                                        <th style={{width: 225}}>제조사</th>
-                                        <th style={{width: 225}}>제조번호</th>
+                                        <th style={{width: 230}}>등록자명</th>
+                                        <th style={{width: 200}}>납품업체명</th>
+                                        <th style={{width: 200}}>생산 품목명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
-                                                    <td><span>{v.machine_name}</span></td>
-                                                    <td><span>{v.machine_type}</span></td>
-                                                    <td><span>{v.manufacturer}</span></td>
-                                                    <td><span>{v.manufacturer_code}</span></td>
+                                                    <td><span>{v.registerer}</span></td>
+                                                    <td><span>{v.suppleier_name}</span></td>
+                                                    <td><span>{v.material_name}</span></td>
                                                     <td>
                                                         <button
                                                             onClick={() => {
-                                                                setMachineName(v.machine_name)
-                                                                return onClickEvent({name: v.machine_name, pk: v.pk})
+                                                                setProcessName(v.registerer)
+                                                                return onClickEvent({name:v.registerer, pk: v.pk})
                                                             }}
                                                             style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
@@ -222,7 +217,6 @@ const SearchButton = Styled.button`
     }
 `
 
-
 const CheckButton = Styled.button`
     position: absolute;
     bottom: 0px;
@@ -258,4 +252,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default MachinePickerModal;
+export default ChitPickerModal;

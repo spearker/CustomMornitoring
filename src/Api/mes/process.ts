@@ -86,17 +86,15 @@ export const API_URLS = {
         list: '/v1/process/segment/list',
         load: '/v1/process/segment/load'
     },
-    segment:{
-        list: '/v1/process/segment/list',
-        load: '/v1/process/segment/load'
-    },
-    segment:{
-        list: '/v1/process/segment/list',
-        load: '/v1/process/segment/load'
-    },
     machine: {
         list: `/v1/machine/search`
     },
+    mold: {
+        search: `/v1/mold/search`
+    },
+    chit: {
+        search: `/v1/chit/search`
+    }
 
 }
 

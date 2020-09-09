@@ -43,7 +43,7 @@ const BarcodeModifyContainer = () => {
     const [processData, setProcessData] = useState<IProcessRegister>({
         type: 0,
         name: '',
-        processes: [{machine_pk: '', recommend: 0}],
+        processes: [{machine_pk: ''}],
         description: ''
     })
 

@@ -83,7 +83,7 @@ export const barcodes = [
 
 export const processcodes = [
     {code: 0, name: '단발'},
-    {code: 1, name: '연속'},
+    {code: 1, name: '라인'},
     {code: 4, name: '조립'},
     {code: 5, name: '검수'},
 ]
@@ -158,7 +158,7 @@ export const statusCodes = [
 
 ]
 
-export const transferCodeToName = (type, value, leng) =>{
+export const transferCodeToName = (type, value) =>{
 
     let str: string | undefined = '';
 
@@ -228,7 +228,7 @@ export const transferCodeToName = (type, value, leng) =>{
 
 
 
-export const transferStringToCode = (type, value, leng) =>{
+export const transferStringToCode = (type, value) =>{
 
     let num: number | undefined = 0;
 

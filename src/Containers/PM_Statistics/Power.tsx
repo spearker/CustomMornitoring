@@ -21,9 +21,12 @@ const chartOption = {
     stroke: {
         curve: 'straight'
     },
+    xaxis: {
+      tickAmount: 20
+    },
     yaxis:{
         max: 6000,
-        min: 5000,
+        min: 0,
         tickAmount: 25,
         labels: {
             formatter: (value) => {
@@ -100,7 +103,7 @@ const PowerContainer = () => {
     const [data, setData] = useState(dummySeries)
     const [pk, setPk] = useState()
 
-    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+    const [selectDate, setSelectDate] = useState({start: moment().subtract(1, 'days').format("YYYY-MM-DD"), end: moment().subtract(1, 'days').format("YYYY-MM-DD")})
     const [selectType, setSelectType] = useState([true, false])
     const [labels, setLabels] = useState([])
 

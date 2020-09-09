@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
-import {getItemSearch, API_URLS} from "../../Api/mes/manageStock";
+import {API_URLS, getProductionSearch} from "../../Api/mes/production";
 
 //드롭다운 컴포넌트
 
@@ -19,57 +19,43 @@ interface IProps{
 
 const DummyItem = [
     {
-        item_pk: 'dummy01',
-        item_name: '더미 품목 1',
-        item_type: '더미 타입 1'
-    },
-    {
-        item_pk: 'dummy02',
-        item_name: '더미 품목 2',
-        item_type: '더미 타입 1'
-    },
-    {
-        item_pk: 'dummy03',
-        item_name: '더미 품목 3',
-        item_type: '더미 타입 2'
-    },
-    {
-        item_pk: 'dummy04',
-        item_name: '더미 품목 4',
-        item_type: '더미 타입 2'
-    },
-    {
-        item_pk: 'dummy05',
-        item_name: '더미 품목 5',
-        item_type: '더미 타입 5'
-    },
-    {
-        item_pk: 'dummy06',
-        item_name: '더미 품목 6',
-        item_type: '더미 타입 5'
-    },
+        item_pk: '',
+        item_name: '',
+        item_type: ''
+    }
 ]
 
 const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-    const [itemName, setItemName] = useState('')
+    const [searchName, setSearchName] = useState('')
+    const [productList, setProductList] = useState([
+        {
+            pk: '',
+            material_name: '',
+            material_type: '',
+            location:'',
+        }
+    ])
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?item_name=${itemName}`
-        const resultData = await getItemSearch(tempUrl);
-        console.log(resultData)
-    }, [itemName])
+        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=0`
+        const resultData = await getProductionSearch(tempUrl);
+
+        setProductList(resultData.results)
+
+    }, [searchName])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
         console.log(select)
+        getList()
     },[select])
 
     return (
@@ -78,7 +64,7 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {itemName}</p>
+                            select && select.name === '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {searchName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
@@ -109,7 +95,7 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}} onChange={(e) => setItemName(e.target.value)}/>
+                            <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
@@ -118,23 +104,24 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 278}}>&nbsp; 기계명</th>
-                                        <th style={{width: 520}}>기계 종류</th>
+                                        <th style={{width: 278}}>&nbsp; 품목명</th>
+                                        <th style={{width: 220}}>품목 종류</th>
+                                        <th style={{width: 220}}>공장명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        DummyItem.map((v,i) => {
+                                        productList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
-                                                    <td><span>&nbsp; {v.item_name}</span></td>
-                                                    <td><span>{v.item_type}</span></td>
+                                                    <td><span>&nbsp; {v.material_name}</span></td>
+                                                    <td><span>{v.material_type}</span></td>
                                                     <td>
                                                         <button
                                                             onClick={() => {
-                                                                setItemName(v.item_name)
-                                                                return onClickEvent({name: v.item_name, pk: v.item_pk, type: v.item_type})
+                                                                setSearchName(v.material_name)
+                                                                return onClickEvent({name: v.material_name, pk: v.pk, type: v.material_type})
                                                             }}
-                                                            style={{backgroundColor: select ? v.item_pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>

@@ -300,9 +300,10 @@ interface IPressLoadTonMonitoring {
 
 interface IPressAbilityData{
   pressPk:string,
-  basic_ability: ChartData,
-  avg_ability: ChartData,
-  max_tone: string
+  pressName: string,
+  x_degree: string[],
+  y_capacity: string[]
+  y_ton: string[]
 }
 
 interface ChartData {
@@ -372,7 +373,7 @@ interface IProcessRegister {
   name: string
   processes?: {
     machine_pk: string
-    recommend?: number
+    mold_pk?: string
   }[]
   description: string
 }

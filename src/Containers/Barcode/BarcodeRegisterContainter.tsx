@@ -43,7 +43,7 @@ const BarcodeRegisterContainer = () => {
     const [processData, setProcessData] = useState<IProcessRegister>({
         type: 0,
         name: '',
-        processes: [{machine_pk: '', recommend: 0}],
+        processes: [{machine_pk: ''}],
         description: ''
     })
 
@@ -194,7 +194,7 @@ const ButtonWrap = Styled.button`
 const ProcessAddButton = Styled.button`
     
 `
-        
+
 const InputText = Styled.p`
     color: #b3b3b3;
     font-size: 15px;
