@@ -3,9 +3,10 @@ import moment from "moment";
 import Styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import {API_URLS, getAbilityList} from "../../Api/pm/statistics";
+import {API_URLS, getAbilityList} from "../../Api/pm/analysis";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
+import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 
 const chartOption = {
     chart: {
@@ -22,22 +23,29 @@ const chartOption = {
             }
         },
     },
-    colors: ['#bfbfbf', 'rgba(25, 185, 223, 0.5)'],
+    colors: ['#ffffff', '#bfbfbf55'],
     dataLabels: {
         enabled: false
     },
     stroke: {
-        curve: ['straight', "smooth"],
-        dashArray: [0, 10],
-        width: 2
+        curve: ['straight', "smooth", 'straight', 'straight'],
+        dashArray: [0, 0, 10, 10],
+        width: 3
+    },
+    fill:{
+        type: ['solid', 'solid','gradient', 'gradient'],
+        gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100]
+        }
     },
     yaxis:{
-        max: 240,
-        min: 0,
         tickAmount: 24,
         labels:{
-            formatter: (value, timestamp, index) => {
-                if(value === 240){
+            formatter: (value, index) => {
+                if(index === 24){
                     return "(ton)"
                 }else{
                     if(value % 50 === 0){
@@ -55,19 +63,8 @@ const chartOption = {
     xaxis: {
         type: 'numeric',
         tickAmount: 24,
-        labels:{
-            formatter: (value, timestamp, index) => {
-                if(value === 120){
-                    return "(mm)"
-                }else{
-                    if(value % 10 === 0){
-                        return Math.floor(value)
-                    }else{
-                        return
-                    }
-                }
-            }
-        },
+        max: 300,
+        min: 90,
         tooltip: {
             enable: false
         }
@@ -95,58 +92,66 @@ const chartOption = {
 
 }
 
-const dummyData = {
-    pressPk:"pk01",
-    basic_ability: {
-        Xaxis: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 120],
-        Yaxis: [210, 210, 110, 60, 55, 50, 45, 43, 42, 41, 40, 39],
-    },
-    avg_ability: {
-        Xaxis: [1,7,13],
-        Yaxis: [0 ,150,0],
-    },
-    max_tone: "50"
-}
-
 const AbilityContainer = () => {
-    const [data, setData] = React.useState(dummyData)
-    const [pk, setPk] = React.useState("v1_JNHPRESS_machine_5_null_1")
-    const [series, setSeries] = React.useState([{type: 'line', data: [[0,0]]}])
+    const [data, setData] = React.useState<IPressAbilityData>({
+        pressPk: '',
+        pressName: '',
+        excess_count: '',
+        x_degree: [],
+        y_capacity: [],
+        y_ton: []
+    })
+    const [pk, setPk] = React.useState()
+    const [series, setSeries] = React.useState([{name: 'basic', type: 'line', data: [[0,0]]}])
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
-    const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
+    const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
+        start: moment().format("YYYY-MM-DD"),
+        end: moment().format("YYYY-MM-DD")
+    })
 
     const getData = useCallback(async ()=>{
 
-        const tempUrl = `${API_URLS['ability'].load}?pk=${pk}&date=${selectDate}`
-        // const resultData = await getAbilityList(tempUrl);
+        console.log('ap')
 
-        console.log(data)
-        setData(dummyData);
+        const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&fromDate=${selectDateRange.start}&toDate=${selectDateRange.end}`
+        const resultData = await getAbilityList(tempUrl);
+
+        console.log(resultData)
+        setData(resultData);
 
         let dummylineList: number[][] = []
-        let dummyroundList: number[][] = []
+        let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
 
-        dummyData.basic_ability.Xaxis.map((v,i) => {
-            dummylineList.push([v, dummyData.basic_ability.Yaxis[i]])
+        resultData.x_degree.map((v,i) => {
+            console.log(v)
+            dummylineList.push([Number(v), Number(resultData.y_capacity[i])])
             return null
         })
 
-        dummyData.avg_ability.Xaxis.map((v, i) => {
-            dummyroundList.push([v, dummyData.avg_ability.Yaxis[i]])
-            return null
+        console.log(dummylineList)
+        resultData.info_list.map((v, i) => {
+            let dummyroundListTmp: number[][] = []
+            let errorList: number[][] = []
+            resultData.x_degree.map((v, j) => {
+                dummyroundListTmp.push([Number(v), Number(resultData.info_list[i].y_ton[j])])
+                return null
+            })
+            dummyroundList.push({type: 'area', data: dummyroundListTmp, name: v.date, color: v.excess_status === "0" ? 'rgba(25, 185, 223, 0.5)' : 'rgba(255, 0, 0, 0.5)' })
         })
 
-        setSeries([{type: 'line', data: dummylineList}, {type: 'area', data: dummyroundList}])
+        setSeries([{type: 'line', name: 'data', data: [[]]}, {name: 'basic', type: 'line', data: dummylineList}, ...dummyroundList])
 
         // setSeries()
 
-    },[data, pk, selectDate])
+    },[data, selectComponent, selectDateRange])
 
     useEffect(() => {
-        getData()
-    }, [getData])
+        if(selectComponent){
+            getData()
+        }
+    }, [selectComponent, selectDateRange])
 
     // useEffect(() => {
     //     const {Yaxis} = data.basic_ability;
@@ -177,12 +182,17 @@ const AbilityContainer = () => {
                 <div>
                     <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
                         <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 01</p>
+                        <p style={{textAlign: "left", fontSize: 13, fontWeight:'bold', color: 'red'}}>능력선도 초과 횟수 : {data.excess_count ? data.excess_count : 0}회</p>
                     </div>
                     <div style={{marginRight: 30, paddingTop: 25, }}>
-                        <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                        <CalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
+                            setSelectDateRange({start, end: !end ? selectDateRange.end : end})
+                        }} type={'range'}/>
                     </div>
                 </div>
-                <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
+                <div style={{marginTop: 60}}>
+                    <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
+                </div>
             </BlackContainer>
         </div>
     );
@@ -204,6 +214,9 @@ const BlackContainer = Styled.div`
             text-Align: left;
             margin-left: 20px;
         }
+    }
+    .apexcharts-tooltip{
+        color: #000000;
     }
 `
 

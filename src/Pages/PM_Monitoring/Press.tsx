@@ -77,7 +77,6 @@ const PressMonitoring = () => {
     setIsFirstLoad(true)
      const data = resultData;
      setList(data);
-     // alert(data.info_list);
      console.log(data)
       if(data.info_list) {
           const arr = data[0].info_list!.map((v, i) => {
@@ -96,7 +95,7 @@ const PressMonitoring = () => {
 
     useEffect(()=>{
 
-      const interval = setInterval(() => { getList(); }, 9000);
+      const interval = setInterval(() => { getList(); }, 3000);
 
       return () => {
           console.log('-- monitoring end -- ' )

@@ -1,8 +1,8 @@
 import React, {createContext, Dispatch, useReducer, useContext} from 'react';
 
-// 유저 프로필 데이터 관련 컨텍스트 
+// 유저 프로필 데이터 관련 컨텍스트
 
-// 유저 info, 컨텍스트, 액션, 리듀서 타입정의 
+// 유저 info, 컨텍스트, 액션, 리듀서 타입정의
 
 export interface User {
     email: string,
@@ -20,7 +20,7 @@ type Action =
   | { type: 'SET_USER'; data: User }
   | { type: 'LOGOUT_USER' }
 
-  
+
 type UserDispatch = Dispatch<Action>;
 
 
@@ -32,7 +32,7 @@ const UserDispatchContext = createContext<UserDispatch | undefined>(
   undefined
 );
 
-// 유저 리듀서 
+// 유저 리듀서
 function UserReducer(state: User, action: Action): User {
     switch (action.type) {
       case 'SET_USER':
@@ -78,7 +78,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
         profile_img: '',
         is_login: false,
     });
-  
+
     return (
       <UserDispatchContext.Provider value={dispatch}>
         <UserContext.Provider value={User}>
@@ -94,7 +94,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     if (!state) throw new Error('--  Provider not found : UserContext.tsx --');
     return state;
   }
-  
+
   export function useUserDispatch() {
     const dispatch = useContext(UserDispatchContext);
     if (!dispatch) throw new Error('-- Provider not found : UserContext.tsx --');

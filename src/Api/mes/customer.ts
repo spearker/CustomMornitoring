@@ -20,7 +20,8 @@ export const getCustomerData = async( url: string) =>{
 export const API_URLS = {
     customer: {
         list: `v1/customer/list`,
-        load: `v1/customer/load`
+        load: `v1/customer/load`,
+        search: `/v1/customer/search`
     },
 
 }

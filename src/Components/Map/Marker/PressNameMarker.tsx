@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 interface Props{
     component: any,
     select?: string,
+    status?: number,
     onChangeEvent?: any,
 }
 const PressNameMarker = ({component, select, onChangeEvent}:Props ) => {

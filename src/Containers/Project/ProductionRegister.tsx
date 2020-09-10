@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
 import {Input} from 'semantic-ui-react'
 import searchImage from "../../Assets/Images/ic_search.png"
@@ -8,6 +8,8 @@ import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, postProductionRegister} from "../../Api/mes/production";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import CustomerPickerModal from "../../Components/Modal/CustomerPickerModal";
 
 const typeDummy = [
     '수주 처리',
@@ -30,9 +32,9 @@ const ProductionRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
     const [selectType, setSelectType] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
-        factory: undefined,
-        production: undefined
+    const [modalSelect, setModalSelect] = useState<{factory?: { name?: string, pk?: string }, production?: { name?: string, pk?: string }}>({
+        factory: {},
+        production: {}
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
@@ -53,9 +55,32 @@ const ProductionRegisterContainer = () => {
     })
 
     const postChitRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['production'].add}`
-        const resultData = await postProductionRegister(tempUrl, chitData);
+        const tempUrl = `${API_URLS['production'].register}`
+        let type
+        if(selectType === '수주 처리') {
+            type = 0
+        }else if(selectType === '안전 재고 확보') {
+            type = 1
+        }else if(selectType === '주문 예측') {
+            type = 1
+        }
+
+        const resultData = await postProductionRegister(tempUrl, {
+            type,
+            manager: chitData.manager,
+            material: modalSelect.production?.pk,
+            from: selectDateRange.start,
+            to: selectDateRange.end,
+            amount:chitData.amount,
+            supplier: modalSelect.factory?.pk
+        });
+
+        console.log(resultData)
     }, [chitData])
+
+    useEffect(() => {
+        console.log(modalSelect)
+    }, [modalSelect])
 
     return (
         <div>
@@ -80,26 +105,10 @@ const ProductionRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 889}}>
-                                        <div style={{marginTop: 5}}>
-                                            {
-                                                chitData.material === ''
-                                                    ?<InputText>&nbsp; 품목(품목명)을 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}></InputText>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div style={{width: 32}} onClick={()=> {
-                                        setOpen(true)
-                                    }}>
-                                        <IcButton customStyle={{width: 32, height: 32}} image={searchImage} dim={true} onClickEvent={() => {
-                                            setOpen(true)
-                                        }}/>
-                                    </div>
-                                </div>
-                            </td>
+                            <td><ProductionPickerModal select={modalSelect.production}
+                                                       onClickEvent={(e) => {
+                                setModalSelect({...modalSelect, production: e })
+                            }} text={"품목명을 검색해주세요."}/></td>
                         </tr>
                         <tr>
                             <td>• 생산 계획 일정</td>
@@ -131,7 +140,12 @@ const ProductionRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 납품 업체</td>
-                            <td><Input placeholder="납품 업체를 입력해 주세요" onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
+                            <td>
+                                <CustomerPickerModal select={modalSelect.factory}
+                                                       onClickEvent={(e) => {
+                                                           setModalSelect({...modalSelect, factory: e })
+                                                       }} text={"거래처를 검색해주세요."}/>
+                            </td>
                         </tr>
                         {/*<tr>*/}
                         {/*    <td>• 납기 일</td>*/}

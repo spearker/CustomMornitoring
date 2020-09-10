@@ -10,7 +10,7 @@ const LoadtoneBox = ({title,children}:Props) => {
     return(
        <TopBlackBox>
            <TopBox>
-                <p>{title}</p>
+                <p style={{marginTop: 3}}>{title}</p>
            </TopBox>
            <div>
                {children == undefined  || children === null ? <></> : children }
@@ -35,6 +35,7 @@ const TopBox = Styled.div`
     border-top-right-radius: 6px;
     background-color: #000000;
     font-size: 20px;
+    font-weight: bold;
     padding-top: 10px;
 `
 

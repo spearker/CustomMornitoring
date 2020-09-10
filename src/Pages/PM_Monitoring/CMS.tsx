@@ -7,6 +7,8 @@ import CmsStatistics from "./Statistics";
 import CmsPower from "./Power";
 import {API_URLS as URLS_MAP} from "../../Api/pm/monitoring";
 import MapBoard from "../../Components/Map/MapBoard";
+import HeaderLive from "../../Components/Text/HeaderLive";
+import MonitoringToggle from "../../Components/Toggle/MonitoringToggle";
 
 
 const CmsMonitoring: React.FunctionComponent = () => {
@@ -16,6 +18,10 @@ const CmsMonitoring: React.FunctionComponent = () => {
         <DashboardWrapContainer index={'monitoring'}>
 
             <InnerBodyContainer>
+                <div style={{position:'relative'}}>
+                    <HeaderLive title={'전력 모니터링'} isTurn={false}/>
+
+                </div>
 
                 {
                     statusFilter === 'power'

@@ -11,7 +11,7 @@ const ClutchMaintenanceContainer = () => {
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
-    const [pk, setPk] = useState<string>('v1_JNHPRESS_machine_5_null_1')
+    const [pk, setPk] = useState<string>('')
     const [data, setData] = useState<IPressClutch>()
 
     /**
@@ -48,7 +48,7 @@ const ClutchMaintenanceContainer = () => {
             <div style={{position:'relative', textAlign:'left', marginTop:48, marginBottom: 20}}>
 
                 <div style={{display:'inline-block', textAlign:'left'}}>
-                    <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>클러치&브레이크</span>
+                    <span style={{fontSize:20, marginRight:18, marginLeft: 3, fontWeight: 'bold'}}>클러치&브레이크</span>
                 </div>
             </div>
             <MapBoard
@@ -58,7 +58,7 @@ const ClutchMaintenanceContainer = () => {
                 onChangeEvent={setSelectComponent}
             />
             {
-                data
+                selectComponent ? data
                     ? <DetailBox>
                         <div style={{width: 200, height: 30, paddingTop: 14}}>
                             <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+"ton)"}</p>
@@ -104,7 +104,7 @@ const ClutchMaintenanceContainer = () => {
                                     </ChangeDisableBox>
                             }
                         </StatusBox>
-                    </DetailBox>
+                    </DetailBox> : <NoDataCard contents={"데이터를 불러올 수 없습니다."} height={300}/>
                     : <NoDataCard contents={"기계를 선택해 주세요"} height={300}/>
             }
 

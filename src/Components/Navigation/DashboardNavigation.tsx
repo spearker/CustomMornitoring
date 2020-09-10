@@ -174,6 +174,14 @@ const DashboardNavigation = ({ select, folding }: Props) => {
           <img src={NAV_MES} />
           <p>MES</p>
         </div>
+          {me.is_admin &&
+              <div onClick={() => history.push('/admin/mapediter')} style={nav.mode == 'mes' ? { backgroundColor: POINT_COLOR } : {}}>
+                  <img src={NAV_MES} />
+                  <p>ADMIN</p>
+              </div>
+
+          }
+
         {/*<div onClick={() => history.push('/pm2/dashboard')} >*/}
         {/*  <img src={NAV_PRESS} />*/}
         {/*  <p>PM2</p>*/}

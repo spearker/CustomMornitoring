@@ -13,8 +13,13 @@ const ChartInitOptions = {
     chart: {
         type: 'bar',
         toolbar: {
+            show: true,
             tools: {
-                download: false
+                download: false,
+                selection: true,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
             }
         },
         events: {
@@ -28,6 +33,9 @@ const ChartInitOptions = {
             columnWidth: '55%',
             distributed: false
         }
+    },
+    stroke: {
+        width: 2
     },
     grid: {
         borderColor: '#42444b',
@@ -43,14 +51,14 @@ const ChartInitOptions = {
         },
     },
     fill: {
-        type: "gradient",
-        gradient: {
-            type: "vertical",
-            shadeIntensity: 0,
-            opacityFrom: 1,
-            opacityTo: .20,
-            stops:[0, 90, 100]
-        }
+        // type: "gradient",
+        // gradient: {
+        //     type: "vertical",
+        //     shadeIntensity: 0,
+        //     opacityFrom: 1,
+        //     opacityTo: .20,
+        //     stops:[0, 90, 100]
+        // }
     },
     colors: ['#dd4bbe'],
     dataLabels: {
@@ -79,8 +87,9 @@ const ChartOptionDetailLable = {
         }
     },
     xaxis: {
+        tickAmount: 24,
         categories: [
-            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
+            "00","01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
         ],
         labels: {
             style: {
@@ -100,7 +109,7 @@ const  ChartOptionMiniLable= {
     },
     xaxis: {
         categories: [
-            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
+            "00","01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
         ],
         labels: {
             show: false,
@@ -115,15 +124,15 @@ const  ChartOptionMiniLable= {
 const MachineInitData: IPressLoadTonSatistics[] = []
 
 const LoadtoneContiner = () => {
-    const [series, setSeries] = useState<object[]>([])
+    const [series, setSeries] = useState<{ name: string, data: number[][] }[]>([])
 
     const [selectMachine, setSelectMachine] = useState<string>('프레스 01')
 
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
 
-    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
+    const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
-    const [overTon, setOverTon] = useState([{ pressPk: '', x_hour:[], y_average: []}])
+    const [overTon, setOverTon] = useState<IOverTonStatistics>({ pressPk: '', maxLoadton: '', minLoadton: '', x_hour:[], y_average: []})
 
     const [selectType, setSelectType] = useState([true, false, false])
 
@@ -137,15 +146,16 @@ const LoadtoneContiner = () => {
     const getData = useCallback(async()=> {
         const tempUrl = `${API_URLS2['loadTon'].load}?pk=${selectMachine}&date=${selectDate}`
         const resultData = await getCapacityTimeData(tempUrl);
-        console.log(resultData.results)
-        setOverTon(resultData.results)
+        console.log(resultData)
+        setOverTon(resultData)
 
-        // let tmpArr = series
-        // resultData.results.map((v, i) => {
-        //     let seriesList =
-        // })
-        //
-        // setSeries()
+        const seriesList = resultData.y_average.map((v, i) => {
+            return Number(v)
+        })
+
+        console.log(seriesList)
+
+        setSeries([{name: 'LoadTone', data: seriesList}])
     }, [selectMachine, selectDate])
 
     const getList = useCallback(async () => {
@@ -212,14 +222,14 @@ const LoadtoneContiner = () => {
                         <div style={{paddingTop: 25, paddingBottom: 27, marginLeft: 180}}>
                             <BottomBox>
                                 <div>
-                                  <p>최소값</p>
-                                  <p>-</p>
+                                  <p style={{marginBottom: 10}}>최소값</p>
+                                  <p>{overTon ? overTon.minLoadton ? overTon.minLoadton : '-' : '-'}</p>
                                 </div>
                             </BottomBox>
                             <BottomBox>
                                 <div>
-                                    <p>최대값</p>
-                                    <p>-</p>
+                                    <p style={{marginBottom: 10}}>최대값</p>
+                                    <p>{overTon ? overTon.maxLoadton ? overTon.maxLoadton : '-' : '-'}</p>
                                 </div>
                             </BottomBox>
                         </div>
@@ -261,7 +271,7 @@ const LoadtoneContiner = () => {
                     </div>
                 </div>
                 <div style={{width: 640, height: 419, backgroundColor: '#000000', margin: 0, padding: 0, clear: 'both', marginTop: 20}}>
-                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable}} series={series} type={'area'} height={"98%"}></ReactApexChart>
+                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable}} series={series} type={'line'} height={"98%"}></ReactApexChart>
                 </div>
             </ChartDetailBox>
         </div>
@@ -272,7 +282,7 @@ const ChartListBox = Styled.div`
     display: inline-block;
     width: 340px;
     height: 724px;
-    padding: 0 21px 0 29px;
+    padding: 0 21px 0 21px;
     background-color: #353b48;
     border-radius: 6px;
     float: left;
@@ -288,6 +298,9 @@ const ChartDetailBox = Styled.div`
     float: left;
     margin-left: 20px;
     margin-top: 20px;
+    .apexcharts-tooltip{
+        color: #000000;
+    }
 `
 
 const ChartMiniBox = Styled.div`
@@ -304,7 +317,7 @@ const ChartBorderMiniBox = Styled.div`
     height: 120px;
     border-radius: 6px;
     background-color: #111319;
-    border: 4px solid #19b9df; 
+    border: 4px solid #19b9df;
 `
 const BottomBox = Styled.div`
     width: 164px;
@@ -316,6 +329,7 @@ const BottomBox = Styled.div`
             }
     p {
         font-size: 36px;
+        font-weight: bold;
          &:first-child{
             font-size: 15px;
             }

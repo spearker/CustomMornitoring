@@ -1,4 +1,4 @@
-import client from '../configs/common';
+import client from '../configs/basic';
 import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
@@ -50,7 +50,9 @@ export const API_URLS = {
         procedure: `/v1/chit/load/procedure`
     },
     production: {
-        add: `/project/add`
+        add: `/v1/project/add`,
+        register: `/v1/project/register`,
+        delete: `/v1/project/delete`
     },
     material: {
         search: `/v1/material/search`

@@ -35,7 +35,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
             <BoxWrap onClick={()=>setIsOpen(!isOpen)} >
                 {
                     type==='single'
-                        ? <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>통계기간 {select === '' ? moment().format('YYYY-MM-DD') : select}</p>
+                        ? <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>통계 날짜 {select === '' ? moment().format('YYYY-MM-DD') : select}</p>
                         : <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>
                             기간 선택 {
                                 selectRange

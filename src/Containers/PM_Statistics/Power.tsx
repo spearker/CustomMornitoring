@@ -12,7 +12,16 @@ const chartOption = {
     chart: {
         height: 350,
         type: 'area',
-        toolbar: false,
+        toolbar: {
+            show: true,
+            tools: {
+                download: false,
+                selection: true,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
+            }
+        },
     },
     colors: ['#dd4bbe', '#5145c6', '#158bdc', '#fb9e70', '#08d05f', '#f65f61', '#d8bf00'],
     dataLabels: {

@@ -30,7 +30,6 @@ const MonitoringVerticalTable = ({ contents, filterList, operation}: IProps) => 
     }else{
       setList(contents)
     }
-
   },[operation])
 
 

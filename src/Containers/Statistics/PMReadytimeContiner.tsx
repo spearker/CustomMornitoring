@@ -82,7 +82,11 @@ const  PMReadyTimeContainer = () => {
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
+<<<<<<< HEAD
+    const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>();
+=======
     const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>(MachineInitData);
+>>>>>>> 74a758b67bf25b01f868e69de937831da1c46366
     const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format("YYYY-MM-DD"))
 
     /**
@@ -130,7 +134,7 @@ const  PMReadyTimeContainer = () => {
                 onChangeEvent={setSelectComponent}
             />
             {
-                selectComponent ? <TimeLineBox>
+                selectComponent ? machineData ? <TimeLineBox>
                     <p style={{paddingLeft:20}}>{machineData.machine_name}</p>
                 <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
                     <ReactApexChart options={chartOption} series={series} type="pie"/>
@@ -230,7 +234,7 @@ const  PMReadyTimeContainer = () => {
                         </InnerText>
                     </ItemDataBox>
                 </div>
-            </TimeLineBox> : <NoDataCard contents={"기계를 선택해 주세요"} height={470}/>
+            </TimeLineBox> : <NoDataCard contents={"데이터를 불러오지 못했습니다."} height={470}/> : <NoDataCard contents={"기계를 선택해 주세요"} height={470}/>
 
             }
         </div>

@@ -248,6 +248,14 @@ interface IPressMachineType{
   pk: string
 }
 
+interface IOverTonStatistics{
+  pressPk: string,
+  maxLoadton: string,
+  minLoadton: string,
+  x_hour: string[],
+  y_average: string[]
+}
+
 interface IPressReadyTimeAnalysis{
   manufacturer_code: string
   machine_name: string
@@ -301,6 +309,7 @@ interface IPressLoadTonMonitoring {
 interface IPressAbilityData{
   pressPk:string,
   pressName: string,
+  excess_count?: string,
   x_degree: string[],
   y_capacity: string[]
   y_ton: string[]

@@ -50,9 +50,9 @@ const initData: IPressReadyTimeStatisticsData = {
 }
 
 const ReadyTimeStatisticsContainer = () => {
-    const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
+    const [selectDate, setSelectDate] = useState(moment().subtract(1, 'days').format("YYYY-MM-DD"))
 
-    const [data, setData] = useState<IPressReadyTimeStatisticsData>(initData)
+    const [data, setData] = useState<IPressReadyTimeStatisticsData>()
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
@@ -86,8 +86,8 @@ const ReadyTimeStatisticsContainer = () => {
                 onChangeEvent={setSelectComponent}
             />
             {
-                data.press_pk !== ''
-                    ?
+                selectComponent ?
+                    data ?
                 <BlackContainer>
                 <div style={{height: 75}}>
                     <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
@@ -185,7 +185,7 @@ const ReadyTimeStatisticsContainer = () => {
                         </div>
                     </div>
                 </ItemBox>
-            </BlackContainer>
+            </BlackContainer> : <NoDataCard contents={"데이터를 불러오지 못했습니다."} height={480}/>
             : <NoDataCard contents={"기계를 선택해 주세요"} height={480}/>
             }
 
