@@ -13,7 +13,7 @@ const PressNameMarker = ({component, select, onChangeEvent}:Props ) => {
 
     const PressNameMarkerWrapper = Styled(Marker)`
         width: 70px;
-        background-color: ${select !== undefined && String(select) == String(pk) ? '#19b9df;' : `${operation === 10 ? '#666d79;' : `${operation === 11 ? '#19b9df;' : '#ff0000;'}`}` }
+        background-color: ${select !== undefined && String(select) == String(pk) ? '#19b9df;' : `${operation === 10 || operation === undefined ? '#666d79;' : `${operation === 11 ? '#19b9df;' : '#ff0000;'}`}` }
         left: ${Number(left)}%;
         bottom: ${Number(bottom)}%;
         position: absolute;
