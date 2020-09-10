@@ -4,7 +4,7 @@ import { changeStatusToColor } from '../../Common/statusFunctions';
 
 
 interface IProps{
-    contents: {title: string, value: string, action: string}[],
+    contents: {title: string, value: number, action: string}[],
     onClickEvent: any,
 }
 const CMSMonitoringTabs = ({contents, onClickEvent}: IProps) => {

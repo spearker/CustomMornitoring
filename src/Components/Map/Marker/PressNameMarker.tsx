@@ -9,11 +9,11 @@ interface Props{
     onChangeEvent?: any,
 }
 const PressNameMarker = ({component, select, onChangeEvent}:Props ) => {
-    const {pk, name, tons, left, bottom} = component;
-     
+    const {pk, name, tons, left, bottom, operation } = component;
+
     const PressNameMarkerWrapper = Styled(Marker)`
         width: 70px;
-        background-color: ${select !== undefined && String(select) == String(pk) ? '#19b9df;' : '#666d79;' } 
+        background-color: ${select !== undefined && String(select) == String(pk) ? '#19b9df;' : `${operation === 10 ? '#666d79;' : `${operation === 11 ? '#19b9df;' : '#ff0000;'}`}` }
         left: ${Number(left)}%;
         bottom: ${Number(bottom)}%;
         position: absolute;
@@ -24,15 +24,15 @@ const PressNameMarker = ({component, select, onChangeEvent}:Props ) => {
     `
 
     return(
-        
+
         <PressNameMarkerWrapper>
             <div onClick={onChangeEvent!== undefined ? ()=>onChangeEvent(pk) : ()=>{}}>
-               
+
                 <p>{name}</p>
                 <p>{tons} ton</p>
             </div>
         </PressNameMarkerWrapper>
-        
+
     )
 }
 const Marker = Styled.div`

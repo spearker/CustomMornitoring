@@ -42,10 +42,10 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
     float: left;
     font-size: 15px;
     font-weight: bold;
-    background-color: ${changeStatusToColor(contents.status)};
+    background-color: ${changeStatusToColor(contents.operation)};
   `
   const NavDiv = Styled.div`
-    background-color: ${contents.status === 'error' ? '#5E1114' : 'black;'};
+    background-color: ${contents.operation === 0 ? '#5E1114' : 'black;'};
     border-radius: 6px;
     text-align: left;
   
@@ -63,7 +63,7 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
     <WrapDiv>
       <BgDiv>
       <NavDiv>
-      <StatusDiv>{changeStatusToString(contents.status)}</StatusDiv>
+      <StatusDiv>{changeStatusToString(contents.operation)}</StatusDiv>
       <span style={{width:190}} className="p-limits">{contents.line!== undefined && ' (' + contents.line + ') '}{contents.name} </span>
         <p style={{width:190}} className="p-limits">{contents.code} </p>
 
@@ -71,7 +71,7 @@ const MonitoringCardSmall = ({ contents , isOpen, optionList, onClickEvent}: Pro
          <img src={!contents.is_connect ? icCloudOff : icCloudOn} style={{width:21, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
       </NavDiv>
       <DownloadButton href={contents.file !== undefined ? contents.file : ''}  target="_blank">설명서다운로드</DownloadButton>
-      <ErrorText>{contents.status === 'error' ? contents.info_list.find( v=> v.title === 903)?.value : ''}&nbsp;</ErrorText>
+      <ErrorText>{contents.operation === 0 ? contents.info_list.find( v=> v.title === 903)?.value : ''}&nbsp;</ErrorText>
       <TimeDiv>
         {contents.running_time!== undefined &&
         <>

@@ -186,7 +186,7 @@ const DashboardNavigation = ({ select, folding }: Props) => {
       <NavDiv>
         {
           nav.mode == 'home' &&
-          <div style={{ textAlign: 'center', width: '100%', marginBottom: 44, }}>
+          <div style={{ textAlign: 'center', width: '100%', marginBottom: 44, backgroundColor:"red"}}>
             <a href="/dashboard"><img src={Logo} style={{ width: 134, marginBottom: 8 }} /></a><br />
             <p className="p-bold" style={{ minWidth: 100, display: 'inline-block', fontSize: 18, textAlign: 'center', color: `${POINT_COLOR}` }}>{me.company_name === undefined ? SERVICE_TITLE : me.company_name}</p>
           </div>
@@ -233,7 +233,8 @@ const NavDiv = Styled.div`
   color: white;
   padding-top: 40px;
   padding-bottom: 600px;
-  position: relative;
+  left: 70px;
+  position: absolute;
   padding-bottom: 40px;
 `
 

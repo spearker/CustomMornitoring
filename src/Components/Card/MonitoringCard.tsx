@@ -42,10 +42,10 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
     float: left;
     font-size: 15px;
     font-weight: bold;
-    background-color: ${changeStatusToColor(contents.status)};
+    background-color: ${changeStatusToColor(contents.operation)};
   `
   const NavDiv = Styled.div`
-    background-color: ${contents.status === 'error' ? '#5E1114' : 'black;'};
+    background-color: ${contents.operation === 0 ? '#5E1114' : 'black;'};
     border-radius: 6px;
     margin-top: 12px;
     text-align: left;
@@ -60,7 +60,7 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
   return (
     <WrapDiv>
       <NavDiv>
-      <StatusDiv>{changeStatusToString(contents.status)}</StatusDiv>
+      <StatusDiv>{changeStatusToString(contents.operation)}</StatusDiv>
        <span style={{width:190}} className="p-limits">{contents.line!== undefined && ' (' + contents.line + ') '}{contents.name} </span>
         <p style={{width:190}} className="p-limits">{contents.code} </p>
         {
@@ -83,7 +83,7 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
          <img src={!contents.is_connect ? icCloudOff : icCloudOn} style={{width:21, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
       </NavDiv>
       <DownloadButton href={contents.file !== undefined ? contents.file : ''} target="_blank">설명서다운로드</DownloadButton>
-      <ErrorText>{contents.status === 'error' && contents.error!== undefined ?  contents.error : <span style={{color:'#717c90'}}>에러 정보가 없습니다.</span>} </ErrorText>
+      <ErrorText>{contents.operation === 0 && contents.error!== undefined ?  contents.error : <span style={{color:'#717c90'}}>에러 정보가 없습니다.</span>} </ErrorText>
       <BodyDiv>
 
         {

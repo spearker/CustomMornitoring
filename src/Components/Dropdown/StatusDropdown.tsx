@@ -9,7 +9,7 @@ import useOnclickOutside from 'react-cool-onclickoutside';
 
 interface IProps{
     pk: string,
-    select: string,
+    select: number,
     onClickEvent?: any
     contents: any,
 }
@@ -20,40 +20,40 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-     
-     
-    const changeStatusToString = useCallback((status: string)=>{
-        if(status === 'active'){
+
+
+    const changeStatusToString = useCallback((status: number)=>{
+        if(status === 11){
             return '진행'
-        }else if(status === 'done'){
+        }else if(status === 12){
             return '완료'
-        }else if(status === 'stop'){
+        }/*else if(status === 'stop'){
             return '중지'
         }else if(status === 'share'){
             return '공유'
-        }else if(status === 'ready'){
+        }*/else if(status === 10){
             return '대기'
         }else{
             return '대기'
         }
-    
+
     },[])
 
-    const changeStatusToColor = useCallback((status: string)=>{
-        if(status === 'active'){
+    const changeStatusToColor = useCallback((status: number)=>{
+        if(status === 11){
             return '#25b4b4'
-        }else if(status === 'done'){
+        }else if(status === 12){
             return '#2760ff'
-        }else if(status === 'stop'){
+        }/*else if(status === 'stop'){
             return '#fd6b00'
         }else if(status === 'share'){
             return '#683be5'
-        }else if(status === 'ready'){
+        }*/else if(status === 10){
             return '#717c90'
         }else{
             return '#717c90'
         }
-    
+
     },[])
 
     const BoxWrap = Styled.div`
@@ -90,43 +90,43 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
-    
+
     },[])
 
-  return ( 
+  return (
         <div style={{width: 90, position:'relative', display:'block'}} ref={ref}>
             {
-                isOpen ?      
-                <div style={{borderRadius:6, backgroundColor: '#f4f6fa'}}> 
+                isOpen ?
+                <div style={{borderRadius:6, backgroundColor: '#f4f6fa'}}>
                 <BoxWrap >
                     <img src={IcMenu} style={{width:24, height:24, marginRight:10}} onClick={()=>{setIsOpen(!isOpen)}}/>
                     <p className="p-bold" style={{display:'inline-block'}} onClick={()=>{setIsOpen(!isOpen)}}>
                         {changeStatusToString(select)}
                     </p>
                 </BoxWrap>
-                
-                    <div className="p-bold" style={{boxShadow: "0 5px 10px 0 rgba(0, 0, 0, 0.5)", position:'absolute',padding:6, textAlign:'center',borderRadius:6, zIndex:3, top:52, backgroundColor: '#f4f6fa'}}> 
+
+                    <div className="p-bold" style={{boxShadow: "0 5px 10px 0 rgba(0, 0, 0, 0.5)", position:'absolute',padding:6, textAlign:'center',borderRadius:6, zIndex:3, top:52, backgroundColor: '#f4f6fa'}}>
 
 
 
-                    {   
+                    {
                         contents.map((v, i)=>{
                             if(i=== 0){
                                 return(
                                     <DropDownList  key={i} onClick={()=>{
-                                        onClickEvent(pk, v); 
+                                        onClickEvent(pk, v);
                                         setIsOpen(false)
                                         }}><p style={{padding:5, textAlign:'center'}}>{changeStatusToString(v)}</p></DropDownList>
-                                    ) 
+                                    )
                             }else{
                                 return(
                                     <DropDownList style={{borderTop:'1px solid #d3d3d3'}} key={i} onClick={()=>{
-                                        onClickEvent(pk, v); 
+                                        onClickEvent(pk, v);
                                         setIsOpen(false)
                                         }}><p style={{padding:5, textAlign:'center'}}>{changeStatusToString(v)}</p></DropDownList>
-                                    ) 
+                                    )
                             }
-                                  
+
                         })
                     }
                      </div>
@@ -139,7 +139,7 @@ const StatusDropdown = ({pk,select, contents, onClickEvent}: IProps) => {
                 </BoxWrap>
                 </div>
             }
-        </div> 
+        </div>
   );
 }
 

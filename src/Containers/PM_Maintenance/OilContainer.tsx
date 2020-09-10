@@ -14,7 +14,83 @@ import Chart from 'react-apexcharts'
 import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
+import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import ReactApexChart from "react-apexcharts";
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
+
+const chartOption = {
+  chart: {
+    type: 'area',
+    height: 350,
+    toolbar: {
+      show: true,
+      tools: {
+        download: false,
+        selection: true,
+        zoom: false,
+        zoomin: true,
+        zoomout: true,
+      }
+    },
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'straight',
+    width: 2
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.35,
+      opacityTo: 0,
+    }
+  },
+  xaxis: {
+    tickAmount: 24
+  },
+  grid:{
+    borderColor: "#42444b",
+    xaxis:{
+      lines: {
+        show: true
+      }
+    },
+    yaxis:{
+      lines: {
+        show: true
+      }
+    }
+  },
+  yaxis: {
+    min: 0,
+    max: 100,
+    tickAmount: 20,
+    labels:{
+      show: true,
+      formatter: (value) => {
+        if(value === 100) {
+          return "(%)"
+        }else{
+          if(value % 20 === 0){
+            return Math.floor(value)
+          }else{
+            return
+          }
+        }
+      }
+    },
+  },
+  legend: {
+    show: false
+  },
+  tooltip: {
+    enable:false
+  }
+}
+
 const dummy_machines = [
   {
     pk: '0001',
@@ -93,19 +169,6 @@ const dummy_machines = [
     code: '0000-0000-0000',
 
   },
-
-
-]
-
-const dummy_xy = [
-  {x: 105 ,y: 66},
-  {x: 185 ,y: 66},
-  {x: 265 ,y: 66},
-  {x: 340 ,y: 66},
-  {x: 420 ,y: 66},
-  {x: 500 ,y: 66},
-  {x: 650 ,y: 200},
-
 ]
 
 const ranges = [
@@ -125,36 +188,21 @@ const ranges = [
 
 const OilMaintenanceContainer = () => {
 
-  const [selectedMachine, setSelectedMachine] = useState<any>('');
+  const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: number[] } } = {
+    pressPk:"dummyPK1",
+    insert_oil_time: {
+      Xaxis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19, 20, 21, 22, 23, 24],
+      Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ,11,11,12,24,24,24,24,24,24,22,24,22,22,22,30,20],
+    }
+  }
+
+  const [data, setData] = React.useState(dummyData)
+  const [selectedMachine, setSelectedMachine] = useState<any>('1');
   const TODAY_START = new Date(moment().format('YYYY-MM-DD 00:00:00')).getTime();
   const TODAY_END = new Date(moment().format('YYYY-MM-DD 24:00:00')).getTime();
 
   const [selectComponent, setSelectComponent] = useState<string>('4EP99L_factory0');
-  const [data, setData] = useState('')
-
-  const getWidthPercent = ( start, end ) =>{
-    return Math.floor((new Date(moment().format(end)).getTime() - new Date(moment().format(start)).getTime()) / (TODAY_END - TODAY_START) * 100)
-  }
-
-  const getData = useCallback(async ()=>{
-
-    const tempUrl = `${URLS_PRE['oil'].load}?pk=${selectComponent}`
-    const resultData = await getCluchData(tempUrl);
-    console.log("resultData", resultData)
-    // if(index === '1'){
-    //     setData(dummyData1)
-    // }else if(index === '2'){
-    //     setData(dummyData2)
-    // }else if(index === '3'){
-    //     setData(dummyData3)
-    // }
-    setData(resultData)
-
-  },[ selectComponent])
-
-  useEffect(()=>{
-    getData()
-  },[selectComponent])
+  const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
 
   const dataSource = {
     chart: {
@@ -203,69 +251,43 @@ const OilMaintenanceContainer = () => {
     dataSource: dataSource
   };
 
+  const getWidthPercent = ( start, end ) =>{
+    return Math.floor((new Date(moment().format(end)).getTime() - new Date(moment().format(start)).getTime()) / (TODAY_END - TODAY_START) * 100)
+  }
+
+  const getData = useCallback(async ()=>{
+
+    const tempUrl = `${URLS_PRE['oil'].load}?pk=${selectComponent}`
+    const resultData = await getCluchData(tempUrl);
+    console.log("resultData", resultData)
+    // if(index === '1'){
+    //     setData(dummyData1)
+    // }else if(index === '2'){
+    //     setData(dummyData2)
+    // }else if(index === '3'){
+    //     setData(dummyData3)
+    // }
+    setData(resultData)
+
+  },[ selectComponent])
+
+  useEffect(()=>{
+    getData()
+  },[selectComponent])
+
   return (
     <div>
-      <div style={{position:'relative', textAlign:'left', marginTop:48}}>
-
-        <div style={{display:'inline-block', textAlign:'left'}}>
-          <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>오일 펌프 보전 관리</span>
+      <div style={{position:'relative', textAlign:'left'}}>
+        <div style={{display:'inline-block', textAlign:'left',marginBottom: "15px" ,marginTop: "41px"}}>
+          <p className="p-bold" style={{fontSize: 20 }}>오일 펌프 보전 관리</p>
         </div>
       </div>
-      <MapFlexBox>
         <MapBoard
             type={1}//0: 모니터링 1:통계/분석
             url={URLS_MAP.press.statics}
             select={selectComponent} //pk
             onChangeEvent={setSelectComponent}
         />
-          <SideInfoBox>
-              {
-                selectedMachine == '' ?
-                <HintText>기계를 선택해주세요<br/></HintText>
-                :
-                <>
-                <p>{selectedMachine.name}</p>
-
-                </>
-              }
-
-            {
-                selectedMachine !== '' &&
-                <>
-                <div style={{display: 'flex', width: '100%', marginTop:18, marginBottom:23}}>
-                  <div style={{flex:1, marginRight: 12}}>
-                  <UnderBarText>현재온도</UnderBarText>
-                  <BigDataText>
-                    {selectedMachine.temperature}<span>℃</span>
-                  </BigDataText>
-                  </div>
-                  <div style={{flex:1, marginLeft: 12}}>
-                  <UnderBarText>전류량</UnderBarText>
-                  <BigDataText>
-                    {selectedMachine.ampare}<span>A</span>
-                  </BigDataText>
-                  </div>
-
-                </div>
-                <div >
-                <UnderBarText>현재압력</UnderBarText>
-                <BigDataText style={{textAlign:'right', float:'right'}}>
-
-              {selectedMachine.pressure}<span>pa</span>
-           </BigDataText>
-                <CharBox>
-                  <ReactFC {...chartConfigs} />
-                </CharBox>
-
-
-
-
-                </div>
-                </>
-          }
-
-          </SideInfoBox>
-      </MapFlexBox>
 
         {
           selectedMachine == '' ?
@@ -273,13 +295,106 @@ const OilMaintenanceContainer = () => {
             기계를 선택해주세요.
           </NoTimeDataBox>
           :
-          <TimeLineBox>
+              <BlackBg>
+                  <div style={{display:"flex",flexDirection:"row"}}>
+                <div>
+                  <LineContainer>
+                      <div style={{display: 'flex', width: '100%', marginBottom:23}}>
+                        <div style={{flex:1,marginLeft:12, marginRight: 12}}>
+                          <UnderBarText>현재온도</UnderBarText>
+                          <BigDataText>
+                            {selectedMachine.temperature}<span>℃</span>
+                          </BigDataText>
+                        </div>
+                        <div style={{flex:1, marginLeft: 12,marginRight:12}}>
+                          <UnderBarText>전류량</UnderBarText>
+                          <BigDataText>
+                            {selectedMachine.ampare}<span>A</span>
+                          </BigDataText>
+                        </div>
 
-          </TimeLineBox>
+                      </div>
+                      <div>
+                        <UnderBarText>현재압력</UnderBarText>
+                        <BigDataText style={{textAlign:'right', float:'right'}}>
+                          {selectedMachine.pressure}<span>pa</span>
+                        </BigDataText>
+                        <CharBox>
+                          <ReactFC {...chartConfigs} />
+                        </CharBox>
+                      </div>
+                  </LineContainer>
+                </div>
+                <GraphContainer>
+                  {
+                    <div>
+                      <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
+                        <div style={{alignSelf:"center"}}>
+                          <p>온도별 오일 펌프 기준 압력</p>
+                        </div>
+                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                      </div>
+                      <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={444} width={630} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                    </div>
+                  }
+                </GraphContainer>
+              </div>
+              </BlackBg>
         }
     </div>
+
   );
 }
+
+const BlackBg = Styled.div`
+    padding: 20px 20px 30px 20px;
+    border-radius: 6px;
+    background-color: #111319;
+    margin-top: 20px;
+`
+
+
+
+const LineContainer = Styled.div`
+  width: 391px;
+  height: 340px;
+  border-radius: 6px;
+  background-color: #202020;
+
+`
+
+
+const GraphContainer = Styled.div`
+  margin-left: 20px;
+  width: 650px;
+  height: 522px;
+  border-radius: 6px;
+  background-color: #202020;
+  p {
+    font-size: 20px;
+    font-family: NotoSansCJKkr-Bold;
+    &:first-child{
+            font-size: 15px;
+            }
+  }
+`
+
+const UnderBarText = Styled.p`
+  font-size: 18px;
+  border-bottom: 1px solid #aaaaaa90;
+  padding-bottom: 3px;
+`
+
+const BigDataText = Styled.p`
+  padding-top: 8px;
+  font-size: 35px !important;
+  text-align: right;
+  flex: 1;
+  span{
+    font-size: 18px;
+    padding-left: 6px;
+  }
+`
 
 const CharBox = Styled.div`
   float: left;
@@ -293,7 +408,6 @@ const CharBox = Styled.div`
     path{
       fill: #cccccc !important;
     }
-
   }
   text{
     fill: #dddddd !important;
@@ -304,154 +418,178 @@ const CharBox = Styled.div`
     }
   }
 `
-
-const SummuryBox = Styled.div`
-  
-  div{
-    margin-top: 10px;
-    text-align: left;
-    padding: 19px;
-    color: #b3b3b3;
-    background-color: #3c4353;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    font-size: 15px;
-    p{
-      font-size: 15px;
-    }
-  }
-  margin-top: 24px;
-`
-
-
-const TimeBarWrapper = Styled.div`
-  margin-top: 40px;
-  background-color: #191d27;
-  padding-top: 60px;
-  padding-bottom: 60px;
-  border-radius: 6px;
-  font-size: 18px;
-  text-align: center;
-  img{
-    width: 980px;
-
-  }
- 
-`
-
-const UnderBarText = Styled.p`
-  font-size: 18px;
-  border-bottom: 1px solid #aaaaaa90;
-  padding-bottom: 3px;
-
-
-`
-
-const BigDataText = Styled.p`
-  padding-top: 8px;
-  font-size: 35px !important;
-  text-align: right;
-  flex: 1;
-  span{
-    font-size: 18px;
-    padding-left: 6px;
-  }
-
-`
-
-const ImgKey = Styled.img`
-  width: 200px;
-  margin-right: 60px;
-  margin-top: 17px;
-  float: right;
-
-
-`
-const TimeBar = Styled.div`
-  text-align: left;
-  width: 960px;
-  height: 44px;
-  background-color: #717c90;
-  border-radius: 6px; 
-  display: inline-block;
-
-
-`
-
-const PacketError = Styled.div`
-  height: 100%;
-  display: inline-block;
-  position: relative;
-  p{
-    position: absolute;
-    top: -30px;
-    color: red;
-    font-size: 15px;
-    font-weight: bold;
-    white-space: nowrap;
-    left: -10px;
-  }
-`
-const Packet = Styled.div`
-  height: 100%;
-  display: inline-block;
-  div{
-    visibility: hidden;
-  }
-  &:hover{
-    position: relative;
-    div{
-      visibility: visible;
-    }
-  }
-`
-
-const PacketTag = Styled.div`
-  color: #252525;
-
-
-    padding: 9px 19px;
-    background-color: white;
-    border-radius: 10px;
-    font-size: 15px;
-    position: absolute;
-    top: -70px;
-    min-width: 100px;
-    left: -10px;
-
-`
-
-const MapBox = Styled.div`
-  background-color: #17181c;
-  padding: 10px;
-  position: relative;
-  border-radius: 6px;
-  width: 70%;
-  margin-right: 20px;
-  img{
-    width: 100%;
-  }
-
-`
-
-const HintText = Styled.p`
-  color: #515664;
-  
-`
-
-const TimeLineBox = Styled.div`
-    background-color: #2b2c3b;
-    padding: 14px 19px 27px 14px;
-    min-height: 370px;
-    margin-top: 20px;
-    font-size: 18px;
-    border-radius: 6px;
-    p{
-      text-align: left;
-    }
-  
-`
-
+//
+// const CharBox = Styled.div`
+//   float: left;
+//   rect{
+//     fill: #17181c !important;
+//     text{
+//       fill: #dddddd !important;
+//     }
+//   }
+//   .raphael-group-65-pointGroup{
+//     path{
+//       fill: #cccccc !important;
+//     }
+//
+//   }
+//   text{
+//     fill: #dddddd !important;
+//   }
+//   .raphael-group-peIslfpg{
+//     text{
+//       fill: #17181c !important;
+//     }
+//   }
+// `
+//
+// const SummuryBox = Styled.div`
+//
+//   div{
+//     margin-top: 10px;
+//     text-align: left;
+//     padding: 19px;
+//     color: #b3b3b3;
+//     background-color: #3c4353;
+//     border-radius: 6px;
+//     margin-bottom: 12px;
+//     font-size: 15px;
+//     p{
+//       font-size: 15px;
+//     }
+//   }
+//   margin-top: 24px;
+// `
+//
+//
+// const TimeBarWrapper = Styled.div`
+//   margin-top: 40px;
+//   background-color: #191d27;
+//   padding-top: 60px;
+//   padding-bottom: 60px;
+//   border-radius: 6px;
+//   font-size: 18px;
+//   text-align: center;
+//   img{
+//     width: 980px;
+//
+//   }
+//
+// `
+//
+// const UnderBarText = Styled.p`
+//   font-size: 18px;
+//   border-bottom: 1px solid #aaaaaa90;
+//   padding-bottom: 3px;
+//
+//
+// `
+//
+// const BigDataText = Styled.p`
+//   padding-top: 8px;
+//   font-size: 35px !important;
+//   text-align: right;
+//   flex: 1;
+//   span{
+//     font-size: 18px;
+//     padding-left: 6px;
+//   }
+//
+// `
+//
+// const ImgKey = Styled.img`
+//   width: 200px;
+//   margin-right: 60px;
+//   margin-top: 17px;
+//   float: right;
+//
+//
+// `
+// const TimeBar = Styled.div`
+//   text-align: left;
+//   width: 960px;
+//   height: 44px;
+//   background-color: #717c90;
+//   border-radius: 6px;
+//   display: inline-block;
+//
+//
+// `
+//
+// const PacketError = Styled.div`
+//   height: 100%;
+//   display: inline-block;
+//   position: relative;
+//   p{
+//     position: absolute;
+//     top: -30px;
+//     color: red;
+//     font-size: 15px;
+//     font-weight: bold;
+//     white-space: nowrap;
+//     left: -10px;
+//   }
+// `
+// const Packet = Styled.div`
+//   height: 100%;
+//   display: inline-block;
+//   div{
+//     visibility: hidden;
+//   }
+//   &:hover{
+//     position: relative;
+//     div{
+//       visibility: visible;
+//     }
+//   }
+// `
+//
+// const PacketTag = Styled.div`
+//   color: #252525;
+//
+//
+//     padding: 9px 19px;
+//     background-color: white;
+//     border-radius: 10px;
+//     font-size: 15px;
+//     position: absolute;
+//     top: -70px;
+//     min-width: 100px;
+//     left: -10px;
+//
+// `
+//
+// const MapBox = Styled.div`
+//   background-color: #17181c;
+//   padding: 10px;
+//   position: relative;
+//   border-radius: 6px;
+//   width: 70%;
+//   margin-right: 20px;
+//   img{
+//     width: 100%;
+//   }
+//
+// `
+//
+// const HintText = Styled.p`
+//   color: #515664;
+//
+// `
+//
+// const TimeLineBox = Styled.div`
+//     background-color: #2b2c3b;
+//     padding: 14px 19px 27px 14px;
+//     min-height: 370px;
+//     margin-top: 20px;
+//     font-size: 18px;
+//     border-radius: 6px;
+//     p{
+//       text-align: left;
+//     }
+//
+// `
+//
 const NoTimeDataBox = Styled.div`
     margin-top: 20px;
     color: #515664;
@@ -459,45 +597,45 @@ const NoTimeDataBox = Styled.div`
     padding: 12px;
     background-color: #252525;
 `
-const SideInfoBox = Styled.div`
-  background-color: #17181c;
-  padding: 12px 19px;
-  border-radius: 6px;
-  width: 30%;
-  color: white;
-  text-align: left;
-  p{
-    font-size: 18px;
-  }
-`
-const MapFlexBox = Styled.div`
-  display: flex;
-  margin-top: 21px;
-`
-const PressSimbol = Styled.div`
-  background-color: #717c90;
-  border-radius: 6px;
-  width: 50px;
-  position: absolute;
-  font-size: 10px;
-  min-height: 40px;
-  font-weight: bold;
-  padding: 4px;
-  text-align: center;
-  cursor: pointer;
-`
-
-const PressSimbolSelected = Styled.div`
-  background-color: ${POINT_COLOR};
-  border-radius: 6px;
-  width: 50px;
-  position: absolute;
-  font-size: 10px;
-  min-height: 40px;
-  font-weight: bold;
-  padding: 4px;
-  text-align: center;
-  cursor: pointer;
-
-`
+// const SideInfoBox = Styled.div`
+//   background-color: #17181c;
+//   padding: 12px 19px;
+//   border-radius: 6px;
+//   width: 30%;
+//   color: white;
+//   text-align: left;
+//   p{
+//     font-size: 18px;
+//   }
+// `
+// const MapFlexBox = Styled.div`
+//   display: flex;
+//   margin-top: 21px;
+// `
+// const PressSimbol = Styled.div`
+//   background-color: #717c90;
+//   border-radius: 6px;
+//   width: 50px;
+//   position: absolute;
+//   font-size: 10px;
+//   min-height: 40px;
+//   font-weight: bold;
+//   padding: 4px;
+//   text-align: center;
+//   cursor: pointer;
+// `
+//
+// const PressSimbolSelected = Styled.div`
+//   background-color: ${POINT_COLOR};
+//   border-radius: 6px;
+//   width: 50px;
+//   position: absolute;
+//   font-size: 10px;
+//   min-height: 40px;
+//   font-weight: bold;
+//   padding: 4px;
+//   text-align: center;
+//   cursor: pointer;
+//
+// `
 export default OilMaintenanceContainer;

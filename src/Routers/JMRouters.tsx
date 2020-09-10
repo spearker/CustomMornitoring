@@ -26,6 +26,7 @@ import OutsourcingCurrent from "../Pages/Outsourcing/Current"
 import OutsourcingOrder from "../Pages/Outsourcing/Order"
 import OutsourcingContract from "../Pages/Outsourcing/Contract"
 import CurrentCustomer from "../Pages/Customer/Customer";
+import OilMaintenance from "../Pages/PM_Maintenance/OilMaintenance";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -35,6 +36,8 @@ const JMRouters = () => {
 
         <Switch>
             <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis} />
+
+            <Route exact path="/pm/maintenance/oil" component={OilMaintenance} />
 
             <Route exact path="/pm/statistics/loadton" component={LoadtoneStatistics} />
             <Route exact path="/pm/statistics/mold" component={MoldStatistics} />

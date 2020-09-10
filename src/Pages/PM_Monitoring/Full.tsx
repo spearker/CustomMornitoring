@@ -128,9 +128,9 @@ const FullMonitoring = () => {
               </div>
           </div>
           <WrapBox>
-            <MonitoringTabs contents={
-              [{title:'전체', value:'all'},{title:'대기', value:'ready'},{title:'진행', value:'active'},{title:'중지', value:'stop'},{title:'완료', value:'done'},{title:'에러', value:'error'}]
-            }
+            {/*<MonitoringTabs contents={*/}
+            {/*  [{title:'전체', value:'all'},{title:'대기', value:'ready'},{title:'진행', value:'active'},{title:'중지', value:'stop'},{title:'완료', value:'done'},{title:'에러', value:'error'}]*/}
+            {/*}*/}
               onClickEvent={setStatusFilter}
               />
               <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
@@ -169,21 +169,21 @@ const FullMonitoring = () => {
                   isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
                 )
               }else{
-                if(v.status === statusFilter){
-                  return(
-                    <MonitoringCardSmall key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
-                    onClickEvent={()=>{
-                      if(openList.indexOf(v.pk) !== -1){ // 열렸으면
-                        setOpenList(openList.filter(f => f !== v.pk))
-                        console.log('추가'  + v.pk)
-                      }else{// 닫혔으면
-                        setOpenList(openList.concat(v.pk))
-                        console.log('삭제' + v.pk)
-                      }
-                    }}
-                    isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
-                  )
-                }
+                // if(v.operation === statusFilter){
+                //   return(
+                //     <MonitoringCardSmall key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
+                //     onClickEvent={()=>{
+                //       if(openList.indexOf(v.pk) !== -1){ // 열렸으면
+                //         setOpenList(openList.filter(f => f !== v.pk))
+                //         console.log('추가'  + v.pk)
+                //       }else{// 닫혔으면
+                //         setOpenList(openList.concat(v.pk))
+                //         console.log('삭제' + v.pk)
+                //       }
+                //     }}
+                //     isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
+                //   )
+                // }
               }
 
             })

@@ -34,7 +34,7 @@ const MonitoringTableFilter = ({contents, select}: Props) => {
               if (i % 2) {
                 return (
                   <tr key={'tr-'+i} style={{width:'100%'}}>
-                  <td style={{width:110, color:'#f1f1f1'}} ><StatusTag text={String(v.status)}/></td>
+                  <td style={{width:110, color:'#f1f1f1'}} ><StatusTag text={String(v.operation)}/></td>
                   <td style={{width:200, color:'#f1f1f1'}}>{v.name} ({v.code})</td>
 
                   <td style={{textAlign:'right', fontSize:17, paddingRight:16}}>
@@ -62,7 +62,7 @@ const MonitoringTableFilter = ({contents, select}: Props) => {
               if (!(i % 2)) {
                 return (
                   <tr key={'tr-'+i} style={{width:'100%'}}>
-                  <td style={{width:110, color:'#f1f1f1'}} ><StatusTag text={String(v.status)}/></td>
+                  <td style={{width:110, color:'#f1f1f1'}} ><StatusTag text={String(v.operation)}/></td>
                   <td style={{width:200, color:'#f1f1f1'}}>{v.name} ({v.code})</td>
 
                   <td style={{textAlign:'right', fontSize:17, paddingRight:16}}>

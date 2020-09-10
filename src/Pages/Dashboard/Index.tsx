@@ -63,7 +63,7 @@ const Dashboard = () => {
   const [page, setPage]=useState<number>(1)
   const [taskList, setTaskList]= useState<ITask[]>([])
   const [option, setOption] = useState<number>(0)
-  const [taskFilter, setTaskFilter] = useState<string>('all');
+  const [taskFilter, setTaskFilter] = useState<number>(1000);
 
 
   const optionList = [
@@ -296,11 +296,11 @@ const Dashboard = () => {
           <div style={{width: '100%',marginTop:44,textAlign:'left', marginBottom: 10}}>
             <SubHeader title={'작업지시서 내역 '}/>
                 <span> </span>
-                <FilterButton onClick={()=>setTaskFilter('all')} style={{backgroundColor: changeStatusToColor('all')}}>전체</FilterButton>
-                <FilterButton onClick={()=>setTaskFilter('active')} style={{backgroundColor: changeStatusToColor('active')}}>진행</FilterButton>
-                <FilterButton onClick={()=>setTaskFilter('done')} style={{backgroundColor: changeStatusToColor('done')}}>완료</FilterButton>
-                <FilterButton onClick={()=>setTaskFilter('share')} style={{backgroundColor: changeStatusToColor('share')}}>공유</FilterButton>
-                <FilterButton onClick={()=>setTaskFilter('ready')} style={{backgroundColor: changeStatusToColor('ready')}}>대기</FilterButton>
+                <FilterButton onClick={()=>setTaskFilter(1000)} style={{backgroundColor: changeStatusToColor(1000)}}>전체</FilterButton>
+                <FilterButton onClick={()=>setTaskFilter(11)} style={{backgroundColor: changeStatusToColor(11)}}>진행</FilterButton>
+                <FilterButton onClick={()=>setTaskFilter(10)} style={{backgroundColor: changeStatusToColor(10)}}>완료</FilterButton>
+                {/*<FilterButton onClick={()=>setTaskFilter('share')} style={{backgroundColor: changeStatusToColor('share')}}>공유</FilterButton>*/}
+                {/*<FilterButton onClick={()=>setTaskFilter('ready')} style={{backgroundColor: changeStatusToColor('ready')}}>대기</FilterButton>*/}
 
             <div style={{display:'inline-block', float:'right', }}>
               <div style={{display:'flex', alignItems:'center'}}>
@@ -309,7 +309,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div style={{marginTop:12}}>
-              <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskFilter === 'all' ? taskList : taskList.filter(f=>f.status === taskFilter)} onClickEvent={onClickTaskStatus}/>
+              <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskFilter === 1000 ? taskList : taskList.filter(f=>f.status === taskFilter)} onClickEvent={onClickTaskStatus}/>
 
             </div>
             {

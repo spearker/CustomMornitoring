@@ -286,7 +286,6 @@ const Routers = () => {
                 <Route exact path="/maintenance/search" component={SearchMaintenance} />
                 <Route exact path="/maintenance/errorcode" component={ErrorCodeMaintenance} />
                 <Route exact path="/maintenance/motor" component={MotorRotationMaintenance} />
-                <Route exact path="/pm/maintenance/oil" component={OilMaintenance} />
                 <Route exact path="/pm/maintenance/clutch" component={ClutchMaintenance} />
                 <Route exact path="/pm/maintenance/overton" component={OvertonMaintenance} />
 

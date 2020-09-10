@@ -46,7 +46,7 @@ const MonitoringTableCommon = ({pk, contents, openTarget}: Props) => {
             contents.map((v, i)=>{
               return(
               <tr key={'tr-'+i}>
-                <td><StatusTag text={String(v.status)}/></td>
+                <td><StatusTag text={String(v.operation)}/></td>
                 <td>{v.name}</td>
                  <td>{v.code}</td>
                 {

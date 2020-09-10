@@ -114,20 +114,6 @@ const ScheduleContainer = () => {
         }
     ]
 
-    const detailTitleEvent = [
-        {
-            Name: '생산 계획 배포',
-            Width: 130
-        }
-    ]
-
-    const detailTitleEvent = [
-        {
-            Name: '생산 계획 배포',
-            Width: 130
-        }
-    ]
-
     const detailTitle = {
         schedule: {
             part_name: '부품명',

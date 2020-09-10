@@ -43,7 +43,7 @@ const PressMonitoring = () => {
   const history = useHistory();
   const [title, setTitile]= useState<string>('');
   const [arrayType, setArrayType] = useState<number>(0); //['카드형' , '리스트형']
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<number>(1000);
   const [openList, setOpenList] = useState<string[]>([]);
   const [selectedList, setSelectedList] = useState<number[]>([]);
   const [checkList, setCheckList] = useState<number[]>([]);
@@ -53,7 +53,7 @@ const PressMonitoring = () => {
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(false);
 
   const onClickRefresh = useCallback(()=>{
-    setStatusFilter('all');
+    setStatusFilter(1000);
     setCheckList([]);
     setSelectedList([]);
 
@@ -77,7 +77,7 @@ const PressMonitoring = () => {
     setIsFirstLoad(true)
      const data = resultData;
      setList(data);
-     alert(data.info_list);
+     // alert(data.info_list);
      console.log(data)
       if(data.info_list) {
           const arr = data[0].info_list!.map((v, i) => {
@@ -145,7 +145,7 @@ const PressMonitoring = () => {
           <>
           <WrapBox>
             <MonitoringTabs contents={
-              [{title:'전체', value:'all'},{title:'대기', value:'ready'},{title:'진행', value:'active'},{title:'중지', value:'stop'},{title:'완료', value:'done'},{title:'에러', value:'error'}]
+              [{title:'전체', value:1000},{title:'대기', value:10},{title:'진행', value:11},{title:'중지', value:15},{title:'완료', value:16},{title:'에러', value:0}]
             }
               onClickEvent={setStatusFilter}
               />
@@ -168,7 +168,7 @@ const PressMonitoring = () => {
           {
             arrayType === 0 ?
             list.map((v:IMonitoringList,i)=>{
-              if(statusFilter === 'all'){
+              if(statusFilter === 1000){
 
                 return(
                   <MonitoringCard key={ 'm-' + i} contents={v}  optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
@@ -184,7 +184,7 @@ const PressMonitoring = () => {
                   isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
                 )
               }else{
-                if(v.status === statusFilter){
+                if(v.operation === statusFilter){
                   return(
                     <MonitoringCard key={ 'm-' + i} contents={v} optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
                     onClickEvent={()=>{
@@ -203,7 +203,7 @@ const PressMonitoring = () => {
 
             })
             :
-            <MonitoringVerticalTable contents={list} status={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
+            <MonitoringVerticalTable contents={list} operation={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
           }
           </>
 }

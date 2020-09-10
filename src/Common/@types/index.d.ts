@@ -87,7 +87,7 @@ interface IReply{
 interface ITask{
     pk: string,
    title:string,
-   status: string,
+   status: number,
    process: string[],
    amount: number,
    output_name: string,
@@ -195,7 +195,7 @@ interface IServerResponse  {
     code: string,
     info_list: IInfoM[],
     is_connect: boolean,
-    status: string,
+    operation: number,
     percent: string | number
   }
   // 부서

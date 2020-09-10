@@ -7,13 +7,13 @@ import { changeStatusToColor } from '../../Common/statusFunctions';
 
 
 interface IProps{
-    contents: {title: string, value: string}[],
+    contents: {title: string, value: number}[],
     onClickEvent: any,
 }
-const MonitoringTabs = ({contents, onClickEvent}: IProps) => {       
+const MonitoringTabs = ({contents, onClickEvent}: IProps) => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -21,17 +21,17 @@ const MonitoringTabs = ({contents, onClickEvent}: IProps) => {
         {
           contents.map((v, i)=>{
             return(
-              <ButtonBox 
+              <ButtonBox
               className="p-bold"
-              onClick={()=>onClickEvent(v.value)} 
+              onClick={()=>onClickEvent(v.value)}
               style={{backgroundColor: changeStatusToColor(v.value)}}>
                 {v.title}
               </ButtonBox>
           )})
-          
+
         }
     </div>
-      
+
   );
 }
 

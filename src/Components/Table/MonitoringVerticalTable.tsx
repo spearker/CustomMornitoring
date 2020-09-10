@@ -14,24 +14,24 @@ import { changeStatusToString, changeStatusToColor } from '../../Common/statusFu
 interface IProps{
     contents: IMonitoringList[],
     filterList?: number[],
-    status: string
+    operation: number
 }
 
 
-const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
+const MonitoringVerticalTable = ({ contents, filterList, operation}: IProps) => {
 
   const [list, setList] = useState(contents);
   const indexList: any[] = [];
 
   useEffect(()=>{
-    if(status !== 'all'){
+    if(operation !== 1000){
       console.log('change')
-      setList(contents.filter(v => v.status === status))
+      setList(contents.filter(v => v.operation === operation))
     }else{
       setList(contents)
     }
 
-  },[status])
+  },[operation])
 
 
   useEffect(()=>{
@@ -74,7 +74,7 @@ const MonitoringVerticalTable = ({ contents, filterList, status}: IProps) => {
               </td>
               {
                 list.map((v)=>{
-                  return (<td><StatusDiv style={{backgroundColor:changeStatusToColor(v.status)}}>{changeStatusToString(v.status)}</StatusDiv></td>)
+                  return (<td><StatusDiv style={{backgroundColor:changeStatusToColor(v.operation)}}>{changeStatusToString(v.operation)}</StatusDiv></td>)
                 })
               }
             </tr>
