@@ -15,7 +15,6 @@ export const getAdminData = async( url: string) =>{
     return temp;
 }
 
-
 /**
  * getMapDeleteData()
  * 어드민 API post으로 호출하는 함수

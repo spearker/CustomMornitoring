@@ -19,7 +19,7 @@ export const getLoadTonList = async( url: string) =>{
 
 export const API_URLS = {
     loadTon: {
-        list:`/v1/monitoring/loadton/details`
+        list:`/v1/monitoring/loadton/detail`
     },
     press: {
         monitoring: `/v1/monitoring/press/details`

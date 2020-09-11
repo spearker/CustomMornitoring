@@ -10,7 +10,7 @@ import { TOKEN_NAME } from '../../Common/configset';
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://203.234.183.22:8299/api';
+client.defaults.baseURL = 'http://61.101.55.224:18080/api';
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
 
@@ -34,10 +34,10 @@ client.interceptors.response.use(function (response) {
 
 const getErrorCase = (code) => {
   switch(code){
-    case 2000:
-      return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
-    case 2000:
-      return '[조회 불가] 해당 ID를 지닌 데이터가 없습니다';
+    // case 2000:
+    //   return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
+    // case 2000:
+    //   return '[조회 불가] 해당 ID를 지닌 데이터가 없습니다';
     case 1011:
       return '[삭제 불가] 해당 데이터를 참조하는 표준 문서가 존재합니다';
     case 200:

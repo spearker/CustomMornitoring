@@ -4,6 +4,7 @@ import { useHistory, Link } from 'react-router-dom';
 import Axios from "axios";
 import CommonTable from '../../Components/Table/CommonTable';
 import { getCommonList, API_URLS } from '../../Api/map';
+
 import {getAdminData, API_URLS as API_URLSADMIN, postMapDeleteData} from '../../Api/admin/company';
 import OvertonTable from "../../Components/Table/OvertonTable";
 
@@ -107,7 +108,6 @@ const MapList = () => {
       history.push(`/map/update/${companyId}/${factoryId}/${typeId}`)
     },[pk])
 
-
     const eventdummy = [
         {
             Name: '수정',
@@ -176,7 +176,6 @@ const MapList = () => {
 
             {/*  />*/}
             <OvertonTable title={'공장 목록'} titleOnClickEvent={titleEventList}  mainOnClickEvent={onClick} indexList={index} clickValue={selectValue} valueList={list} EventList={eventList} noChildren={true}/>
-
         </MapListWrapper>
     )
 }

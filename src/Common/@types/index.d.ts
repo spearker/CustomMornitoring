@@ -290,20 +290,21 @@ interface IPressClutch {
 
 interface IPressLoadTonMachineData {
   machine_name: string
-  capacity: number
-  total_loadton: number
-  ch1_loadton: number
-  ch2_loadton: number
-
-  total_points: ChartData,
-  ch1_points: ChartData,
-  ch2_points: ChartData,
+  limited_ton: number
+  total_maxTon: number
+  ch1_maxTon: number
+  ch2_maxTon: number
+  total_ton: number[]
+  ch1_ton: number[]
+  ch2_ton: number[]
+  capacity: string[]
 }
 
 interface IPressLoadTonMonitoring {
   machines: IPressLoadTonMachineData[]
+  degree: number[]
   factories: string[]
-  current_factory: string
+  current_factory: number
 }
 
 interface IPressAbilityData{
@@ -400,4 +401,9 @@ interface ICustomerRegister {
   manager: string
   manager_phone: string
   manager_email: string
+}
+
+interface Factory{
+  pk: string | number,
+  name: string,
 }

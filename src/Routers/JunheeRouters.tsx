@@ -58,7 +58,7 @@ const JunheeRouters = () => {
                 {/*어드민*/}
                 <Route exact path="/admin/map/list" component={MapListPage} />
                 {/*<Route exact path="/company/maps/:id" component={MapList} />*/}
-                <Route path="/map/edit/:company" component={MapEditer} />
+                <Route path="/admin/map/:company" component={MapEditer} />
                 <Route path="/map/update/:company/:factory/:type" component={MapEditer} />
             </Switch>
         </div>

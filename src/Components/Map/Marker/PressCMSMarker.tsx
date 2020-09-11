@@ -1,16 +1,23 @@
 import React, {useContext, useEffect, useState, useCallback} from 'react';
 import Styled, { withTheme, DefaultTheme } from 'styled-components'
 import { useHistory } from 'react-router-dom';
+import {POINT_COLOR} from "../../../Common/configset";
 //import Marker from './Marker';
 
 interface Props{
-    component: any
+    component: any,
+    select?: string,
+    status?: number,
+    onChangeEvent?: any,
+    item?: any,
+    onChangeComponent?: any
 }
-const PressCMSMarker = ({component}:Props ) => {
+const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeComponent}:Props ) => {
 
     const {pk, machine_name, duty_cycle, current, machine_photo, left, bottom} = component;
 
     const PressStatusWrapper = Styled(Marker)`
+        border: ${select !== undefined && String(select) == String(pk) ? `2px solid ${POINT_COLOR}` : '0' };
         width: 100px;
         left: ${Number(left)}%;
         bottom: ${Number(bottom)}%;
@@ -18,7 +25,10 @@ const PressCMSMarker = ({component}:Props ) => {
     `
 
     return(
-        <PressStatusWrapper >
+        <PressStatusWrapper onClick={onChangeEvent!== undefined ? ()=>{
+            onChangeEvent(pk)
+            onChangeComponent(component)
+        } : ()=>{}} >
             <TitleDiv>
                 <p>{machine_name}</p>
             </TitleDiv>

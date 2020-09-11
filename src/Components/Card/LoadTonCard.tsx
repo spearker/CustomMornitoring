@@ -15,24 +15,25 @@ interface dataType {
 }
 
 interface IProps {
-    title: string
     color: number
-    limit: number
     propData: IPressLoadTonMachineData | undefined
 }
 
 
 // 로드톤 모니터링
-const LoadTonCard = ({title, color, limit, propData}: IProps) => {
+const LoadTonCard = ({color, propData}: IProps) => {
     // const [series, setSeries] = useState([{
     //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     // }])
     const colorList = ['#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff']
-    const [datum, setDatum] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0]);
+    const [datum, setDatum] = useState([
+        {data: propData?.capacity, color: 'gray', name: '능률곡선'},
+        {data: propData?.total_ton, color: '#fb9e70', name: 'Total'},
+        {data: propData?.ch1_ton, color: '#3ad8c5', name: 'Ch1'},
+        {data: propData?.ch2_ton, color: '#5145c6', name: 'Ch2'}
+    ]);
     const options = {
-        series: [{
-            data: datum,
-        }],
+        series: datum,
         colors: [colorList[color]],
         grid:{
           show: false
@@ -40,19 +41,29 @@ const LoadTonCard = ({title, color, limit, propData}: IProps) => {
         chart: {
             height: 170,
             type: 'area',
-            // animations: {
-            //     enabled: true,
-            //     easing: 'linear',
-            //     dynamicAnimation: {
-            //         speed: 500
-            //     }
-            // },
-            toolbar: {
-                show: false
+            events : {
+                beforeZoom : (e, {xaxis}) => {
+                    console.log(e, xaxis)
+                    if(xaxis.min < 0 || xaxis.max > 360){
+                        return {
+                            xaxis: {
+                                min: 0,
+                                max: 360
+                            }
+                        }
+                    }
+                }
             },
-            zoom: {
-                enabled: false
-            }
+            toolbar: {
+                show: true,
+                tools: {
+                    download: false,
+                    selection: true,
+                    zoom: false,
+                    zoomin: true,
+                    zoomout: true,
+                }
+            },
         },
         fill: {
             type: "gradient",
@@ -60,7 +71,7 @@ const LoadTonCard = ({title, color, limit, propData}: IProps) => {
                 shadeIntensity: 1,
                 opacityFrom: 0.7,
                 opacityTo: 0,
-                stops: [0, 90, 100]
+                stops: [0, 20, 100]
             }
         },
         dataLabels: {
@@ -78,15 +89,14 @@ const LoadTonCard = ({title, color, limit, propData}: IProps) => {
             labels:{
                 show: false,
             },
-            tickAmount: 10,
-            range: 19,
+            type: 'numeric',
+            tickAmount: 360,
             axisBorder:{
                 show: false
             }
         },
         yaxis: {
             show: false,
-            max: 300,
             min: 0,
             axisBorder:{
                 show: true,
@@ -98,7 +108,7 @@ const LoadTonCard = ({title, color, limit, propData}: IProps) => {
         },
         annotations: {
             yaxis: [{
-                y: 120,
+                y: propData?.limited_ton,
                 borderColor: '#ff0000',
                 borderWidth: 2, //limit 값으로 변
                 label: {
@@ -114,24 +124,12 @@ const LoadTonCard = ({title, color, limit, propData}: IProps) => {
         },
     }
 
-    useEffect(() => {
-        console.log(color)
-        const interval = setInterval(() => {
-            const num = Math.floor(Math.random()*5)
-            // setDatum(datum => datum.slice(1, datum.length).concat(num))
-            setDatum(dataSet.LoadTonChartData[num])
-        }, 1000)
-        return () => {
-            clearInterval(interval)
-        };
-    }, [])
-
     return (
         <div style={{height: 403, width: 329, backgroundColor: '#f4f6fa', borderRadius: 6, margin: 13}}>
             <div style={{width: "100%", height: 92, backgroundColor: '#28aeae', borderTopRightRadius: 8, borderTopLeftRadius: 8}}>
                 <div style={{paddingTop: 11, paddingLeft: 10}}>
-                    <TitleText style={{fontSize: 25}}>{title}</TitleText>
-                    <TitleText style={{fontSize: 20}}>{propData?.capacity}ton</TitleText>
+                    <TitleText style={{fontSize: 25}}>{propData?.machine_name}</TitleText>
+                    <TitleText style={{fontSize: 20}}>{propData?.limited_ton}ton</TitleText>
                 </div>
             </div>
             <div style={{width: "100%", height: 220, paddingLeft: 2, paddingRight: 3}}>
@@ -149,23 +147,23 @@ const LoadTonCard = ({title, color, limit, propData}: IProps) => {
                                 <p style={{textAlign: 'left', marginLeft: 20}}>Total</p>
                             </td>
                             <td colSpan={2} style={{width: "50%", height: 23}}>
-                                <p style={{textAlign: 'right', marginRight: 20, fontWeight:"bold"}}>{propData?.total_loadton}t</p>
+                                <p style={{textAlign: 'right', marginRight: 20, fontWeight:"bold"}}>{propData?.total_maxTon}t</p>
                             </td>
                         </tr>
                         <tr>
                             <td style={{height: 23}}>
-                                <p style={{textAlign: 'left', marginLeft: 20}}>CH1 (좌)</p>
+                                <p style={{textAlign: 'left', marginLeft: 20, fontSize: 13}}>CH1 (좌)</p>
                             </td>
                             <td style={{height: 23}}>
                                 <RightBorderBox>
-                                    <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 15}}>{propData?.ch1_loadton}t</p>
+                                    <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 15}}>{propData?.ch1_maxTon ? propData.ch1_maxTon+' t' : '-'}</p>
                                 </RightBorderBox>
                             </td>
                             <td style={{height: 23, borderLeft: 1, borderLeftWidth: 1}}>
-                                <p style={{textAlign: 'left', marginLeft: 15}}>CH2 (우)</p>
+                                <p style={{textAlign: 'left', marginLeft: 15, fontSize: 13}}>CH2 (우)</p>
                             </td>
                             <td style={{height: 23}}>
-                                <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 20}}>{propData?.ch2_loadton}t</p>
+                                <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 20}}>{propData?.ch2_maxTon ? propData.ch2_maxTon+' t' : '-'}</p>
                             </td>
                         </tr>
                     </table>
@@ -186,6 +184,7 @@ const CharBox = Styled.div`
 const RightBorderBox = Styled.div`
     border-right: 1px solid black;
     border-color: #707070;
+    fontSize: 15px;
 `
 
 const TitleText = Styled.p`

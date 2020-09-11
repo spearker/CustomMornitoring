@@ -14,11 +14,12 @@ import { Slider } from '@material-ui/core';
 
 interface Props {
   match: any;
-  chilren: string;
+  // chilren: string;
 }
 
 
 const MapEditorContiner = ({ match }: Props) => {
+  console.log(match)
   const companyPk = match.params.company;
   const factoryPk = match.params.factory;
   const mapType = match.params.type;
@@ -139,12 +140,12 @@ const MapEditorContiner = ({ match }: Props) => {
       alert('컴포넌트를 추가해주세요.');
       return false;
     }
-    if(inputData.map_img == null || inputData.map_img == '' ){
-      if(factoryPk == undefined){
-        alert('최초 도면 생성시에는, 배경 이미지를 추가해주세요.');
-        return false
-      }
-    }
+    // if(inputData.map_img == null || inputData.map_img == '' ){
+    //   if(factoryPk == undefined){
+    //     alert('최초 도면 생성시에는, 배경 이미지를 추가해주세요.');
+    //     return false
+    //   }
+    // }
     if(inputData.map_width > 4096 || inputData.map_width < 280){
       alert('도면의 크기는 280px 이상, 4096px 미만 입니다.');
       return false
@@ -353,6 +354,7 @@ const MapEditInputWrapper = Styled.div`
     div{
         flex: 1;
     }
+    background-color: #111319;
 `;
 
 

@@ -8,6 +8,7 @@ import FactorySelector from './FactorySelector';
 import { getMonitoringMapData, getMapListData } from '../../Api/pm/map';
 import { API_URLS } from '../../Api/pm/map';
 import PressCMSMarker from "./Marker/PressCMSMarker";
+import NoDataCard from "../Card/NoDataCard";
 
 interface Props{
     url: string, //api 요청 url,
@@ -16,12 +17,11 @@ interface Props{
     select?: string, //select pk
     onChangeEvent?: any,//setSelect Event
     autoRendering?: boolean//실시간 데이터 갱신여부
+    item?: any
+    onChangeComponent?: any
     state?: 0 | 10 | 11
 }
-interface Factory{
-    pk: string | number,
-    name: string,
-}
+
 
 const dummy_map_data = {
     map_img: null,
@@ -79,7 +79,7 @@ const initialData = {
 
 }
 
-const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, select, state}:Props) => {
+const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, select, item, onChangeComponent}:Props) => {
 
     const [selectFactory, setSelectFactory] = useState<Factory>({pk: '', name: ''});
 
@@ -138,7 +138,18 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
             setSelectFactory({pk: results[0].pk, name: results[0].name});
         }
 
-    },[selectFactory, facotories, dummy_factory]);
+    },[selectFactory, facotories]);
+
+   useEffect(() => {
+       if(mapType === 'cms' && selectFactory.pk !== ''){
+           const interval = setInterval(() => { getMapData(selectFactory.pk); console.log("반복중....", selectFactory.pk)  }, 3000)
+           return () => {
+               console.log('-- monitoring end -- ' )
+               clearTimeout(interval);
+               //setTimer(null)
+           };
+       }
+   }, [selectFactory])
 
 
     useEffect(()=>{
@@ -182,7 +193,8 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
             clearTimeout(intervalId);
         };
 */
-    },[selectFactory]);
+        console.log(item)
+    },[item]);
 
 
 
@@ -199,6 +211,12 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
                 }
                 {
                     components.map((v,i)=>{
+                        if(item){
+                            if(v.machine_name === item.machine_name){
+                                onChangeComponent(v)
+                            }
+                        }
+
                         if(mapData.component_size == 'PRESS'){
                             return(
                                 <PressStatusMarker key={i} component={v}/>
@@ -209,7 +227,7 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
                                 )
                         }else if(mapType === "cms"){
                             return(
-                                <PressCMSMarker key={i} component={v}/>
+                                <PressCMSMarker key={i} component={v} select={select} onChangeEvent={onChangeEvent} item={item} onChangeComponent={onChangeComponent}/>
                             )
                         }else{
                             return(
@@ -218,16 +236,37 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
                             )
                         }
                 })}
-                {
-                    mapData.map_img !== null &&
-                    <img src={mapData.map_img} style={{width: Number(mapData.map_width)}} />
-                }
+                    {
+                        mapData.map_img !== null &&
+                        <img src={mapData.map_img} style={{width: Number(mapData.map_width)}}/>
+                    }
             </InnerWrapper>
         </MapBoardWrapper>
+            {
+                mapType==='cms' && item
+                ? <DetailBox>
+                    <p style={{fontSize: 20, textAlign: 'left'}}>{item.machine_name}</p>
+                    <table style={{width: "100%", height: 250, fontSize: 30}}>
+                        <tr><td>사용률</td><td>{item.duty_cycle}%</td><td>전류량</td><td>{item.current}A</td></tr>
+                        <tr><td>전력</td><td>{item.electric_power}KW</td><td>누적 사용량</td><td>{item.accumulated}KW</td></tr>
+                    </table>
+                </DetailBox>
+                : <NoDataCard contents={'기계를 선택해 주세요'} height={300}/>
+            }
         </>
 
     )
 }
+
+const DetailBox = Styled.div`
+    width: 1080px;
+    height: 300px;
+    background-color: #17181c;
+    border-radius: 6px;
+    margin-top: 20px;
+    padding: 10px;
+
+`
 
 const MapBoardWrapper = Styled.div`
     max-width: 1100px !important;

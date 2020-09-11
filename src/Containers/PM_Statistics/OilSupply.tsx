@@ -30,7 +30,7 @@ const chartOption = {
         enabled: false
     },
     stroke: {
-        curve: 'straight',
+        curve: 'stepline',
         width: 2
     },
     fill: {
@@ -43,6 +43,13 @@ const chartOption = {
     },
     xaxis: {
         tickAmount: 10,
+        labels: {
+            formatter: (v, datatime, index) => {
+                console.log(index)
+                return v
+            }
+        }
+
     },
     grid:{
         borderColor: "#42444b",
@@ -59,22 +66,20 @@ const chartOption = {
     },
     yaxis: {
         min: 0,
-        max: 120,
-        tickAmount: 24,
+        max: 3,
+        tickAmount: 3,
         labels:{
             show: true,
             formatter: (value, index) => {
-                if(index===24){
-                    return '(단위/초s)'
-                }
-                if(value > 60) {
+                if(index===3){
                     return
+                }else if(index===0){
+                    return
+                }
+                if(value === 1) {
+                    return 'off'
                 }else{
-                    if(value % 10 === 0){
-                        return Math.floor(value)
-                    }else{
-                        return
-                    }
+                    return 'on'
                 }
             }
         },
@@ -98,13 +103,14 @@ const dummyData: IPressOilSupplyData = {
 
 const OilSupplyContainer = () => {
     const [data, setData] = React.useState<IPressOilSupplyData>()
-    const [pk, setPk] = React.useState('v1_JNHPRESS_machine_5_null_1')
+    const [date, setDate] = React.useState<string>(moment().format('YYYY-MM-DD'))
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
     const getData = useCallback(async ()=>{
 
-        const tempUrl = `${API_URLS['oilSupply'].load}?pk=${selectComponent}`
+        const tempUrl = `${API_URLS['oilSupply'].load}?pk=${selectComponent}&date=${date}`
+        console.log(tempUrl)
         const resultData = await getOilSupplyData(tempUrl);
         let XaxisData = resultData.insert_oil_time.Xaxis
 
@@ -118,12 +124,12 @@ const OilSupplyContainer = () => {
             }
         });
 
-    },[data, pk, selectComponent])
+    },[data, selectComponent, date])
 
 
     useEffect(() => {
         getData()
-    },[selectComponent])
+    },[selectComponent, date])
 
     return (
         <div>
@@ -142,10 +148,11 @@ const OilSupplyContainer = () => {
             {
                 data
                     ?<BlackContainer>
-                        <div style={{height: 60}}>
+                        <div style={{height: 60, flexDirection: 'row', justifyContent: 'space-between'}}>
                             <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
                                 <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold', width: "50%"}}>{data.pressName} &nbsp; &nbsp; &nbsp; 평균 오일공급 시간</p>
                             </div>
+                            <CalendarDropdown select={date} type={'single'} onClickEvent={(e) => setDate(e)}/>
                         </div>
                         <ReactApexChart options={{...chartOption, labels: [...data.insert_oil_time.Xaxis]}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
                     </BlackContainer>
@@ -171,6 +178,9 @@ const BlackContainer = Styled.div`
             padding-Top: 20px;
             text-Align: left;
         }
+    }
+    .apexcharts-tooltip{
+        color: black;
     }
 `
 

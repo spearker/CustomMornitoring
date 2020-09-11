@@ -3,7 +3,7 @@ import React, {
     useState,
     useCallback,
 } from "react";
-import Styled from "styled-components";
+import styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import SettingToneBox from "../../Components/Box/SettingToneBox";
@@ -123,7 +123,7 @@ const DefectiveContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any>([]);
-    const [index, setIndex] = useState({product_name:'품목'});
+    const [index, setIndex] = useState({process_pk:'품목'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -153,55 +153,62 @@ const DefectiveContainer = () => {
 
     const indexList = {
         defective: {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            setting_ton: '설정 톤',
-            normal_ton: '정상 톤',
-            work_registered: '작업기간',
+            // product_name: '품목(품목명)',
+            process_pk: '공정명',
+            // segmentation_factory: '세분화 공정',
+            // setting_ton: '설정 톤',
+            // normal_ton: '정상 톤',
+            // work_registered: '작업기간',
+            total_defects: '총 불량품 개수'
         }
     }
 
     const dummy = [
         {
-            product_name: '품목(품목명)',
-            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
-            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
-            setting_ton: '97 ton',
-            normal_ton: '100 ±5 ton',
-            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            process_pk: "라인공정01",
+            // product_name: '품목(품목명)',
+            //
+            // segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            // setting_ton: '97 ton',
+            // normal_ton: '100 ±5 ton',
+            // work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            total_defects: '10'
         },
         {
-            product_name: '품목(품목명)',
-            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
-            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
-            setting_ton: '97 ton',
-            normal_ton: '100 ±5 ton',
-            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            // product_name: '품목(품목명)',
+            process_pk: "단발공정",
+            // segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            // setting_ton: '97 ton',
+            // normal_ton: '100 ±5 ton',
+            // work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            total_defects: '20'
         },
         {
-            product_name: '품목(품목명)',
-            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
-            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
-            setting_ton: '97 ton',
-            normal_ton: '100 ±5 ton',
-            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            // product_name: '품목(품목명)',
+            process_pk: "검수공정",
+            // segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            // setting_ton: '97 ton',
+            // normal_ton: '100 ±5 ton',
+            // work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            total_defects: '15'
         },
         {
-            product_name: '품목(품목명)',
-            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
-            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
-            setting_ton: '97 ton',
-            normal_ton: '100 ±5 ton',
-            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            // product_name: '품목(품목명)',
+            process_pk: "라인공정02",
+            // segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            // setting_ton: '97 ton',
+            // normal_ton: '100 ±5 ton',
+            // work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            total_defects: '16'
         },
         {
-            product_name: '품목(품목명)',
-            factory_name: ['공정 01','공정 02', '공정 03', '공정 04'],
-            segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
-            setting_ton: '97 ton',
-            normal_ton: '100 ±5 ton',
-            work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            // product_name: '품목(품목명)',
+            process_pk: "라인공정03",
+            // segmentation_factory: ['프레스 01', '프레스 02', '프레스 03','프레스 04'],
+            // setting_ton: '97 ton',
+            // normal_ton: '100 ±5 ton',
+            // work_registered: '2020.07.09 : 13:00 -  2020.07.09 : 19:00',
+            total_defects: '4'
         },
     ]
 
@@ -278,7 +285,7 @@ const DefectiveContainer = () => {
     );
 }
 
-const ChartDiv = Styled.div`
+const ChartDiv = styled.div`
     width: 95%;
     height: 280px;
     background-color: #111319;

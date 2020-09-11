@@ -9,10 +9,13 @@ import {API_URLS as URLS_MAP} from "../../Api/pm/monitoring";
 import MapBoard from "../../Components/Map/MapBoard";
 import HeaderLive from "../../Components/Text/HeaderLive";
 import MonitoringToggle from "../../Components/Toggle/MonitoringToggle";
+import Styled from "styled-components";
 
 
 const CmsMonitoring: React.FunctionComponent = () => {
     const [statusFilter, setStatusFilter] = useState<string>('power');
+    const [selectMachine, setSelectMachine] = useState<string>();
+    const [selectComponent, setSelectComponent] = useState();
 
     return(
         <DashboardWrapContainer index={'monitoring'}>
@@ -30,6 +33,10 @@ const CmsMonitoring: React.FunctionComponent = () => {
                             url={URLS_MAP.power.monitoring}
                             mapType={"cms"}
                             autoRendering={true}
+                            select={selectMachine}
+                            item={selectComponent}
+                            onChangeComponent={(e) => setSelectComponent(e)}
+                            onChangeEvent={(e) => setSelectMachine(e)}
                         />)
                         // ? (<CmsPower />)
                         : (<CmsStatistics />)
