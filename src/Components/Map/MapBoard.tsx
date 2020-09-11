@@ -243,7 +243,7 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
             </InnerWrapper>
         </MapBoardWrapper>
             {
-                mapType==='cms' && item
+                mapType==='cms' ? item
                 ? <DetailBox>
                     <p style={{fontSize: 20, textAlign: 'left'}}>{item.machine_name}</p>
                     <table style={{width: "100%", height: 250, fontSize: 30}}>
@@ -252,6 +252,7 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
                     </table>
                 </DetailBox>
                 : <NoDataCard contents={'기계를 선택해 주세요'} height={300}/>
+                : null
             }
         </>
 
