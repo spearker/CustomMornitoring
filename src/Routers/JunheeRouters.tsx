@@ -18,6 +18,9 @@ import MoldRepairRegister from "../Pages/Mold/MoldRepairRegister";
 import OutsourcingRegister from "../Pages/Outsourcing/OutsourcingRegister"
 import CustomerRegister from "../Pages/Customer/CustomerRegister";
 import WorkHistoryRegister from "../Pages/Project/WorkHistoryRegister";
+import MapEditer from "../Pages/Super/MapEditer";
+import MapList from "../Pages/map/MapList";
+import MapListPage from "../Pages/map/MapListPage";
 
 
 const JunheeRouters = () => {
@@ -52,6 +55,11 @@ const JunheeRouters = () => {
                 <Route exact path="/pm/statistics/oil" component={OilSupplyStatistics} />
                 <Route exact path="/pm/statistics/ability" component={AbilityStatistics} />
                 <Route exact path="/pm/analysis/ability" component={AbilityAnalysis} />
+                {/*어드민*/}
+                <Route exact path="/admin/map/list" component={MapListPage} />
+                {/*<Route exact path="/company/maps/:id" component={MapList} />*/}
+                <Route path="/map/edit/:company" component={MapEditer} />
+                <Route path="/map/update/:company/:factory/:type" component={MapEditer} />
             </Switch>
         </div>
     );

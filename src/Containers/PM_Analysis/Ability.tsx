@@ -7,11 +7,25 @@ import {API_URLS, getAbilityList} from "../../Api/pm/analysis";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const chartOption = {
     chart: {
         height: 350,
         type: 'area',
+        events : {
+            beforeZoom : (e, {xaxis}) => {
+                console.log(e, xaxis)
+                if(xaxis.min < 0 || xaxis.max > 360){
+                    return {
+                        xaxis: {
+                            min: 0,
+                            max: 360
+                        }
+                    }
+                }
+            }
+        },
         toolbar: {
             show: true,
             tools: {
@@ -29,15 +43,17 @@ const chartOption = {
     },
     stroke: {
         curve: ['straight', "smooth", 'straight', 'straight'],
-        dashArray: [0, 0, 10, 10],
+        dashArray: [0, 0, 1, 15],
         width: 3
     },
     fill:{
-        type: ['solid', 'solid','gradient', 'gradient'],
+        type: ['solid', 'gradient', 'gradient'],
         gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
+            type: 'vertical',
+            shadeIntensity: 0,
+            opacityFrom: 0.6,
+            opacityTo: 0.1,
+            inverseColors: true,
             stops: [0, 100]
         }
     },
@@ -103,15 +119,18 @@ const AbilityContainer = () => {
     })
     const [pk, setPk] = React.useState()
     const [series, setSeries] = React.useState([{name: 'basic', type: 'line', data: [[0,0]]}])
+    const [loading, setLoading] = React.useState<boolean>(false)
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
-        start: moment().format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD")
+        start: moment().subtract(1, 'days').format("YYYY-MM-DD"),
+        end: moment().subtract(1, 'days').format("YYYY-MM-DD")
     })
 
     const getData = useCallback(async ()=>{
+
+        setLoading(true)
 
         console.log('ap')
 
@@ -124,14 +143,14 @@ const AbilityContainer = () => {
         let dummylineList: number[][] = []
         let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
 
-        resultData.x_degree.map((v,i) => {
+        await resultData.x_degree.map((v,i) => {
             console.log(v)
             dummylineList.push([Number(v), Number(resultData.y_capacity[i])])
             return null
         })
 
         console.log(dummylineList)
-        resultData.info_list.map((v, i) => {
+        await resultData.info_list.map((v, i) => {
             let dummyroundListTmp: number[][] = []
             let errorList: number[][] = []
             resultData.x_degree.map((v, j) => {
@@ -141,7 +160,9 @@ const AbilityContainer = () => {
             dummyroundList.push({type: 'area', data: dummyroundListTmp, name: v.date, color: v.excess_status === "0" ? 'rgba(25, 185, 223, 0.5)' : 'rgba(255, 0, 0, 0.5)' })
         })
 
-        setSeries([{type: 'line', name: 'data', data: [[]]}, {name: 'basic', type: 'line', data: dummylineList}, ...dummyroundList])
+        await setSeries([{type: 'line', name: 'data', data: [[]]}, {name: 'basic', type: 'area', data: dummylineList}, ...dummyroundList])
+
+        setLoading(false)
 
         // setSeries()
 
@@ -178,22 +199,28 @@ const AbilityContainer = () => {
                 select={selectComponent} //pk
                 onChangeEvent={setSelectComponent}
             />
-            <BlackContainer>
-                <div>
-                    <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
-                        <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 01</p>
-                        <p style={{textAlign: "left", fontSize: 13, fontWeight:'bold', color: 'red'}}>능력선도 초과 횟수 : {data.excess_count ? data.excess_count : 0}회</p>
-                    </div>
-                    <div style={{marginRight: 30, paddingTop: 25, }}>
-                        <CalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
-                            setSelectDateRange({start, end: !end ? selectDateRange.end : end})
-                        }} type={'range'}/>
-                    </div>
-                </div>
-                <div style={{marginTop: 60}}>
-                    <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
-                </div>
-            </BlackContainer>
+            {
+                loading ? <NoDataCard contents={'데이터를 불러오는 중입니다...'} height={504}/> :
+                selectComponent ?
+                    <BlackContainer>
+                        <div>
+                            <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
+                                <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 01</p>
+                                <p style={{textAlign: "left", fontSize: 13, fontWeight:'bold', color: 'red'}}>능력선도 초과 횟수 : {data.excess_count ? data.excess_count : 0}회</p>
+                            </div>
+                            <div style={{marginRight: 30, paddingTop: 25, }}>
+                                <CalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
+                                    setSelectDateRange({start, end: !end ? selectDateRange.end : end})
+                                }} type={'range'}/>
+                            </div>
+                        </div>
+                        <div style={{marginTop: 60}}>
+                            <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
+                        </div>
+                    </BlackContainer>
+                    : <NoDataCard contents={''} height={504}/>
+
+            }
         </div>
     );
 }

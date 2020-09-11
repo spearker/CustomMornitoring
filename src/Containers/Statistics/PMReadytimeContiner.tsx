@@ -82,11 +82,7 @@ const  PMReadyTimeContainer = () => {
 
     const [selectComponent, setSelectComponent] = useState<string>('');
 
-<<<<<<< HEAD
     const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>();
-=======
-    const [machineData, setMachineData] = useState<IPressReadyTimeAnalysis>(MachineInitData);
->>>>>>> 74a758b67bf25b01f868e69de937831da1c46366
     const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format("YYYY-MM-DD"))
 
     /**
