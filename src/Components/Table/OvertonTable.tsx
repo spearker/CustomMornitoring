@@ -35,13 +35,17 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
     }
 
     React.useEffect(() => {
-        console.log('valueList', valueList)
-        let tmpArr: boolean[] = []
-        const arrData = valueList.map((v, i) => {
-            tmpArr.push(false)
-        })
+        if(checkBox === true) {
+            console.log('valueList', valueList)
+            let tmpArr: boolean[] = []
+            const arrData = valueList.map((v, i) => {
+                tmpArr.push(false)
+            })
 
-        setChecked(tmpArr)
+            setChecked(tmpArr)
+        } else {
+            return
+        }
     }, [valueList])
 
 
@@ -116,11 +120,12 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                             )
                         })
                 }
+                { console.log('wefw',valueList)}
             </TitleBar>
             {
                 valueList !== undefined && valueList.length === 0
                     ? (<ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></ValueBar>)
-                    : valueList.map((v, i) => {
+                    : valueList?.map((v, i) => {
                     /*
                     v:  {
                         pk: 'PK11212',
@@ -185,7 +190,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                                 EventList && EventList.map((bv,bi)=>{
                                     return(
                                         <div className="p-limits">
-                                            <ButtonBox onClick={()=>{onClickEvent([pkKey])}} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
+                                            <ButtonBox onClick={bv.Link} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
                                         </div>
                                     )
                                 })

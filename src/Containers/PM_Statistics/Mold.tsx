@@ -14,7 +14,11 @@ const MoldContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 명' });
-    const [detailList,setDetailList] = useState<any>([]);
+    const [detailList,setDetailList] = useState<any>([{
+        mold_life: 0,
+        accumulate: 0,
+        yesterday_count: 0
+    }]);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -56,13 +60,13 @@ const MoldContainer = () => {
         },
     ]
 
-    const detaildummy = [
-        {
-            max_count: 50000,
-            today_count: 1000,
-            current_count: 38898
-        },
-    ]
+    // const detaildummy = [
+    //     {
+    //         max_count: 50000,
+    //         today_count: 1000,
+    //         current_count: 38898
+    //     },
+    // ]
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
@@ -75,7 +79,7 @@ const MoldContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
@@ -93,22 +97,22 @@ const MoldContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
+        const tempUrl = `${API_URLS['mold'].list}?page=1`
         const res = await getMoldData(tempUrl)
-
         setList(res)
+
 
     },[])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["mold"])
-        setList(dummy)
-        setDetailList(detaildummy)
+        // setList(dummy)
+        // setDetailList(detaildummy)
 
     },[])
 
-    const WidthPercent=detaildummy[0].current_count/detaildummy[0].max_count*100
+    const WidthPercent=detailList[0].accumulate/detailList[0].mold_life*100
 
     return (
         <div>
@@ -140,7 +144,7 @@ const MoldContainer = () => {
                                         <CountingNum>
                                             {[0,1,2,3,4,5].map((v, i)=>{
 
-                                                const value = v*=(detailList[0].max_count/5);
+                                                const value = v*=(detailList[0].mold_life/5);
                                                 return(
                                                     <span>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                                                 )
@@ -164,7 +168,7 @@ const MoldContainer = () => {
                     <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                               <p>{(detailList[0].current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                               <p>{(detailList[0].accumulate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                                <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
                         </BottomBox>
@@ -174,7 +178,7 @@ const MoldContainer = () => {
                     <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                                <p>{(detailList[0].today_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))}</p>
+                                <p>{(detailList[0].yesterday_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))}</p>
                                 <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
                         </BottomBox>
@@ -184,7 +188,7 @@ const MoldContainer = () => {
                     <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                                <p>{(detailList[0].max_count-detailList[0].current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                                <p>{(detailList[0].mold_life-detailList[0].accumulate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                                 <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
                         </BottomBox>
