@@ -273,6 +273,7 @@ const OilMaintenanceContainer = () => {
     getData()
   },[])
 
+
   const getData = useCallback(async ()=>{
     const tempUrl = `${URLS_PRE['oil'].load}?pk=${pressData[0].pk}&date=${selectDate}`
     const resultData = await getOilData(tempUrl);

@@ -1,12 +1,13 @@
 import React, {useEffect, useState, useContext, useCallback, ReactElement, SetStateAction} from 'react';
 import Styled from "styled-components";
 import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
-import { API_URLS as URLS_MAP } from '../../Api/pm/map';
+import {API_URLS, API_URLS as URLS_MAP, getMonitoringMapData} from '../../Api/pm/map';
 import MapBoard from "../../Components/Map/MapBoard";
 import NoDataCard from "../../Components/Card/NoDataCard";
 import {Input} from "semantic-ui-react";
 
 const ClutchMaintenanceContainer = () => {
+
 
     const [selectMachine, setSelectMachine] = useState<string>('0')
 
@@ -14,6 +15,8 @@ const ClutchMaintenanceContainer = () => {
 
     const [pk, setPk] = useState<string>('')
     const [data, setData] = useState<IPressClutch>()
+
+
     const [postData, setPostData] = useState<({pk:string,normal_from: string, normal_to: string, change_from: string,change_to: string, danger_from: string,danger_to: string})>({
         pk: "",
         normal_from: "",
@@ -43,13 +46,17 @@ const ClutchMaintenanceContainer = () => {
     },[postData])
 
 
+
     useEffect(() => {
         setPostData({...postData,pk: selectComponent})
     }, [selectComponent])
 
     useEffect(()=>{
-        getData()
+        if(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) {
+            getData()
+        }
     },[postData.pk])
+
 
 
     return (

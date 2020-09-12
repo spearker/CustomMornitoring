@@ -158,7 +158,7 @@ const PowerContainer = () => {
                         </div>
                         <div style={{marginRight: 30, paddingTop: 25, }}>
                             <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
-                            <ListRadioButton nameList={["월", "일"]} data={selectType} onClickEvent={(i) => {
+                            <ListRadioButton nameList={[ "일"]} data={selectType} onClickEvent={(i) => {
                                     if(i === 0){
                                         setSelectType([true,false])
                                     }else{

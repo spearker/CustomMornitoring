@@ -154,7 +154,7 @@ export const API_URLS = {
     },
     product: {
         list: '/v1/analysis/press/ton/product/list',
-        load: '/v1/statistics/press/product/load'
+        load: '/v1/analysis/press/ton/product/detail'
     },
     mold: {
         list: '/v1/statistics/press/mold/punching',

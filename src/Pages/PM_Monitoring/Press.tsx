@@ -78,7 +78,7 @@ const PressMonitoring = () => {
      const data = resultData;
      setList(data);
      console.log(data)
-      if(data.info_list) {
+      if(data&&data.info_list) {
           const arr = data[0].info_list!.map((v, i) => {
               return (v['title'])
           })
@@ -150,14 +150,14 @@ const PressMonitoring = () => {
               />
               <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
                 {
-                  openList.length === list.length ?
+                  openList !== undefined && openList !== null && openList === [] && openList.length === list.length ?
                   <MonitoringOptionButton title={'전체 접기'} color={'#b3b3b3'} onClickEvent={()=>{setOpenList([])}} />
                   :
                   <MonitoringOptionButton title={'전체 펼치기'} color={'#b3b3b3'} onClickEvent={()=>{setOpenList(
                     list.map((v:IMonitoringList)=>{return v.pk!})
                   )}} />
                 }
-               {/* <MonitoringOptionButton title={'전체화면 보기'} onClickEvent={()=>history.push('/monitoring/full')} />*/}
+                <MonitoringOptionButton title={'전체화면 보기'} onClickEvent={()=>history.push('/monitoring/full')} />
                 <MonitoringOptionButton title={'항목 골라보기'} color={'#b3b3b3'} onClickEvent={()=>{setIsPopup(true);setCheckList(selectedList);}} />
                 <MonitoringOptionButton title={'초기화'} color={'#b3b3b3'} onClickEvent={()=>{onClickRefresh()}}/>
               </div>
@@ -165,7 +165,7 @@ const PressMonitoring = () => {
           </WrapBox><br/>
 
           {
-            arrayType === 0 ?
+            list && arrayType === 0 ?
             list.map((v:IMonitoringList,i)=>{
               if(statusFilter === 1000){
 
@@ -202,7 +202,8 @@ const PressMonitoring = () => {
 
             })
             :
-            <MonitoringVerticalTable contents={list} operation={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
+                list && <MonitoringVerticalTable contents={list} operation={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
+
           }
           </>
 }

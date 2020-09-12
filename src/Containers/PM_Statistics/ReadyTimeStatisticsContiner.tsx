@@ -168,10 +168,10 @@ const ReadyTimeStatisticsContainer = () => {
                         </table>
                     </div>
                     <div className={"division"}>
-                        <div className={"quarter"}>
+                        <div className={"quarter"} style={{width: "35%"}}>
                             <LeftText>전일 대비 증감률</LeftText>
                         </div>
-                        <div className={"quarter"} style={{display: 'flex', alignItems: "flex-end"}}>
+                        <div className={"quarter"} style={{display: 'flex', alignItems: "flex-end", width: "64.9%"}}>
                             <div style={{width: '100%'}}>
                                 <RightText
                                     style={{fontSize: 70, color: data.downtime.kinds === "up" ? UP_COLOR : DOWN_COLOR}}>

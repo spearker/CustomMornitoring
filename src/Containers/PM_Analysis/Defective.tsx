@@ -9,6 +9,7 @@ import LineTable from "../../Components/Table/LineTable";
 import SettingToneBox from "../../Components/Box/SettingToneBox";
 import {API_URLS, getDefectiveData,} from "../../Api/pm/analysis";
 import ReactApexChart from "react-apexcharts";
+import NoDataCard from "../../Components/Card/NoDataCard";
 import {POINT_COLOR} from "../../Common/configset";
 
 const ChartOptionDetailLable = {
@@ -188,10 +189,10 @@ const DefectiveContainer = () => {
 
     const onClick = useCallback((process) => {
         console.log('dsfewfewf',process.pk);
-        if(process.pk === selectPk){
+        if(process.process_pk === selectPk){
             setSelectPk(null);
             setSelectValue(null);
-            setDetailList({})
+            setDetailList(null)
         }else{
             setSelectPk(process.process_pk);
             setSelectValue(process)
@@ -252,6 +253,10 @@ const DefectiveContainer = () => {
         console.log(selectPie)
     }, [selectPie])
 
+    useEffect(()=>{
+        setSelectPie(undefined)
+    },[selectValue])
+
 
     return (
         <OvertonTable
@@ -262,6 +267,7 @@ const DefectiveContainer = () => {
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
+                    selectValue === []?
                     <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
                         <div style={{display:'flex',flexDirection: 'row'}}>
                             <Chart>
@@ -288,7 +294,8 @@ const DefectiveContainer = () => {
                                 </table>}
                             </Detail>
                         </div>
-                    </LineTable>
+                    </LineTable> :
+                        <NoDataCard contents={'데이터가 없습니다.'} height={100}/>
                     :
                     null
             }

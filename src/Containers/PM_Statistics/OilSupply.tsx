@@ -148,11 +148,13 @@ const OilSupplyContainer = () => {
             {
                 data
                     ?<BlackContainer>
-                        <div style={{height: 60, flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <div style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                             <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
                                 <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold', width: "50%"}}>{data.pressName} &nbsp; &nbsp; &nbsp; 평균 오일공급 시간</p>
                             </div>
-                            <CalendarDropdown select={date} type={'single'} onClickEvent={(e) => setDate(e)}/>
+                            <div style={{marginBottom: 30}}>
+                                <CalendarDropdown select={date} type={'single'} onClickEvent={(e) => setDate(e)}/>
+                            </div>
                         </div>
                         <ReactApexChart options={{...chartOption, labels: [...data.insert_oil_time.Xaxis]}} type={'area'} height={414} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
                     </BlackContainer>

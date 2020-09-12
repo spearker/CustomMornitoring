@@ -215,7 +215,6 @@ const Title = Styled.div`
    flex-direction: row;
    justify-content: space-between;
    margin-bottom: 15px;
-   margin-top: 41px;
    div {
    display: flex;
    flex-direction: row;
