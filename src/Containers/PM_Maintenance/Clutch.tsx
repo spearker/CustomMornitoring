@@ -4,6 +4,7 @@ import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
 import { API_URLS as URLS_MAP } from '../../Api/pm/map';
 import MapBoard from "../../Components/Map/MapBoard";
 import NoDataCard from "../../Components/Card/NoDataCard";
+import {Input} from "semantic-ui-react";
 
 const ClutchMaintenanceContainer = () => {
 
@@ -13,16 +14,23 @@ const ClutchMaintenanceContainer = () => {
 
     const [pk, setPk] = useState<string>('')
     const [data, setData] = useState<IPressClutch>()
+    const [postData, setPostData] = useState<({pk:string,normal_from: string, normal_to: string, change_from: string,change_to: string, danger_from: string,danger_to: string})>({
+        pk: "",
+        normal_from: "",
+        normal_to: "",
+        change_from: "",
+        change_to: "",
+        danger_from: "",
+        danger_to: ""
+    })
 
     /**
      * getList()
      * 클러치 정보 불러오기
      */
     const getData = useCallback(async ()=>{
-
-        const tempUrl = `${URLS_PRE['clutch'].load}?pk=${selectComponent}`
-        const resultData = await getCluchData(tempUrl);
-        console.log("resultData", resultData)
+        const tempUrl = `${URLS_PRE['clutch'].load}`
+        const resultData = await getCluchData(tempUrl, postData);
         // if(index === '1'){
         //     setData(dummyData1)
         // }else if(index === '2'){
@@ -32,15 +40,22 @@ const ClutchMaintenanceContainer = () => {
         // }
         setData(resultData)
 
-    },[data, pk, selectComponent])
+    },[postData])
 
     useEffect(() => {
 
     }, [])
 
     useEffect(() => {
+        if(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) {
+            getData()
+        }
+    }, [postData])
+
+
+    useEffect(() => {
         console.log(selectComponent)
-        getData()
+        setPostData({...postData,pk: selectComponent})
     }, [selectComponent])
 
     return (
@@ -49,6 +64,14 @@ const ClutchMaintenanceContainer = () => {
 
                 <div style={{display:'inline-block', textAlign:'left'}}>
                     <span style={{fontSize:20, marginRight:18, marginLeft: 3, fontWeight: 'bold'}}>클러치&브레이크</span>
+                </div>
+                <div style={{display:"flex",flexDirection:"row"}}>
+                    <Input placeholder="정상의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, normal_from: e.target.value})}/>
+                    <Input placeholder="정상의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, normal_to: e.target.value})}/>
+                    <Input placeholder="위험의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, change_from: e.target.value})}/>
+                    <Input placeholder="위험의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, change_to: e.target.value})}/>
+                    <Input placeholder="교체 요망의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, danger_from: e.target.value})}/>
+                    <Input placeholder="교체 요망의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, danger_to: e.target.value})}/>
                 </div>
             </div>
             <MapBoard
@@ -60,7 +83,7 @@ const ClutchMaintenanceContainer = () => {
             {
                 selectComponent ? data
                     ? <DetailBox>
-                        <div style={{width: 200, height: 30, paddingTop: 14}}>
+                        <div style={{width: 300, height: 30, paddingTop: 14}}>
                             <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+"ton)"}</p>
                         </div>
                         <StatusBox>
@@ -114,7 +137,7 @@ const ClutchMaintenanceContainer = () => {
 
 const DetailBox = Styled.div`
     width: 1100px;
-    height: 300px;
+    height: auto;
     background-color: #17181c;
     border-radius: 6px;
     margin-top: 20px;
@@ -226,7 +249,7 @@ const ChangeDisableBox = Styled(ChangeBox)`
 
 const StatusBox = Styled.div`
     width: 1060px;
-    height: 200px;
+    height: 230px;
     background-color: #17181c;
     border-radius: 6px;
     margin-top: 10px;

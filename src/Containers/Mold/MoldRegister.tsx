@@ -98,7 +98,7 @@ const MoldRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 금형명</td>
-                            <td><Input placeholder="금형 이름을 입력하세요." onChange={(e) => setContractData({...contractData,mold_name: e.target.value})} /></td>
+                            <td>름</td>
                         </tr>
                         {
                             processData.processes && processData.processes.length !== 0

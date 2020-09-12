@@ -11,7 +11,7 @@ import Charts from 'fusioncharts/fusioncharts.widgets.js';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import ReactFC from 'react-fusioncharts';
 import Chart from 'react-apexcharts'
-import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
+import {API_URLS as URLS_PRE, getCluchData, getOilData} from "../../Api/pm/preservation";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
@@ -188,21 +188,30 @@ const ranges = [
 
 const OilMaintenanceContainer = () => {
 
-  const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: number[] } } = {
-    pressPk:"dummyPK1",
-    insert_oil_time: {
-      Xaxis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19, 20, 21, 22, 23, 24],
-      Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ,11,11,12,24,24,24,24,24,24,22,24,22,22,22,30,20],
-    }
+  const dummyData: { ampere: number, temperature: string, machine_name:string, pk: string, x_time: string[], y_pressure: number[] }= {
+    ampere: 0,
+    temperature: "",
+    machine_name: "",
+    pk:"dummyPK1",
+    x_time: ["1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17" ,"18", "19", "20", "21", "22", "23", "24"],
+    y_pressure: [58, 55, 55, 60, 57, 58, 60, 55, 56 ,11,11,12,24,24,24,24,24,24,22,24,22,22,22,30,20],
   }
 
   const [data, setData] = React.useState(dummyData)
-  const [selectedMachine, setSelectedMachine] = useState<any>('1');
+  const [pressData,setPressData] = React.useState<[{
+    machine_name: "제스텍 프레스 컨트롤러",
+  pk: "v1_SIZL_machine_1_null_1",
+  tons: 200}]>([{
+    machine_name: "제스텍 프레스 컨트롤러",
+    pk: "v1_SIZL_machine_1_null_1",
+    tons: 200
+  }])
+  const [selectedMachine, setSelectedMachine] = useState<any>('');
   const TODAY_START = new Date(moment().format('YYYY-MM-DD 00:00:00')).getTime();
   const TODAY_END = new Date(moment().format('YYYY-MM-DD 24:00:00')).getTime();
 
   const [selectComponent, setSelectComponent] = useState<string>('4EP99L_factory0');
-  const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+  const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
   const dataSource = {
     chart: {
@@ -255,10 +264,19 @@ const OilMaintenanceContainer = () => {
     return Math.floor((new Date(moment().format(end)).getTime() - new Date(moment().format(start)).getTime()) / (TODAY_END - TODAY_START) * 100)
   }
 
+  const getList = useCallback(async ()=>{
+    const tempUrl = `${URLS_PRE['oil'].list}`
+    const resultData= await getOilData(tempUrl);
+
+    setPressData(resultData)
+
+    getData()
+  },[])
+
   const getData = useCallback(async ()=>{
 
-    const tempUrl = `${URLS_PRE['oil'].load}?pk=${selectComponent}`
-    const resultData = await getCluchData(tempUrl);
+    const tempUrl = `${URLS_PRE['oil'].load}?pk=${pressData[0].pk}&${selectDate}}`
+    const resultData = await getOilData(tempUrl);
     console.log("resultData", resultData)
     // if(index === '1'){
     //     setData(dummyData1)
@@ -269,10 +287,10 @@ const OilMaintenanceContainer = () => {
     // }
     setData(resultData)
 
-  },[ selectComponent])
+  },[ selectDate])
 
   useEffect(()=>{
-    getData()
+    getList()
   },[selectComponent])
 
   return (
@@ -290,7 +308,7 @@ const OilMaintenanceContainer = () => {
         />
 
         {
-          selectedMachine == '' ?
+          selectComponent == '' ?
           <NoTimeDataBox>
             기계를 선택해주세요.
           </NoTimeDataBox>
@@ -299,17 +317,20 @@ const OilMaintenanceContainer = () => {
                   <div style={{display:"flex",flexDirection:"row"}}>
                 <div>
                   <LineContainer>
+                      <div style={{width: '100%',height: '20%',display: "flex", justifyContent: "center"}}>
+                          <p style={{fontSize: 30,alignSelf: "center"}}>{data.machine_name}</p>
+                      </div>
                       <div style={{display: 'flex', width: '100%', marginBottom:23}}>
                         <div style={{flex:1,marginLeft:12, marginRight: 12}}>
                           <UnderBarText>현재온도</UnderBarText>
                           <BigDataText>
-                            {selectedMachine.temperature}<span>℃</span>
+                            {Number(data.temperature).toFixed(1)}<span>℃</span>
                           </BigDataText>
                         </div>
                         <div style={{flex:1, marginLeft: 12,marginRight:12}}>
                           <UnderBarText>전류량</UnderBarText>
                           <BigDataText>
-                            {selectedMachine.ampare}<span>A</span>
+                            {data.ampere}<span>A</span>
                           </BigDataText>
                         </div>
 
@@ -332,9 +353,9 @@ const OilMaintenanceContainer = () => {
                         <div style={{alignSelf:"center"}}>
                           <p>온도별 오일 펌프 기준 압력</p>
                         </div>
-                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                        <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
                       </div>
-                      <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={444} width={630} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                      <ReactApexChart options={{...chartOption, labels: [' ', ...data.x_time,'(일/day)']}} type={'area'} height={444} width={630} series={[{name: "data", data:data.y_pressure}]}/>
                     </div>
                   }
                 </GraphContainer>
@@ -357,7 +378,7 @@ const BlackBg = Styled.div`
 
 const LineContainer = Styled.div`
   width: 391px;
-  height: 340px;
+  height: 522px;
   border-radius: 6px;
   background-color: #202020;
 

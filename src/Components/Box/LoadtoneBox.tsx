@@ -22,7 +22,7 @@ const LoadtoneBox = ({title,children}:Props) => {
 const TopBlackBox = Styled.div`
     border-width: 0;
     border-radius: 6px;
-    width: 690px;
+    width: 350px;
     height: 182px;
     background-color: #353b48;
     font-family: NotoSansCJKkr-Bold;
@@ -30,6 +30,7 @@ const TopBlackBox = Styled.div`
 
 const TopBox = Styled.div`
     height: 40px;
+    width: 100%;
     border-width: 0;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;

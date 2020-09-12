@@ -29,7 +29,7 @@ const MoldMaintenanceContainer = () => {
     mold: {
       mold_name: '금형 명',
       location_name: '제조사 명',
-      mold_type: '제조 번호',
+      manufacturer_code: '제조 번호',
     }
   }
 
@@ -88,7 +88,7 @@ const MoldMaintenanceContainer = () => {
                   <CountingContainer>
                     <div>
                       <p>타수 카운팅</p>
-                      <p>{detailList.max_count-detailList.current_count}회 남음</p>
+                      <p>{(detailList.max_count-detailList.current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}회 남음</p>
                     </div>
                     <div>
                       <MoldMaxBar>
@@ -98,8 +98,10 @@ const MoldMaintenanceContainer = () => {
                       </MoldMaxBar>
                       <CountingNum>
                         {[0,1,2,3,4,5].map((v, i)=>{
+
+                          const value = (detailList.max_count/5)
                           return(
-                              <span>{v*=(detailList.max_count/5)}</span>
+                              <span>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                           )
                         })}
                       </CountingNum>

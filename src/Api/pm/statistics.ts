@@ -128,7 +128,6 @@ export const getProductData = async( url: string) =>{
 
 export const getMoldData = async( url: string) =>{
     const temp: IServerData = await client.get(url);
-    console.log('wefwe',temp.results);
     return temp.results!;
 }
 
@@ -154,12 +153,12 @@ export const API_URLS = {
         load: '/v1/statistics/press/defective/load'
     },
     product: {
-        list: '/v1/statistics/press/product/list',
+        list: '/v1/analysis/press/ton/product/list',
         load: '/v1/statistics/press/product/load'
     },
     mold: {
         list: '/v1/statistics/press/mold/punching',
-        load: '/v1/statistics/press/mold/punching/Detail'
+        load: '/v1/statistics/press/mold/punchingDetail'
     },
     loadTon: {
         load: `/v1/statistics/press/loadtonAvg`

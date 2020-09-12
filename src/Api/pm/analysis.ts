@@ -71,7 +71,7 @@ export const API_URLS = {
     },
     defective: {
         list: '/v1/analysis/press/defective/list',
-        load: '/v1/analysis/press/defective/load'
+        load: '/v1/analysis/press/defective'
     },
     ability: {
         load: `/v1/analysis/press/capacity`

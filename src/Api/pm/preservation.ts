@@ -39,7 +39,20 @@ export const getOvertoneData = async( url: string) =>{
  * @returns {object} data object
  * @author 준희
  */
-export const getCluchData = async( url: string) =>{
+export const getCluchData = async( url: string,bodyData: object) =>{
+    const temp: IServerData = await client.post(url,bodyData);
+    console.log(temp.results);
+    return temp.results!;
+}
+
+/**
+ * getOilData()
+ * 오일 보존 정보 불러오기
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ */
+export const getOilData = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
     return temp.results!;
@@ -59,6 +72,7 @@ export const API_URLS = {
         load: `/v1/preservation/press/overTon/load`
     },
     oil: {
+        list: `/v1/preservation/press/oil/list`,
         load: `/v1/preservation/press/oil/load`
     }
 }
