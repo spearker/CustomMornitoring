@@ -1,99 +1,113 @@
 import React, {
     useEffect,
     useState,
+    useContext,
     useCallback,
+    ReactElement,
 } from "react";
 import Styled from "styled-components";
+import DashboardWrapContainer from "../DashboardWrapContainer";
+import SubNavigation from "../../Components/Navigation/SubNavigation";
+import { ROUTER_MENU_LIST } from "../../Common/routerset";
+import InnerBodyContainer from "../InnerBodyContainer";
+import Header from "../../Components/Text/Header";
+import ReactShadowScroll from "react-shadow-scroll";
+import OvertonTable from "../../Components/Table/OvertonTable";
+import LineTable from "../../Components/Table/LineTable";
+import {getRequest} from "../../Common/requestFunctions";
+import {getToken} from "../../Common/tokenFunctions";
+import {TOKEN_NAME} from "../../Common/configset";
+import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import moment from "moment";
+import ListRadioButton from "../../Components/Button/ListRadioButton";
 import ReactApexChart from "react-apexcharts";
 import {API_URLS, getDefectiveData} from "../../Api/pm/statistics";
-import HalfTalbe from "../../Components/Table/HalfTable";
 
 
-// const chartOption = {
-//     chart: {
-//         type: 'area',
-//         height: 350,
-//         toolbar: {
-//             show: true,
-//             tools: {
-//                 download: false,
-//                 selection: true,
-//                 zoom: false,
-//                 zoomin: true,
-//                 zoomout: true,
-//             }
-//         },
-//     },
-//     dataLabels: {
-//         enabled: false
-//     },
-//     stroke: {
-//         curve: 'straight',
-//         width: 2
-//     },
-//     fill: {
-//         type: "gradient",
-//         gradient: {
-//             shadeIntensity: 1,
-//             opacityFrom: 0.35,
-//             opacityTo: 0,
-//         }
-//     },
-//     xaxis: {
-//         tickAmount: 10
-//     },
-//     grid:{
-//         borderColor: "#42444b",
-//         xaxis:{
-//             lines: {
-//                 show: true
-//             }
-//         },
-//         yaxis:{
-//             lines: {
-//                 show: true
-//             }
-//         }
-//     },
-//     yaxis: {
-//         min: 0,
-//         max: 100,
-//         tickAmount: 20,
-//         labels:{
-//             show: true,
-//             formatter: (value) => {
-//                 if(value === 100) {
-//                     return "(%)"
-//                 }else{
-//                     if(value % 20 === 0){
-//                         return Math.floor(value)
-//                     }else{
-//                         return
-//                     }
-//                 }
-//             }
-//         },
-//     },
-//     legend: {
-//         show: false
-//     },
-//     tooltip: {
-//         enable:false
-//     }
-// }
-//
-// const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: number[] } } = {
-//     pressPk:"dummyPK1",
-//     insert_oil_time: {
-//         Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
-//         Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ],
-//     }
-// }
+const chartOption = {
+    chart: {
+        type: 'area',
+        height: 350,
+        toolbar: {
+            show: true,
+            tools: {
+                download: false,
+                selection: true,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
+            }
+        },
+    },
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: 'straight',
+        width: 2
+    },
+    fill: {
+        type: "gradient",
+        gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.35,
+            opacityTo: 0,
+        }
+    },
+    xaxis: {
+        tickAmount: 10
+    },
+    grid:{
+        borderColor: "#42444b",
+        xaxis:{
+            lines: {
+                show: true
+            }
+        },
+        yaxis:{
+            lines: {
+                show: true
+            }
+        }
+    },
+    yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 20,
+        labels:{
+            show: true,
+            formatter: (value) => {
+                if(value === 100) {
+                    return "(%)"
+                }else{
+                    if(value % 20 === 0){
+                        return Math.floor(value)
+                    }else{
+                        return
+                    }
+                }
+            }
+        },
+    },
+    legend: {
+        show: false
+    },
+    tooltip: {
+        enable:false
+    }
+}
+
+const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: number[] } } = {
+    pressPk:"dummyPK1",
+    insert_oil_time: {
+        Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
+        Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ],
+    }
+}
 
 const DefectiveContainer = () => {
-    // const [data, setData] = React.useState(dummyData)
+    const [data, setData] = React.useState(dummyData)
     const [list, setList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any>({
         pk: "",
@@ -104,11 +118,16 @@ const DefectiveContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
 
     const indexList = {
         defective: {
             product_name: '품목(품목명)',
             factory_name: '공정명',
+            segmentation_factory: '세분화 공정',
+            mold_name: '금형명',
+            worker: '작업자',
+            work_registered: '작업기간',
         }
     }
 
