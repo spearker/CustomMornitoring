@@ -16,7 +16,7 @@ import {transferCodeToName} from "../../Common/codeTransferFunctions";
 interface IMachineData {
     machine_name: string,
     machine_type: number,
-    other_info: { title: string, value: string }[]
+    mold_info: { mold_name: string, mold_pk: string }
 }
 
 interface IDetailRegister {
@@ -146,16 +146,14 @@ const ProcessDetailRegisterContainer = () => {
                                                     <MachineTable style={{margin: 0, padding: 0}}>
                                                         <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>
                                                             <th><span>기계명</span></th>
-                                                            <th><span>옵션</span></th>
-                                                            <th style={{height: 32 }}><span>옵션</span></th>
+                                                            <th><span>금형명</span></th>
                                                         </tr>
                                                         {
                                                             machineList.map((v, i) => {
                                                                 return (
                                                                     <tr style={{borderBottom: '1px solid #b3b3b35f'}}>
                                                                         <td><span>{v.machine_name}</span></td>
-                                                                        <td><span>{ v.other_info[0] && v.other_info[0]}</span></td>
-                                                                        <td><span>{ v.other_info[0] && v.other_info[0]}</span></td>
+                                                                        <td><span>{ v.mold_info.mold_name && v.mold_info.mold_name}</span></td>
                                                                     </tr>
                                                                 )
                                                             })

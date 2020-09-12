@@ -139,12 +139,15 @@ const DefectiveContainer = () => {
     const [labelDatas, setLabelDatas] = useState<string[]>([])
     const [series, setSeries] = useState<number[]>([])
     const [pieData, setPieData] = useState<PIDATA[]>([])
-    const [selectPie, setSelectPie] = useState<PIDATA[]>([])
+    const [selectPie, setSelectPie] = useState<PIDATA>()
 
     const ChartInitOption = {
         chart: {
             events:{
-                click: (chart,w,e) => pieOnClick(e.config.labels)
+                click: (chart,w,e) => {
+                    console.log(e.config.labels)
+                    pieOnClick(e.config.labels)
+                }
             },
             width: "40%",
             type: 'pie',
@@ -207,6 +210,7 @@ const DefectiveContainer = () => {
         res.pies.map((v,i)=>{
             // series.push(v.percentage)
             setSeries([...series, v.percentage])
+
             labelDatas.push(v.material_name)
             pieData.push(v)
         })
@@ -229,8 +233,7 @@ const DefectiveContainer = () => {
         pieData.map((v,i)=>{
             if (v.material_name === labels.toString()) {
                 console.log(121)
-                selectPie.push(v)
-                console.log(selectPie)
+                setSelectPie(v)
             }
         })
     },[selectPie])
@@ -240,6 +243,10 @@ const DefectiveContainer = () => {
         setIndex(indexList["defective"])
     },[])
 
+    useEffect(() => {
+        console.log(selectPie)
+    }, [selectPie])
+
 
     return (
         <OvertonTable
@@ -248,29 +255,41 @@ const DefectiveContainer = () => {
             valueList={list}
             clickValue={selectValue}
             mainOnClickEvent={onClick}>
-                        {
-                            selectPk !== null ?
-                                <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
-                                    <div style={{display:'flex',flexDirection: 'row'}}>
-                                        <Chart>
-                                                <ReactApexChart options={chartOption} series={series} type="pie"/>
-                                        </Chart>
-                                        <Detail>
-                                            {selectPie.map((v,i)=>{
-                                                return(
-                                                    <p>{v.material_name}</p>
-                                                )
-                                            })}
-                                        </Detail>
-                                    </div>
-                                </LineTable>
-                                :
-                                null
-                        }
+            {
+                selectPk !== null ?
+                    <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
+                        <div style={{display:'flex',flexDirection: 'row'}}>
+                            <Chart>
+                                <ReactApexChart options={chartOption} series={series} type="pie"/>
+                            </Chart>
+                            <Detail>
+                                {selectPie && <table style={{width: "100%"}}>
+                                    <tr>
+                                        <td>제품명</td>
+                                        <td>{selectPie.material_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>전체 생산품</td>
+                                        <td>{selectPie.production} ea</td>
+                                    </tr>
+                                    <tr>
+                                        <td>불량 개수</td>
+                                        <td>{selectPie.amount} ea</td>
+                                    </tr>
+                                    <tr>
+                                        <td>불량률</td>
+                                        <td>{selectPie.percentage}</td>
+                                    </tr>
+                                </table>}
+                            </Detail>
+                        </div>
+                    </LineTable>
+                    :
+                    null
+            }
         </OvertonTable>
     );
 }
-
 
 const Chart = styled.div`
     width: 40%;
@@ -290,7 +309,6 @@ const Detail = styled.div`
     width: 40%;
     height: 20%;
     marginLeft: 20px;
-    background-color: red;
     margin: 0;
     padding: 0;
     clear: both;

@@ -3,12 +3,13 @@ import Styled from 'styled-components'
 
 interface Props {
     title: string
+    width?: number | string
     children?: any
 }
 
-const LoadtoneBox = ({title,children}:Props) => {
+const LoadtoneBox = ({title,children, width}:Props) => {
     return(
-       <TopBlackBox>
+       <TopBlackBox style={{width: width? width: '350px'}}>
            <TopBox>
                 <p style={{marginTop: 3}}>{title}</p>
            </TopBox>

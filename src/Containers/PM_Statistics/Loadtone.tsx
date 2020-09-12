@@ -218,7 +218,7 @@ const LoadtoneContiner = () => {
             </ChartListBox>
             <div style={{display:"flex",justifyContent:"space-between"}}>
                 <div style={{marginLeft: 20}}>
-                    <LoadtoneBox title={'로드톤'}>
+                    <LoadtoneBox title={'로드톤'} width={690}>
                         <div style={{paddingTop: 25, paddingBottom: 27, marginLeft: 180}}>
                             <BottomBox>
                                 <div>
