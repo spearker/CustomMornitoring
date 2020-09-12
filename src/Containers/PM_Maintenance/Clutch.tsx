@@ -42,21 +42,15 @@ const ClutchMaintenanceContainer = () => {
 
     },[postData])
 
-    useEffect(() => {
-
-    }, [])
 
     useEffect(() => {
-        if(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) {
-            getData()
-        }
-    }, [postData])
-
-
-    useEffect(() => {
-        console.log(selectComponent)
         setPostData({...postData,pk: selectComponent})
     }, [selectComponent])
+
+    useEffect(()=>{
+        getData()
+    },[postData.pk])
+
 
     return (
         <div>
@@ -74,12 +68,19 @@ const ClutchMaintenanceContainer = () => {
                     <Input placeholder="교체 요망의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, danger_to: e.target.value})}/>
                 </div>
             </div>
-            <MapBoard
-                type={1}//0: 모니터링 1:통계/분석
-                url={URLS_MAP.press.statics}
-                select={selectComponent} //pk
-                onChangeEvent={setSelectComponent}
-            />
+            { (postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) ?
+                <MapBoard
+                    type={1}//0: 모니터링 1:통계/분석
+                    url={URLS_MAP.press.statics}
+                    select={selectComponent} //pk
+                    onChangeEvent={setSelectComponent}
+                /> :
+                <MapBoard
+                    type={1}//0: 모니터링 1:통계/분석
+                    url={URLS_MAP.press.statics}
+                    select={selectComponent} //pk
+                />
+            }
             {
                 selectComponent ? data
                     ? <DetailBox>

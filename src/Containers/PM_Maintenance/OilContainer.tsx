@@ -188,7 +188,8 @@ const ranges = [
 
 const OilMaintenanceContainer = () => {
 
-  const dummyData: { ampere: number, temperature: string, machine_name:string, pk: string, x_time: string[], y_pressure: number[] }= {
+  const dummyData: { pressure_average:number, ampere: number, temperature: string, machine_name:string, pk: string, x_time: string[], y_pressure: number[] }= {
+    pressure_average: 0,
     ampere: 0,
     temperature: "",
     machine_name: "",
@@ -199,18 +200,17 @@ const OilMaintenanceContainer = () => {
 
   const [data, setData] = React.useState(dummyData)
   const [pressData,setPressData] = React.useState<[{
-    machine_name: "제스텍 프레스 컨트롤러",
-  pk: "v1_SIZL_machine_1_null_1",
-  tons: 200}]>([{
+    machine_name: string,
+  pk: string,
+  tons: number}]>([{
     machine_name: "제스텍 프레스 컨트롤러",
     pk: "v1_SIZL_machine_1_null_1",
     tons: 200
   }])
-  const [selectedMachine, setSelectedMachine] = useState<any>('');
   const TODAY_START = new Date(moment().format('YYYY-MM-DD 00:00:00')).getTime();
   const TODAY_END = new Date(moment().format('YYYY-MM-DD 24:00:00')).getTime();
 
-  const [selectComponent, setSelectComponent] = useState<string>('4EP99L_factory0');
+  const [selectComponent, setSelectComponent] = useState<string>('');
   const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
   const dataSource = {
@@ -245,7 +245,7 @@ const OilMaintenanceContainer = () => {
     dials: {
       dial: [
         {
-          value: selectedMachine !== '' ? selectedMachine.pressure : "0"
+          value: pressData[0].pk !== '' ? data.pressure_average : "0"
         }
       ]
     }
@@ -274,8 +274,7 @@ const OilMaintenanceContainer = () => {
   },[])
 
   const getData = useCallback(async ()=>{
-
-    const tempUrl = `${URLS_PRE['oil'].load}?pk=${pressData[0].pk}&${selectDate}}`
+    const tempUrl = `${URLS_PRE['oil'].load}?pk=${pressData[0].pk}&date=${selectDate}`
     const resultData = await getOilData(tempUrl);
     console.log("resultData", resultData)
     // if(index === '1'){
@@ -297,7 +296,7 @@ const OilMaintenanceContainer = () => {
     <div>
       <div style={{position:'relative', textAlign:'left'}}>
         <div style={{display:'inline-block', textAlign:'left',marginBottom: "15px" ,marginTop: "41px"}}>
-          <p className="p-bold" style={{fontSize: 20 }}>오일 펌프 보전 관리</p>
+          <p className="p-bold" style={{fontSize: 20 }}>오일 교환 및 보충</p>
         </div>
       </div>
         <MapBoard
@@ -338,7 +337,7 @@ const OilMaintenanceContainer = () => {
                       <div>
                         <UnderBarText>현재압력</UnderBarText>
                         <BigDataText style={{textAlign:'right', float:'right'}}>
-                          {selectedMachine.pressure}<span>pa</span>
+                          {data.pressure_average}<span>pa</span>
                         </BigDataText>
                         <CharBox>
                           <ReactFC {...chartConfigs} />
@@ -351,7 +350,7 @@ const OilMaintenanceContainer = () => {
                     <div>
                       <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
                         <div style={{alignSelf:"center"}}>
-                          <p>온도별 오일 펌프 기준 압력</p>
+                          <p>일별 오일 펌프 기준 압력</p>
                         </div>
                         <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
                       </div>

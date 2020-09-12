@@ -210,25 +210,51 @@ const DefectiveContainer = () => {
 
 
     return (
-        <div style={{display: "flex", flexDirection: "row"}}>
-            <div style={{marginRight: 40}}>
-                <HalfTalbe
-                    title={'프레스 불량률'}
-                    indexList={index}
-                    valueList={list}
-                    clickValue={selectValue}
-                    mainOnClickEvent={onClick}
-                    noChildren={true}>
-                </HalfTalbe>
-            </div>
-            <HalfTalbe
-                indexList={index}
-                valueList={list}
-                clickValue={selectValue}
-                mainOnClickEvent={onClick}
-                noChildren={true}>
-            </HalfTalbe>
-        </div>
+        <OvertonTable
+            title={'프레스 불량률'}
+            indexList={index}
+            valueList={list}
+            clickValue={selectValue}
+            mainOnClickEvent={onClick}>
+            {
+                selectPk !== null ?
+                    <div style={{display:"flex",flexDirection:"row"}}>
+                        <div>
+                            <LineContainer>
+                                <div style={{display:"flex",flexDirection: "row",justifyContent:"space-between"}}>
+                                    <p>생산량</p>
+                                    <p>50<span>ea</span></p>
+                                </div>
+                            </LineContainer>
+                            <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
+                                <div>
+                                    <p>전체 불량률</p>
+                                    <p>5.01</p>
+                                </div>
+                                <div>
+                                    <p>전체 불량 갯수</p>
+                                    <p>50</p>
+                                </div>
+                            </CapacityContainer>
+                        </div>
+                        <GraphContainer>
+                            {
+                                <div>
+                                    <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
+                                        <div style={{alignSelf:"center"}}>
+                                            <p>공정 04 불량률</p>
+                                        </div>
+                                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                                    </div>
+                                    <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={444} width={630} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                                </div>
+                            }
+                        </GraphContainer>
+                    </div>
+                    :
+                    null
+            }
+        </OvertonTable>
     );
 }
 

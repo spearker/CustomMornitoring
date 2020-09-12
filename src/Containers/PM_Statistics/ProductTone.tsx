@@ -20,6 +20,7 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import {API_URLS, getProductData} from "../../Api/pm/statistics";
+import HalfTalbe from "../../Components/Table/HalfTable";
 
 const ChartOptionDetailLable = {
     yaxis: {
@@ -288,25 +289,23 @@ const ProductToneContainer = () => {
 
     return (
         <div>
-            <OvertonTable
-                title={'제품별 톤'}
+            <div style={{marginRight: 40}}>
+                <HalfTalbe
+                    title={'제품별 톤'}
+                    indexList={index}
+                    valueList={list}
+                    clickValue={selectValue}
+                    mainOnClickEvent={onClick}
+                    noChildren={true}>
+                </HalfTalbe>
+            </div>
+            <HalfTalbe
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}>
-                {
-                    selectPk !== null ?
-                        <LineTable title={'품목(품목명) 별 톤 그래프 보기'}>
-                            <ChartDiv>
-                                {
-                                    <ReactApexChart options={{...ChartInitOptions,...ChartOptionDetailLable,}} series={series} type={'scatter'} height={"100%"}></ReactApexChart>
-                                }
-                            </ChartDiv>
-                        </LineTable>
-                        :
-                        null
-                }
-            </OvertonTable>
+                mainOnClickEvent={onClick}
+                noChildren={true}>
+            </HalfTalbe>
         </div>
     );
 }

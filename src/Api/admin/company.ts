@@ -28,6 +28,7 @@ export const postMapDeleteData = async( url: string) =>{
     return temp;
 }
 
+
 export const API_URLS = {
     company: {
         load:`/v2/super/map/company/load`,
