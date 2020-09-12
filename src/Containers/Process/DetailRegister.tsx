@@ -12,6 +12,7 @@ import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdo
 import styled from "styled-components";
 import {API_URLS, getSearchProcess, postProcessRegister} from "../../Api/mes/process";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import {useHistory} from "react-router-dom"
 
 interface IMachineData {
     machine_name: string,
@@ -27,6 +28,8 @@ interface IDetailRegister {
 }
 
 const ProcessDetailRegisterContainer = () => {
+    const history = useHistory()
+
     const [processName, setProcessName] = useState<string>()
     const [searchData, setSearchData] = useState<string>()
 
@@ -49,6 +52,11 @@ const ProcessDetailRegisterContainer = () => {
         const tempUrl = `${API_URLS['segment'].register}`
         const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList});
         console.log(resultData)
+
+        if(resultData.status === 200){
+            history.goBack()
+        }
+
     }
 
     useEffect(() => {

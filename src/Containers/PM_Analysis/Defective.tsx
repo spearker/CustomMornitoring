@@ -191,6 +191,7 @@ const DefectiveContainer = () => {
         if(process.pk === selectPk){
             setSelectPk(null);
             setSelectValue(null);
+            setDetailList({})
         }else{
             setSelectPk(process.process_pk);
             setSelectValue(process)
@@ -207,13 +208,17 @@ const DefectiveContainer = () => {
         const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
         const res = await getDefectiveData(tempUrl)
 
+        let tmpList: number[] = []
+
         res.pies.map((v,i)=>{
             // series.push(v.percentage)
-            setSeries([...series, v.percentage])
+            tmpList.push(v.percentage)
 
             labelDatas.push(v.material_name)
             pieData.push(v)
         })
+
+        setSeries(tmpList)
 
         setDetailList(res)
 

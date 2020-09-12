@@ -262,11 +262,16 @@ interface IPressReadyTimeAnalysis{
   machine_ton: string
   analyze:{
     power_off: number
+    power_off_time: string
     runtime: number | string
+    runtime_time: string
     downtime: {
       total: number
+      total_time: string
       error : number
+      error_time : string
       qdc : number
+      qdc_time: string
     }
   }
 }
@@ -372,10 +377,11 @@ interface IProductionAdd {
   material: string,
   from: string,
   to: string,
-  procedure: string,
+  procedure?: string,
   amount: number,
   supplier: string,
-  deadline: string
+  deadline?: string
+  segment?: string
 }
 
 interface IProcessRegister {

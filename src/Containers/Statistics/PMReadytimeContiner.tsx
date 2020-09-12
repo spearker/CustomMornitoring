@@ -16,25 +16,15 @@ import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
 import {API_URLS, getAnalysisReadyTime} from "../../Api/pm/analysis";
 
-const dummyData:IPressReadyTimeAnalysis = {
-    manufacturer_code:'factory1',
-    machine_name: '프레스 01',
-    machine_ton: '1000ton',
-    analyze:{
-        power_off: 10,
-        runtime: 42,
-        downtime: {
-            total: 48,
-            error: 15,
-            qdc: 10,
-        }
-    }
-}
-
 const ChartInitOption = {
     chart: {
         width: "40%",
         type: 'pie',
+        events: {
+            click: (event, chartContext, config) => {
+                console.log(event, chartContext, config)
+            }
+        }
     },
     labels: ["가동시간", "", "", "", "비가동시간"],
     colors: [POINT_COLOR, "rgba(98, 29, 167, .7 )", '#397485', '#ff341a', 'gray'],
@@ -44,7 +34,7 @@ const ChartInitOption = {
     },
     dataLabels: {
         style: {
-          fontSize: 20,
+            fontSize: 20,
         },
         formatter(val, opts) {
             const name = opts.w.globals.labels[opts.seriesIndex]
@@ -67,11 +57,16 @@ const MachineInitData = {
     machine_ton: '',
     analyze:{
         power_off: 0,
+        power_off_time: "",
         runtime: 0,
+        runtime_time: "",
         downtime: {
             total: 0,
+            total_time: "",
             error: 0,
+            error_time: "",
             qdc: 0,
+            qdc_time: ""
         }
     }
 }
@@ -132,106 +127,117 @@ const  PMReadyTimeContainer = () => {
             />
             {
                 selectComponent ? machineData ? <TimeLineBox>
-                    <p style={{paddingLeft:20}}>{machineData.machine_name}</p>
-                <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
-                    <ReactApexChart options={chartOption} series={series} type="pie"/>
-                </div>
-                <div style={{flex: 1, float: "left", marginBottom: 10}}>
-                    <CalendarDropdown type={"single"} select={selectDate} onClickEvent={(date) => setSelectDate(date)}></CalendarDropdown>
-                    <ItemDataBox style={{marginTop: 50}}>
-                        <InnerText>
-                            <div style={{
-                                display: "inline-block",
-                                borderRadius: 8,
-                                width: 16,
-                                height: 16,
-                                backgroundColor: POINT_COLOR,
-                                float: "left",
-                                marginTop: 8,
-                                marginRight: 10,
-                            }}/>
-                            <TitleText>가동시간</TitleText>
-                            <ContentsText>{parseFloat(String(machineData.analyze.runtime)).toFixed(2)}%</ContentsText>
-                        </InnerText>
-                    </ItemDataBox>
-                    <ItemDataBox>
-                        <InnerText>
-                            <div style={{
-                                display: "inline-block",
-                                borderRadius: 8,
-                                width: 16,
-                                height: 16,
-                                backgroundColor: 'grey',
-                                float: "left",
-                                marginTop: 8,
-                                marginRight: 10,
-                            }}/>
-                            <TitleText>비가동시간</TitleText>
-                            <ContentsText>{parseFloat(String(machineData.analyze.downtime.total)).toFixed(2)}%</ContentsText>
-                        </InnerText>
-                        <div style={{paddingTop: 40, }}>
-                            <table>
-                                <tr>
-                                    <td style={{width: 150}}>
-                                        <div>
-                                            <div style={{
-                                                display: "inline-block",
-                                                borderRadius: 8,
-                                                width: 16,
-                                                height: 16,
-                                                backgroundColor: '#397485',
-                                                float: "left",
-                                                marginTop: 8,
-                                                marginRight: 10,
-                                            }}/>
-                                            <p style={{fontSize: 20, fontWeight: 'bold'}}>금형교체주기</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.qdc.toFixed(2)}%</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>
-                                            <div style={{
-                                                display: "inline-block",
-                                                borderRadius: 8,
-                                                width: 16,
-                                                height: 16,
-                                                backgroundColor: '#ff341a',
-                                                float: "left",
-                                                marginTop: 8,
-                                                marginRight: 10,
-                                            }}/>
-                                            <p style={{fontSize: 20, fontWeight: 'bold'}}>에러</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error.toFixed(2)}%</p>
-                                    </td>
-                                </tr>
-                            </table>
+                    <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <div style={{width: "49%"}}>
+                            <p style={{paddingLeft:20}}>{machineData.machine_name}</p>
                         </div>
-                    </ItemDataBox>
-                    <ItemDataBox style={{border: 0}}>
-                        <InnerText>
-                            <div style={{
-                                display: "inline-block",
-                                borderRadius: 8,
-                                width: 16,
-                                height: 16,
-                                backgroundColor: "rgba(98, 29, 167, .7 )",
-                                float: "left",
-                                marginTop: 8,
-                                marginRight: 10,
-                            }}/>
-                            <TitleText>전원 Off</TitleText>
-                            <ContentsText>{parseFloat(String(machineData.analyze.power_off)).toFixed(2)}%</ContentsText>
-                        </InnerText>
-                    </ItemDataBox>
-                </div>
-            </TimeLineBox> : <NoDataCard contents={"데이터를 불러오지 못했습니다."} height={470}/> : <NoDataCard contents={"기계를 선택해 주세요"} height={470}/>
+                        <div style={{width: "49%", marginRight: 10}}>
+                            <CalendarDropdown type={"single"} select={selectDate} onClickEvent={(date) => setSelectDate(date)}></CalendarDropdown>
+                        </div>
+                    </div>
+                    <div style={{flex: 1,width: "40%", marginLeft: 20, float: "left"}}>
+                        <ReactApexChart options={chartOption} series={series} type="pie"/>
+                    </div>
+                    <div style={{flex: 1, float: "left", marginBottom: 10}}>
+                        <ItemDataBox>
+                            <InnerText>
+                                <div style={{
+                                    display: "inline-block",
+                                    borderRadius: 8,
+                                    width: 16,
+                                    height: 16,
+                                    backgroundColor: POINT_COLOR,
+                                    float: "left",
+                                    marginTop: 8,
+                                    marginRight: 10,
+                                }}/>
+                                <TitleText>가동시간</TitleText>
+                                <ContentsText>{parseFloat(String(machineData.analyze.runtime)).toFixed(2)}%</ContentsText>
+                                <ContentsTime>{machineData.analyze.runtime_time}</ContentsTime>
+                            </InnerText>
+                        </ItemDataBox>
+                        <ItemDataBox>
+                            <InnerText>
+                                <div style={{
+                                    display: "inline-block",
+                                    borderRadius: 8,
+                                    width: 16,
+                                    height: 16,
+                                    backgroundColor: 'grey',
+                                    float: "left",
+                                    marginTop: 8,
+                                    marginRight: 10,
+                                }}/>
+                                <TitleText>비가동시간</TitleText>
+                                <ContentsText>{parseFloat(String(machineData.analyze.downtime.total)).toFixed(2)}%</ContentsText>
+                                <ContentsTime>{machineData.analyze.downtime.total_time}</ContentsTime>
+                            </InnerText>
+                            <div style={{paddingTop: 20, }}>
+                                <table style={{height: "100%"}}>
+                                    <tr>
+                                        <td style={{width: 150}}>
+                                            <div>
+                                                <div style={{
+                                                    display: "inline-block",
+                                                    borderRadius: 8,
+                                                    width: 16,
+                                                    height: 16,
+                                                    backgroundColor: '#397485',
+                                                    float: "left",
+                                                    marginTop: 8,
+                                                    marginRight: 10,
+                                                }}/>
+                                                <p style={{fontSize: 20, fontWeight: 'bold'}}>금형교체주기</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.qdc.toFixed(2)}%</p>
+                                        </td>
+                                    </tr>
+                                    <tr><td colSpan={2}>{machineData.analyze.downtime.qdc_time}</td></tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div style={{
+                                                    display: "inline-block",
+                                                    borderRadius: 8,
+                                                    width: 16,
+                                                    height: 16,
+                                                    backgroundColor: '#ff341a',
+                                                    float: "left",
+                                                    marginTop: 8,
+                                                    marginRight: 10,
+                                                }}/>
+                                                <p style={{fontSize: 20, fontWeight: 'bold'}}>에러</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p style={{fontSize: 20, fontWeight: 'bold'}}>{machineData.analyze.downtime.error.toFixed(2)}%</p>
+                                        </td>
+                                    </tr>
+                                    <tr><td colSpan={2}>{machineData.analyze.downtime.error_time}</td></tr>
+                                </table>
+                            </div>
+                        </ItemDataBox>
+                        <ItemDataBox style={{border: 0}}>
+                            <InnerText>
+                                <div style={{
+                                    display: "inline-block",
+                                    borderRadius: 8,
+                                    width: 16,
+                                    height: 16,
+                                    backgroundColor: "rgba(98, 29, 167, .7 )",
+                                    float: "left",
+                                    marginTop: 8,
+                                    marginRight: 10,
+                                }}/>
+                                <TitleText>전원 Off</TitleText>
+                                <ContentsText>{parseFloat(String(machineData.analyze.power_off)).toFixed(2)}%</ContentsText>
+                                <ContentsTime>{machineData.analyze.power_off_time}</ContentsTime>
+                            </InnerText>
+                        </ItemDataBox>
+                    </div>
+                </TimeLineBox> : <NoDataCard contents={"데이터를 불러오지 못했습니다."} height={470}/> : <NoDataCard contents={"기계를 선택해 주세요"} height={470}/>
 
             }
         </div>
@@ -263,15 +269,22 @@ const TitleText = Styled.p`
 `
 
 const ContentsText = Styled.p`
-    font-size: 60px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+`
+
+const ContentsTime = Styled.p`
+    margin-left: 5px;
+    font-size: 20px;
     font-weight: bold;
 `
 
 const InnerText = Styled.div`
     float: left;
     width: 220px;
+    height: 100px;
     display: inline-block;
-    margin-top: 10px;
 `
 
 const TimeLineBox = Styled.div`
@@ -289,7 +302,7 @@ const TimeLineBox = Styled.div`
 
 const ItemDataBox = Styled.div`
     width: 500px;
-    height: 140px;
+    height: 160px;
     margin-left: 100px;
     border-bottom: 0.5px solid #707070;
 

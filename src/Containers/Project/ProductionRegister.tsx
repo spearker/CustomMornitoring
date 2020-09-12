@@ -10,6 +10,8 @@ import {API_URLS, postProductionRegister} from "../../Api/mes/production";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import CustomerPickerModal from "../../Components/Modal/CustomerPickerModal";
+import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
+import { useHistory } from 'react-router-dom';
 
 const typeDummy = [
     '수주 처리',
@@ -29,12 +31,16 @@ const listDummy = [
 ]
 
 const ProductionRegisterContainer = () => {
+    const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
     const [selectType, setSelectType] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory?: { name?: string, pk?: string }, production?: { name?: string, pk?: string }}>({
+    const [modalSelect, setModalSelect] = useState<{factory?: { name?: string, pk?: string }, production?: { name?: string, pk?: string },
+        segment?: { name?: string, pk?: string }
+    }>({
         factory: {},
-        production: {}
+        production: {},
+        segment: {}
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
@@ -48,10 +54,9 @@ const ProductionRegisterContainer = () => {
         material: '',
         from: '',
         to: '',
-        procedure: '',
         amount: 0,
         supplier: '',
-        deadline: ''
+        segment: ''
     })
 
     const postChitRegisterData = useCallback(async () => {
@@ -66,17 +71,21 @@ const ProductionRegisterContainer = () => {
         }
 
         const resultData = await postProductionRegister(tempUrl, {
-            type,
+            type: type,
             manager: chitData.manager,
             material: modalSelect.production?.pk,
             from: selectDateRange.start,
             to: selectDateRange.end,
             amount:chitData.amount,
-            supplier: modalSelect.factory?.pk
+            supplier: modalSelect.factory?.pk,
+            segment: modalSelect.segment?.pk
         });
 
         console.log(resultData)
-    }, [chitData])
+        if(resultData.status === 200) {
+            history.goBack()
+        }
+    }, [chitData, modalSelect])
 
     useEffect(() => {
         console.log(modalSelect)
@@ -101,7 +110,7 @@ const ProductionRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 계획자</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, manager: e})}/></td>
+                            <td><Input placeholder="입력해 주세요." onChange={(e) => setChitData({...chitData, manager: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
@@ -136,7 +145,7 @@ const ProductionRegisterContainer = () => {
                         {/*</tr>*/}
                         <tr>
                             <td>• 총 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChangeText={(e:number) => setChitData({...chitData, amount: e})}/></td>
+                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChange={(e) => setChitData({...chitData, amount: Number(e.target.value)})}/></td>
                         </tr>
                         <tr>
                             <td>• 납품 업체</td>
@@ -145,6 +154,17 @@ const ProductionRegisterContainer = () => {
                                                        onClickEvent={(e) => {
                                                            setModalSelect({...modalSelect, factory: e })
                                                        }} text={"거래처를 검색해주세요."}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 공정명</td>
+                            <td>
+                                <ProcessPickerModal select={modalSelect.segment}
+                                    onClickEvent={(e) => {
+                                        console.log(e)
+                                        setModalSelect({...modalSelect, segment: e })
+                                    }}
+                                    text={"공정명을 검색해 주세요"} />
                             </td>
                         </tr>
                         {/*<tr>*/}

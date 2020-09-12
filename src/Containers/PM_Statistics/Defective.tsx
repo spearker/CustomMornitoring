@@ -114,65 +114,24 @@ const DefectiveContainer = () => {
         max_count: 0,
         current_count: 0,
     });
-    const [index, setIndex] = useState({ product_name: '품목(품목명)' });
+    const [index, setIndex] = useState({ material_name: '품목(품목명)' });
+    const [labels, setLabels] = useState([]);
+    const [series, setSeries] = useState([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
-    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+    const [selectDate, setSelectDate] = useState({
+        start: moment().subtract(2, 'days').format("YYYY-MM-DD"),
+        end: moment().subtract(1, "days").format("YYYY-MM-DD")
+    })
 
     const indexList = {
         defective: {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '작업기간',
+            material_name: '품목(품목명)',
+            checker: '검수자명',
+            date: '불량 검수'
         }
     }
-
-    const dummy = [
-        {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형 01',
-            worker: '김작업',
-            work_registered: '2020.0707~2020.0909',
-        },
-        {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
-        },
-        {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
-        },
-        {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
-        },
-        {
-            product_name: '품목(품목명)',
-            factory_name: '공정명',
-            segmentation_factory: '세분화 공정',
-            mold_name: '금형명',
-            worker: '작업자',
-            work_registered: '2020.0707~2020.0909',
-        },
-    ]
 
     const detaildummy = [
         {
@@ -183,7 +142,7 @@ const DefectiveContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
+        console.log('dsfewfewf',mold);
         if(mold.pk === selectPk){
             setSelectPk(null);
             setSelectMold(null);
@@ -193,21 +152,33 @@ const DefectiveContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+
         }
 
 
 
     }, [list, selectPk]);
 
+    useEffect(() => {
+        console.log(selectValue, selectDate)
+        if(selectValue){
+            getData(selectValue.material_pk)
+        }
+    }, [selectDate, selectValue])
+
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
+        const tempUrl = `${API_URLS['defective'].load}?pk=${pk}&from=${selectDate.start}&to=${selectDate.end}`
         const res = await getDefectiveData(tempUrl)
+
+        console.log(res)
 
         setDetailList(res)
 
-    },[detailList])
+        setLabels(res.dates)
+        setSeries(res.amounts)
+
+    },[detailList, selectValue, selectDate])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -219,13 +190,16 @@ const DefectiveContainer = () => {
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["defective"])
-        setList(dummy)
         setDetailList(detaildummy)
     },[])
 
     const WidthPercent = detaildummy[0].current_count/detaildummy[0].max_count*100
+
+    useEffect(() => {
+        console.log(series, labels)
+    }, [selectValue, selectDate])
 
 
     return (
@@ -242,17 +216,17 @@ const DefectiveContainer = () => {
                             <LineContainer>
                                 <div style={{display:"flex",flexDirection: "row",justifyContent:"space-between"}}>
                                     <p>생산량</p>
-                                    <p>50<span>ea</span></p>
+                                    <p>{detailList.total_production}<span>ea</span></p>
                                 </div>
                             </LineContainer>
                             <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
                                 <div>
                                     <p>전체 불량률</p>
-                                    <p>5.01</p>
+                                    <p>{detailList.defect_percentage}%</p>
                                 </div>
                                 <div>
                                     <p>전체 불량 갯수</p>
-                                    <p>50</p>
+                                    <p>{detailList.defect_amount}ea</p>
                                 </div>
                             </CapacityContainer>
                         </div>
@@ -265,7 +239,8 @@ const DefectiveContainer = () => {
                                         </div>
                                         <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
                                     </div>
-                                    <ReactApexChart options={{...chartOption, labels: [' ', ...data.insert_oil_time.Xaxis,'(일/day)']}} type={'area'} height={444} width={630} series={[{name: "data", data:data.insert_oil_time.Yaxis}]}/>
+                                    <ReactApexChart options={{...chartOption, labels: [' ', ...labels,'(일/day)']}} type={'area'} height={444} width={630}
+                                                    series={[{name: "data", data:series}]}/>
                                 </div>
                             }
                         </GraphContainer>

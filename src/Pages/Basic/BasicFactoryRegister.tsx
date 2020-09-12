@@ -106,7 +106,7 @@ const BasicFactoryRegister = () => {
     }else{
       if(res.status === 200){
           alert('성공적으로 수정 되었습니다');
-          history.push('/basic/list/factory')
+          history.goBack()
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
@@ -136,7 +136,7 @@ const BasicFactoryRegister = () => {
     }else{
       if(res.status === 200){
           alert('성공적으로 등록 되었습니다');
-          history.push('/basic/list/factory')
+          history.goBack()
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
