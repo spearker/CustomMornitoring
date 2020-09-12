@@ -6,6 +6,7 @@ import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getAbilityList} from "../../Api/pm/statistics";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const chartOption = {
     chart: {
@@ -148,7 +149,9 @@ const AbilityContainer = () => {
     },[data, selectComponent, selectDate])
 
     useEffect(() => {
-        getData()
+        if(selectComponent){
+            getData()
+        }
     }, [selectComponent, selectDate])
 
     // useEffect(() => {
@@ -176,19 +179,25 @@ const AbilityContainer = () => {
                 select={selectComponent} //pk
                 onChangeEvent={setSelectComponent}
             />
-            <BlackContainer>
-                <div>
-                    <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
-                        <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 01</p>
-                    </div>
-                    <div style={{marginRight: 30, paddingTop: 25, }}>
-                        <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
-                    </div>
-                </div>
-                <div style={{marginTop: 30}}>
-                    <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
-                </div>
-            </BlackContainer>
+            {
+                selectComponent ? series
+                    ? <BlackContainer>
+                        <div>
+                            <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
+                                <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 01</p>
+                            </div>
+                            <div style={{marginRight: 30, paddingTop: 25, }}>
+                                <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                            </div>
+                        </div>
+                        <div style={{marginTop: 30}}>
+                            <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
+                        </div>
+                    </BlackContainer>
+                    : <NoDataCard contents={'데이터를 불러오지 못했습니다.'} height={504}/>
+                    : <NoDataCard contents={'프레스를 선택해주세요'} height={504}/>
+            }
+
         </div>
     );
 }

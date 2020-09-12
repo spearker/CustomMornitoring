@@ -126,7 +126,7 @@ const MachineInitData: IPressLoadTonSatistics[] = []
 const LoadtoneContiner = () => {
     const [series, setSeries] = useState<{ name: string, data: number[][] }[]>([])
 
-    const [selectMachine, setSelectMachine] = useState<string>('프레스 01')
+    const [selectMachine, setSelectMachine] = useState<string>()
 
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
 
