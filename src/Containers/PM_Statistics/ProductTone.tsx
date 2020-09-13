@@ -146,8 +146,8 @@ const ProductToneContainer = () => {
     // }
 
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>([]);
-    const [detailTonList, setDetailTonList] = useState([]);
+    const [detailList,setDetailList] = useState<any[]>([]);
+    const [detailTonList, setDetailTonList] = useState<any[]>([]);
     const [index, setIndex] = useState({product_name:'품목'});
     const [subIndex, setSubIndex] = useState({low: '최저'});
     const [sub2Index, setSub2Index] = useState({ ton: "톤"});
@@ -244,6 +244,7 @@ const ProductToneContainer = () => {
     //     }
     // ]
 
+
     const onClick = useCallback((product) => {
         console.log('dsfewfewf',product.pk,product.mold_name);
         if(product.pk === selectPk){
@@ -297,6 +298,12 @@ const ProductToneContainer = () => {
         console.log(machinPk)
         getList(machinPk)
     },[machinPk])
+
+    useEffect(()=>{
+        setDetailList([])
+        setDetailTonList([])
+    },[selectValue])
+
 
     return (
         <div>

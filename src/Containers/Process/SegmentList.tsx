@@ -127,7 +127,7 @@ const SegmentListContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
@@ -137,6 +137,15 @@ const SegmentListContainer = () => {
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
         const tempUrl = `${API_URLS['segment'].load}?pk=${pk}`
+        const res = await getSegmentList(tempUrl)
+
+        setDetailList(res)
+
+    },[detailList])
+
+    const getDelete = useCallback( async()=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['segment'].delete}`
         const res = await getSegmentList(tempUrl)
 
         setDetailList(res)
@@ -157,7 +166,7 @@ const SegmentListContainer = () => {
         setIndex(indexList["segment"])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
-        setDetailList(detaildummy)
+        // setDetailList(detaildummy)
         setSubIndex(detailTitle['segment'])
     },[])
 

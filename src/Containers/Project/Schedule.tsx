@@ -17,7 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getProjectList } from "../../Api/mes/production";
 import FactoryBox from "../../Components/Box/FactoryBox";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
@@ -169,8 +169,8 @@ const ScheduleContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['production'].load}?pk=${pk}`
+        const res = await getProjectList(tempUrl)
 
         setDetailList(res)
 
@@ -178,17 +178,17 @@ const ScheduleContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['production'].list}?from=${'2020-08-01'}&to=${'2020-09-13'}&page=${1}`
+        const res = await getProjectList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["schedule"])
-        setList(dummy)
+        // setList(dummy)
         setTitleEventList(titleeventdummy)
         setDetailTitleEventList(detailTitleEvent)
         setDetailList(detaildummy)
@@ -210,6 +210,10 @@ const ScheduleContainer = () => {
                 {
                     selectPk !== null ?
                     <LineTable title={'대한민국_품목 01'}  titleOnClickEvent={detailTitleEventList}>
+                        <VoucherDropdown pk={'123'} name={'dsf'} clickValue={'123'}>
+                            <Line/>
+                            <FactoryBox title={'공정 A'}/>
+                        </VoucherDropdown>
                         <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
                             <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList} >
                                 <Line/>

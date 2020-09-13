@@ -207,7 +207,7 @@ const MapEditorContiner = ({ match }: Props) => {
                   size={inputData.component_size} />
           }
         </div>
-        <div>
+        <div style={{display: "flex", flexDirection: "row"}}>
           {
             componentList.map((v, i)=>
                       <Slider value={v.bottom}
@@ -217,7 +217,8 @@ const MapEditorContiner = ({ match }: Props) => {
                           const temp = [...componentList];
                           temp[i].bottom = v;
                           setComponentList(temp)
-                        }}/>)
+                        }}/>
+            )
           }
         </div>
       </div>
@@ -225,16 +226,16 @@ const MapEditorContiner = ({ match }: Props) => {
         {
           componentList.map((v, i)=>{
             return(
-                <div key={`compo-${i}`} style={{width: inputData.map_width, marginLeft: 18}}>
-                  <p>{v.pk}</p>
-                  <Slider value={v.left}
-                         onChange={(e: any, v: any) => {
-                           console.log(v)
-                           const temp = [...componentList];
-                           temp[i].left = v;
-                           setComponentList(temp)
-                         }}></Slider>
-                </div>
+                  <div key={`compo-${i}`} style={{width: inputData.map_width, marginLeft: 18}}>
+                    <p>{v.pk}</p>
+                    <Slider value={v.left}
+                           onChange={(e: any, v: any) => {
+                             console.log(v)
+                             const temp = [...componentList];
+                             temp[i].left = v;
+                             setComponentList(temp)
+                           }}/>
+                  </div>
             )
           })
         }

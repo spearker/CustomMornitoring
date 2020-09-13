@@ -255,7 +255,6 @@ const DefectiveContainer = () => {
         setSelectPie(undefined)
     },[selectValue])
 
-
     return (
         <OvertonTable
             title={'불량 공정'}

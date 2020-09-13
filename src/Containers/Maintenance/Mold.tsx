@@ -99,7 +99,7 @@ const MoldMaintenanceContainer = () => {
                       <CountingNum>
                         {[0,1,2,3,4,5].map((v, i)=>{
 
-                          const value = (detailList.max_count/5)
+                          const value = v*=(detailList.max_count/5)
                           return(
                               <span>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                           )

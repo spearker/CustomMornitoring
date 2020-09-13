@@ -45,11 +45,10 @@ const ClutchMaintenanceContainer = () => {
 
     },[postData])
 
-
-
     useEffect(() => {
         setPostData({...postData,pk: selectComponent})
     }, [selectComponent])
+
 
     useEffect(()=>{
         if(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) {
@@ -57,6 +56,9 @@ const ClutchMaintenanceContainer = () => {
         }
     },[postData.pk])
 
+    useEffect(()=>{
+        getData()
+    },[postData.pk])
 
 
     return (

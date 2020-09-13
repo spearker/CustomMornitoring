@@ -30,6 +30,22 @@ export const getSegmentList = async( url: string) =>{
     return temp.results;
 }
 
+/**
+ * getSegmentList()
+ * 세분화 리스트 정보 불러오기
+ * @param {string} url 링크 주소
+ * @param object
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const postSegmentList = async( url: string, object: object) =>{
+    const temp: IServerData = await client.post(url,object);
+    console.log(temp.results);
+    return temp.results;
+}
+
+
 
 /**
  * postProcessRegister()
@@ -83,6 +99,7 @@ export const API_URLS = {
     },
     segment:{
         register: `/v1/process/segment/register`,
+        delete: `delete`,
         list: '/v1/process/segment/list',
         load: '/v1/process/segment/load'
     },

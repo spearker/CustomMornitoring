@@ -2,6 +2,20 @@ import client from '../configs/basic';
 import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
+
+/**
+ * getProjectList()
+ * 생산 계획 관리 리스트/ 생산 계획 리스트 불러오기
+ * @param {string} url 링크 주소기
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 정민
+ */
+export const getProjectList = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    return temp.results
+}
+
+
 /**
  * postChitRegister()
  * 전표 생성하기
@@ -52,7 +66,10 @@ export const API_URLS = {
     production: {
         add: `/v1/project/add`,
         register: `/v1/project/register`,
-        delete: `/v1/project/delete`
+        delete: `/v1/project/delete`,
+        list: `/v1/project/list`,
+        load: `/v1/project/load`,
+        history: `/v1/project/history`
     },
     material: {
         search: `/v1/material/search`

@@ -117,10 +117,9 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                         )
                     })
                 }
-                { console.log('wefw',valueList)}
             </TitleBar>
             {
-                valueList !== undefined && valueList.length === 0
+                valueList !==  null &&  valueList.length  === 0
                     ? (<ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></ValueBar>)
                     : valueList?.map((v, i) => {
                         /*

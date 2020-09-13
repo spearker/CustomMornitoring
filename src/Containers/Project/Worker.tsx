@@ -17,7 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getProjectList,} from "../../Api/mes/production";
 
 
 
@@ -111,32 +111,22 @@ const WorkerContainer = () => {
             // getData(mold.pk)
         }
 
-
-
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['production'].list}?from=${'2020-08-31'}&to=${'2020-09-10'}&page=${1}`
+        const res = await getProjectList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["worker"])
-        setList(dummy)
+        // setList(dummy)
         setDetailList(detaildummy)
     },[])
 
