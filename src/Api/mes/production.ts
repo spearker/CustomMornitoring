@@ -69,7 +69,8 @@ export const API_URLS = {
         delete: `/v1/project/delete`,
         list: `/v1/project/list`,
         load: `/v1/project/load`,
-        history: `/v1/project/history`
+        history: `/v1/project/history`,
+        search: `/v1/project/search`
     },
     material: {
         search: `/v1/material/search`

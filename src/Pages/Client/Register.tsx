@@ -29,6 +29,7 @@ import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 import RadioInput from '../../Components/Input/RadioInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import {useHistory} from 'react-router-dom'
 
 
 
@@ -36,7 +37,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const ClientRegister = () => {
-
+  const history = useHistory()
   const [pk, setPk] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [no, setNo] = useState<number>();
@@ -196,6 +197,7 @@ const ClientRegister = () => {
       if(res.status === 200){
           alert('성공적으로 수정 되었습니다')
           setIsUpdate(false)
+          history.goBack()
       }else{
         alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }

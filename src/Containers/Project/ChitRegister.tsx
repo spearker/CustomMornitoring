@@ -13,6 +13,8 @@ import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, postChitRegister} from "../../Api/mes/production";
 import ReactShadowScroll from 'react-shadow-scroll';
+import ProjectPlanPickerModal from "../../Components/Modal/ProjectPlanPickerModal";
+import {Simulate} from "react-dom/test-utils";
 
 const factoryDummy = [
     '더미 업체 1',
@@ -34,9 +36,8 @@ const listDummy = [
 const ChitRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
-        factory: undefined,
-        production: undefined
+    const [modalSelect, setModalSelect] = useState<{production: {pk: string, manager: string, material_name: string, supplier_name: string}}>({
+        production: {manager: '', material_name: '', supplier_name: '', pk: ''}
     })
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
         start: moment().format("YYYY-MM-DD"),
@@ -51,8 +52,14 @@ const ChitRegisterContainer = () => {
     })
 
     const postChitRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['chit'].load}`
-        const resultData = await postChitRegister(tempUrl, chitData);
+        const tempUrl = `${API_URLS['chit'].register}`
+        const resultData = await postChitRegister(tempUrl, {
+            project_pk: modalSelect.production.pk,
+            registerer: chitData.registerer,
+            deadline: selectDate,
+            goal: chitData.goal
+
+        });
     }, [chitData])
 
     return (
@@ -70,24 +77,14 @@ const ChitRegisterContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 등록자</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, registerer: e})}/></td>
+                            <td><Input placeholder="입력해 주세요." onChange={(e) => setChitData({...chitData, registerer: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 생산계획</td>
-                            <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row'}}>
-                                    <div style={{ flex: 95}}>
-                                        <Input style={{width: "100%"}} placeholder="생산 계획을 선택해 주세요." />
-                                    </div>
-                                    <div style={{flex: 5}} onClick={()=> {
-                                        setOpen(true)
-                                    }}>
-                                        <IcButton customStyle={{width: 32, height: 32}} image={searchImage} dim={true} onClickEvent={() => {
-                                            setOpen(true)
-                                        }}/>
-                                    </div>
-                                </div>
-                            </td>
+                            <td><ProjectPlanPickerModal select={modalSelect.production} text={'생산계획을 검색해주세요.'} onClickEvent={(e) => setModalSelect({
+                                ...modalSelect,
+                                production: e
+                            })}/></td>
                         </tr>
                         <tr>
                             <td>• 납기일</td>
@@ -105,19 +102,15 @@ const ChitRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><Input disabled placeholder="Read only" /></td>
+                            <td><Input disabled placeholder="Read only" value={modalSelect.production.material_name}/></td>
                         </tr>
                         <tr>
                             <td>• 납품 업체</td>
-                            <td><Input disabled placeholder="Read only" /></td>
-                        </tr>
-                        <tr>
-                            <td>• 남은 수량</td>
-                            <td><Input disabled placeholder="Read only" /></td>
+                            <td><Input disabled placeholder="Read only" value={modalSelect.production.supplier_name}/></td>
                         </tr>
                         <tr>
                             <td>• 생산 할 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChangeText={(e:Number) => setChitData({...chitData, goal: e})}/></td>
+                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChange={(e) => setChitData({...chitData, goal: Number(e.target.value)})}/></td>
                         </tr>
                     </table>
                 </div>
@@ -131,104 +124,6 @@ const ChitRegisterContainer = () => {
                     </ButtonWrap>
                 </div>
             </ContainerMain>
-            <Modal
-                isOpen={open}
-                // onAfterOpen={afterOpenModal}
-                // onRequestClose={closeModal}
-                style={{
-                    content : {
-                        top                   : '50%',
-                        left                  : '50%',
-                        right                 : 'auto',
-                        bottom                : 'auto',
-                        marginRight           : '-50%',
-                        transform             : 'translate(-50%, -50%)'
-                    },
-                    overlay:{
-                        background: 'rgba(0,0,0,.6)'
-                    }
-                }}
-                contentLabel="Example Modal"
-            >
-                <div style={{width: 410, height: 463, justifyContent: 'space-between'}}>
-                    <div style={{ flexDirection: 'row', display: 'flex', width: "100%"}}>
-                        <div style={{flex: 1, width: "85%"}}>
-                            <span style={{fontSize: 22, fontWeight: 'bold'}}>생산 계획</span>
-                        </div>
-                        <img src={xIcon} style={{ width: 18, height: 18, marginTop: 10}} onClick={() => {
-                            setOpen(false)
-                        }}/>
-                    </div>
-                    <div>
-                        <p style={{fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 생산 계획 일정</p>
-                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 18, marginRight: 10}}>
-                            <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => setSelectDateRange({
-                                ...selectDateRange,
-                                start,
-                                end: end? end : selectDateRange.end
-                            })} text={'날짜 선택'} type={'range'} zIndex={100}/>
-                        </div>
-                        <div>
-                            <ModalDropdown select={modalSelect.factory} onClickEvent={(v) => setModalSelect({...modalSelect, factory: v})} contents={factoryDummy} text={'납품 업체 선택'}/>
-                            <ModalDropdown select={modalSelect.production} onClickEvent={(v) => setModalSelect({...modalSelect, production: v})} contents={productionDummy} text={'품목 선택'}/>
-                        </div>
-                        <div style={{width: "100%", height: 130, marginLeft: 10, marginTop: 10}} >
-                            <ReactShadowScroll style={{height: 100}}>
-                            {
-                                listDummy.map((v, i) => {
-                                    return(
-                                        <div style={{border: '0.5px solid #b3b3b3', width: 390, display: 'flex'}}>
-                                            <div style={{width: "93%", display: 'inline-block' }}>
-                                                <span style={{textAlign: 'left', fontSize: 15, margin: 0}}>&nbsp; {v.factory}</span>
-                                            </div>
-                                            <div style={{width: "7%", display: 'inline-block', height: 28, backgroundColor: POINT_COLOR}}>
-                                                {/*아이콘 넣어야 함*/}
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                            </ReactShadowScroll>
-                        </div>
-                        <div>
-                            <table style={{width: "100%"}}>
-                                <tr style={{borderBottom: 30, borderBottomColor: '#707070', borderBottomWidth: 2}}>
-                                    <th style={{color: '#19b9df'}}>납품업체</th>
-                                    <th>품목</th>
-                                    <th>계획 일정</th>
-                                </tr>
-                                {
-                                    listDummy.map((v,i) => {
-                                        return(<tr>
-                                            <td>
-                                                <span>{v.factory}</span>
-                                            </td>
-                                            <td>
-                                                <span>{v.production}</span>
-                                            </td>
-                                            <td>
-                                                <span>{v.planDate.start}~{v.planDate.end}</span>
-                                            </td>
-                                        </tr>)
-                                    })
-                                }
-                            </table>
-                        </div>
-                        <div>
-                            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {setOpen(false)}}>
-                                <div>
-                                    <span style={{color: '#666d79'}}>취소</span>
-                                </div>
-                            </CheckButton>
-                            <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setOpen(false)}}>
-                                <div>
-                                    <span style={{color: 'black'}}>확인</span>
-                                </div>
-                            </CheckButton>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
         </div>
     )
 }
