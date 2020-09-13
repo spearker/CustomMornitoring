@@ -88,6 +88,13 @@ export const processcodes = [
     {code: 5, name: '검수'},
 ]
 
+export const keycamcodes = [
+    {code: 0, name: 'Off'},
+    {code: 1, name: '촌동'},
+    {code: 2, name: '안전1행정'},
+    {code: 3, name: '연속'},
+]
+
 export const getMoldTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
@@ -152,7 +159,7 @@ export const statusCodes = [
     {code: 110, name:'종합카운터', unit:0},
     {code: 111, name:'프리셋카운터', unit:0},
     {code: 112, name:'Angle', unit:0},
-    {code: 113, name:'측정값', unit:0},
+    {code: 113, name:'운전모드', unit:0},
     {code: 114, name:'최고 측정값', unit:0},
     {code: 115, name:'평균 측정값', unit:0},
 
@@ -217,6 +224,12 @@ export const transferCodeToName = (type, value) =>{
         })
     }else if(type === 'process'){
         processcodes.forEach((v: {code: number, name: string},i)=>{
+            if (v.code === value){
+                str = v.name
+            }
+        })
+    }else if(type === 'keycam'){
+        keycamcodes.forEach((v: {code: number, name: string},i)=>{
             if (v.code === value){
                 str = v.name
             }

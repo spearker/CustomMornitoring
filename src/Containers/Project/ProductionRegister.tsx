@@ -132,7 +132,7 @@ const ProductionRegisterContainer = () => {
                                             }
                                         </div>
                                     </div>
-                                    <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
+                                    <ColorCalendarDropdown selectRange={selectDateRange} zIndex={3} onClickEvent={(start, end) => {
                                         setSelectDateRange({start, end: !end ? selectDateRange.end : end})
                                         setChitData({...chitData, from: start, to: !end ? selectDateRange.end : end})
                                     }} text={'기간 선택'} type={'range'} customStyle={{ height: 32, marginLeft: 0}}/>

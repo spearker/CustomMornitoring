@@ -157,7 +157,7 @@ const PressMonitoring = () => {
                     list.map((v:IMonitoringList)=>{return v.pk!})
                   )}} />
                 }
-                <MonitoringOptionButton title={'전체화면 보기'} onClickEvent={()=>history.push('/monitoring/full')} />
+                {/*<MonitoringOptionButton title={'전체화면 보기'} onClickEvent={()=>history.push('/monitoring/full')} />*/}
                 <MonitoringOptionButton title={'항목 골라보기'} color={'#b3b3b3'} onClickEvent={()=>{setIsPopup(true);setCheckList(selectedList);}} />
                 <MonitoringOptionButton title={'초기화'} color={'#b3b3b3'} onClickEvent={()=>{onClickRefresh()}}/>
               </div>

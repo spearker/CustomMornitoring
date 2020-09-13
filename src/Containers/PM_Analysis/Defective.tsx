@@ -145,9 +145,10 @@ const DefectiveContainer = () => {
     const ChartInitOption = {
         chart: {
             events:{
-                click: (chart,w,e) => {
-                    console.log(e.config.labels)
-                    pieOnClick(e.config.labels)
+                dataPointSelection: (event, chartContext, config) => {
+                    console.log(event, chartContext, config)
+
+                    pieOnClick(config.dataPointIndex)
                 }
             },
             width: "40%",
@@ -192,7 +193,9 @@ const DefectiveContainer = () => {
         if(process.process_pk === selectPk){
             setSelectPk(null);
             setSelectValue(null);
-            setDetailList(null)
+            setDetailList({})
+            setPieData([])
+            setLabelDatas([])
         }else{
             setSelectPk(process.process_pk);
             setSelectValue(process)
@@ -214,16 +217,15 @@ const DefectiveContainer = () => {
         res.pies.map((v,i)=>{
             // series.push(v.percentage)
             tmpList.push(v.percentage)
-
             labelDatas.push(v.material_name)
             pieData.push(v)
         })
 
+        console.log(pieData)
         setSeries(tmpList)
-
         setDetailList(res)
 
-    },[detailList])
+    },[detailList, pieData, labelDatas, series])
 
 
     const getList = useCallback(async ()=>{ // useCallback
@@ -235,14 +237,10 @@ const DefectiveContainer = () => {
 
     },[list])
 
-    const pieOnClick = useCallback((labels)=>{
-        pieData.map((v,i)=>{
-            if (v.material_name === labels.toString()) {
-                console.log(121)
-                setSelectPie(v)
-            }
-        })
-    },[selectPie])
+    const pieOnClick = useCallback((index)=>{
+        console.log(pieData)
+        setSelectPie(pieData[index])
+    },[selectPie, pieData])
 
     useEffect(()=>{
         getList()
@@ -250,8 +248,8 @@ const DefectiveContainer = () => {
     },[])
 
     useEffect(() => {
-        console.log(selectPie)
-    }, [selectPie])
+        console.log(pieData)
+    }, [pieData])
 
     useEffect(()=>{
         setSelectPie(undefined)
@@ -267,7 +265,7 @@ const DefectiveContainer = () => {
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    selectValue === []?
+                    series.length !== 0 ?
                     <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
                         <div style={{display:'flex',flexDirection: 'row'}}>
                             <Chart>
@@ -294,8 +292,9 @@ const DefectiveContainer = () => {
                                 </table>}
                             </Detail>
                         </div>
-                    </LineTable> :
-                        <NoDataCard contents={'데이터가 없습니다.'} height={100}/>
+                    </LineTable>
+                        :
+                        <NoDataCard contents={'데이터가 없습니다.'} height={150}/>
                     :
                     null
             }
@@ -327,3 +326,4 @@ const Detail = styled.div`
 `
 
 export default DefectiveContainer;
+

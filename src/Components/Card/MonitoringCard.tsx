@@ -97,7 +97,7 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
                   <>
                   <CardDiv>
                     <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
-                    <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.value }</ValueText>
+                    <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value }</ValueText>
                     <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
                   </CardDiv>
                   </>
@@ -108,7 +108,7 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
                 <>
                   <CardDiv>
                     <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
-                    <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.value }</ValueText>
+                    <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value }</ValueText>
                     <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
                   </CardDiv>
                   </>

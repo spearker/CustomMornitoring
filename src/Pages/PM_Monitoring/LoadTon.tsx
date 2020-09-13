@@ -72,7 +72,8 @@ const LoadtonMonitoring = () => {
 
     useEffect(() => {
         if(selectFactory.pk){
-            const interval = setInterval(() => { getData();  }, 4000)
+            getData();
+            const interval = setInterval(() => { getData();  }, 3000)
             return () => {
                 console.log('-- monitoring end -- ' )
                 clearTimeout(interval);

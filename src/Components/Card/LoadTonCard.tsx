@@ -32,6 +32,16 @@ const LoadTonCard = ({color, propData}: IProps) => {
         {data: propData?.ch1_ton, color: '#3ad8c5', name: 'Ch1'},
         {data: propData?.ch2_ton, color: '#5145c6', name: 'Ch2'}
     ]);
+
+    useEffect(() => {
+        setDatum([
+            {data: propData?.capacity, color: 'gray', name: '능률곡선'},
+            {data: propData?.total_ton, color: '#fb9e70', name: 'Total'},
+            {data: propData?.ch1_ton, color: '#3ad8c5', name: 'Ch1'},
+            {data: propData?.ch2_ton, color: '#5145c6', name: 'Ch2'}
+        ])
+    }, [propData])
+
     const options = {
         series: datum,
         colors: [colorList[color]],
@@ -41,37 +51,40 @@ const LoadTonCard = ({color, propData}: IProps) => {
         chart: {
             height: 170,
             type: 'area',
-            events : {
-                beforeZoom : (e, {xaxis}) => {
-                    console.log(e, xaxis)
-                    if(xaxis.min < 0 || xaxis.max > 360){
-                        return {
-                            xaxis: {
-                                min: 0,
-                                max: 360
-                            }
-                        }
-                    }
-                }
-            },
             toolbar: {
-                show: true,
-                tools: {
-                    download: false,
-                    selection: true,
-                    zoom: false,
-                    zoomin: true,
-                    zoomout: true,
-                }
+                    show: false,
             },
+            // events : {
+            //     beforeZoom : (e, {xaxis}) => {
+            //         console.log(e, xaxis)
+            //         if(xaxis.min < 0 || xaxis.max > 360){
+            //             return {
+            //                 xaxis: {
+            //                     min: 0,
+            //                     max: 360
+            //                 }
+            //             }
+            //         }
+            //     }
+            // },
+            // toolbar: {
+            //     show: true,
+            //     tools: {
+            //         download: false,
+            //         selection: true,
+            //         zoom: false,
+            //         zoomin: true,
+            //         zoomout: true,
+            //     }
+            // },
         },
         fill: {
             type: "gradient",
             gradient: {
-                shadeIntensity: 1,
+                shadeIntensity: 0,
                 opacityFrom: 0.7,
                 opacityTo: 0,
-                stops: [0, 20, 100]
+                stops: [0, 90, 100]
             }
         },
         dataLabels: {
@@ -86,6 +99,8 @@ const LoadTonCard = ({color, propData}: IProps) => {
         },
         xaxis: {
             show: false,
+            min: 90,
+            max: 230,
             labels:{
                 show: false,
             },
@@ -129,7 +144,7 @@ const LoadTonCard = ({color, propData}: IProps) => {
             <div style={{width: "100%", height: 92, backgroundColor: '#28aeae', borderTopRightRadius: 8, borderTopLeftRadius: 8}}>
                 <div style={{paddingTop: 11, paddingLeft: 10}}>
                     <TitleText style={{fontSize: 25}}>{propData?.machine_name}</TitleText>
-                    <TitleText style={{fontSize: 20}}>{propData?.limited_ton}ton</TitleText>
+                    <TitleText style={{fontSize: 20}}>{Number(propData?.limited_ton).toFixed(2)}ton</TitleText>
                 </div>
             </div>
             <div style={{width: "100%", height: 220, paddingLeft: 2, paddingRight: 3}}>
@@ -147,7 +162,7 @@ const LoadTonCard = ({color, propData}: IProps) => {
                                 <p style={{textAlign: 'left', marginLeft: 20}}>Total</p>
                             </td>
                             <td colSpan={2} style={{width: "50%", height: 23}}>
-                                <p style={{textAlign: 'right', marginRight: 20, fontWeight:"bold"}}>{propData?.total_maxTon}t</p>
+                                <p style={{textAlign: 'right', marginRight: 20, fontWeight:"bold"}}>{Number(propData?.total_maxTon).toFixed(2)}t</p>
                             </td>
                         </tr>
                         <tr>
@@ -156,14 +171,14 @@ const LoadTonCard = ({color, propData}: IProps) => {
                             </td>
                             <td style={{height: 23}}>
                                 <RightBorderBox>
-                                    <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 15}}>{propData?.ch1_maxTon ? propData.ch1_maxTon+' t' : '-'}</p>
+                                    <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 15}}>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1)+' t' : '-'}</p>
                                 </RightBorderBox>
                             </td>
                             <td style={{height: 23, borderLeft: 1, borderLeftWidth: 1}}>
                                 <p style={{textAlign: 'left', marginLeft: 15, fontSize: 13}}>CH2 (우)</p>
                             </td>
                             <td style={{height: 23}}>
-                                <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 20}}>{propData?.ch2_maxTon ? propData.ch2_maxTon+' t' : '-'}</p>
+                                <p style={{textAlign: 'right', fontWeight:"bold", marginRight: 20}}>{propData?.ch2_maxTon ? Number(propData.ch2_maxTon).toFixed(1)+' t' : '-'}</p>
                             </td>
                         </tr>
                     </table>

@@ -32,6 +32,7 @@ const ProcessDetailRegisterContainer = () => {
 
     const [processName, setProcessName] = useState<string>()
     const [searchData, setSearchData] = useState<string>()
+    const [machineName, setMachineName] = useState<string>()
 
     const [processList, setProcessList] = useState<IDetailRegister[]>([])
     const [machineList, setMachineList] = useState<IMachineData[]>([])
@@ -125,6 +126,8 @@ const ProcessDetailRegisterContainer = () => {
                                                                                     setProcessPKList(tmpList)
                                                                                     setMachineList(v.machines)
 
+                                                                                    setMachineName(v.process_name)
+
                                                                                     tmpList2.push({
                                                                                         name: v.process_name,
                                                                                         type: v.process_type,
@@ -148,25 +151,45 @@ const ProcessDetailRegisterContainer = () => {
                                            </div>
                                         </div>
                                         <div style={{ backgroundColor: '#f4f6fa', width: 507, height: 191, padding: '10px 20px', border: '1px solid #b3b3b3'}}>
-                                            <p style={{textAlign: 'left'}}>설정</p>
+                                            <p style={{textAlign: 'left'}}>{machineName} 설정</p>
                                             {/*<ReactShadowScroll>*/}
                                                 <div style={{height: 169, width: 'calc(100%-20px)', backgroundColor: '#f4f6fa'}}>
-                                                    <MachineTable style={{margin: 0, padding: 0}}>
-                                                        <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>
-                                                            <th><span>기계명</span></th>
-                                                            <th><span>금형명</span></th>
-                                                        </tr>
-                                                        {
-                                                            machineList.map((v, i) => {
-                                                                return (
-                                                                    <tr style={{borderBottom: '1px solid #b3b3b35f'}}>
-                                                                        <td><span>{v.machine_name}</span></td>
-                                                                        <td><span>{ v.mold_info.mold_name && v.mold_info.mold_name}</span></td>
-                                                                    </tr>
-                                                                )
-                                                            })
-                                                        }
-                                                    </MachineTable>
+                                                    {/*<MachineTable style={{margin: 0, padding: 0}}>*/}
+                                                    {/*    <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>*/}
+                                                    {/*        <th><span>기계명</span></th>*/}
+                                                    {/*        <th><span>금형명</span></th>*/}
+                                                    {/*    </tr>*/}
+                                                    {/*    {*/}
+                                                    {/*        machineList.map((v, i) => {*/}
+                                                    {/*            return (*/}
+                                                    {/*                <tr style={{borderBottom: '1px solid #b3b3b35f'}}>*/}
+                                                    {/*                    <td><span>{v.machine_name}</span></td>*/}
+                                                    {/*                    <td><span>{ v.mold_info.mold_name && v.mold_info.mold_name}</span></td>*/}
+                                                    {/*                </tr>*/}
+                                                    {/*            )*/}
+                                                    {/*        })*/}
+                                                    {/*    }*/}
+                                                    {/*</MachineTable>*/}
+                                                    <HeaderTable style={{border: 0, width: 300, paddingLeft: 0}}>
+                                                        <div style={{width: 190}}>
+                                                            <p>기계명</p>
+                                                        </div>
+                                                        <div style={{width: 100}}>
+                                                            <p>금형명</p>
+                                                        </div>
+                                                    </HeaderTable>
+                                                    {
+                                                        machineList.map((v, i) => {
+                                                            return( <HeaderTable style={{border: 0, width: 300, paddingLeft: 0}}>
+                                                                <div style={{width: 190}}>
+                                                                    <p>{v.machine_name}</p>
+                                                                </div>
+                                                                <div style={{width: 100}}>
+                                                                    <p>{v.mold_info.mold_name && v.mold_info.mold_name}</p>
+                                                                </div>
+                                                            </HeaderTable>)
+                                                        })
+                                                    }
                                                 </div>
                                             {/*</ReactShadowScroll>*/}
                                         </div>
