@@ -90,7 +90,7 @@ const CustomerPickerModal = ({select, onClickEvent, text}: IProps) => {
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 금형 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 거래처 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
@@ -101,8 +101,8 @@ const CustomerPickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 250}}>금형명</th>
-                                        <th style={{width: 250}}>타입</th>
+                                        <th style={{width: 250}}>거래처 명</th>
+                                        <th style={{width: 250}}>거래처 대표</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {

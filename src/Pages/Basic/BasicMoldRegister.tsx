@@ -28,6 +28,8 @@ import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import { JsonStringifyList } from '../../Functions/JsonStringifyList';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import InputContainer from "../../Containers/InputContainer";
 
 // 금형 등록, 업데이트
 const BasicMoldRegister = () => {
@@ -52,6 +54,7 @@ const BasicMoldRegister = () => {
   const [limit, setLimit] = useState<number>(0);
   const [inspect, setInspect] = useState<number>(0);
   const [current, setCurrent] = useState<number>(0);
+  const [proper, setProper] = useState(0);
   const [files, setFiles] = useState<any[3]>([null, null]);
   const [paths, setPaths] = useState<any[3]>([null, null]);
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
@@ -60,6 +63,8 @@ const BasicMoldRegister = () => {
   const [mold_spec_w, setMold_spec_w] = useState<string>('');
   const [mold_spec_l, setMold_spec_l] = useState<string>('');
   const [mold_spec_t, setMold_spec_t] = useState<string>('');
+  const [input_material, setInput_material] = useState<{ name: string, pk: string }>({ name: '', pk: ''});
+  const [output_material, setOutput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
 
   const indexList = getMoldTypeList('kor');
 
@@ -155,8 +160,7 @@ const BasicMoldRegister = () => {
   },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
 
 
-  const onsubmitFormUpdate = useCallback(async(e)=>{
-    e.preventDefault();
+  const onsubmitFormUpdate = useCallback(async()=>{
     if(name === "" ){
       alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
@@ -168,14 +172,17 @@ const BasicMoldRegister = () => {
       manufactured_at: date,
       limit: limit,
       inspect: inspect,
+      proper_tons: proper,
       current: current,
       location: factory[0].pk,
       info_list: JsonStringifyList(essential, optional),
+      output_material: output_material.pk,
+      input_material: input_material.pk,
       manufacturer: made,
       manufacturer_code: madeNo,
-      mold_spec_l: mold_spec_l,
-      mold_spec_w: mold_spec_w,
-      mold_spec_t: mold_spec_t,
+      mold_spec_L: mold_spec_l,
+      mold_spec_W: mold_spec_w,
+      mold_spec_T: mold_spec_t,
       upper: paths[0],
       below: paths[1],
 
@@ -199,8 +206,7 @@ const BasicMoldRegister = () => {
    * onsubmitForm()
    * 기계 정보 등록
    */
-  const onsubmitForm = useCallback(async(e)=>{
-    e.preventDefault();
+  const onsubmitForm = useCallback(async()=>{
     //console.log(infoList)
     //alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
@@ -215,14 +221,17 @@ const BasicMoldRegister = () => {
       manufactured_at: date,
       limit: limit,
       inspect: inspect,
+      proper_tons: proper,
       current: current,
       location: factory[0].pk,
       info_list: JsonStringifyList(essential, optional),
+      output_material: output_material.pk,
+      input_material: input_material.pk,
       manufacturer: made,
       manufacturer_code: madeNo,
-      mold_spec_l: mold_spec_l,
-      mold_spec_w: mold_spec_w,
-      mold_spec_t: mold_spec_t,
+      mold_spec_L: mold_spec_l,
+      mold_spec_W: mold_spec_w,
+      mold_spec_T: mold_spec_t,
       upper: paths[0],
       below: paths[1],
     };
@@ -250,18 +259,20 @@ const BasicMoldRegister = () => {
     <DashboardWrapContainer index={'basic'}>
 
         <InnerBodyContainer>
-            <Header title={isUpdate ? '금형 정보수정' : '금형 정보등록'}/>
+            <Header title={isUpdate ? '금형 정보수정' : '금형 정보등록'} />
             <WhiteBoxContainer>
-              {
-                // document.id !== '' || isUpdate == true?
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
+                {
+                    // document.id !== '' || isUpdate == true?
+                    <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} target={'iframe'}>
+                    <iframe src="#" name="iframe" style={{width:1, height:1, border:0, visibility:"hidden"}}/>
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'금형 이름'} value={name} onChangeEvent={setName} description={'이름을 입력하세요'} />
                 <DropdownInput title={'금형 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요'} />
                 <NormalNumberInput title={'최대 타수'} description={""} value={limit} onChangeEvent={setLimit}/>
-                <NormalNumberInput title={'점검 타수'} description={""} value={inspect}onChangeEvent={setInspect}/>
+                <NormalNumberInput title={'점검 타수'} description={""} value={inspect} onChangeEvent={setInspect}/>
+                        <NormalNumberInput title={'적정 톤 수'} description={""} value={proper} onChangeEvent={setProper}/>
                 <BasicSearchContainer
                       title={'공장/부속공장'}
                       key={'pk'}
@@ -278,6 +289,12 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 치수 L'} value={mold_spec_l} onChangeEvent={setMold_spec_l} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
+                  <InputContainer title={"투입 품목"}>
+                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={false}/>
+                  </InputContainer>
+                  <InputContainer title={"생산 품목"}>
+                    <ProductionPickerModal select={output_material} onClickEvent={setOutput_material} text={'생산품목'} width={true} type={true}/>
+                  </InputContainer>
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />
@@ -301,11 +318,11 @@ const BasicMoldRegister = () => {
                 {/*  />*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-              </form>
-              // :
-              // <SelectDocumentForm category={2} onChangeEvent={setDocument}/>
+                    </form>
+                    // :
+                    // <SelectDocumentForm category={2} onChangeEvent={setDocument}/>
 
-            }
+                }
             </WhiteBoxContainer>
 
         </InnerBodyContainer>

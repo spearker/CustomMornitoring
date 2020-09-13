@@ -19,6 +19,7 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getSegmentList} from "../../Api/mes/process";
 import {useHistory} from 'react-router-dom'
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 const SegmentListContainer = () => {
@@ -48,7 +49,7 @@ const SegmentListContainer = () => {
             type: '공정 타입',
             detail_order: '상세 공정 순',
             machine_name: '기계명',
-            recommend_spm: '권장 SPM',
+            mold_name: '사용 금형',
         },
     }
 
@@ -137,6 +138,36 @@ const SegmentListContainer = () => {
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
         const tempUrl = `${API_URLS['segment'].load}?pk=${pk}`
+        const res = await getSegmentList(tempUrl)
+        // name: "프로세스명"
+        // pk: "2QQ90E_segment0"
+        // processes: [{process_pk: "v1_SIZL_process_0_null_단발 공정", process_name: "단발 공정", process_type: "0",…}]
+        // 0: {process_pk: "v1_SIZL_process_0_null_단발 공정", process_name: "단발 공정", process_type: "0",…}
+        // machines: [{machine_type: 1, machine_names: "로드톤 프레스", mold_name: "-", machine_name: "로드톤 프레스"}]
+        // order: 0
+        // process_name: "단발 공정"
+        // process_pk: "v1_SIZL_process_0_null_단발 공정"
+        // process_type: "0"
+        const getprocesses = res.processes.map((v,i)=>{
+            console.log(v.process_type)
+            const processType = transferCodeToName('process', Number(v.process_type))
+            const machine_name = v.machines.map((v,i)=>{
+                return v.machine_name
+            })
+
+            const mold_name = v.machines.map((v,i)=>{
+                return v.mold_name
+            })
+            return {...v, order: (i+1)+'차', type: processType, detail_order: processType+' '+(i+1)+'차',machine_name: machine_name, mold_name: mold_name }
+        })
+
+        setDetailList(getprocesses)
+
+    },[detailList])
+
+    const getDelete = useCallback( async()=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['segment'].delete}`
         const res = await getSegmentList(tempUrl)
 
         setDetailList(res)

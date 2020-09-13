@@ -89,7 +89,7 @@ const ProcessListContainer = () => {
         processes:  {
             type: '공정명',
             machine_name: "기계",
-            recommend: "권장 SPM"
+            mold_name: "사용 금형"
         }
     }
 

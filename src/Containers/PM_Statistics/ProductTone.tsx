@@ -304,7 +304,6 @@ const ProductToneContainer = () => {
         setDetailTonList([])
     },[selectValue])
 
-
     return (
         <div>
             <div style={{width: "100%", height: 100,marginTop: 41}}>
@@ -321,6 +320,7 @@ const ProductToneContainer = () => {
             <div style={{display:"flex",flexDirection:"row"}}>
                 <div style={{marginRight: 40}}>
                     <HalfTalbe
+                        title={'제품 별 톤'}
                         indexList={index}
                         valueList={list}
                         clickValue={selectValue}

@@ -17,7 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getProjectList } from "../../Api/mes/production";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 
@@ -170,7 +170,7 @@ const VoucherContainer = () => {
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
         const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const res = await getProjectList(tempUrl)
 
         setDetailList(res)
 
@@ -178,19 +178,19 @@ const VoucherContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['chit'].list}?page=1`
+        const res = await getProjectList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["voucher"])
         setBOMIndex(BOMtitle["BOM"])
         setTitleEventList(titleeventdummy)
-        setList(dummy)
+        // setList(dummy)
         setBOMList(BOMvalue)
         setEventList(eventdummy)
         setDetailList(detaildummy)

@@ -6,7 +6,7 @@ import {POINT_COLOR} from '../../Common/configset'
 
 interface IProps{
     name: any,
-    onPress?: void,
+    onPress?: () => void,
 
 }
 const RegisterButton = ({name, onPress}: IProps) => {
@@ -15,8 +15,8 @@ const RegisterButton = ({name, onPress}: IProps) => {
   },[])
 
   return (
-    <div className="p-bold" style={{textAlign:'center'}}>
-       <ButtonBox type="submit">{name}</ButtonBox>
+    <div className="p-bold" style={{textAlign:'center'}} onClick={() => onPress}>
+       <ButtonBox type="submit" >{name}</ButtonBox>
     </div>
 
   );

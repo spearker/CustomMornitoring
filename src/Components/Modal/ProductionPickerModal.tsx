@@ -15,6 +15,8 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    width?: boolean
+    type?: boolean
 }
 
 const DummyItem = [
@@ -25,7 +27,7 @@ const DummyItem = [
     }
 ]
 
-const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
+const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [searchName, setSearchName] = useState('')
@@ -44,7 +46,7 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=0`
+        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? 1 : 0 }`
         const resultData = await getProductionSearch(tempUrl);
 
         setProductList(resultData.results)
@@ -61,8 +63,8 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+            <div style={{position:'relative', display:'inline-block', zIndex:0, width: width ? 867 : 917}}>
+                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}} type={'button'}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
                             select && select.name !== '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {selectMaterial}</p>
@@ -92,7 +94,7 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
                    }
                 }}
             >
-                <div style={{width: 900}}>
+                <div style={{width: width ? 700 : 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
@@ -119,6 +121,7 @@ const ProductionPickerModal = ({select, onClickEvent, text}: IProps) => {
                                                     <td><span>{v.location}</span></td>
                                                     <td>
                                                         <button
+                                                            onSubmit={() => {}}
                                                             onClick={() => {
                                                                 setSelectMaterial(v.material_name)
                                                                 return onClickEvent({name: v.material_name, pk: v.pk})

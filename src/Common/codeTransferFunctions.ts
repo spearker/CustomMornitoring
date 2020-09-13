@@ -67,8 +67,8 @@ export const moldCodes = [
 export const materialCodes = [
 
     {code: 0, name: '원자재'},
-    {code: 1, name: '최종 생산품'},
-    {code: 2, name: '중간 자재'},
+    {code: 30, name: '최종 생산품'},
+    {code: 10, name: '중간 자재'},
     {code: 4, name: 'LOT 자재'},
 
 ]
