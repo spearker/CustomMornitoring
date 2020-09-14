@@ -15,13 +15,14 @@ interface Props{
     contents: string,
     height: number,
     color?: string
+    children?: any
 }
 
 
 
 // 선택값이 없을 때 화면
 
-const NoDataCard = ({ contents, height, color }: Props) => {
+const NoDataCard = ({ contents, height, color, children }: Props) => {
 
     return (
         <NoTimeDataBox style={{height: height, display: "flex", alignItems: "center", backgroundColor: color ? color : '#111319'}}>

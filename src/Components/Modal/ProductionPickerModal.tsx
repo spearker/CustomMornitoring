@@ -67,7 +67,7 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}} type={'button'}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name !== '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {selectMaterial}</p>
+                            select && select.name !== '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>

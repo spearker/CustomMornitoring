@@ -7,6 +7,7 @@ import ReactApexChart from "react-apexcharts";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getPowerList} from "../../Api/pm/statistics";
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const chartOption = {
     chart: {
@@ -109,7 +110,7 @@ const dummySeries= [
 
 const PowerContainer = () => {
 
-    const [data, setData] = useState(dummySeries)
+    const [data, setData] = useState<{name: string, data: number[]}[]>([])
     const [pk, setPk] = useState()
 
     const [selectDate, setSelectDate] = useState({start: moment().subtract(1, 'days').format("YYYY-MM-DD"), end: moment().subtract(1, 'days').format("YYYY-MM-DD")})
@@ -150,26 +151,42 @@ const PowerContainer = () => {
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>프레스 전력</span>
                 </div>
             </div>
-            <BlackContainer>
+            {
+                data.length !== 0 ?
+                <BlackContainer>
                 <div style={{marginTop: 25, height: 80}}>
                     <div>
                         <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
-                            <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>기간별 프레스 전력 비교</p>
+                            <p style={{textAlign: "left", fontSize: 20, fontWeight: 'bold'}}>기간별 프레스 전력 비교</p>
                         </div>
-                        <div style={{marginRight: 30, paddingTop: 25, }}>
-                            <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
-                            <ListRadioButton nameList={[ "일"]} data={selectType} onClickEvent={(i) => {
-                                    if(i === 0){
-                                        setSelectType([true,false])
-                                    }else{
-                                        setSelectType([false, true])
-                                    }
+                        <div style={{marginRight: 30, paddingTop: 25,}}>
+                            <CalendarDropdown type={'range'} selectRange={selectDate}
+                                              onClickEvent={(start, end) => setSelectDate({
+                                                  start: start,
+                                                  end: end ? end : ''
+                                              })}></CalendarDropdown>
+                            <ListRadioButton nameList={["일"]} data={selectType} onClickEvent={(i) => {
+                                if (i === 0) {
+                                    setSelectType([true, false])
+                                } else {
+                                    setSelectType([false, true])
+                                }
                             }}/>
                         </div>
                     </div>
                 </div>
                 <ReactApexChart options={{...chartOption, labels}} type={'area'} height={620} series={data}/>
             </BlackContainer>
+            :
+                    <div>
+                        <CalendarDropdown type={'range'} selectRange={selectDate}
+                            onClickEvent={(start, end) => setSelectDate({
+                            start: start,
+                            end: end ? end : ''
+                        })}></CalendarDropdown>
+                        <NoDataCard contents={"데이터가 습니다."} height={740}/>
+                    </div>
+            }
         </div>
     );
 }
