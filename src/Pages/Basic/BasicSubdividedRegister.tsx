@@ -161,6 +161,7 @@ const BasicSubdividedRegister = () => {
                       title={'공장'}
                       key={'pk'}
                       value={'name'}
+                      option={0}
                       onChangeEvent={
                         (input)=>{
                           let temp = _.cloneDeep(inputData);

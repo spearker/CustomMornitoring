@@ -168,9 +168,6 @@ const PowerContainer = () => {
                         </div>
                     </div>
                 </div>
-                {
-                    console.log(labels)
-                }
                 <ReactApexChart options={{...chartOption, labels}} type={'area'} height={620} series={data}/>
             </BlackContainer>
         </div>

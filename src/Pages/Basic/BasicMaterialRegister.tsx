@@ -179,6 +179,7 @@ const BasicMaterialRegister = () => {
                       key={'pk'}
                       value={'name'}
                       onChangeEvent={(input)=>setInputData(`location`, input)}
+                      option={1}
                       solo={true}
                       list={inputData.location}
                       searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}

@@ -135,7 +135,7 @@ const BasicMachineRegister = () => {
          setMadeNo(data.manufacturer_code);
          setType(Number(data.machine_type));
          setInfoList(data.info_list);
-         setVolt(data.slip_angle ?? 0);
+         setVolt(data.volt ?? 0);
          setTons(data.tons ?? 0);
          const tempList = paths.slice();
          tempList[0]= data.photo;
@@ -268,6 +268,7 @@ const BasicMachineRegister = () => {
                           setFactory(input)
                         }
                       }
+                      option={1}
                       solo={true}
                       list={factory}
                       searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}

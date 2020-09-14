@@ -34,13 +34,14 @@ interface Props {
   title: string,
   list: any[],
   searchUrl: string,
+  option: number
   solo?: boolean,
   key: string,
   value: string,
 }
 
 // 검색해서 pk 를 담는 input container
-const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key, value}:Props) => {
+const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl,option ,solo, key, value}:Props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [keyword, setKeyword]= useState<string>('');
@@ -71,7 +72,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key,
   },[keyword, searchedList])
 
     const onSearchInit = async () => {
-        const res = await getRequest(`${searchUrl}keyword=${keyword}`, getToken(TOKEN_NAME))
+        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}`, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리

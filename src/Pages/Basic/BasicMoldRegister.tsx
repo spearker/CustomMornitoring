@@ -144,9 +144,11 @@ const BasicMoldRegister = () => {
          setMadeNo(data.manufacturer_code);
          setType(Number(data.mold_type));
          setInfoList(data.info_list);
-         setMold_spec_w(data.mold_spec_w);
-         setMold_spec_l(data.mold_spec_l);
-         setMold_spec_t(data.mold_spec_t);
+         setMold_spec_w(data.mold_spec_W);
+         setMold_spec_l(data.mold_spec_L);
+         setMold_spec_t(data.mold_spec_T);
+         setInput_material({...input_material, pk: data.input_material_pk, name: data.input_material_name});
+         setOutput_material({...output_material, pk: data.output_material_pk, name: data.output_material_name});
          const tempList = paths.slice();
          tempList[0]= data.photo;
          tempList[1]= data.qualification;
@@ -277,6 +279,7 @@ const BasicMoldRegister = () => {
                       title={'공장/부속공장'}
                       key={'pk'}
                       value={'name'}
+                      option={1}
                       onChangeEvent={
                         (input)=>{
                           setFactory(input)
@@ -290,6 +293,7 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
                   <InputContainer title={"투입 품목"}>
+                    {console.log(input_material)}
                     <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={false}/>
                   </InputContainer>
                   <InputContainer title={"생산 품목"}>
