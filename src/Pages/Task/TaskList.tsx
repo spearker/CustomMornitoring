@@ -84,7 +84,7 @@ const indexList = {
    */
   const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
-   // alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+   // //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
     const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
@@ -110,7 +110,7 @@ const indexList = {
    * @returns X
    */
   const onClickTaskStatus = useCallback(async(pk: string, value:string)=>{
-    //alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
+    ////alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
     //return;
     const data = {
       pk: pk,
@@ -119,15 +119,15 @@ const indexList = {
     const results = await postRequest('http://192.168.0.14:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
+      //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
     }else{
       if(results.status === 200){
-        alert('성공적으로 변경되었습니다.')
+        //alert('성공적으로 변경되었습니다.')
         getData();
 
 
       }else{
-        alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
+        //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
       }
     }
   },[])
@@ -144,13 +144,13 @@ const indexList = {
     const res = await getRequest('http://192.168.0.14:8088/api/v1/task/list/0', getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(res.status === 200){
         setList(res.results)
         setKeyword('')
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list, option, keyword, ])

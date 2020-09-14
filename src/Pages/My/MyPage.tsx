@@ -91,7 +91,7 @@ const MyPage = () => {
 
       }else{
         //TODO : 지울것
-        alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
+        //alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
       }
     }
   }
@@ -103,7 +103,7 @@ const MyPage = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const onClickSave = useCallback(async()=> {
-      //alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
+      ////alert('[서버 알림]현재 프로필 사진 변경이 불가능합니다...')
       //return;
 
       const data = {
@@ -114,14 +114,14 @@ const MyPage = () => {
       const results = await postRequest('http://192.168.0.14:8088/api/v1/member/profile', data, getToken(TOKEN_NAME))
 
       if(results === false){
-        alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
+        //alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
         //TODO: 에러 처리
       }else{
         if(results.status === 200){
-          alert('성공적으로 업데이트 되었습니다')
+          //alert('성공적으로 업데이트 되었습니다')
           loadUserInfo();
         }else{
-          alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
+          //alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
         }
 
       }
@@ -154,7 +154,7 @@ const MyPage = () => {
           setYear(results.results.year)
           setPhoto(results.results.profile_img)
       }else{
-        alert('잘못된 접근입니다.')
+        //alert('잘못된 접근입니다.')
         window.location.href='/manage/members'
       }
     }
@@ -216,7 +216,7 @@ const MyPage = () => {
     }else{
 
       setFile(null)
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   },[file, photo, path])

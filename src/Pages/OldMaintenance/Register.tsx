@@ -77,7 +77,7 @@ const RegisterMaintenance = () => {
 
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
-        //alert(`수정 페이지 진입 - pk :` + param)
+        ////alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         getData()
         setType(getParameter('type'))
@@ -131,7 +131,7 @@ const RegisterMaintenance = () => {
      //TODO: 지울것
 
 
-    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+    ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     let tPk = '';
     if(type === 'machine' && list3 !== []){
@@ -155,10 +155,10 @@ const RegisterMaintenance = () => {
     const res = await postRequest('http://203.234.183.22:8299/api/v1/preserve/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+      //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
 
          setType('machine')
 
@@ -169,7 +169,7 @@ const RegisterMaintenance = () => {
          setTerm(30)
 
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -204,13 +204,13 @@ const RegisterMaintenance = () => {
 
     if(res === false){
       //TODO: 에러 처리
-      alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+      //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 업데이트 되었습니다')
+         //alert('성공적으로 업데이트 되었습니다')
 
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -238,7 +238,7 @@ const RegisterMaintenance = () => {
     }
 
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }

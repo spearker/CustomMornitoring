@@ -44,7 +44,7 @@ const LoadtonMonitoring = () => {
         setFactories(results);
 
         if(results.length <= 0){
-            alert('조회 가능한 공장 데이터가 없습니다.')
+            // //alert('조회 가능한 공장 데이터가 없습니다.')
             return;
         }else{
             setSelectFactory({pk: results[0].pk, name: results[0].name});
@@ -110,7 +110,7 @@ const LoadtonMonitoring = () => {
                             </ItemBox>
                             : <NoDataCard contents={"기계 정보가 없습니다."} height={886}/>
                         : <NoDataCard contents={"데이터를 불러오는 중입니다."} height={886}/>
-                    : <NoDataCard contents={''} height={886}/>
+                    : <NoDataCard contents={'데이터가 없습니다.'} height={886}/>
                 }
 
             </InnerBodyContainer>

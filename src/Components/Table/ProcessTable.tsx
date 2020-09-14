@@ -95,7 +95,7 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
   const onClickDeleteComment = useCallback(async(pk: string)=>{
 
 
-    alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
+    //alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
     return;
     const data = {
       pk: pk,

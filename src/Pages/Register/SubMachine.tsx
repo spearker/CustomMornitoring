@@ -45,7 +45,7 @@ const RegisterSubMachine = () => {
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
-      //alert(`수정 페이지 진입 - pk :` + param)
+      ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData()
     }
@@ -87,7 +87,7 @@ const RegisterSubMachine = () => {
 
     }else{
 
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   }
@@ -144,7 +144,7 @@ const RegisterSubMachine = () => {
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
     if(name === "" ){
-      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -167,7 +167,7 @@ const RegisterSubMachine = () => {
         //TODO: 에러 처리
       }else{
         if(res.status === 200 ||res.status === '200' ){
-           alert('성공적으로 수정 되었습니다')
+           //alert('성공적으로 수정 되었습니다')
         }else if(res.status === 1001){
           //TODO:
         }else{
@@ -192,10 +192,10 @@ const RegisterSubMachine = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    //alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
+    ////alert('테스트 : 전송 - ' + no + name + info + made + type + madeNo);
     //return;
     if(name === "" ){
-      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -214,10 +214,10 @@ const RegisterSubMachine = () => {
     const res = await postRequest('http://203.234.183.22:8299/api/v1/peripheral/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setName('');
          setMade('');
          setDate(moment().format('YYYY-MM-DD'));
@@ -228,7 +228,7 @@ const RegisterSubMachine = () => {
          setPaths([null, null, null])
 
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 

@@ -74,7 +74,7 @@ const RegisterInferior = () => {
 
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
-        //alert(`수정 페이지 진입 - pk :` + param)
+        ////alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         //getData()
     }
@@ -127,7 +127,7 @@ const RegisterInferior = () => {
     e.preventDefault();
      //TODO: 지울것
 
-    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+    ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
       pk: list[0].pk,
@@ -146,7 +146,7 @@ const RegisterInferior = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setName('')
          setList([])
          setList2([])
@@ -155,9 +155,9 @@ const RegisterInferior = () => {
          setPaths([null])
 
       }else if(res.status === 1000){
-        alert('수량을 다시 확인해주세요.')
+        //alert('수량을 다시 확인해주세요.')
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -181,10 +181,10 @@ const RegisterInferior = () => {
     e.preventDefault();
 
     if (list.length < 1 ||  list2.length<1 ){
-      alert('상품, 기준 바코드는 필수 항목입니다. ')
+      //alert('상품, 기준 바코드는 필수 항목입니다. ')
       return;
     }
-   //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+   ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
    const data = {
        pk: getParameter('pk'),
@@ -201,7 +201,7 @@ const RegisterInferior = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 수정 되었습니다')
+         //alert('성공적으로 수정 되었습니다')
       }else{
         //TODO:  기타 오류
       }
@@ -230,7 +230,7 @@ const RegisterInferior = () => {
     }
 
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -290,7 +290,7 @@ const RegisterInferior = () => {
 
     }else{
 
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   }

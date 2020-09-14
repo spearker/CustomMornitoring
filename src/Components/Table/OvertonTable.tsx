@@ -124,7 +124,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
             </TitleBar>
             {
                 valueList !== undefined && valueList.length === 0
-                    ? (<ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></ValueBar>)
+                    ? (<ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가 없습니다. </p></ValueBar>)
                     : valueList?.map((v, i) => {
                     /*
                     v:  {
@@ -205,7 +205,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
             {noChildren !== undefined || false ?
                 null :
                 <BlackBg /*style={{backgroundColor:  !== undefind ?  '#ff341a' : '#353b48'}}*/>
-                    {children === undefined || children === null ? <p>데이터를 클릭해주세요</p> : children}
+                    {children === undefined || children === null ? <p></p> : children}
                 </BlackBg>
             }
         </div>

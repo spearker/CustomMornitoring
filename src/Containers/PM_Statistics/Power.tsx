@@ -124,7 +124,7 @@ const PowerContainer = () => {
 
         let tempArray: {name: string, data: number[]}[] = [];
 
-        resultData.press_data.map(index => {
+        resultData.press_data?.map(index => {
             tempArray.push({name: index.press_name, data: index.press_data})
         })
 

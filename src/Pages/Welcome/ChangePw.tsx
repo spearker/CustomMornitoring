@@ -39,11 +39,11 @@ const ChangePw = () => {
 
     //발리데이션
     if(pw == '' ){
-      alert(t('errorAllSubmit'))
+      //alert(t('errorAllSubmit'))
       return
     }
     if(pw.length < 6 || pw !== pwCheck){
-      alert(t('errorPassord'))
+      //alert(t('errorPassord'))
       setPwCheck('')
       return
     }
@@ -58,16 +58,16 @@ const ChangePw = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        alert(t('successChange'))
+        //alert(t('successChange'))
         window.location.href= "/login"
 
       }else if(results.status === 1001){
-        alert(t('errorUse'))
+        //alert(t('errorUse'))
         setEmail('')
         window.location.href= "/login"
       }else{
         //기타 에러처리
-        alert('변경 실패하였습니다.')
+        //alert('변경 실패하였습니다.')
       }
     }
 

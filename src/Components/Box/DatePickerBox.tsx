@@ -35,14 +35,14 @@ const DatePickerBox = ({setListEvent , searchUrl, targetPk}: IProps) => {
     const results = await getRequest(searchUrl+ 'to=' + to +'&from='  + from +'&pk=' + targetPk, getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('해당 기간 데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('해당 기간 데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       setList([])
     }else{
       if(results.status === 200){
         setList(results.results)
         setListEvent(results.results);
       }else{
-        alert('해당 기간 데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('해당 기간 데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         setList([])
       }
     }

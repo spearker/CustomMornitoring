@@ -85,7 +85,6 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
       <DownloadButton href={contents.file !== undefined ? contents.file : ''} target="_blank">설명서다운로드</DownloadButton>
       <ErrorText>{contents.operation === 0 && contents.error!== undefined ?  contents.error : <span style={{color:'#717c90'}}>에러 정보가 없습니다.</span>} </ErrorText>
       <BodyDiv>
-
         {
           optionList !== undefined &&
           contents.info_list.filter(f => optionList.indexOf(Number(f.title)) !== -1).map((v,i)=>{

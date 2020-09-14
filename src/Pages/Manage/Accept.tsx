@@ -60,16 +60,16 @@ const AcceptMember = () => {
     const results = await postRequest('http://203.234.183.22:8299/api/v1/member/accept', {user_pk:id} ,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('승인 실패하였습니다. 관리자에게 문의하세요.')
+      //alert('승인 실패하였습니다. 관리자에게 문의하세요.')
         //setList([""])
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
 
-        alert('승인 되었습니다.')
+        //alert('승인 되었습니다.')
         getList()
       }else{
-        alert('승인 실패하였습니다. 관리자에게 문의하세요.')
+        //alert('승인 실패하였습니다. 관리자에게 문의하세요.')
       }
     }
 

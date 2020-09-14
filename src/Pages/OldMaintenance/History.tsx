@@ -42,13 +42,13 @@ const MaintenanceHistory = () => {
     const results = await getRequest('http://192.168.0.14:8088/api/v1/preserve/list?keyword='+ keyword +'&option=' + option + '&type=' + type ,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
         setKeyword('')
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list, option, keyword, type])
@@ -63,12 +63,12 @@ const MaintenanceHistory = () => {
 
     const results = await getRequest('http://192.168.0.14:8088/api/v1/preserve/list?keyword='+ keyword +'&option=' + option + '&type=' + type ,getToken(TOKEN_NAME))
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option, keyword, list])
@@ -81,16 +81,16 @@ const MaintenanceHistory = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
     const results = await getRequest('http://192.168.0.14:8088/api/v1/preserve/list?keyword='+ keyword +'&option=' + option + '&type=' + type ,getToken(TOKEN_NAME))
    if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option, keyword, list])
@@ -112,12 +112,12 @@ const MaintenanceHistory = () => {
 
     console.log('--select id : ' + id)
     if(results === false){
-      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+      //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     }else{
       if(results.status === 200){
         getList()
       }else{
-        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+        //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
 

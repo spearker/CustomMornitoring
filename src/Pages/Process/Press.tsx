@@ -51,7 +51,7 @@ const PressRecommend = () => {
     const res = await getRequest('http://61.101.55.223:8999/api/v1/monitoring/press' , getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if(res === false){
-      alert('서버에서 데이터를 받아올 수 없습니다.')
+      //alert('서버에서 데이터를 받아올 수 없습니다.')
    
       window.location.href="/dashboard"
     }else{
@@ -60,7 +60,7 @@ const PressRecommend = () => {
          setList(data);
          
       }else{
-        alert('서버에서 데이터를 받아올 수 없습니다.')
+        //alert('서버에서 데이터를 받아올 수 없습니다.')
        
         window.location.href="/dashboard"
       }

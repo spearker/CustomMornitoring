@@ -96,6 +96,7 @@ export const API_URLS = {
         list: `/v1/process/list`,
         delete: `/v1/process/delete`,
         search: `/v1/process/search`,
+        search2: `/v1/process/segment/search`
     },
     segment:{
         register: `/v1/process/segment/register`,

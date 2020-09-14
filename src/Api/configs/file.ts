@@ -3,13 +3,13 @@ import { getToken } from '../../lib/tokenFunctions';
 const TOKEN_NAME = 'sizl_auth'
 
 /**
- * 
+ *
  * axios 인스턴스 기본 설정
- * - 파일데이터 
+ * - 파일데이터
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://211.208.115.66:8099'; 
+client.defaults.baseURL = 'http://211.208.115.66:8099';
 
 //client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
 
@@ -26,18 +26,18 @@ client.interceptors.response.use(function (response) {
 
   }, function (error) {
     console.error(error)
-    alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.');
+   //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
     return Promise.reject(error);
 
 });
 
 const getErrorCase = (code: any) => {
   switch(code){
-    case 2000: 
+    case 2000:
       return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
-    case 2000: 
+    case 2000:
       return '[조회 불가] 해당 ID를 지닌 데이터가 없습니다';
-    case 1011: 
+    case 1011:
       return '[삭제 불가] 해당 데이터를 참조하는 표준 문서가 존재합니다';
     case 200:
       return false

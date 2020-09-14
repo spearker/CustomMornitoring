@@ -44,20 +44,20 @@ const LineList = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
+
     const results = await getRequest(BASE_URL + '/api/v1/procedure/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list])
@@ -70,17 +70,17 @@ const LineList = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
+    ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+
     const results = await getRequest(BASE_URL + '/api/v1/procedure/list/'+filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
@@ -95,7 +95,7 @@ const LineList = () => {
 
     console.log('--select id : ' + id)
     window.location.href=`/update/line?pk=${id}`
-  
+
   },[])
 
   return (
@@ -115,10 +115,10 @@ const LineList = () => {
                 )
               })
             }
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

@@ -99,7 +99,7 @@ const StockChangeIn = () => {
     e.preventDefault();
      //TODO: 지울것
 
-    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+    ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
       pk: pk == undefined || pk == '' ? list[0].pk : getParameter('pk'),
@@ -116,16 +116,16 @@ const StockChangeIn = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setName('')
          setList([])
          setList2([])
          setAmount(0)
          setDate(moment().format('YYYY-MM-DD'))
       }else if(res.status === 1000){
-        alert('수량을 다시 확인해주세요.')
+        //alert('수량을 다시 확인해주세요.')
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -165,7 +165,7 @@ const StockChangeIn = () => {
 
     }else{
 
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   }
@@ -193,7 +193,7 @@ const StockChangeIn = () => {
     }
 
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }

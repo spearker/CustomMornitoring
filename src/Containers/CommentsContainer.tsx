@@ -60,7 +60,7 @@ const CommentsContainer = ({children, pk}: Props) => {
         }
 
       }else{
-        alert('10MB 이하의 파일만 업로드 가능합니다.')
+        ////alert('10MB 이하의 파일만 업로드 가능합니다.')
         setFile(null)
         return;
       }
@@ -81,7 +81,7 @@ const CommentsContainer = ({children, pk}: Props) => {
     const results = await getRequest('http://192.168.0.14:8088/api/v1/task/comment/list?pk=' + pk, getToken(TOKEN_NAME))
 
     if(results === false){
-        alert('데이터를 불러올 수 없습니다.')
+        //alert('데이터를 불러올 수 없습니다.')
     }else{
       if(results.status === 200){
         setReplyList(results.results)
@@ -89,7 +89,7 @@ const CommentsContainer = ({children, pk}: Props) => {
         //setReplyList(results.results.replyList)
       }else{
         //TODO : 지울것
-        alert('데이터를 불러올 수 없습니다.')
+        //alert('데이터를 불러올 수 없습니다.')
       }
     }
 
@@ -104,7 +104,7 @@ const CommentsContainer = ({children, pk}: Props) => {
   const onClickDeleteComment = useCallback(async(id: string)=>{
 
 
-    //alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
+    ////alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
     //return;
     const data = {
       pk: pk,
@@ -114,13 +114,13 @@ const CommentsContainer = ({children, pk}: Props) => {
     const res = await postRequest('http://192.168.0.14:8088/api/v1/task/comment/blind', data, getToken(TOKEN_NAME))
 
     if(res === false){
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }else{
         if(res.status === 200){
-           alert('성공적으로 블라인드 처리 되었습니다')
+           //alert('성공적으로 블라인드 처리 되었습니다')
            onClickOpenComment(pk)
         }else{
-          alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+          ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
       }
 
@@ -147,10 +147,10 @@ const CommentsContainer = ({children, pk}: Props) => {
       setIsCreated(true)
       if(res === false){
         setIsCreated(false)
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }else{
         if(res.status === 200){
-           alert('성공적으로 등록 되었습니다')
+           //alert('성공적으로 등록 되었습니다')
            setText('');
            onClickOpenComment(pk)
            setIsCreated(false)
@@ -161,7 +161,7 @@ const CommentsContainer = ({children, pk}: Props) => {
 
         }else{
           setIsCreated(false)
-          alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+          ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
       }
 

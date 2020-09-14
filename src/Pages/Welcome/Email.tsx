@@ -31,12 +31,12 @@ const Email = () => {
     setError('')
 
     if(email.length < 6 || !email.includes('@')){
-      alert('이메일 형식을 확인해주세요.')
+      //alert('이메일 형식을 확인해주세요.')
       setEmail('')
       return
     }
     if(!check){
-      alert('서비스 이용약관 및 정책에 동의해주세요.')
+      //alert('서비스 이용약관 및 정책에 동의해주세요.')
       return;
     }
     let data: object = {
@@ -50,9 +50,9 @@ const Email = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        alert('인증메일이 발송되었습니다. 메일함을 확인해주세요.')
+        //alert('인증메일이 발송되었습니다. 메일함을 확인해주세요.')
       }else if(results.status === 1001 || results.data.status === 1002){
-        alert('가입 불가능한 이메일 입니다.')
+        //alert('가입 불가능한 이메일 입니다.')
       }else{
         //TODO:  기타 오류
       }

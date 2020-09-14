@@ -68,7 +68,12 @@ const ClutchMaintenanceContainer = () => {
                 <div style={{display:'inline-block', textAlign:'left'}}>
                     <span style={{fontSize:20, marginRight:18, marginLeft: 3, fontWeight: 'bold'}}>클러치&브레이크</span>
                 </div>
-                <div style={{display:"flex",flexDirection:"row"}}>
+                <div style={{display:"flex",flexDirection:"row",width: '100%', justifyContent: 'space-around', marginTop: 10, backgroundColor: '#17181c',height: 40,paddingTop: 10}}>
+                    <p>정상 범위</p>
+                    <p>위험 범위</p>
+                    <p>교체 요망 범위</p>
+                </div>
+                <div style={{display:"flex",flexDirection:"row",width: '100%', justifyContent: 'space-around', backgroundColor: '#17181c',height: 40}}>
                     <Input placeholder="정상의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, normal_from: e.target.value})}/>
                     <Input placeholder="정상의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, normal_to: e.target.value})}/>
                     <Input placeholder="위험의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, change_from: e.target.value})}/>

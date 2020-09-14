@@ -67,7 +67,7 @@ const ProductRegister = () => {
 
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
-        //alert(`수정 페이지 진입 - pk :` + param)
+        ////alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         getData()
     }
@@ -124,14 +124,14 @@ const ProductRegister = () => {
      //TODO: 지울것
 
      if (list.length < 1 ||  list2.length<1 ){
-      alert('상품, 기준 바코드는 필수 항목입니다. ')
+      //alert('상품, 기준 바코드는 필수 항목입니다. ')
       //return;
     }
     if(code.indexOf('_')!== -1){
-      alert('언더바(_)를 사용 할 수 없습니다.')
+      //alert('언더바(_)를 사용 할 수 없습니다.')
       return;
     }
-    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+    ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
       material_pk: list[0].pk,
@@ -144,10 +144,10 @@ const ProductRegister = () => {
 
     if(res === false){
       //TODO: 에러 처리
-      alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+      //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
 
          setList([])
          setList2([])
@@ -156,9 +156,9 @@ const ProductRegister = () => {
 
 
       }else if(res.status === 1000){
-        alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
+        //alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -182,14 +182,14 @@ const ProductRegister = () => {
     e.preventDefault();
 
     if (list.length < 1 ||  list2.length<1 ){
-      alert('상품, 기준 바코드는 필수 항목입니다. ')
+      //alert('상품, 기준 바코드는 필수 항목입니다. ')
       return;
     }
     if(code.indexOf('_')!== -1){
-      alert('언더바(_)를 사용 할 수 없습니다.')
+      //alert('언더바(_)를 사용 할 수 없습니다.')
       return;
     }
-   //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+   ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
    const data = {
 
@@ -203,15 +203,15 @@ const ProductRegister = () => {
 
     if(res === false){
       //TODO: 에러 처리
-      alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+      //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 수정 되었습니다')
+         //alert('성공적으로 수정 되었습니다')
       }else if(res.status === 1000){
-        alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
+        //alert('이미 바코드가 등록된 자재거나, 중복된 바코드 넘버 입니다.')
       }else{
         //TODO:  기타 오류
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
       }
     }
 
@@ -238,7 +238,7 @@ const ProductRegister = () => {
     }
 
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -298,7 +298,7 @@ const ProductRegister = () => {
 
     }else{
 
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   }

@@ -52,7 +52,7 @@ const RegisterBarcode = () => {
     //setSearchList(dataSet.moldList);
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
-        //alert(`수정 페이지 진입 - pk :` + param)
+        ////alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         getData()
     }
@@ -104,14 +104,14 @@ const RegisterBarcode = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-      //alert(info)
+      ////alert(info)
      if(name == "" || code == ""){
-       alert('이름, 코드, 타입은 필수 항목입니다. ')
+       //alert('이름, 코드, 타입은 필수 항목입니다. ')
        return;
      }
 
      if(code.includes('_')){
-      alert('코드에 _(언더바) 특수문자를 사용 할 수 없습니다.')
+      //alert('코드에 _(언더바) 특수문자를 사용 할 수 없습니다.')
       return;
      }
 
@@ -129,7 +129,7 @@ const RegisterBarcode = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setName('')
          setCode('')
          setSpec('')
@@ -137,7 +137,7 @@ const RegisterBarcode = () => {
 
 
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -160,7 +160,7 @@ const RegisterBarcode = () => {
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    //alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
+    ////alert('테스트 : 전송 - ' + pk +  code + name + info + made + spec + info );
     //return;
 
 
@@ -174,12 +174,12 @@ const RegisterBarcode = () => {
     }
 
     if(name == "" || code == ""){
-      alert('이름, 코드, 타입은 필수 항목입니다. ')
+      //alert('이름, 코드, 타입은 필수 항목입니다. ')
       return;
     }
 
     if(code.includes('_')){
-     alert('코드에 _(언더바) 특수문자를 사용 할 수 없습니다.')
+     //alert('코드에 _(언더바) 특수문자를 사용 할 수 없습니다.')
      return;
     }
 
@@ -190,7 +190,7 @@ const RegisterBarcode = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 수정 되었습니다')
+         //alert('성공적으로 수정 되었습니다')
       }else{
         //TODO:  기타 오류
       }

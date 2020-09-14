@@ -118,8 +118,8 @@ const WorkerContainer = () => {
         //TODO: 성공시
 
         const tempUrl = `${API_URLS['production'].list}?from=${'2020-08-31'}&to=${'2020-09-13'}&page=${1}`
-
         const res = await getProjectList(tempUrl)
+
 
         setList(res.info_list)
 

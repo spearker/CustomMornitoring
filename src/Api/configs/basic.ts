@@ -26,7 +26,7 @@ client.interceptors.response.use(function (response) {
 
   }, function (error) {
     console.error(error)
-    alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.');
+   //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
     return Promise.reject(error);
 
 });

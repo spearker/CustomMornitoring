@@ -70,7 +70,7 @@ export const API_URLS = {
         list: `/v1/project/list`,
         load: `/v1/project/load`,
         history: `/v1/project/history`,
-        search: `/v1/project/search`
+        search: `/v1/project/search`,
     },
     material: {
         search: `/v1/material/search`

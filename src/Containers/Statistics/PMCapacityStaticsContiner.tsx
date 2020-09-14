@@ -171,7 +171,7 @@ const PMCapacityStaticsContiner = () => {
                 <div style={{marginTop: 25, marginBottom: 23}}>
                     <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 선택</p>
                 </div>
-                {
+                {pressList !== undefined && pressList.length === 0 ? (<p style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가 없습니다. </p></p>) :
                     pressList.map((v, i) => {
 
                         console.log(series[0])

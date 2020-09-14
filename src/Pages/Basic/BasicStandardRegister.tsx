@@ -50,7 +50,7 @@ const BasicStandardRegister = () => {
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
-      //alert(`수정 페이지 진입 - pk :` + param)
+      ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData();
     }
@@ -99,13 +99,13 @@ const BasicStandardRegister = () => {
     const res = await postRequest('http://203.234.183.22:8299/api/v1/item/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
+      // //alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
     }else{
       if(res.status === 200){
-          alert('성공적으로 수정 되었습니다')
+          //alert('성공적으로 수정 되었습니다')
           history.push('/basic/list/item')
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
@@ -125,18 +125,18 @@ const BasicStandardRegister = () => {
       validation1: necessary['standard_validation_type'].data.id,
 
     };
-    //alert(JSON.stringify(data ));
+    ////alert(JSON.stringify(data ));
 
     const res = await postRequest('http://203.234.183.22:8299/api/v1/item/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
+      // //alert('[SERVER ERROR]요청을 처리 할 수 없습니다.')
     }else{
       if(res.status === 200){
-          alert('성공적으로 등록 되었습니다')
+          //alert('성공적으로 등록 되었습니다')
           history.push('/basic/list/item')
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 

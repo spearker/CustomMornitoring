@@ -51,7 +51,7 @@ const RegisterProduct = () => {
 
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
-      //alert(`수정 페이지 진입 - pk :` + param)
+      ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData()
     }
@@ -102,10 +102,10 @@ const RegisterProduct = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    //alert('테스트 : 전송 - ' + code + name + info + list + spec + info );
+    ////alert('테스트 : 전송 - ' + code + name + info + list + spec + info );
     //return;
     if(name === "" ){
-      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     let pks = new Array();
@@ -126,10 +126,10 @@ const RegisterProduct = () => {
     const res = await postRequest(BASE_URL + '/api/v1/product/register' , data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setPk('')
          setName('');
          setAmount(0)
@@ -139,7 +139,7 @@ const RegisterProduct = () => {
         setInfo([]);
       
       }else{
-        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+        //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
@@ -161,10 +161,10 @@ const RegisterProduct = () => {
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
      //TODO: 지울것
-    //alert('테스트 : 전송 - ' + pk +  code + name + info + list + spec + info );
+    ////alert('테스트 : 전송 - ' + pk +  code + name + info + list + spec + info );
     //return;
     if(name === "" ){
-      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     let pks = new Array();
@@ -184,13 +184,13 @@ const RegisterProduct = () => {
     const res = await postRequest(BASE_URL + '/api/v1/product/update' , data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 수정 되었습니다')
+         //alert('성공적으로 수정 되었습니다')
 
       }else{
-        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+        //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
@@ -208,7 +208,7 @@ const RegisterProduct = () => {
   
     e.preventDefault();
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     } 

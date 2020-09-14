@@ -31,7 +31,7 @@ const ForgotPw = () => {
     setError('')
 
     if(email.length < 6 || !email.includes('@')){
-      alert(t('errorEmail'))
+      //alert(t('errorEmail'))
       setEmail('')
       return
     }
@@ -46,9 +46,9 @@ const ForgotPw = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        alert(t('checkMail'))
+        //alert(t('checkMail'))
       }else if(results.status === 1001 || results.status === 1002){
-        alert(t('errorUse'))
+        //alert(t('errorUse'))
       }else{
         //TODO:  기타 오류
       }

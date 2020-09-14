@@ -52,7 +52,7 @@ const RegisterMachine = () => {
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
-      //alert(`수정 페이지 진입 - pk :` + param)
+      ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData()
     }
@@ -94,7 +94,7 @@ const RegisterMachine = () => {
 
     }else{
 
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   }
@@ -155,7 +155,7 @@ const RegisterMachine = () => {
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
     if(name === "" ){
-      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -174,12 +174,12 @@ const RegisterMachine = () => {
     const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-          alert('성공적으로 수정 되었습니다')
+          //alert('성공적으로 수정 되었습니다')
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
@@ -200,10 +200,10 @@ const RegisterMachine = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
     //console.log(infoList)
-    //alert(JSON.stringify(infoList))
+    ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
     if(name === "" ){
-      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -225,7 +225,7 @@ const RegisterMachine = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setName('');
          setMade('');
          setPhotoName('');

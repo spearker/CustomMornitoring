@@ -40,9 +40,9 @@ const ProfileBar = ({title}: Props) => {
    * @returns X
    */
   const onClickLogout = useCallback(async()=>{
-    //alert('테스트 : 로그아웃 - ' + getToken(TOKEN_NAME));
+    ////alert('테스트 : 로그아웃 - ' + getToken(TOKEN_NAME));
     removeToken(TOKEN_NAME)
-    alert('성공적으로 로그아웃 되었습니다');
+    //alert('성공적으로 로그아웃 되었습니다');
     window.location.href="/"
     return;
     const data = {}
@@ -56,7 +56,7 @@ const ProfileBar = ({title}: Props) => {
         dispatch({
           type: 'LOGOUT_USER',
         });
-        alert("")
+        //alert("")
         window.location.href="/"
 
       }else if(results.status === 1001 || results.data.status === 1002){

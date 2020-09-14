@@ -34,16 +34,16 @@ const SuperRegister = () => {
 
     //발리데이션
     if(pw == '' || name == '' || email ==='' || username === ''){
-      alert('필수 항목을 모두 입력해주세요.')
+      //alert('필수 항목을 모두 입력해주세요.')
       return
     }
     if(pw.length < 6 || pw !== pwCheck){
-      alert('비밀번호를 확인해주세요. (6자 이상)')
+      //alert('비밀번호를 확인해주세요. (6자 이상)')
       setPwCheck('')
       return
     }
     if(email.length < 6 || !email.includes('@')){
-      alert('이메일 형식을 확인해주세요.')
+      //alert('이메일 형식을 확인해주세요.')
       setEmail('')
       return
     }
@@ -60,7 +60,7 @@ const SuperRegister = () => {
       console.log(res);
       if(res.status === 200){
         //welcome/auth로 이동
-        alert('등록 완료 되었습니다!')
+        //alert('등록 완료 되었습니다!')
         setUsername('')
         setEmail('')
         setPw('')
@@ -70,13 +70,13 @@ const SuperRegister = () => {
 
       }else{
         //기타 에러처리
-        alert('SERVER ERROR CHECK : ' + res.status)
+        //alert('SERVER ERROR CHECK : ' + res.status)
 
       }
     })
     .catch(function (error) {
       console.log(error);
-      alert('SERVER ERROR CHECK : ' + error)
+      //alert('SERVER ERROR CHECK : ' + error)
     });
 
 

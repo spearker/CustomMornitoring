@@ -60,7 +60,7 @@ const RegisterLine= () => {
     //setSearchList2(dataSet.subMachineList)
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
-      //alert(`수정 페이지 진입 - pk :` + param)
+      ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData()
     }
@@ -107,10 +107,10 @@ const RegisterLine= () => {
   const onClickSearch = useCallback(async(e)=>{
 
     e.preventDefault();
-    //alert('테스트 : keyword - ' + keyword);
+    ////alert('테스트 : keyword - ' + keyword);
     //return;
     if(keyword  === '' || keyword.length < 1){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -141,10 +141,10 @@ const RegisterLine= () => {
   const onClickSearch2 = useCallback(async(e)=>{
 
     e.preventDefault();
-    //alert('테스트 : keyword - ' + keyword);
+    ////alert('테스트 : keyword - ' + keyword);
     //return;
     if(keyword  === '' || keyword.length < 1){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -197,7 +197,7 @@ const RegisterLine= () => {
     e.preventDefault();
 
     if(no === "" ){
-      alert("라인 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      //alert("라인 번호는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
 
@@ -220,10 +220,10 @@ const RegisterLine= () => {
     const res = await postRequest(BASE_URL + '/api/v1/procedure/register' , data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setPk('')
          setList([]);
          setList2([]);
@@ -231,7 +231,7 @@ const RegisterLine= () => {
          setInfo('')
 
       }else{
-        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+        //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 

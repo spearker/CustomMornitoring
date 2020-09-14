@@ -26,13 +26,13 @@ const ProductStock = () => {
   const index = {
     product_name:'제품 이름',
     product_code:'제품 번호',
-    molds:'사용 금형', 
+    molds:'사용 금형',
     product_spec:'스펙',
     stock:'수량'
 
   }
 
-  
+
   /**
    * onClickFilter()
    * 리스트 필터 변경
@@ -44,12 +44,12 @@ const ProductStock = () => {
     const results = await getRequest(BASE_URL + '/api/v1/product/list/'+filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
@@ -57,20 +57,20 @@ const ProductStock = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
+
     const results = await getRequest(BASE_URL + '/api/v1/product/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list])
@@ -78,7 +78,7 @@ const ProductStock = () => {
 
   useEffect(()=>{
     getList();
-   
+
   },[])
 
   const onClickModify = useCallback(async (id, stock)=>{
@@ -87,17 +87,17 @@ const ProductStock = () => {
     const results = await postRequest(BASE_URL + '/api/v1/product/stock/', {pk: id, stock:stock}, getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('요청 실패하였습니다. 잠시후 이용하세요.')
+      //alert('요청 실패하였습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-        alert('성공적으로 변경되었습니다.')
+        //alert('성공적으로 변경되었습니다.')
         getList()
-        
+
       }else{
-        alert('요청 실패하였습니다. 잠시후 이용하세요.')
+        //alert('요청 실패하였습니다. 잠시후 이용하세요.')
       }
     }
-  
+
   },[])
   return (
       <DashboardWrapContainer index={7}>
@@ -109,14 +109,14 @@ const ProductStock = () => {
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
           </div>
-          <NormalTable widthList={['233px', '140px', '243px', '180px', '180px']} 
+          <NormalTable widthList={['233px', '140px', '243px', '180px', '180px']}
           onChangeEvent={
             setList
           }
           indexList={index} keyName={'pk'} eventType="input" buttonName='변경' onClickEvent={onClickModify} contents={list}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

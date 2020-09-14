@@ -103,9 +103,9 @@ const CompanySetting = () => {
       //TODO: 에러 처리
     } else {
       if (results.status === 200) {
-        alert('성공적으로 저장되었습니다')
+        //alert('성공적으로 저장되었습니다')
       } else {
-        alert('업데이트 실패하였습니다. 모든 필수 항목을 입력해주세요.')
+        //alert('업데이트 실패하였습니다. 모든 필수 항목을 입력해주세요.')
       }
     }
 
@@ -140,7 +140,7 @@ const CompanySetting = () => {
         setTargetTeam(results.results.mother_team)
         setTargetTeam2(results.results.team)
       } else {
-        //alert('잘못된 접근입니다.')
+        ////alert('잘못된 접근입니다.')
         //window.location.href = '/manage/members'
       }
     }
@@ -200,13 +200,13 @@ const CompanySetting = () => {
   const getList = useCallback(async () => {
     const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         setList(results.results)
 
       } else {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   }, [list, list2])
@@ -230,13 +230,13 @@ const CompanySetting = () => {
     }
     const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?pk=' + targetTeam.pk + '&keyword=' , getToken(TOKEN_NAME))
     if (results === false) {
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         setList2(results.results)
         setList2(results.results)
       } else {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   }, [list2, targetTeam, targetTeam2, list])

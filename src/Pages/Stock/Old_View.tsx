@@ -75,7 +75,7 @@ const StockView = () => {
 
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
-        //alert(`수정 페이지 진입 - pk :` + param)
+        ////alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         getData()
     }

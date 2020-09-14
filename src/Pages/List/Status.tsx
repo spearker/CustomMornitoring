@@ -44,17 +44,17 @@ const StatusList = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     //return;
     const results = await getRequest('http://192.168.0.14:8087/api/v1/status/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
+      //alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
+        //alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
       }
     }
   },[option, list])

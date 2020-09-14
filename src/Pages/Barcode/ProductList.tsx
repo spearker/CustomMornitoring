@@ -45,13 +45,13 @@ const ProductList = () => {
     const results = await getRequest('http://211.208.115.66:8199/api/v1/barcode/product/load?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
         setKeyword('')
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list, option, keyword])
@@ -69,12 +69,12 @@ const ProductList = () => {
     const results = await getRequest('http://211.208.115.66:8199/api/v1/barcode/product/load?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list, keyword, option])
@@ -88,18 +88,18 @@ const ProductList = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
     const results = await getRequest('http://211.208.115.66:8199/api/v1/barcode/product/load?keyword='+ keyword +'&orderBy=' + option ,getToken(TOKEN_NAME))
 
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
@@ -117,13 +117,13 @@ const ProductList = () => {
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){
-      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+      //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     }else{
       if(results.status === 200 || results.status === "200"){
-        alert('해당 데이터가 성공적으로 삭제되었습니다.')
+        //alert('해당 데이터가 성공적으로 삭제되었습니다.')
         setList(list.filter(v => v.pk !== tg))
       }else{
-        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+        //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
 

@@ -69,21 +69,21 @@ const FullMonitoring = () => {
     const res = await getRequest(`http://192.168.0.14:8088/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if(res === false){
-      alert('서버에서 데이터를 받아올 수 없습니다.')
+      //alert('서버에서 데이터를 받아올 수 없습니다.')
 
       window.location.href="/dashboard"
     }else{
       if(res.status === 200){
          const data = res.results;
          setList(data);
-         //alert(data.info_list);
+         ////alert(data.info_list);
          console.log(data.info_list)
          const arr = data[0].info_list.map((v, i)=>{
           return( v['title'] )
          })
          setOptionList(arr)
       }else{
-        alert('서버에서 데이터를 받아올 수 없습니다.')
+        //alert('서버에서 데이터를 받아올 수 없습니다.')
 
         window.location.href="/dashboard"
       }

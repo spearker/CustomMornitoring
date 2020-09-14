@@ -153,23 +153,24 @@ const PressMonitoring = () => {
                   openList !== undefined && openList !== null && openList === [] && openList.length === list.length ?
                   <MonitoringOptionButton title={'전체 접기'} color={'#b3b3b3'} onClickEvent={()=>{setOpenList([])}} />
                   :
-                  <MonitoringOptionButton title={'전체 펼치기'} color={'#b3b3b3'} onClickEvent={()=>{setOpenList(
-                    list.map((v:IMonitoringList)=>{return v.pk!})
+                  <MonitoringOptionButton title={'전체 펼치기'} color={'#b3b3b3'} onClickEvent={()=>{
+                      if (list && list.length > 0)
+                        setOpenList(list.map((v:IMonitoringList)=>{return v.pk!})
                   )}} />
                 }
                 {/*<MonitoringOptionButton title={'전체화면 보기'} onClickEvent={()=>history.push('/monitoring/full')} />*/}
-                <MonitoringOptionButton title={'항목 골라보기'} color={'#b3b3b3'} onClickEvent={()=>{setIsPopup(true);setCheckList(selectedList);}} />
-                <MonitoringOptionButton title={'초기화'} color={'#b3b3b3'} onClickEvent={()=>{onClickRefresh()}}/>
+                {/*<MonitoringOptionButton title={'항목 골라보기'} color={'#b3b3b3'} onClickEvent={()=>{setIsPopup(true);setCheckList(selectedList);}} />*/}
+                {/*<MonitoringOptionButton title={'초기화'} color={'#b3b3b3'} onClickEvent={()=>{onClickRefresh()}}/>*/}
               </div>
-
           </WrapBox><br/>
 
           {
             list && arrayType === 0 ?
+                list.length !== 0 ? (
             list.map((v:IMonitoringList,i)=>{
               if(statusFilter === 1000){
-
                 return(
+                    <>
                   <MonitoringCard key={ 'm-' + i} contents={v}  optionList={selectedList.length === 0 ? v.info_list.map((m)=>{ return  Number(m.title)}) : selectedList}
                   onClickEvent={()=>{
                     if(openList.indexOf(v.pk) !== -1){ // 열렸으면
@@ -181,6 +182,7 @@ const PressMonitoring = () => {
                     }
                   }}
                   isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
+                  </>
                 )
               }else{
                 if(v.operation === statusFilter){
@@ -199,11 +201,12 @@ const PressMonitoring = () => {
                   )
                 }
               }
-
             })
+                    ) :
+                    (<p style={{margin:100}}>데이터가 없습니다.</p>)
             :
-                list && <MonitoringVerticalTable contents={list} operation={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
 
+                list && <MonitoringVerticalTable contents={list} operation={statusFilter} filterList={selectedList.length === 0 && list.length > 0 ? list[0].info_list.map((m)=>{ return  Number(m.title)}) : selectedList}/>
           }
           </>
 }

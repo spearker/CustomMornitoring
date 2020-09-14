@@ -93,7 +93,7 @@ const  PMReadyTimeContainer = () => {
         const resultData = await getAnalysisReadyTime(tempUrl);
 
         if(typeof resultData.analyze.downtime.qdc !== 'number'){
-            alert('[SERVER ERROR] qdc time error')
+            // //alert('[SERVER ERROR] qdc time error')
             return
         }
 

@@ -170,14 +170,6 @@ const SegmentListContainer = () => {
         const tempUrl = `${API_URLS['segment'].delete}`
         const res = await getSegmentList(tempUrl)
 
-        setDetailList(res)
-
-    },[detailList])
-
-    const getDelete = useCallback( async()=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['segment'].delete}`
-        const res = await getSegmentList(tempUrl)
 
         setDetailList(res)
 

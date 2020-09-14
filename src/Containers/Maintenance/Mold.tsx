@@ -18,6 +18,7 @@ const MoldMaintenanceContainer = () => {
   const [detailList,setDetailList] = useState<any>({
     max_count: 0,
     current_count: 0,
+    percent: 0,
     pk: ""
   });
   const [index, setIndex] = useState({mold_name: '금형 명'});
@@ -57,8 +58,6 @@ const MoldMaintenanceContainer = () => {
     }
   }, [selectPk, getData]);
 
-  const WidthPercent = detailList.current_count/detailList.max_count*100
-
 
   const getList = useCallback(async ()=>{ // useCallback
     //TODO: 성공시
@@ -88,11 +87,11 @@ const MoldMaintenanceContainer = () => {
                   <CountingContainer>
                     <div>
                       <p>타수 카운팅</p>
-                      <p>{(detailList.max_count-detailList.current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}회 남음</p>
+                      <p style={{width: '180%'}}>{(detailList.max_count-detailList.current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}회 남음</p>
                     </div>
                     <div>
                       <MoldMaxBar>
-                        <div style={{width: WidthPercent+"%" }}>
+                        <div style={{width: detailList.percent+"%" }}>
 
                         </div>
                       </MoldMaxBar>

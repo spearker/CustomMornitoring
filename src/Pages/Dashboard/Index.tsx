@@ -38,13 +38,6 @@ interface ITodayInfo{
 }
 
 const dummy = [
-  {pk: '213', type:'press', name:'프레스 01', status:'active', photo:'', is_connect: true, },
-  {pk: '211r1323', type:'press',  name:'프레스 02', status:'ready', photo:'', is_connect: true, },
-  {pk: 'ewa', type:'press',  name:'프레스 03', status:'error', photo:'', is_connect: true, },
-  {pk: '211wev23', type:'press',  name:'프레스 04', status:'active', photo:'', is_connect: true, },
-  {pk: 'qweeq', type:'press',  name:'프레스 05', status:'active', photo:'', is_connect: true, },
-  {pk: 'qwvc', type:'press',  name:'프레스 06', status:'active', photo:'', is_connect: true, },
-  {pk: '12321w', type:'press',  name:'프레스 07', status:'active', photo:'', is_connect: true, },
 
 ]
 
@@ -143,13 +136,13 @@ const Dashboard = () => {
     const results = await getRequest('http://192.168.0.14:8087/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
 
     if(results === false){
-      //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
+      ////alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
     }else{
       if(results.status === 200){
           setStock(results.results.stock)
           setStatus(results.results.item_list)
       }else{
-        alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
+        //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
       }
     }
   },[page])
@@ -164,13 +157,13 @@ const Dashboard = () => {
     const results = await getRequest('http://192.168.0.14:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
-      //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
+      ////alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
     }else{
       if(results.status === 200){
           setStock(results.results.stock)
           setStatus(results.results.item_list)
       }else{
-        alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
+        //alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
       }
     }
   },[page])
@@ -182,14 +175,14 @@ const Dashboard = () => {
    * @returns X
    */
   const onClickChangePage = useCallback((index: number)=>{
-   //alert(page + ' -> ' + index)
+   ////alert(page + ' -> ' + index)
     console.log(index)
       if(stock < 7){
-        //alert('미만')
+        ////alert('미만')
         return
       }
       if(index < 1 || index > Math.ceil(stock/6)){
-        //alert('뭐야')
+        ////alert('뭐야')
         return
       }
       setPage(index)
@@ -206,7 +199,7 @@ const Dashboard = () => {
    * @returns X
    */
   const onClickTaskStatus = useCallback(async(pk: string, value:string)=>{
-    //alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
+    ////alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
     //return;
     const data = {
       pk: pk,
@@ -215,13 +208,13 @@ const Dashboard = () => {
     const results = await postRequest('http://192.168.0.14:8088/api/v1/task/status', data,getToken(TOKEN_NAME))
 
     if(results === false){
-      //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
+      ////alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
     }else{
       if(results.status === 200){
-        alert('성공적으로 변경되었습니다.')
+        //alert('성공적으로 변경되었습니다.')
         onClickFilter(0)
       }else{
-        alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
+        //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
       }
     }
   },[])
@@ -234,18 +227,18 @@ const Dashboard = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     //return;
     const results = await getRequest('http://192.168.0.14:8088/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
 
     if(results === false){
-      //alert('서버에서 데이터를 불러 올 수없습니다.')
+      ////alert('서버에서 데이터를 불러 올 수없습니다.')
     }else{
       if(results.status === 200){
           setTaskList(results.results)
 
       }else{
-        alert('서버에서 데이터를 불러 올 수없습니다.')
+        //alert('서버에서 데이터를 불러 올 수없습니다.')
       }
     }
   },[option])
@@ -268,7 +261,7 @@ const Dashboard = () => {
               </div>
               <div style={{flexWrap: 'wrap', flexDirection: 'row',marginTop: 25, width:'90%', marginBottom: 17, textAlign:'center'}}>
               <div className="p-limit" style={{display: 'flex', flexDirection: 'row',width:'100%',textAlign:'center'}}>
-                {
+                { dummy !== undefined && dummy.length === 0 ?<p style={{color: '#ffffff', textAlign: "center",marginLeft: '43%' }}>데이터가 없습니다.</p> :
                   dummy.map((v: IStatus2, index)=>{
                       if((page-1)*6 <= index){
                         if((page-1)*6 + 5 >= index){

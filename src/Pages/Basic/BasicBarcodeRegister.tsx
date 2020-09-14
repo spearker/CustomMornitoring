@@ -79,7 +79,7 @@ const BasicBarcodeRegister = () => {
     e.preventDefault();
 
     if(inputData.rules.includes(null) || inputData.rules.name == '' ){
-      alert('바코드 이름과 규칙을 반드시 입력해주세요.');
+      //alert('바코드 이름과 규칙을 반드시 입력해주세요.');
       return;
     }
 
@@ -94,14 +94,14 @@ const BasicBarcodeRegister = () => {
     const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/standard/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
+     ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
 
     }else{
       if(res.status === 200){
-          alert('성공적으로 수정 되었습니다');
+          //alert('성공적으로 수정 되었습니다');
           history.push('/basic/list/barcode')
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
@@ -111,7 +111,7 @@ const BasicBarcodeRegister = () => {
     e.preventDefault();
 
     if(inputData.rules.includes(null) || inputData.rules.name == '' )
-      return alert('바코드 이름과 규칙을 반드시 입력해주세요.');
+      return //alert('바코드 이름과 규칙을 반드시 입력해주세요.');
     let data
     if(inputData.description){
       data = {
@@ -134,14 +134,14 @@ const BasicBarcodeRegister = () => {
 
     const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
     if(res === false){
-      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
+     ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
 
     }else{
       if(res.status === 200){
-          alert('성공적으로 등록 되었습니다');
+          //alert('성공적으로 등록 되었습니다');
           history.push('/basic/list/barcode')
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 

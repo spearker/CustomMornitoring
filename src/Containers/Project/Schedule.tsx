@@ -180,7 +180,6 @@ const ScheduleContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['production'].list}?from=${'2020-09-01'}&to=${'2020-09-20'}&page=${1}`
         const res = await getProjectList(tempUrl)
-
         const getprocesses = res.info_list.map((v,i)=>{
 
             const statement =  v.state ? '배포됨' : '배포전'
@@ -190,7 +189,6 @@ const ScheduleContainer = () => {
 
 
         setList(getprocesses)
-
 
     },[list])
 

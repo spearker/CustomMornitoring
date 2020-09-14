@@ -94,7 +94,7 @@ const OvertonMaintenanceContainer = () => {
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <LineTable title={selectMachine+' 오버톤 상세내용'} contentTitle={subIndex} contentList={detailList}>
+                    <LineTable title={selectMachine+' 상세내용'} contentTitle={subIndex} contentList={detailList}>
                         <Line/>
                     </LineTable>
                     :

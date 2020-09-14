@@ -16,7 +16,7 @@ export const JsonStringifyList = (list1: any[] = [], list2: any[] = [])=>{
 
     const temp = [...temp1, ...temp2]
 
-      alert(temp)
+      // alert(temp)
       if(temp.length === 0){
           return null
       }else{

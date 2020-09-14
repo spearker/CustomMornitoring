@@ -30,7 +30,7 @@ interface IProps {
 
 const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeChanger, onClickRemove, onClickEvent, onClickEventName, onClickEvent2, onClickEventName2,   onClickLinkUrl }: IProps) => {
   const history = useHistory()
-  
+
   useEffect(() => {
     console.log(Object.keys(indexList))
   }, [])
@@ -41,7 +41,7 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
         <tbody>
           <tr className="p-bold" style={{ borderBottom: `10px solid ${BG_COLOR_SUB2}` }}>
             {/* 테이블 헤드 */}
-         
+
             {
               Object.keys(indexList).map((v, i) => {
                 return (
@@ -61,15 +61,20 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                 :
                 null
             }
-             
+
           </tr>
           {/* 테이블 바디 */}
 
           {
-
+            contents.length === 0  ?
+                Object.keys(indexList).map((mv, mi) => {
+                  return(
+                    <td >데이터가 없습니다.</td>
+                  )})
+                :
             contents.map((v, i) => {
               return (
-           
+
                 <tr key={i} >
 
                   {
@@ -83,16 +88,16 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                               Object.keys(v[mv]).map(m => {
                                 return  v[mv][m] + ' '
                               })
-                          
+
                             :
                             v[mv]
-             
-                            
+
+
                           }
                          </td>
                           :
                           null
-                        
+
                       )
                     })
                   }
@@ -102,7 +107,7 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                     <ButtonBox onClick={() => { onClickEvent(v[pkKey]) }} >{onClickEventName}</ButtonBox>
                     {
                     onClickEvent2 !== undefined ?
-                    
+
                     <ButtonBox style={{marginLeft:8}} onClick={() => { onClickEvent2(v[pkKey]) }} >{onClickEventName2}</ButtonBox>
 
                       :
@@ -112,19 +117,19 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
                       :
                       null
                   }
-                   
+
                   {
                     onClickRemove !== undefined ?
                       <td style={{ textAlign:'right', paddingRight:8}}>
                         <ButtonBox onClick={() => { onClickRemove(v[pkKey]) }} >삭제</ButtonBox>
-                      </td> 
+                      </td>
                       :
                       null
                   }
 
 
                 </tr>
-            
+
               )
             })
           }
@@ -177,7 +182,7 @@ const TableWrap = Styled.div`
         background-color: white;
       }
     }
-  
+
 `
 const InputBox = Styled.input`
     border: solid 0.5px #d3d3d3;

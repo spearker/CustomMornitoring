@@ -26,7 +26,7 @@ const ProductList = () => {
   const index = {
     product_name:'제품 이름',
     product_code:'제품 번호',
-    molds:'사용 금형', 
+    molds:'사용 금형',
     product_spec:'스펙',
 
   }
@@ -34,20 +34,20 @@ const ProductList = () => {
    /**
    * getList()
    * 목록 불러오기
-   * @param {string} url 
+   * @param {string} url
    * @returns X
    */
   const getList = useCallback(async ()=>{
-   
+
     const results = await getRequest(BASE_URL + '/api/v1/product/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list])
@@ -60,31 +60,31 @@ const ProductList = () => {
    */
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
-    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    
+    ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+
     const results = await getRequest(BASE_URL + '/api/v1/product/list/' + filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
 
   useEffect(()=>{
     getList()
-   
+
   },[])
 
   const onClickModify = useCallback((id)=>{
 
     console.log('--select id : ' + id)
     window.location.href=`/update/product?pk=${id}`
-  
+
   },[])
 
   return (
@@ -101,7 +101,7 @@ const ProductList = () => {
           <NormalTable widthList={['253px', '140px', '253px', '200px']} indexList={index} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

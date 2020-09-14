@@ -119,7 +119,7 @@ const TaskRegister = () => {
       if(param !== ""){
           setPk(param)
           getData()
-          //alert(`수정 페이지 진입 - pk :` + param)
+          ////alert(`수정 페이지 진입 - pk :` + param)
           setIsUpdate(true)
       }
 
@@ -153,19 +153,19 @@ const TaskRegister = () => {
 
 
       if(res === false){
-        alert('8089 포트 : 현재 추천 데이터를 받아올 수 없습니다.')
+        //alert('8089 포트 : 현재 추천 데이터를 받아올 수 없습니다.')
       }else{
         if(res.status === 200){
           const data = res.results;
           if(data.length === 0){
-            alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
+            //alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
             setRecommend(data)
           }else{
             setRecommend(data)
           }
 
         }else{
-          alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
+          //alert('해당 자재는 현재 추천 공정 데이터가 존재하지 않습니다.')
         }
       }
     },[list, recommend ])
@@ -178,7 +178,7 @@ const TaskRegister = () => {
    */
   const onClickFilter = useCallback(async(filter:number)=>{
     setOption(filter)
-    alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
     const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
 
@@ -206,10 +206,10 @@ const TaskRegister = () => {
    * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
-    //alert('keyword')
+    ////alert('keyword')
     e.preventDefault();
     let type = "material";
-   // alert('keyword')
+   // //alert('keyword')
     if(isPoupup === true ){
       type= 'material'
     }else if(isPoupup2 === true){
@@ -223,7 +223,7 @@ const TaskRegister = () => {
     }
 
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -265,10 +265,10 @@ const TaskRegister = () => {
   const onClickSearchMaterial = useCallback(async(e)=>{
 
     e.preventDefault();
-    //alert('테스트 : keyword - ' + keyword);
+    ////alert('테스트 : keyword - ' + keyword);
     //return;
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -301,10 +301,10 @@ const TaskRegister = () => {
   const onClickSearchProcess = useCallback(async(e)=>{
 
     e.preventDefault();
-    //alert('테스트 : keyword - ' + keyword);
+    ////alert('테스트 : keyword - ' + keyword);
     //return;
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }
@@ -386,7 +386,7 @@ const TaskRegister = () => {
     console.log(event.target.files[0]);
 
     if(fileList.length + oldFileList.length > 7){
-      alert('파일 업로드는 8개 이하로 제한되어있습니다.')
+      //alert('파일 업로드는 8개 이하로 제한되어있습니다.')
       return;
     }
 
@@ -414,7 +414,7 @@ const TaskRegister = () => {
       }
 
     }else{
-      alert('9MB 이하의 파일만 업로드 가능합니다.')
+      //alert('9MB 이하의 파일만 업로드 가능합니다.')
       return;
     }
 
@@ -430,7 +430,7 @@ const TaskRegister = () => {
     e.preventDefault();
 
     if(worker === null || title == "" || list.length < 1 || list2.length < 1){
-      alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
+      //alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
       return;
     }
     let tempOpt = 'auto';
@@ -461,15 +461,15 @@ const TaskRegister = () => {
     const res = await postRequest('http://192.168.0.14:8088/api/v1/task/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
 
-         alert('성공적으로 수정 되었습니다');
+         //alert('성공적으로 수정 되었습니다');
 
 
       }else{
-        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+        //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
@@ -483,7 +483,7 @@ const TaskRegister = () => {
     e.preventDefault();
 
     if(worker === null || title == "" || list.length < 1){
-      alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
+      //alert("제목, 작업자, 생산제품, 공정은 필수 항목입니다.")
       return;
     }
     let tempOpt = 'auto';
@@ -537,11 +537,11 @@ const TaskRegister = () => {
     const res = await postRequest('http://192.168.0.14:8088/api/v1/task/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+      //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
     }else{
       if(res.status === 200){
 
-         alert('성공적으로 등록 되었습니다');
+         //alert('성공적으로 등록 되었습니다');
 
          setTitle('');
          setDescription('');
@@ -553,7 +553,7 @@ const TaskRegister = () => {
          setRecommend([])
 
       }else{
-        alert('실패하였습니다. 잠시후 다시 시도해주세요.')
+        //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
     }
 
@@ -610,12 +610,12 @@ const TaskRegister = () => {
     const res = await postRequest('http://192.168.0.14:8088/api/v1/task/file',data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
+      //alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
     }else{
       if(res.status === 200){
          //setFileList([])
       }else{
-        alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
+        //alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')
       }
     }
   },[fileList])

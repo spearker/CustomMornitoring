@@ -74,7 +74,7 @@ const RegisterProcess = () => {
 
     if(getParameter('pk') !== "" ){
         setPk(getParameter('pk'))
-        //alert(`수정 페이지 진입 - pk :` + param)
+        ////alert(`수정 페이지 진입 - pk :` + param)
         setIsUpdate(true)
         getData()
     }
@@ -134,10 +134,10 @@ const RegisterProcess = () => {
      //TODO: 지울것
 
      if(name == "" || list.length < 1 ||  list3.length < 1 || list4.length < 1 ){
-       alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
+       //alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
         return;
      }
-    //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+    ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
     const data = {
         name: name,
@@ -155,14 +155,14 @@ const RegisterProcess = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다')
+         //alert('성공적으로 등록 되었습니다')
          setName('')
          setList([])
          setList2([])
          setList3([])
          setList4([])
       }else{
-        alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
+        //alert('등록 실패하였습니다. 잠시후에 다시 시도해주세요.')
         //TODO:  기타 오류
       }
     }
@@ -186,10 +186,10 @@ const RegisterProcess = () => {
     e.preventDefault();
 
     if(name == "" || list.length < 1 ||  list3.length < 1 || list4.length < 1 ){
-      alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
+      //alert('공정이름, 원자재, 기계, 생산자재는 필수 항목입니다. ')
       return;
     }
-   //alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
+   ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
    //return;
    const data = {
        pk: getParameter('pk'),
@@ -205,7 +205,7 @@ const RegisterProcess = () => {
       //TODO: 에러 처리
     }else{
       if(res.status === 200){
-         alert('성공적으로 수정 되었습니다')
+         //alert('성공적으로 수정 되었습니다')
       }else{
         //TODO:  기타 오류
       }
@@ -239,7 +239,7 @@ const RegisterProcess = () => {
     }
 
     if(keyword  === '' || keyword.length < 2){
-      alert('2글자 이상의 키워드를 입력해주세요')
+      //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
     }

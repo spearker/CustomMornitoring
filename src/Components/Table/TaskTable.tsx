@@ -71,13 +71,13 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     const res = await postRequest('http://192.168.0.14:8088/api/v1/task/amount', data, getToken(TOKEN_NAME))
 
     if(res === false){
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }else{
         if(res.status === 200){
-           alert('성공적으로 변경 되었습니다')
+           //alert('성공적으로 변경 되었습니다')
 
         }else{
-          alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+          ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
       }
 
@@ -95,12 +95,12 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       return;
     }
 
-    //alert(pk)
+    ////alert(pk)
 
     const results = await getRequest('http://192.168.0.14:8088/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
-      alert(' 데이터를 불러올 수 없습니다.')
+      //alert(' 데이터를 불러올 수 없습니다.')
       setTask(null)
 
     }else{
@@ -112,7 +112,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
         //setReplyList(results.results.replyList)
       }else{
         //TODO : 지울것
-        alert('데이터를 불러올 수 없습니다.')
+        //alert('데이터를 불러올 수 없습니다.')
         setTask(null)
       }
     }
@@ -134,7 +134,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
     const results = await getRequest('http://192.168.0.14:8087/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
+      //alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
     }else{
       if(results.status === 200){
         //setTask(results.results)
@@ -143,7 +143,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
         //setReplyList(results.results.replyList)
       }else{
         //TODO : 지울것
-        alert('데이터를 불러올 수 없습니다.')
+        //alert('데이터를 불러올 수 없습니다.')
       }
     }
 

@@ -14,10 +14,11 @@ const MoldContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 명' });
-    const [detailList,setDetailList] = useState<({ accumulate: number, mold_life: number, yesterday_count: number})>({
+    const [detailList,setDetailList] = useState<({ accumulate: number, mold_life: number, yesterday_count: number, percent: number})>({
         accumulate: 0,
         mold_life: 0,
-        yesterday_count: 0
+        yesterday_count: 0,
+        percent: 0
     });
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -111,8 +112,6 @@ const MoldContainer = () => {
 
     },[])
 
-    const WidthPercent=detailList.accumulate/detailList.mold_life*100
-
 
     return (
         <div>
@@ -132,12 +131,12 @@ const MoldContainer = () => {
                                     </div>
                                     <div>
                                        <MoldArrowContainer>
-                                           <img src={icCurrentValue} style={{marginLeft: WidthPercent-1.2+"%"}}>
+                                           <img src={icCurrentValue} style={{marginLeft: detailList.percent-1.2+"%"}}>
 
                                            </img>
                                        </MoldArrowContainer>
                                         <MoldMaxBar>
-                                            <div style={{width: WidthPercent+"%" }}>
+                                            <div style={{width: detailList.percent+"%" }}>
 
                                             </div>
                                         </MoldMaxBar>

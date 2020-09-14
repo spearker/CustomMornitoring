@@ -36,7 +36,7 @@ const ProcessPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['process'].search2}?keyword=${searchName}`
         const resultData = await getSearchMachine(tempUrl);
 
         setMachineList(resultData.results)

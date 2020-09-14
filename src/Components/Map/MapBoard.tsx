@@ -109,7 +109,7 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
 
             setComponents(resultObj.components)
         }else{
-            alert('[데이터 없음] 공장 도면이 등록되어야 사용 할 수 있는 기능힙니다. 공장 도면을 등록해주세요!')
+            ////alert('[데이터 없음] 공장 도면이 등록되어야 사용 할 수 있는 기능힙니다. 공장 도면을 등록해주세요!')
         }
 
         console.log(resultObj);
@@ -132,7 +132,7 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
         setFactories(results);
 
         if(results.length <= 0){
-            alert('조회 가능한 공장 데이터가 없습니다.')
+            // //alert('조회 가능한 공장 데이터가 없습니다.')
             return;
         }else{
             setSelectFactory({pk: results[0].pk, name: results[0].name});
@@ -206,7 +206,7 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
                 {
                     components.length === 0 &&
                     <div style={{width: "100%", height: "100%", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <div style={{flex: 1}}><p style={{textAlign: 'center'}}>데이터를 불러오지 못했습니다.</p></div>
+                        <div style={{flex: 1}}><p style={{textAlign: 'center'}}>데이터가 없습니다.</p></div>
                     </div>
                 }
                 {

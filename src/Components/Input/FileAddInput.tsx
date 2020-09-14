@@ -27,7 +27,7 @@ const FileAddInput = ({title, value,description, onChangeEvent, target}: IProps)
 
 
     if(target !== undefined && !event.target.files[0].type.includes(target)){ //이미지인지 판별
-        alert('이미지 형식만 업로드 가능합니다.');
+        //alert('이미지 형식만 업로드 가능합니다.');
         return onChangeEvent('');
     }
 

@@ -54,7 +54,7 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
 
     if(res === false){
       //TODO: 에러 처리
-      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 1')
+      // //alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 1')
     }else{
       if(res.status === 200 || res.status === "200"){
         setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
@@ -63,19 +63,19 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
         onChangeOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: '', title: v.item_name})}))
       }else{
         //TODO:  기타 오류
-        alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
+        //alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
       }
     }
   },[essential, optional ])
 
   const getUpdateData = useCallback(async()=>{
-    //alert(pk)
+    ////alert(pk)
 
     const res = await getRequest(loadDataUrl!, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
-      alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 2')
+      // //alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 2')
     }else{
       if(res.status === 200 || res.status === "200"){
         setEssential(res.results.essential.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
@@ -84,7 +84,7 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
         onChangeOptional(res.results.optional.map((v)=>{return({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})}))
       }else{
         //TODO:  기타 오류
-        alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
+        //alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
       }
     }
   },[essential, optional ])

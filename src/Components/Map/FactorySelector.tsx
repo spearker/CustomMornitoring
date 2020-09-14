@@ -7,17 +7,17 @@ import PressNameMarker from './Marker/PressNameMarker';
 import IC_BEFORE from '../../Assets/Images/ic_before_page.png';
 import IC_AFTER from '../../Assets/Images/ic_next_page.png';
 interface Props{
-    list: any[], 
+    list: any[],
     select: any,
     onChangeEvent: any,
 }
 const FactorySelector = ({list, select, onChangeEvent}: Props) => {
 
     const onClickStep = useCallback((direction)=>{
-        
+
         const pkList = list.map(v => v.pk);
         const idx = pkList.indexOf(select.pk);
-        
+
         if(idx == -1){
             return;
         }
@@ -26,7 +26,7 @@ const FactorySelector = ({list, select, onChangeEvent}: Props) => {
                 onChangeEvent(list[idx-1])
             }
         }else{
-           
+
             if(idx < list.length - 1){
                 onChangeEvent(list[idx+1])
             }
@@ -41,12 +41,13 @@ const FactorySelector = ({list, select, onChangeEvent}: Props) => {
 
             <img src={IC_AFTER} onClick={()=>{onClickStep('AFTER')}}/>
         </Wrapper>
-        
+
     )
 }
 
 const Wrapper = Styled.div`
     max-width: 1100px !important;
+    height: 30px;
     background-color: #111319;
     color: white;
     text-align: center;

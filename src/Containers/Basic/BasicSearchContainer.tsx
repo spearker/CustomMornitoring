@@ -64,7 +64,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key,
       onSearchInit()
 
     // if(keyword  === '' || keyword.length < 2){
-    //   alert('2글자 이상의 키워드를 입력해주세요')
+    //   //alert('2글자 이상의 키워드를 입력해주세요')
     //   return;
     // }
 
@@ -75,7 +75,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, solo, key,
 
         if(res === false){
             //TODO: 에러 처리
-            alert('[SERVER ERROR] 조회가 불가능합니다.')
+            // //alert('[SERVER ERROR] 조회가 불가능합니다.')
         }else{
             if(res.status === 200){
                 const results = res.results;

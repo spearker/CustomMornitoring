@@ -114,7 +114,7 @@ const MapEditorContiner = ({ match }: Props) => {
 
     }else{
 
-      alert('이미지 형식만 업로드 가능합니다.')
+      //alert('이미지 형식만 업로드 가능합니다.')
     }
 
   },[inputData,tempMapUrl])
@@ -137,17 +137,17 @@ const MapEditorContiner = ({ match }: Props) => {
 
   const validataion = () => {
     if(componentList.length == 0){
-      alert('컴포넌트를 추가해주세요.');
+      //alert('컴포넌트를 추가해주세요.');
       return false;
     }
     // if(inputData.map_img == null || inputData.map_img == '' ){
     //   if(factoryPk == undefined){
-    //     alert('최초 도면 생성시에는, 배경 이미지를 추가해주세요.');
+    //     //alert('최초 도면 생성시에는, 배경 이미지를 추가해주세요.');
     //     return false
     //   }
     // }
     if(inputData.map_width > 4096 || inputData.map_width < 280){
-      alert('도면의 크기는 280px 이상, 4096px 미만 입니다.');
+      //alert('도면의 크기는 280px 이상, 4096px 미만 입니다.');
       return false
     }
     return true
@@ -174,14 +174,14 @@ const MapEditorContiner = ({ match }: Props) => {
     if(factoryPk !== undefined ){
       const result = await saveCommonData(API_URLS[`map`].update , data);
       if(result){
-        alert('성공적으로 수정되었습니다.');
+        //alert('성공적으로 수정되었습니다.');
         history.push(`/company/maps/${companyPk}`);
       }
 
     }else{
       const result = await saveCommonData(API_URLS[`map`].create , data);
       if(result){
-        alert('성공적으로 저장되었습니다.');
+        //alert('성공적으로 저장되었습니다.');
         history.push(`/company/maps/${companyPk}`);
       }
 

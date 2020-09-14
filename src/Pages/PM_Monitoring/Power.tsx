@@ -35,7 +35,7 @@ const CmsPower: React.FunctionComponent = () => {
     //             setDBox(results.results.distribution_box)
     //         }else{
     //             //TODO : 지울것
-    //             alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
+    //             //alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
     //         }
     //     }
     // }

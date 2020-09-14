@@ -19,7 +19,7 @@ const WelcomeInput = ({title, hint, type, value, onChangeEvent}: IProps) => {
     const onCheckKor = (event) => {
         event = event || window.event;
         if((/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g).test(event.target.value)){
-            alert('한글은 비밀번호로 사용할 수 없습니다.')
+           ////alert('한글은 비밀번호로 사용할 수 없습니다.')
         }
         var keyID = (event.which) ? event.which : event.keyCode;
         if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 )

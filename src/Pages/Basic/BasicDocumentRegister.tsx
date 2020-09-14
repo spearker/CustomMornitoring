@@ -59,7 +59,7 @@ const BasicDocumentRegister = () => {
   useEffect(()=>{
     if(getParameter('pk') !== "" ){
       setPk(getParameter('pk'))
-      //alert(`수정 페이지 진입 - pk :` + param)
+      ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData();
     }
@@ -75,7 +75,7 @@ const BasicDocumentRegister = () => {
     setIsChange(false)
     if(res === false){
       //TODO: 에러 처리
-      alert('[SERVER ERROR]표준 항목을 로드 할 수 없습니다.')
+      // //alert('[SERVER ERROR]표준 항목을 로드 할 수 없습니다.')
         const form = res.results;
         let temp = _.cloneDeep(necessary);
         temp[`items`].data = [];
@@ -91,7 +91,7 @@ const BasicDocumentRegister = () => {
 
       }else{
         //TODO:  기타 오류
-        alert('표준 항목을 로드 할 수 없습니다.')
+        //alert('표준 항목을 로드 할 수 없습니다.')
         const form = res.results;
         let temp = _.cloneDeep(necessary);
         temp[`items`].data = [];
@@ -139,18 +139,18 @@ const BasicDocumentRegister = () => {
       items: necessary.items.data.map((v)=> {return v.pk}),
       validations: necessary.items.data.map((v)=> {return v.validation2}),
     };
-    //alert(data);
+    ////alert(data);
 
     const res = await postRequest('http://203.234.183.22:8299/api/v1/document/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
-      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
+     ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
     }else{
       if(res.status === 200){
-          alert('성공적으로 수정 되었습니다')
+          //alert('성공적으로 수정 되었습니다')
           history.push('/basic/list/document')
       }else{
-        alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
       }
     }
 
@@ -171,21 +171,21 @@ const BasicDocumentRegister = () => {
         items: necessary.items.data.map((v)=> {return v.pk}),
         validations: necessary.items.data.map((v)=> {return v.validation2}),
       };
-      //alert(data);
+      ////alert(data);
 
     const res = await postRequest('http://203.234.183.22:8299/api/v1/document/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
-      alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
+     ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
 
     }else{
       if(res.status === 200){
-         alert('성공적으로 등록 되었습니다');
+         //alert('성공적으로 등록 되었습니다');
          history.push('/basic/list/document')
       }else{
         //TODO:  기타 오류
-        alert('요청을 처리 할 수 없습니다.')
+        // //alert('요청을 처리 할 수 없습니다.')
       }
     }
 

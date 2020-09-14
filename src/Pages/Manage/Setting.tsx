@@ -130,7 +130,7 @@ const CompanySetting = () => {
    */
   const onClickSave = useCallback(async()=> {
       if(list.indexOf('') !== -1){
-          alert('직급을 빈칸 없이 입력해주세요.')
+          //alert('직급을 빈칸 없이 입력해주세요.')
           return
       }
       const data = {
@@ -139,16 +139,16 @@ const CompanySetting = () => {
     const results = await postRequest('http://203.234.183.22:8299/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
+      //alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
         //setList([""])
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
 
-        alert('저장되었습니다')
+        //alert('저장되었습니다')
         getRankList()
       }else{
-        alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
+        //alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
       }
     }
   },[list])

@@ -153,8 +153,8 @@ export const API_URLS = {
         load: '/v1/statistics/press/defective/load'
     },
     product: {
-        list: '/v1/analysis/press/ton/product/list',
-        load: '/v1/analysis/press/ton/product/detail'
+        list: '/v1/statistics/press/ton/product/list',
+        load: '/v1/statistics/press/ton/product/detail'
     },
     mold: {
         list: '/v1/statistics/press/mold/punching',

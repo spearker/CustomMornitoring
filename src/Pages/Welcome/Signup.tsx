@@ -44,16 +44,16 @@ const Signup = () => {
 
     //발리데이션
     if(pw == '' || name == '' || email ==='' || code === ''){
-      alert(t('errorAllSubmit'))
+      //alert(t('errorAllSubmit'))
       return
     }
     if(pw.length < 6 || pw !== pwCheck){
-      alert(t('errorPassord'))
+      //alert(t('errorPassord'))
       setPwCheck('')
       return
     }
     if(email.length < 6 || !email.includes('@')){
-      alert(t('errorUse'))
+      //alert(t('errorUse'))
       setEmail('')
       return
     }
@@ -71,17 +71,17 @@ const Signup = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        alert(t('성공적으로 가입신청되었습니다.'))
+        //alert(t('성공적으로 가입신청되었습니다.'))
         window.location.href= "/complete"
       }else if(results.status === 1001){
-        alert(t('errorUse'))
+        //alert(t('errorUse'))
         setEmail('')
         window.location.href= "/login"
       }else if(results.status === 1003){
-        alert(t('errorCode'))
+        //alert(t('errorCode'))
         setCode('')
       }else if(results.status === 1004){
-        alert(t('만료된 인증코드 입니다. 이메일인증을 다시 해주세요.'))
+        //alert(t('만료된 인증코드 입니다. 이메일인증을 다시 해주세요.'))
         window.location.href= "/login"
         setCode('')
       }else{
@@ -97,7 +97,7 @@ const Signup = () => {
       const param = getParameter('email');
       const param2 = getParameter('authcode');
       if(param === undefined || param === "" || param2 === undefined){
-          alert('잘못된 접근입니다.')
+          //alert('잘못된 접근입니다.')
       }else{
         setEmail(param)
         setAuth(param2)

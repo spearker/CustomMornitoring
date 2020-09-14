@@ -58,8 +58,7 @@ const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allC
                 {children == undefined  || children === null ? <></> : children }
             </div>
             {contentList !== undefined && contentList.length === 0
-                ? (<Content style={{backgroundColor: '#000000'}}><p style={{width: '100%', textAlign: 'center'}}>데이터를
-                    불러오지 못했습니다.</p></Content>)
+                ? (<Content style={{backgroundColor: '#000000'}}><p style={{width: '100%', textAlign: 'center'}}>조회가능한 데이터가 없습니다.</p></Content>)
                 : contentList&&contentList.map((v, i) => {
                         {
                             console.log('ㅇㅇㅇㅇ', contentList.length, i+1)

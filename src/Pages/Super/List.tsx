@@ -53,7 +53,7 @@ const SuperList = () => {
         setCompanyList(res.data.results)
       }else{
         //기타 에러처리
-        alert('SERVER ERROR CHECK : ' + res.data.status)
+        //alert('SERVER ERROR CHECK : ' + res.data.status)
 
       }
     })

@@ -170,11 +170,11 @@ const ProductToneContainer = () => {
     }, [searchName])
 
     useEffect(() => {
-        console.log(searchName)
+        // console.log(searchName)
     },[searchName])
 
     useEffect(()=>{
-        console.log(machineList)
+        // console.log(machineList)
     },[machineList])
 
     useEffect(()=>{
@@ -246,7 +246,7 @@ const ProductToneContainer = () => {
 
 
     const onClick = useCallback((product) => {
-        console.log('dsfewfewf',product.pk,product.mold_name);
+        // console.log('dsfewfewf',product.pk,product.mold_name);
         if(product.pk === selectPk){
             setSelectPk(null);
             setSelectMold(null);
@@ -268,7 +268,8 @@ const ProductToneContainer = () => {
         const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=2020-09-11`
         const res = await getProductData(tempUrl)
 
-        setDetailList([res])
+        console.log(res.length,[res].length,res.dataList)
+        setDetailList(res.length === undefined ? [] : [res])
 
         setDetailTonList(res.dataList)
 
@@ -278,8 +279,6 @@ const ProductToneContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['product'].list}?filter=${pk}`
         const res = await getProductData(tempUrl)
-
-        console.log(res)
 
         setList(res)
 
@@ -295,7 +294,6 @@ const ProductToneContainer = () => {
     },[])
 
     useEffect(()=>{
-        console.log(machinPk)
         getList(machinPk)
     },[machinPk])
 
@@ -306,16 +304,19 @@ const ProductToneContainer = () => {
 
     return (
         <div>
-            <div style={{width: "100%", height: 100,marginTop: 41}}>
-                <select className="p-limits" style={{width: '15%'}} onChange={(e)=>setMachinePk(e.target.value)}>
-                    <option value={'all'}>전체</option>
-                    {
-                        machineList.map((v,i)=>{
-                            return(
-                                <option value={v.pk} key={`${v.pk}machine${i}`}>{v.machine_name}</option>
-                            )
-                    })}
-                </select>
+            <div style={{width: "100%", height: 50,marginTop: 41, borderRadius: 10,paddingLeft: '81%'}}>
+                <div style={{display:"flex"}}>
+                    <p style={{marginRight: 14,marginBottom: 3}}>기계 :</p>
+                    <select className="p-limits" style={{width: '15%', borderRadius: 5, backgroundColor:'#353b48', color:'#ffffff', paddingLeft: 10,}} onChange={(e)=>setMachinePk(e.target.value)}>
+                        <option value={'all'}>전체</option>
+                        {
+                            machineList.map((v,i)=>{
+                                return(
+                                    <option value={v.pk} key={`${v.pk}machine${i}`}>{v.machine_name}</option>
+                                )
+                        })}
+                    </select>
+                </div>
             </div>
             <div style={{display:"flex",flexDirection:"row"}}>
                 <div style={{marginRight: 40}}>

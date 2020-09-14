@@ -76,7 +76,7 @@ const TeamsSetting = () => {
       console.log('--select id : ' + id)
       const results = await postRequest('http://203.234.183.22:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
       if (results === false) {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       } else {
         if (results.status === 200) {
           //setList(results.results)
@@ -85,7 +85,7 @@ const TeamsSetting = () => {
           setName('')
 
         } else {
-          alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         }
       }
     }else{
@@ -97,7 +97,7 @@ const TeamsSetting = () => {
       console.log('--select id : ' + id)
     const results = await postRequest('http://203.234.183.22:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
     if (results === false) {
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         //setList2(results.results)
@@ -105,7 +105,7 @@ const TeamsSetting = () => {
         setName2('')
         getDataSubTeams()
       } else {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
     }
@@ -122,14 +122,14 @@ const TeamsSetting = () => {
 
     const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         setList(results.results)
         setKeyword('')
 
       } else {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   }, [list, keyword])
@@ -144,13 +144,13 @@ const TeamsSetting = () => {
     if(target === null){return}
     const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?pk=' +  target!.pk  + '&keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         setList2(results.results)
 
       } else {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   }, [list2, keyword, target])
@@ -165,7 +165,7 @@ const TeamsSetting = () => {
     e.preventDefault();
     const results = await getRequest('http://192.168.0.14:8088/api/v1/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
       if (results.status === 200) {
         setList(results.results)
@@ -173,7 +173,7 @@ const TeamsSetting = () => {
         setList2([])
 
       } else {
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   }, [list, keyword])
@@ -184,15 +184,15 @@ const TeamsSetting = () => {
 
     console.log('--select id : ' + id)
     if (results === false) {
-      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+      //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     } else {
       if (results.status === 200) {
         getList()
 
       }else if(results.status === 1000){
-        alert('해당 부서(조직)에 소속 직원이 있어, 삭제가 불가합니다.')
+        //alert('해당 부서(조직)에 소속 직원이 있어, 삭제가 불가합니다.')
       } else {
-        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+        //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
 
@@ -207,13 +207,13 @@ const TeamsSetting = () => {
 
     console.log('--select id : ' + id)
     if (results === false) {
-      alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+      //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
     } else {
       if (results.status === 200) {
 
-        alert('성공적으로 변경되었습니다!')
+        //alert('성공적으로 변경되었습니다!')
       } else {
-        alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
+        //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
       }
     }
 

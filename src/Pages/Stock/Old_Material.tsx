@@ -42,12 +42,12 @@ const MaterialList = () => {
     const results = await getRequest('http://192.168.0.14:8088/api/v1/material/list/'+filter,getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[option])
@@ -63,12 +63,12 @@ const MaterialList = () => {
     const results = await getRequest('http://192.168.0.14:8088/api/v1/material/list/0',getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
         setList(results.results)
       }else{
-        alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
   },[list])
@@ -85,14 +85,14 @@ const MaterialList = () => {
     const results = await postRequest(BASE_URL + '/api/v1/material/stock/', {pk: id, stock:stock}, getToken(TOKEN_NAME))
 
     if(results === false){
-      alert('요청 실패하였습니다. 잠시후 이용하세요.')
+      //alert('요청 실패하였습니다. 잠시후 이용하세요.')
     }else{
       if(results.status === 200){
-        alert('성공적으로 변경되었습니다.')
+        //alert('성공적으로 변경되었습니다.')
         getList()
 
       }else{
-        alert('요청 실패하였습니다. 잠시후 이용하세요.')
+        //alert('요청 실패하였습니다. 잠시후 이용하세요.')
       }
     }
 
