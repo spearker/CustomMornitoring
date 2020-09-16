@@ -10,10 +10,10 @@ interface IProps{
     select: number,
     onClickEvent: any,
 }
-const BasicToggle = ({contents, select, onClickEvent}: IProps) => {       
+const BasicToggle = ({contents, select, onClickEvent}: IProps) => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -23,10 +23,10 @@ const BasicToggle = ({contents, select, onClickEvent}: IProps) => {
             return(
               <ButtonBox type="button" onClick={()=>onClickEvent(i)} style={{backgroundColor: i === select ? POINT_COLOR : '#e7e9eb'}} >{v}</ButtonBox>
           )})
-          
+
         }
     </div>
-      
+
   );
 }
 

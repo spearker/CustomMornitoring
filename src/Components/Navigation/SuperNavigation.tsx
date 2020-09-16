@@ -22,19 +22,19 @@ const SuperNavigation = ({position}: IProps) => {
 
     `
   useEffect(()=>{
-   
+
   },[])
 
   return (
-    
+
         <FullWidthDiv>
             <NavInnerDiv >
                 <a href="/">슈퍼어드민</a>
                 <a href="/super/register" style={{float: 'right'}}>회사등록</a>
-                <a href="/super/list" style={{float: 'right', marginRight:26}}>회사조회</a>       
+                <a href="/super/list" style={{float: 'right', marginRight:26}}>회사조회</a>
             </NavInnerDiv>
         </FullWidthDiv>
-      
+
   );
 }
 

@@ -23,10 +23,10 @@ interface Props{
 
 const DayCard = ({ date, num,id,  weekend, on , dim, onClickEvent}: Props) => {
 
-    
+
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -37,33 +37,33 @@ const DayCard = ({ date, num,id,  weekend, on , dim, onClickEvent}: Props) => {
             <CardWrap>
                 <p className="p-bold" style={{paddingBottom:9, marginTop:2,color:'#3d4555',textAlign:'left', fontSize:16, borderBottom:'1px solid #3d4555'}}>{moment(date).format('dd MM.DD')}</p>
                 <p className="p-num" style={{fontSize:68, color:'#3d4555',marginTop:35}}></p>
-            </CardWrap>  
+            </CardWrap>
             :
             on ?
             <CardWrapOn>
                 <p className="p-bold" style={{paddingBottom:9,textAlign:'left', fontSize:16, borderBottom:'1px solid #252525'}}>{moment(date).format('dd MM.DD')}</p>
                 <p className="p-num" style={{fontSize:68, marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
-            </CardWrapOn>  
+            </CardWrapOn>
             :
             <CardWrap>
                 <p className="p-bold" style={{paddingBottom:9, color:'white', marginTop:2,textAlign:'left', fontSize:16, borderBottom:'1px solid white'}}>{moment(date).format('dd MM.DD')}</p>
                 <p className="p-num" style={{fontSize:68, color:'white',marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
-            </CardWrap>  
+            </CardWrap>
           :
           on ?
             <CardWrapOn>
                 <p className="p-bold" style={{paddingBottom:9,textAlign:'left', fontSize:16, borderBottom:'1px solid #252525'}}>{moment(date).format('dd MM.DD')}</p>
                 <p className="p-num" style={{fontSize:68, marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
-            </CardWrapOn>  
+            </CardWrapOn>
             :
             <CardWrap>
                 <p className="p-bold" style={{paddingBottom:9, color:'white', marginTop:2,textAlign:'left', fontSize:16, borderBottom:'1px solid white'}}>{moment(date).format('dd MM.DD')}</p>
                 <p className="p-num" style={{fontSize:68, color:'white',marginTop:35}}>{num === 0 ? '-' : String(num).padStart(2, '0') } </p>
-            </CardWrap>  
+            </CardWrap>
 
       }
       </div>
-    
+
   );
 }
 

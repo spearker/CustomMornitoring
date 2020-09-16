@@ -135,6 +135,18 @@ const SegmentListContainer = () => {
 
     }, [list, selectPk]);
 
+    const allCheckonClick = useCallback(() => {
+
+    },[])
+
+    const checkOnClick = useCallback((segment) => {
+        console.log(segment.pk)
+        if(segment.pk) {
+
+        }
+    },[])
+
+
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
         const tempUrl = `${API_URLS['segment'].load}?pk=${pk}`
@@ -197,11 +209,13 @@ const SegmentListContainer = () => {
         <div>
             <OvertonTable
                 title={'프로세스 리스트(공정별 세분화)'}
+                allCheckOnClickEvent={allCheckonClick}
                 allCheckbox={true}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
+                checkOnClickEvent={checkOnClick}
                 checkBox={true}
                 mainOnClickEvent={onClick}>
                 {

@@ -24,8 +24,8 @@ const BarCodeSetting = () => {
   const [keyword, setKeyword] = useState<string>('');
 
   useEffect(()=>{
-  
-   
+
+
   },[])
 
 
@@ -34,11 +34,11 @@ const BarCodeSetting = () => {
         <SubNavigation list={ROUTER_MENU_LIST[0]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`바코드 기본 규칙 등록`}/>   
+            <Header title={`바코드 기본 규칙 등록`}/>
         </div>
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

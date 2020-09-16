@@ -41,7 +41,7 @@ tspan{
 
 body {
     font-family:'Noto Sans KR' ;
-    background-color: #3D3E43;
+    background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
     height: 100%;
 }
 .p-limits {

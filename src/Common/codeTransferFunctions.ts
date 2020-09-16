@@ -19,9 +19,9 @@ export const getSubMachineTypeList = (lang) =>{
 export const getMaterialTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
-            return ['(선택없음)', '원재료', '최종생산품', '중간자재']
+            return ['(선택없음)', '원자재', '최종 생산품', '중간자재']
         default:
-            return ['(선택없음)', '원재료', '최종생산품', '중간자재']
+            return ['(선택없음)', '원자재', '최종 생산품', '중간자재']
       }
 }
 
@@ -68,7 +68,7 @@ export const materialCodes = [
 
     {code: 0, name: '원자재'},
     {code: 30, name: '최종 생산품'},
-    {code: 10, name: '중간 자재'},
+    {code: 10, name: '중간자재'},
     {code: 4, name: 'LOT 자재'},
 
 ]

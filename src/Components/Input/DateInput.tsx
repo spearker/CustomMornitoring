@@ -23,17 +23,17 @@ const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-    
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
   useEffect(()=>{
-   
+
   },[])
 
 
 
-  return ( 
+  return (
         <InputContainer title={title}>
             <div ref={ref} style={{ width: 'calc(100% - 200px)'}} >
             <InputBox onClick={()=>handleClickBtn()}>{value === ""|| value === undefined ? "(선택)" : value} </InputBox>
@@ -50,10 +50,10 @@ const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
               :
               null
             }
-           
+
             </div>
-            
-        </InputContainer> 
+
+        </InputContainer>
   );
 }
 

@@ -17,11 +17,11 @@ interface Props{
 // 기계 및 장치 썸네일 카드
 
 const CardList = ({ code, name, imgUrl, on }: Props) => {
-  
+
 
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -29,7 +29,7 @@ const CardList = ({ code, name, imgUrl, on }: Props) => {
         <p style={{margin:'10px 10px 10px 10px', textAlign:'left', fontSize:15, fontWeight:'bold'}}>{name}</p>
         <img src={on ? icCloudOn : icCloudOff} style={{height:22, position:'absolute', top:8, right:8}}/>
         <ImageBox src={tempIamge}/>
-    </CardWrap>  
+    </CardWrap>
   );
 }
 

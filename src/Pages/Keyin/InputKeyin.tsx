@@ -30,7 +30,7 @@ const InputKeyin = ({ match }) => {
 
   return (
       <DashboardWrapContainer index={10}>
-        <SubNavigation2 list={[ 
+        <SubNavigation2 list={[
            { name : '프레스 Key-in', url : '/keyin/input/프레스'},
         { name : '프레스 Key-in', url : '/keyin/input/프레스'},
         { name : '금형 Key-in', url : '/keyin/input/금형'},
@@ -55,17 +55,17 @@ const InputKeyin = ({ match }) => {
               id === '프레스' ?
               <>
               <img src={TEMP_IMG_1} />
- 
+
               </>
               :
              null
             }
           </WrapBox>
-        
+
         </InnerBodyContainer>
-       
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

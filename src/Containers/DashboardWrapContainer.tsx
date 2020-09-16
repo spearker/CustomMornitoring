@@ -80,7 +80,7 @@ const DashboardWrapDiv = Styled.div`
     display: flex;
     width: 100%;
     min-height: 100vh;
-    heigth: 100%;
+    height: 100%;
     min-width: 1180px;
     background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
 `

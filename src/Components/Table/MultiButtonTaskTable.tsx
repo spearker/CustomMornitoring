@@ -37,7 +37,7 @@ const MultiButtonTaskTable = ({events, indexList,target,subIndexList, contents, 
         <tbody>
           <tr className="p-bold" style={{borderBottom:`10px solid ${BG_COLOR_SUB2}`}}>
           {/* 테이블 헤드 */}
-        
+
           {
             Object.keys(indexList).map((v, i)=>{
               return(
@@ -45,44 +45,44 @@ const MultiButtonTaskTable = ({events, indexList,target,subIndexList, contents, 
               )
             })
           }
-                  
+
           <th></th>
           </tr>
           {/* 테이블 바디 */}
-        
+
           {
             contents.map((v, i)=>{
               return(
                 <>
               <tr key={i}>
-               
+
 
                 {
                   Object.keys(indexList).map((mv, mi)=>{
                     return(
                       <td key={mv} onClick={()=>onClickEvent(v)} style={{ maxWidth: widthList !== undefined ? widthList[mi] : 'auto' , width: widthList !== undefined ? widthList[mi] : 'auto'}}>
-                        
+
                           {v[mv]}
 
                       </td>
                     )
                   })
                 }
-              
+
               <td >
-           
+
                     {
                       events!== undefined && events.map((m, i)=>{
                         return(
                         <ButtonBox onClick={()=>m.event(v)} style={m.color !== undefined? {backgroundColor: m.color} :{backgroundColor: POINT_COLOR}}>{m.name}</ButtonBox>
-                      
+
                         )
                       })
                     }
-      
+
               </td>
-                 
-               
+
+
               </tr>
                 {
                   target !== null && target.pk !==undefined && target.pk ==  v.pk &&
@@ -91,29 +91,29 @@ const MultiButtonTaskTable = ({events, indexList,target,subIndexList, contents, 
                     <InnerTable>
                       <tbody>
                       <tr>
-                     
+
                         {
                           Object.keys(subIndexList).map((v, i)=>{
                             return(
                             <th key={v}>{subIndexList[v]}</th>
                             )
                           })
-                        }   
+                        }
                       </tr>
                       <tr>
-                     
+
                       {
                   Object.keys(subIndexList).map((mv, mi)=>{
                     return(
                       <td key={mv} >
-                        
+
                           {target[mv]}
 
                       </td>
                     )
                   })
                 }
-               
+
                    </tr>
                    </tbody>
                     </InnerTable>
@@ -124,11 +124,11 @@ const MultiButtonTaskTable = ({events, indexList,target,subIndexList, contents, 
               )
             })
           }
-          
+
           <tr>
 
           </tr>
-          
+
         </tbody>
       </table>
       {
@@ -136,7 +136,7 @@ const MultiButtonTaskTable = ({events, indexList,target,subIndexList, contents, 
         <Nodata />
       }
     </TableWrap>
-      
+
   );
 }
 
@@ -150,7 +150,7 @@ const InnerTable = Styled.table`
    border-radius: 0 !important;
   }
   border-radius: 0 !important;
- 
+
   tr:first-child{
     th{
       text-align: left;
@@ -185,7 +185,7 @@ table {
   overflow-x: scroll;
   overflow: auto;
   background-color: ${BG_COLOR_SUB};
-  border-collapse: separate; 
+  border-collapse: separate;
   border-spacing: 0 0.4em;
 }
 tbody{
@@ -206,7 +206,7 @@ tr{
   margin-bottom: 12px;
   &:first-child{
     background-color: black;
-    
+
   }
 }
 td{

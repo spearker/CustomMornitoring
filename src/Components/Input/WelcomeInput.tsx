@@ -26,24 +26,24 @@ const WelcomeInput = ({title, hint, type, value, onChangeEvent}: IProps) => {
             return;
         else
             event.target.value = event.target.value.replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, "");
-            
+
     }
   useEffect(()=>{
-   
+
   },[])
 
   return (
-    
+
         <>
             <label className="p-eng" style={{fontSize: 14}}>{title}</label>
             {
-                type === 'password' ? 
+                type === 'password' ?
                 <WelcomeInputBox type={type} onKeyUp={(e)=>onCheckKor(e)} style={{imeMode:'disabled'}} onChange={onChangeEvent} value={value} placeholder={hint}/>
                 :
                 <WelcomeInputBox type={type} onChange={onChangeEvent} value={value} placeholder={hint}/>
             }
         </>
-      
+
   );
 }
 

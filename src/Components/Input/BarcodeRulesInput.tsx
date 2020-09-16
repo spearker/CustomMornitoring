@@ -7,7 +7,7 @@ import IcButton from '../Button/IcButton';
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
 
 
-//바코드 규칙 
+//바코드 규칙
 interface IProps{
     title: string,
     value: any[],
@@ -16,13 +16,13 @@ interface IProps{
 }
 const BarcodeRulesInput = ({ title, value, onChangeEvent, onRemoveEvent}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
-  return ( 
-       
+  return (
+
         <div style={{marginTop:17, marginBottom:17, display:'flex', alignItems:'center'}}>
-            <p className="p-bold" style={{width: '20%', fontSize:13, marginRight: 9}} >{title}</p> 
+            <p className="p-bold" style={{width: '20%', fontSize:13, marginRight: 9}} >{title}</p>
             <InputBox style={{width: 'calc(100% - 40px)'}} type="number" value={value} onChange={ (e)=>onChangeEvent(e.target.value) } placeholder={'내용을 입력하세요.'}/>
             <img src={IC_MINUS} style={{width: 20, height:20, marginLeft: 8,  cursor:'pointer'}} onClick={onRemoveEvent}/>
         </div>

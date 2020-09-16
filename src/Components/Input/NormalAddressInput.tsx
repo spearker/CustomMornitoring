@@ -16,7 +16,7 @@ interface IProps {
     disable?: boolean
 }
 const NormalAddressInput = ({ title, description, value, onChangeEvent ,onChangeEvent2, disable}: IProps) => {
-    
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -24,10 +24,10 @@ const NormalAddressInput = ({ title, description, value, onChangeEvent ,onChange
     }, [])
 
     const handleComplete = useCallback((data) => {
-      
+
         let fullAddress = data.address;
-        let extraAddress = ''; 
-        
+        let extraAddress = '';
+
         if (data.addressType === 'R') {
           if (data.bname !== '') {
             extraAddress += data.bname;
@@ -38,32 +38,32 @@ const NormalAddressInput = ({ title, description, value, onChangeEvent ,onChange
           fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
         }
         setIsOpen(false)
-        const temp = {...value}; 
-        temp.roadAddress= fullAddress; 
-        temp.postcode= data.zonecode; 
+        const temp = {...value};
+        temp.roadAddress= fullAddress;
+        temp.postcode= data.zonecode;
         onChangeEvent(temp)
-      
+
       },[isOpen])
- 
+
     return (
         <>
         <InputContainer title={title} onClick={()=>setIsOpen(true)} >
-            
+
             <SmallButton name={'검색'} color={'#dddddd'} onClickEvent={()=>setIsOpen(true)} />
 
-            <InputBox style={{width:'40%', marginLeft:10}} type="text" value={value.roadAddress} placeholder={'검색 버튼을 눌러 주소를 입력해주세요'} /> 
+            <InputBox style={{width:'40%', marginLeft:10}} type="text" value={value.roadAddress} placeholder={'검색 버튼을 눌러 주소를 입력해주세요'} />
             <InputBox style={{width:'30%', marginLeft:10}}  type="text" value={value.detail} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { const temp = {...value}; temp.detail= e.target.value; onChangeEvent(temp) }} placeholder={'나머지 주소는 직접 입력해주세요'} />
-         
+
         </InputContainer>
-      
+
         {
             isOpen &&
             <DaumPostcode
             onComplete={handleComplete}
-          
+
            />
         }
-     
+
         </>
     );
 }

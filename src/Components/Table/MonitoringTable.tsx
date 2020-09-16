@@ -59,11 +59,11 @@ const MonitoringTable = ({indexList, contents, keyName}: IProps) => {
               )
             })
           }
-          
+
         </tbody>
       </table>
     </TableWrap>
-      
+
   );
 }
 
@@ -81,10 +81,10 @@ const TableWrap = Styled.div`
       overflow: auto;
       vertical-align: middle;
       background-color: ${BG_COLOR_SUB2};
-      border-collapse:separate; 
+      border-collapse:separate;
       border-spacing: 0 1em;
       .img{
-        float:left 
+        float:left
       }
     }
     tbody{
@@ -132,7 +132,7 @@ const TableWrap = Styled.div`
       padding-right:10px;
     }
 
-    
+
 `
 
 export default MonitoringTable;

@@ -22,7 +22,12 @@ import InputContainer from '../../Containers/InputContainer';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
 import { uploadTempFile } from '../../Common/fileFuctuons';
-import {getMachineTypeList, getMaterialTypeList} from '../../Common/codeTransferFunctions';
+import {
+  getMachineTypeList,
+  getMaterialTypeList,
+  transferCodeToName,
+  transferStringToCode
+} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -173,7 +178,7 @@ const BasicMaterialRegister = () => {
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'품목 이름'}  value={inputData.material_name} onChangeEvent={(input)=>setInputData(`material_name`, input)} description={'이름을 입력해주세요.'}/>
-                <DropdownInput title={'품목 종류' } target={indexList[inputData.material_type]} contents={indexList} onChangeEvent={(input)=>setInputData(`material_type`, input)} />
+                <DropdownInput title={'품목 종류'} target={transferCodeToName('material',inputData.material_type)} contents={indexList} onChangeEvent={(input)=>setInputData('material_type',transferStringToCode('material',indexList[input]))} />
                 <BasicSearchContainer
                       title={'공장 정보'}
                       key={'pk'}

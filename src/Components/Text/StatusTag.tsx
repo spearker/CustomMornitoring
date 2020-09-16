@@ -9,12 +9,12 @@ import useOnclickOutside from 'react-cool-onclickoutside';
 
 interface IProps{
     text: string,
- 
+
 }
 
 const StatusTag = ({text}: IProps) => {
-  
-     
+
+
     const changeStatusToString = useCallback((status: string)=>{
         if(status === 'active'){
             return '진행'
@@ -35,7 +35,7 @@ const StatusTag = ({text}: IProps) => {
         }else{
             return '대기'
         }
-    
+
     },[])
 
     const changeStatusToColor = useCallback((status: string)=>{
@@ -56,7 +56,7 @@ const StatusTag = ({text}: IProps) => {
         }else{
             return '#717c90'
         }
-    
+
     },[])
 
     const BoxWrap = Styled.div`
@@ -74,12 +74,12 @@ const StatusTag = ({text}: IProps) => {
         border-radius: 6px;
     `
 
-  return ( 
-        
+  return (
+
         <BoxWrap>
             <p className="p-bold" style={{width:'100%', display:'block', textAlign:'center'}} >{changeStatusToString(text)}</p>
-        </BoxWrap>   
-    
+        </BoxWrap>
+
   );
 }
 

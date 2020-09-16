@@ -41,7 +41,7 @@ const dummy_machines = [
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
-      
+
     ]
   },{
     pk: '0003',
@@ -58,7 +58,7 @@ const dummy_machines = [
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
-      
+
     ]
   },
   {
@@ -77,7 +77,7 @@ const dummy_machines = [
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
-      
+
     ]
   },
   {
@@ -95,7 +95,7 @@ const dummy_machines = [
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
-      
+
     ]
   },
   {
@@ -113,7 +113,7 @@ const dummy_machines = [
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
-      
+
     ]
   },
   {
@@ -131,7 +131,7 @@ const dummy_machines = [
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
       '20.06.10 00 : 오일 순화 에러 ',
-      
+
     ]
   },
 ]
@@ -179,7 +179,7 @@ const dummy_history = [
   }
 ]
 
-const dummy_xy = [ 
+const dummy_xy = [
   {x: 105 ,y: 66},
   {x: 185 ,y: 66},
   {x: 265 ,y: 66},
@@ -199,14 +199,14 @@ const QdcTimeContainer = () => {
     return Math.floor((new Date(moment().format(end)).getTime() - new Date(moment().format(start)).getTime()) / (TODAY_END - TODAY_START) * 100)
   }
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <div>
       <div style={{position:'relative', textAlign:'left', marginTop:48}}>
-        
-        <div style={{display:'inline-block', textAlign:'left'}}>           
+
+        <div style={{display:'inline-block', textAlign:'left'}}>
           <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>QDC 교환 시간 분석</span>
         </div>
       </div>
@@ -216,10 +216,10 @@ const QdcTimeContainer = () => {
               {
                 dummy_machines.map((m, i)=>{
                   if(selectedMachine.pk == m.pk){
-                  
+
                   return(
                     <PressSimbolSelected
-                      key={'sp-'+ i} 
+                      key={'sp-'+ i}
                       onClick={()=>setSelectedMachine(m)}
                       style={{ left: dummy_xy[i].x, top: dummy_xy[i].y}}>
                       {m.name}<br />({m.ton}ton)
@@ -228,7 +228,7 @@ const QdcTimeContainer = () => {
                   }else{
                     return(
                       <PressSimbol
-                        key={'sp-'+ i} 
+                        key={'sp-'+ i}
                         onClick={()=>setSelectedMachine(m)}
                         style={{ left: dummy_xy[i].x, top: dummy_xy[i].y}}>
                         {m.name}<br />({m.ton}ton)
@@ -263,7 +263,7 @@ const QdcTimeContainer = () => {
                     }
                   </div>
                 }
-                
+
               </SummuryBox>
 
           </SideInfoBox>
@@ -278,7 +278,7 @@ const QdcTimeContainer = () => {
               <p style={{float: 'right'}}>{moment().format('YYYY. MM. DD')}</p>
         <p>{selectedMachine.name} ({selectedMachine.ton} ton)</p>
               <p>총 1일 QDC 교환시간 : {selectedMachine.qdc_time}</p>
-              
+
               <TimeBarWrapper>
                 <TimeBar>
                   {
@@ -304,7 +304,7 @@ const QdcTimeContainer = () => {
                           </Packet>
                         )
                       }
-                      
+
                     })
                   }
                 </TimeBar>

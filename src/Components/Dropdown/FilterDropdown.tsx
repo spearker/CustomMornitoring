@@ -19,21 +19,21 @@ const FilterDropdown = ({select, contents, onClickEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-     
-  
-     
-   
+
+
+
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
-    
+
     },[])
 
-  return ( 
+  return (
         <div style={{position:'relative', display:'inline-block', width: 124, zIndex:3 }} ref={ref}>
             {
-                isOpen ?       
+                isOpen ?
                 <BoxWrap>
                     <p style={{paddingBottom:8, paddingRight:10, color:'black', fontWeight:'bold'}} onClick={()=>{
                                 setIsOpen(false)
@@ -42,10 +42,10 @@ const FilterDropdown = ({select, contents, onClickEvent}: IProps) => {
                         contents.map((v, i)=>{
                             return(
                             <p style={{paddingBottom:8, paddingRight:10}} key={i} onClick={()=>{
-                                onClickEvent(i); 
+                                onClickEvent(i);
                                 setIsOpen(false)
                                 }}>{v}</p>
-                            )       
+                            )
                         })
                     }
                 </BoxWrap>
@@ -59,7 +59,7 @@ const FilterDropdown = ({select, contents, onClickEvent}: IProps) => {
              <a style={{position:'absolute', top:4, right:6, cursor:'pointer'}} onClick={handleClickBtn}>
                  <img src={IcDown} style={{width: 12}}/>
             </a>
-        </div> 
+        </div>
   );
 }
 

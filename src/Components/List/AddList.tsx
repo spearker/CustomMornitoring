@@ -20,11 +20,11 @@ interface Props{
 
 
 
-// 추가 버튼이 있는 리스트 
+// 추가 버튼이 있는 리스트
 const AddList = ({ title, name, pk, selected, dim, onClickEvent }: Props) => {
-  
+
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -51,9 +51,9 @@ const AddList = ({ title, name, pk, selected, dim, onClickEvent }: Props) => {
       }
 
       <div onClick={onClickEvent} style={{position:'absolute', top:0, right:-1, zIndex:3}}>
-          <IconSquareButton  color="#e7e9eb" width="33px" imageSize="22px"  image={dim? icCheckDim : icCheck} dim={selected ? false : true}/>  
-      </div> 
-    </ListWrapDiv>  
+          <IconSquareButton  color="#e7e9eb" width="33px" imageSize="22px"  image={dim? icCheckDim : icCheck} dim={selected ? false : true}/>
+      </div>
+    </ListWrapDiv>
   );
 }
 

@@ -26,7 +26,7 @@ const SubNavigation = ({list, isFull}: Props) => {
 
 
   return (
-    
+
         <NavDiv>
             <div style={{textAlign:'left', display:'inline-block', paddingLeft: isFull !== undefined && isFull === true ? '44px' : '0px;', width: isFull !== undefined && isFull === true ? '100%' :'1100px' }}>
             {
@@ -41,9 +41,9 @@ const SubNavigation = ({list, isFull}: Props) => {
                 })
             }
             </div>
-            
+
         </NavDiv>
-      
+
   );
 }
 

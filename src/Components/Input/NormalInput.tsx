@@ -15,7 +15,7 @@ const NormalInput = ({ title, description, value, onChangeEvent }: IProps) => {
     useEffect(() => {
 
     }, [])
- 
+
     return (
         <InputContainer title={title}>
             {onChangeEvent !== null &&  onChangeEvent!== undefined ?

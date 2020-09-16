@@ -19,47 +19,47 @@ const BasicBigDropdown = ({select, contents, onClickEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-     
-  
-   
+
+
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
     useEffect(()=>{
-    
+
     },[])
 
-  return ( 
+  return (
         <div style={{marginLeft:10, width:180, position:'relative', display:'inline-block', zIndex:3 }} ref={ref}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} >               
+                <BoxWrap onClick={()=>{setIsOpen(true)}} >
                     <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>{select}</p>
                     <img src={IcDown} onClick={()=>{setIsOpen(true)}} style={{width: 14, height: 14,position:'absolute',display:'inline-block',top:7, right:6, zIndex:4}}/>
                 </BoxWrap>
             {
-                isOpen ?       
+                isOpen ?
                 <div style={{position:'absolute',  top:0, right:0, textAlign:'left'}}>
-                    <BoxWrap style={{borderRadius:0, backgroundColor:'BG_COLOR', paddingBottom:7}}>               
+                    <BoxWrap style={{borderRadius:0, backgroundColor:'BG_COLOR', paddingBottom:7}}>
                         <p className="p-bold" onClick={()=>{setIsOpen(true)}} style={{display:'inline-block', marginRight:10}}>{select}</p>
                         <img src={IcDown} onClick={()=>{setIsOpen(true)}} style={{width: 14, height: 14,position:'absolute',display:'inline-block',top:7, right:6, zIndex:4}}/>
                     </BoxWrap>
                     {
                         contents.map((v, i)=>{
                             return(
-                                <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50',backgroundColor:'#717C90'}}>   
+                                <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50',backgroundColor:'#717C90'}}>
                                     <p style={{paddingBottom:3}} key={i} onClick={()=>{
-                                    onClickEvent(i); 
+                                    onClickEvent(i);
                                     setIsOpen(false)
                                     }}>{v}</p>
                                 </BoxWrap>
-                            )       
+                            )
                         })
                     }
                 </div>
                 :
                 null
-        
+
             }
-        </div> 
+        </div>
   );
 }
 

@@ -26,9 +26,9 @@ interface Props{
 
 // 검색결과 리스트
 const SearchedMachineList = ({ pk , status, endDate, option,contents, widths, isSelected, isIconDimmed, onClickEvent, type}: Props) => {
-  
+
   useEffect(()=>{
-   
+
   },[])
 
   const changeStatusToString = useCallback((status: string)=>{
@@ -90,25 +90,25 @@ const changeStatusToColor = useCallback((status: string | undefined)=>{
                 <p style={{padding:'5px 10px 5px 6px', width: widths[i], color: isIconDimmed ? '#b3b3b3' : 'black'}} className="p-limit"> {i !== 0 ? <span>|&nbsp;&nbsp;</span> : <span >&nbsp;&nbsp;</span>}{v}</p>
             )
           })
-        } 
+        }
         <div style={{padding:'5px 10px 5px 10px', marginLeft:'auto', textAlign:'right'}}>
         <p >{endDate !== "" ? '작업완료 : ' +endDate : null}</p>
         </div>
       {
         type == undefined || type !== 'remove' ?
         <div onClick={onClickEvent} style={{marginLeft:'auto'}}>
-            <IconSquareButton  color="#e7e9eb" width="30px" imageSize="22px"  image={isIconDimmed? icCheckDim : icCheck} dim={isSelected ? false : true}/>  
-        </div> 
+            <IconSquareButton  color="#e7e9eb" width="30px" imageSize="22px"  image={isIconDimmed? icCheckDim : icCheck} dim={isSelected ? false : true}/>
+        </div>
         :
         <div onClick={onClickEvent} style={{marginLeft:'auto', width:35}}>
-            <IconSquareButton  color="#e7e9eb" width="30px" imageSize="22px" image={icDelete} dim={true}/>  
-        </div> 
+            <IconSquareButton  color="#e7e9eb" width="30px" imageSize="22px" image={icDelete} dim={true}/>
+        </div>
       }
       </div>
-      
-  
-      
-    </ListWrapDiv>  
+
+
+
+    </ListWrapDiv>
   );
 }
 

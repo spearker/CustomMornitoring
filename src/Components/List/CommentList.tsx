@@ -18,13 +18,13 @@ interface Props{
 // 댓글 리스트
 const CommentList = ({ contents, onClickEvent }: Props) => {
   const me = useUser()
-  
+
   useEffect(()=>{
-   
+
   },[])
 
   return (
-    
+
       <ListWrapDiv>
         <div style={{width: '15%', minWidth:25, fontSize: 14, display:'flex'}}>
           <ImageBox src={contents.photo == "" ? IMG_PROFILE : contents.photo} />
@@ -40,8 +40,8 @@ const CommentList = ({ contents, onClickEvent }: Props) => {
             <a onClick={()=>onClickEvent(contents.pk)} style={{fontSize:13, color:'gray'}}>숨기기</a>
             :
             null}
-        </div> 
-      </ListWrapDiv> 
+        </div>
+      </ListWrapDiv>
 
   );
 }

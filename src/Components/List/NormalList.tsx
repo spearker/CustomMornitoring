@@ -9,10 +9,10 @@ interface Props{
 }
 
 
-// 텍스트로 이루어진 기본적인 리스트 
+// 텍스트로 이루어진 기본적인 리스트
 
 const NormalList = ({ contents }: Props) => {
-  
+
   const RawInnerDiv = Styled.div`
     display: inline-block;
     text-align: left;
@@ -29,7 +29,7 @@ const NormalList = ({ contents }: Props) => {
 
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -41,7 +41,7 @@ const NormalList = ({ contents }: Props) => {
             </RawInnerDiv>
           ))
         }
-    </ListWrapDiv>  
+    </ListWrapDiv>
   );
 }
 

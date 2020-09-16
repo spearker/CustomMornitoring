@@ -20,7 +20,7 @@ const PopupButtons = ({onClickEvent, onCloseEvent}: IProps) => {
         <p>추가</p>
       </div>
     </div>
-   
+
   );
 }
 

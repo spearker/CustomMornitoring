@@ -31,7 +31,7 @@ const ListKeyin = ({ match }) => {
 
   return (
       <DashboardWrapContainer index={10}>
-        <SubNavigation2 list={[ 
+        <SubNavigation2 list={[
            { name : '프레스 Key-in', url : '/keyin/list/프레스'},
         { name : '프레스 Key-in', url : '/keyin/list/프레스'},
         { name : '금형 Key-in', url : '/keyin/list/금형'},
@@ -46,31 +46,31 @@ const ListKeyin = ({ match }) => {
           <div style={{position:'relative'}}>
               <Header title={ id + ' Key-in 리스트'}/>
               <div style={{position:'absolute',display:'inline-block',top:0, right:0}}>
-              <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+              <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={(e)=>{setKeyword(e.target.value)}}
                 onClickEvent={()=>{}}
                 />
               </div>
           </div>
-   
+
           <WrapBox>
             {
               id === '프레스' ?
               <>
               <img src={TEMP_IMG_1} />
-         
+
               </>
               :
               null
             }
           </WrapBox>
-        
+
         </InnerBodyContainer>
-       
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

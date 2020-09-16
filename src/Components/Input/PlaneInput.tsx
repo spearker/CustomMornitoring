@@ -19,12 +19,12 @@ const PlaneInput = ({fontSize, description, value, onChangeEvent}: IProps) => {
 
 
   useEffect(()=>{
-   
+
   },[])
 
 
 
-  return ( 
+  return (
         <InputWrapDiv style={{fontSize:fontSize}}>
             <input type="text" style={{fontSize:fontSize}} value={value} placeholder={description} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent(e.target.value)}}  />
         </InputWrapDiv>

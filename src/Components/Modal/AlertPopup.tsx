@@ -14,12 +14,12 @@ const AlertPopup = () => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const popUp = usePopup();
     const dispatch = usePopupDispatch();
-    
+
 
     const ref = useOnclickOutside(() => {
         dispatch({type: 'CLOSE_POPUP'})
       });
-     
+
     const handleClickBtn = () => {
         dispatch({type: 'CLOSE_POPUP'})
     };
@@ -28,10 +28,10 @@ const AlertPopup = () => {
         dispatch({type: 'CLOSE_POPUP'})
     }
     useEffect(()=>{
-    
+
     },[])
 
-  return ( 
+  return (
     popUp.is_popup ?
             <>
             <WrapHoverBox onClick={onClickClose} />

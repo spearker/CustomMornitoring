@@ -116,7 +116,7 @@ const RegisterLine= () => {
     }
     setIsSearched(true)
 
-    const res = await getRequest('http://192.168.0.14:8088/api/v1/procedure/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/procedure/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -150,7 +150,7 @@ const RegisterLine= () => {
     }
     setIsSearched(true)
 
-    const res = await getRequest('http://192.168.0.14:8088/api/v1/peripheral/search?keyword=' + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/peripheral/search?keyword=' + keyword, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

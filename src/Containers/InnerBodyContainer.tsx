@@ -2,7 +2,7 @@ import * as React from 'react';
 import Styled, { withTheme } from 'styled-components'
 import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../Common/configset'
 
-//가로 1100px 로 감싸는 wrap 박스 
+//가로 1100px 로 감싸는 wrap 박스
 
 const InnerBodyContainer = ({children}: any) => {
   return (
@@ -11,7 +11,7 @@ const InnerBodyContainer = ({children}: any) => {
       {children}
       </FullPageDiv>
 
-    </div>  
+    </div>
   );
 }
 

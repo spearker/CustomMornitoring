@@ -100,7 +100,7 @@ export const API_URLS = {
     },
     segment:{
         register: `/v1/process/segment/register`,
-        delete: `delete`,
+        delete: `/V1/process/segment/delete`,
         list: '/v1/process/segment/list',
         load: '/v1/process/segment/load'
     },

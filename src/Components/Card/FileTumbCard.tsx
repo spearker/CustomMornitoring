@@ -18,13 +18,13 @@ interface Props{
 }
 
 
-// 파일 썸네일 카드 
+// 파일 썸네일 카드
 const FileTumbCard = ({ url, name, type , data, onClickEvent}: Props) => {
-  
+
 
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -39,7 +39,7 @@ const FileTumbCard = ({ url, name, type , data, onClickEvent}: Props) => {
           <button style={{padding: '3px 6px 3px 6px', backgroundColor:'#d3d3d3'}} onClick={(e)=>onClickEvent(e)} >{'삭제'}</button>
       </div>
       : null}
-    </div> 
+    </div>
   );
 }
 

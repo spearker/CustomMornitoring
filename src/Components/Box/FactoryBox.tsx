@@ -14,11 +14,11 @@ const FactoryBox = ({title,inputMaterial,productionMaterial,children}:Props) => 
             <p>{title}</p>
             <p>투입자재</p>
             <div>
-                <span style={{color:  inputMaterial !== null && undefined ?  '#ffffff' : '#babcbf'}}>{inputMaterial !== null && undefined ? inputMaterial : '품목 선택'}</span>
+                <span style={{color:  inputMaterial !== null &&  inputMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{inputMaterial !== null && inputMaterial !== undefined ? inputMaterial : '품목 선택'}</span>
             </div>
             <p>생산자재</p>
             <div>
-                <span style={{color:  inputMaterial !== null && undefined ?  '#ffffff' : '#babcbf'}}>{productionMaterial !== null && undefined ? productionMaterial : '품목 선택'}</span>
+                <span style={{color:  inputMaterial !== null &&  inputMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
             </div>
             <ProductionReg>
                 <p style={{width: "100%"}}>품목등록</p>
@@ -30,6 +30,7 @@ const FactoryBox = ({title,inputMaterial,productionMaterial,children}:Props) => 
 const TopBlackBox = Styled.div`
     width: 140px;
     height: 230px;
+    margin-top: 30px;
     border-radius: 6px;
     padding: 0 9px 0 9px;
     box-shadow: 0 3px 6px 0 rgba(255, 255, 255, 0.27);

@@ -111,7 +111,7 @@ const MyPage = () => {
         profile_img: path
 
       }
-      const results = await postRequest('http://192.168.0.14:8088/api/v1/member/profile', data, getToken(TOKEN_NAME))
+      const results = await postRequest('http://203.234.183.22:8299/api/v1/member/profile', data, getToken(TOKEN_NAME))
 
       if(results === false){
         //alert('실패하였습니다. 잠시 후 다시 시도해주세요.')

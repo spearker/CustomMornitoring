@@ -12,14 +12,14 @@ interface IProps{
 }
 const SmallButtonG = ({name, onClickEvent}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <div style={{textAlign:'center'}}>
        <ButtonBox type="submit" onClick={onClickEvent}>{name}</ButtonBox>
     </div>
-      
+
   );
 }
 

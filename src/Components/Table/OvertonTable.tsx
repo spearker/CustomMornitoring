@@ -15,7 +15,9 @@ interface Props {
     valueList: any[]
     EventList?: any[]
     allCheckbox?: boolean
+    allCheckOnClickEvent?: any
     checkBox?: boolean
+    checkOnClickEvent?: any
     pkKey?: string
     clickValue?: object
     mainOnClickEvent?: any
@@ -24,15 +26,11 @@ interface Props {
     children?: any
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,checkBox,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [checked, setChecked] = useState<any[]>([])
     const [allChecked, setAllChecked] = useState(false)
-
-    const mainOnClickFunc = (v:string) => {
-        mainOnClickEvent(v)
-    }
 
     React.useEffect(() => {
         if(checkBox === true) {
@@ -120,7 +118,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                             )
                         })
                 }
-                { console.log('wefw',valueList)}
             </TitleBar>
             {
                 valueList !== undefined && valueList.length === 0

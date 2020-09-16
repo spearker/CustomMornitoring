@@ -20,7 +20,7 @@ const OnlyChrome = () => {
 
   useEffect(()=>{
 
-  
+
   },[])
 
   return (
@@ -31,10 +31,10 @@ const OnlyChrome = () => {
           현재 사용하고 있는 브라우저의 버전이 낮아, <br/>
           웹 페이지를 표시 할 수 없습니다.<br/>
         </p>
-        <p style={{fontSize:16, marginTop:22}}>쾌적한 서비스 사용을 위해 
+        <p style={{fontSize:16, marginTop:22}}>쾌적한 서비스 사용을 위해
            <span><a href="https://www.google.com/intl/ko/chrome/" target="_blank" style={{textDecoration:'underline', color:'#586AF2', paddingLeft:6}}>크롬 브라우저</a></span>
            로 접속해주세요.
-           
+
         </p>
         <p style={{fontSize:13, marginTop:66, color:'gray'}}>최신버전의 크롬(Chrome), 사파리(Safari), 파이어폭스(FireFox) 브라우저에서 이용 가능합니다.
         </p>
@@ -42,7 +42,7 @@ const OnlyChrome = () => {
         <p style={{fontSize:13, marginTop:10,  color:'gray'}}>Copyright© 2020 Zestech.
 All Rights Reserved.</p>
       </FullWrapDiv>
-      
+
   );
 }
 

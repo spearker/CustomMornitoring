@@ -19,20 +19,20 @@ const Reports = () => {
 
   useEffect(()=>{
 
-  
+
   },[])
 
   return (
       <DashboardWrapContainer>
-      
+
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'레포트 '}/>
           </div>
-        
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

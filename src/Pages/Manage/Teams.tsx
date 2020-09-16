@@ -163,7 +163,7 @@ const TeamsSetting = () => {
      */
   const getSearchList = useCallback(async (e) => {
     e.preventDefault();
-    const results = await getRequest('http://192.168.0.14:8088/api/v1/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {

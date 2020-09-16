@@ -44,7 +44,7 @@ const SuperList = () => {
   useEffect(()=>{
 
     // 리슽트 받기
-    Axios.get('http://192.168.0.14:8286/api/v2/super/company/load')
+    Axios.get('http://203.234.183.22:8299/api/v2/super/company/load')
     .then(function (res: IServerResponse) {
       console.log(res);
       if(res.data.status === 200){

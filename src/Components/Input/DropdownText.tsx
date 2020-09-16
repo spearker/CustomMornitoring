@@ -20,16 +20,16 @@ const DropdownText = ({ title,contents, target, onChangeEvent}: IProps) => {
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-    
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
 
     useEffect(()=>{
-    
+
     },[])
 
-    return ( 
+    return (
         <InputContainer title={title} >
             <div ref={ref} style={{width: 'calc(100% - 200px)', position:'relative'}}>
                 <InputBox onClick={handleClickBtn}>{target === ""  || target === null || target === undefined ? '(선택)' : target}</InputBox>
@@ -45,7 +45,7 @@ const DropdownText = ({ title,contents, target, onChangeEvent}: IProps) => {
                         return(
                             <InputBoxList key={i} onClick={()=>{onChangeEvent(v); setIsOpen(false)}}>{v}</InputBoxList>
                         )
-                    
+
                     })}
                     </div>
                     <div onClick={()=>setIsOpen(false)} style={{position:'absolute', top:0, right:-17, zIndex:4, backgroundColor: POINT_COLOR, width: 33, height: 33,textAlign:'center', display:'inline-block'}}>
@@ -56,7 +56,7 @@ const DropdownText = ({ title,contents, target, onChangeEvent}: IProps) => {
                 null
             }
             </div>
-        </InputContainer> 
+        </InputContainer>
     );
 }
 

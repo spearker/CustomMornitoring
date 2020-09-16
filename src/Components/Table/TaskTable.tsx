@@ -68,7 +68,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       amount: amount
 
     }
-    const res = await postRequest('http://192.168.0.14:8088/api/v1/task/amount', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/task/amount', data, getToken(TOKEN_NAME))
 
     if(res === false){
         ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -97,7 +97,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
 
     ////alert(pk)
 
-    const results = await getRequest('http://192.168.0.14:8088/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
       //alert(' 데이터를 불러올 수 없습니다.')
@@ -131,7 +131,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
       return;
     }
 
-    const results = await getRequest('http://192.168.0.14:8087/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
 
     if(results === false){
       //alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
@@ -324,18 +324,15 @@ const TableWrap = Styled.div`
     display: flex;
 
     table {
-      
       table-layout: fixed;
       max-width: 100%,
       font-family: arial, sans-serif;
       border-collapse: collapse;
       width: 100%;
-      background-color: #f4f6fa;
       color: #252525;
       font-size: 14px;
       overflow-x: scroll;
       overflow: auto;
-      background-color: ${BG_COLOR_SUB};
       border-collapse: separate; 
       border-spacing: 0 0.4em;
     }

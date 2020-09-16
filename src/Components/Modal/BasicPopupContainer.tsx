@@ -24,12 +24,12 @@ const BasicPopupContainer = ({ title, isActive, onClickOpen, onClickConfirm, chi
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const popUp = usePopup();
     const dispatch = usePopupDispatch();
-    
+
 
     const ref = useOnclickOutside(() => {
         onClickOpen(false);
       });
-     
+
     const handleClickBtn = () => {
 
     };
@@ -40,27 +40,27 @@ const BasicPopupContainer = ({ title, isActive, onClickOpen, onClickConfirm, chi
 
 
     useEffect(()=>{
-    
+
     },[])
 
-  return ( 
- 
+  return (
+
         <WrapHoverBox  >
             <Wrapper ref={ref}>
                 <WrapperInner>
                 <img src={IC_X} onClick={()=>onClickOpen(false)} />
                 {title!== undefined && <TitleText>{title}  </TitleText>}
-               
+
                 <InnderContentsBox>
                     {children}
-                </InnderContentsBox> 
+                </InnderContentsBox>
                 {
                     onClickConfirm!== undefined &&
                     <ButtonBox>
-                       
+
                             <p onClick={()=>onClickOpen(false)} >취소</p>
                             <p onClick={()=>onClickConfirm} style={ isActive !== undefined && isActive ? {backgroundColor: POINT_COLOR, color:'black'} : {}}>확인</p>
-                  
+
                     </ButtonBox>
 
                 }

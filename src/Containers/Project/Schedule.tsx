@@ -34,6 +34,7 @@ const ScheduleContainer = () => {
     const [index, setIndex] = useState({manager_name:'계획자명'});
     const [voucherIndex, setVoucherIndex] = useState({name:'등록자'});
     const [voucherList, setVoucherList] = useState<any[]>([])
+    const [process, setProcess ] = useState<any[]>([])
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -91,6 +92,15 @@ const ScheduleContainer = () => {
             amount: '99,999,999',
             state: '배포'
         },
+    ]
+
+    const detailDummy = [
+        {
+            machine_name: "기계명" ,
+            mold_name: "금형명",
+            input_material: "입력 자재(품목)명",
+            output_material: "출력 자재(품목)명"
+        }
     ]
 
     const titleeventdummy = [
@@ -193,10 +203,11 @@ const ScheduleContainer = () => {
     },[list])
 
     useEffect(()=>{
-        getList()
+        // getList()
         setIndex(indexList["schedule"])
-        // setList(dummy)
+        setList(dummy)
         setTitleEventList(titleeventdummy)
+        setProcess(detailDummy)
         setDetailTitleEventList(detailTitleEvent)
         setDetailList(detaildummy)
         setVoucherIndex(voucherIndexList["schedule"])
@@ -218,8 +229,7 @@ const ScheduleContainer = () => {
                     selectPk !== null ?
                     <LineTable title={'대한민국_품목 01'}  titleOnClickEvent={detailTitleEventList}>
                         <VoucherDropdown pk={'123'} name={'dsf'} clickValue={'123'}>
-                            <Line/>
-                            <FactoryBox title={'공정 A'}/>
+                            <FactoryBox title={'공정 A'} inputMaterial={'sdfd'} productionMaterial={'wefe'}/>
                         </VoucherDropdown>
                         <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
                             <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList} >

@@ -102,7 +102,7 @@ const CompanySetting = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getRankList = useCallback(async()=> {
-    const results = await getRequest('http://192.168.0.14:8088/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
     if(results === false){
         //setList([""])

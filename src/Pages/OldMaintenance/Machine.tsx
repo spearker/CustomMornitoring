@@ -33,19 +33,19 @@ const MachineManageMaintenance = ({ match }) => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`기계 보전 관리`}/>
-           
+
           </div>
-          
+
           <WrapBox>
-           
+
               <img src={TEMP_IMG_1} />
-         
+
           </WrapBox>
-        
+
         </InnerBodyContainer>
-       
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

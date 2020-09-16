@@ -32,7 +32,7 @@ const DotPagenation = ({stock, selected, onClickEvent}: IProps) => {
   `
   for(let i = 1 ; i <= stock ; i ++){
     dotList.push(
-    <a onClick={()=>{onClickEvent(i); }} key={i}> 
+    <a onClick={()=>{onClickEvent(i); }} key={i}>
       {selected === i ?
       <DotOn/>
       :
@@ -43,18 +43,18 @@ const DotPagenation = ({stock, selected, onClickEvent}: IProps) => {
   }
 
   useEffect(()=>{
-   
+
   },[])
 
 
-  
+
   return (
 
        <div style={{textAlign:'center'}}>
          {dotList}
        </div>
 
-      
+
   );
 }
 

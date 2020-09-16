@@ -14,7 +14,7 @@ interface IProps{
 }
 const MonitoringOptionButton = ({image, width, title,onClickEvent, color}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
 
@@ -39,7 +39,7 @@ const MonitoringOptionButton = ({image, width, title,onClickEvent, color}: IProp
            </div>
        </ButtonBox>
 
-      
+
   );
 }
 

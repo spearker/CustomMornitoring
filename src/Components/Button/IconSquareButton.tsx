@@ -8,13 +8,13 @@ interface IProps{
     image: string,
     dim : boolean, //누를수 있는지 없는지 상태
     width: string,
-    imageSize: string, 
+    imageSize: string,
     color: string,
 
 }
 const IconSquareButton = ({image, dim, width, imageSize, color}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
 
@@ -34,7 +34,7 @@ const IconSquareButton = ({image, dim, width, imageSize, color}: IProps) => {
            </div>
        </ButtonBox>
 
-      
+
   );
 }
 

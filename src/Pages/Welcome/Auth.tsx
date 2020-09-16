@@ -6,7 +6,7 @@ import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LO
 import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 
-// 회원가입을 위한 이메일 입력 페이지 
+// 회원가입을 위한 이메일 입력 페이지
 
 const Auth = () => {
 
@@ -14,7 +14,7 @@ const Auth = () => {
   const [num2, setNum2] = useState('');
   const [num3, setNum3] = useState('');
   const [num4, setNum4] = useState('');
-  
+
   const onsubmitForm = useCallback((e)=>{
     e.preventDefault();
     window.location.href= "/signup" //TODO: 지울것
@@ -22,7 +22,7 @@ const Auth = () => {
     // res body 에 담긴 email 컨텍스트에 저장 tempEmail
 
   },[num1, num2, num3, num4])
-  
+
   const onChangeNum1 = useCallback((e) => {
     if(isNaN(e.target.value)){return;}
     setNum1(e.target.value);
@@ -61,12 +61,12 @@ const onChangeNum4 = useCallback((e) => {
 }, [num4]);
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
 
-  
+
         <FullPageDiv>
             <WelcomeNavigation />
             <InnerDiv >
@@ -99,15 +99,15 @@ const onChangeNum4 = useCallback((e) => {
                 <div style={{textAlign:'center', fontSize:12}}>
                   <p >이메일을 받지 못하셨나요?</p>
                   <a href="/email" style={{marginBottom:55, marginTop:5, display:'block', textDecoration:'underline'}}>인증번호 재전송</a>
-                
+
                 </div>
-                 <ButtonBox name={'이메일 인증하기'} /> 
+                 <ButtonBox name={'이메일 인증하기'} />
               </form>
             </InnerDiv>
-          
+
             <WelcomeFooter/>
         </FullPageDiv>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

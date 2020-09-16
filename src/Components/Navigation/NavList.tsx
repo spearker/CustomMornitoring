@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 //대시보드 네비게이션 리스트
 interface Props{
   no?: string, //메뉴 고유 넘버
-  select?: boolean, // 버튼 선택여부 
+  select?: boolean, // 버튼 선택여부
   url: string, //링크 url
   name: string,
 }
@@ -18,7 +18,7 @@ interface Props{
 const NavList = ({no, select, url, name}: Props) => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -35,7 +35,7 @@ const NavList = ({no, select, url, name}: Props) => {
       }
       </>
 
-      
+
   );
 }
 
