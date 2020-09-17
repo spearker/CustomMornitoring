@@ -13,15 +13,15 @@ const FactoryBox = ({title,inputMaterial,productionMaterial,children}:Props) => 
         <TopBlackBox>
             <p>{title}</p>
             <p>투입자재</p>
-            <div>
+            <div style={{width: "97%"}}>
                 <span style={{color:  inputMaterial !== null &&  inputMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{inputMaterial !== null && inputMaterial !== undefined ? inputMaterial : '품목 선택'}</span>
             </div>
             <p>생산자재</p>
-            <div>
+            <div style={{width: "97%"}}>
                 <span style={{color:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
             </div>
-            <ProductionReg>
-                <p style={{width: "100%"}}>{productionMaterial !== undefined && productionMaterial !== null ? '품목수정' : '품목등록'}</p>
+            <ProductionReg style={{backgroundColor:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#bbbbbb' : '#19b9df' }}>
+                <p>{productionMaterial !== undefined && productionMaterial !== null ? '품목수정' : '품목등록'}</p>
             </ProductionReg>
         </TopBlackBox>
     )
@@ -41,9 +41,9 @@ const TopBlackBox = Styled.div`
         font-family: NotoSansCJKkr;
         font-size: 11px;
         &:first-child{
-            font-size: 20px;
+            font-size: 16px;
             font-family: NotoSansCJKkr-Bold;
-            padding: 7px 70px 14px 0;
+            padding: 7px 0 14px 0;
         }
     }
     div{
@@ -64,9 +64,8 @@ const TopBlackBox = Styled.div`
 const ProductionReg = Styled.button`
      margin-top: 12px;
      width: 140px;
-     height: 30px; 
+     height: 30px;
      border-radius: 6px;
-     background-color: #19b9df;
      p{
           &:first-child{
             color: #000000;

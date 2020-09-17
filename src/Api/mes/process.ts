@@ -3,6 +3,21 @@ import React, {useReducer, useCallback} from 'react';
 import * as _ from 'lodash';
 
 /**
+ * postProcessDelete()
+ * 공정 리스트 삭제
+ * @param {string} url 링크 주소
+ * @param object
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const postProcessDelete = async( url: string,object: object) =>{
+    const temp: IServerData = await client.post(url,object);
+    console.log(temp.status);
+    return temp.status;
+}
+
+/**
  * getProcessList()
  * 공정 리스트 정보 불러오기
  * @param {string} url 링크 주소
@@ -15,6 +30,7 @@ export const getProcessList = async( url: string) =>{
     console.log(temp.results);
     return temp.results;
 }
+
 
 /**
  * getSegmentList()
@@ -31,15 +47,15 @@ export const getSegmentList = async( url: string) =>{
 }
 
 /**
- * getSegmentList()
- * 세분화 리스트 정보 불러오기
+ * postSegmentDelete()
+ * 세분화 리스트 정보 삭제
  * @param {string} url 링크 주소
  * @param object
  * @returns {object} data object
  * @author 정민
  * @version 0.1
  */
-export const postSegmentList = async( url: string, object: object) =>{
+export const postSegmentDelete = async( url: string, object: object) =>{
     const temp: IServerData = await client.post(url,object);
     console.log(temp.results);
     return temp.results;
@@ -100,7 +116,7 @@ export const API_URLS = {
     },
     segment:{
         register: `/v1/process/segment/register`,
-        delete: `/V1/process/segment/delete`,
+        delete: `/v1/process/segment/delete`,
         list: '/v1/process/segment/list',
         load: '/v1/process/segment/load'
     },

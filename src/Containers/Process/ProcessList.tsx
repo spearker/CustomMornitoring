@@ -16,10 +16,11 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import { getRequest } from "../../Common/requestFunctions";
 import { getToken } from "../../Common/tokenFunctions";
-import { API_URLS, getProcessList } from "../../Api/mes/process";
+import {API_URLS, getProcessList, postProcessDelete} from "../../Api/mes/process";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import {postCustomerDelete} from "../../Api/mes/customer";
 
 
 
@@ -30,6 +31,7 @@ const ProcessListContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any>([]);
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [index, setIndex] = useState({ type: "타입" });
     const [BOMindex, setBOMIndex] = useState({ material_name: '품목(품목명)' });
     const [selectPk, setSelectPk] = useState<any>(null);
@@ -82,6 +84,7 @@ const ProcessListContainer = () => {
         },
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
@@ -133,6 +136,28 @@ const ProcessListContainer = () => {
 
     }, [list, selectPk]);
 
+
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        list.map((v,i)=>{
+            console.log(v.pk)
+            tmpPk.push(v.pk)
+        })
+        setDeletePk({...deletePk, keys: tmpPk})
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        deletePk.keys.push(Data.pk)
+        console.log(deletePk.keys)
+    },[deletePk])
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['process'].delete}`
+        const res = await postProcessDelete(tempUrl, deletePk)
+        console.log(res)
+
+    },[deletePk])
+
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['process'].load}?pk=${pk}`
@@ -175,7 +200,9 @@ const ProcessListContainer = () => {
             <OvertonTable
                 title={'공정 리스트'}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
                 allCheckbox={true}
+                checkOnClickEvent={checkOnClick}
                 checkBox={true}
                 indexList={index}
                 valueList={list}

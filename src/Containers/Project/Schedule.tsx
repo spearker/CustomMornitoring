@@ -21,6 +21,7 @@ import {API_URLS, getProjectList } from "../../Api/mes/production";
 import FactoryBox from "../../Components/Box/FactoryBox";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 
@@ -30,13 +31,13 @@ const ScheduleContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [detailTitleEventList, setDetailTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
+    const [detailList,setDetailList] = useState<{chit_list: any[], name: string, process: any[], state: boolean}>({chit_list: [],name: '', process: [], state: false});
     const [index, setIndex] = useState({manager_name:'계획자명'});
-    const [voucherIndex, setVoucherIndex] = useState({name:'등록자'});
+    const [voucherIndex, setVoucherIndex] = useState({registerer: "등록자"});
     const [voucherList, setVoucherList] = useState<any[]>([])
     const [process, setProcess ] = useState<any[]>([])
     const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
+    const [selectMaterial, setSelectMaterial ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
     const history = useHistory();
 
@@ -120,70 +121,59 @@ const ScheduleContainer = () => {
     const detailTitleEvent = [
         {
             Name: '생산 계획 배포',
-            Width: 130
+            Width: 130,
+            Link: ()=>getDistribute()
         }
     ]
-
-    const detailTitle = {
-        schedule: {
-            part_name: '부품명',
-            repair_content: '수리 내용',
-            repair_status: '수리 상태',
-            complete_date: '완료 날짜',
-        },
-    }
 
     const voucherIndexList = {
         schedule: {
-            name: '등록자',
-            date: '작업 날짜',
-            amount: '작업 수량',
-            state: '현황'
+            registerer: "등록자",
+            deadline: "납기일",
+            goal: '목표 수량',
+            current_amount: '작업 수량',
         }
     }
 
-    const voucherdummy =[
-        {
-            name: '김담당',
-            date: '2020.02.02',
-            amount: '999,999,999,999',
-            state: '배포 완료'
-        }
-    ]
-
-    const detaildummy = [
-        {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
-    ]
-
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+    const onClick = useCallback((segment) => {
+        if(segment.pk === selectPk){
             setSelectPk(null);
-            setSelectMold(null);
+            setSelectMaterial(null);
             setSelectValue(null);
         }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
+            setSelectPk(segment.pk);
+            setSelectMaterial(segment.material_name);
+            setSelectValue(segment)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(segment.pk)
         }
 
 
 
     }, [list, selectPk]);
 
+
+    const getDistribute = useCallback( async()=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['production'].distribute}?pk=${selectPk}`
+        const res = await getProjectList(tempUrl)
+
+        history.push('/project/chit/register')
+
+    },[selectPk])
+
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['production'].load}?pk=${pk}`
+        const tempUrl = `${API_URLS['production'].dropdown}?pk=${pk}`
         const res = await getProjectList(tempUrl)
 
         setDetailList(res)
-
+        const getSchedule = res.chit_list.map((v,i)=>{
+                const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            return {...v, current_amount: current_amount, goal: goal}
+        })
+        setVoucherList(getSchedule)
     },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
@@ -192,9 +182,10 @@ const ScheduleContainer = () => {
         const res = await getProjectList(tempUrl)
         const getprocesses = res.info_list.map((v,i)=>{
 
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const statement =  v.state ? '배포됨' : '배포전'
 
-            return {...v, state: statement }
+            return {...v, state: statement, amount: amount}
         })
 
 
@@ -209,9 +200,9 @@ const ScheduleContainer = () => {
         setTitleEventList(titleeventdummy)
         setProcess(detailDummy)
         setDetailTitleEventList(detailTitleEvent)
-        setDetailList(detaildummy)
+        // setDetailList(detaildummy)
         setVoucherIndex(voucherIndexList["schedule"])
-        setVoucherList(voucherdummy)
+        // setVoucherList(voucherdummy)
     },[])
 
     return (
@@ -228,14 +219,19 @@ const ScheduleContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                    <LineTable title={'대한민국_품목 01'}  titleOnClickEvent={detailTitleEventList}>
-                        <VoucherDropdown pk={'123'} name={'dsf'} clickValue={'123'}>
-                            <FactoryBox title={'공정 A'} inputMaterial={'sdfd'} productionMaterial={'wefe'}/>
+                    <LineTable title={selectMaterial}  titleOnClickEvent={detailTitleEventList}>
+                        <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
+                            {detailList.process.map((v,i)=>{
+                                return(
+                                    <div style={{display:"flex", flexDirection: "row"}}>
+                                        <FactoryBox title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material}/>
+                                    </div>
+                                )})}
                         </VoucherDropdown>
                         <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
-                            <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList} >
-                                <Line/>
-                            </LineTable>
+                                <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList}>
+                                    <Line/>
+                                </LineTable>
                         </VoucherDropdown>
                     </LineTable>
                     :

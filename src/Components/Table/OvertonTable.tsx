@@ -33,15 +33,12 @@ interface Props {
     children?: any
 }
 
-
 const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,searchBar,dropDown,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
-
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [checked, setChecked] = useState<any[]>([])
     const [option, setOption] = useState<number>(0)
     const [allChecked, setAllChecked] = useState(false)
-
 
     const onClickFilter = useCallback(async (filter:number)=>{
         setOption(filter)

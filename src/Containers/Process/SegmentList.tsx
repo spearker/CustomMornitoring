@@ -17,7 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getSegmentList} from "../../Api/mes/process";
+import {API_URLS, getSegmentList, postProcessDelete, postSegmentDelete} from "../../Api/mes/process";
 import {useHistory} from 'react-router-dom'
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
@@ -26,8 +26,8 @@ const SegmentListContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [index, setIndex] = useState({ name: "공정별 세분화 명"});
     const [subIndex, setSubIndex] = useState({order: '공정 순서'})
     const [selectPk, setSelectPk ]= useState<any>(null);
@@ -89,33 +89,11 @@ const SegmentListContainer = () => {
         },
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
 
-    const detaildummy = [
-        {
-            order:'1차',
-            type: '라인',
-            detail_order: ['라인 1차','라인 2차','라인 3차'],
-            machine_name: ['기계명 01','기계명 02','기계명 03'],
-            recommend_spm: ['100','100','100'],
-        },
-        {
-            order:'2차',
-            type: '단발',
-            detail_order: '',
-            machine_name: '기계명 00',
-            recommend_spm: '100',
-        },
-        {
-            order:'3차',
-            type: '검수',
-            detail_order: ['라인 1차','라인 2차','라인 3차'],
-            machine_name: ['기계명 01','기계명 02','기계명 03'],
-            recommend_spm: ['100','100','100'],
-        }
-    ]
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
@@ -131,9 +109,29 @@ const SegmentListContainer = () => {
             getData(mold.pk)
         }
 
-
-
     }, [list, selectPk]);
+
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        list.map((v,i)=>{
+            console.log(v.pk)
+            tmpPk.push(v.pk)
+        })
+        setDeletePk({...deletePk, keys: tmpPk})
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        deletePk.keys.push(Data.pk)
+        console.log(deletePk.keys)
+    },[deletePk])
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['segment'].delete}`
+        const res = await postSegmentDelete(tempUrl, deletePk)
+        console.log(res)
+
+    },[deletePk])
+
 
     const allCheckonClick = useCallback(() => {
 
@@ -209,7 +207,7 @@ const SegmentListContainer = () => {
         <div>
             <OvertonTable
                 title={'프로세스 리스트(공정별 세분화)'}
-                allCheckOnClickEvent={allCheckonClick}
+                allCheckOnClickEvent={allCheckOnClick}
                 allCheckbox={true}
                 titleOnClickEvent={titleEventList}
                 indexList={index}

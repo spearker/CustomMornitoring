@@ -71,6 +71,8 @@ export const API_URLS = {
         load: `/v1/project/load`,
         history: `/v1/project/history`,
         search: `/v1/project/search`,
+        dropdown: `/v1/project/dropdown`,
+        distribute: `/v1/project/distribute`
     },
     material: {
         search: `/v1/material/search`
