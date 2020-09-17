@@ -298,7 +298,7 @@ const Dashboard = () => {
             <div style={{display:'inline-block', float:'right', }}>
               <div style={{display:'flex', alignItems:'center'}}>
               <ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 작업 지시서 추가하기</>}</ColorButtonLink>
-              <BasicDropdown contents={['등록순', '이름순']} select={['등록일순', '이름순'][option]} onClickEvent={onClickFilter}/>
+              <BasicDropdown contents={['등록순', '이름순']} select={['등록순', '이름순'][option]} onClickEvent={onClickFilter}/>
               </div>
             </div>
             <div style={{marginTop:12}}>

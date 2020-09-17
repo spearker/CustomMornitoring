@@ -109,9 +109,9 @@ const ScheduleContainer = () => {
             Width: 90,
             Link: ()=>history.push('/project/production/register')
         },
-        {
-            Name: '수정',
-        },
+        // {
+        //     Name: '수정',
+        // },
         {
             Name: '삭제',
         }
@@ -218,6 +218,7 @@ const ScheduleContainer = () => {
         <div>
             <OvertonTable
                 title={'생산 계획 리스트'}
+                calendar={true}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
                 indexList={index}

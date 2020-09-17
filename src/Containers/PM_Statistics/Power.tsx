@@ -184,7 +184,7 @@ const PowerContainer = () => {
                             start: start,
                             end: end ? end : ''
                         })}></CalendarDropdown>
-                        <NoDataCard contents={"데이터가 습니다."} height={740}/>
+                        <NoDataCard contents={"데이터가 없습니다."} height={740}/>
                     </div>
             }
         </div>

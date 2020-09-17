@@ -6,7 +6,7 @@ import React, {
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getCustomerData} from "../../Api/mes/customer";
+import {API_URLS, getCustomerData, postCustomerDelete} from "../../Api/mes/customer";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import icCurrentValue from "../../Assets/Images/ic_current_down.png"
 import {useHistory} from "react-router-dom";
@@ -15,13 +15,12 @@ const ClientContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [index, setIndex] = useState({  number: "0000111101001111" });
-    const [detailList,setDetailList] = useState<any>([]);
+    const [index, setIndex] = useState({  name: "거래처 명" });
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
-    const [widthPercent, setWidthPercent] = useState<number>(0)
     const history = useHistory();
 
     const indexList = {
@@ -35,33 +34,6 @@ const ClientContainer = () => {
         }
     }
 
-    const eventdummy = [
-        {
-            Name: '수정',
-            Width: 60,
-            Color: 'white'
-        },
-    ]
-
-    const titleeventdummy = [
-        {
-            Name: '등록하기',
-            Width: 90,
-            Link: ()=>history.push('/customer/register')
-        },
-        {
-            Name: '삭제',
-        }
-    ]
-
-    const detaildummy = [
-        {
-            max_count: 50000,
-            today_count: 1000,
-            current_count: 38898
-        },
-    ]
-
     const onClick = useCallback((customer) => {
         console.log('dsfewfewf',customer.pk,customer.customer_name);
         if(customer.pk === selectPk){
@@ -73,21 +45,54 @@ const ClientContainer = () => {
             setSelectMold(customer.customer_name);
             setSelectValue(customer)
             //TODO: api 요청
-            getData(customer.pk)
+            // getData(customer.pk)
         }
 
 
 
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['customer'].load}?pk=${pk}`
-        const res = await getCustomerData(tempUrl)
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        list.map((v,i)=>{
+            console.log(v.pk)
+            tmpPk.push(v.pk)
+        })
+        setDeletePk({...deletePk, keys: tmpPk})
+    },[deletePk])
 
-        setDetailList(res)
+    const checkOnClick = useCallback((Data) => {
+        deletePk.keys.push(Data.pk)
+        console.log(deletePk.keys)
+    },[deletePk])
 
-    },[])
+    const eventdummy = [
+        {
+            Name: '수정',
+            Width: 60,
+            Color: 'white',
+            Link: (v)=>history.push(`/customer/register/${v.pk}`)
+        },
+    ]
+
+    const titleeventdummy = [
+        {
+            Name: '등록하기',
+            Width: 90,
+            Link: ()=>history.push('/customer/register')
+        },
+        {
+            Name: '삭제',
+            Link: ()=> postDelete()
+        }
+    ]
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['customer'].delete}`
+        const res = await postCustomerDelete(tempUrl, deletePk)
+
+        getList()
+    },[deletePk])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -106,19 +111,25 @@ const ClientContainer = () => {
         setEventList(eventdummy)
     },[])
 
+    useEffect(()=>{
+        console.log(deletePk)
+    },[deletePk])
+
     return (
         <div>
             <OvertonTable
                 title={'거래처 리스트'}
                 titleOnClickEvent={titleEventList}
+                dropDown={true}
+                searchBar={true}
                 allCheckbox={true}
+                allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 checkBox={true}
-                clickValue={selectValue}
-                noChildren={true}
-                mainOnClickEvent={onClick}>
+                checkOnClickEvent={checkOnClick}
+                noChildren={true}>
             </OvertonTable>
         </div>
     );

@@ -18,10 +18,10 @@ const FactoryBox = ({title,inputMaterial,productionMaterial,children}:Props) => 
             </div>
             <p>생산자재</p>
             <div>
-                <span style={{color:  inputMaterial !== null &&  inputMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
+                <span style={{color:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
             </div>
             <ProductionReg>
-                <p style={{width: "100%"}}>품목등록</p>
+                <p style={{width: "100%"}}>{productionMaterial !== undefined && productionMaterial !== null ? '품목수정' : '품목등록'}</p>
             </ProductionReg>
         </TopBlackBox>
     )

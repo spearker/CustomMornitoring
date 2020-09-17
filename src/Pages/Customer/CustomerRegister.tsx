@@ -2,12 +2,19 @@ import React from "react";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import CustomerRegisterContainer from "../../Containers/Customer/CustomerRegister";
+import MapEditorContiner from "../map/MapEditor";
 
-const CustomerRegister = () => {
+interface Props {
+    match: any;
+    chilren: string;
+}
+
+
+const CustomerRegister = ({match}: Props) => {
     return (
         <DashboardWrapContainer index={'customer'}>
             <InnerBodyContainer>
-                <CustomerRegisterContainer />
+                <CustomerRegisterContainer  match={match}  />
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

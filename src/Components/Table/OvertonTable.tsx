@@ -1,15 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Styled from "styled-components";
-import {BG_COLOR_SUB2, POINT_COLOR} from "../../Common/configset";
+import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from "../../Common/configset";
 import {useHistory} from "react-router-dom";
 import LineTable from "./LineTable";
 import useOnclickOutside from "react-cool-onclickoutside";
 import CalendarDropdown from "../Dropdown/CalendarDropdown";
 import moment from "moment";
+import BasicDropdown from "../Dropdown/BasicDropdown";
+import {getRequest} from "../../Common/requestFunctions";
+import {getToken} from "../../Common/tokenFunctions";
+import IcSearchButton from "../../Assets/Images/ic_search.png";
+import {Input} from "semantic-ui-react";
 
 interface Props {
     title: string
     calendar?: boolean
+    searchBar?: boolean
+    dropDown?: boolean
     titleOnClickEvent?: any
     indexList: any
     valueList: any[]
@@ -26,11 +33,33 @@ interface Props {
     children?: any
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
+
+const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,searchBar,dropDown,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
+
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [checked, setChecked] = useState<any[]>([])
+    const [option, setOption] = useState<number>(0)
     const [allChecked, setAllChecked] = useState(false)
+
+
+    const onClickFilter = useCallback(async (filter:number)=>{
+        setOption(filter)
+        ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+        //return;
+        const results = await getRequest('http://203.234.183.22:8299/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+
+        if(results === false){
+            ////alert('서버에서 데이터를 불러 올 수없습니다.')
+        }else{
+            if(results.status === 200){
+
+            }else{
+                //alert('서버에서 데이터를 불러 올 수없습니다.')
+            }
+        }
+    },[option])
+
 
     React.useEffect(() => {
         if(checkBox === true) {
@@ -52,6 +81,22 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
             <Title>
                 <p className="p-bold" style={{fontSize: 20 }}>{title}</p>
                 <div>
+                {dropDown !== undefined || false ?
+                    <div style={{alignItems: "center"}}>
+                        <BasicDropdown contents={['거래처명', '대표자명', '기타']} select={['거래처명', '대표자명', '기타'][option]}
+                                       onClickEvent={onClickFilter}/>
+                    </div> :
+                    null
+                }
+                {searchBar !== undefined || false ?
+                    <div style={{width: "300px"}}>
+                        <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}} onChange={(e) => console.log(e.target.value)}/>
+                        <SearchButton style={{flex: 10}}>
+                            <img src={IcSearchButton}/>
+                        </SearchButton>
+                    </div> :
+                    null
+                }
                 {calendar !== undefined || false ?
                     <div>
                         <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
@@ -76,6 +121,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                         <div style={{paddingRight:10, paddingLeft: 10, paddingTop:5}}>
                             <input type="checkbox" id={'all'} onClick={(e) => {
                                 if(allChecked === false) {
+                                    allCheckOnClickEvent(valueList)
                                     let tmpArr: boolean[] = checked
                                     tmpArr = tmpArr.map(() => true)
                                     // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
@@ -87,7 +133,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                                     tmpArr = tmpArr.map(() => false)
                                     // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                                     setChecked(tmpArr)
-                                    console.log(checked)
                                     setAllChecked(false)
                                     return false
                                 }
@@ -134,7 +179,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                     },
                     */
                     return (
-                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
+                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}} onClick={mainOnClickEvent && mainOnClickEvent ? ()=>mainOnClickEvent(v) : ()=>console.log()}>
                             {
                                 checkBox !== undefined || false ?
                                     <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
@@ -142,7 +187,12 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                                                 let tmpArr: boolean[] = checked
                                                 tmpArr = tmpArr.map((vm,vi)=>{
                                                      if(vi===i){
-                                                         return !vm
+                                                         if(vm){
+                                                             return false
+                                                         }else {
+                                                             checkOnClickEvent(v)
+                                                            return true
+                                                         }
                                                      } else {
                                                         return  vm
                                                      }
@@ -173,8 +223,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                                             </select>
                                             :
                                         <p key={`td-${i}-${mv}`}
-                                           className="p-limits"
-                                           onClick={()=> (mainOnClickEvent(v))}>
+                                           className="p-limits" >
                                             {
                                                     v[mv]
                                             }
@@ -187,7 +236,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,titleOnClic
                                 EventList && EventList.map((bv,bi)=>{
                                     return(
                                         <div className="p-limits">
-                                            <ButtonBox onClick={bv.Link} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
+                                            <ButtonBox onClick={()=>bv.Link(v)} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
                                         </div>
                                     )
                                 })
@@ -301,5 +350,33 @@ const ButtonBox = Styled.button`
     height: 30px;
 `
 
+const SearchBox = Styled(Input)`
+    input{
+        padding-left: 8px;
+        font-famaily: NotoSansCJKkr;
+        height: 28px;
+        border: 0.5px solid #b3b3b3;
+        border-radius: 10px 0 0px 10px;
+        width: 100%;
+        margin-right: -10%;
+        background-color: #f4f6fa;
+        font-size: 15px;
+        &::placeholder:{
+            color: #b3b3b3;
+        };
+     }
+`
+
+const SearchButton = Styled.button`
+    width: 55px;
+    height: 32px;
+    border-radius: 5px 5px 5px 5px;
+    background-color: ${POINT_COLOR};
+    img{
+        width: 20px;
+        height: 20px;
+        margin-top: 5px;
+    }
+`
 
 export default OvertonTable

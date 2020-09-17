@@ -51,6 +51,7 @@ const JunheeRouters = () => {
                 <Route exact path="/mold/repair/register" component={MoldRepairRegister} />
                 {/*거래처관리*/}
                 <Route exact path="/customer/register" component={CustomerRegister} />
+                <Route exact path="/customer/register/:pk" component={CustomerRegister} />
                 {/* pm */}
                 <Route exact path="/pm/statistics/oil" component={OilSupplyStatistics} />
                 <Route exact path="/pm/statistics/ability" component={AbilityStatistics} />

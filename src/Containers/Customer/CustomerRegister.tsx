@@ -1,39 +1,32 @@
 import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import ButtonBox from '../../Components/Button/BasicButton'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
+import { TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
 import { getToken } from '../../Common/tokenFunctions';
-import BasicModal from '../../Containers/SearchModalContainer';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {    ROUTER_MENU_LIST } from '../../Common/routerset';
-import DropdownInput from '../../Components/Input/DropdownInput';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
-import IcButton from '../../Components/Button/IcButton';
-import InputContainer from '../../Containers/InputContainer';
-import FullAddInput from '../../Components/Input/FullAddInput';
-import CustomIndexInput from '../../Components/Input/CustomIndexInput';
+import { getParameter, postRequest } from '../../Common/requestFunctions';
 import { uploadTempFile } from '../../Common/fileFuctuons';
-import {getMachineTypeList} from '../../Common/codeTransferFunctions';
-import DateInput from '../../Components/Input/DateInput';
-import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 import RadioInput from '../../Components/Input/RadioInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom'
+import {API_URLS, getCustomerData} from "../../Api/mes/customer";
+
+interface Props {
+    match: any;
+    // chilren: string;
+}
+
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const CustomerRegister = () => {
+const CustomerRegister = ({ match }: Props)  => {
+
+    console.log(match)
+
     const history = useHistory()
 
     const [pk, setPk] = useState<string>('');
@@ -58,8 +51,7 @@ const CustomerRegister = () => {
 
 
     useEffect(()=>{
-        if(getParameter('pk') !== "" ){
-            setPk(getParameter('pk'))
+        if( match.params.pk  ){
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
             getData()
@@ -118,7 +110,8 @@ const CustomerRegister = () => {
      */
     const getData = useCallback(async()=>{
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['customer'].load}?pk=${match.params.pk}`
+        const res = await getCustomerData(tempUrl)
 
         if(res === false){
             //TODO: 에러 처리
@@ -268,6 +261,7 @@ const CustomerRegister = () => {
                 setAddress('');
                 setFax('');
 
+                history.goBack();
             }else{
                 //TODO:  기타 오류
             }
