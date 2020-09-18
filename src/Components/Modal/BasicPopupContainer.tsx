@@ -1,12 +1,9 @@
-import React, { useEffect , useRef, useState} from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import IcCheck from '../../Assets/Images/ic_alert_check.png'
+import {POINT_COLOR} from '../../Common/configset'
 import IC_X from '../../Assets/Images/ic_task_close.png'
 import useOnclickOutside from 'react-cool-onclickoutside';
-import { usePopupDispatch, usePopup } from '../../Context/PopupContext';
-import SmallButton from '../Button/SmallButton';
-import BasicColorButton from '../Button/BasicColorButton';
+import {usePopup, usePopupDispatch} from '../../Context/PopupContext';
 
 
 //팝업 컨테이너 박스

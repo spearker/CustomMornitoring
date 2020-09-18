@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH } from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 
 
@@ -16,7 +14,7 @@ const CheckboxInput = ({ title, list, checkKey, nameKey, onChangeEvent }: IProps
     useEffect(() => {
 
     }, [])
- 
+
     return (
         <InputContainer title={title}>
             <div>
@@ -27,8 +25,8 @@ const CheckboxInput = ({ title, list, checkKey, nameKey, onChangeEvent }: IProps
                             <input type="checkbox" id={`cb-${i}`} checked={v[checkKey]} onClick={()=>onChangeEvent(i, v[checkKey])}/>
                             <label htmlFor={`cb-${i}`}></label>
                             <span>{v[nameKey]}</span>
-                            
-                        </CheckList> 
+
+                        </CheckList>
                      )
                  })
              }

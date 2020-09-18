@@ -1,8 +1,5 @@
-import React, {useEffect, useState, useContext, useCallback, ReactElement, SetStateAction} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import OvertonTable from "../../Components/Table/OvertonTable";
-import {getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getErrorData} from "../../Api/pm/statistics";
 import Styled from "styled-components";

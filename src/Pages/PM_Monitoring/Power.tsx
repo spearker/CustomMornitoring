@@ -1,9 +1,5 @@
 import CMS from "../../Assets/Images/image_cms.png";
-import setting from "../../Assets/Images/ic_setting.png";
-import React, {useCallback, useEffect, useState} from "react";
-import {getRequest, postRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
+import React from "react";
 
 interface MProps {
     ampere: string,

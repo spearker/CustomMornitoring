@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
+import React, {useState} from 'react';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
+import {ROUTER_MENU_LIST} from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import Styled from 'styled-components'
-import BasicBigDropdown from "../../Components/Dropdown/BasicBigDropdown";
-import {Simulate} from "react-dom/test-utils";
 
 const LeadTimeAnalysis = () => {
     const [data, setData] = useState<LeadTimeAnalysis[]>([

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Radio } from 'semantic-ui-react'
+import React, {useEffect} from 'react';
+import {Radio} from 'semantic-ui-react'
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 

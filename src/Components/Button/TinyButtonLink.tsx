@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 //작은 버튼 + 그레이 컬러
 

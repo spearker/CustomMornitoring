@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR } from '../../Common/configset';
+import {POINT_COLOR} from '../../Common/configset';
 import IMG_MAP from '../../Assets/Images/img_map_readytime.png'
 import IMG_TIME from '../../Assets/Images/img_timeline.png'
 import IMG_KEY from '../../Assets/Images/img_time_key_error.png'
-import { changeStatusToString } from '../../Common/statusFunctions';
+import {changeStatusToString} from '../../Common/statusFunctions';
 import moment from 'moment';
 
 const dummy_machines = [
@@ -127,7 +127,7 @@ const dummy_history = [
   }
 ]
 
-const dummy_xy = [ 
+const dummy_xy = [
   {x: 105 ,y: 66},
   {x: 185 ,y: 66},
   {x: 265 ,y: 66},
@@ -147,14 +147,14 @@ const ReadyTimeContainer = () => {
     return Math.floor((new Date(moment().format(end)).getTime() - new Date(moment().format(start)).getTime()) / (TODAY_END - TODAY_START) * 100)
   }
   useEffect(()=>{
-   
+
   },[])
 
   return (
     <div>
       <div style={{position:'relative', textAlign:'left', marginTop:48}}>
-        
-        <div style={{display:'inline-block', textAlign:'left'}}>           
+
+        <div style={{display:'inline-block', textAlign:'left'}}>
           <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>비가동 시간 분석</span>
         </div>
       </div>
@@ -164,10 +164,10 @@ const ReadyTimeContainer = () => {
               {
                 dummy_machines.map((m, i)=>{
                   if(selectedMachine.pk == m.pk){
-                  
+
                   return(
                     <PressSimbolSelected
-                      key={'sp-'+ i} 
+                      key={'sp-'+ i}
                       onClick={()=>setSelectedMachine(m)}
                       style={{ left: dummy_xy[i].x, top: dummy_xy[i].y}}>
                       {m.name}<br />({m.ton}ton)
@@ -176,7 +176,7 @@ const ReadyTimeContainer = () => {
                   }else{
                     return(
                       <PressSimbol
-                        key={'sp-'+ i} 
+                        key={'sp-'+ i}
                         onClick={()=>setSelectedMachine(m)}
                         style={{ left: dummy_xy[i].x, top: dummy_xy[i].y}}>
                         {m.name}<br />({m.ton}ton)
@@ -226,7 +226,7 @@ const ReadyTimeContainer = () => {
               <p style={{float: 'right'}}>{moment().format('YYYY. MM. DD')}</p>
               <p>{selectedMachine.name}</p>
               <p>제조 번호 : {selectedMachine.code}</p>
-              
+
               <TimeBarWrapper>
                 <TimeBar>
                   {
@@ -234,7 +234,7 @@ const ReadyTimeContainer = () => {
                       if(m.type === 'ready'){
                         return(
                           <>
-                         
+
                           <Packet style={{width: getWidthPercent(dummy_history[i].start, dummy_history[i].end) +'%'}}>
                             <PacketTag> {'시작 : ' + moment(dummy_history[i].start).format('HH:mm')} <br/>{'종료 : ' + moment(dummy_history[i].end).format('HH:mm')} </PacketTag>
                           </Packet>
@@ -259,7 +259,7 @@ const ReadyTimeContainer = () => {
                           </Packet>
                         )
                       }
-                      
+
                     })
                   }
                 </TimeBar>

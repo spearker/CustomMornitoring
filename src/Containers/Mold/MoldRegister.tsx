@@ -1,16 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
-import {Button, Header, Input, Select} from 'semantic-ui-react'
+import {Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
-import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
 import {POINT_COLOR} from "../../Common/configset";
-import IcButton from "../../Components/Button/IcButton";
-import searchImage from "../../Assets/Images/ic_search.png";
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
-import { useHistory } from "react-router-dom"
+import {useHistory} from "react-router-dom"
 
 const typeDummy = [
     '타입 A',

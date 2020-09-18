@@ -1,21 +1,11 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
-import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {       ROUTER_MENU_LIST, PM_MENU_LIST } from '../../Common/routerset';
 import LoadTonCard from '../../Components/Card/LoadTonCard';
-import CMSMonitoringTabs from '../../Components/Tabs/CMSMonitoringTabs';
-import TEMP_IMG_1 from '../../Assets/Images/monitoring_loadton.png'
 import {API_URLS, getLoadTonList} from "../../Api/pm/monitoring";
 import {API_URLS as URLS_MAP, getMonitoringMapData} from "../../Api/pm/map";
-import MapBoard from "../../Components/Map/MapBoard";
 import FactorySelector from "../../Components/Map/FactorySelector";
 import NoDataCard from "../../Components/Card/NoDataCard";
 

@@ -1,7 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
-
-import MapTest from '../Containers/PM_Monitoring/FactoryPressStatus';
+import React from 'react';
+import {Route, Switch} from 'react-router-dom';
 import LoadtoneStatistics from "../Pages/PM_Statistics/LoadtoneStatistics";
 import MoldStatistics from "../Pages/PM_Statistics/MoldStatistics";
 import DefectiveStatistics from "../Pages/PM_Statistics/DefectiveStatistics";

@@ -1,12 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import moment from "moment";
-import IMG_TIME from "../../Assets/Images/img_timeline.png";
-import IMG_KEY from "../../Assets/Images/img_time_key_error.png";
 import Styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
-import ListRadioButton from "../../Components/Button/ListRadioButton";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import {API_URLS, getAbilityList, getOilSupplyData} from "../../Api/pm/statistics";
+import {API_URLS, getOilSupplyData} from "../../Api/pm/statistics";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
 import NoDataCard from "../../Components/Card/NoDataCard";

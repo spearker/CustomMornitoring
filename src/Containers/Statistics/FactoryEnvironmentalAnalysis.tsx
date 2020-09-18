@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Chart from "react-apexcharts";
-import moment from "moment";
 import Header from "../../Components/Text/Header";
-import Styled, { css } from "styled-components";
+import Styled, {css} from "styled-components";
 import searchBtnImg from "../../Assets/Images/btn_search.png";
-import HistoryLists from "../Maintenance/HistoryLists";
 
 //공장 환경 분석
 

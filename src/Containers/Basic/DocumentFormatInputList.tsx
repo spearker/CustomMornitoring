@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {getToken} from '../../Common/tokenFunctions';
+import {getRequest} from '../../Common/requestFunctions';
 import {useHistory} from 'react-router-dom'
-import DropdownCode from '../../Components/Input/DropdownCode';
-import { TOKEN_NAME } from '../../Common/configset';
-import NormalInput from '../../Components/Input/NormalInput';
+import {TOKEN_NAME} from '../../Common/configset';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import * as _ from 'lodash';
 import DateInput from '../../Components/Input/DateInput';

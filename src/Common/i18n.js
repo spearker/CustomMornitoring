@@ -1,10 +1,10 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 
 //import Backend from 'i18next-xhr-backend';
 //import LanguageDetector from 'i18next-browser-languagedetector';
 // not like to use this?
-// have a look at the Quick start guide 
+// have a look at the Quick start guide
 // for passing in lng and translations on init
 const resources = {
   kor: {
@@ -23,7 +23,7 @@ const resources = {
       "login":"로그인",
       "back":"돌아가기",
       "signUp":"회원가입",
-      // error 
+      // error
       "errorEmail":"이메일을 확인해주세요",
       "errorLogin":"이메일과 비밀번호를 확인해주세요",
       "errorAllSubmit":"모든 필수 항목을 입력해주세요",

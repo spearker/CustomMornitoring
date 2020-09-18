@@ -1,7 +1,6 @@
-import React, { useEffect , useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import useOnclickOutside from 'react-cool-onclickoutside';
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';

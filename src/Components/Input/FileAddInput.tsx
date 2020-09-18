@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
 import {POINT_COLOR} from '../../Common/configset'
 import InputContainer from '../../Containers/InputContainer';
-import { uploadTempFile } from '../../Common/fileFuctuons';
+import {uploadTempFile} from '../../Common/fileFuctuons';
 
 interface IProps{
     title: string,

@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import moment from "moment";
-import IMG_TIME from "../../Assets/Images/img_timeline.png";
-import IMG_KEY from "../../Assets/Images/img_time_key_error.png";
 import Styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
 import ListRadioButton from "../../Components/Button/ListRadioButton";

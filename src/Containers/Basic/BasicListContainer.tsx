@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
 import Header from '../../Components/Text/Header';
 import 'react-dropdown/style.css'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import InfoTable from '../../Components/Table/InfoTable';
-import { getBasicList, API_URLS, deleteBasicList } from '../../Api/mes/basic';
+import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic';
 
 interface Props{
   type: string

@@ -1,15 +1,11 @@
-import React, {
-    useEffect,
-    useState,
-    useCallback,
-} from "react";
+import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getCustomerData, postCustomerDelete} from "../../Api/mes/customer";
-import LoadtoneBox from "../../Components/Box/LoadtoneBox";
-import icCurrentValue from "../../Assets/Images/ic_current_down.png"
 import {useHistory} from "react-router-dom";
+import {getRequest} from "../../Common/requestFunctions";
+import {getToken} from "../../Common/tokenFunctions";
+import {TOKEN_NAME} from "../../Common/configset";
 
 const ClientContainer = () => {
 
@@ -17,10 +13,10 @@ const ClientContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [index, setIndex] = useState({  name: "거래처 명" });
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [selectPk, setSelectPk ]= useState<any>(null);
+    const [option, setOption] = useState<number>(1)
+    const [contentsList, setContentsList] = useState<any[]>(['거래처명','대표자명'])
+    const [searchValue, setSearchValue] = useState<any>('')
     const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
     const history = useHistory();
 
     const indexList = {
@@ -34,28 +30,9 @@ const ClientContainer = () => {
         }
     }
 
-    const onClick = useCallback((customer) => {
-        console.log('dsfewfewf',customer.pk,customer.customer_name);
-        if(customer.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(customer.pk);
-            setSelectMold(customer.customer_name);
-            setSelectValue(customer)
-            //TODO: api 요청
-            // getData(customer.pk)
-        }
-
-
-
-    }, [list, selectPk]);
-
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
         list.map((v,i)=>{
-            console.log(v.pk)
             tmpPk.push(v.pk)
         })
         setDeletePk({...deletePk, keys: tmpPk})
@@ -63,8 +40,28 @@ const ClientContainer = () => {
 
     const checkOnClick = useCallback((Data) => {
         deletePk.keys.push(Data.pk)
-        console.log(deletePk.keys)
     },[deletePk])
+
+    const optionChange = useCallback(async (filter:number)=>{
+        setOption(filter)
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=1`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+    },[option,searchValue])
+
+
+    const searchChange = useCallback(async (search)=>{
+        setSearchValue(search)
+
+    },[searchValue])
+
+    const searchOnClick = useCallback(async () => {
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option)}&page=1`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+    },[searchValue,option])
 
     const eventdummy = [
         {
@@ -96,11 +93,11 @@ const ClientContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['customer'].list}?keyword=&type=1&page=1`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option}&page=1`
         const res = await getCustomerData(tempUrl)
-        console.log(res.info_list)
+
         setList(res.info_list)
-    },[])
+    },[searchValue,option,list])
 
     useEffect(()=>{
         getList()
@@ -121,7 +118,12 @@ const ClientContainer = () => {
                 title={'거래처 리스트'}
                 titleOnClickEvent={titleEventList}
                 dropDown={true}
+                dropDownContents={contentsList}
+                dropDownOption={option}
+                dropDownOnClick={optionChange}
                 searchBar={true}
+                searchBarChange={searchChange}
+                searchButtonOnClick={searchOnClick}
                 allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}

@@ -1,32 +1,22 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {    ROUTER_MENU_LIST } from '../../Common/routerset';
+import {ROUTER_MENU_LIST} from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
-import InputContainer from '../../Containers/InputContainer';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
-import SmallButton from '../../Components/Button/SmallButton';
-import AddInput from '../../Components/Input/AddInput';
 import FullAddInput from '../../Components/Input/FullAddInput';
-import NormalNumberInput from '../../Components/Input/NormalNumberInput';
-import TextList from '../../Components/List/TextList';
-import SearchModalContainer from '../../Containers/SearchModalContainer';
-import SearchInput from '../../Components/Input/SearchInput';
-import AddList from '../../Components/List/AddList';
-import { dataSet } from '../../Common/dataset';
-import SearchedList from '../../Components/List/SearchedList';
-import { getMaterialTypeList } from '../../Common/codeTransferFunctions';
+import {getMaterialTypeList} from '../../Common/codeTransferFunctions';
 import ListHeader from '../../Components/Text/ListHeader';
+
 interface IInfo {
   title: string,
   value: string,

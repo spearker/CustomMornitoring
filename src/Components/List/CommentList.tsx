@@ -1,13 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import { useUser } from '../../Context/UserContext';
-import IcButton from '../Button/IcButton';
-import icPlus from '../../Assets/Images/ic_plus.png'
-import icDelete from '../../Assets/Images/ic_minus.png'
-import IconSquareButton from '../Button/IconSquareButton';
+import {useUser} from '../../Context/UserContext';
 import IMG_PROFILE from '../../Assets/Images/img_profile.png';
-import TinyButton from '../Button/TinyButton';
 
 interface Props{
   contents: IReply

@@ -1,20 +1,15 @@
-import React, {useEffect, useState, useContext, useCallback, ReactElement, SetStateAction} from 'react';
-import Styled from 'styled-components'
-import DashboardWrapContainer from "../DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import {ROUTER_MENU_LIST} from "../../Common/routerset";
-import InnerBodyContainer from "../InnerBodyContainer";
+import React, {SetStateAction} from 'react';
 import Header from "../../Components/Text/Header";
 
 import Calendar from 'react-calendar';
 import './calendar.css';
-import { Modals } from './Modal';
+import {Modals} from './Modal';
 import ModalA from "./Modal/ModalA";
 import ModalB from "./Modal/ModalB";
 import ModalC from "./Modal/ModalC";
 import ModalD from "./Modal/ModalD";
 import {Button} from "antd";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 //기계 보전 관리
 
 //어려움 캘린더 등이 눌리거나 팝업 기능이 있어서 1명이 온전히 작업 필요

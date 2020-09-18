@@ -1,11 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import Styled from "styled-components";
-import {Button, Header, Input, Select} from 'semantic-ui-react'
+import {Button, Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
-import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
 import {POINT_COLOR} from "../../Common/configset";
-import ReactShadowScroll from 'react-shadow-scroll';
 import IcButton from "../../Components/Button/IcButton";
 import searchImage from "../../Assets/Images/ic_search.png";
 import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";

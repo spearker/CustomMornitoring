@@ -1,24 +1,9 @@
-import React, {
-    useEffect,
-    useState,
-    useContext,
-    useCallback,
-    ReactElement,
-} from "react";
+import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
-import DashboardWrapContainer from "../DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import { ROUTER_MENU_LIST } from "../../Common/routerset";
-import InnerBodyContainer from "../InnerBodyContainer";
-import Header from "../../Components/Text/Header";
-import ReactShadowScroll from "react-shadow-scroll";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getCluchData, getMoldData,} from "../../Api/pm/preservation";
-import { useHistory } from "react-router-dom"
+import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {useHistory} from "react-router-dom"
 
 
 const OutSourceContainer = () => {

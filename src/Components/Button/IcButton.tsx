@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {POINT_COLOR} from '../../Common/configset'
 
 //아이콘 버튼
 

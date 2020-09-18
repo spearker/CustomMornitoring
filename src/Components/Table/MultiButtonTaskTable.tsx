@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BG_COLOR_SUB3} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import { render } from '@testing-library/react';
-import SmallButton from '../Button/SmallButton';
-import { Link } from 'react-router-dom';
-import NormalNumberInput from '../Input/NormalNumberInput';
+import {BG_COLOR_SUB, BG_COLOR_SUB2, BG_COLOR_SUB3, POINT_COLOR} from '../../Common/configset'
 import Nodata from '../Text/Nodata';
-
 
 
 interface IProps{

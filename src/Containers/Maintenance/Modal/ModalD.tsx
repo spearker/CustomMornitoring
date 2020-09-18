@@ -1,5 +1,5 @@
-import React, { SetStateAction } from "react";
-import { Modals } from "./index";
+import React, {SetStateAction} from "react";
+import {Modals} from "./index";
 import ReactModal from 'react-modal';
 
 interface Props {

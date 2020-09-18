@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH } from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import { render } from '@testing-library/react';
-import SmallButton from '../Button/SmallButton';
-import { Link, Router } from 'react-router-dom';
-import NormalNumberInput from '../Input/NormalNumberInput';
-import { useHistory } from 'react-router-dom'
+import {BG_COLOR_SUB2} from '../../Common/configset'
+import {useHistory} from 'react-router-dom';
 
 // 기본적인 항목 테이블
 // 수정, 삭제, 리스트 클릭 (이동)
@@ -24,7 +19,7 @@ interface IProps {
 
 const TeamTable = ({ indexList, contents, depth,onClickEvent, onChangeEvent, onClickRemove, onClickModify }: IProps) => {
   const history = useHistory()
-  
+
   useEffect(() => {
     console.log(Object.keys(indexList))
   }, [])
@@ -43,9 +38,9 @@ const TeamTable = ({ indexList, contents, depth,onClickEvent, onChangeEvent, onC
                 )
               })
             }
-        
+
              <th></th>
-          
+
           </tr>
           {/* 테이블 바디 */}
 
@@ -53,7 +48,7 @@ const TeamTable = ({ indexList, contents, depth,onClickEvent, onChangeEvent, onC
 
             contents.map((v, i) => {
               return (
-           
+
                 <tr key={i} onClick={() => depth !== 0 ? null : onClickEvent(v)}>
 
                   <td style={{ textAlign: 'center' }}>{i + 1}</td>
@@ -63,11 +58,11 @@ const TeamTable = ({ indexList, contents, depth,onClickEvent, onChangeEvent, onC
                         <td key={mv} className="p-limits" >
                             <InputBox value={ v[mv] } onChange={(e)=>onChangeEvent(depth, i, e.target.value)}></InputBox>
                         </td>
-                        
+
                       )
                     })
                   }
-                 
+
                   {
                     onClickRemove !== undefined ?
                       <td style={{ textAlign:'right', paddingRight:8}}>
@@ -79,7 +74,7 @@ const TeamTable = ({ indexList, contents, depth,onClickEvent, onChangeEvent, onC
                   }
 
                 </tr>
-            
+
               )
             })
           }

@@ -1,12 +1,9 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import Styled, { withTheme, DefaultTheme } from 'styled-components'
-import { useHistory } from 'react-router-dom';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
 import PressStatusMarker from './Marker/PressStatusMarker';
-import { toUnicode } from 'punycode';
 import PressNameMarker from './Marker/PressNameMarker';
 import FactorySelector from './FactorySelector';
-import { getMonitoringMapData, getMapListData } from '../../Api/pm/map';
-import { API_URLS } from '../../Api/pm/map';
+import {API_URLS, getMonitoringMapData} from '../../Api/pm/map';
 import PressCMSMarker from "./Marker/PressCMSMarker";
 import NoDataCard from "../Card/NoDataCard";
 

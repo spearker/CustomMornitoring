@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";

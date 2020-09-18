@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
+import React, {useEffect, useState} from 'react';
+import Styled from 'styled-components'
 import 'react-dropdown/style.css'
 import {dataSet} from '../../Common/dataset'
 import Chart from "react-apexcharts";
@@ -51,7 +51,7 @@ const CmsStatistics : React.FunctionComponent = () => {
 
     }
 
-    
+
 
     return(
             <div style={{ position: 'relative', marginTop: 13, display: 'flex'}}>
@@ -220,7 +220,7 @@ const CmsStatistics : React.FunctionComponent = () => {
                     <div style={{marginTop: 30, width: 150, fontSize: 20, marginLeft: 20, marginBottom: 10}}>
                         <p>현재 전력 사용량</p>
                     </div>
-          
+
                     {
                         series.length > 0 &&
                         series.map((i: any, index) => {
@@ -322,8 +322,8 @@ const CmsStatistics : React.FunctionComponent = () => {
                         })
                     }
                 </div>
-        
-            
+
+
             </div>
     )
 

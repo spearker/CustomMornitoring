@@ -1,6 +1,4 @@
 import React from "react";
-import Chart from 'react-apexcharts'
-import moment from 'moment';
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import SubNavigation from "../../Components/Navigation/SubNavigation";
 import {ROUTER_MENU_LIST} from "../../Common/routerset";

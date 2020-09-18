@@ -1,17 +1,12 @@
-import React, { useEffect,useState,useCallback} from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import { useUser } from '../../Context/UserContext';
-import tempIamge from '../../Assets/Images/temp_machine.png'
+import {BG_COLOR_SUB} from '../../Common/configset'
 import icCloudOn from '../../Assets/Images/ic_cloud.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
 import IC_UP from '../../Assets/Images/ic_monitoring_close.png'
 import IC_DOWN from '../../Assets/Images/ic_monitoring_open.png'
-import icCircle from '../../Assets/Images/ic_circle.png'
-import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
-import { Link } from 'react-router-dom';
-import { changeStatusToString, changeStatusToColor } from '../../Common/statusFunctions';
-import { machineCodeToName,transferCodeToName } from '../../Common/codeTransferFunctions';
+import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunctions';
+import {transferCodeToName} from '../../Common/codeTransferFunctions';
 
 
 interface Props{

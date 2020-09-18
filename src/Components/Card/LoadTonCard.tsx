@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from "styled-components";
 import Chart from "react-apexcharts";
-import ApexCharts from 'apexcharts'
-import {dataSet} from "../../Common/dataset";
 
 interface power {
     percent: number

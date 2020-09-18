@@ -1,18 +1,8 @@
-
-import React, { useEffect, useState, useContext, useCallback } from 'react';
-import Styled, { withTheme } from 'styled-components'
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import ButtonBox from '../../Components/Button/BasicButton'
-import {useUser, useUserDispatch} from '../../Context/UserContext';
-import Axios from 'axios';
-import { read } from 'fs';
-import { postRequestWithNoToken, getParameter } from '../../Common/requestFunctions';
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
+import React, {useCallback, useEffect, useState} from 'react';
+import {getParameter, postRequestWithNoToken} from '../../Common/requestFunctions';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 
 

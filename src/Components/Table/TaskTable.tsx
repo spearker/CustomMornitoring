@@ -1,24 +1,18 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, BG_COLOR_SUB3,SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB3, TOKEN_NAME} from '../../Common/configset'
 import IC_REPLY from '../../Assets/Images/ic_reply_w.png'
 import IC_CLOSE from '../../Assets/Images/ic_task_close.png'
 import IC_DOC from '../../Assets/Images/ic_file_doc.png'
 import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
 
-import { render } from '@testing-library/react';
-import SmallButton from '../Button/SmallButton';
-
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
 import StatusDropdown from '../Dropdown/StatusDropdown';
-import { postRequest, getRequest } from '../../Common/requestFunctions';
+import {getRequest, postRequest} from '../../Common/requestFunctions';
 
 import CommentsContainer from '../../Containers/CommentsContainer';
-import CommentList from '../List/CommentList';
-import { dataSet } from '../../Common/dataset';
-import { getToken } from '../../Common/tokenFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 import TinyButtonLink from '../Button/TinyButtonLink';
-import ReadOnlyInput from '../Input/ReadOnlyInput';
 import ReadOnlyInputTask from '../Input/ReadOnlyInputTask';
 import ProcessCard from '../Card/ProcessCard';
 

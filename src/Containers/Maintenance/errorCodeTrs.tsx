@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement } from 'react';
-import Styled, { css } from 'styled-components';
+import React from 'react';
+import Styled, {css} from 'styled-components';
 import moreGroupBtn from '../../Assets/Images/btn_more_group.png';
 
 const errorCodeTrs = ({ pres, onToggle, onToggle2 }) => {

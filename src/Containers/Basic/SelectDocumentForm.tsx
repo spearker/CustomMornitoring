@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {getToken} from '../../Common/tokenFunctions';
+import {getRequest} from '../../Common/requestFunctions';
 import {useHistory} from 'react-router-dom'
 import DropdownCode from '../../Components/Input/DropdownCode';
-import { TOKEN_NAME } from '../../Common/configset';
+import {TOKEN_NAME} from '../../Common/configset';
 
 const docDummy = [
   {pk: null, name:'선택 안함'},

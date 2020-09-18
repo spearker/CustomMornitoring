@@ -1,7 +1,6 @@
-
-import { postRequest } from './requestFunctions';
-import { getToken } from './tokenFunctions';
-import { TOKEN_NAME } from './configset';
+import {postRequest} from './requestFunctions';
+import {getToken} from './tokenFunctions';
+import {TOKEN_NAME} from './configset';
 
 
 /**

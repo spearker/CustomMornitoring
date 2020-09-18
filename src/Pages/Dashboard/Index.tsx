@@ -1,31 +1,23 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB3, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import ButtonBox from '../../Components/Button/BasicButton'
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {BG_COLOR_SUB3, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import SubHeader from '../../Components/Text/SubHeader';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { render } from '@testing-library/react';
-import DayCard from '../../Components/Card/DayCard';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import IC_NEXT from '../../Assets/Images/ic_next_page.png';
 import IC_BEFORE from '../../Assets/Images/ic_before_page.png';
 import IC_REFRESH from '../../Assets/Images/ic_refresh.png';
 import IC_ADD from '../../Assets/Images/ic_add.png';
-import { dataSet } from '../../Common/dataset';
-import StatusCard from '../../Components/Card/StatusCard';
 import DotPagenation from '../../Components/Pagenation/DotPagenation';
-import { getRequest, postRequest } from '../../Common/requestFunctions';
-import { getToken } from '../../Common/tokenFunctions';
+import {getRequest, postRequest} from '../../Common/requestFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 import TaskTable from '../../Components/Table/TaskTable';
 import ColorButtonLink from '../../Components/Button/ColorButtonLink';
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import StatusCard2 from '../../Components/Card/StatusCard2';
-import { changeStatusToColor } from '../../Common/statusFunctions';
+import {changeStatusToColor} from '../../Common/statusFunctions';
 
 interface IWeekInfo{
   date: string,

@@ -1,21 +1,16 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR } from '../../Common/configset';
-import IMG_MAP from '../../Assets/Images/img_map_readytime.png'
-import IMG_TIME from '../../Assets/Images/img_timeline.png'
-import IMG_KEY from '../../Assets/Images/img_time_key_qdc.png'
-import { changeStatusToString } from '../../Common/statusFunctions';
 import moment from 'moment';
 import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.widgets.js';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import ReactFC from 'react-fusioncharts';
-import Chart from 'react-apexcharts'
-import {API_URLS as URLS_PRE, getCluchData, getOilData} from "../../Api/pm/preservation";
+import ReactApexChart from 'react-apexcharts'
+import {API_URLS as URLS_PRE, getOilData} from "../../Api/pm/preservation";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import ReactApexChart from "react-apexcharts";
+
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 
 const chartOption = {

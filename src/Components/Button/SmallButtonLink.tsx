@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
 import {POINT_COLOR} from '../../Common/configset'
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 interface IProps{

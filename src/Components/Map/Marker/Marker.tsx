@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import Styled, { withTheme, DefaultTheme } from 'styled-components'
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import Styled from 'styled-components'
 
 
 const Marker = () => {
 
-    
+
     return(
         <MarkerWrapper>
         </MarkerWrapper>

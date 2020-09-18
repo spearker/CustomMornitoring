@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH } from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import { render } from '@testing-library/react';
-import SmallButton from '../Button/SmallButton';
-import { Link, Router } from 'react-router-dom';
-import NormalNumberInput from '../Input/NormalNumberInput';
-import { useHistory } from 'react-router-dom'
+import {BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
+import {useHistory} from 'react-router-dom';
 
 // 기본적인 항목 테이블
 // 수정, 삭제, 리스트 클릭 (이동)

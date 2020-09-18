@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
+import React from 'react';
+import {Route, Switch} from 'react-router-dom';
 
 import MapTest from '../Containers/PM_Monitoring/FactoryPressStatus';
 // import Dashboard from '../Pages/PM/Dashboard';

@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import InputContainer from '../../Containers/InputContainer';
-import IcButton from '../Button/IcButton';
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
 
 interface IInfo {
@@ -19,11 +15,11 @@ interface IProps{
 }
 const MaintenanceIndexInput = ({index, value, onChangeEvent, onRemoveEvent}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
 
-  return ( 
-       
+  return (
+
         <div style={{marginTop:17, marginBottom:17, display:'flex', alignItems:'center'}}>
             <InputBox className="p-bold" style={{width: '18%', fontSize:13, marginRight: 9}} type="text" value={value.title} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent({title: e.target.value, value: value.value})}} placeholder={'(항목 이름)' }/>
             <InputBox style={{width: 'calc(100% - 40px)'}} type="text" value={value.value} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent({title: value.title, value: e.target.value})}} placeholder={'내용을 입력하세요.'}/>

@@ -1,9 +1,4 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
-import Styled from 'styled-components'
-import DashboardWrapContainer from "../DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import {ROUTER_MENU_LIST} from "../../Common/routerset";
-import InnerBodyContainer from "../InnerBodyContainer";
+import React, {useEffect} from 'react';
 import Header from "../../Components/Text/Header";
 
 //모터 역회전 상태 분석 (디자인 안나옴)

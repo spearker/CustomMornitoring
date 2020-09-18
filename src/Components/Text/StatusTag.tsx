@@ -1,10 +1,5 @@
-import React, { useEffect , useRef, useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import IcMenu from '../../Assets/Images/ic_menu.png'
-import IcDown from '../../Assets/Images/ic_drop_down.png'
-import useOnclickOutside from 'react-cool-onclickoutside';
-
 
 
 interface IProps{

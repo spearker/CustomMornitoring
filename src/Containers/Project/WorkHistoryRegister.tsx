@@ -1,16 +1,14 @@
 import React, {useCallback, useState} from 'react'
 import Styled from "styled-components";
 import {Input} from 'semantic-ui-react'
-import searchImage from "../../Assets/Images/ic_search.png"
-import IcButton from "../../Components/Button/IcButton";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, postProductionRegister} from "../../Api/mes/production";
-import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
 import ChitPickerModal from "../../Components/Modal/ChitPickerModal";
+import {useHistory} from "react-router-dom";
 
 const typeDummy = [
     '수주 처리',
@@ -42,8 +40,8 @@ const WorkHistoryRegisterContainer = () => {
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
-        start: moment().format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD"),
+        start: moment().format("YYYY-MM-DD")+' 00:00',
+        end: moment().format("YYYY-MM-DD")+' 00:00',
     })
 
     const [workHistoryData, setWorkHistoryData] = useState({
@@ -51,15 +49,18 @@ const WorkHistoryRegisterContainer = () => {
         worker_name: '',
         material_pk: '',
         process_pk: '',
-        from: '',
-        to: '',
+        from: selectDateRange.start,
+        to: selectDateRange.end,
         amount: ''
     })
+    const history = useHistory();
 
 
     const postChitRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['production'].add}`
         const resultData = await postProductionRegister(tempUrl, workHistoryData);
+
+        history.goBack()
     }, [workHistoryData])
 
     return (
@@ -79,20 +80,20 @@ const WorkHistoryRegisterContainer = () => {
                             <td>• 전표</td>
                             <td><ChitPickerModal select={modalSelect.chit} onClickEvent={(e) => {
                                 setModalSelect({...modalSelect, chit: e})
-                                setWorkHistoryData({...workHistoryData, chit_pk: e})
+                                setWorkHistoryData({...workHistoryData, chit_pk: e.pk})
                             }} text={'전표를 선택해 주세요'} /></td>
                         </tr>
                         <tr>
                             <td>• 작업자명</td>
-                            <td><Input placeholder="입력해 주세요." onChange={(e) => setWorkHistoryData({...workHistoryData, worker_name: e.target.value})}/></td>
+                            <td><Input placeholder="작업자명을 입력해 주세요." onChange={(e) => setWorkHistoryData({...workHistoryData, worker_name: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
                             <td>
-                                <ChitPickerModal select={modalSelect.production} onClickEvent={(e) => {
+                                <ProductionPickerModal select={modalSelect.production} onClickEvent={(e) => {
                                     setModalSelect({...modalSelect, production: e})
-                                    setWorkHistoryData({...workHistoryData, material_pk: e})
-                                }} text={'품목(품목명)을 선택해 주세요'}></ChitPickerModal>
+                                    setWorkHistoryData({...workHistoryData, material_pk: e.pk})
+                                }} text={'품목(품목명)을 선택해 주세요'}/>
                             </td>
                         </tr>
                         <tr>
@@ -100,8 +101,8 @@ const WorkHistoryRegisterContainer = () => {
                             <td>
                                 <ProcessPickerModal select={modalSelect.factory} onClickEvent={(e) => {
                                     setModalSelect({...modalSelect, factory: e})
-                                    setWorkHistoryData({...workHistoryData, process_pk: e})
-                                }} text={'공정명을 선택해 주세요'}></ProcessPickerModal>
+                                    setWorkHistoryData({...workHistoryData, process_pk: e.pk})
+                                }} text={'공정명을 선택해 주세요'}/>
                             </td>
                         </tr>
                         <tr>
@@ -118,8 +119,8 @@ const WorkHistoryRegisterContainer = () => {
                                         </div>
                                     </div>
                                     <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(date) => {
-                                        setSelectDateRange({...selectDateRange, start: date})
-                                        setWorkHistoryData({...workHistoryData, from: date})
+                                        setSelectDateRange({...selectDateRange, start: date +' 00:00'})
+                                        setWorkHistoryData({...workHistoryData, from: date+' 00:00'})
                                     }} text={'기간 선택'} type={'default'} customStyle={{ height: 32, marginLeft: 0}} zIndex={1}/>
                                 </div>
                             </td>
@@ -138,8 +139,8 @@ const WorkHistoryRegisterContainer = () => {
                                         </div>
                                     </div>
                                     <ColorCalendarDropdown selectRange={selectDateRange} onClickEvent={(date) => {
-                                        setSelectDateRange({...selectDateRange, end: date})
-                                        setWorkHistoryData({...workHistoryData, to: date})
+                                        setSelectDateRange({...selectDateRange, end: date+' 00:00'})
+                                        setWorkHistoryData({...workHistoryData, to: date+' 00:00'})
                                     }} text={'기간 선택'} type={'default'} customStyle={{ height: 32, marginLeft: 0}} zIndex={1}/>
                                 </div>
                             </td>

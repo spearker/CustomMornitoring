@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
-import Styled, { withTheme, DefaultTheme } from "styled-components";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import Styled from "styled-components";
+import {useHistory} from "react-router-dom";
 
 
 interface Props {
@@ -45,11 +45,11 @@ const CommonTable = ({
                     <td key={mv}>{typeof v[mv] == "string" || typeof v[mv] == "number" ? v[mv] :''}</td>
                   ) : null;
                 })}
-                {onClickEvents !== undefined && 
+                {onClickEvents !== undefined &&
                   <td key={`td-${i}`}>
                     {onClickEvents.map((ev, ei) => {
                       return (
-                          <button key={`td-${ei}`} onClick={()=>ev.event(v)}>{ev.name}</button> 
+                          <button key={`td-${ei}`} onClick={()=>ev.event(v)}>{ev.name}</button>
                       );
                     })}
                   </td>

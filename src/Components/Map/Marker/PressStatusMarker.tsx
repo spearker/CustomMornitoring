@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import Styled, { withTheme, DefaultTheme } from 'styled-components'
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import Styled from 'styled-components'
+
 //import Marker from './Marker';
 
 interface Props{
@@ -9,7 +9,7 @@ interface Props{
 const PressStatusMarker = ({component}:Props ) => {
 
     const {pk, name, operation, tons, ratio, photo, left, bottom} = component;
-    
+
     const PressStatusWrapper = Styled(Marker)`
         width: 100px;
         left: ${Number(left)}%;
@@ -30,7 +30,7 @@ const PressStatusMarker = ({component}:Props ) => {
                 </div>
                 <div>
                     <p>가동률 {ratio}</p>
-                    
+
                 </div>
             </InnerDiv>
         </PressStatusWrapper>

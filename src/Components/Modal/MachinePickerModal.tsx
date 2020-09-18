@@ -1,14 +1,12 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import useOnclickOutside from 'react-cool-onclickoutside';
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getSearchMachine, postProcessRegister} from "../../Api/mes/process";
+import {API_URLS, getSearchMachine} from "../../Api/mes/process";
 
 //드롭다운 컴포넌트
 

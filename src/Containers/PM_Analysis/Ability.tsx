@@ -6,7 +6,6 @@ import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getAbilityList} from "../../Api/pm/analysis";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";
 import MapBoard from "../../Components/Map/MapBoard";
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import NoDataCard from "../../Components/Card/NoDataCard";
 
 const chartOption = {

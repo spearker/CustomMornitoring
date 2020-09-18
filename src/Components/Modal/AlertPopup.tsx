@@ -1,11 +1,9 @@
-import React, { useEffect , useRef, useState} from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
 import IcCheck from '../../Assets/Images/ic_alert_check.png'
 import IcX from '../../Assets/Images/ic_alert_x.png'
 import useOnclickOutside from 'react-cool-onclickoutside';
-import { usePopupDispatch, usePopup } from '../../Context/PopupContext';
-import SmallButton from '../Button/SmallButton';
+import {usePopup, usePopupDispatch} from '../../Context/PopupContext';
 import BasicColorButton from '../Button/BasicColorButton';
 
 //alert 팝업창

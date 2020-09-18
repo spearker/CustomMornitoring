@@ -1,7 +1,7 @@
 import React, {SetStateAction} from 'react';
 import ReactModal from 'react-modal';
 
-import { Modals } from './index';
+import {Modals} from './index';
 
 interface Props {
     isOpen: boolean,

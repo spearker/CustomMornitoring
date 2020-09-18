@@ -1,18 +1,9 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
+import {POINT_COLOR} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
-import {dataSet} from '../../Common/dataset'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import SubHeader from '../../Components/Text/SubHeader';
 
 // 서비스 문의
 const ServiceDesk = () => {
@@ -24,12 +15,12 @@ const ServiceDesk = () => {
 
   useEffect(()=>{
 
-  
+
   },[])
 
   return (
       <DashboardWrapContainer>
-      
+
         <InnerBodyContainer>
           <div style={{position:'relative'}}>
             <Header title={'서비스 문의'}/>
@@ -54,7 +45,7 @@ const ServiceDesk = () => {
                 Fax
                 </td>
                 <td>
-                032-0000-0000 
+                032-0000-0000
                 </td>
               </tr>
               <tr>
@@ -84,7 +75,7 @@ const ServiceDesk = () => {
                 Fax
                 </td>
                 <td>
-                032-0000-0000 
+                032-0000-0000
                 </td>
               </tr>
               <tr>
@@ -98,10 +89,10 @@ const ServiceDesk = () => {
             </tbody>
           </table>
           </div>
-          
+
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 

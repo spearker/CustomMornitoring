@@ -1,18 +1,12 @@
-import React, { useEffect , useState, useCallback, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
-import Footer from '../Components/Footer/WelcomeFooter';
-import ProfileBar from '../Components/Navigation/ProfileBar';
-import TinyButton from '../Components/Button/TinyButton';
-import SmallButton from '../Components/Button/SmallButton';
+import {POINT_COLOR, TOKEN_NAME} from '../Common/configset'
 import IC_UP from '../Assets/Images/ic_reply_up.png'
 import IC_DOWN from '../Assets/Images/ic_reply_down.png'
-import { getRequest, postRequest } from '../Common/requestFunctions';
+import {getRequest, postRequest} from '../Common/requestFunctions';
 import CommentList from '../Components/List/CommentList';
-import { getToken } from '../Common/tokenFunctions';
-import { uploadTempFile } from '../Common/fileFuctuons';
+import {getToken} from '../Common/tokenFunctions';
+import {uploadTempFile} from '../Common/fileFuctuons';
 
 interface Props{
     children?: any,

@@ -1,29 +1,13 @@
-import React, {
-    useEffect,
-    useState,
-    useContext,
-    useCallback,
-    ReactElement,
-} from "react";
+import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
-import DashboardWrapContainer from "../DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import { ROUTER_MENU_LIST } from "../../Common/routerset";
-import InnerBodyContainer from "../InnerBodyContainer";
-import Header from "../../Components/Text/Header";
-import ReactShadowScroll from "react-shadow-scroll";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getProjectList, postProjectDelete} from "../../Api/mes/production";
 import FactoryBox from "../../Components/Box/FactoryBox";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {postSegmentDelete} from "../../Api/mes/process";
-
 
 
 
@@ -59,15 +43,6 @@ const ScheduleContainer = () => {
             state: '현황'
         }
     }
-
-    const detailDummy = [
-        {
-            machine_name: "기계명" ,
-            mold_name: "금형명",
-            input_material: "입력 자재(품목)명",
-            output_material: "출력 자재(품목)명"
-        }
-    ]
 
     const detailDummy = [
         {
@@ -114,6 +89,11 @@ const ScheduleContainer = () => {
         deletePk.keys.push(Data.pk)
         console.log(deletePk.keys)
     },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        deletePk.keys.push(Data.pk)
+        console.log(deletePk.keys)
+    },[deletePk])
             
     const voucherIndexList = {
         schedule: {
@@ -141,19 +121,6 @@ const ScheduleContainer = () => {
         }
     }, [selectPk,selectMaterial,selectValue]);
 
-
-
-    }, [list, selectPk]);
-
-
-    const getDistribute = useCallback( async()=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['production'].distribute}?pk=${selectPk}`
-        const res = await getProjectList(tempUrl)
-
-        history.push('/project/chit/register')
-
-    },[selectPk])
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시

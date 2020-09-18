@@ -1,14 +1,12 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import useOnclickOutside from 'react-cool-onclickoutside';
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getSearchMachine, postProcessRegister} from "../../Api/mes/process";
+import {API_URLS, getSearchMachine} from "../../Api/mes/process";
 
 //드롭다운 컴포넌트
 
@@ -26,7 +24,7 @@ const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
     const [machineList, setMachineList] = useState([{
         pk: "",
         registerer: "",
-        suppleier_name: "",
+        supplier_name: "",
         material_name: "",
     }])
     const [searchName, setSearchName] = useState<string>('')
@@ -61,7 +59,7 @@ const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name === '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {processName}</p>
+                            select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {processName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
@@ -111,7 +109,7 @@ const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
                                             return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.registerer}</span></td>
-                                                    <td><span>{v.suppleier_name}</span></td>
+                                                    <td><span>{v.supplier_name}</span></td>
                                                     <td><span>{v.material_name}</span></td>
                                                     <td>
                                                         <button

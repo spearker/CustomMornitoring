@@ -1,21 +1,15 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled from 'styled-components'
-import IMG_BG from '../../Assets/Images/img_welcome_bg.png'
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import ButtonBox from '../../Components/Button/BasicButton'
-import {useUserDispatch, useUser} from '../../Context/UserContext';
-import { setToken } from '../../Common/tokenFunctions';
-import { postRequestWithNoToken, getRequestWithNoToken } from '../../Common/requestFunctions';
+import React, {useCallback, useEffect, useState} from 'react';
+import {TOKEN_NAME} from '../../Common/configset'
+import {useUserDispatch} from '../../Context/UserContext';
+import {setToken} from '../../Common/tokenFunctions';
+import {postRequestWithNoToken} from '../../Common/requestFunctions';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+import {Link} from 'react-router-dom';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
-import { openPopup } from '../../Common/popupFunctions';
-import { usePopupDispatch } from '../../Context/PopupContext';
-import { API_URLS, getServerStatus } from '../../Api/mes/common';
+import {usePopupDispatch} from '../../Context/PopupContext';
+import {API_URLS, getServerStatus} from '../../Api/mes/common';
 
 // 로그인 페이지
 const Login = () => {

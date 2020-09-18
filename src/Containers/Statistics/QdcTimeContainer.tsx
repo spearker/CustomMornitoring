@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR } from '../../Common/configset';
+import {POINT_COLOR} from '../../Common/configset';
 import IMG_MAP from '../../Assets/Images/img_map_readytime.png'
 import IMG_TIME from '../../Assets/Images/img_timeline.png'
 import IMG_KEY from '../../Assets/Images/img_time_key_qdc.png'
-import { changeStatusToString } from '../../Common/statusFunctions';
 import moment from 'moment';
 
 const dummy_machines = [

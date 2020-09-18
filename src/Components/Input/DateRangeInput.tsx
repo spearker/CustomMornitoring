@@ -1,9 +1,6 @@
-import React, { useEffect,useRef, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
-import Calendar from 'react-calendar'
 import moment from 'moment';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import DatetimeRangePicker from 'react-datetime-range-picker';
@@ -21,32 +18,32 @@ const DateRangeInput = ({title, start, end, onChangeEventStart, onChangeEventEnd
     const ref = useOnclickOutside(() => {
         setIsOpen(false);
       });
-    
+
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
   useEffect(()=>{
-      
-   
+
+
   },[])
 
 
 
-  return ( 
+  return (
         <InputContainer title={title}>
             <div ref={ref} style={{ width: 'calc(100% - 200px)'}} >
-           
+
                 <InputWrap style={{ width:'100%'}}>
                 <DatetimeRangePicker inline={true} startDate={new Date(start)} endDate={new Date(end)} timeFormat={'HH:mm'} dateFormat={'YYYY-MM-DD'} onChange={(v)=>{
                     onChangeEventEnd(moment(v.end).format('YYYY-MM-DD HH:mm'))
                     onChangeEventStart(moment(v.start).format('YYYY-MM-DD HH:mm'))
                     }}/>
-                
+
               </InputWrap>
-         
+
             </div>
-            
-        </InputContainer> 
+
+        </InputContainer>
   );
 }
 

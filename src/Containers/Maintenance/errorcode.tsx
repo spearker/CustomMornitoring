@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
-import DashboardWrapContainer from "../DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import {ROUTER_MENU_LIST} from "../../Common/routerset";
-import InnerBodyContainer from "../InnerBodyContainer";
+import React, {useCallback, useEffect, useState} from 'react';
 import Header from "../../Components/Text/Header";
 import ErrorCodeTrs from "./errorCodeTrs"
-import Styled, { css } from 'styled-components'
+import Styled, {css} from 'styled-components'
 
 //에러 코드 로그 (디자인 안나옴)
 

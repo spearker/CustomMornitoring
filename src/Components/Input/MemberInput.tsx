@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
 import {POINT_COLOR} from '../../Common/configset'
 import IMG_NONE from '../../Assets/Images/ic_profile_none.png';

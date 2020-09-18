@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import ReactApexChart from "react-apexcharts";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import ListRadioButton from "../../Components/Button/ListRadioButton";
 import LoadtoneBox from "../../Components/Box/LoadtoneBox";
 import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
-import {API_URLS as API_URLS2, getMoldData } from "../../Api/pm/statistics"
+import {API_URLS as API_URLS2} from "../../Api/pm/statistics"
 import tempImage from "../../Assets/Images/temp_machine.png";
 import moment from "moment";
 

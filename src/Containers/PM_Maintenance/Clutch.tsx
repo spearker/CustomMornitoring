@@ -1,7 +1,7 @@
-import React, {useEffect, useState, useContext, useCallback, ReactElement, SetStateAction} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from "styled-components";
 import {API_URLS as URLS_PRE, getCluchData} from "../../Api/pm/preservation";
-import {API_URLS, API_URLS as URLS_MAP, getMonitoringMapData} from '../../Api/pm/map';
+import {API_URLS as URLS_MAP} from '../../Api/pm/map';
 import MapBoard from "../../Components/Map/MapBoard";
 import NoDataCard from "../../Components/Card/NoDataCard";
 import {Input} from "semantic-ui-react";

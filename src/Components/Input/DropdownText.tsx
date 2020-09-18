@@ -1,12 +1,11 @@
-import React, { useEffect , useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
+import {BG_COLOR_SUB, BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
 import InputContainer from '../../Containers/InputContainer';
 import useOnclickOutside from 'react-cool-onclickoutside';
-import IcButton from '../Button/IcButton';
 import IC_ARROW from '../../Assets/Images/ic_drop_down.png'
 import IC_ARROW_UP from '../../Assets/Images/ic_drop_up.png'
+
 //드롭다운 입력창
 interface IProps{
     title: string,

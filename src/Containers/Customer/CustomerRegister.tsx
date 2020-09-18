@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import { TOKEN_NAME} from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
+import {TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, postRequest } from '../../Common/requestFunctions';
-import { uploadTempFile } from '../../Common/fileFuctuons';
+import {getToken} from '../../Common/tokenFunctions';
+import {getParameter, postRequest} from '../../Common/requestFunctions';
+import {uploadTempFile} from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 import RadioInput from '../../Components/Input/RadioInput';

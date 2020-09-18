@@ -1,17 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
-import {Button, Header, Input, Select} from 'semantic-ui-react'
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import moment from "moment";
-import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
+import {Input} from 'semantic-ui-react'
 import {POINT_COLOR} from "../../Common/configset";
-import IcButton from "../../Components/Button/IcButton";
-import searchImage from "../../Assets/Images/ic_search.png";
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import {API_URLS, postProcessRegister} from "../../Api/mes/process";
-import {machineCodes} from "../../Common/codeTransferFunctions";
 import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
 import {useHistory} from "react-router-dom";
 

@@ -1,20 +1,15 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {BASE_URL, BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
+import {getToken} from '../../Common/tokenFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getParameter, postRequest, getRequest } from '../../Common/requestFunctions';
-import InputContainer from '../../Containers/InputContainer';
-import DropdownInput from '../../Components/Input/DropdownInput';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import CustomIndexInput from '../../Components/Input/CustomIndexInput';
-import SmallButton from '../../Components/Button/SmallButton';
 import AddInput from '../../Components/Input/AddInput';
 import FullAddInput from '../../Components/Input/FullAddInput';
 import TextList from '../../Components/List/TextList';
@@ -22,6 +17,7 @@ import SearchInput from '../../Components/Input/SearchInput';
 import SearchModalContainer from '../../Containers/SearchModalContainer';
 import AddList from '../../Components/List/AddList';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+
 interface IInfo {
   title: string,
   value: string,
@@ -38,7 +34,7 @@ const RegisterProduct = () => {
   const [name, setName] = useState<string>('');
   const [info, setInfo] = useState<IInfo[]>([]);
   const [amount, setAmount] = useState<number>(0);
-  
+
   //검색관련
   const [isPoupup, setIsPoupup] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
@@ -56,17 +52,17 @@ const RegisterProduct = () => {
       getData()
     }
 
-  },[]) 
+  },[])
 
   /**
    * getData()
    * 생산품 정보 수정을 위한 조회
    * @param {string} url 요청 주소
    * @param {string} pk 자재 pk
-   * @returns X 
+   * @returns X
    */
   const getData = useCallback(async()=>{
-    
+
     const res = await getRequest(BASE_URL + '/api/v1/product/view/' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
@@ -97,7 +93,7 @@ const RegisterProduct = () => {
    * @param {array} info 추가정보 리스트
    * @param {string} list 금형 리스트
    * @param {string} code 코드
-   * @returns X 
+   * @returns X
    */
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
@@ -122,7 +118,7 @@ const RegisterProduct = () => {
     }
 
     console.log(pks)
-    
+
     const res = await postRequest(BASE_URL + '/api/v1/product/register' , data, getToken(TOKEN_NAME))
 
     if(res === false){
@@ -137,7 +133,7 @@ const RegisterProduct = () => {
          setSpec('');
          setList([]);
         setInfo([]);
-      
+
       }else{
         //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
       }
@@ -156,7 +152,7 @@ const RegisterProduct = () => {
    * @param {array} info 항목 리스트
    * @param {string} list 금형리스트
    * @param {string} code 코드
-   * @returns X 
+   * @returns X
    */
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
@@ -202,16 +198,16 @@ const RegisterProduct = () => {
    * 금형 키워드 검색
    * @param {string} url 요청 주소
    * @param {string} keyword 검색 키워드
-   * @returns X 
+   * @returns X
    */
   const onClickSearch = useCallback(async(e)=>{
-  
+
     e.preventDefault();
     if(keyword  === '' || keyword.length < 2){
       //alert('2글자 이상의 키워드를 입력해주세요')
 
       return;
-    } 
+    }
     setIsSearched(true)
 
     const res = await getRequest(BASE_URL + '/api/v1/mold/search?keyword=' + keyword, getToken(TOKEN_NAME))
@@ -221,7 +217,7 @@ const RegisterProduct = () => {
     }else{
       if(res.status === 200){
          const results = res.results;
-      
+
          setSearchList(results);
       }else{
         //TODO:  기타 오류
@@ -232,7 +228,7 @@ const RegisterProduct = () => {
 
   return (
       <DashboardWrapContainer>
-        
+
         <InnerBodyContainer>
             <Header title={isUpdate ? '생산제품 정보수정' : '생산제품 정보등록'}/>
             <WhiteBoxContainer>
@@ -241,30 +237,30 @@ const RegisterProduct = () => {
              <NormalInput title={'생산제품 코드'} value={code} onChangeEvent={setCode} description={'제조번호를 입력하세요'} />
              <NormalInput title={'스펙'} value={spec} onChangeEvent={setSpec} description={'스펙을 입력하세요'} />
              <NormalNumberInput title={'재고 수량'} value={amount} onChangeEvent={setAmount} description={'재고량을 입력하세요'} />
-               
+
 
              {/* 팝업 여는 버튼 + 금형 추가 */}
              <AddInput title={'사용 금형'} icType="solo" onChangeEvent={()=>{
-                  setIsPoupup(true);  
-                  setCheckList(list); 
+                  setIsPoupup(true);
+                  setCheckList(list);
                   setKeyword('')}
                   }>
                 {
-                  list.map((v: IMold, i)=>{ 
-                    return ( 
+                  list.map((v: IMold, i)=>{
+                    return (
                         <TextList key={i} onClickEvent={()=>{
                           const tempList = list.slice()
                           const idx = list.indexOf(v)
                           tempList.splice(idx, 1)
                           setList(tempList)
-                        }} 
-                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>                    
+                        }}
+                        title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}/>
                     )
                   })
                 }
                 </AddInput>
 
-                
+
              {/* 자유항목 입력 창 */}
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
                const tempInfo = info.slice();
@@ -274,32 +270,32 @@ const RegisterProduct = () => {
               {
                 info.map((v: IInfo, i)=>{
                   return(
-                      <CustomIndexInput index={i} value={v} 
+                      <CustomIndexInput index={i} value={v}
                       onRemoveEvent={()=>{
                         const tempInfo = info.slice();
                         tempInfo.splice(i, 1)
                         setInfo(tempInfo)
-                      }} 
+                      }}
                       onChangeEvent={(obj: IInfo)=>{
                         const tempInfo = info.slice();
                         tempInfo.splice(i, 1, obj)
                         setInfo(tempInfo)
-                      }} 
+                      }}
                       />
                   )
                 })
               }
               </FullAddInput>
-      
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} /> 
+
+              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
               </form>
             </WhiteBoxContainer>
             {/* 검색창 */}
-            <SearchModalContainer 
-              onClickEvent={ //닫혔을 때 이벤트 
+            <SearchModalContainer
+              onClickEvent={ //닫혔을 때 이벤트
                 ()=>{
-                setIsPoupup(false); 
-                setList(checkList); 
+                setIsPoupup(false);
+                setList(checkList);
                 setKeyword('')}
             }
             isVisible={isPoupup} onClickClose={()=>{setIsPoupup(false)}} title={'금형 선택'} >
@@ -307,10 +303,10 @@ const RegisterProduct = () => {
                 <div style={{width: '100%', marginTop:20}}>
                   {
                     isSearched ?
-                    searchList.map((v: IMold, i)=>{ 
-                      return ( 
-                      
-                          <AddList key={i} pk={v.mold_name} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false } 
+                    searchList.map((v: IMold, i)=>{
+                      return (
+
+                          <AddList key={i} pk={v.mold_name} dim={false} selected={checkList.find((k)=> k.pk === v.pk)? true : false }
                             onClickEvent={()=>{
                               const tempList = checkList.slice()
                               if(checkList.find((k, index)=> k.pk === v.pk) ){
@@ -321,8 +317,8 @@ const RegisterProduct = () => {
                                   tempList.splice(0, 0, v)
                                   setCheckList(tempList)
                               }
-                            }} 
-                            title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name} 
+                            }}
+                            title={v.mold_code !== undefined ? v.mold_code : ''} name={v.mold_name}
                           />
                         )
                     })
@@ -333,7 +329,7 @@ const RegisterProduct = () => {
             </SearchModalContainer>
         </InnerBodyContainer>
       </DashboardWrapContainer>
-      
+
   );
 }
 const FullPageDiv = Styled.div`

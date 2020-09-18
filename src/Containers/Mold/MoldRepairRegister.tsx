@@ -1,15 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import Styled from "styled-components";
-import {Button, Header, Input, Select} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
-import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
 import {POINT_COLOR} from "../../Common/configset";
-import IcButton from "../../Components/Button/IcButton";
-import searchImage from "../../Assets/Images/ic_search.png";
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
 import {API_URLS, postContractModify} from "../../Api/mes/business";
-import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
 
 const factoryDummy = [

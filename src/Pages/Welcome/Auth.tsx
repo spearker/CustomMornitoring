@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
-import Styled, { withTheme } from 'styled-components'
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
 import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
 import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
-import Axios from 'axios';
 
 // 회원가입을 위한 이메일 입력 페이지
 

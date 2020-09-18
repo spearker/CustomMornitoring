@@ -16,21 +16,6 @@ export const postProcessDelete = async( url: string,object: object) =>{
 }
 
 /**
- * postProcessDelete()
- * 공정 리스트 삭제
- * @param {string} url 링크 주소
- * @param object
- * @returns {object} data object
- * @author 정민
- * @version 0.1
- */
-export const postProcessDelete = async( url: string,object: object) =>{
-    const temp: IServerData = await client.post(url,object);
-    console.log(temp.status);
-    return temp.status;
-}
-
-/**
  * getProcessList()
  * 공정 리스트 정보 불러오기
  * @param {string} url 링크 주소

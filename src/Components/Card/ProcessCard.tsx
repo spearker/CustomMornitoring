@@ -1,7 +1,6 @@
-import React, { useEffect,useState,useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import { useUser } from '../../Context/UserContext';
+import {POINT_COLOR} from '../../Common/configset'
 import tempIamge from '../../Assets/Images/temp_machine.png'
 import icCloudOn from '../../Assets/Images/ic_cloud.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
@@ -9,7 +8,7 @@ import IC_UP from '../../Assets/Images/ic_reply_up.png'
 import IC_DOWN from '../../Assets/Images/ic_reply_down.png'
 import icCircle from '../../Assets/Images/ic_circle.png'
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 interface Props{
   contents: IProcess,
@@ -23,12 +22,12 @@ interface Props{
 // 공정 썸네일 카드
 
 const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props) => {
-  
+
   const [newStock, setNewStock] = useState<number | undefined | string>(Number(contents.output.stock))
   const [open, setOpen]= useState<string>("");
   const changeStatusToString = useCallback((status: string)=>{
 
-  
+
     if(status === 'active'){
         return '진행'
     }else if(status === 'done'){
@@ -42,7 +41,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
     }else{
         return '대기'
     }
-  
+
   },[])
   const changeStatusToColor = useCallback((status: string)=>{
     if(status === 'active'){
@@ -64,9 +63,9 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
     }
 
 },[])
-  
+
   useEffect(()=>{
-   
+
   },[])
 
   return (
@@ -79,9 +78,9 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
       <div style={{display: 'flex'}}>
         <ProcessInput value={contents.material !== undefined ? contents.material.material_name : ''} readOnly/>
       </div>
-      
+
       <span className="p-bold" style={{fontSize:12}}>· 기계 정보</span>
-      <img src={openTarget == contents.pk ? IC_UP : IC_DOWN} style={{float:'right', width:11, cursor:'pointer', marginTop:8}} 
+      <img src={openTarget == contents.pk ? IC_UP : IC_DOWN} style={{float:'right', width:11, cursor:'pointer', marginTop:8}}
         onClick={()=>{
           if(openTarget == contents.pk){
             onClickEvent("")
@@ -90,7 +89,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
           }else{
             onClickEvent(contents.pk !== undefined ? contents.pk : '')
           }
-        }} 
+        }}
       />
       {
         openTarget == contents.pk ?
@@ -104,7 +103,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
            <img src={contents.machine.is_connect ? icCloudOn : icCloudOff} style={{width: 22, position:'absolute', top:12, left:12}}/>
            <ImageBox src={contents.machine.machine_photo === "" ? tempIamge : contents.machine.machine_photo} style={{marginTop:10}}/>
           </div>
-          
+
         </MachineDivBg>
         :
         <MachineDiv>
@@ -134,7 +133,7 @@ const ProcessCard = ({ contents, openTarget, onClickEvent, onClickModify}: Props
       <span className="p-bold" style={{fontSize:13, marginLeft:8}}>개</span>
       </div>
       {
-        onClickModify !== undefined ? 
+        onClickModify !== undefined ?
         <ButtonBox onClick={()=>onClickModify(contents.pk !== undefined ? contents.output.pk : '', newStock)}>생산수량 수정하기</ButtonBox>
       :
 

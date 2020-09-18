@@ -1,8 +1,7 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import Styled, { withTheme, DefaultTheme } from 'styled-components'
-import { useHistory } from 'react-router-dom';
+import React, {useState} from 'react';
+import Styled from 'styled-components'
 import MapBoard from '../../Components/Map/MapBoard';
-import { API_URLS } from '../../Api/pm/map';
+import {API_URLS} from '../../Api/pm/map';
 
 
 interface Factory{

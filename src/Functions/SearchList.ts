@@ -1,7 +1,6 @@
-import React, { useCallback } from "react";
-import { getToken } from "../Common/tokenFunctions";
-import { TOKEN_NAME } from "../Common/configset";
-import { getRequest } from "../Common/requestFunctions";
+import {getToken} from "../Common/tokenFunctions";
+import {TOKEN_NAME} from "../Common/configset";
+import {getRequest} from "../Common/requestFunctions";
 
 export const SEARCH_TYPES = {
     'BASIC_FACTORY' : 'factory',

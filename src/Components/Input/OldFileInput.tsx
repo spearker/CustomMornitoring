@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
 import InputContainer from '../../Containers/InputContainer';
 import IC_DOC from '../../Assets/Images/ic_file_doc.png'
-import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
+
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 
 interface IProps{

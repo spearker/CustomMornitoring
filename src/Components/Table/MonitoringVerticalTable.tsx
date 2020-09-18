@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import { render } from '@testing-library/react';
-import SmallButton from '../Button/SmallButton';
-import StatusTag from '../Text/StatusTag';
+import {BG_COLOR_SUB, BG_COLOR_SUB2} from '../../Common/configset'
 import icCloudOn from '../../Assets/Images/ic_cloud.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_dim.png'
-import { transferCodeToName } from '../../Common/codeTransferFunctions';
-import { changeStatusToString, changeStatusToColor } from '../../Common/statusFunctions';
+import {transferCodeToName} from '../../Common/codeTransferFunctions';
+import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunctions';
 
 
 interface IProps{

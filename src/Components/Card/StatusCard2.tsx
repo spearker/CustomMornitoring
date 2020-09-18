@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import { useUser } from '../../Context/UserContext';
 import tempIamge from '../../Assets/Images/dummy_press.png'
 import icCloudOn from '../../Assets/Images/ic_cloud_w.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
 import icCircle from '../../Assets/Images/ic_circle.png'
 import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
-import { changeStatusToString } from '../../Common/statusFunctions';
 
 // 장비 현황 썸네일 카드
 const StatusCard2 = ({target}) => {

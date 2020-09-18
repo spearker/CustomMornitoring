@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR, TOKEN_NAME} from '../../Common/configset';
-import {getParameter, getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
 import moment from "moment";
 import ReactApexChart from "react-apexcharts";
-import styled from "styled-components";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
 

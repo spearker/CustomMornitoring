@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
 import IMG_BG from '../Assets/Images/img_welcome_bg.png'
 import WelcomeNavigation from '../Components/Navigation/WelcomNavigation'
@@ -6,19 +6,19 @@ import WelcomeNavigation from '../Components/Navigation/WelcomNavigation'
 const WelcomeContainer = ({children}: any) => {
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
 
-       
+
     <div style={{ backgroundImage:`url(${IMG_BG})`, backgroundSize:'cover'}}>
       <WelcomeNavigation />
       <FullBodyDiv>
           {children}
       </FullBodyDiv>
     </div>
-      
+
   );
 }
 

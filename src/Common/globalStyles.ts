@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import {createGlobalStyle} from "styled-components";
 
 //글로벌 스타일 문서 ( 기본 css reset 관련 정의 ) - TODO: 현재 적용 X
 ​

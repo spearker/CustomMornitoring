@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 
 import Calendar from "react-calendar";
 import '../calendar.css';
-import { Modals } from './index';
+import {Modals} from './index';
 
 interface Props {
     isOpen: boolean,

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR_SUB } from '../../Common/configset'
+import {BG_COLOR_SUB} from '../../Common/configset'
 import icSearch from '../../Assets/Images/ic_search.png'
 import IconSquareButtonGray from '../Button/IconSquareButtonGray';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 
 interface IProps{

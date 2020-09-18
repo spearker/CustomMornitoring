@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement } from 'react';
-import Styled, { css } from 'styled-components';
+import React from 'react';
+import Styled, {css} from 'styled-components';
 import moreGroupBtn from '../../Assets/Images/btn_more_group.png';
 
 const HistoryTrs = ({ pres, onToggle, onToggle2 }) => {
@@ -43,7 +43,7 @@ const HistoryTrs = ({ pres, onToggle, onToggle2 }) => {
                   <tbody>
                       {/* map으로 늘리기 */}
                       {
-                        action ? 
+                        action ?
                         moreView.map(
                             (view, index) => (
                               <Tr key={index}>

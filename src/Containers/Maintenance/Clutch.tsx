@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useContext, useCallback, ReactElement, SetStateAction} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from "styled-components";
-import {API_URLS, getCluchData} from "../../Api/pm/preservation";
 
 const dummyData:IPressClutch = {
     manufacturer_code:'factory1',

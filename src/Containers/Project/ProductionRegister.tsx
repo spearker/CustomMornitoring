@@ -1,8 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
 import {Input} from 'semantic-ui-react'
-import searchImage from "../../Assets/Images/ic_search.png"
-import IcButton from "../../Components/Button/IcButton";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
@@ -11,7 +9,7 @@ import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import CustomerPickerModal from "../../Components/Modal/CustomerPickerModal";
 import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 const typeDummy = [
     '수주 처리',

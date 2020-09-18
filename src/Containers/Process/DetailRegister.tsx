@@ -1,15 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
-import {Button, Header, Input, Select} from 'semantic-ui-react'
+import styled from "styled-components";
+import {Input} from 'semantic-ui-react'
 import ReactShadowScroll from 'react-shadow-scroll';
 import {POINT_COLOR} from "../../Common/configset";
-import IcButton from "../../Components/Button/IcButton";
-import searchIcon from "../../Assets/Images/ic_search.png"
-import PopupButtons from "../../Components/Button/PopupButtons";
-import IcSearchButton from "../../Assets/Images/ic_search.png";
+import IcSearchButton from "../../Assets/Images/ic_search.png"
 import IcPlushButton from "../../Assets/Images/plus_ic.png";
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import styled from "styled-components";
 import {API_URLS, getSearchProcess, postProcessRegister} from "../../Api/mes/process";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {useHistory} from "react-router-dom"

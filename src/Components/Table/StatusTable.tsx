@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import { render } from '@testing-library/react';
+import {BG_COLOR_SUB, BG_COLOR_SUB2} from '../../Common/configset'
 import SmallButton from '../Button/SmallButton';
-import { Link } from 'react-router-dom';
-import NormalNumberInput from '../Input/NormalNumberInput';
 import StatusTag from '../Text/StatusTag';
 import icCloudOn from '../../Assets/Images/ic_cloud.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_dim.png'
-
-
 
 
 interface IProps{
@@ -37,9 +31,9 @@ const StatusTable = ({indexList, contents, widthList,eventType, link, keyName, o
     <TableWrap>
       <table>
         <tbody>
-         
+
           {/* 테이블 바디 */}
-        
+
           {
             contents.map((v, i)=>{
               return(
@@ -52,7 +46,7 @@ const StatusTable = ({indexList, contents, widthList,eventType, link, keyName, o
                         {mi === 0 || mi=== 1 || mv === 'is_connect' ? '': 'ㅣ   '}
                         {mv === 'status' ? <StatusTag text={String(v[mv])}/>:v[mv] + ' '}
                         {mv === 'group' ? <img style={{height:19,float:'left', marginRight:8}} src={v['is_connect'] ? icCloudOn : icCloudOff} />:null}
-                     
+
                       </td>
                     )
                   })
@@ -65,16 +59,16 @@ const StatusTable = ({indexList, contents, widthList,eventType, link, keyName, o
                 :
                 null
                 }
-               
+
               </tr>
               )
             })
           }
-          
+
         </tbody>
       </table>
     </TableWrap>
-      
+
   );
 }
 

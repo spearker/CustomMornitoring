@@ -1,15 +1,8 @@
-import React, { useEffect, useState, useContext , useCallback, ReactElement} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, BG_COLOR_SUB, BG_COLOR, POINT_COLOR, TOKEN_NAME} from '../../Common/configset';
-import IMG_MAP from '../../Assets/Images/img_map_readytime.png'
-import IMG_TIME from '../../Assets/Images/img_timeline.png'
-import IMG_KEY from '../../Assets/Images/img_time_key_error.png'
-import { changeStatusToString } from '../../Common/statusFunctions';
+import {POINT_COLOR} from '../../Common/configset';
 import moment from 'moment';
-import {getParameter, getRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
 import ReactApexChart from "react-apexcharts";
-import * as _ from 'lodash'
 import NoDataCard from "../../Components/Card/NoDataCard";
 import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 import {API_URLS as URLS_MAP} from "../../Api/pm/map";

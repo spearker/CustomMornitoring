@@ -1,4 +1,4 @@
-import React, {createContext, Dispatch, useReducer, useContext} from 'react';
+import React, {createContext, Dispatch, useContext, useReducer} from 'react';
 
 // 팝업 컨텍스트
 
@@ -7,7 +7,7 @@ type Action =
   | { type: 'CHANGE_MODE', data:IPopupTypes}
   | { type: 'CLOSE_POPUP' }
 
-  
+
 type PopupDispatch = Dispatch<Action>;
 
 const PopupContext = createContext<IPopupTypes | undefined>(undefined);
@@ -52,7 +52,7 @@ export function PopupContextProvider({ children }: { children: React.ReactNode }
       is_popup: false,
       mode: 'home',
     });
-  
+
     return (
       <PopupDispatchContext.Provider value={dispatch}>
         <PopupContext.Provider value={Popup}>
@@ -62,13 +62,13 @@ export function PopupContextProvider({ children }: { children: React.ReactNode }
     );
   }
 
-  
+
   export function usePopup() {
     const state = useContext(PopupContext);
     if (!state) throw new Error('-- TodosProvider not found : UserContext.tsx --');
     return state;
   }
-  
+
   export function usePopupDispatch() {
     const dispatch = useContext(PopupDispatchContext);
     if (!dispatch) throw new Error('-- TodosProvider not found : UserContext.tsx --');

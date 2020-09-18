@@ -1,20 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import Styled from "styled-components";
-import {Button, Header, Input, Select} from 'semantic-ui-react'
-import ColorButton from "../../Components/Button/ColorButton";
-import searchImage from "../../Assets/Images/ic_search.png"
-import xIcon from "../../Assets/Images/ic_task_close.png"
-import Modal from 'react-modal'
-import IcButton from "../../Components/Button/IcButton";
-import StatusDropdown from "../../Components/Dropdown/StatusDropdown";
+import {Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
-import ModalDropdown from "../../Components/Dropdown/ModalDropdown";
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, postChitRegister} from "../../Api/mes/production";
-import ReactShadowScroll from 'react-shadow-scroll';
 import ProjectPlanPickerModal from "../../Components/Modal/ProjectPlanPickerModal";
-import {Simulate} from "react-dom/test-utils";
 import {useHistory} from "react-router-dom";
 
 const factoryDummy = [

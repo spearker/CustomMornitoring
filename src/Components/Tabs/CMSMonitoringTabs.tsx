@@ -1,6 +1,6 @@
-import React, { useEffect,useState } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import { changeStatusToColor } from '../../Common/statusFunctions';
+import {changeStatusToColor} from '../../Common/statusFunctions';
 
 
 interface IProps{

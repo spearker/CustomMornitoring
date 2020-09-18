@@ -1,11 +1,8 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import Styled, { withTheme, DefaultTheme } from 'styled-components'
-import { useHistory } from 'react-router-dom';
-import PressStatusMarker from './Marker/PressStatusMarker';
-import { toUnicode } from 'punycode';
-import PressNameMarker from './Marker/PressNameMarker';
+import React, {useCallback} from 'react';
+import Styled from 'styled-components'
 import IC_BEFORE from '../../Assets/Images/ic_before_page.png';
 import IC_AFTER from '../../Assets/Images/ic_next_page.png';
+
 interface Props{
     list: any[],
     select: any,

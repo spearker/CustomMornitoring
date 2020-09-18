@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import useOnclickOutside from 'react-cool-onclickoutside';
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
@@ -67,8 +66,8 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}} type={'button'}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name !== '' ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                            select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                                :  <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
                     <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>

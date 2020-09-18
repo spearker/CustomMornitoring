@@ -1,13 +1,6 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import { useUser } from '../../Context/UserContext';
-import tempIamge from '../../Assets/Images/temp_machine.png'
-import icCloudOn from '../../Assets/Images/ic_cloud.png'
-import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
 import IC_DOC from '../../Assets/Images/ic_file_doc.png'
-import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
-import IcRemove from '../../Assets/Images/ic_remove_profile.png';
 
 interface Props{
   url: string, //pk 의 역할을 대신합니다.

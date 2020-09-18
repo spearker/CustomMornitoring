@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
 import icDelete from '../../Assets/Images/ic_minus.png'
 import IconSquareButton from '../Button/IconSquareButton';
+
 interface Props{
   title: string,
   name: string,

@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
 import IcPlus from '../../Assets/Images/ic_plus.png'
 import IcPlusGray from '../../Assets/Images/ic_plus_gray.png'
 import InputContainer from '../../Containers/InputContainer';
@@ -18,7 +16,7 @@ interface IProps{
 }
 const AddInput = ({title, onChangeEvent, line, children, icType, onlyOne}: IProps) => {
   useEffect(()=>{
-   
+
   },[])
   const InputBox = Styled.a`
   border: solid 0.5px #d3d3d3;
@@ -35,7 +33,7 @@ const AddInput = ({title, onChangeEvent, line, children, icType, onlyOne}: IProp
 
 `
 
-  return ( 
+  return (
         <InputContainer title={title} line={line}>
             <InnerBox>
                 <div style={{width:'100%'}}>
@@ -54,16 +52,16 @@ const AddInput = ({title, onChangeEvent, line, children, icType, onlyOne}: IProp
                     :
                         <>
                             <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
-                           
+
                         </>
-                    
+
                     }
-                
+
                     </InputBox>
                 }
-                
+
             </InnerBox>
-           
+
         </InputContainer >
   );
 }

@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import Logo from '../../Assets/Images/img_logo.png'
-import { render } from '@testing-library/react';
+import {BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
 import SmallButton from '../Button/SmallButton';
-import { Link } from 'react-router-dom';
-import NormalNumberInput from '../Input/NormalNumberInput';
 
 
 //작은 버튼 + 그레이 컬러
@@ -50,15 +46,15 @@ const NormalTable = ({indexList, contents, widthList,eventType, link, keyName, o
             :
             null
           }
-    
+
           </tr>
           {/* 테이블 바디 */}
-        
+
           {
             contents.map((v, i)=>{
               return(
               <tr key={i}>
-               
+
                 <td style={{textAlign:'center', width:'40px', maxWidth:'45px'}}>{i+1}</td>
                 {
                   Object.keys(indexList).map((mv, mi)=>{
@@ -77,9 +73,9 @@ const NormalTable = ({indexList, contents, widthList,eventType, link, keyName, o
                           </>
                           :
                           '|　'+ v[mv]
-                          
+
                         }
-                      
+
                         </td>
                     )
                   })
@@ -92,16 +88,16 @@ const NormalTable = ({indexList, contents, widthList,eventType, link, keyName, o
                 :
                 null
                 }
-               
+
               </tr>
               )
             })
           }
-          
+
         </tbody>
       </table>
     </TableWrap>
-      
+
   );
 }
 

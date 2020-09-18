@@ -1,18 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import { useUser } from '../../Context/UserContext';
-import IcButton from '../Button/IcButton';
-import icPlus from '../../Assets/Images/ic_plus.png'
-import icDelete from '../../Assets/Images/ic_minus.png'
-import IconSquareButton from '../Button/IconSquareButton';
+import {BG_COLOR_SUB} from '../../Common/configset'
 import IC_NEXT from '../../Assets/Images/ic_next_page.png';
 import IC_BEFORE from '../../Assets/Images/ic_before_page.png';
-import IC_REFRESH from '../../Assets/Images/ic_refresh.png';
-import IC_ADD from '../../Assets/Images/ic_add.png';
 import StatusCard from '../Card/StatusCard';
 import DotPagenation from '../Pagenation/DotPagenation';
 import SmallButton from '../Button/SmallButton';
+
 interface Props{
     pk: string,
     title: string,
@@ -42,11 +36,11 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
     },[page])
 
   useEffect(()=>{
-   
+
   },[])
 
   return (
-    
+
     <div style={{  color:'black',borderRadius:6 , paddingTop:20, backgroundColor: BG_COLOR_SUB}}>
         <div style={{color:'white', display:'flex', alignItems: 'center', textAlign:'left'}}>
             <p className="p-bold p-limit" style={{paddingLeft:30, width:'18%', display:'inline-block', fontSize:24}}>{title}</p>
@@ -54,10 +48,10 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
             <div style={{width:'15%'}}>
                 <SmallButton name={'수정하기'} onClickEvent={()=>{onClickEvent(pk)}}/>
             </div>
-            
+
         </div>
         <div style={{  color:'black',height:'150',display:'flex', alignItems: 'center',justifyContent: 'center', marginBottom:15}}>
-        <div style={{width:'4%'}}> 
+        <div style={{width:'4%'}}>
             <img onClick={()=>onClickChangePage(page-1)} src={IC_BEFORE} style={{cursor:'pointer',width:24, margin:10}} />
         </div>
         <div className="p-limit" style={{marginTop: 25, width:'90%', marginBottom: 17, textAlign:'center'}}>
@@ -76,21 +70,21 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
                         <StatusCard target={v} key={index}/>
                     )
                 }
-           
+
             })
         }
-          
+
         <div style={{marginTop:7, }}>
             <DotPagenation stock={Math.ceil(stock/6)} selected={page} onClickEvent={onClickChangePage}/>
         </div>
         </div>
-        
-        <div style={{width:'4%'}}> 
+
+        <div style={{width:'4%'}}>
             <img onClick={()=>onClickChangePage(page+1)} src={IC_NEXT} style={{cursor:'pointer',width:24, margin:10}} />
         </div>
 
         </div>
-        
+
     </div>
 
   );

@@ -1,12 +1,7 @@
-import React, {
-    useEffect,
-    useState,
-    useCallback,
-} from "react";
+import React, {useCallback, useEffect, useState,} from "react";
 import styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import SettingToneBox from "../../Components/Box/SettingToneBox";
 import {API_URLS, getDefectiveData,} from "../../Api/pm/analysis";
 import ReactApexChart from "react-apexcharts";
 import NoDataCard from "../../Components/Card/NoDataCard";

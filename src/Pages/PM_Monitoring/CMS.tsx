@@ -1,15 +1,10 @@
 import React, {useState} from "react";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import SubNavigation from "../../Components/Navigation/SubNavigation";
-import {PM_MENU_LIST} from "../../Common/routerset";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import CmsStatistics from "./Statistics";
-import CmsPower from "./Power";
 import {API_URLS as URLS_MAP} from "../../Api/pm/monitoring";
 import MapBoard from "../../Components/Map/MapBoard";
 import HeaderLive from "../../Components/Text/HeaderLive";
-import MonitoringToggle from "../../Components/Toggle/MonitoringToggle";
-import Styled from "styled-components";
 
 
 const CmsMonitoring: React.FunctionComponent = () => {

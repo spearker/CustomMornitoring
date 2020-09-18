@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Styled from 'styled-components'
 import icSearch from '../../Assets/Images/ic_search.png'
 import IconSquareButton from '../Button/IconSquareButton';

@@ -1,8 +1,6 @@
-import React, {useContext, useEffect} from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Route, Switch} from 'react-router-dom';
 //import {UserDataProvider, UserDataContext} from '../Context/UserData';
-
-
 // 경로 모음
 // ./Pages/Welcome
 import Welcome from '../Pages/Welcome/Welcome'
@@ -33,7 +31,6 @@ import RegisterLine from '../Pages/Register/Line';
 import RegisterMaterial from '../Pages/Register/Material';
 import RegisterDesign from '../Pages/Register/Design'
 import RegisterProcess from '../Pages/Register/Process'
-import RegisterBarcode from '../Pages/Barcode/Old_ProductRegister'
 import RegisterClient from '../Pages/Client/Register'
 
 // 데이터조회
@@ -44,9 +41,9 @@ import LineList from '../Pages/List/Line';
 import MaterialList from '../Pages/List/Material';
 import MaterialStock from '../Pages/Stock/Old_Material';
 import ProductStock from '../Pages/Stock/Old_Product';
+import ProductStockList from '../Pages/Stock/Old_Product';
 import ProcessList from '../Pages/List/Process';
 import ClientList from '../Pages/Client/List';
-import BarcodeList from '../Pages/Barcode/Old_List';
 import BarcodeSetting from '../Pages/Barcode/Old_Setting';
 
 // 어드민, 데이터 등록 관련
@@ -69,22 +66,19 @@ import BuyList from '../Pages/Client/Buy';
 import SellList from '../Pages/Client/Sell';
 import ChangeStockIn from '../Pages/Stock/Old_ChangeIn'
 import ChangeStockOut from '../Pages/Stock/Old_ChangeOut'
-import RegisterInferior from  '../Pages/Quality/Register';
+import RegisterInferior from '../Pages/Quality/Register';
 /*
 import OutsourcingList from '../Pages/Outsourcing/List';
 import OutsourcingRegister from '../Pages/Outsourcing/Register';
 import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 */
-import BarcodeProductList from '../Pages/Barcode/Old_ProductList'
-import Old_ProductRegister from '../Pages/Barcode/Old_ProductRegister';
 
 //import MaintenanceRegister from '../Pages/Maintenance/Register';
 import StockView from '../Pages/Stock/Old_View'
 
 import PressRecommend from '../Pages/Process/Press';
 import StockList from '../Pages/Stock/Old_List';
-import ProductStockList from '../Pages/Stock/Old_Product';
 import StockInList from '../Pages/Stock/Old_In';
 import StockOutList from '../Pages/Stock/Old_Out'
 import Old_DefectiveList from '../Pages/Quality/Old_DefectiveList'
@@ -99,17 +93,11 @@ import QualityKpi from '../Pages/Kpi/QualityKpi';
 import PriceKpi from '../Pages/Kpi/PriceKpi';
 import DuedateKpi from '../Pages/Kpi/DuedateKpi';
 import PressStatistics from '../Pages/PM_Statistics/PressStatistics';
-import LoadtoneStatistics from '../Pages/PM_Statistics/LoadtoneStatistics';
 import CmsMonitoring from '../Pages/PM_Monitoring/CMS';
 import FullMonitoring from '../Pages/PM_Monitoring/Full';
 import CmsStatistics from '../Pages/PM_Monitoring/Statistics';
 import LoadtonMonitoring from '../Pages/PM_Monitoring/LoadTon';
 import VibrationMonitoring from "../Pages/Monitoring/Vibration";
-
-import InputKeyin from '../Pages/Keyin/InputKeyin';
-import KeyinList from '../Pages/Keyin/keyinList';
-import SettingKeyin from '../Pages/Keyin/SetKeyin';
-import ListKeyin from '../Pages/Keyin/ListKeyin';
 
 import InputKeyinPress from '../Pages/KeyinInput/press';
 import InputKeyinMold from '../Pages/KeyinInput/mold';
@@ -132,7 +120,6 @@ import SetKeyinSunban from '../Pages/KeyinSet/sunban';
 import SetKeyinMilling from '../Pages/KeyinSet/milling';
 import SetKeyinMold from '../Pages/KeyinSet/mold';
 import SetKeyinTab from '../Pages/KeyinSet/tab';
-import OilMaintenance from '../Pages/PM_Maintenance/OilMaintenance';
 import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
 import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
 import SearchMaintenance from '../Pages/Maintenance/search';
@@ -149,8 +136,6 @@ import FactoryEnvironmentalAnalysis from "../Pages/Statistics/FactoryEnvironment
 import CommingSoon from '../Pages/Common/CommingSoon';
 import BasicDocumentRegister from '../Pages/Basic/BasicDocumentRegister';
 import BasicStandardRegister from '../Pages/Basic/BasicStandardRegister';
-import BasicStandardList from '../Pages/Basic/BasicStandardList';
-import BasicDocumentList from '../Pages/Basic/BasicDocumentList';
 import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister';
 
 import BasicListPage from '../Pages/Basic/BasicListPage';

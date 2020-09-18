@@ -1,14 +1,9 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
-import Styled from 'styled-components'
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
-import ButtonBox from '../../Components/Button/BasicButton'
-import { postRequestWithNoToken } from '../../Common/requestFunctions';
+import React, {useCallback, useEffect, useState} from 'react';
+import {postRequestWithNoToken} from '../../Common/requestFunctions';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 
 const ForgotPw = () => {

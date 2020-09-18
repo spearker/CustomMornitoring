@@ -1,27 +1,12 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, BASE_URL, TOKEN_NAME} from '../../Common/configset'
-import IC_REPLY from '../../Assets/Images/ic_reply_w.png'
-import IC_CLOSE from '../../Assets/Images/ic_task_close.png'
-import IC_DOC from '../../Assets/Images/ic_file_doc.png'
-import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
+import {BASE_URL, TOKEN_NAME} from '../../Common/configset'
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
 import BTN_DELETE from '../../Assets/Images/btn_delete_rank_g.png';
-import { render } from '@testing-library/react';
 import SmallButton from '../Button/SmallButton';
-
-import IMG_PROFILE from '../../Assets/Images/img_profile.png'
-import StatusDropdown from '../Dropdown/StatusDropdown';
-import { postRequest } from '../../Common/requestFunctions';
-import CommentsContainer from '../../Containers/CommentsContainer';
-import CommentList from '../List/CommentList';
-import { dataSet } from '../../Common/dataset';
-import { getToken } from '../../Common/tokenFunctions';
-import TinyButtonLink from '../Button/TinyButtonLink';
-import ReadOnlyInput from '../Input/ReadOnlyInput';
-import ReadOnlyInputTask from '../Input/ReadOnlyInputTask';
-import SmallButtonG from '../Button/SmallButtonG';
+import {postRequest} from '../../Common/requestFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 
 interface IProps{
     indexList: string[],
@@ -41,7 +26,7 @@ const ProcessTable = ({indexList, contents,pk, select,widthList, onClickModify, 
   const [openTarget, setOpenTarget] = useState<string>('');
   const [task, setTask]= useState<any>('');
   const [replyList, setReplyList]= useState<IReply[]>([]);
-  
+
   const changeStatusToString = useCallback((status: string | undefined)=>{
     if(status === 'active'){
         return '진행'
@@ -107,7 +92,7 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-       
+
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -117,7 +102,7 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
   },[])
 
 
-  
+
 
   /**
    * onClickOpenTask()
@@ -139,7 +124,7 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-       
+
       }else if(results.status === 1001 || results.data.status === 1002){
         //TODO:  아이디 존재 확인
       }else{
@@ -165,8 +150,8 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
                 :
                 <SmallButton name={'+ 선택하기'} color={'#d3d3d3'} onClickEvent={()=>{onClickSelect(Number(pk))}}/>
             }
-           
-          </div>        
+
+          </div>
         </div>
         :
         <div style={{padding:24, paddingBottom:0, marginTop:18}}>
@@ -177,15 +162,15 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
                 :
                 null
                 }
-               
-             
-          </div>        
+
+
+          </div>
         </div>
       }
     <TableWrap>
       <table>
         <tbody>
-          <tr>     
+          <tr>
             {
               indexList.map((v,i)=>{
                 return(
@@ -198,8 +183,8 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
           </tr>
 
           {/*
-          
-          
+
+
           */}
           {/* 테이블 바디 */}
           {
@@ -221,26 +206,26 @@ const changeStatusToColor = useCallback((status: string| undefined)=>{
                 </td>
                 <td className="p-limit" style={{width:widthList[2]}}>
                     <span style={{padding:'11px 18px 11px 18px',backgroundColor:changeStatusToColor(v.machine.status), color:'white', borderRadius:6, marginRight:9, minWidth:'100px', width:100}}>{changeStatusToString(v.machine.status)}</span>
-                  {v.machine.machine_name} 
+                  {v.machine.machine_name}
                 </td>
                 <td className="p-limit" style={{width:widthList[3]}}>
-                    | {v.mold_name} 
+                    | {v.mold_name}
                 </td>
                 <td className="p-limit" style={{width:widthList[4]}}>
                     | {v.output.material_name}
                     <span className="p-eng-r" style={{float:'right'}}>{v.output.stock} 개</span>
                 </td>
-            
+
               </tr>
               )
             })
           }
-          
+
         </tbody>
       </table>
     </TableWrap>
     </div>
-      
+
   );
 }
 

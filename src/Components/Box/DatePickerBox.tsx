@@ -1,11 +1,10 @@
-import React, { useEffect,useRef, useState, useCallback } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Calendar from 'react-calendar';
 import moment from 'moment';
-import SmallButton from '../Button/SmallButton';
-import { getToken } from '../../Common/tokenFunctions';
-import { getRequest } from '../../Common/requestFunctions';
+import {getToken} from '../../Common/tokenFunctions';
+import {getRequest} from '../../Common/requestFunctions';
 
 interface IProps{
   setListEvent: any,

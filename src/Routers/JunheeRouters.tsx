@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
+import React from 'react';
+import {Route, Switch} from 'react-router-dom';
 import OilSupplyStatistics from "../Pages/PM_Statistics/OilSupplyStatistics";
 import AbilityStatistics from "../Pages/PM_Statistics/AbilityStatistics";
 import AbilityAnalysis from "../Pages/PM_Analysis/AbilityAnalysis";
@@ -19,7 +19,6 @@ import OutsourcingRegister from "../Pages/Outsourcing/OutsourcingRegister"
 import CustomerRegister from "../Pages/Customer/CustomerRegister";
 import WorkHistoryRegister from "../Pages/Project/WorkHistoryRegister";
 import MapEditer from "../Pages/Super/MapEditer";
-import MapList from "../Pages/map/MapList";
 import MapListPage from "../Pages/map/MapListPage";
 
 
