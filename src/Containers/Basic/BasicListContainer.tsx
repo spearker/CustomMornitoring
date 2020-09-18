@@ -53,6 +53,10 @@ const BasicListContainer = ({type}:Props) => {
 
   },[list, keyword, option, pageType])
 
+  useEffect(() => {
+    getList(pageType)
+  }, [page.current])
+
   /**
    * onClickDelete()
    * 리스트 항목 삭제

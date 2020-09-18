@@ -111,7 +111,7 @@ const PowerContainer = () => {
     const [data, setData] = useState<{name: string, data: number[]}[]>([])
     const [pk, setPk] = useState()
 
-    const [selectDate, setSelectDate] = useState({start: moment().subtract(1, 'days').format("YYYY-MM-DD"), end: moment().subtract(1, 'days').format("YYYY-MM-DD")})
+    const [selectDate, setSelectDate] = useState({start: moment().subtract(8, 'days').format("YYYY-MM-DD"), end: moment().subtract(1, 'days').format("YYYY-MM-DD")})
     const [selectType, setSelectType] = useState([true, false])
     const [labels, setLabels] = useState([])
 
@@ -121,15 +121,24 @@ const PowerContainer = () => {
         const resultData = await getPowerList(tempUrl);
         console.log(resultData)
 
-        let tempArray: {name: string, data: number[]}[] = [];
+        let tempArray: any = {};
+        let tmpArr: {name: string, data: number[]}[] = [];
 
-        resultData.press_data?.map(index => {
-            tempArray.push({name: index.press_name, data: index.press_data})
+        resultData.press_logs?.map(index => {
+            if(tempArray[index.press_name]){
+                tempArray = {...tempArray, [index.press_name] : [...tempArray[index.press_name], index.press_data]}
+            }else{
+                tempArray = {...tempArray, [index.press_name] : [index.press_data]}
+            }
+        })
+
+        Object.keys(tempArray).map((v,i) => {
+            tmpArr = [...tmpArr, {name: v, data: tempArray[v]}]
         })
 
         console.log(tempArray)
         setLabels(resultData.dates)
-        setData(tempArray)
+        setData(tmpArr)
 
     },[pk, selectDate])
 

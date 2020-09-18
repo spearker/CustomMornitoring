@@ -190,6 +190,10 @@ const VoucherContainer = () => {
 
     },[list])
 
+    useEffect(() => {
+        getList()
+    }, [page.current])
+
     const postDelete = useCallback(async () => {
         const tempUrl = `${API_URLS['chit'].delete}`
         const res = await postProjectDelete(tempUrl, deletePk)

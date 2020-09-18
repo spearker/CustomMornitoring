@@ -174,13 +174,17 @@ const SegmentListContainer = () => {
     },[list])
 
     useEffect(()=>{
-        getList()
+        // getList()
         setIndex(indexList["segment"])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
         // setDetailList(detaildummy)
         setSubIndex(detailTitle['segment'])
     },[])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
 
     return (
         <div>

@@ -66,12 +66,16 @@ const WorkerContainer = () => {
     },[list])
 
     useEffect(()=>{
-        getList()
+        // getList()
         setTitleEventList(titleeventdummy)
         setIndex(indexList["worker"])
         // setList(dummy)
 
     },[])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
 
     return (
         <div>

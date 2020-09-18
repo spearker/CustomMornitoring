@@ -176,13 +176,17 @@ const ProcessListContainer = () => {
     }, [list])
 
     useEffect(() => {
-        getList()
+        // getList()
         setIndex(indexList["info_list"])
         setTitleEventList(titleeventdummy)
         // setList(dummy)
         // setDetailList(detailValue)
         setSubIndex(detailTitle['processes'])
     }, [])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
 
     return (
         <div>
@@ -207,7 +211,7 @@ const ProcessListContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current+1} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }
