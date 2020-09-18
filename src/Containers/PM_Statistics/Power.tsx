@@ -33,20 +33,16 @@ const chartOption = {
       tickAmount: 20
     },
     yaxis:{
-        max: 6000,
         min: 0,
         tickAmount: 25,
         labels: {
-            formatter: (value) => {
-                if(value === 6000){
+            formatter: (value, index) => {
+                if(index === 25){
                     return "(KW)"
                 }else{
-                    if(value % 100 === 0){
-                        return value
-                    }else{
-                        return
-                    }
+                    return Math.round(value)
                 }
+
             }
         }
     },
@@ -131,7 +127,6 @@ const PowerContainer = () => {
                 tempArray = {...tempArray, [index.press_name] : [index.press_data]}
             }
         })
-
         Object.keys(tempArray).map((v,i) => {
             tmpArr = [...tmpArr, {name: v, data: tempArray[v]}]
         })
