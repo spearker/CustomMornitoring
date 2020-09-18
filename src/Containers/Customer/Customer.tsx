@@ -17,7 +17,7 @@ const ClientContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [index, setIndex] = useState({  name: "거래처 명" });
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [option, setOption] = useState<number>(1)
+    const [option, setOption] = useState<number>(0)
     const [contentsList, setContentsList] = useState<any[]>(['거래처명','대표자명'])
     const [searchValue, setSearchValue] = useState<any>('')
     const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
@@ -36,14 +36,25 @@ const ClientContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
-        list.map((v,i)=>{
-            tmpPk.push(v.pk)
-        })
-        setDeletePk({...deletePk, keys: tmpPk})
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
     },[deletePk])
 
-    const checkOnClick = useCallback((Data) => {
-        deletePk.keys.push(Data.pk)
+      const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
     },[deletePk])
 
     const optionChange = useCallback(async (filter:number)=>{
@@ -62,11 +73,13 @@ const ClientContainer = () => {
     },[searchValue])
 
     const searchOnClick = useCallback(async () => {
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option)}&page=${page.current}`
+
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option+1)}&page=${page.current}`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
+
     },[searchValue,option])
 
     const eventdummy = [
@@ -99,7 +112,8 @@ const ClientContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option+1}&page=${page.current}`
         const res = await getCustomerData(tempUrl)
 
         console.log('response', res)

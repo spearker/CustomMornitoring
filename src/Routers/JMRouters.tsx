@@ -45,7 +45,9 @@ const JMRouters = () => {
             <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
             <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction} />
             <Route exact path="/project/work/history" component={WorkProduction} />
+            <Route exact path="/project/work/history/:pk"   component={WorkProduction} />
             <Route exact path="/project/voucher/list" component={VoucherProduction}/>
+            <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
 
             <Route exact path="/customer/current/list" component={CurrentCustomer}/>
 

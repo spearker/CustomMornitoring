@@ -7,8 +7,12 @@ import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
+interface Props {
+    match: any;
+    // chilren: string;
+}
 
-const VoucherContainer = () => {
+const VoucherContainer = ({ match }: Props) => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -99,7 +103,7 @@ const VoucherContainer = () => {
 
     const eventdummy = [
         {
-            Name: '삭제',
+            Name: '수정',
             Width: 60,
             Color: 'white'
         },
@@ -153,26 +157,36 @@ const VoucherContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
-        list.map((v,i)=>{
-            console.log(v.pk)
-            tmpPk.push(v.pk)
-        })
-        setDeletePk({...deletePk, keys: tmpPk})
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
     },[deletePk])
 
-    const checkOnClick = useCallback((Data) => {
-        deletePk.keys.push(Data.pk)
-        console.log(deletePk.keys)
-    },[deletePk])
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['chit'].load}?pk=${pk}`
-        const res = await getProjectList(tempUrl)
+      const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
+        },[deletePk])
 
-        setDetailList(res)
+        const getData = useCallback( async(pk)=>{
+            //TODO: 성공시
+            const tempUrl = `${API_URLS['chit'].load}?pk=${pk}`
+            const res = await getProjectList(tempUrl)
 
-    },[detailList])
+            setDetailList(res)
+
+        },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -184,6 +198,7 @@ const VoucherContainer = () => {
             const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             return {...v, current_amount: current_amount, goal: goal}
         })
+
 
         setPage({ current: res.current_page, total: res.total_page })
         setList(getVoucher)
@@ -225,7 +240,7 @@ const VoucherContainer = () => {
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'홍길동 / (주)대한민국 전표 자세히 보기'}>

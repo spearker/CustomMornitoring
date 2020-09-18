@@ -102,24 +102,32 @@ const SegmentListContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
-        list.map((v,i)=>{
-            console.log(v.pk)
-            tmpPk.push(v.pk)
-        })
-        setDeletePk({...deletePk, keys: tmpPk})
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
     },[deletePk])
 
-    const checkOnClick = useCallback((Data) => {
-        deletePk.keys.push(Data.pk)
-        console.log(deletePk.keys)
+      const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
     },[deletePk])
 
-    const postDelete = useCallback(async () => {
-        const tempUrl = `${API_URLS['segment'].delete}`
-        const res = await postSegmentDelete(tempUrl, deletePk)
-        console.log(res)
+        const postDelete = useCallback(async () => {
+            const tempUrl = `${API_URLS['segment'].delete}`
+            const res = await postSegmentDelete(tempUrl, deletePk)
 
-    },[deletePk])
+        },[deletePk])
 
 
     const getData = useCallback( async(pk)=>{

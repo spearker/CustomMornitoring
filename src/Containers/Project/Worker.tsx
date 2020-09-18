@@ -3,9 +3,14 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import {API_URLS, getProjectList,} from "../../Api/mes/production";
 import {useHistory} from "react-router-dom";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import moment from "moment";
 
+interface Props {
+    match: any;
+    // chilren: string;
+}
 
-const WorkerContainer = () => {
+const WorkerContainer =  ({ match }: Props) => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -13,6 +18,7 @@ const WorkerContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [index, setIndex] = useState({worker_name:'작업자'});
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
+    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -53,15 +59,38 @@ const WorkerContainer = () => {
 
     }, [list, selectPk]);
 
+    const calendarOnClick = useCallback(async (start, end)=>{
+        setSelectDate({start: start, end: end ? end : ''})
+
+        const tempUrl = `${API_URLS['production'].history}?pk=&from=${start}&to=${end}&page=${page.current}`
+        const res = await getProjectList(tempUrl)
+
+        const getWorker= res.info_list.map((v,i)=>{
+
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+            return {...v, amount: amount}
+        })
+        setPage({ current: res.current_page, total: res.total_page })
+        setList(getWorker)
+    },[selectDate])
+
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
 
-        const tempUrl = `${API_URLS['production'].history}?pk=&from=${'2020-08-31'}&to=${'2020-09-20'}&page=${page.current}`
+        const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${selectDate.start}&to=${selectDate.end}&page=${page.current}`
         const res = await getProjectList(tempUrl)
 
+        const getWorker= res.info_list.map((v,i)=>{
+
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+            return {...v, amount: amount}
+        })
+
         setPage({ current: res.current_page, total: res.total_page })
-        setList(res.info_list)
+        setList(getWorker)
 
     },[list])
 
@@ -82,6 +111,8 @@ const WorkerContainer = () => {
             <OvertonTable
                 title={'작업 이력'}
                 calendar={true}
+                selectDate={selectDate}
+                calendarOnClick={calendarOnClick}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}

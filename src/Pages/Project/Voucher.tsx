@@ -2,16 +2,20 @@ import React from 'react';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import Container from '../../Containers/Project/Voucher';
+import CustomerRegisterContainer from "../../Containers/Customer/CustomerRegister";
 
+interface Props {
+    match: any;
+    chilren: string;
+}
 
-const VoucherProduction = () => {
+const VoucherProduction = ({match}: Props) => {
 
 
     return (
         <DashboardWrapContainer index={'project'}>
-
             <InnerBodyContainer>
-                <Container/>
+                <Container  match={match} />
 
 
 

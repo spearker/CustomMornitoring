@@ -1,5 +1,6 @@
 import React from "react";
 import Styled from 'styled-components'
+import next from '../../Assets/Images/ic_next_process.png'
 
 interface Props {
     title: string

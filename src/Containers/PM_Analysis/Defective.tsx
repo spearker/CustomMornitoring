@@ -132,6 +132,7 @@ const DefectiveContainer = () => {
     const [index, setIndex] = useState({  process_name: '공정명'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [allPercent, setAllPercent] = useState<number>(0)
     const [labelDatas, setLabelDatas] = useState<string[]>([])
     const [series, setSeries] = useState<number[]>([])
     const [pieData, setPieData] = useState<PIDATA[]>([])
@@ -217,6 +218,9 @@ const DefectiveContainer = () => {
         })
 
         console.log(pieData)
+        tmpList.map((v,i)=>{
+            setAllPercent(allPercent => allPercent+v)
+        })
         setSeries(tmpList)
         setDetailList(res)
 
@@ -233,7 +237,6 @@ const DefectiveContainer = () => {
     },[list])
 
     const pieOnClick = useCallback((index)=>{
-        console.log(pieData)
         setSelectPie(pieData[index])
     },[selectPie, pieData])
 
@@ -263,7 +266,13 @@ const DefectiveContainer = () => {
                     <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
                         <div style={{display:'flex',flexDirection: 'row'}}>
                             <Chart>
-                                <ReactApexChart options={chartOption} series={series} type="pie"/>
+                                {allPercent === 0 ?
+                                    <div style={{width: 300, height: 160, borderRadius: 300, backgroundColor: "#ffffff",color: "#000000",textAlign: "center",paddingTop:140}}>
+                                        <p>불량률이 없습니다.</p>
+                                    </div>
+                                    :
+                                    <ReactApexChart options={chartOption} series={series} type="pie"/>
+                                }
                             </Chart>
                             <Detail>
                                 {selectPie && <table style={{width: "100%"}}>

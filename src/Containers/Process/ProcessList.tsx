@@ -7,7 +7,7 @@ import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {postCustomerDelete} from "../../Api/mes/customer";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
-
+import {keys} from "@material-ui/core/styles/createBreakpoints";
 
 const ProcessListContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
@@ -36,34 +36,6 @@ const ProcessListContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            type: "단발",
-            name: "공정 01",
-            status: "진행중"
-        },
-        {
-            type: "라인",
-            name: "공정 02",
-            status: "Off"
-        },
-        {
-            type: "검수",
-            name: "공정 03",
-            status: "에러"
-        },
-        {
-            type: "라인",
-            name: "공정 04",
-            status: "상태"
-        },
-        {
-            type: "라인",
-            name: "공정 05",
-            status: "상태"
-        }
-    ]
-
     const titleeventdummy = [
         {
             Name: '등록하기',
@@ -84,30 +56,6 @@ const ProcessListContainer = () => {
         }
     }
 
-    const detailValue = [ //이것도 받는 이름 그대로 일까요
-        {
-            machine_pk: "라인 1차",
-            machine_name: "기계명 01",
-            recommend: 100
-        },
-        {
-            machine_pk: "라인 2차",
-            machine_name: "기계명 00",
-            recommend: 100
-        },
-        {
-            machine_pk: "라인 3차",
-            machine_name: "기계명 00",
-            recommend: 100
-        },
-        {
-            machine_pk: "라인 4차",
-            machine_name: "기계명 00",
-            recommend: '' //null도 들어올 수 있음
-        }
-    ]
-
-
     const onClick = useCallback((process) => {
         console.log('dsfewfewf', process.type);
         if (process.pk === selectPk) {
@@ -127,16 +75,25 @@ const ProcessListContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
-        list.map((v,i)=>{
-            console.log(v.pk)
-            tmpPk.push(v.pk)
-        })
-        setDeletePk({...deletePk, keys: tmpPk})
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
     },[deletePk])
 
-    const checkOnClick = useCallback((Data) => {
-        deletePk.keys.push(Data.pk)
-        console.log(deletePk.keys)
+      const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
     },[deletePk])
 
     const postDelete = useCallback(async () => {

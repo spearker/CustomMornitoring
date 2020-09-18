@@ -12,6 +12,7 @@ import {Input} from "semantic-ui-react";
 interface Props {
     title: string
     calendar?: boolean
+    selectDate?: any
     calendarOnClick?: any
     searchBar?: boolean
     searchBarChange?: any
@@ -35,12 +36,12 @@ interface Props {
     children?: any
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,children}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,children}:Props) => {
 
-    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [checked, setChecked] = useState<any[]>([])
     const [option, setOption] = useState<number>(0)
     const [allChecked, setAllChecked] = useState(false)
+
 
     React.useEffect(() => {
         if(checkBox === true) {
@@ -72,7 +73,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,calendarOnC
                 {searchBar !== undefined || false ?
                     <div style={{width: "300px",display: "flex", flexDirection: "row", marginRight: 15}}>
                         <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}} onChange={(e) => searchBarChange(e.target.value)}/>
-                        <SearchButton style={{flex: 10}} onClick={()=>searchButtonOnClick}>
+                        <SearchButton style={{flex: 10}} onClick={()=>searchButtonOnClick()}>
                             <img src={IcSearchButton}/>
                         </SearchButton>
                     </div> :
@@ -80,7 +81,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,calendarOnC
                 }
                 {calendar !== undefined || false ?
                     <div style={{marginRight: 15}}>
-                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}/>
+                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => calendarOnClick(start,end)}/>
                     </div>
                     :
                     null
@@ -112,6 +113,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,calendarOnC
                                 } else {
                                     let tmpArr: boolean[] = checked
                                     tmpArr = tmpArr.map(() => false)
+                                    allCheckOnClickEvent([])
                                     // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                                     setChecked(tmpArr)
                                     setAllChecked(false)
@@ -169,6 +171,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,calendarOnC
                                                 tmpArr = tmpArr.map((vm,vi)=>{
                                                      if(vi===i){
                                                          if(vm){
+                                                             checkOnClickEvent(v)
                                                              return false
                                                          }else {
                                                              checkOnClickEvent(v)
@@ -205,7 +208,9 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,calendarOnC
                                             :
                                         <p key={`td-${i}-${mv}`}
                                            className="p-limits" >
-                                            {
+                                            {v[mv] === '' ?
+                                                    'ㅡ'
+                                                :
                                                     v[mv]
                                             }
                                         </p>

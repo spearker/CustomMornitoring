@@ -4,7 +4,7 @@ import 'react-dropdown/style.css'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import InfoTable from '../../Components/Table/InfoTable';
 import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic';
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 
 interface Props{
   type: string

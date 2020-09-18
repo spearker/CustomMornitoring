@@ -9,7 +9,8 @@ import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {postSegmentDelete} from "../../Api/mes/process";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
-
+import moment from "moment";
+import next from "../../Assets/Images/ic_next_process.png";
 
 const ScheduleContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
@@ -21,6 +22,7 @@ const ScheduleContainer = () => {
     const [detailTitleEventList, setDetailTitleEventList] = useState<any[]>([]);
     const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [detailList,setDetailList] = useState<{chit_list: any[], name: string, process: any[], state: boolean}>({chit_list: [],name: '', process: [], state: false});
+    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [index, setIndex] = useState({manager_name:'계획자명'});
     const [voucherIndex, setVoucherIndex] = useState({registerer: "등록자"});
     const [voucherList, setVoucherList] = useState<any[]>([])
@@ -81,16 +83,26 @@ const ScheduleContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
-        list.map((v,i)=>{
-            console.log(v.pk)
-            tmpPk.push(v.pk)
-        })
-        setDeletePk({...deletePk, keys: tmpPk})
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
     },[deletePk])
 
-    const checkOnClick = useCallback((Data) => {
-        deletePk.keys.push(Data.pk)
-        console.log(deletePk.keys)
+
+      const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
     },[deletePk])
 
     const voucherIndexList = {
@@ -102,6 +114,22 @@ const ScheduleContainer = () => {
         }
     }
 
+    const calendarOnClick = useCallback(async (start, end)=>{
+        setSelectDate({start: start, end: end ? end : ''})
+
+        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}`
+        const res = await getProjectList(tempUrl)
+        const getprocesses = res.info_list.map((v,i)=>{
+
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const statement =  v.state ? '배포됨' : '배포전'
+
+            return {...v, state: statement, amount: amount}
+        })
+
+
+        setList(getprocesses)
+    },[selectDate])
 
     const onClick = useCallback((segment) => {
         if(segment.pk === selectPk){
@@ -136,7 +164,7 @@ const ScheduleContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['production'].list}?from=${'2020-09-01'}&to=${'2020-09-20'}&page=${page.current}`
+        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}`
         const res = await getProjectList(tempUrl)
         const getprocesses = res.info_list.map((v,i)=>{
 
@@ -168,6 +196,7 @@ const ScheduleContainer = () => {
 
     },[deletePk])
 
+
     useEffect(()=>{
         getList()
         setIndex(indexList["schedule"])
@@ -185,6 +214,8 @@ const ScheduleContainer = () => {
             <OvertonTable
                 title={'생산 계획 리스트'}
                 calendar={true}
+                selectDate={selectDate}
+                calendarOnClick={calendarOnClick}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 allCheckbox={true}
@@ -200,13 +231,22 @@ const ScheduleContainer = () => {
                         <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
                             <div style={{display:"flex", flexDirection: "row"}}>
                             {detailList.process.map((v,i)=>{
-                                return(
+                                if(detailList.process.length === i+1){
+                                    return(
+                                    <>
+                                        <FactoryBox title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material} />
+                                    </>)
+                                }else {
+                                    return(
+                                    <>
                                         <FactoryBox title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material}/>
-                                )})}
+                                        <img src={next} style={{width: 47, height: 17, marginLeft: 20, marginTop: 135, marginRight: 20}}/>
+                                    </>)
+                                }})}
                             </div>
                         </VoucherDropdown>
                         <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
-                                <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList}>
+                                <LineTable contentTitle={voucherIndex}  contentList={voucherList}>
                                     <Line/>
                                 </LineTable>
                         </VoucherDropdown>
