@@ -17,11 +17,13 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getProjectList } from "../../Api/mes/production";
+import {API_URLS, getProjectList, postProjectDelete} from "../../Api/mes/production";
 import FactoryBox from "../../Components/Box/FactoryBox";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import {postSegmentDelete} from "../../Api/mes/process";
+
 
 
 
@@ -30,16 +32,22 @@ const ScheduleContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [detailTitleEventList, setDetailTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [detailList,setDetailList] = useState<{chit_list: any[], name: string, process: any[], state: boolean}>({chit_list: [],name: '', process: [], state: false});
     const [index, setIndex] = useState({manager_name:'계획자명'});
     const [voucherIndex, setVoucherIndex] = useState({registerer: "등록자"});
     const [voucherList, setVoucherList] = useState<any[]>([])
-    const [process, setProcess ] = useState<any[]>([])
+    const [process, setProcess ] = useState<any[]>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
+    let sendPk = ''
     const [selectMaterial, setSelectMaterial ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
     const history = useHistory();
+
+    useEffect(()=>{
+        console.log(selectPk)
+    },[selectPk])
+
 
     const indexList = {
         schedule: {
@@ -52,47 +60,13 @@ const ScheduleContainer = () => {
         }
     }
 
-    const dummy = [
+    const detailDummy = [
         {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
-        },
-        {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
-        },
-        {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
-        },
-        {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
-        },
-        {
-            manager_name: '홍길동',
-            material_name: '품목(품목명)',
-            schedule: '2000.00.00~2000.00.00',
-            supplier_name: '(주)대한민국',
-            amount: '99,999,999',
-            state: '배포'
-        },
+            machine_name: "기계명" ,
+            mold_name: "금형명",
+            input_material: "입력 자재(품목)명",
+            output_material: "출력 자재(품목)명"
+        }
     ]
 
     const detailDummy = [
@@ -108,13 +82,14 @@ const ScheduleContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/project/production/register')
+            Link: () => history.push('/project/production/register')
         },
         // {
         //     Name: '수정',
         // },
         {
             Name: '삭제',
+            Link: () => postDelete()
         }
     ]
 
@@ -122,10 +97,24 @@ const ScheduleContainer = () => {
         {
             Name: '생산 계획 배포',
             Width: 130,
-            Link: ()=>getDistribute()
+            Link: () => getDistribute()
         }
     ]
 
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        list.map((v,i)=>{
+            console.log(v.pk)
+            tmpPk.push(v.pk)
+        })
+        setDeletePk({...deletePk, keys: tmpPk})
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        deletePk.keys.push(Data.pk)
+        console.log(deletePk.keys)
+    },[deletePk])
+            
     const voucherIndexList = {
         schedule: {
             registerer: "등록자",
@@ -135,18 +124,22 @@ const ScheduleContainer = () => {
         }
     }
 
+
     const onClick = useCallback((segment) => {
         if(segment.pk === selectPk){
             setSelectPk(null);
+            sendPk = ''
             setSelectMaterial(null);
             setSelectValue(null);
         }else{
             setSelectPk(segment.pk);
+            sendPk = segment.pk
             setSelectMaterial(segment.material_name);
             setSelectValue(segment)
             //TODO: api 요청
-            getData(segment.pk)
+            return getData(segment.pk)
         }
+    }, [selectPk,selectMaterial,selectValue]);
 
 
 
@@ -174,7 +167,7 @@ const ScheduleContainer = () => {
             return {...v, current_amount: current_amount, goal: goal}
         })
         setVoucherList(getSchedule)
-    },[detailList])
+    },[selectPk, detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -192,6 +185,23 @@ const ScheduleContainer = () => {
         setList(getprocesses)
 
     },[list])
+
+    const getDistribute = useCallback (async () => {
+        //TODO: 성공시
+
+        const tempUrl = `${API_URLS['production'].distribute}?pk=${sendPk}`
+        const res = getProjectList(tempUrl)
+
+        history.push('/project/chit/register')
+
+    },[sendPk])
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['production'].delete}`
+        const res = await postProjectDelete(tempUrl, deletePk)
+        console.log(res)
+
+    },[deletePk])
 
     useEffect(()=>{
         // getList()
@@ -211,22 +221,24 @@ const ScheduleContainer = () => {
                 title={'생산 계획 리스트'}
                 calendar={true}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
                 allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
+                checkOnClickEvent={checkOnClick}
                 checkBox={true}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
                     <LineTable title={selectMaterial}  titleOnClickEvent={detailTitleEventList}>
                         <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
+                            <div style={{display:"flex", flexDirection: "row"}}>
                             {detailList.process.map((v,i)=>{
                                 return(
-                                    <div style={{display:"flex", flexDirection: "row"}}>
                                         <FactoryBox title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material}/>
-                                    </div>
                                 )})}
+                            </div>
                         </VoucherDropdown>
                         <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
                                 <LineTable allCheckbox={true} contentTitle={voucherIndex} checkBox={true} contentList={voucherList}>

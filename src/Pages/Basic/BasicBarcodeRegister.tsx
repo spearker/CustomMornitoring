@@ -1,28 +1,24 @@
-import React, { useEffect, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import { getToken } from '../../Common/tokenFunctions';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
+import {getToken} from '../../Common/tokenFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {    ROUTER_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
 import DropdownInput from '../../Components/Input/DropdownInput';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
+import {getParameter, postRequest} from '../../Common/requestFunctions';
 import FullAddInput from '../../Components/Input/FullAddInput';
-import {getMachineTypeList, getBarcodeTypeList} from '../../Common/codeTransferFunctions';
+import {getBarcodeTypeList} from '../../Common/codeTransferFunctions';
 import ListHeader from '../../Components/Text/ListHeader';
-import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
-import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
 import * as _ from 'lodash';
 import useObjectInput from '../../Functions/UseInput';
-import { JsonStringifyList } from '../../Functions/JsonStringifyList';
+import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
 import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput';
-import { API_URLS, loadBasicItem } from '../../Api/mes/basic';
+import {API_URLS, loadBasicItem} from '../../Api/mes/basic';
 // 바코드 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 

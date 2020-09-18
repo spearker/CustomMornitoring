@@ -1,6 +1,4 @@
 import client from '../configs/monitoring';
-import React, {useReducer, useCallback} from 'react';
-import * as _ from 'lodash';
 
 /**
  * getClutchData()

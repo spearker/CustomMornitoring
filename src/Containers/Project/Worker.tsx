@@ -18,21 +18,19 @@ import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {API_URLS, getProjectList,} from "../../Api/mes/production";
+import {useHistory} from "react-router-dom";
 
 
 
 const WorkerContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>({
-        pk: "",
-        max_count: 0,
-        current_count: 0,
-    });
     const [index, setIndex] = useState({worker_name:'작업자'});
+    const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const history = useHistory();
 
     const indexList = {
         worker: {
@@ -45,56 +43,13 @@ const WorkerContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            worker_name: '홍길동',
-            material_name: '품목(품목명)',
-            machine_name: '기계명',
-            schedule: '2000.00.00~2000.00.00',
-            worked: '99,999,999',
-            amount: '1,000,000',
-        },
-        {
-            worker_name: '홍길동',
-            material_name: '품목(품목명)',
-            machine_name: '기계명',
-            schedule: '2000.00.00~2000.00.00',
-            worked: '99,999,999',
-            amount: '1,000,000',
-        },
-        {
-            worker_name: '홍길동',
-            material_name: '품목(품목명)',
-            machine_name: '기계명',
-            schedule: '2000.00.00~2000.00.00',
-            worked: '99,999,999',
-            amount: '1,000,000',
-        },
-        {
-            worker_name: '홍길동',
-            material_name: '품목(품목명)',
-            machine_name: '기계명',
-            schedule: '2000.00.00~2000.00.00',
-            worked: '99,999,999',
-            amount: '1,000,000',
-        },
-        {
-            worker_name: '홍길동',
-            material_name: '품목(품목명)',
-            machine_name: '기계명',
-            schedule: '2000.00.00~2000.00.00',
-            worked: '99,999,999',
-            amount: '1,000,000',
-        },
-    ]
 
-
-    const detaildummy = [
+    const titleeventdummy = [
         {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
+            Name: '등록하기',
+            Width: 90,
+            Link: ()=>history.push('/project/work/history/register')
+        },
     ]
 
     const onClick = useCallback((mold) => {
@@ -127,9 +82,10 @@ const WorkerContainer = () => {
 
     useEffect(()=>{
         getList()
+        setTitleEventList(titleeventdummy)
         setIndex(indexList["worker"])
         // setList(dummy)
-        setDetailList(detaildummy)
+
     },[])
 
     return (
@@ -137,6 +93,7 @@ const WorkerContainer = () => {
             <OvertonTable
                 title={'작업 이력'}
                 calendar={true}
+                titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}

@@ -1,6 +1,4 @@
 import client from '../configs/admin';
-import React, {useReducer, useCallback} from 'react';
-import * as _ from 'lodash';
 
 /**
  * getAdminData()

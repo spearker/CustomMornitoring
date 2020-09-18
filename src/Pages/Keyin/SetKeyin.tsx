@@ -1,22 +1,12 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import Axios from 'axios';
+import React, {useState} from 'react';
+import Styled from 'styled-components'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
 import 'react-dropdown/style.css'
-import {dataSet} from '../../Common/dataset'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import { getRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
 import TEMP_IMG_1 from '../../Assets/Dummy/keyin_setting_1.svg'
 import TEMP_IMG_2 from '../../Assets/Dummy/keyin_setting_2.svg'
-import { useHistory } from 'react-router-dom';
-import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTable';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
+import {useHistory} from 'react-router-dom';
 import SubNavigation2 from '../../Components/Navigation/SubNavigation2';
 import MonitoringOptionButton from '../../Components/Button/MonitoringOptionButton';
 
@@ -29,7 +19,7 @@ const SettingKeyin = ({ match }) => {
 
   return (
       <DashboardWrapContainer index={10}>
-        <SubNavigation2 list={[ 
+        <SubNavigation2 list={[
            { name : '프레스 Key-in', url : '/keyin/setting/프레스'},
         { name : '프레스 Key-in', url : '/keyin/setting/프레스'},
         { name : '금형 Key-in', url : '/keyin/setting/금형'},
@@ -51,7 +41,7 @@ const SettingKeyin = ({ match }) => {
             {
               id === '프레스' ?
               <>
-           
+
               <img src={TEMP_IMG_1} />
               <div style={{position:'relative'}}>
               <Header title={'항목 리스트'}/>
@@ -62,11 +52,11 @@ const SettingKeyin = ({ match }) => {
               null
             }
           </WrapBox>
-        
+
         </InnerBodyContainer>
-       
+
       </DashboardWrapContainer>
-      
+
   );
 }
 

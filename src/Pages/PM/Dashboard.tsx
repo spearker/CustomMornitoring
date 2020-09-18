@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
+import React, {useEffect} from 'react';
+import Styled from 'styled-components'
 
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 
 // PM2 대시보드
-// 예지 작업 
+// 예지 작업
 const PmDasbhaord = () => {
 
   const history = useHistory();

@@ -15,6 +15,7 @@ import {API_URLS, postChitRegister} from "../../Api/mes/production";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ProjectPlanPickerModal from "../../Components/Modal/ProjectPlanPickerModal";
 import {Simulate} from "react-dom/test-utils";
+import {useHistory} from "react-router-dom";
 
 const factoryDummy = [
     '더미 업체 1',
@@ -39,6 +40,7 @@ const ChitRegisterContainer = () => {
     const [modalSelect, setModalSelect] = useState<{production: {pk: string, manager: string, material_name: string, supplier_name: string}}>({
         production: {manager: '', material_name: '', supplier_name: '', pk: ''}
     })
+    const history = useHistory();
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
         start: moment().format("YYYY-MM-DD"),
         end: moment().format("YYYY-MM-DD"),
@@ -58,8 +60,9 @@ const ChitRegisterContainer = () => {
             registerer: chitData.registerer,
             deadline: selectDate,
             goal: chitData.goal
-
         });
+
+        history.goBack()
     }, [chitData])
 
     return (

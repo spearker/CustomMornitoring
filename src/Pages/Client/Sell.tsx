@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
 
 import 'react-dropdown/style.css'
 
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
+import {ROUTER_MENU_LIST} from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
@@ -63,7 +61,7 @@ const ClientSell = () => {
     name:'거래처명',
     product_name:'제품명',
     stock: '수량',
-    price:'총 금액(원)', 
+    price:'총 금액(원)',
     created:'등록일',
   }
   const subIndexList = {
@@ -73,12 +71,12 @@ const ClientSell = () => {
     condition:'대금지급조건'
   }
 
- 
- 
+
+
 
   useEffect(()=>{
     //getList()
-   
+
   },[])
 
 
@@ -88,11 +86,11 @@ const ClientSell = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`매출 관리 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-           
-            <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+
+            <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={()=>{}}
                 onClickEvent={()=>{}}
                 button={{
@@ -100,19 +98,19 @@ const ClientSell = () => {
                   event: setIsOpen
                 }}
                 />
-                 
+
             </div>
           </div>
 
-          <MultiButtonTaskTable 
-            indexList={indexList} 
-            subIndexList={subIndexList} 
-            target={target} 
-            keyName={'pk'} 
-            contents={list} 
+          <MultiButtonTaskTable
+            indexList={indexList}
+            subIndexList={subIndexList}
+            target={target}
+            keyName={'pk'}
+            contents={list}
             events={[
               {name: '수정', event: ()=>{}},
-            ]} 
+            ]}
             onClickEvent={()=>{}}/>
 
         </InnerBodyContainer>
@@ -125,14 +123,14 @@ const ClientSell = () => {
                   <NormalInput title={'수량'} value={stock} onChangeEvent={setStock} description={''} />
                   <NormalInput title={'개당단가'} value={price} onChangeEvent={setPrice} description={''} />
                   <NormalInput title={'날짜'} value={date} onChangeEvent={setDate} description={''} />
-              
-                 
+
+
               </BasicPopupContainer>
             }
 
 
       </DashboardWrapContainer>
-      
+
   );
 }
 

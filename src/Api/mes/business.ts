@@ -1,6 +1,4 @@
 import client from '../configs/common';
-import React, {useReducer, useCallback} from 'react';
-import * as _ from 'lodash';
 
 /**
  * postContractRegister()

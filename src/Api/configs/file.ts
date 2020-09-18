@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from '../../lib/tokenFunctions';
+
 const TOKEN_NAME = 'sizl_auth'
 
 /**

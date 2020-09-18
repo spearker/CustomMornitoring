@@ -1,33 +1,16 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
+import {getToken} from '../../Common/tokenFunctions';
 import 'react-dropdown/style.css'
-import {dataSet} from '../../Common/dataset'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import CardList from '../../Components/Card/CardList';
-import SmallButton from '../../Components/Button/SmallButton';
-import { getRequest } from '../../Common/requestFunctions';
+import {getRequest} from '../../Common/requestFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
+import {ROUTER_MENU_LIST} from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import MachineList from './Machine';
-import ItemList from '../../Components/List/ItemList';
-import IC_UP from '../../Assets/Images/ic_reply_up.png'
-import IC_DOWN from '../../Assets/Images/ic_reply_down.png'
-import icCloudOn from '../../Assets/Images/ic_cloud.png'
-import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
-import icCircle from '../../Assets/Images/ic_circle.png'
-import icCircleRotate from '../../Assets/Images/ic_circle_rotate.png'
-import tempIamge from '../../Assets/Images/temp_machine.png'
-import BasicColorButtonLink from '../../Components/Button/BasicColorButtonLink';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
-import { Link } from 'react-router-dom';
 import ProcessCard from '../../Components/Card/ProcessCard';
 // 공정 리스트
 const ProcessList = () => {

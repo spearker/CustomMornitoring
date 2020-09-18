@@ -1,6 +1,4 @@
 import client from '../configs/basic';
-import React, {useReducer, useCallback} from 'react';
-import * as _ from 'lodash';
 
 
 /**
@@ -12,6 +10,20 @@ import * as _ from 'lodash';
  */
 export const getProjectList = async( url: string) =>{
     const temp: IServerData = await client.get(url);
+    return temp.results
+}
+
+/**
+ * getProjectList()
+ * 생산 계획 관리 리스트/ 생산 계획 리스트 불러오기
+ * @param {string} url 링크 주소기
+ * @param object
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 정민
+ */
+
+export const postProjectDelete = async( url: string, object: object) =>{
+    const temp: IServerData = await client.post(url, object);
     return temp.results
 }
 
@@ -64,7 +76,7 @@ export const API_URLS = {
         procedure: `/v1/chit/load/procedure`
     },
     production: {
-        add: `/v1/project/add`,
+        add: `/v1/project/history/register`,
         register: `/v1/project/register`,
         delete: `/v1/project/delete`,
         list: `/v1/project/list`,

@@ -17,7 +17,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {API_URLS, getProjectList } from "../../Api/mes/production";
+import {API_URLS, getProjectList, postProjectDelete} from "../../Api/mes/production";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 
@@ -29,12 +29,9 @@ const VoucherContainer = () => {
     const [BOMlist, setBOMList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>({
-        pk: "",
-        max_count: 0,
-        current_count: 0,
-    });
-    const [index, setIndex] = useState({registerer_name:'등록자'});
+    const [detailList,setDetailList] = useState<any>({});
+    const [index, setIndex] = useState({registerer:'등록자'});
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -43,7 +40,7 @@ const VoucherContainer = () => {
 
     const indexList = {
         voucher: {
-            registerer_name: '등록자',
+            registerer: '등록자',
             supplier_name: '납품 업체',
             material_name: '품목(품목명)',
             goal: '생산 할 수량',
@@ -107,6 +104,7 @@ const VoucherContainer = () => {
         },
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
@@ -160,16 +158,28 @@ const VoucherContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
-
-
 
     }, [list, selectPk]);
 
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        list.map((v,i)=>{
+            console.log(v.pk)
+            tmpPk.push(v.pk)
+        })
+        setDeletePk({...deletePk, keys: tmpPk})
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        deletePk.keys.push(Data.pk)
+        console.log(deletePk.keys)
+    },[deletePk])
+
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+        const tempUrl = `${API_URLS['chit'].load}?pk=${pk}`
         const res = await getProjectList(tempUrl)
 
         setDetailList(res)
@@ -181,9 +191,22 @@ const VoucherContainer = () => {
         const tempUrl = `${API_URLS['chit'].list}?page=1`
         const res = await getProjectList(tempUrl)
 
-        setList(res.info_list)
+        const getVoucher = res.info_list.map((v,i)=>{
+            const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            return {...v, current_amount: current_amount, goal: goal}
+        })
+
+        setList(getVoucher)
 
     },[list])
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['chit'].delete}`
+        const res = await postProjectDelete(tempUrl, deletePk)
+        console.log(res)
+
+    },[deletePk])
 
     useEffect(()=>{
         getList()
@@ -193,7 +216,7 @@ const VoucherContainer = () => {
         // setList(dummy)
         setBOMList(BOMvalue)
         setEventList(eventdummy)
-        setDetailList(detaildummy)
+        // setDetailList(detaildummy)
     },[])
 
     return (
@@ -201,7 +224,9 @@ const VoucherContainer = () => {
             <OvertonTable
                 title={'전표 리스트'}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
                 allCheckbox={true}
+                checkOnClickEvent={checkOnClick}
                 checkBox={true}
                 indexList={index}
                 valueList={list}
@@ -230,7 +255,7 @@ const VoucherContainer = () => {
                                     </BarcodeContainer>
                             </VoucherDropdown>
                             <VoucherDropdown pk={'124'} name={'BOM'} clickValue={'124'}>
-                                <div style={{display:"flex", flexDirection:"row"}}>
+                                <div style={{display:"flex", flexDirection:"row",marginTop: 15}}>
                                     {
                                         Object.keys(BOMindex).map((v, i) => {
                                             console.log('sfsdfdsewwefwefwefwee',BOMindex[v])
@@ -266,6 +291,7 @@ const VoucherContainer = () => {
 }
 
 const BarcodeContainer = Styled.div`
+    margin-top: 10px;
     padding: 10px;
     width: 96.3%;
     height: 184px;

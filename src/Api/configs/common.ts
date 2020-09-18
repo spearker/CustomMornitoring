@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { getToken } from '../../Common/tokenFunctions';
-import { TOKEN_NAME } from '../../Common/configset';
 
 /**
  *

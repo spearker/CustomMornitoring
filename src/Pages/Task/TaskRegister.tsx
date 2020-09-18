@@ -1,42 +1,29 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {BASE_URL, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
+import {getToken} from '../../Common/tokenFunctions';
 import 'react-dropdown/style.css'
-import {dataSet} from '../../Common/dataset'
 import moment from 'moment'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest, getParameter, postRequest } from '../../Common/requestFunctions';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import InputContainer from '../../Containers/InputContainer';
 import PlaneInput from '../../Components/Input/PlaneInput';
 import AddInput from '../../Components/Input/AddInput';
 import TextList from '../../Components/List/TextList';
 import SearchModalContainer from '../../Containers/SearchModalContainer';
 import SearchInput from '../../Components/Input/SearchInput';
-import AddList from '../../Components/List/AddList';
 import SearchedList from '../../Components/List/SearchedList';
-import NormalInput from '../../Components/Input/NormalInput';
-import DateRangeInput from '../../Components/Input/DateRangeInput';
 import MemberInput from '../../Components/Input/MemberInput';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalNumberInput from '../../Components/Input/NormalNumberInput';
-import { useUser } from '../../Context/UserContext';
+import {useUser} from '../../Context/UserContext';
 import IC_ADD from '../../Assets/Images/ic_file_add.png'
-import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
 import FileTumbCard from '../../Components/Card/FileTumbCard';
 import BasicToggle from '../../Components/Toggle/BasicToggle';
 import ProcessTable from '../../Components/Table/ProcessTable';
 import SmallButton from '../../Components/Button/SmallButton';
-import { uploadTempFile } from '../../Common/fileFuctuons';
+import {uploadTempFile} from '../../Common/fileFuctuons';
 
 // 작업 지시서 등록
 const TaskRegister = () => {

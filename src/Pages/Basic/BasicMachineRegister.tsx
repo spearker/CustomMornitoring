@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
@@ -7,22 +7,18 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
+import {getToken} from '../../Common/tokenFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { MES_MENU_LIST } from '../../Common/routerset';
 import DropdownInput from '../../Components/Input/DropdownInput';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
-import { uploadTempFile } from '../../Common/fileFuctuons';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
+import {uploadTempFile} from '../../Common/fileFuctuons';
 import {getMachineTypeList} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
-import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
-import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
-import { JsonStringifyList } from '../../Functions/JsonStringifyList';
+import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
 

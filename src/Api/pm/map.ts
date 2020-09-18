@@ -1,6 +1,4 @@
 import client from '../configs/map';
-import React, {useReducer, useCallback} from 'react';
-import * as _ from 'lodash';
 
 /**
  * getMonitoringMapData();

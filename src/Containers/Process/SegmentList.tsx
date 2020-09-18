@@ -133,18 +133,6 @@ const SegmentListContainer = () => {
     },[deletePk])
 
 
-    const allCheckonClick = useCallback(() => {
-
-    },[])
-
-    const checkOnClick = useCallback((segment) => {
-        console.log(segment.pk)
-        if(segment.pk) {
-
-        }
-    },[])
-
-
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
         const tempUrl = `${API_URLS['segment'].load}?pk=${pk}`

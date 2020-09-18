@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
-import Styled, { withTheme, DefaultTheme } from "styled-components";
-import { useHistory, Link } from "react-router-dom";
+import React, {useCallback, useEffect, useState} from "react";
+import Styled from "styled-components";
+import {Link, useHistory} from "react-router-dom";
 import CommonDropdown from "../../Components/Dropdown/CommonDropdown";
 import useObjectInput from "../../hooks/UseInput";
 import ArrayDataDropdown from "../../Components/Dropdown/ArrayDataDropdown";
 import CheckboxInput from "../../Components/Input/CheckboxInputMapEdit";
-import _ from "lodash";
-import ComponentMarker from "../../Components/MapEdit/ComponentMarker";
 import MapBoard from "../../Components/MapEdit/MapBoard";
-import { API_URLS, getCommonList, saveCommonData, getCommonData } from "../../Api/map";
-import { uploadTempFile } from "../../Api/file";
-import { Slider } from '@material-ui/core';
+import {API_URLS, getCommonData, getCommonList, saveCommonData} from "../../Api/map";
+import {uploadTempFile} from "../../Api/file";
+import {Slider} from '@material-ui/core';
 
 interface Props {
   match: any;

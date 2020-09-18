@@ -1,16 +1,10 @@
-
-import React, { useEffect, useState, useContext, useCallback } from 'react';
-import Styled, { withTheme } from 'styled-components'
-import { BrowserRouter as Router, Redirect, Link} from 'react-router-dom';
-import WelcomeNavigation from '../../Components/Navigation/WelcomNavigation'
-import WelcomeFooter from '../../Components/Footer/WelcomeFooter'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH} from '../../Common/configset'
+import React, {useCallback, useState} from 'react';
+import Styled from 'styled-components'
+import {BG_COLOR_SUB2} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
-import { read } from 'fs';
-import SuperNavigation from '../../Components/Navigation/SuperNavigation';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_SUPER_ADMIN } from '../../Common/routerset';
+import {ROUTER_SUPER_ADMIN} from '../../Common/routerset';
 
 // 회사 등록 페이지
 

@@ -1,11 +1,8 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import Styled, { withTheme, DefaultTheme } from 'styled-components'
-import { useHistory, Link } from 'react-router-dom';
-import Axios from "axios";
-import CommonTable from '../../Components/Table/CommonTable';
-import { getCommonList, API_URLS } from '../../Api/map';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {useHistory} from 'react-router-dom';
 
-import {getAdminData, API_URLS as API_URLSADMIN, postMapDeleteData} from '../../Api/admin/company';
+import {API_URLS as API_URLSADMIN, getAdminData, postMapDeleteData} from '../../Api/admin/company';
 import OvertonTable from "../../Components/Table/OvertonTable";
 
 

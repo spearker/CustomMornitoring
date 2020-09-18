@@ -1,22 +1,18 @@
-import React, { useEffect, useRef, useState, useContext , useCallback} from 'react';
-import Styled, { withTheme } from 'styled-components'
-import {BASE_URL, BG_COLOR, BG_COLOR_SUB, SYSTEM_NAME, BG_COLOR_SUB2, COMPANY_LOGO, POINT_COLOR, MAX_WIDTH, TOKEN_NAME} from '../../Common/configset'
-import Axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
+import Styled from 'styled-components'
+import {BG_COLOR_SUB, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import 'react-dropdown/style.css'
-import {dataSet} from '../../Common/dataset'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import { getRequest, postRequest } from '../../Common/requestFunctions';
-import SuperNavigation from '../../Components/Navigation/SuperNavigation';
+import {getRequest, postRequest} from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import BTN_UP from '../../Assets/Images/btn_up_rank.png';
 import BTN_DOWN from '../../Assets/Images/btn_down_rank.png';
 import BTN_DELETE from '../../Assets/Images/btn_delete_rank_g.png';
-import {      ROUTER_MENU_LIST } from '../../Common/routerset';
+import {ROUTER_MENU_LIST} from '../../Common/routerset';
 
 const Ranks = () => {
 
