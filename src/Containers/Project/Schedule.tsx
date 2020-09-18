@@ -8,10 +8,13 @@ import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {postSegmentDelete} from "../../Api/mes/process";
-
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 const ScheduleContainer = () => {
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
@@ -90,11 +93,6 @@ const ScheduleContainer = () => {
         console.log(deletePk.keys)
     },[deletePk])
 
-    const checkOnClick = useCallback((Data) => {
-        deletePk.keys.push(Data.pk)
-        console.log(deletePk.keys)
-    },[deletePk])
-            
     const voucherIndexList = {
         schedule: {
             registerer: "등록자",
@@ -138,7 +136,7 @@ const ScheduleContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['production'].list}?from=${'2020-09-01'}&to=${'2020-09-20'}&page=${1}`
+        const tempUrl = `${API_URLS['production'].list}?from=${'2020-09-01'}&to=${'2020-09-20'}&page=${page.current}`
         const res = await getProjectList(tempUrl)
         const getprocesses = res.info_list.map((v,i)=>{
 
@@ -148,7 +146,7 @@ const ScheduleContainer = () => {
             return {...v, state: statement, amount: amount}
         })
 
-
+        setPage({ current: res.current_page, total: res.total_page })
         setList(getprocesses)
 
     },[list])
@@ -171,9 +169,9 @@ const ScheduleContainer = () => {
     },[deletePk])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["schedule"])
-        setList(dummy)
+        // setList(dummy)
         setTitleEventList(titleeventdummy)
         setProcess(detailDummy)
         setDetailTitleEventList(detailTitleEvent)
@@ -217,6 +215,7 @@ const ScheduleContainer = () => {
                     null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

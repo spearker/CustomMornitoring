@@ -5,9 +5,13 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getProjectList, postProjectDelete} from "../../Api/mes/production";
 import VoucherDropdown from "../../Components/Dropdown/VoucherDropdown";
 import {useHistory} from "react-router-dom";
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 const VoucherContainer = () => {
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [list, setList] = useState<any[]>([]);
     const [BOMlist, setBOMList] = useState<any[]>([]);
@@ -172,7 +176,7 @@ const VoucherContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['chit'].list}?page=1`
+        const tempUrl = `${API_URLS['chit'].list}?page=${page.current}`
         const res = await getProjectList(tempUrl)
 
         const getVoucher = res.info_list.map((v,i)=>{
@@ -181,6 +185,7 @@ const VoucherContainer = () => {
             return {...v, current_amount: current_amount, goal: goal}
         })
 
+        setPage({ current: res.current_page, total: res.total_page })
         setList(getVoucher)
 
     },[list])
@@ -270,6 +275,7 @@ const VoucherContainer = () => {
                         null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

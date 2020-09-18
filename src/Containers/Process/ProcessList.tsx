@@ -6,9 +6,13 @@ import {API_URLS, getProcessList, postProcessDelete} from "../../Api/mes/process
 import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {postCustomerDelete} from "../../Api/mes/customer";
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 const ProcessListContainer = () => {
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [list, setList] = useState<any[]>([]);
     const [BOMlist, setBOMList] = useState<any[]>([]);
@@ -158,7 +162,7 @@ const ProcessListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['process'].list+'?page=1'}`
+        const tempUrl = `${API_URLS['process'].list+'?page='}+${page.current}`
         const res = await getProcessList(tempUrl)
 
         const getprocesses = res.info_list.map((v,i)=>{
@@ -166,6 +170,7 @@ const ProcessListContainer = () => {
             return {...v, type: processType}
         })
 
+        setPage({ current: res.current_page, total: res.total_page })
         setList(getprocesses)
 
     }, [list])
@@ -202,6 +207,7 @@ const ProcessListContainer = () => {
                         null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

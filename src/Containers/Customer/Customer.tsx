@@ -6,8 +6,12 @@ import {useHistory} from "react-router-dom";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 const ClientContainer = () => {
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [list, setList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
@@ -44,10 +48,11 @@ const ClientContainer = () => {
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=1`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
     },[option,searchValue])
 
 
@@ -57,10 +62,11 @@ const ClientContainer = () => {
     },[searchValue])
 
     const searchOnClick = useCallback(async () => {
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option)}&page=1`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option)}&page=${page.current}`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
     },[searchValue,option])
 
     const eventdummy = [
@@ -93,10 +99,12 @@ const ClientContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option}&page=1`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
         const res = await getCustomerData(tempUrl)
 
+        console.log('response', res)
         setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
     },[searchValue,option,list])
 
     useEffect(()=>{
@@ -133,6 +141,7 @@ const ClientContainer = () => {
                 checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import 'react-dropdown/style.css'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import InfoTable from '../../Components/Table/InfoTable';
 import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic';
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 interface Props{
   type: string
@@ -15,11 +16,14 @@ const optionList = [
 
 // 리스트 부분 컨테이너
 const BasicListContainer = ({type}:Props) => {
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 0,
+  });
 
   const [list, setList] = useState<any>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
-  const [page, setPage] = useState<number>(0);
+  // const [page, setPage] = useState<number>(0);
   const [pageType, setPageType] = useState<string>(type);
 
   useEffect(()=>{
@@ -39,9 +43,13 @@ const BasicListContainer = ({type}:Props) => {
    * 목록 불러오기
    */
   const getList = useCallback(async (pageType)=>{
-    const tempUrl = `${API_URLS[pageType].list}?page=${page}&keyword=${keyword}&type=${option}`
+    const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}`
     const resultList = await getBasicList(tempUrl);
-    setList(resultList);
+    setList(resultList.items);
+
+    console.log(resultList)
+
+     setPage({ current: resultList.current_page+1, total: resultList.total_page+1 })
 
   },[list, keyword, option, pageType])
 
@@ -92,6 +100,9 @@ const BasicListContainer = ({type}:Props) => {
               contents={list}
               onClickRemove={onClickDelete}/>
           }
+
+          {console.log('pagination info', page)}
+          <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </>
   );
 }

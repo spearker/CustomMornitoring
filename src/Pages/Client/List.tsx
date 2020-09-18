@@ -13,10 +13,19 @@ import {getRequest, postRequest} from '../../Common/requestFunctions';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import InfoTable from '../../Components/Table/InfoTable';
+import DotPagenation from '../../Components/Pagenation/DotPagenation'
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
+interface PaginationInfo {
+  current: number,
+  total?: number,
+}
 const ClientList = () => {
 
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  });
   const [list, setList] = useState<IMaintenance[]>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
@@ -48,6 +57,7 @@ const ClientList = () => {
     }else{
       if(results.status === 200){
         setList(results.results)
+        setPage({ current: results.results.current_page, total: results.results.total_page })
         setKeyword('')
       }else{
        ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -69,6 +79,7 @@ const ClientList = () => {
     }else{
       if(results.status === 200){
         setList(results.results)
+        setPage({ current: results.results.current_page, total: results.results.total_page })
       }else{
        ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
@@ -92,6 +103,7 @@ const ClientList = () => {
     }else{
       if(results.status === 200){
         setList(results.results)
+        setPage({ current: results.results.current_page, total: results.results.total_page })
       }else{
        ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
@@ -148,9 +160,8 @@ const ClientList = () => {
 
           <InfoTable indexList={index} type={'client'} pkKey={'pk'} onClickLinkUrl="/update/client?pk=" contents={list} onClickRemove={onClickDelete}/>
 
-
-
         </InnerBodyContainer>
+
       </DashboardWrapContainer>
 
   );

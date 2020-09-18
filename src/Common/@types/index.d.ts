@@ -413,3 +413,8 @@ interface Factory{
   pk: string | number,
   name: string,
 }
+
+interface PaginationInfo {
+  current: number,
+  total?: number,
+}

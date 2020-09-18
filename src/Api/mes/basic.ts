@@ -10,7 +10,7 @@ import client from '../configs/basic';
 export const getBasicList = async( url: string) =>{
     const temp: IServerData = await client.get(url);
     //console.log(temp.results.items);
-    return temp.results.items!;
+    return temp.results!;
 }
 
 /**

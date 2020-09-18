@@ -1,9 +1,13 @@
 import React, {useCallback, useEffect, useState,} from "react";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import {API_URLS, getProjectList} from "../../Api/mes/production";
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 const ScheduleManageContainer = () => {
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
@@ -109,9 +113,10 @@ const ScheduleManageContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['production'].list}?from=${'2020-08-31'}&to=${'2020-09-13'}&page=${1}`
+        const tempUrl = `${API_URLS['production'].list}?from=${'2020-08-31'}&to=${'2020-09-13'}&page=${page.current}`
         const res = await getProjectList(tempUrl)
 
+        setPage({ current: res.current_page, total: res.total_page })
 
         setList(res.info_list)
 
@@ -140,6 +145,7 @@ const ScheduleManageContainer = () => {
                 noChildren={true}
                 mainOnClickEvent={onClick}>
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

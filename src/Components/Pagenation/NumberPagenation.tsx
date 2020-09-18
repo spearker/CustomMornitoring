@@ -11,6 +11,7 @@ interface IProps{
 }
 const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
 
+  console.log('props', stock, selected)
     const dotList: any[] = [];
     const DotOn = Styled.p`
     width:10;
@@ -48,7 +49,7 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
 
     return (
 
-        <div style={{textAlign:'center'}}>
+        <div style={{textAlign:'center', marginTop: 20}} id={"NumberPagination"}>
             <a onClick={()=>{onClickEvent(selected === 1 ? 1 : selected-1); }}>
                 <DotOff>{"<"}</DotOff>
             </a>
@@ -59,7 +60,7 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
         </div>
 
 
-    ); 
+    );
 }
 
 
