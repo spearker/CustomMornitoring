@@ -17,7 +17,7 @@ const optionList = [
 // 리스트 부분 컨테이너
 const BasicListContainer = ({type}:Props) => {
   const [page, setPage] = useState<PaginationInfo>({
-    current: 0,
+    current: 1,
   });
 
   const [list, setList] = useState<any>([]);
@@ -43,7 +43,7 @@ const BasicListContainer = ({type}:Props) => {
    * 목록 불러오기
    */
   const getList = useCallback(async (pageType)=>{
-    const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}`
+    const tempUrl = `${API_URLS[pageType].list}?page=${page.current-1}&keyword=${keyword}&type=${option}`
     const resultList = await getBasicList(tempUrl);
     setList(resultList.items);
 
