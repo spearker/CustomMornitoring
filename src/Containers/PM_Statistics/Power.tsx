@@ -127,6 +127,7 @@ const PowerContainer = () => {
                 tempArray = {...tempArray, [index.press_name] : [index.press_data]}
             }
         })
+
         Object.keys(tempArray).map((v,i) => {
             tmpArr = [...tmpArr, {name: v, data: tempArray[v]}]
         })

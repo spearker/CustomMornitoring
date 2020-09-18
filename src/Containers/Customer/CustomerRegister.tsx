@@ -51,7 +51,7 @@ const CustomerRegister = ({ match }: Props)  => {
 
 
     useEffect(()=>{
-        if( match.params.pk  ){
+        if( match.params.pk ){
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
             getData()

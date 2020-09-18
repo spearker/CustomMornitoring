@@ -176,11 +176,11 @@ const ProcessDetailRegisterContainer = () => {
                                                     </HeaderTable>
                                                     {
                                                         machineList.map((v, i) => {
-                                                            return( <HeaderTable style={{border: 0, width: 300, paddingLeft: 0}}>
+                                                            return( <HeaderTable style={{border: 0, width: 400, paddingLeft: 0}}>
                                                                 <div style={{width: 190}}>
                                                                     <p>{v.machine_name}</p>
                                                                 </div>
-                                                                <div style={{width: 100}}>
+                                                                <div style={{width: 210}}>
                                                                     <p>{v.mold_info.mold_name && v.mold_info.mold_name}</p>
                                                                 </div>
                                                             </HeaderTable>)
