@@ -34,9 +34,12 @@ interface Props {
     onClickEvent?: any
     noChildren?: boolean
     children?: any
+    calendarState?: boolean
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,children}:Props) => {
+
+const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,calendarState,children}:Props) => {
+
 
     const [checked, setChecked] = useState<any[]>([])
     const [option, setOption] = useState<number>(0)
@@ -81,7 +84,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                 }
                 {calendar !== undefined || false ?
                     <div style={{marginRight: 15}}>
-                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => calendarOnClick(start,end)}/>
+                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})} unLimit={calendarState}/>
                     </div>
                     :
                     null

@@ -224,7 +224,8 @@ const ScheduleContainer = () => {
                 clickValue={selectValue}
                 checkOnClickEvent={checkOnClick}
                 checkBox={true}
-                mainOnClickEvent={onClick}>
+                mainOnClickEvent={onClick}
+                calendarState={true}>
                 {
                     selectPk !== null ?
                     <LineTable title={selectMaterial}  titleOnClickEvent={detailTitleEventList}>

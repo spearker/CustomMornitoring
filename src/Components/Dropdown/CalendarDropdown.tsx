@@ -14,8 +14,10 @@ interface IProps{
     selectRange?: {start: string, end: string}
     type: "range" | "single"
     onClickEvent: (date: string, date2?: string) => void
+    unLimit?: boolean
 }
-const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => {
+
+const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -57,7 +59,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
                             <div style={{display: "inline-block", float: "left", flex: 1, marginRight: 20}}>
                                 {type === 'range' && <p>시작 날짜</p>}
                                 <Calendar
-                                    maxDate={moment().subtract(1, 'days').toDate()}
+                                    maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : moment().subtract(1, 'days').toDate()}
                                     onChange={(date)=>{
                                         if(type === 'range'){
                                             if(selectRange){
@@ -79,7 +81,8 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
                                 <div style={{display: "inline-block", float: "left", flex: 1}}>
                                     {type === 'range' && <p>종료 날짜</p>}
                                     <Calendar
-                                        maxDate={moment().subtract(1, 'days').toDate()}
+                                        maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : moment().subtract(1, 'days').toDate()}
+                                        minDate={moment(selectRange?.start).toDate()}
                                         onChange={(date)=>{
                                             if(selectRange){
                                                 onClickEvent(selectRange.start, moment(String(date)).format("YYYY-MM-DD"))
@@ -87,7 +90,8 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type}: IProps) => 
                                             setIsOpen(false)
                                         }}
                                         value={
-                                            selectRange ? selectRange.end === '' ? moment().toDate() : moment(selectRange.end).toDate() : moment().toDate()
+                                            selectRange
+                                              ? selectRange.end === '' ? moment().toDate() : moment(selectRange.end).toDate() : moment().toDate()
                                         }
                                     />
                                 </div>
