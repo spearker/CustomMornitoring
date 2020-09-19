@@ -177,7 +177,7 @@ const SegmentListContainer = () => {
 
         setPage({ current: res.current_page, total: res.total_page })
 
-        setList(res)
+        setList(res.info_list)
 
     },[list])
 

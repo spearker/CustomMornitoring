@@ -116,28 +116,22 @@ const CustomerRegister = ({ match }: Props)  => {
         if(res === false){
             //TODO: 에러 처리
         }else{
-            if(res.status === 200){
-                const data = res.results;
-                setName(data.name);
-                setPk(data.pk);
-                setNo(Number(data.number));
-                setType(Number(data.type));
-                setPk(data.pk);
-                setCeo(data.ceo);
-                setOldPaths([data.photo])
-                setPhone(data.telephone);
-                setEmailM(data.manager_email);
-                setPhoneM(data.manager_phone)
-                setManager(data.manager)
-                setEmail(data.ceo_email)
+            setName(res.name);
+            setPk(res.pk);
+            setNo(Number(res.number));
+            setType(Number(res.type));
+            setPk(res.pk);
+            setCeo(res.ceo_name);
+            setPaths([res.photo])
+            setPhone(res.telephone);
+            setEmailM(res.manager_email);
+            setPhoneM(res.manager_phone)
+            setManager(res.manager)
+            setEmail(res.ceo_email)
 
-                setInfoList(data.info_list)
-                setAddress(data.address);
-                setFax(data.fax);
-
-            }else{
-                //TODO:  기타 오류
-            }
+            setInfoList(res.info_list)
+            setAddress(res.address.roadAddress+' '+ res.address.detail);
+            setFax(res.fax);
         }
     },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
 
@@ -185,13 +179,9 @@ const CustomerRegister = ({ match }: Props)  => {
         if(res === false){
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }else{
-            if(res.status === 200){
                 //alert('성공적으로 수정 되었습니다')
                 setIsUpdate(false)
                 history.goBack()
-            }else{
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
         }
 
     },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
@@ -288,7 +278,7 @@ const CustomerRegister = ({ match }: Props)  => {
                     <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
                     {
                         isUpdate ?
-                            <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true} />
+                            <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={['']} isImage={true} />
                             :
                             null
                     }

@@ -24,6 +24,8 @@ const ScheduleContainer = () => {
     const [detailList,setDetailList] = useState<{chit_list: any[], name: string, process: any[], state: boolean}>({chit_list: [],name: '', process: [], state: false});
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [index, setIndex] = useState({manager_name:'계획자명'});
+    const [voucherDropdown, setVoucherDropdown] = useState<string>('');
+    const [voucherDropdown2, setVoucherDropdown2] = useState<string>('');
     const [voucherIndex, setVoucherIndex] = useState({registerer: "등록자"});
     const [voucherList, setVoucherList] = useState<any[]>([])
     const [process, setProcess ] = useState<any[]>([]);
@@ -131,6 +133,20 @@ const ScheduleContainer = () => {
         setList(getprocesses)
     },[selectDate])
 
+    const voucherOnClick = useCallback((voucher)=>{
+        if(voucher === 1) {
+            voucherDropdown === '123' ?
+                setVoucherDropdown('')
+                :
+                setVoucherDropdown('123')
+        }else {
+            voucherDropdown2 === '123' ?
+                setVoucherDropdown2('')
+                :
+                setVoucherDropdown2('123')
+        }
+    },[voucherDropdown,voucherDropdown2])
+
     const onClick = useCallback((segment) => {
         if(segment.pk === selectPk){
             setSelectPk(null);
@@ -229,13 +245,14 @@ const ScheduleContainer = () => {
                 {
                     selectPk !== null ?
                     <LineTable title={selectMaterial}  titleOnClickEvent={detailTitleEventList}>
-                        <VoucherDropdown pk={'123'} name={'생산 계획 공정'} clickValue={'123'}>
+                        <VoucherDropdown pk={'123'} name={'생산 계획 공정'} onClickEvent={()=>voucherOnClick(1)} clickValue={voucherDropdown}>
                             <div style={{display:"flex", flexDirection: "row"}}>
-                            {detailList.process.map((v,i)=>{
+                            {detailList.process.length !== 0  ?
+                                detailList.process.map((v,i)=>{
                                 if(detailList.process.length === i+1){
                                     return(
                                     <>
-                                        <FactoryBox title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material} />
+                                        <FactoryBox  title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material} />
                                     </>)
                                 }else {
                                     return(
@@ -243,10 +260,13 @@ const ScheduleContainer = () => {
                                         <FactoryBox title={v.process_name} inputMaterial={v.input_material} productionMaterial={v.output_material}/>
                                         <img src={next} style={{width: 47, height: 17, marginLeft: 20, marginTop: 135, marginRight: 20}}/>
                                     </>)
-                                }})}
+                                }})
+                                :
+                                <p style={{marginTop:20, width: '100%', textAlign: 'center',  fontFamily: "NotoSansCJKkr-Bold",  fontSize: "17px"}}>조회 가능한 데이터가 없습니다.</p>
+                            }
                             </div>
                         </VoucherDropdown>
-                        <VoucherDropdown pk={'123'} name={'전표 리스트'} clickValue={'123'}>
+                        <VoucherDropdown pk={'123'} name={'전표 리스트'} onClickEvent={()=>voucherOnClick(2)} clickValue={voucherDropdown2}>
                                 <LineTable contentTitle={voucherIndex}  contentList={voucherList}>
                                     <Line/>
                                 </LineTable>

@@ -75,7 +75,7 @@ const ScheduleManageContainer = () => {
         //     Name: '수정',
         // },
         {
-            Name: '취소',
+            Name: '삭제',
             Link: () => postDelete()
         }
     ]

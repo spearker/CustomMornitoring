@@ -190,7 +190,7 @@ const VoucherContainer = ({ match }: Props) => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['chit'].list}?page=${page.current}`
+        const tempUrl = `${API_URLS['chit'].list}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&page=${page.current}`
         const res = await getProjectList(tempUrl)
 
         const getVoucher = res.info_list.map((v,i)=>{
@@ -238,7 +238,7 @@ const VoucherContainer = ({ match }: Props) => {
                 checkBox={true}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
+                // EventList={eventList}
                 clickValue={selectValue}
                 noChildren={true}>
                 {

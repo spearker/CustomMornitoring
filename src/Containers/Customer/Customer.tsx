@@ -29,7 +29,7 @@ const ClientContainer = () => {
             telephone: "전화 번호",
             fax: "팩스 번호",
             ceo_name: "대표자",
-            number: "사업자 번호",
+            crn: "사업자 번호",
             registered: "등록 날짜",
         }
     }

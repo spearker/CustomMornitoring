@@ -39,6 +39,7 @@ const BasicBarcodeRegister = () => {
   const [optional,setOptional] = useState<any[]>([]);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [pk, setPk] = useState<string>('');
+
   const [inputData, setInputData] = useObjectInput('CHANGE', initialData);
 
   useEffect(()=>{
@@ -62,6 +63,8 @@ const BasicBarcodeRegister = () => {
 
     if(result){
       const data = result;
+
+
       setInputData('pk', data.pk)
       setInputData('name', data.name)
       setInputData('rules', data.rules)

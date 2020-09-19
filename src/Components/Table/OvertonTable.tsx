@@ -40,7 +40,6 @@ interface Props {
 
 const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,calendarState,children}:Props) => {
 
-
     const [checked, setChecked] = useState<any[]>([])
     const [option, setOption] = useState<number>(0)
     const [allChecked, setAllChecked] = useState(false)
@@ -84,7 +83,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                 }
                 {calendar !== undefined || false ?
                     <div style={{marginRight: 15}}>
-                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})} unLimit={calendarState}/>
+                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => calendarOnClick(start,end)} unLimit={calendarState}/>
                     </div>
                     :
                     null
