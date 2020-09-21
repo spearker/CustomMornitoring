@@ -3,15 +3,20 @@ import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
 import DefectiveRegisterContainer from "../../Containers/Project/DefectiveRegister";
 
-const ChitRegister = () => {
+interface Props {
+    match: any;
+    chilren: string;
+}
+
+const DefectiveRegister = ({match}: Props) => {
     return (
         <DashboardWrapContainer index={'project'}>
 
             <InnerBodyContainer>
-                <DefectiveRegisterContainer />
+                <DefectiveRegisterContainer match={match} />
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default ChitRegister
+export default DefectiveRegister

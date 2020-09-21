@@ -86,6 +86,9 @@ export const API_URLS = {
         dropdown: `/v1/project/dropdown`,
         distribute: `/v1/project/distribute`
     },
+    defective:{
+        list: '/v1/defective/list'
+    },
     material: {
         search: `/v1/material/search`
     }

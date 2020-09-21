@@ -8,7 +8,6 @@ const DefectiveProject = () => {
 
     return (
         <DashboardWrapContainer index={'project'}>
-
             <InnerBodyContainer>
                 <Container/>
 

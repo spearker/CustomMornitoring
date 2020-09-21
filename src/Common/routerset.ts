@@ -168,6 +168,7 @@ export const MES_MENU_LIST = {
     { name : '생산 계획 관리 리스트', url: '/project/schedulemanage/list'},
     { name : '작업 이력', url: '/project/work/history'},
     { name : '전표 리스트', url: '/project/voucher/list'},
+    { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
     // { name: '재고 관리', url: '/stock/status/list'},
