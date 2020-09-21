@@ -21,6 +21,7 @@ import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import moment from "moment";
 import Styled from "styled-components";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import InputContainer from '../InputContainer'
 
 
 interface Props {
@@ -229,45 +230,43 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             <WhiteBoxContainer>
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
-                    <tr>
-                        <td>• 품목(품목명)</td>
-                        <td><ProductionPickerModal select={modalSelect.production}
-                                                   onClickEvent={(e) => {
-                                                       setModalSelect({...modalSelect, production: e })
-                                                   }} text={"품목명을 검색해주세요."} type={true}/></td>
-                    </tr>
-                    <tr>
-                        <td>• 기계</td>
-                        <td><MachinePickerModal select={
+                    <InputContainer title={"품목(품목명)"} width={120}>
+                        <ProductionPickerModal select={selectMaterial}
+                                               onClickEvent={(e) => {
+                                                   setSelectMaterial({...selectMaterial, ...e })
+                                               }} text={"품목명을 검색해주세요."} type={true}/>
+                    </InputContainer>
+                    <InputContainer title={"기계"} width={120}>
+                        <MachinePickerModal select={
                             selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
                         } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
                             setSelectMachine({...selectMachine, name: e.name, pk: e.pk})
-                        }}/></td>
-                    </tr>
-                    <NormalInput title={'검수자'} value={name} onChangeEvent={setName} description={'검수자'} />
-                    <NormalNumberInput title={'불량 개수'} value={no} onChangeEvent={setNo} description={'불량 개수를 입력하세요.'} />
-                    <tr>
-                        <td>• 불량 검수일</td>
-                        <td>
-                            <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
-                                <div style={{width: 817, display: 'table-cell'}}>
-                                    <div style={{marginTop: 5}}>
-                                        {
-                                            selectDate === ''
-                                                ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
-                                        }
-                                    </div>
+                        }}/>
+                    </InputContainer>
+                    <NormalInput title={'검수자'} value={name} onChangeEvent={setName} description={'검수자'} width={120} />
+                    <NormalNumberInput title={'불량 개수'} value={no} onChangeEvent={setNo} description={'불량 개수를 입력하세요.'} width={120} />
+                    <InputContainer title={"불량 검수일"} width={120}>
+                        <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
+                            <div style={{width: 817, display: 'table-cell'}}>
+                                <div style={{marginTop: 5}}>
+                                    {
+                                        selectDate === ''
+                                          ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
+                                          :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                                    }
                                 </div>
-                                <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
-                                    setSelectDate(select)
-                                }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                             </div>
-                        </td>
-                    </tr>
-                    <textarea maxLength={160} ref={textBoxRef} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width:'calc(100% - 24px)'}} placeholder="내용을 입력해주세요 (80자 미만)">
-                      {reason}
-                    </textarea>
+                            <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                                setSelectDate(select)
+                            }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
+                        </div>
+                    </InputContainer>
+                    <InputContainer title={"불량 사유"} width={120}>
+                        <textarea maxLength={160} ref={textBoxRef} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width:'calc(100% - 124px)'}} placeholder="내용을 입력해주세요 (80자 미만)">
+                            {reason}
+                        </textarea>
+                    </InputContainer>
+
                     <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
                 </form>
             </WhiteBoxContainer>

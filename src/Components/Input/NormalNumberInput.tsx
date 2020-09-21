@@ -9,16 +9,17 @@ interface IProps{
     description: string,
     value: number | undefined,
     onChangeEvent: any,
+  width?: number | string
     line?: boolean
 }
-const NormalNumberInput = ({title, line, description, value, onChangeEvent}: IProps) => {
+const NormalNumberInput = ({title, line, description, value, onChangeEvent, width}: IProps) => {
   useEffect(()=>{
 
   },[])
 
 
   return (
-        <InputContainer title={title} line={line}>
+        <InputContainer title={title} line={line} width={width}>
             { onChangeEvent !== null ?
             <InputBox type="number" value={value} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{onChangeEvent(e.target.value)}} placeholder={description}/>
             :
@@ -33,7 +34,7 @@ border: solid 0.5px #d3d3d3;
 font-size: 14px;
 padding: 6px;
 padding-left: 10px;
-width: calc(100% - 200px);
+width: calc(100% - 124px);
 background-color: #f4f6fa;
 `
 export default NormalNumberInput;

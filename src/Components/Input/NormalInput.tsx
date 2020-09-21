@@ -7,15 +7,16 @@ interface IProps {
     title: string,
     description?: string,
     value: string,
+    width?: number | string
     onChangeEvent?: any
 }
-const NormalInput = ({ title, description, value, onChangeEvent }: IProps) => {
+const NormalInput = ({ title, description, value, onChangeEvent, width }: IProps) => {
     useEffect(() => {
 
     }, [])
 
     return (
-        <InputContainer title={title}>
+        <InputContainer title={title} width={width}>
             {onChangeEvent !== null &&  onChangeEvent!== undefined ?
                 <InputBox type="text" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { onChangeEvent(e.target.value) }} placeholder={description ?? ''} />
                 :
@@ -30,7 +31,7 @@ const InputBox = Styled.input`
     font-size: 14px;
     padding: 6px;
     padding-left: 10px;
-    width: calc(100% - 200px);
+    width: calc(100% - 124px);
     background-color: #f4f6fa;
 `
 
