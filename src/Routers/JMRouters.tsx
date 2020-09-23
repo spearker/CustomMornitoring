@@ -30,7 +30,8 @@ import DefectiveRegister from "../Pages/Project/DefectiveRegister";
 import OutsourcingRegister from "../Pages/Outsourcing/OutsourcingRegister";
 import OrderRegister from "../Pages/Outsourcing/OrderRegister";
 import ContractRegister from "../Pages/Outsourcing/ContractRegister";
-
+import MoldCreate from "../Pages/Mold/MoldCreate";
+        
 //정민님 라우터
 const JMRouters = () => {
 
@@ -78,6 +79,7 @@ const JMRouters = () => {
             <Route exact path="/stock/rawmaterial/list" component={StockRawMaterial}/>
             <Route exact path="/stock/finishmaterial/list" component={StockFinishMaterial}/>
 
+            <Route exact path="/mold/create/list" component={MoldCreate}/>
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
         </Switch>
