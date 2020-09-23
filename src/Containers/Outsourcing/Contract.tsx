@@ -4,6 +4,7 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
 import {useHistory} from "react-router-dom";
+import {getCustomerData} from "../../Api/mes/customer";
 
 
 const ContractContainer = () => {
@@ -14,11 +15,17 @@ const ContractContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailEventList, setDetaileventList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any[]>([]);
+    const [contentsList, setContentsList] = useState<any[]>(['외주처명','대표자명'])
+    const [option, setOption] = useState<number>(0)
+    const [searchValue, setSearchValue] = useState<any>('')
     const [index, setIndex] = useState({ name: '외주처' });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const history = useHistory();
 
     const indexList = {
@@ -35,9 +42,8 @@ const ContractContainer = () => {
 
     const detailTitle = {
         contract: {
-            writer: '작성자',
-            price_per_unit: '개당 단가',
-            total_price: '총 금액',
+            writer: '담당자',
+            delivery_date: '납기일',
             location: '납품 장소',
             payment_condition: '대금 지급 조건',
             statement: '상태',
@@ -106,9 +112,17 @@ const ContractContainer = () => {
             // getData(mold.pk)
         }
 
-
-
     }, [list, selectPk]);
+
+    const optionChange = useCallback(async (filter:number)=>{
+        setOption(filter)
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+    },[option,searchValue])
+
 
     const eventdummy = [
         {
@@ -122,7 +136,7 @@ const ContractContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/outsourcing/register')
+            Link: ()=>history.push('/outsourcing/contract/register')
         },
         {
             Name: '삭제',
@@ -171,7 +185,11 @@ const ContractContainer = () => {
                 title={'외주처 수주 리스트'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
-                /* detaileOnClickEvent={detailEventList} */
+                dropDown={true}
+                dropDownContents={contentsList}
+                dropDownOption={option}
+                dropDownOnClick={optionChange}
+                searchBar={true}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}

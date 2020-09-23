@@ -23,7 +23,6 @@ const RawMaterialContainer = () => {
         rawmaterial: {
             item_pk: '품목(품목명)',
             materials_type: '자재 종류',
-            stock_type: '재고 분류',
             stock_quantity: '재고량',
             storage_location: '보관장소',
             safety_stock: '안전재고'
@@ -168,12 +167,9 @@ const RawMaterialContainer = () => {
         <div>
             <OvertonTable
                 title={'원자재 관리'}
-                titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {

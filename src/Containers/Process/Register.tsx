@@ -128,7 +128,7 @@ const ProcessRegisterContainer = () => {
                                                 }}/></td>
                                             </tr>
                                             <tr>
-                                                <td> &nbsp; 사용 금형</td>
+                                                <td>• 사용 금형</td>
                                                 <td><MoldPickerModal select={
                                                     selectMold && (selectMold.name && selectMold.pk) ? selectMold : undefined
                                                 } text={'금형명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {

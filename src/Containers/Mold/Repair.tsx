@@ -160,11 +160,9 @@ const RepairContainer = () => {
             <OvertonTable
                 title={'금형 수리 완료'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                checkBox={true}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?

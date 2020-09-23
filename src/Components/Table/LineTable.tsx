@@ -60,9 +60,6 @@ const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allC
             {contentList !== undefined && contentList.length === 0
                 ? (<Content><p style={{width: '100%', textAlign: 'center'}}>조회 가능한 데이터가 없습니다.</p></Content>)
                 : contentList&&contentList.map((v, i) => {
-                        {
-                            console.log('ㅇㅇㅇㅇ', contentList.length, i+1)
-                        }
                         return (
                             <>
                             <Content key={i} >

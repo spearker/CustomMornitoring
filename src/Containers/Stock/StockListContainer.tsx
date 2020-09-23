@@ -28,11 +28,10 @@ const StockListContainer = () => {
     const indexList = {
         stock_list: {
             item_name: "품목(품목명)",
-            // 자재 종류가 없습니다
-            stock_type: "재고 분류",
+            stock_type: "자재 종류",
             stock_quantity: "재고량",
             storage_location: "보관장소",
-            safety_stock: "안전재고"
+            safety_stock: "안전재고",
           }
     }
 
@@ -72,30 +71,6 @@ const StockListContainer = () => {
             storage_location: "창고01",
             safety_stock: "9,999,999"
         }
-    ]
-
-    const titleeventdummy = [
-        {
-            Name: '등록하기',
-            Width: 90,
-            Link: ()=>history.push('/manageStock/register')
-        },
-        {
-            Name: '삭제',
-        }
-    ]
-
-    const eventdummy = [
-        {
-            Name: '입고',
-            Width: 68,
-            Color: 'white'
-        },
-        {
-            Name: '출고',
-            Width: 68,
-            Color: 'white'
-        },
     ]
 
     const detailTitle = {
@@ -177,11 +152,9 @@ const StockListContainer = () => {
     useEffect(() => {
         // getList()
         setIndex(indexList["stock_list"])
-        setTitleEventList(titleeventdummy)
         setList(dummy)
         setDetailList(detailValue)
         setSubIndex(detailTitle['item_detailList'])
-        setEventList(eventdummy)
     }, [])
 
     return (
@@ -189,13 +162,9 @@ const StockListContainer = () => {
             <OvertonTable
                 title={'재고 현황'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
-                checkBox={true}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
-                clickValue={selectValue}
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={selectStock+' 입출고 현황'} contentTitle={subIndex} contentList={detailList}>

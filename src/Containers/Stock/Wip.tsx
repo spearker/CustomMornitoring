@@ -23,7 +23,6 @@ const WipContainer = () => {
         wip: {
             item_pk: '품목(품목명)',
             materials_type: '자재 종류',
-            stock_type: '재고 분류',
             stock_quantity: '재고량',
             storage_location: '보관장소',
             safety_stock: '안전재고'
@@ -167,13 +166,10 @@ const WipContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'재공재고 관리'}
-                titleOnClickEvent={titleEventList}
-                allCheckbox={true}
+                title={'재공 재고 관리'}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {

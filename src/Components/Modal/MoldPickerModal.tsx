@@ -68,7 +68,9 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
 
                     </div>
                     <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
+                        <SearchButton style={{flex: 4}} onClick={()=>{setIsOpen(true)}}>
+                        <img src={IcSearchButton} />
+                        </SearchButton>
                     </div>
 
                 </BoxWrap>

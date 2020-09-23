@@ -3,6 +3,7 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
 import {useHistory} from "react-router-dom";
+import {getCustomerData} from "../../Api/mes/customer";
 
 
 const CurrentContainer = () => {
@@ -11,11 +12,17 @@ const CurrentContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any[]>([]);
+    const [contentsList, setContentsList] = useState<any[]>(['외주처명','대표자명'])
+    const [option, setOption] = useState<number>(0)
+    const [searchValue, setSearchValue] = useState<any>('')
     const [index, setIndex] = useState({ name: '외주처' });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const history = useHistory();
 
     const indexList = {
@@ -106,9 +113,18 @@ const CurrentContainer = () => {
 
     }, [list, selectPk]);
 
+    const optionChange = useCallback(async (filter:number)=>{
+        setOption(filter)
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+    },[option,searchValue])
+
     const eventdummy = [
         {
-            Name: '삭제',
+            Name: '수정',
             Width: 60,
             Color: 'white'
         },
@@ -160,6 +176,11 @@ const CurrentContainer = () => {
                 title={'외주처 현황'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
+                dropDown={true}
+                dropDownContents={contentsList}
+                dropDownOption={option}
+                dropDownOnClick={optionChange}
+                searchBar={true}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}

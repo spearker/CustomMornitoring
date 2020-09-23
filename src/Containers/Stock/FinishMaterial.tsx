@@ -12,7 +12,7 @@ const FinishMaterialContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({   factory_name: '공정명'});
+    const [index, setIndex] = useState({ item_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({ worker: '작업자'})
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -21,11 +21,11 @@ const FinishMaterialContainer = () => {
 
     const indexList = {
         quality: {
-            factory_name: '공정명',
-            machine_name: '기계명',
-            material_name: '(품목)품목명',
-            request_time: '요청 시간',
-            status: '현황/상태',
+            item_name: "품목(품목명)",
+            stock_type: "자재 종류",
+            stock_quantity: "재고량",
+            storage_location: "보관장소",
+            safety_stock: "안전재고",
         }
     }
 
@@ -160,15 +160,11 @@ const FinishMaterialContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'원자재 관리'}
-                titleOnClickEvent={titleEventList}
-                allCheckbox={true}
+                title={'완제품 관리'}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                clickValue={selectValue}
-                checkBox={true}
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>

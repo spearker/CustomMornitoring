@@ -101,9 +101,11 @@ const DefectiveContainer = () => {
             <OvertonTable
                 title={'불량 이력'}
                 titleOnClickEvent={titleEventList}
+                allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
+                checkBox={true}
                 EventList={eventList}
                 noChildren={true}
                 mainOnClickEvent={onClick}>

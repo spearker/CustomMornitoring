@@ -266,7 +266,6 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                             {reason}
                         </textarea>
                     </InputContainer>
-
                     <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
                 </form>
             </WhiteBoxContainer>

@@ -12,7 +12,7 @@ const OutSourceContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({  item_pk: '품목(품목명)' });
+    const [index, setIndex] = useState({ item_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({   writer: '작성자', })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -21,12 +21,11 @@ const OutSourceContainer = () => {
 
     const indexList = {
         outsource: {
-            item_pk: '품목(품목명)',
-            materials_type: '자재 종류',
-            stock_type: '재고 분류',
-            stock_quantity: '재고량',
-            storage_location: '보관장소',
-            safety_stock: '안전재고'
+            item_name: "품목(품목명)",
+            stock_type: "자재 종류",
+            stock_quantity: "재고량",
+            safety_stock: "안전재고",
+            storage_location: "보관장소",
         }
     }
 
@@ -168,12 +167,8 @@ const OutSourceContainer = () => {
         <div>
             <OvertonTable
                 title={'외주 재고 관리'}
-                titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
-                checkBox={true}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {

@@ -288,10 +288,10 @@ const Dashboard = () => {
                 {/*<FilterButton onClick={()=>setTaskFilter('ready')} style={{backgroundColor: changeStatusToColor('ready')}}>대기</FilterButton>*/}
 
             <div style={{display:'inline-block', float:'right', }}>
-              <div style={{display:'flex', alignItems:'center'}}>
-              <ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 작업 지시서 추가하기</>}</ColorButtonLink>
-              <BasicDropdown contents={['등록순', '이름순']} select={['등록순', '이름순'][option]} onClickEvent={onClickFilter}/>
-              </div>
+              {/*<div style={{display:'flex', alignItems:'center'}}>*/}
+              {/*<ColorButtonLink url="/task/register" >{<><img src={IC_ADD}/> 작업 지시서 추가하기</>}</ColorButtonLink>*/}
+              {/*<BasicDropdown contents={['등록순', '이름순']} select={['등록순', '이름순'][option]} onClickEvent={onClickFilter}/>*/}
+              {/*</div>*/}
             </div>
             <div style={{marginTop:12}}>
               <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={taskFilter === 1000 ? taskList : taskList.filter(f=>f.status === taskFilter)} onClickEvent={onClickTaskStatus}/>
@@ -300,7 +300,7 @@ const Dashboard = () => {
             {
               taskList.length === 0 &&
               <NullBox>
-                등록된 작업지시서가 없습니다.
+                {/*등록된 작업지시서가 없습니다.*/} comming soon
               </NullBox>
             }
 
