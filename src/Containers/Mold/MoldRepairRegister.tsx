@@ -25,6 +25,7 @@ const listDummy = [
 
 const MoldRepairRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
+    const [reason, setReason] = useState<string>('')
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
 
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
@@ -50,7 +51,7 @@ const MoldRepairRegisterContainer = () => {
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>금형 수리 등록</span>
                 </div>
             </div>
-            <ContainerMain>
+            <ContainerMain style={{paddingBottom: 20}}>
                 <div>
                     <p className={'title'}>필수 항목</p>
                 </div>
@@ -61,22 +62,12 @@ const MoldRepairRegisterContainer = () => {
                             <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)} select={moldData}/></td>
                         </tr>
                         <tr>
-                            <td>• 부품명</td>
+                            <td>• 수리 사유</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 885}}>
-                                        <div style={{marginTop: 5}}>
-                                            {
-                                                contractData.material_pk === ''
-                                                    ?<InputText>&nbsp; 금형 선택시 자동 입력됩니다.</InputText>
-                                                    :<InputText style={{color: '#111319'}}></InputText>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div style={{width: 32}} onClick={()=> {
-                                        setOpen(true)
-                                    }}>
-                                    </div>
+                                <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
+                                    <textarea maxLength={160} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)">
+                                        {reason}
+                                    </textarea>
                                 </div>
                             </td>
                         </tr>
@@ -106,11 +97,11 @@ const MoldRepairRegisterContainer = () => {
                         </tr>
                     </table>
                 </div>
-                <div style={{marginTop: 72}}>
+                <div style={{marginTop: 72,}}>
                     <ButtonWrap onClick={async () => {
                         await postContractRegisterData()
                     }}>
-                        <div style={{width: 360, height: 46}}>
+                        <div style={{width: 360, height: 46, }}>
                             <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
                         </div>
                     </ButtonWrap>
@@ -122,7 +113,7 @@ const MoldRepairRegisterContainer = () => {
 
 const ContainerMain = Styled.div`
     width: 1060px;
-    height: 493px;
+    height: auto;
     border-radius: 6px;
     background-color: white;
     padding: 35px 20px 0 20px;

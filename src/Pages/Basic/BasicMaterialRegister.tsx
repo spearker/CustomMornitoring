@@ -36,6 +36,7 @@ const BasicMaterialRegister = () => {
     material_type:1,
     location:[],
     using_mold:[],
+    cost: 0,
     safe_stock:0,
     material_spec:'',
   });
@@ -66,6 +67,7 @@ const BasicMaterialRegister = () => {
             material_type:data.material_type,
             location:[{pk: data.location_pk, name: data.location_name}],
             using_mold: data.mold !== undefined ? [{pk: data.mold.mold_pk, name: data.mold.mold_name}] : [],
+            cost: data.cost,
             safe_stock: data.safe_stock,
             material_spec:data.material_spec,
             stock:  data.stock,
@@ -90,6 +92,7 @@ const BasicMaterialRegister = () => {
       material_type: inputData.material_type,
       location: inputData.location[0].pk,
       using_mold:  inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
+      cost: inputData.cost,
       safe_stock: inputData.safe_stock,
       material_spec: inputData.material_spec,
       info_list: JsonStringifyList(essential, optional)
@@ -118,6 +121,7 @@ const BasicMaterialRegister = () => {
       document_pk: document.pk,
       material_name: inputData.material_name,
       material_type: inputData.material_type,
+      cost: inputData.cost,
       location: inputData.location[0].pk,
       using_mold: inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
       safe_stock: inputData.safe_stock,
@@ -167,6 +171,7 @@ const BasicMaterialRegister = () => {
                 />
 
                 <NormalNumberInput title={'안전 재고'}  value={inputData.safe_stock} onChangeEvent={(input)=>setInputData(`safe_stock`, input)} description={''}/>
+                <NormalNumberInput title={'원가'}  value={inputData.cost} onChangeEvent={(input)=>setInputData(`cost`, input)} description={''}/>
 
                 <br/>
                 <ListHeader title="선택 항목"/>
