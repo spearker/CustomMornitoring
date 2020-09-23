@@ -30,7 +30,7 @@ const DropdownInput = ({ title,contents, target, onChangeEvent}: IProps) => {
 
     return (
         <InputContainer title={title} >
-            <div ref={ref} style={{width: 'calc(100% - 200px)', position:'relative'}}>
+            <div ref={ref} style={{width: 'calc(100% - 187px)', position:'relative',marginLeft: -10}}>
                 <InputBox onClick={handleClickBtn}>{target === "" ? '(선택)' : target}</InputBox>
                 <div onClick={()=>setIsOpen(true)} style={{position:'absolute', top:0, right:-17, zIndex:3, backgroundColor: POINT_COLOR, width: 33, height: 33,textAlign:'center', display:'inline-block'}}>
                     <img src={IC_ARROW} style={{width: 20, marginTop:6}}/>

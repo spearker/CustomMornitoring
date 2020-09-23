@@ -25,7 +25,7 @@ const AddInput = ({title, onChangeEvent, line, children, icType, onlyOne}: IProp
   padding-bottom: 6px;
   align-items: center;
   display: flex;
-  width: 100%;
+  width: 102.5%;
   margin-top: 4px;
   text-align: center;
   justify-content: center;
@@ -34,7 +34,7 @@ const AddInput = ({title, onChangeEvent, line, children, icType, onlyOne}: IProp
 `
 
   return (
-        <InputContainer title={title} line={line}>
+        <InputContainer title={title} line={line} width={168}>
             <InnerBox>
                 <div style={{width:'100%'}}>
                 {children}

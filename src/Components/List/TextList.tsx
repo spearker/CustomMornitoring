@@ -32,7 +32,7 @@ const TextList = ({ title, name, onClickEvent,onClickSearch }: Props) => {
       <ListWrapDiv>
         <ListDiv>
           <div style={{width: '80%'}}>
-          <p className="p-limit">&nbsp;&nbsp;{title}</p>
+          <p className="p-limit" >&nbsp;&nbsp;{title}</p>
           </div>
 
         </ListDiv>

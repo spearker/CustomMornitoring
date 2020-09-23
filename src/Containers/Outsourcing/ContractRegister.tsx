@@ -25,6 +25,9 @@ import InnerBodyContainer from "../InnerBodyContainer";
 import AddInput from "../../Components/Input/AddInput";
 import TextList from "../../Components/List/TextList";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import NormalAddressInput from "../../Components/Input/NormalAddressInput";
+import useObjectInput from "../../Functions/UseInput";
+
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -60,6 +63,17 @@ const ContractRegister = () => {
     const [checkList, setCheckList] = useState<IMaterial[]>([]);
     const [list, setList] = useState<IMaterial[]>([]);
     const [searchList, setSearchList] = useState<IMaterial[]>([]);
+
+    const [inputData, setInputData] = useObjectInput('CHANGE', {
+        name:'',
+        description:'',
+        location: {
+            postcode: '',
+            roadAddress:'',
+            detail:'',
+        },
+
+    });
 
     useEffect(()=>{
         if(getParameter('pk') !== "" ){
@@ -356,7 +370,8 @@ const ContractRegister = () => {
                             }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                         </div>
                     </InputContainer>
-                    <NormalInput title={'회사 주소'} value={address} onChangeEvent={setAddress} description={'사업자 등록증에 기재되어있는 주소를 입력하세요.'}  width={120}/>
+                    <NormalAddressInput title={'공장 주소'} value={inputData.location} onChangeEvent={(input)=>setInputData(`location`, input)}  />
+                  
                     {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();

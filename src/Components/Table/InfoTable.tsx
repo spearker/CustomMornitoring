@@ -62,10 +62,12 @@ const InfoTable = ({ indexList, widthList, contents,type, pkKey, typeKey, typeCh
 
           {
             contents.length === 0  ?
-                Object.keys(indexList).map((mv, mi) => {
+                <tr>
+                {Object.keys(indexList).map((mv, mi) => {
                   return(
-                    <td >데이터가 없습니다.</td>
-                  )})
+                      <td>데이터가 없습니다.</td>
+                  )})}
+                </tr>
                 :
             contents.map((v, i) => {
               return (

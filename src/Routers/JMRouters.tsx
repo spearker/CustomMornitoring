@@ -31,6 +31,7 @@ import OutsourcingRegister from "../Pages/Outsourcing/OutsourcingRegister";
 import OrderRegister from "../Pages/Outsourcing/OrderRegister";
 import ContractRegister from "../Pages/Outsourcing/ContractRegister";
 import MoldCreate from "../Pages/Mold/MoldCreate";
+import MoldCreateRegister from "../Pages/Mold/MoldCreateRegister";
         
 //정민님 라우터
 const JMRouters = () => {
@@ -79,6 +80,7 @@ const JMRouters = () => {
             <Route exact path="/stock/rawmaterial/list" component={StockRawMaterial}/>
             <Route exact path="/stock/finishmaterial/list" component={StockFinishMaterial}/>
 
+            <Route exact path="/mold/create/register" component={MoldCreateRegister}/>
             <Route exact path="/mold/create/list" component={MoldCreate}/>
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>

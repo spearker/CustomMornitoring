@@ -18,12 +18,12 @@ const CreateContainer = () => {
     const [selectValue, setSelectValue ]= useState<any>(null);
 
     const indexList = {
-        create: {
+        repair: {
             mold_name: '금형 명',
-            mold_location: '금형 바코드 번호',
+            mold_barcode: '금형 바코드 번호',
             charge_name: '제작 담당자',
             registered_date: '제작 일정',
-            complete_date: '제작 현황'
+            state: '제작 현황'
         }
     }
 
@@ -159,11 +159,9 @@ const CreateContainer = () => {
         <div>
             <OvertonTable
                 title={'금형 제작 현황 리스트'}
-                titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}
                 noChildren={true}>
                 {
                     selectPk !== null ?
