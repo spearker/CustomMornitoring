@@ -32,7 +32,7 @@ import OrderRegister from "../Pages/Outsourcing/OrderRegister";
 import ContractRegister from "../Pages/Outsourcing/ContractRegister";
 import MoldCreate from "../Pages/Mold/MoldCreate";
 import MoldCreateRegister from "../Pages/Mold/MoldCreateRegister";
-        
+
 //정민님 라우터
 const JMRouters = () => {
 

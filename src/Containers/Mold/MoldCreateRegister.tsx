@@ -11,6 +11,8 @@ import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
 import MoldPartDropdown from "../../Components/Dropdown/MoldPartDropdown";
 import NormalInput from "../../Components/Input/NormalInput";
 import PartInput from "../../Components/Input/PartInput";
+import IcSearchButton from "../../Assets/Images/ic_search.png";
+import IcPlusGray from '../../Assets/Images/ic_plus_gray.png'
 
 const typeDummy = [
     '타입 A',
@@ -125,17 +127,99 @@ const MoldCreateRegisterContainer = () => {
                     <PartInput title={'거래처명'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
                     <PartInput title={'강종'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
                     <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 규`}</p>
-                        <div style={{width: "86%"}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 규격`}</p>
+                        <div style={{width: "90%",justifyContent: "space-around",display:"flex"}}>
+                            <InputWrap>
                             <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'가로규격 입력'} />
+                            <p>mm</p>
+                            </InputWrap>
+                            <InputWrap>
+                            <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'세로규격 입력'} />
+                            <p>mm</p>
+                            </InputWrap>
+                            <InputWrap>
+                            <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'높이규격 입력'} />
+                            <p>mm</p>
+                            </InputWrap>
+                        </div>
+                    </div>
+                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품`}</p>
+                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                            <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
+                            <SearchButton style={{width: 32}} onClick={() => {
+                            }}>
+                                <img src={IcSearchButton}/>
+                            </SearchButton>
+                            <p>현재 재고량</p>
+                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                            <p>사용할 수량</p>
+                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                            <DeleteButton>
+                                <p>부품 삭제</p>
+                            </DeleteButton>
+                        </div>
+                    </div>
+                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
+                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                            <AddButton>
+                                <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
+                                <p>부품 추가</p>
+                            </AddButton>
                         </div>
                     </div>
                 </MoldPartDropdown>
                 <MoldPartDropdown title={'부품'} part={false}>
-
+                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>
+                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                            <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
+                            <SearchButton style={{width: 32}} onClick={() => {
+                            }}>
+                                <img src={IcSearchButton}/>
+                            </SearchButton>
+                            <p>현재 재고량</p>
+                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                            <p>사용할 수량</p>
+                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                            <DeleteButton>
+                                <p>부품 삭제</p>
+                            </DeleteButton>
+                        </div>
+                    </div>
+                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
+                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                            <AddButton>
+                                <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
+                                <p>부품 추가</p>
+                            </AddButton>
+                        </div>
+                    </div>
                 </MoldPartDropdown>
                 <MoldPartDropdown title={'도면'} part={false}>
-
+                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
+                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                            <UploadBox placeholder="검색어를 입력해주세요." style={{width: 700}} onChange={(e) => console.log(e.target.value)}/>
+                            <UploadButton onClick={() => {}}>
+                                <p>업로드</p>
+                            </UploadButton>
+                            <DeleteButton>
+                                <p>도면 삭제</p>
+                            </DeleteButton>
+                        </div>
+                    </div>
+                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
+                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                            <AddButton>
+                                <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
+                                <p>부품 추가</p>
+                            </AddButton>
+                        </div>
+                    </div>
                 </MoldPartDropdown>
                 <div style={{marginTop: 72}}>
                     <ButtonWrap onClick={async () => {
@@ -210,6 +294,20 @@ const CheckButton = Styled.button`
     }
 `
 
+
+const AddButton = Styled.button`
+    display:flex;
+    border: solid 0.5px #d3d3d3;
+    font-size: 14px;
+    padding: 5px;
+    padding-left: 45%;
+    width: 100%;
+    background-color: #f4f6fa;
+    p{
+        color: #b3b3b3;
+    }
+`
+
 const ButtonWrap = Styled.button`
     padding: 4px 12px 4px 12px;
     margin-bottom: 50px;
@@ -234,20 +332,101 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
-const InputBox = Styled.input`
+const InputWrap = Styled.div`
+    display:flex;
     border: solid 0.5px #d3d3d3;
     font-size: 14px;
-    padding: 6px;
-    padding-left: 10px;
-    width: calc(100% - 10px);
+    padding: 5px;
+    width: 31%;
+    background-color: #f4f6fa;
+    p{
+        color: #b3b3b3;
+    }
+`
+
+const InputBox = Styled.input`
+    border: solid 0.5px #f4f6fa;
+    font-size: 14px;
+    width: 100%;
     background-color: #f4f6fa;
 `
 
+const MaterialBox = Styled.input`
+    text-align: right;
+    display:flex;
+    border: solid 0.5px #d3d3d3;
+    font-size: 14px;
+    padding: 6px;
+    width: 11%;
+    background-color: #f4f6fa;
+    margin: 0 16px 0 8px;
+`
+
+const SearchBox = Styled(Input)`
+    input{
+        padding-left: 8px;
+        font-famaily: NotoSansCJKkr;
+        height: 28px;
+        border: 0.5px solid #b3b3b3;
+        width: calc( 100% - 8px );
+        background-color: #f4f6fa;
+        font-size: 15px;
+        &::placeholder:{
+            color: #b3b3b3;
+        };
+     }
+`
+
+const UploadBox = Styled(Input)`
+    input{
+        padding-left: 8px;
+        font-famaily: NotoSansCJKkr;
+        height: 28px;
+        border: 0.5px solid #b3b3b3;
+        width: 100%;
+        background-color: #f4f6fa;
+        font-size: 15px;
+        &::placeholder:{
+            color: #b3b3b3;
+        };
+     }
+`
+
 const SearchButton = Styled.button`
+    margin-right: 16px;
     width: 32px;
-    height: 35px;
+    height: 32px;
     background-color: ${POINT_COLOR};
-    border: 1px solid #b3b3b3;
+    img{
+        width: 20px;
+        height: 20px;
+        margin-top: 5px;
+    }
+`
+
+const UploadButton = Styled.button`
+    width: 11.5%;
+    height: 32px;
+    background-color: #19b9df;
+    margin-right: 16px;
+    p{
+        font-family: NotoSansCJKkr-Bold;
+        color: #000000;
+        font-size: 15px;
+        font-weight: 500;
+    }
+`
+
+const DeleteButton = Styled.button`
+    width: 11.5%;
+    height: 32px;
+    background-color: #b3b3b3;
+    p{
+        font-family: NotoSansCJKkr-Bold;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 500;
+    }
 `
 
 export default MoldCreateRegisterContainer
