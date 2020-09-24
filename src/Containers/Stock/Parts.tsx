@@ -3,18 +3,18 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {useHistory} from "react-router-dom"
-import {API_URLS, getStockList} from "../../Api/mes/manageStock";
+import {API_URLS,getStockList} from "../../Api/mes/manageStock";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
-const FinishMaterialContainer = () => {
+const PartsContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
-    const [subIndex, setSubIndex] = useState({ worker: '작업자'})
+    const [index, setIndex] = useState({ parts_name: "부품명" });
+    const [subIndex, setSubIndex] = useState({ type: "입/반출" })
     const [filter, setFilter] = useState(-1)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -25,69 +25,32 @@ const FinishMaterialContainer = () => {
     const history = useHistory()
 
     const indexList = {
-        quality: {
-            material_name: "품목(품목명)",
-            material_type: "자재 종류",
-            current_stock: "재고량",
-            location_name: "보관장소",
-            safe_stock: "안전재고",
+        parts: {
+            parts_name: "부품명",
+            parts_type: "부품 종류",
+            parts_stock: "부품 재고량",
+            parts_cost: "부품 원가",
+            location_name: "공장명"
         }
     }
 
 
     const detailTitle = {
-        quality: {
-            worker: '작업자',
-            total_count: '총 완료 개수',
-            defective_count: '불량 개수',
-            description: '요청 내용'
+        parts: {
+            type: "입/반출",
+            division: "구분",
+            amount:"입/반출 수량",
+            date:"날짜"
         },
     }
 
-    const dummy = [
-        {
-            factory_name: '공정명 01',
-            machine_name: '프레스 01',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '대기',
-        },
-        {
-            factory_name: '공정명 02',
-            machine_name: '프레스 02',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-        {
-            factory_name: '공정명 03',
-            machine_name: '프레스 03',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '불량',
-        },
-        {
-            factory_name: '공정명 04',
-            machine_name: '프레스 04',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-        {
-            factory_name: '공정명 05',
-            machine_name: '프레스 05',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-    ]
-
     const detaildummy = [
         {
-            worker: '홍길동',
-            total_count: '99,999',
-            defective_count: '91',
-            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
+            writer: '김담당',
+            sortation:'정상 입고' ,
+            stock_quantity:'9,999,999,999',
+            before_quantity:'9,999,999,999',
+            date:'2020.08.09'
         },
     ]
 
@@ -115,7 +78,6 @@ const FinishMaterialContainer = () => {
         }
     ]
 
-
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
         if(mold.pk === selectPk){
@@ -134,18 +96,18 @@ const FinishMaterialContainer = () => {
 
     }, [list, selectPk]);
 
-    // const getData = useCallback( async(pk)=>{
-    //     //TODO: 성공시
-    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    //     const res = await getMoldData(tempUrl)
-    //
-    //     setDetailList(res)
-    //
-    // },[detailList])
+    const getData = useCallback( async(pk)=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['parts'].detail}?pk=${pk}`
+        const res = await getStockList(tempUrl)
+
+        setDetailList(res)
+
+    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}`
+        const tempUrl = `${API_URLS['parts'].list}?page=${page.current}`
         const res = await getStockList(tempUrl)
 
         const getStock = res.items.map((v,i)=>{
@@ -162,25 +124,26 @@ const FinishMaterialContainer = () => {
 
     useEffect(()=>{
         getList()
-        setIndex(indexList["quality"])
+        setIndex(indexList["parts"])
         // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle['quality'])
+        setSubIndex(detailTitle['parts'])
     },[])
 
     return (
         <div>
             <OvertonTable
-                title={'완제품 관리'}
+                title={'부품 관리'}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                noChildren={true}>
+                clickValue={selectValue}
+                mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'입반출 현황'} contentTitle={subIndex} contentList={detailList}>
                             <Line/>
                         </LineTable>
                         :
@@ -198,4 +161,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default FinishMaterialContainer
+export default PartsContainer

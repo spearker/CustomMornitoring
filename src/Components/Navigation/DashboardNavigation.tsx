@@ -234,7 +234,7 @@ const TwoDepthDiv = Styled.div`
   background-color: #212228;
 `
 const NavDiv = Styled.div`
-  opacity: 100%;
+  background: linear-gradient(0.25turn,#1d293f, #1b263b);
   min-width: 200px;
   min-height: 100vh;
   display: inline-block;
@@ -244,10 +244,10 @@ const NavDiv = Styled.div`
   left: 70px;
   position: absolute;
   padding-bottom: 40px;
+  z-index: 100;
 `
 
 const NavDivLeft = Styled.div`
-  opacity: 100%
   heigth: 100%;
   text-align: center;
   font-size: 13px;

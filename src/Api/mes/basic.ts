@@ -99,6 +99,13 @@ export const API_URLS = {
         list:`/v1/subdivided/list`,
         load:`/v1/subdivided/load`,
     },
+    parts: {
+        delete:`/v1/parts/delete`,
+        create:`/v1/parts/register`,
+        update:`/v1/parts/register`,
+        list:`/v1/parts/list`,
+        load:`/v1/parts/load`,
+    },
     item: {
         delete:`/v1/item/delete`,
         create:`/v1/item/register`,

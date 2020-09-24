@@ -2,8 +2,10 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {useHistory} from "react-router-dom"
+import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 const StockListContainer = () => {
@@ -17,21 +19,24 @@ const StockListContainer = () => {
         machine_name: "",
         recommend: 0
     });
-    const [index, setIndex] = useState({ item_name: "품목(품목명)" });
+    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
     const [BOMindex, setBOMIndex] = useState({ item_name: "품목명00"});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
     const [subIndex, setSubIndex] = useState({writer: "작성자"})
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const history = useHistory()
 
     const indexList = {
         stock_list: {
-            item_name: "품목(품목명)",
-            stock_type: "자재 종류",
-            stock_quantity: "재고량",
-            storage_location: "보관장소",
-            safety_stock: "안전재고",
+            material_name: "품목(품목명)",
+            material_type: "자재 종류",
+            current_stock: "재고량",
+            location_name: "보관장소",
+            safe_stock: "안전재고",
           }
     }
 
@@ -131,28 +136,35 @@ const StockListContainer = () => {
 
     }, [list, selectPk]);
 
-    const getData = useCallback(async (pk) => {
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    }, [detailList])
+    // const getData = useCallback(async (pk) => {
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}`
+        const res = await getStockList(tempUrl)
 
-        setList(res)
+        const getStock = res.items.map((v,i)=>{
+            const material_type = transferCodeToName('material', v.material_type)
 
+            return {...v, material_type: material_type}
+        })
+
+        setList(getStock)
+
+        setPage({ current: res.current_page+1, total: res.total_page })
     }, [list])
 
     useEffect(() => {
-        // getList()
+        getList()
         setIndex(indexList["stock_list"])
-        setList(dummy)
+        // setList(dummy)
         setDetailList(detailValue)
         setSubIndex(detailTitle['item_detailList'])
     }, [])
@@ -174,6 +186,7 @@ const StockListContainer = () => {
                         null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

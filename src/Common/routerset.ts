@@ -173,10 +173,11 @@ export const MES_MENU_LIST = {
   stock: [
     { name: '재고 관리', url: '/stock/status/list'},
     { name: '재고 현황', url: '/stock/status/list'},
-    { name : '재공 재고 관리', url:'/stock/wip/list'},
-    { name : '외주 재고 관리', url:'/stock/outsource/list'},
     { name : '원자재 관리', url: '/stock/rawmaterial/list'},
+    { name : '재공 재고 관리', url:'/stock/wip/list'},
     { name : '완제품 관리', url: '/stock/finishmaterial/list'},
+    { name : '외주 재고 관리', url:'/stock/outsource/list'},
+    { name : '부품 관리', url: '/stock/parts/list'}
 
       // { name: '재고 관리', url: '/commingsoon'},
       // { name: '재고 현황', url: '/commingsoon'},
@@ -240,6 +241,7 @@ export const MES_MENU_LIST = {
     { name : '품목 기본정보', url : '/basic/list/material'},
     { name : '공장 기본정보', url : '/basic/list/factory'},
     { name : '공장 세분화 관리', url : '/basic/list/subdivided'},
+    { name : '부품 기본정보', url : '/basic/list/parts'},
     // { name : '바코드 표준 관리', url : '/basic/list/barcode'},
     // { name : '표준 항목 관리', url : '/basic/list/item'},
     // { name : '표준 문서 관리', url : '/basic/list/document'},

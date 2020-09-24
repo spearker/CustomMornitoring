@@ -2,8 +2,9 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
 import {useHistory} from "react-router-dom"
+import {API_URLS,getStockList} from "../../Api/mes/manageStock";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 const RawMaterialContainer = () => {
@@ -12,20 +13,24 @@ const RawMaterialContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ item_pk: '품목(품목명)' });
+    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
+    const [filter, setFilter] = useState(-1)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const history = useHistory()
 
     const indexList = {
         rawmaterial: {
-            item_pk: '품목(품목명)',
-            materials_type: '자재 종류',
-            stock_quantity: '재고량',
-            storage_location: '보관장소',
-            safety_stock: '안전재고'
+            material_name: "품목(품목명)",
+            material_type: ['자재 종류','원자재','부자재'],
+            current_stock: "재고량",
+            location_name: "보관장소",
+            safe_stock: "안전재고",
         }
     }
 
@@ -134,29 +139,37 @@ const RawMaterialContainer = () => {
 
 
     }, [list, selectPk]);
-
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
+    //
+    // const getData = useCallback( async(pk)=>{
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['stock'].list}?type=0&filter=${filter}&page=${page.current}`
+        const res = await getStockList(tempUrl)
 
-        setList(res)
+        const getStock = res.items.map((v,i)=>{
+            const material_type = transferCodeToName('material', v.material_type)
+
+            return {...v, material_type: material_type}
+        })
+
+        setList(getStock)
+
+        setPage({ current: res.current_page+1, total: res.total_page })
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["rawmaterial"])
-        setList(dummy)
+        // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)

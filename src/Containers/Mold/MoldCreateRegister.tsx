@@ -26,12 +26,6 @@ const locationDummy = [
     '창고03',
 ]
 
-const companyDummy = [
-    '(주)대한민국',
-    '(주)한국',
-    '(주)조선',
-]
-
 
 const MoldCreateRegisterContainer = () => {
     const history = useHistory();

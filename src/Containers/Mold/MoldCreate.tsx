@@ -89,14 +89,10 @@ const CreateContainer = () => {
         },
     ]
 
+
     const eventdummy = [
         {
-            Name: '입고',
-            Width: 60,
-            Color: 'white'
-        },
-        {
-            Name: '출고',
+            Name: '수정',
             Width: 60,
             Color: 'white'
         },
@@ -159,9 +155,13 @@ const CreateContainer = () => {
         <div>
             <OvertonTable
                 title={'금형 제작 현황 리스트'}
+                titleOnClickEvent={titleEventList}
+                allCheckbox={true}
                 indexList={index}
                 valueList={list}
+                EventList={eventList}
                 clickValue={selectValue}
+                checkBox={true}
                 noChildren={true}>
                 {
                     selectPk !== null ?

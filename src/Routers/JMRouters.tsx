@@ -32,6 +32,8 @@ import OrderRegister from "../Pages/Outsourcing/OrderRegister";
 import ContractRegister from "../Pages/Outsourcing/ContractRegister";
 import MoldCreate from "../Pages/Mold/MoldCreate";
 import MoldCreateRegister from "../Pages/Mold/MoldCreateRegister";
+import BasicPartsRegister from "../Pages/Basic/BasicPartsRegister";
+import StockParts from "../Pages/Stock/Parts";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -40,6 +42,8 @@ const JMRouters = () => {
     return (
 
         <Switch>
+            <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
+
             <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis} />
 
             <Route exact path="/pm/maintenance/oil" component={OilMaintenance} />
@@ -60,7 +64,7 @@ const JMRouters = () => {
 
             <Route exact path="/customer/current/list" component={CurrentCustomer}/>
 
-            <Route export path="/outsourcing/current/list" component={OutsourcingCurrent} />
+            <Route exact path="/outsourcing/current/list" component={OutsourcingCurrent} />
             <Route exact path="/outsourcing/order/list" component={OutsourcingOrder} />
             <Route exact path="/outsourcing/order/register" component={OrderRegister} />
             <Route exact path="/outsourcing/contract/list" component={OutsourcingContract} />
@@ -79,6 +83,7 @@ const JMRouters = () => {
             <Route exact path="/stock/outsource/list" component={StockOutSource}/>
             <Route exact path="/stock/rawmaterial/list" component={StockRawMaterial}/>
             <Route exact path="/stock/finishmaterial/list" component={StockFinishMaterial}/>
+            <Route exact path="/stock/parts/list" component={StockParts}/>
 
             <Route exact path="/mold/create/register" component={MoldCreateRegister}/>
             <Route exact path="/mold/create/list" component={MoldCreate}/>

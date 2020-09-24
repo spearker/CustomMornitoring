@@ -163,6 +163,15 @@ export const LIST_INDEX = {
       factory_name:'공장명',
     }
   },
+  parts:{
+    title: '부품 기본정보',
+    index:{
+      parts_name: "부품명" ,
+      parts_type: "부품 종류 코드 값",
+      location_name: "공장명",
+      parts_cost: "부품원가"
+    }
+  },
   item: {
     title:'표준 항목',
     index:{
