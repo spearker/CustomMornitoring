@@ -95,12 +95,14 @@ const FinishMaterialContainer = () => {
         {
             Name: '입고',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: ()=>history.push('/stock/warehousing/register')
         },
         {
             Name: '출고',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: ()=>history.push('/stock/release/register')
         },
     ]
 

@@ -89,7 +89,7 @@ const PartsContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 

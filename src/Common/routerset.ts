@@ -171,8 +171,8 @@ export const MES_MENU_LIST = {
     { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
-    { name: '재고 관리', url: '/stock/status/list'},
-    { name: '재고 현황', url: '/stock/status/list'},
+    { name : '재고 관리', url: '/stock/status/list'},
+    { name : '재고 현황', url: '/stock/status/list'},
     { name : '원자재 관리', url: '/stock/rawmaterial/list'},
     { name : '재공 재고 관리', url:'/stock/wip/list'},
     { name : '완제품 관리', url: '/stock/finishmaterial/list'},
