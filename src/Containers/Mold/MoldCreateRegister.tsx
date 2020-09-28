@@ -26,6 +26,24 @@ const locationDummy = [
     '창고03',
 ]
 
+const initParts = {
+    name: '',
+    steel_grade: '',
+    standard: {
+        w: 0, h: 0, l: 0
+    },
+    material:[{
+        material_pk: '',
+        usage:''
+    }]
+}
+
+const initComponent = {
+    material_pk:'',
+    usage: ''
+}
+
+const initDrawing = ''
 
 const MoldCreateRegisterContainer = () => {
     const history = useHistory();
@@ -54,6 +72,27 @@ const MoldCreateRegisterContainer = () => {
         end: moment().format("YYYY-MM-DD"),
     })
 
+    const [components, setComponents] = useState<{material_pk: string, usage: string}[]>([{
+        material_pk:'',
+        usage: ''
+    }])
+
+    const [parts, setParts] = React.useState<{name: string, steel_grade: string, standard: {w: number, h: number, l:number}, material:{material_pk:string,usage: string}[]}[]>(
+      [{
+          name: '',
+          steel_grade: '',
+          standard: {
+              w: 0, h: 0, l: 0
+          },
+          material:[{
+            material_pk: '',
+              usage:''
+          }]
+      }]
+    )
+
+    const [drawing, setDrawing] = useState<string[]>([''])
+
     const [contractData, setContractData] = useState<{mold_type:string,mold_name:string,part_name:string[],mold_location:string,delivery_company:string,mold_barcode:string,registered: string}>({
         mold_type: '',
         mold_name: '',
@@ -75,6 +114,10 @@ const MoldCreateRegisterContainer = () => {
     useEffect(() => {
         console.log(contractData)
     }, [contractData])
+
+    useEffect(() => {
+        console.log(parts)
+    }, [parts])
 
     return (
         <div>
@@ -117,75 +160,114 @@ const MoldCreateRegisterContainer = () => {
                         </tr>
                     </table>
                 </div>
-                <MoldPartDropdown title={'파트'} part={true}>
-                    <PartInput title={'거래처명'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
-                    <PartInput title={'강종'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
-                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 규격`}</p>
-                        <div style={{width: "90%",justifyContent: "space-around",display:"flex"}}>
-                            <InputWrap>
-                            <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'가로규격 입력'} />
-                            <p>mm</p>
-                            </InputWrap>
-                            <InputWrap>
-                            <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'세로규격 입력'} />
-                            <p>mm</p>
-                            </InputWrap>
-                            <InputWrap>
-                            <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'높이규격 입력'} />
-                            <p>mm</p>
-                            </InputWrap>
+                {
+                    parts && parts.map((v, i) =>
+                      <MoldPartDropdown title={'파트'} part={true} onClick={() => setParts([...parts, initParts])} onClickDelete={() => {
+                          let tmpParts = parts
+                          if(tmpParts.length === 1){
+                              console.log('삭제불가능')
+                          }else{
+                              tmpParts.splice(i, 1)
+                              setParts([...tmpParts])
+                          }
+                    }}>
+                        <PartInput title={'거래처명'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
+                        <PartInput title={'강종'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
+                        <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                            <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 규격`}</p>
+                            <div style={{width: "90%",justifyContent: "space-around",display:"flex"}}>
+                                <InputWrap>
+                                    <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'가로규격 입력'} />
+                                    <p>mm</p>
+                                </InputWrap>
+                                <InputWrap>
+                                    <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'세로규격 입력'} />
+                                    <p>mm</p>
+                                </InputWrap>
+                                <InputWrap>
+                                    <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'높이규격 입력'} />
+                                    <p>mm</p>
+                                </InputWrap>
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품`}</p>
-                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
-                            <SearchButton style={{width: 32}} onClick={() => {
-                            }}>
-                                <img src={IcSearchButton}/>
-                            </SearchButton>
-                            <p>현재 재고량</p>
-                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
-                            <p>사용할 수량</p>
-                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
-                            <DeleteButton>
-                                <p>부품 삭제</p>
-                            </DeleteButton>
+                          {
+                              parts[i].material.map((value, index) =>
+                                <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                                    <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품`}</p>
+                                    <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                                        <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
+                                        <SearchButton style={{width: 32}} onClick={() => {
+                                        }}>
+                                            <img src={IcSearchButton}/>
+                                        </SearchButton>
+                                        <p>현재 재고량</p>
+                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                        <p>사용할 수량</p>
+                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                        <DeleteButton onClick={() => {
+                                            let tmpCompo = parts
+                                            if(tmpCompo[i].material.length === 1){
+                                                console.log('삭제불가능')
+                                            }else{
+                                                tmpCompo[i].material.splice(i, 1)
+                                                setParts([...tmpCompo])
+                                            }
+                                        }}>
+                                            <p>부품 삭제</p>
+                                        </DeleteButton>
+                                    </div>
+                                </div>
+                              )
+                          }
+                        <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                            <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
+                            <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                                <AddButton onClick={() => {
+                                    let tmpArr = parts
+                                    tmpArr[i] = {...tmpArr[i], material: [...tmpArr[i].material, initComponent]}
+                                    setParts([...tmpArr])
+                                }}>
+                                    <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
+                                    <p>부품 추가</p>
+                                </AddButton>
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
-                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <AddButton>
-                                <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
-                                <p>부품 추가</p>
-                            </AddButton>
-                        </div>
-                    </div>
-                </MoldPartDropdown>
+                    </MoldPartDropdown>)
+                }
+
                 <MoldPartDropdown title={'부품'} part={false}>
-                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>
-                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
-                            <SearchButton style={{width: 32}} onClick={() => {
-                            }}>
-                                <img src={IcSearchButton}/>
-                            </SearchButton>
-                            <p>현재 재고량</p>
-                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
-                            <p>사용할 수량</p>
-                            <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
-                            <DeleteButton>
-                                <p>부품 삭제</p>
-                            </DeleteButton>
-                        </div>
-                    </div>
+                    {
+                        components.map((v, i) => <div style={{width: "100%",display:"flex",alignItems: "center"}}>
+                            <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                                <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>
+                                        <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
+                                        <SearchButton style={{width: 32}} onClick={() => {
+                                        }}>
+                                            <img src={IcSearchButton}/>
+                                        </SearchButton>
+                                        <p>현재 재고량</p>
+                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                        <p>사용할 수량</p>
+                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                        <DeleteButton onClick={() => {
+                                            let tmpCompo = components
+                                            if(tmpCompo.length === 1){
+                                                console.log('삭제불가능')
+                                            }else{
+                                                tmpCompo.splice(i, 1)
+                                                setComponents([...tmpCompo])
+                                            }
+                                        }}>
+                                            <p>부품 삭제</p>
+                                        </DeleteButton>
+                                    </div>
+                            </div>
+                        )
+                    }
                     <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
                         <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <AddButton>
+                            <AddButton onClick={() => setComponents([...components, initComponent ])}>
                                 <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
                                 <p>부품 추가</p>
                             </AddButton>
@@ -193,24 +275,34 @@ const MoldCreateRegisterContainer = () => {
                     </div>
                 </MoldPartDropdown>
                 <MoldPartDropdown title={'도면'} part={false}>
-                    <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
-                        <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <UploadBox placeholder="검색어를 입력해주세요." style={{width: 700}} onChange={(e) => console.log(e.target.value)}/>
-                            <UploadButton onClick={() => {}}>
-                                <p>업로드</p>
-                            </UploadButton>
-                            <DeleteButton>
-                                <p>도면 삭제</p>
-                            </DeleteButton>
-                        </div>
-                    </div>
+                    {
+                        drawing.map((v, i) => <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                            <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
+                            <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                                <UploadBox placeholder="검색어를 입력해주세요." style={{width: 700}} onChange={(e) => console.log(e.target.value)}/>
+                                <UploadButton onClick={() => {}}>
+                                    <p>업로드</p>
+                                </UploadButton>
+                                <DeleteButton onClick={() => {
+                                    let tmpCompo = drawing
+                                    if(tmpCompo.length === 1){
+                                        console.log('삭제불가능')
+                                    }else{
+                                        tmpCompo.splice(i, 1)
+                                        setDrawing([...tmpCompo])
+                                    }
+                                }}>
+                                    <p>도면 삭제</p>
+                                </DeleteButton>
+                            </div>
+                        </div>)
+                    }
                     <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
                         <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <AddButton>
+                            <AddButton onClick={() => setDrawing([...drawing, ''])}>
                                 <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
-                                <p>부품 추가</p>
+                                <p>도면 추가</p>
                             </AddButton>
                         </div>
                     </div>

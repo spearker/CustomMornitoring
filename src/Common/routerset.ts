@@ -149,17 +149,18 @@ export const MES_MENU_LIST = {
   ],
   customer: [
     { name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
-    { name: '거래처 리스트', url: '/customer/current/list'}
+    // { name: '거래처 리스트', url: '/customer/current/list'},
+    { name: '거래처 리스트', url: '/commingsoon'}
   ],
-  outsourcing: [ // 기준정보 관리
-    { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
-    { name: '외주처 발주 리스트', url: '/outsourcing/order/list' },
-    { name: '외주처 수주 리스트', url: '/outsourcing/contract/list' },
-    { name: '외주처 현황', url: '/outsourcing/current/list' },
-    //   { name: '외주처 관리', url: '/commingsoon' }, //상위메뉴
-    //   { name: '외주처 발주 리스트', url: '/commingsoon' },
-    //   { name: '외주처 수주 리스트', url: '/commingsoon' },
-    //   { name: '외주처 현황', url: '/commingsoon' },
+  outsourcing: [ // 외주처 관리
+    // { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
+    // { name: '외주처 발주 리스트', url: '/outsourcing/order/list' },
+    // { name: '외주처 수주 리스트', url: '/outsourcing/contract/list' },
+    // { name: '외주처 현황', url: '/outsourcing/current/list' },
+      { name: '외주처 관리', url: '/commingsoon' }, //상위메뉴
+      { name: '외주처 발주 리스트', url: '/commingsoon' },
+      { name: '외주처 수주 리스트', url: '/commingsoon' },
+      { name: '외주처 현황', url: '/commingsoon' },
 
   ],
   project: [ //생산관리
@@ -171,20 +172,20 @@ export const MES_MENU_LIST = {
     { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
-    { name : '재고 관리', url: '/stock/status/list'},
-    { name : '재고 현황', url: '/stock/status/list'},
-    { name : '원자재 관리', url: '/stock/rawmaterial/list'},
-    { name : '재공 재고 관리', url:'/stock/wip/list'},
-    { name : '완제품 관리', url: '/stock/finishmaterial/list'},
-    { name : '외주 재고 관리', url:'/stock/outsource/list'},
-    { name : '부품 관리', url: '/stock/parts/list'}
+    // { name : '재고 관리', url: '/stock/status/list'},
+    // { name : '재고 현황', url: '/stock/status/list'},
+    // { name : '원자재 관리', url: '/stock/rawmaterial/list'},
+    // { name : '재공 재고 관리', url:'/stock/wip/list'},
+    // { name : '완제품 관리', url: '/stock/finishmaterial/list'},
+    // { name : '외주 재고 관리', url:'/stock/outsource/list'},
+    // { name : '부품 관리', url: '/stock/parts/list'}
 
-      // { name: '재고 관리', url: '/commingsoon'},
-      // { name: '재고 현황', url: '/commingsoon'},
-      // { name : '재공재고 관리', url:'/commingsoon'},
-      // { name : '외주 재고 관리', url:'/commingsoon'},
-      // { name : '원자재 관리', url: '/commingsoon'},
-      // { name : '완제품 관리', url: '/commingsoon'},
+      { name: '재고 관리', url: '/commingsoon'},
+      { name: '재고 현황', url: '/commingsoon'},
+      { name : '재공재고 관리', url:'/commingsoon'},
+      { name : '외주 재고 관리', url:'/commingsoon'},
+      { name : '원자재 관리', url: '/commingsoon'},
+      { name : '완제품 관리', url: '/commingsoon'},
   ],
   barcode: [
     // { name : '바코드 관리', url: '/barcode/current/list'},
@@ -218,20 +219,21 @@ export const MES_MENU_LIST = {
     { name : '금형 수리 완료', url: '/mold/repair/list'},
     { name : '금형 수리 등록', url: '/mold/repair/register'},
     { name : '금형 수리 현황', url: '/mold/current/list'},
+    // { name : '금형 관리 등록', url: '/commingsoon'},
     // { name : '금형 제작 등록', url: '/commingsoon'},
-    // { name : '금형 관리', url: '/commingsoon'},
-    // { name : '금형 등록', url: '/commingsoon'},
+    // { name : '금형 제학 현황', url: '/commingsoon'},
+    // { name : '금형 수리 완료', url: '/commingsoon'},
+    // { name : '금형 수리 등록', url: '/commingsoon'},
     // { name : '금형 수리 현황', url: '/commingsoon'},
-    // { name : '금형 수리 완료', url: '/commingsoon'}
   ],
   kpi: [
     { name: 'KPI', url: '/commingsoon' }
   ],
   quality: [
-    { name : '품질 관리', url: '/quality/quality/list'},
-    { name : '제품 품질 현황', url: '/quality/current/list'}
-    // { name : '품질 관리', url: '/commingsoon'},
-    // { name : '제품 품질 현황', url: '/commingsoon'}
+    // { name : '품질 관리', url: '/quality/quality/list'},
+    // { name : '제품 품질 현황', url: '/quality/current/list'}
+    { name : '품질 관리', url: '/commingsoon'},
+    { name : '제품 품질 현황', url: '/commingsoon'}
   ],
   basic: [ // 기준정보 관리
     { name : '기준 정보 관리', url : '/basic/list/machine/'}, //상위메뉴
@@ -241,10 +243,11 @@ export const MES_MENU_LIST = {
     { name : '품목 기본정보', url : '/basic/list/material'},
     { name : '공장 기본정보', url : '/basic/list/factory'},
     { name : '공장 세분화 관리', url : '/basic/list/subdivided'},
-    { name : '부품 기본정보', url : '/basic/list/parts'},
+    // { name : '부품 기본정보', url : '/basic/list/parts'},
     // { name : '바코드 표준 관리', url : '/basic/list/barcode'},
     // { name : '표준 항목 관리', url : '/basic/list/item'},
     // { name : '표준 문서 관리', url : '/basic/list/document'},
+      { name : '부품 기본정보', url : '/commingsoon'},
       { name : '바코드 표준 관리', url : '/commingsoon'},
       { name : '표준 항목 관리', url : '/commingsoon'},
       { name : '표준 문서 관리', url : '/commingsoon'},
@@ -253,9 +256,9 @@ export const MES_MENU_LIST = {
 
 export const PM_MENU_LIST = {
   monitoring: [ //
-    { name : '프레스 모니터링', url :  '/pm/monitoring/press'},
-    { name : '프레스 상태 모니터링', url :  '/pm/monitoring/press'},
-    { name : '로드모니터 모니터링', url :  '/pm/monitoring/loadton'},
+    { name : '프레스 모니터링', url : '/pm/monitoring/press'},
+    { name : '프레스 상태 모니터링', url : '/pm/monitoring/press'},
+    { name : '로드모니터 모니터링', url : '/pm/monitoring/loadton'},
     { name : '전력 모니터링', url : '/pm/monitoring/cms'},
   ],
   maintenance:[ //

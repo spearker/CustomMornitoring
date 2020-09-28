@@ -42,7 +42,7 @@ const Login = () => {
         setToken(TOKEN_NAME, results.results.token)
         window.location.href= "/dashboard"
       }else if(results.status === 1001 ||results.status === 1002 ){
-        //alert('아이디와 패스워드를 확인하세요.')
+        alert('아이디와 패스워드를 확인하세요.')
       }else if(results.status === 1003){
         //alert('승인 대기중인 이메일 입니다. 관리자 승인 후 로그인 할 수 있습니다.')
 

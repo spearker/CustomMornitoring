@@ -6,11 +6,13 @@ import IC_Dropup from "../../Assets/Images/ic_drop_up.png";
 interface Props {
     title: string
     part?: boolean
+    onClick?: () => void
+    onClickDelete?: () => void
     children?: any
 }
 
 
-const MoldPartDropdown = ({title,part,children}:Props) => {
+const MoldPartDropdown = ({title,part,onClick, onClickDelete, children}:Props) => {
     const [ dropdown, setDropdown ] = useState<boolean>(true)
 
     return(
@@ -20,10 +22,10 @@ const MoldPartDropdown = ({title,part,children}:Props) => {
                     {title}
                     {part ?
                         <>
-                        <AddButton>
+                        <AddButton onClick={onClick && onClick}>
                             <p>파트 추가</p>
                         </AddButton>
-                        <DeleteButton>
+                        <DeleteButton onClick={onClickDelete && onClickDelete}>
                         <p>파트 삭제</p>
                         </DeleteButton>
                         </>
