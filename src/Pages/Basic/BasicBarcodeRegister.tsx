@@ -19,6 +19,12 @@ import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
 import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput';
 import {API_URLS, loadBasicItem} from '../../Api/mes/basic';
+import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
+import InputContainer from "../../Containers/InputContainer";
+import moment from "moment";
+import DateInput from "../../Components/Input/DateInput";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
 // 바코드 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 
@@ -29,11 +35,15 @@ const initialData = {
   type: 0,
   rules: [],
 }
-const indexList = getBarcodeTypeList('kor');
+
+const indexList = ['기계 기본정보', '주변장치 기본정보','금형 기본정보','품목 기본정보','전표 리스트']
+
 
 const BasicBarcodeRegister = () => {
 
   const history = useHistory();
+  const [output_material, setOutput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
+  const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
   const [document, setDocument] = useState<any>({id:'', value:'(선택)'});
   const [essential,setEssential] = useState<any[]>([]);
   const [optional,setOptional] = useState<any[]>([]);
@@ -157,11 +167,12 @@ const BasicBarcodeRegister = () => {
             <WhiteBoxContainer>
               {
                 // document.id !== '' || isUpdate == true?
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
+                // <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
+                  <>
                 <ListHeader title="필수 항목"/>
-                <NormalInput title={'바코드명'} value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'바코드 이름을 입력해주세요.'}/>
-                <DropdownInput title={'바코드 종류'} target={indexList[inputData.type]} contents={indexList} onChangeEvent={(input)=>setInputData(`type`, input)}/>
-
+                <NormalInput title={'바코드 명'} value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'바코드 이름을 입력해주세요.'}/>
+                <DropdownInput title={'항목'} target={indexList[inputData.type]} contents={indexList} onChangeEvent={(input)=>setInputData(`type`, input)}/>
+                <CustomPickerModal onClickEvent={(e)=> console.log(e)} text={'세부 항목을 검색해주세요.'} type={"device"}/>
                 {
                     inputData.rules.length > 0 && inputData.rules[0] !== null &&
                     <BarcodeText><br/><span>현재 규칙</span><br/>{inputData.rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'')}</BarcodeText>
@@ -175,7 +186,7 @@ const BasicBarcodeRegister = () => {
                   {
                     inputData.rules.map((v, i)=>{
                       return(
-                        <BarcodeRulesInput title={`규칙 ${i+1}`} value={v}
+                        <BarcodeRulesInput title={`· 바코드 규칙 ${i+1}`} value={v}
                         onRemoveEvent={()=>{
                           let temp = _.cloneDeep(inputData.rules);
                           temp.splice(i, 1)
@@ -191,20 +202,21 @@ const BasicBarcodeRegister = () => {
                     })
                   }
                   </FullAddInput>
+                  <DateInput title={'등록 날짜'} description={""} value={selectDate} onChangeEvent={setSelectDate}/>
+               {/*<br/>*/}
+               {/* <ListHeader title="선택 항목"/>*/}
+               {/* <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>*/}
+               {/* /!*<br/>*!/*/}
+               {/* /!*<DocumentFormatInputList*!/*/}
 
-               <br/>
-                <ListHeader title="선택 항목"/>
-                <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>
-                {/*<br/>*/}
-                {/*<DocumentFormatInputList*/}
-
-                {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/barcode/standard/load?pk=${pk}` :''}*/}
-                {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
-                {/*  />*/}
+               {/* /!*  pk={!isUpdate ? document.pk : undefined}*!/*/}
+               {/* /!*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/barcode/standard/load?pk=${pk}` :''}*!/*/}
+               {/* /!*  onChangeEssential={setEssential} onChangeOptional={setOptional}*!/*/}
+               {/* /!*  />*!/*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-              </form>
+                </>
+              // </form>
                 // :
                 // <SelectDocumentForm category={6} onChangeEvent={setDocument}/>
             }
@@ -229,5 +241,15 @@ const BarcodeText = Styled.p`
   }
 
 `
+
+const InputText = Styled.p`
+    color: #b3b3b3;
+    font-size: 15px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: regular;
+`
+
+
 
 export default BasicBarcodeRegister;

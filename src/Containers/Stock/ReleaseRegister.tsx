@@ -2,32 +2,20 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
 import {getToken} from '../../Common/tokenFunctions';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import {uploadTempFile} from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
-import OldFileInput from '../../Components/Input/OldFileInput';
-import RadioInput from '../../Components/Input/RadioInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom'
-import {Input} from "semantic-ui-react";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
 import InputContainer from "../InputContainer";
 import Styled from "styled-components";
-import SearchModalContainer from "../SearchModalContainer";
-import SearchInput from "../../Components/Input/SearchInput";
-import SearchedList from "../../Components/List/SearchedList";
-import InnerBodyContainer from "../InnerBodyContainer";
-import AddInput from "../../Components/Input/AddInput";
-import TextList from "../../Components/List/TextList";
-import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
-import NormalAddressInput from "../../Components/Input/NormalAddressInput";
 import useObjectInput from "../../Functions/UseInput";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import {transferStringToCode} from "../../Common/codeTransferFunctions";
 
 
 const typeDummy = [
@@ -39,16 +27,20 @@ const typeDummy = [
 ]
 
 
+interface Props {
+    match: any;
+    // chilren: string;
+}
+
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const ReleaseRegisterContainer = () => {
+const ReleaseRegisterContainer = ({ match }: Props) => {
     const history = useHistory()
 
-    const [selectDate, setSelectDate] = useState<string>('')
+    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [no, setNo] = useState<number>();
-    const [type, setType] = useState<number>(0); //0: 법인, 1:개인
     const [phone, setPhone]= useState<string>('');
     const [address, setAddress]= useState<string>('');
     const [fax, setFax]= useState<string>('');
@@ -195,7 +187,6 @@ const ReleaseRegisterContainer = () => {
                 setName(data.name);
                 setPk(data.pk);
                 setNo(Number(data.number));
-                setType(Number(data.type));
                 setPk(data.pk);
                 setCeo(data.ceo);
                 setOldPaths([data.photo])
@@ -213,7 +204,7 @@ const ReleaseRegisterContainer = () => {
                 //TODO:  기타 오류
             }
         }
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
+    },[pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
 
     /**
      * onsubmitFormUpdate()
@@ -240,7 +231,6 @@ const ReleaseRegisterContainer = () => {
             pk: getParameter('pk'),
             name: name,
             number: no,
-            type: type,
             ceo: ceo,
             photo: paths[0],
             telephone: phone,
@@ -268,7 +258,7 @@ const ReleaseRegisterContainer = () => {
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+    },[pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
 
     /**
      * onsubmitForm()
@@ -292,55 +282,28 @@ const ReleaseRegisterContainer = () => {
             return;
         }
         const data = {
-
-            name: name,
-            number: no,
-            type: type,
-            ceo_name: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
-            // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-
+            material_pk: match.params.pk,
+            amount: amount,
+            type: transferStringToCode('material',selectType),
+            date: selectDate
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/release/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo(undefined);
-                setType(0);
 
-                setCeo('');
-                setPaths([null])
-                setOldPaths([null])
-                setPhone('');
-                setEmailM('');
-                setPhoneM('')
-                setEmail('')
-
-                setInfoList([])
-                setAddress('');
-                setFax('');
-
+                history.goBack()
             }else{
                 //TODO:  기타 오류
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+    },[selectType,amount,selectDate])
 
 
 
@@ -350,19 +313,19 @@ const ReleaseRegisterContainer = () => {
             <Header title={isUpdate ? '출고 수정' : "출고 등록"}/>
             <WhiteBoxContainer>
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
-                    <ListHeader title="필수 항목"/>
+                    <ListHeader title={match.params.name}/>
                     <div style={{borderBottom: 'solid 0.5px #d3d3d3' , display:'flex', paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
-                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 120, display:'inline-block'}}>· 입고 구분</p>
-                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'입고 구분을 선택해 주세요'}/>
+                        <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 120, display:'inline-block'}}>· 출고 구분</p>
+                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'출고 구분을 선택해 주세요'}/>
                     </div>
-                    <NormalNumberInput title={'입고 수량'} width={120} value={amount} onChangeEvent={setAmount} description={'입고 수량을 입력해주세요'} />
-                    <InputContainer title={"입고 날짜"} width={120}>
+                    <NormalNumberInput title={'출고 수량'} width={120} value={amount} onChangeEvent={(input) => setAmount(input)} description={'출고 수량을 입력해주세요'} />
+                    <InputContainer title={"출고 날짜"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
                             <div style={{width: 817, display: 'table-cell'}}>
                                 <div style={{marginTop: 5}}>
                                     {
                                         selectDate === ''
-                                            ?<InputText>&nbsp; 입고 날짜를 선택해 주세요.</InputText>
+                                            ?<InputText>&nbsp; 출고 날짜를 선택해 주세요.</InputText>
                                             :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                                     }
                                 </div>
@@ -403,7 +366,7 @@ const ReleaseRegisterContainer = () => {
                 </form>
             </WhiteBoxContainer>
         </div>
-    );
+    )
 }
 
 const InputText = Styled.p`

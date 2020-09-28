@@ -28,6 +28,7 @@ export const getStockList = async( url: string) =>{
 export const API_URLS = {
     stock: {
         list: `/v1/stock/list`,
+        outsourcelist: `/v1/stock/outsource/list`,
         loadFilter: `/v1/stock/load/filters`,
         loadDetail: `/v1/stock/load/details`,
         warehousingRegister: `/v1/stock/warehousing/register`,

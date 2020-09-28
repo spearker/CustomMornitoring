@@ -61,17 +61,17 @@ const Signup = () => {
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
-        //alert(t('성공적으로 가입신청되었습니다.'))
+        alert(t('성공적으로 가입신청되었습니다.'))
         window.location.href= "/complete"
       }else if(results.status === 1001){
-        //alert(t('errorUse'))
+        // alert(t('errorUse'))
         setEmail('')
         window.location.href= "/login"
       }else if(results.status === 1003){
-        //alert(t('errorCode'))
+        // alert(t('errorCode'))
         setCode('')
       }else if(results.status === 1004){
-        //alert(t('만료된 인증코드 입니다. 이메일인증을 다시 해주세요.'))
+        alert(t('만료된 인증코드 입니다. 이메일인증을 다시 해주세요.'))
         window.location.href= "/login"
         setCode('')
       }else{

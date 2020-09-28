@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import {getToken} from '../../Common/tokenFunctions';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
@@ -12,27 +11,32 @@ import {useHistory} from 'react-router-dom'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import InputContainer from "../InputContainer";
 import Styled from "styled-components";
-import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
-import NormalAddressInput from "../../Components/Input/NormalAddressInput";
 import useObjectInput from "../../Functions/UseInput";
 import NormalNumberInput from "../../Components/Input/NormalNumberInput";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import moment from "moment";
+import {transferStringToCode} from "../../Common/codeTransferFunctions";
 
 
 const typeDummy = [
     '원자재',
     '부자재',
-    '반제품',
+    '중간자재',
     '공정품',
-    '완제품',
+    '최종 생산품',
 ]
+
+interface Props {
+    match: any;
+    // chilren: string;
+}
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const WarehousingRegisterContainer = () => {
+const WarehousingRegisterContainer = ({ match }: Props) => {
     const history = useHistory()
 
-    const [selectDate, setSelectDate] = useState<string>('')
+    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [no, setNo] = useState<number>();
@@ -73,7 +77,6 @@ const WarehousingRegisterContainer = () => {
             roadAddress:'',
             detail:'',
         },
-
     });
 
     useEffect(()=>{
@@ -225,19 +228,11 @@ const WarehousingRegisterContainer = () => {
         }
 
         const data = {
+
             pk: getParameter('pk'),
-            name: name,
-            number: no,
-            type: type,
-            ceo: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
+            amount: amount,
+            type: transferStringToCode('material',selectType),
+            date: selectDate
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
@@ -260,7 +255,7 @@ const WarehousingRegisterContainer = () => {
 
     /**
      * onsubmitForm()
-     * 기계 정보 등록
+     * 입고 등록
      * @param {string} url 요청 주소
      * @param {string} name 이름
      * @param {string} no 넘버
@@ -270,65 +265,37 @@ const WarehousingRegisterContainer = () => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitForm = useCallback(async(e)=>{
-        e.preventDefault();
-        console.log(infoList)
-        ////alert(JSON.stringify(infoList))
-        console.log(JSON.stringify(infoList))
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
+    const onsubmitForm = useCallback(async()=>{
         const data = {
 
-            name: name,
-            number: no,
-            type: type,
-            ceo_name: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
-            // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+            material_pk: match.params.pk,
+            amount: amount,
+            type: transferStringToCode('material',selectType),
+            date: selectDate
 
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/warehousing/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo(undefined);
-                setType(0);
 
-                setCeo('');
-                setPaths([null])
-                setOldPaths([null])
-                setPhone('');
-                setEmailM('');
-                setPhoneM('')
-                setEmail('')
-
-                setInfoList([])
-                setAddress('');
-                setFax('');
-
+                history.goBack()
             }else{
                 //TODO:  기타 오류
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+    },[selectType,amount,selectDate])
+
+
+    useEffect(() => {
+        console.log(amount)
+    }, [amount])
 
 
 
@@ -337,13 +304,12 @@ const WarehousingRegisterContainer = () => {
         <div>
             <Header title={isUpdate ? '입고 수정' : "입고 등록"}/>
             <WhiteBoxContainer>
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
-                    <ListHeader title="필수 항목"/>
+                    <ListHeader title={match.params.name}/>
                     <div style={{borderBottom: 'solid 0.5px #d3d3d3' , display:'flex', paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 120, display:'inline-block'}}>· 입고 구분</p>
                         <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'입고 구분을 선택해 주세요'}/>
                     </div>
-                    <NormalNumberInput title={'입고 수량'} width={120} value={amount} onChangeEvent={setAmount} description={'입고 수량을 입력해주세요'} />
+                    <NormalNumberInput title={'입고 수량'} width={120} value={amount} onChangeEvent={(input) => setAmount(input)} description={'입고 수량을 입력해주세요'} />
                     <InputContainer title={"입고 날짜"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
                             <div style={{width: 817, display: 'table-cell'}}>
@@ -387,8 +353,17 @@ const WarehousingRegisterContainer = () => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-                </form>
+                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: "100%"}}>
+                        <div style={{marginTop: 180}}>
+                            <ButtonWrap onClick={async () => {
+                                await onsubmitForm()
+                            }}>
+                                <div style={{width: 360, height: 46}}>
+                                    <p style={{fontSize: 18, marginTop: 8}}>전표 등록하기</p>
+                                </div>
+                            </ButtonWrap>
+                        </div>
+                </div>
             </WhiteBoxContainer>
         </div>
     );
@@ -402,5 +377,19 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+  `
 
 export default WarehousingRegisterContainer

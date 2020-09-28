@@ -2,8 +2,9 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS,getStockList} from "../../Api/mes/manageStock";
 import {useHistory} from "react-router-dom"
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 const OutSourceContainer = () => {
@@ -12,20 +13,24 @@ const OutSourceContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ item_name: "품목(품목명)" });
+    const [index, setIndex] = useState({ material_name: "품목명" });
     const [subIndex, setSubIndex] = useState({   writer: '작성자', })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
     const history = useHistory()
 
     const indexList = {
         outsource: {
-            item_name: "품목(품목명)",
-            stock_type: "자재 종류",
-            stock_quantity: "재고량",
-            safety_stock: "안전재고",
-            storage_location: "보관장소",
+            material_name: "품목명",
+            material_type: "품목 종류",
+            current_stock: "현재 재고",
+            safe_stock: "안전 재고" ,
+            location_name: "보관 장소",
         }
     }
 
@@ -40,48 +45,6 @@ const OutSourceContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            item_pk: '품목00',
-            materials_type: '완제품',
-            stock_type: '외주 재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '반제품',
-            stock_type: '외주 재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '원자재',
-            stock_type: '외주 재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '완제품',
-            stock_type: '외주 재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '완제품',
-            stock_type: '외주 재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-    ]
 
     const detaildummy = [
         {
@@ -135,28 +98,35 @@ const OutSourceContainer = () => {
 
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
+    // const getData = useCallback( async(pk)=>{
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}`
+        const res = await getStockList(tempUrl)
 
-        setList(res)
+        const getStock = res.items.map((v,i)=>{
+            const material_type = transferCodeToName('material', v.material_type)
+
+            return {...v, material_type: material_type}
+        })
+
+        setList(getStock)
+
+        setPage({ current: res.current_page+1, total: res.total_page })
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["outsource"])
-        setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
@@ -169,6 +139,7 @@ const OutSourceContainer = () => {
                 title={'외주 재고 관리'}
                 indexList={index}
                 valueList={list}
+                EventList={eventList}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {

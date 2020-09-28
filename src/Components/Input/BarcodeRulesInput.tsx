@@ -10,6 +10,9 @@ interface IProps{
     onChangeEvent: any,
     onRemoveEvent: any,
 }
+
+const BarcodeType = /^[A-Za-z0-9+]*$/;
+
 const BarcodeRulesInput = ({ title, value, onChangeEvent, onRemoveEvent}: IProps) => {
   useEffect(()=>{
 
@@ -19,7 +22,7 @@ const BarcodeRulesInput = ({ title, value, onChangeEvent, onRemoveEvent}: IProps
 
         <div style={{marginTop:17, marginBottom:17, display:'flex', alignItems:'center'}}>
             <p className="p-bold" style={{width: '20%', fontSize:13, marginRight: 9}} >{title}</p>
-            <InputBox style={{width: 'calc(100% - 40px)'}} type="number" value={value} onChange={ (e)=>onChangeEvent(e.target.value) } placeholder={'내용을 입력하세요.'}/>
+            <InputBox style={{width: 'calc(100% - 40px)'}} type="text" value={value} onChange={ (e)=>onChangeEvent(BarcodeType.test(e.target.value) ? e.target.value : '') } placeholder={'내용을 입력하세요.'}/>
             <img src={IC_MINUS} style={{width: 20, height:20, marginLeft: 8,  cursor:'pointer'}} onClick={onRemoveEvent}/>
         </div>
 

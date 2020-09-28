@@ -169,7 +169,8 @@ export const MES_MENU_LIST = {
     { name : '생산 계획 관리 리스트', url: '/project/schedulemanage/list'},
     { name : '작업 이력', url: '/project/work/history'},
     { name : '전표 리스트', url: '/project/voucher/list'},
-    { name : '불량 이력', url: '/project/defective/list' }
+    { name : '불량 이력', url: '/commingsoon' }
+    // { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
     // { name : '재고 관리', url: '/stock/status/list'},
@@ -198,30 +199,17 @@ export const MES_MENU_LIST = {
     { name: '공정 리스트', url: '/process/process/list'},
     { name : '공정별 세분화 리스트', url: '/process/segment/list'}
   ],
-  // mold: [
-  //   { name : '금형 관리', url: '/mold/current/list'},
-  //   { name : '금형 등록', url: '/mold/register'},
-  //   { name : '금형 수리 현황', url: '/mold/current/list'},
-  //   { name : '금형 수리 완료', url: '/mold/repair/list'}
-  // ],
-  // kpi: [
-  //   { name: 'KPI' }
-  // ],
-  // quality: [
-  //   { name : '품질 관리', url: '/quality/quality/list'},
-  //   { name : '제품 품질 현황', url: '/quality/current/list'}
-  // ],
   mold: [
     { name : '금형 관리', url: '/mold/current/list'},
     { name : '금형 관리 등록', url: '/mold/manage/register'},
     { name : '금형 제작 등록', url: '/mold/create/register'},
-    { name : '금형 제학 현황', url: '/mold/create/list'},
+    { name : '금형 제작 현황', url: '/mold/create/list'},
     { name : '금형 수리 완료', url: '/mold/repair/list'},
     { name : '금형 수리 등록', url: '/mold/repair/register'},
     { name : '금형 수리 현황', url: '/mold/current/list'},
     // { name : '금형 관리 등록', url: '/commingsoon'},
     // { name : '금형 제작 등록', url: '/commingsoon'},
-    // { name : '금형 제학 현황', url: '/commingsoon'},
+    // { name : '금형 제작 현황', url: '/commingsoon'},
     // { name : '금형 수리 완료', url: '/commingsoon'},
     // { name : '금형 수리 등록', url: '/commingsoon'},
     // { name : '금형 수리 현황', url: '/commingsoon'},
@@ -243,14 +231,13 @@ export const MES_MENU_LIST = {
     { name : '품목 기본정보', url : '/basic/list/material'},
     { name : '공장 기본정보', url : '/basic/list/factory'},
     { name : '공장 세분화 관리', url : '/basic/list/subdivided'},
-    // { name : '부품 기본정보', url : '/basic/list/parts'},
-    // { name : '바코드 표준 관리', url : '/basic/list/barcode'},
-    // { name : '표준 항목 관리', url : '/basic/list/item'},
-    // { name : '표준 문서 관리', url : '/basic/list/document'},
-      { name : '부품 기본정보', url : '/commingsoon'},
-      { name : '바코드 표준 관리', url : '/commingsoon'},
-      { name : '표준 항목 관리', url : '/commingsoon'},
-      { name : '표준 문서 관리', url : '/commingsoon'},
+    { name : '부품 기본정보', url : '/basic/list/parts'},
+    { name : '바코드 표준 관리', url : '/basic/list/barcode'},
+    { name : '표준 항목 관리', url : '/basic/list/item'},
+    { name : '표준 문서 관리', url : '/basic/list/document'},
+      // { name : '바코드 표준 관리', url : '/commingsoon'},
+      // { name : '표준 항목 관리', url : '/commingsoon'},
+      // { name : '표준 문서 관리', url : '/commingsoon'},
   ],
 }
 

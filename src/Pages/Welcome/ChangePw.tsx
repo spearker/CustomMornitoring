@@ -57,7 +57,7 @@ const ChangePw = () => {
         window.location.href= "/login"
       }else{
         //기타 에러처리
-        //alert('변경 실패하였습니다.')
+        alert('변경 실패하였습니다.')
       }
     }
 

@@ -44,44 +44,6 @@ const FinishMaterialContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            factory_name: '공정명 01',
-            machine_name: '프레스 01',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '대기',
-        },
-        {
-            factory_name: '공정명 02',
-            machine_name: '프레스 02',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-        {
-            factory_name: '공정명 03',
-            machine_name: '프레스 03',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '불량',
-        },
-        {
-            factory_name: '공정명 04',
-            machine_name: '프레스 04',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-        {
-            factory_name: '공정명 05',
-            machine_name: '프레스 05',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-    ]
-
     const detaildummy = [
         {
             worker: '홍길동',
@@ -96,13 +58,13 @@ const FinishMaterialContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: ()=>history.push('/stock/warehousing/register')
+            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: ()=>history.push('/stock/release/register')
+            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
         },
     ]
 

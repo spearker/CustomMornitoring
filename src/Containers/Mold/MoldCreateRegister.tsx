@@ -237,31 +237,32 @@ const MoldCreateRegisterContainer = () => {
 
                 <MoldPartDropdown title={'부품'} part={false}>
                     {
-                        components.map((v, i) => <div style={{width: "100%",display:"flex",alignItems: "center"}}>
+                        components.map((v, i) =>
                             <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                                 <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>
-                                        <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
-                                        <SearchButton style={{width: 32}} onClick={() => {
-                                        }}>
-                                            <img src={IcSearchButton}/>
-                                        </SearchButton>
-                                        <p>현재 재고량</p>
-                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
-                                        <p>사용할 수량</p>
-                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
-                                        <DeleteButton onClick={() => {
-                                            let tmpCompo = components
-                                            if(tmpCompo.length === 1){
-                                                console.log('삭제불가능')
-                                            }else{
-                                                tmpCompo.splice(i, 1)
-                                                setComponents([...tmpCompo])
-                                            }
-                                        }}>
-                                            <p>부품 삭제</p>
-                                        </DeleteButton>
-                                    </div>
+                                <div style={{width: "87%",display:"flex",alignItems: "center"}}>
+                                <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
+                                <SearchButton style={{width: 32}} onClick={() => {
+                                }}>
+                                    <img src={IcSearchButton}/>
+                                </SearchButton>
+                                <p>현재 재고량</p>
+                                <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                <p>사용할 수량</p>
+                                <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                <DeleteButton onClick={() => {
+                                    let tmpCompo = components
+                                    if(tmpCompo.length === 1){
+                                        console.log('삭제불가능')
+                                    }else{
+                                        tmpCompo.splice(i, 1)
+                                        setComponents([...tmpCompo])
+                                    }
+                                }}>
+                                    <p>부품 삭제</p>
+                                </DeleteButton>
                             </div>
+                        </div>
                         )
                     }
                     <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>

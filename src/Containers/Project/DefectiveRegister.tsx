@@ -36,12 +36,12 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
 
     const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
-    const [selectHistory, setSelectHistory] = useState<{ name?: string, pk?: string }>()
-    const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
-    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
+    const [selectHistory, setSelectHistory] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
+    const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
+    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>();
+    const [amount, setAmount] = useState<number>();
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"));
     const [reason, setReason] = useState<string>('')
     const textBoxRef = useRef(null);
@@ -119,12 +119,12 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         }else{
             setName(res.name);
             setPk(res.pk);
-            setNo(Number(res.number));
+            setAmount(Number(res.number));
             setPk(res.pk);
             setPaths([res.photo])
             setInfoList(res.info_list)
         }
-    },[pk, name, no,paths])
+    },[pk, name, amount,paths])
 
     /**
      * onsubmitFormUpdate()
@@ -150,7 +150,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         const data = {
             pk: getParameter('pk'),
             name: name,
-            number: no,
+            number: amount,
             photo: paths[0],
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
@@ -166,7 +166,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             history.goBack()
         }
 
-    },[pk, name, no, paths,])
+    },[pk, name, amount, paths,])
 
     /**
      * onsubmitForm()
@@ -191,9 +191,13 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         }
         const data = {
 
-            name: name,
-            number: no,
-            photo: paths[0],
+            history_pk: selectHistory.pk,
+            material_pk: selectMaterial.pk,
+            machine_pk: selectMachine.pk,
+            checker: name,
+            amount: amount,
+            date: selectDate,
+            reason: reason
             // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
@@ -206,12 +210,6 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo(undefined);
-                setPaths([null])
-                setInfoList([])
 
                 history.goBack();
             }else{
@@ -219,7 +217,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             }
         }
 
-    },[pk, name, no, paths,])
+    },[selectMaterial,selectMachine,name,amount,selectDate,reason])
 
 
 
@@ -244,7 +242,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                         }}/>
                     </InputContainer>
                     <NormalInput title={'검수자'} value={name} onChangeEvent={setName} description={'검수자'} width={120} />
-                    <NormalNumberInput title={'불량 개수'} value={no} onChangeEvent={setNo} description={'불량 개수를 입력하세요.'} width={120} />
+                    <NormalNumberInput title={'불량 개수'} value={amount} onChangeEvent={setAmount} description={'불량 개수를 입력하세요.'} width={120} />
                     <InputContainer title={"불량 검수일"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
                             <div style={{width: 817, display: 'table-cell'}}>
