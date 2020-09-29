@@ -221,8 +221,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                             :
                                         <p key={`td-${i}-${mv}`}
                                            className="p-limits" >
-                                            {console.log(v)}
-                                            {console.log(mv)}
                                             {v[mv] === '' ?
                                                     'ㅡ'
                                                 :

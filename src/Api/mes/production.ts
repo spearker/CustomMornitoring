@@ -13,6 +13,19 @@ export const getProjectList = async( url: string) =>{
     return temp.results
 }
 
+
+/**
+ * getHistorySearch()
+ * 작업 이력 검색
+ * @param {string} url 링크 주소기
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 정민
+ */
+export const getHistorySearch = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    return temp.results
+}
+
 /**
  * getProjectList()
  * 생산 계획 관리 리스트/ 생산 계획 리스트 불러오기
@@ -84,7 +97,8 @@ export const API_URLS = {
         history: `/v1/project/history`,
         search: `/v1/project/search`,
         dropdown: `/v1/project/dropdown`,
-        distribute: `/v1/project/distribute`
+        distribute: `/v1/project/distribute`,
+        search2: `/v1/project/history/search`
     },
     defective:{
         list: '/v1/defective/list'

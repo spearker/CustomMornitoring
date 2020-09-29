@@ -149,8 +149,8 @@ export const MES_MENU_LIST = {
   ],
   customer: [
     { name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
-    // { name: '거래처 리스트', url: '/customer/current/list'},
-    { name: '거래처 리스트', url: '/commingsoon'}
+    { name: '거래처 리스트', url: '/customer/current/list'},
+    // { name: '거래처 리스트', url: '/commingsoon'}
   ],
   outsourcing: [ // 외주처 관리
     // { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
@@ -169,8 +169,8 @@ export const MES_MENU_LIST = {
     { name : '생산 계획 관리 리스트', url: '/project/schedulemanage/list'},
     { name : '작업 이력', url: '/project/work/history'},
     { name : '전표 리스트', url: '/project/voucher/list'},
-    { name : '불량 이력', url: '/commingsoon' }
-    // { name : '불량 이력', url: '/project/defective/list' }
+    // { name : '불량 이력', url: '/commingsoon' }
+    { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
     // { name : '재고 관리', url: '/stock/status/list'},

@@ -6,7 +6,8 @@ import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getSearchMachine} from "../../Api/mes/process";
+import {API_URLS as PRODUCTION_URLS, getProjectList } from "../../Api/mes/production";
+import {API_URLS as BASIC_URLS, getBasicList } from "../../Api/mes/basic";
 
 
 
@@ -22,7 +23,7 @@ const DummyMachine = {
         machine_name:'기계명',
         machine_type:'기계종류(코드)',
         manufacturer_code: '제조번호',
-        location_name: '공장명'
+        location_name: "공장명"
     },
     device: {
         device_name: '장치명',
@@ -30,18 +31,18 @@ const DummyMachine = {
         manufacturer_code: '제조번호',
         location_name: '공장명',
     },
-    material: {
-        material_name: '이름',
-        material_type: '카테고리(코드)',
-        location_name: '공장명',
-        stock: '재고'
-    },
     mold: {
         mold_name: '금형이름',
         mold_type: '금형종류(코드)',
         limit: '최대타수',
         current: '현재타수',
         location_name: '공장명'
+    },
+    material: {
+        material_name: '이름',
+        material_type: '카테고리(코드)',
+        location_name: '공장명',
+        stock: '재고'
     },
     voucher: {
         registerer: '등록자',
@@ -56,6 +57,10 @@ const DummyMachine = {
 
 const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
 
@@ -68,10 +73,29 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}`
-        const resultData = await getSearchMachine(tempUrl);
-        // setCustomList(resultData.results)
-    }, [searchName])
+        console.log(type)
+        if (type === 'machine') {
+            const tempUrl = `${BASIC_URLS['machine'].list}?page=0&keyword=&type=0`
+            const resultData = await getBasicList(tempUrl);
+            setCustomList(resultData.items)
+        } else if (type === 'device') {
+            const tempUrl = `${BASIC_URLS['device'].list}?page=0&keyword=&type=0`
+            const resultData = await getBasicList(tempUrl);
+            setCustomList(resultData.items)
+        } else if (type === 'mold') {
+            const tempUrl = `${BASIC_URLS['mold'].list}?page=0&keyword=&type=0`
+            const resultData = await getBasicList(tempUrl);
+            setCustomList(resultData.items)
+        } else if (type === 'material') {
+            const tempUrl = `${BASIC_URLS['material'].list}?page=0&keyword=&type=0`
+            const resultData = await getBasicList(tempUrl);
+            setCustomList(resultData.items)
+        } else if (type === 'voucher') {
+            const tempUrl = `${PRODUCTION_URLS['chit'].list}?pk=''&page=${page.current}`
+            const resultData = await getProjectList(tempUrl);
+            setCustomList(resultData.info_list)
+        }
+    }, [searchName,type,customList])
 
     useEffect(() => {
         console.log(searchName)
@@ -82,7 +106,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
     };
     useEffect(()=>{
         getList()
-    },[])
+    },[type])
 
     return (
         <div style={{borderBottom: 'solid 0.5px #d3d3d3'}}>
@@ -143,20 +167,14 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                             null
                                         )
                                     })}
+                                        <td></td>
                                     </tr>
-                                    {/*{Object.keys(customName).map((v,i)=>{*/}
-                                    {/*    return(*/}
-                                    {/*    <tr>*/}
-                                    {/*        <th style={{width: 195}}>기계명</th>*/}
-                                    {/*    </tr>*/}
-                                    {/*)})}*/}
-                                    {/*{*/}
                                     {customList !== undefined && customList.length === 0 ?
                                         <tr>
                                             {Object.keys(customName).map((v)=>{
                                                 return(
                                                     v === type ?
-                                                        <td  colSpan={customName[v].length}>데이터가 없습니다.</td>
+                                                        <td  colSpan={Object.keys(customName[v]).length} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                                         :
                                                         null
                                                 )
@@ -164,29 +182,34 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                         </tr>
                                         :
                                         <tr style={{height: 32}}>
-                                        {customList?.map((v,i) => {
-                                            return(
-                                                <>
-                                                    <td><span>{v}</span></td>
-                                                    <td><span>{v.machine_type}</span></td>
-                                                    <td><span>{v.manufacturer}</span></td>
-                                                    <td><span>{v.manufacturer_code}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.machine_name)
-                                                                return onClickEvent({name: v.machine_name, pk: v.pk})
-                                                            }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
-                                                </>
-                                                )
+                                            {customList?.map((v,i) =>
+                                            {
+                                                return Object.keys(customName).map((vi)=>{
+                                                    return(
+                                                        vi === type ?
+                                                            Object.keys(customName[vi]).map(m => {
+                                                                console.log(m)
+                                                                return(
+                                                                    <td key={v[m]}>{v[m]}</td>
+                                                                )})
+                                                            :
+                                                            null
+                                                    )
+                                                })
                                             })
                                         }
                                         </tr>}
+                                            {/*<td>*/}
+                                            {/*    <button*/}
+                                            {/*        onClick={() => {*/}
+                                            {/*            setMachineName(v.machine_name)*/}
+                                            {/*            return onClickEvent({name: v.machine_name, pk: v.pk})*/}
+                                            {/*        }}*/}
+                                            {/*        style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}*/}
+                                            {/*    >*/}
+                                            {/*        <img src={ic_check} style={{width: 20, height: 20}}/>*/}
+                                            {/*    </button>*/}
+                                            {/*</td>*/}
                                 </MachineTable>
                             </ReactShadowScroll>
                         </div>
@@ -214,7 +237,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
 }
 
 const BoxWrap = Styled.button`
-    border: 1px solid #b3b3b3;
+    border: 1px solid #d3d3d3;
     color: black;
     width: 100%;
     height: 32px;

@@ -37,7 +37,7 @@ const initialData = {
 }
 
 const indexList = ['기계 기본정보', '주변장치 기본정보','금형 기본정보','품목 기본정보','전표 리스트']
-
+const indexType = ['machine','device','mold','material','voucher']
 
 const BasicBarcodeRegister = () => {
 
@@ -171,8 +171,9 @@ const BasicBarcodeRegister = () => {
                   <>
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'바코드 명'} value={inputData.name} onChangeEvent={(input)=>setInputData(`name`, input)} description={'바코드 이름을 입력해주세요.'}/>
+                    {console.log(inputData.type)}
                 <DropdownInput title={'항목'} target={indexList[inputData.type]} contents={indexList} onChangeEvent={(input)=>setInputData(`type`, input)}/>
-                <CustomPickerModal onClickEvent={(e)=> console.log(e)} text={'세부 항목을 검색해주세요.'} type={"device"}/>
+                <CustomPickerModal onClickEvent={(e)=> console.log(e)} text={'세부 항목을 검색해주세요.'} type={indexType[inputData.type]}/>
                 {
                     inputData.rules.length > 0 && inputData.rules[0] !== null &&
                     <BarcodeText><br/><span>현재 규칙</span><br/>{inputData.rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'')}</BarcodeText>
