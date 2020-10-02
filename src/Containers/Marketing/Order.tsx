@@ -1,7 +1,8 @@
 import React, {useCallback, useEffect, useState,} from "react";
 import OvertonTable from "../../Components/Table/OvertonTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMarketing, postMarketing} from "../../Api/mes/marketing";
 import {useHistory} from "react-router-dom";
+import {postOutsourcingDelete} from "../../Api/mes/outsourcing";
 
 
 const OrderContainer = () => {
@@ -11,9 +12,13 @@ const OrderContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ customer_name: '거래처 명'});
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const history = useHistory();
 
     const indexList = {
@@ -25,38 +30,28 @@ const OrderContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            customer_name: '(주)대한민국',
-            material_name: '(품목)품목명',
-            amount: '00 ea',
-            date: '2020.07.07'
-        },
-        {
-            customer_name: '(주)대한민국',
-            material_name: '(품목)품목명',
-            amount: '00 ea',
-            date: '2020.07.07'
-        },
-        {
-            customer_name: '(주)대한민국',
-            material_name: '(품목)품목명',
-            amount: '00 ea',
-            date: '2020.07.07'
-        },
-        {
-            customer_name: '(주)대한민국',
-            material_name: '(품목)품목명',
-            amount: '00 ea',
-            date: '2020.07.07'
-        },
-        {
-            customer_name: '(주)대한민국',
-            material_name: '(품목)품목명',
-            amount: '00 ea',
-            date: '2020.07.07'
-        },
-    ]
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
+    },[deletePk])
 
     const titleeventdummy = [
         {
@@ -66,6 +61,7 @@ const OrderContainer = () => {
         },
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
@@ -73,61 +69,33 @@ const OrderContainer = () => {
         {
             Name: '수정',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/marketing/contract/modify/${v.pk}`)
         },
     ]
 
-    const detaildummy = [
-        {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
-    ]
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['contract'].delete}`
+        const res = await postMarketing(tempUrl, deletePk)
 
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
-            //TODO: api 요청
-            // getData(mold.pk)
-        }
-
-
-
-    }, [list, selectPk]);
-
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
+        getList()
+    },[deletePk])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['contract'].list}?page=${page.current}`
+        const res = await getMarketing(tempUrl)
 
         setList(res)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["order"])
-        setList(dummy)
+        // setList(dummy)
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
-        setDetailList(detaildummy)
     },[])
 
     return (
@@ -141,8 +109,7 @@ const OrderContainer = () => {
                 EventList={eventList}
                 allCheckbox={true}
                 checkBox={true}
-                noChildren={true}
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
             </OvertonTable>
         </div>
     );

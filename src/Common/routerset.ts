@@ -142,10 +142,10 @@ export const ROUTER_MENU_LIST = [
 export const MES_MENU_LIST = {
   marketing: [
     { name : '영업 관리', url: '/marketing/order/list'}, //상위메뉴
-    // { name : '수주 리스트', url: '/marketing/order/list'},
-    // { name : '출하 리스트', url: '/marketing/shipment/list'},
-      { name : '수주 리스트', url: '/commingsoon'},
-      { name : '출하 리스트', url: '/commingsoon'},
+    { name : '수주 리스트', url: '/marketing/order/list'},
+    { name : '출하 리스트', url: '/marketing/shipment/list'},
+      // { name : '수주 리스트', url: '/commingsoon'},
+      // { name : '출하 리스트', url: '/commingsoon'},
   ],
   customer: [
     { name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
@@ -153,14 +153,14 @@ export const MES_MENU_LIST = {
     // { name: '거래처 리스트', url: '/commingsoon'}
   ],
   outsourcing: [ // 외주처 관리
-    // { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
-    // { name: '외주처 발주 리스트', url: '/outsourcing/order/list' },
-    // { name: '외주처 수주 리스트', url: '/outsourcing/contract/list' },
-    // { name: '외주처 현황', url: '/outsourcing/current/list' },
-      { name: '외주처 관리', url: '/commingsoon' }, //상위메뉴
-      { name: '외주처 발주 리스트', url: '/commingsoon' },
-      { name: '외주처 수주 리스트', url: '/commingsoon' },
-      { name: '외주처 현황', url: '/commingsoon' },
+    { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
+    { name: '외주처 발주 리스트', url: '/outsourcing/order/list' },
+    { name: '외주처 수주 리스트', url: '/outsourcing/contract/list' },
+    { name: '외주처 현황', url: '/outsourcing/current/list' },
+      // { name: '외주처 관리', url: '/commingsoon' }, //상위메뉴
+      // { name: '외주처 발주 리스트', url: '/commingsoon' },
+      // { name: '외주처 수주 리스트', url: '/commingsoon' },
+      // { name: '외주처 현황', url: '/commingsoon' },
 
   ],
   project: [ //생산관리
@@ -173,26 +173,26 @@ export const MES_MENU_LIST = {
     { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
-    // { name : '재고 관리', url: '/stock/status/list'},
-    // { name : '재고 현황', url: '/stock/status/list'},
-    // { name : '원자재 관리', url: '/stock/rawmaterial/list'},
-    // { name : '재공 재고 관리', url:'/stock/wip/list'},
-    // { name : '완제품 관리', url: '/stock/finishmaterial/list'},
-    // { name : '외주 재고 관리', url:'/stock/outsource/list'},
-    // { name : '부품 관리', url: '/stock/parts/list'}
+    { name : '재고 관리', url: '/stock/status/list'},
+    { name : '재고 현황', url: '/stock/status/list'},
+    { name : '원자재 관리', url: '/stock/rawmaterial/list'},
+    { name : '재공 재고 관리', url:'/stock/wip/list'},
+    { name : '완제품 관리', url: '/stock/finishmaterial/list'},
+    { name : '외주 재고 관리', url:'/stock/outsource/list'},
+    { name : '부품 관리', url: '/stock/parts/list'}
 
-      { name: '재고 관리', url: '/commingsoon'},
-      { name: '재고 현황', url: '/commingsoon'},
-      { name : '재공재고 관리', url:'/commingsoon'},
-      { name : '외주 재고 관리', url:'/commingsoon'},
-      { name : '원자재 관리', url: '/commingsoon'},
-      { name : '완제품 관리', url: '/commingsoon'},
+      // { name: '재고 관리', url: '/commingsoon'},
+      // { name: '재고 현황', url: '/commingsoon'},
+      // { name : '재공재고 관리', url:'/commingsoon'},
+      // { name : '외주 재고 관리', url:'/commingsoon'},
+      // { name : '원자재 관리', url: '/commingsoon'},
+      // { name : '완제품 관리', url: '/commingsoon'},
   ],
   barcode: [
-    // { name : '바코드 관리', url: '/barcode/current/list'},
-    // { name : '바코드 현황', url: '/barcode/current/list'}
-      { name : '바코드 관리', url: '/commingsoon'},
-      { name : '바코드 현황', url: '/commingsoon'}
+    { name : '바코드 관리', url: '/barcode/current/list'},
+    { name : '바코드 현황', url: '/barcode/current/list'}
+      // { name : '바코드 관리', url: '/commingsoon'},
+      // { name : '바코드 현황', url: '/commingsoon'}
   ],
   process: [
     { name: '공정 관리', url: '/process/process/list'},
@@ -215,7 +215,12 @@ export const MES_MENU_LIST = {
     // { name : '금형 수리 현황', url: '/commingsoon'},
   ],
   kpi: [
-    { name: 'KPI', url: '/commingsoon' }
+    { name: 'KPI', url: '/kpi/' },
+    { name: '생산지수(P)', url: ''},
+    { name: '품질지수(Q)', url: ''},
+    { name: '원가지수(C)', url: ''},
+    { name: '납기지수(D)', url: ''},
+    { name: '에너지지수(E)', url: ''},
   ],
   quality: [
     // { name : '품질 관리', url: '/quality/quality/list'},

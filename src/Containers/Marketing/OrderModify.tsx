@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
 import {Button, Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
@@ -7,54 +7,57 @@ import {POINT_COLOR} from "../../Common/configset";
 import IcButton from "../../Components/Button/IcButton";
 import searchImage from "../../Assets/Images/ic_search.png";
 import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
-import {API_URLS, postOrderModify} from "../../Api/mes/business";
+import {API_URLS, getMarketing, postOrderModify, postOrderRegister} from "../../Api/mes/marketing";
+import ContractPickerModal from "../../Components/Modal/ContractPIckerModal";
+import {useHistory} from 'react-router-dom'
 
-const factoryDummy = [
-    '더미 업체 1',
-    '더미 업체 2',
-    '더미 업체 3',
-]
+interface Props {
+    match: any;
+}
 
-const productionDummy = [
-    '더미 품목 1',
-    '더미 품목 2',
-    '더미 품목 3',
-]
-
-const listDummy = [
-    { project_pk: 'dummy01', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
-    { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
-]
-
-const OrderModifyContainer = () => {
+const OrderModifyContainer = ({match}:Props) => {
+    const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState(false);
     const [selectOpen, setSelectOpen] = useState<boolean>(false)
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
-        factory: undefined,
-        production: undefined
-    })
-
-    const [ productionList, setProductionList ] = useState<string[]>(productionDummy)
-
-    const [ production, setProduction ] = useState<string>()
-
-    const [orderData, setOrderData] = useState<{pk: string, contract_pk: string, amount: Number, date: string}>({
-        pk: '',
+    const [customer,setCustomer] = useState<string>('')
+    const [material,setMaterial] = useState<string>('')
+    const [orderData, setOrderData] = useState<{pk: string,contract_pk: string, amount: Number, date: string}>({
+        pk: match.params.pk,
         contract_pk: '',
-        amount: 2000,
+        amount: 0,
         date: moment().format('YYYY-MM-DD'),
     })
 
-    const postContractRegisterData = useCallback(async () => {
+    const getContractLoadData = useCallback(async ()=>{
+        const tempUrl = `${API_URLS['order'].load}?pk=${match.params.pk}`
+        const resultData = await getMarketing(tempUrl);
+
+        setCustomer(resultData.customer_name)
+        setMaterial(resultData.material_name)
+        setOrderData({
+            pk: match.params.pk,
+            contract_pk: resultData.contract_pk,
+            amount: resultData.amount,
+            date: resultData.date
+        })
+    },[])
+
+    const postContractUpdateData = useCallback(async () => {
         const tempUrl = `${API_URLS['order'].update}`
-        const resultData = await postOrderModify(tempUrl, orderData);
+        const resultData = await postOrderRegister(tempUrl, orderData);
+
+        history.goBack()
     }, [orderData])
 
+    useEffect(()=>{
+        getContractLoadData()
+    },[])
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
-                <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
+               <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>출하 수정</span>
                 </div>
             </div>
@@ -67,24 +70,7 @@ const OrderModifyContainer = () => {
                         <tr>
                             <td>• 수주 리스트</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 885}}>
-                                        <div style={{marginTop: 5}}>
-                                            {
-                                                orderData.contract_pk === ''
-                                                    ?<InputText>&nbsp; 수주 리스트를 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}></InputText>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div style={{width: 32}} onClick={()=> {
-                                        setOpen(true)
-                                    }}>
-                                        <IcButton customStyle={{width: 32, height: 32}} image={searchImage} dim={true} onClickEvent={() => {
-                                            setOpen(true)
-                                        }}/>
-                                    </div>
-                                </div>
+                                <ContractPickerModal onClickEvent={(e)=>{setOrderData({...orderData, contract_pk: e.pk, amount: e.amount}); setCustomer(e.customer_name); setMaterial(e.material_name)}} text={'수주 리스트를 선택해 주세요.'}/>
                             </td>
                         </tr>
                         <tr>
@@ -94,8 +80,8 @@ const OrderModifyContainer = () => {
                                     <div style={{marginTop: 5}}>
                                         {
                                             orderData.contract_pk === ''
-                                                ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                :<InputText style={{color: '#111319'}}></InputText>
+                                                ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
+                                                :<InputText style={{color: '#111319'}}>{customer}</InputText>
                                         }
                                     </div>
                                 </div>
@@ -116,8 +102,8 @@ const OrderModifyContainer = () => {
                                         <div style={{marginTop: 5}}>
                                             {
                                                 orderData.contract_pk === ''
-                                                    ?<InputText>&nbsp; 품목(품목명)을 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}></InputText>
+                                                    ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
+                                                    :<InputText style={{color: '#111319'}}>{material}</InputText>
                                             }
                                         </div>
                                     </div>
@@ -133,17 +119,32 @@ const OrderModifyContainer = () => {
                         </tr>
                         <tr>
                             <td>• 수량</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:number) => setOrderData({...orderData, amount: e})}/></td>
+                            <td>
+                                {isOpen ?
+                                    <div style={{display: "flex"}}>
+                                        <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." onChange={(e) => setOrderData({...orderData, amount: Number(e.target.value)})} value={Number(orderData.amount) === 0 ? '' : Number(orderData.amount) }/>
+                                        <BoxWrap style={{height: 36}}>
+                                            <span className="p-bold" onClick={() => {setIsOpen(false)}}>수량 변경</span>
+                                        </BoxWrap>
+                                    </div>:
+                                    <div style={{display: "flex"}}>
+                                        <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." disabled={true} onChange={(e) => setOrderData({...orderData, amount: Number(e.target.value)})} value={Number(orderData.amount) === 0 ? '' : Number(orderData.amount)}/>
+                                        <BoxWrap style={{height: 36}}>
+                                            <span className="p-bold" onClick={() => {setIsOpen(true)}}>수량 변경</span>
+                                        </BoxWrap>
+                                    </div>
+                                }
+                            </td>
                         </tr>
                         <tr>
-                            <td>• 수주 날짜</td>
+                            <td>• 출하 날짜</td>
                             <td>
                                 <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
                                     <div style={{width: 817, display: 'table-cell'}}>
                                         <div style={{marginTop: 5}}>
                                             {
                                                 selectDate === ''
-                                                    ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
+                                                    ?<InputText>&nbsp; 수주 날짜를 선택해 주세요</InputText>
                                                     :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                                             }
                                         </div>
@@ -151,18 +152,18 @@ const OrderModifyContainer = () => {
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
                                         setOrderData({...orderData, date: select})
-                                    }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
+                                    }} text={'날짜 변경'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div style={{marginTop: 72}}>
+                <div style={{marginTop: 40}}>
                     <ButtonWrap onClick={async () => {
-                        await postContractRegisterData()
+                        await postContractUpdateData()
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        <div style={{width: 360, height: 40}}>
+                            <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -236,6 +237,21 @@ const InputText = Styled.p`
     text-align: left;
     vertical-align: middle;
     font-weight: regular;
+`
+
+const BoxWrap = Styled.button`
+    padding: 4px 15px 5px 15px;
+    color: black;
+    min-width: 100px;
+    height: 300px;
+    background-color: #19b9df;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+    font-size: 13px;
+    .react-calendar{
+        border: 0;
+    }
 `
 
 export default OrderModifyContainer

@@ -4,21 +4,31 @@ import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
 import {getToken} from '../../Common/tokenFunctions';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import {uploadTempFile} from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
-import OldFileInput from '../../Components/Input/OldFileInput';
-import RadioInput from '../../Components/Input/RadioInput';
-import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom'
+import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
+import InputContainer from "../InputContainer";
+import Styled from "styled-components";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import NormalAddressInput from "../../Components/Input/NormalAddressInput";
+import useObjectInput from "../../Functions/UseInput";
+import OutsourcingPickerModal from "../../Components/Modal/OutsourcingRegister";
+import NormalNumberInput from "../../Components/Input/NormalNumberInput";
 
 // 발주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const OutsourcingRegister = () => {
+interface Props {
+    match: any;
+    // chilren: string;
+}
+
+const OutsourcingRegister = ({match}:Props) => {
     const history = useHistory()
 
+    const [selectDate, setSelectDate] = useState<string>('')
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [no, setNo] = useState<number>();
@@ -36,13 +46,29 @@ const OutsourcingRegister = () => {
     const [paths, setPaths] = useState<any[1]>([null]);
     const [oldPaths, setOldPaths] = useState<any[1]>([null]);
 
+
+    const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
+    const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
+    const [quantity, setQuantity] = useState()
+    const [unpaid, setUnpaid] = useState()
+    const [paymentCondition, setPaymentCondition] = useState('')
+    const [inputData, setInputData] = useObjectInput('CHANGE', {
+        name:'',
+        description:'',
+        location: {
+            postcode: '',
+            roadAddress:'',
+            detail:'',
+        },
+
+    });
+
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
 
 
     useEffect(()=>{
-        if(getParameter('pk') !== "" ){
-            setPk(getParameter('pk'))
+        if( match.params.pk ){
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
             getData()
@@ -101,35 +127,24 @@ const OutsourcingRegister = () => {
      */
     const getData = useCallback(async()=>{
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/load?pk=' + match.params.pk , getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             if(res.status === 200){
                 const data = res.results;
-                setName(data.name);
-                setPk(data.pk);
-                setNo(Number(data.number));
-                setType(Number(data.type));
-                setPk(data.pk);
-                setCeo(data.ceo);
-                setOldPaths([data.photo])
-                setPhone(data.telephone);
-                setEmailM(data.manager_email);
-                setPhoneM(data.manager_phone)
-                setManager(data.manager)
-                setEmail(data.ceo_email)
-
-                setInfoList(data.info_list)
-                setAddress(data.address);
-                setFax(data.fax);
+                setInputData('location',data.address)
+                setQuantity(data.quantity)
+                setUnpaid(data.unpaid)
+                setSelectDate(data.due_date)
+                setPaymentCondition(data.payment_condition)
 
             }else{
                 //TODO:  기타 오류
             }
         }
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
+    },[pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData ])
 
     /**
      * onsubmitFormUpdate()
@@ -153,24 +168,19 @@ const OutsourcingRegister = () => {
         }
 
         const data = {
-            pk: getParameter('pk'),
-            name: name,
-            number: no,
-            type: type,
-            ceo: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
+            pk: match.params.pk ,
+            company: selectOutsource?.pk,
+            product: selectMaterial?.pk,
+            quantity: quantity,
+            unpaid: unpaid,
+            due_date: selectDate,
+            payment_condition: paymentCondition,
+            address: inputData.location
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/oder/update/', data, getToken(TOKEN_NAME))
 
         if(res === false){
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -184,7 +194,7 @@ const OutsourcingRegister = () => {
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+    },[pk, selectOutsource,selectMaterial,selectDate,quantity,unpaid,paymentCondition,inputData])
 
     /**
      * onsubmitForm()
@@ -202,61 +212,34 @@ const OutsourcingRegister = () => {
         e.preventDefault();
         console.log(infoList)
         ////alert(JSON.stringify(infoList))
-        console.log(JSON.stringify(infoList))
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
-        const data = {
 
-            name: name,
-            number: no,
-            type: type,
-            ceo_name: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
-            // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+        const data = {
+            company: selectOutsource?.pk,
+            product: selectMaterial?.pk,
+            quantity: quantity,
+            unpaid: unpaid,
+            due_date: selectDate,
+            payment_condition: paymentCondition,
+            address: inputData.location
 
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo(undefined);
-                setType(0);
-
-                setCeo('');
-                setPaths([null])
-                setOldPaths([null])
-                setPhone('');
-                setEmailM('');
-                setPhoneM('')
-                setEmail('')
-
-                setInfoList([])
-                setAddress('');
-                setFax('');
+               history.goBack()
 
             }else{
                 //TODO:  기타 오류
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+    },[selectOutsource,selectMaterial,selectDate,quantity,unpaid,paymentCondition,inputData])
 
 
 
@@ -267,27 +250,38 @@ const OutsourcingRegister = () => {
             <WhiteBoxContainer>
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
-                    <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'} />
-                    <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'} />
-                    <RadioInput title={'사업자 구분'} target={type} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
-
-                    <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
-                    <br/>
-                    <ListHeader title="선택 항목"/>
-                    <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
-                    {
-                        isUpdate ?
-                            <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true} />
-                            :
-                            null
-                    }
-                    <NormalInput title={'사업장 주소'} value={address} onChangeEvent={setAddress} description={'사업자 등록증에 기재되어있는 주소를 입력하세요'} />
-                    <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} description={'사업자 등록증에 기재되어있는 연락처를 입력하세요'} />
-                    <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail} description={'사업장 이메일을 입력하세요'} />
-                    <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax} description={'사업장 팩스번호를 입력하세요'} />
-                    <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager} description={'사업장 담당자(관리자) 이름을 입력하세요'} />
-                    <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} description={'사업장 담당자(관리자) 연락처를 입력하세요'} />
-                    <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM} description={'사업장 담당자(관리자) 이메일을 입력하세요'} />
+                    <InputContainer title={"외주처 명"} width={120}>
+                        <OutsourcingPickerModal select={selectOutsource}
+                                               onClickEvent={(e) => {
+                                                   setSelectOutsource({...selectOutsource, ...e })
+                                               }} text={"외주처 명을 검색해주세요."} />
+                    </InputContainer>
+                    <InputContainer title={"품목(품목명)"} width={120}>
+                        <ProductionPickerModal select={selectMaterial}
+                                               onClickEvent={(e) => {
+                                                   setSelectMaterial({...selectMaterial, ...e })
+                                               }} text={"품목명을 검색해주세요."} type={true}/>
+                    </InputContainer>
+                    <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity} description={'수량을 입력하세요.'} width={120} />
+                    <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid} description={'미납 수량을 입력하세요.'} width={120} />
+                    <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition} description={'대금 지불조건을 입력해 주세요.'}  width={120}/>
+                    <InputContainer title={"납기일"} width={120}>
+                        <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
+                            <div style={{width: 817, display: 'table-cell'}}>
+                                <div style={{marginTop: 5}}>
+                                    {
+                                        selectDate === ''
+                                            ?<InputText>&nbsp; 납기일을 선택해 주세요.</InputText>
+                                            :<InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                                    }
+                                </div>
+                            </div>
+                            <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                                setSelectDate(select)
+                            }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
+                        </div>
+                    </InputContainer>
+                    <NormalAddressInput title={'공장 주소'} value={inputData.location} onChangeEvent={(input)=>setInputData(`location`, input)}  />
                     {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();
@@ -322,7 +316,13 @@ const OutsourcingRegister = () => {
     );
 }
 
-
+const InputText = Styled.p`
+    color: #b3b3b3;
+    font-size: 15px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: regular;
+`
 
 
 export default OutsourcingRegister;

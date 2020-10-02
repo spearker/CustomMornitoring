@@ -2,10 +2,10 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList} from "../../Api/mes/outsourcing";
 import {useHistory} from "react-router-dom";
 import {getCustomerData} from "../../Api/mes/customer";
-
+import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 
 const ContractContainer = () => {
 
@@ -15,11 +15,12 @@ const ContractContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailEventList, setDetaileventList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any[]>([]);
-    const [contentsList, setContentsList] = useState<any[]>(['외주처명','대표자명'])
+    const [contentsList, setContentsList] = useState<any[]>(['거래처명','제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
     const [index, setIndex] = useState({ name: '외주처' });
-    const [subIndex, setSubIndex] = useState({ writer: '작성자' })
+    const [subIndex, setSubIndex] = useState({ manager: '작성자' })
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -42,11 +43,11 @@ const ContractContainer = () => {
 
     const detailTitle = {
         contract: {
-            writer: '담당자',
-            delivery_date: '납기일',
-            location: '납품 장소',
+            manager: '작성자',
+            due_date: '납기일',
+            address: '회사 주소',
             payment_condition: '대금 지급 조건',
-            statement: '상태',
+            status: '상태',
         },
     }
 
@@ -98,6 +99,54 @@ const ContractContainer = () => {
         },
     ]
 
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
+    },[deletePk])
+
+    const optionChange = useCallback(async (filter:number)=>{
+        setOption(filter)
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+    },[option,searchValue])
+
+
+    const searchChange = useCallback(async (search)=>{
+        setSearchValue(search)
+
+    },[searchValue])
+
+    const searchOnClick = useCallback(async () => {
+
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+
+    },[searchValue,option])
+
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf', mold.pk, mold.mold_name);
         if (mold.pk === selectPk) {
@@ -109,26 +158,17 @@ const ContractContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
     }, [list, selectPk]);
-
-    const optionChange = useCallback(async (filter:number)=>{
-        setOption(filter)
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
-        const res = await getCustomerData(tempUrl)
-
-        setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
-
 
     const eventdummy = [
         {
             Name: '수정',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/outsourcing/contract/register/${v.pk}`)
         }
     ]
 
@@ -140,6 +180,7 @@ const ContractContainer = () => {
         },
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
@@ -150,10 +191,17 @@ const ContractContainer = () => {
         },
     ]
 
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['customer'].delete}`
+        const res = await postOutsourcingDelete(tempUrl, deletePk)
+
+        getList()
+    },[deletePk])
+
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['contract'].load}`
+        const res = await postOutsourcingList(tempUrl, pk)
 
         setDetailList(res)
 
@@ -161,17 +209,17 @@ const ContractContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+        const res = await getOutsourcingList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     }, [list])
 
     useEffect(() => {
-        // getList()
+        getList()
         setIndex(indexList["contract"])
-        setList(dummy)
+        // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
@@ -185,15 +233,19 @@ const ContractContainer = () => {
                 title={'외주처 수주 리스트'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
+                allCheckOnClickEvent={allCheckOnClick}
                 dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
                 searchBar={true}
+                searchBarChange={searchChange}
+                searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 checkBox={true}
+                checkOnClickEvent={checkOnClick}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {
@@ -205,6 +257,7 @@ const ContractContainer = () => {
                         null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

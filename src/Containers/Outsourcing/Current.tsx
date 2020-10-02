@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getOutsourcingList, postOutsourcingDelete} from "../../Api/mes/outsourcing";
 import {useHistory} from "react-router-dom";
 import {getCustomerData} from "../../Api/mes/customer";
+import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 
 
 const CurrentContainer = () => {
@@ -17,6 +18,7 @@ const CurrentContainer = () => {
     const [searchValue, setSearchValue] = useState<any>('')
     const [index, setIndex] = useState({ name: '외주처' });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -30,12 +32,11 @@ const CurrentContainer = () => {
             name: '외주처 명',
             telephone: '전화 번호',
             fax: '팩스 번호',
-            ceo_name: '대표자',
+            ceo_name: '대표자 명',
             registered: '등록 날짜',
             /* safety_stock: '안전재고' */
         }
     }
-
 
     const detailTitle = {
         current: {
@@ -47,53 +48,53 @@ const CurrentContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            name: '외주처 01',
-            telephone: '000-000-000',
-            fax: '000-000-000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 02',
-            telephone: '000-000-000',
-            fax: '000-000-000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 03',
-            telephone: '000-000-000',
-            fax: '000-000-000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 04',
-            telephone: '000-000-000',
-            fax: '000-000-000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 05',
-            telephone: '000-000-000',
-            fax: '000-000-000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-    ]
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
+    },[deletePk])
 
-    const detaildummy = [
-        {
-            writer: '김담당',
-            sortation: '정상 입고',
-            stock_quantity: '9,999,999,999',
-            before_quantity: '9,999,999,999',
-            date: '2020.08.09',
-        },
-    ]
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
+    },[deletePk])
+
+    const optionChange = useCallback(async (filter:number)=>{
+        setOption(filter)
+        const tempUrl = `${API_URLS['outsourcing'].list}?type=${(filter)}&keyword=${(searchValue)}&page=${page.current}`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+    },[option,searchValue])
+
+
+    const searchChange = useCallback(async (search)=>{
+        setSearchValue(search)
+
+    },[searchValue])
+
+    const searchOnClick = useCallback(async () => {
+
+        const tempUrl = `${API_URLS['outsourcing'].list}?type=${option}&keyword=${(searchValue)}&page=${page.current}`
+        const res = await getCustomerData(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+
+    },[searchValue,option])
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf', mold.pk, mold.mold_name);
@@ -113,20 +114,12 @@ const CurrentContainer = () => {
 
     }, [list, selectPk]);
 
-    const optionChange = useCallback(async (filter:number)=>{
-        setOption(filter)
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
-        const res = await getCustomerData(tempUrl)
-
-        setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
-
     const eventdummy = [
         {
             Name: '수정',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/outsourcing/register/${v.pk}`)
         },
 
     ]
@@ -139,32 +132,38 @@ const CurrentContainer = () => {
         },
         {
             Name: '삭제',
+            Link: () => postDelete()
         }
     ]
 
-    const getData = useCallback(async (pk) => {
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+    // const getData = useCallback(async (pk) => {
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // }, [detailList])
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['outsourcing'].delete}`
+        const res = await postOutsourcingDelete(tempUrl, deletePk)
 
-        setDetailList(res)
-
-    }, [detailList])
+        getList()
+    },[deletePk])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['outsourcing'].list}?type=0&keyword=&page=${page.current}`
+        const res = await getOutsourcingList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     }, [list])
 
     useEffect(() => {
-        // getList()
+        getList()
         setIndex(indexList["current"])
-        setList(dummy)
-        setDetailList(detaildummy)
+       // setList(dummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['current'])
@@ -176,19 +175,24 @@ const CurrentContainer = () => {
                 title={'외주처 현황'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
+                allCheckOnClickEvent={allCheckOnClick}
                 dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
                 searchBar={true}
+                searchBarChange={searchChange}
+                searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 checkBox={true}
+                checkOnClickEvent={checkOnClick}
                 /* clickValue={selectValue} */
                 noChildren={true}
                 mainOnClickEvent={onClick}>
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

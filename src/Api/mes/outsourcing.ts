@@ -17,13 +17,28 @@ export const postOutsourcingDelete = async( url: string,object: object) =>{
 
 /**
  * getOutsourcingList()
- * 공정 리스트 정보 불러오기
+ * 외주처 리스트 정보 불러오기
  * @param {string} url 링크 주소
  * @returns {object} data object
  * @author 정민
  * @version 0.1
  */
 export const getOutsourcingList = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results;
+}
+
+/**
+ * postOutsourcingList()
+ * 외주처 리스트 상세 정보 불러오기
+ * @param {string} url 링크 주소
+ * @param object
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const postOutsourcingList = async( url: string, object: object) =>{
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
     return temp.results;
@@ -89,26 +104,45 @@ export const getSearchMachine = async( url: string) =>{
 }
 
 /**
- * getSearchMachine()
- * 공정 검색하기
+ * getSearchOutsourcing()
+ * 외주처 검색하기
  * @param {string} url 링크 주소
  * @param {Object} keyword 공정명
- * @returns {Object} 기게정보 리스트
- * @author 준희
+ * @returns {Object} 외주처 리스트
+ * @author 정민
  */
 
 export const getSearchOutsourcing = async( url: string) =>{
     const temp: IServerData = await client.get(url);
-    return temp
+    return temp.results
 }
 
 export const API_URLS = {
     outsourcing:{
-        register: `/v1/Outsourcing/register`,
-        update: `/v1/Outsourcing/update`,
-        load: `/v1/Outsourcing/view`,
-        list: `/v1/Outsourcing/name/list`,
-        delete: `/v1/Outsourcing/delete`,
-        search: `/v1/Outsourcing/name/select`,
+        register: `/v1/outsourcing/register`,
+        update: `/v1/outsourcing/update`,
+        load: `/v1/outsourcing/load`,
+        list: `/v1/outsourcing/list`,
+        delete: `/v1/outsourcing/delete`,
+        search: `/v1/outsourcing/name/search`,
     },
+    order: {
+        register: `/v1/outsourcing/order/register`,
+        list: `/v1/outsourcing/order/list`,
+        load: `/v1/outsourcing/order/load`,
+        update: `/v1/outsourcing/order/update`,
+        delete: `/v1/outsourcing/order/delete`,
+        complete: `/v1/outsourcing/order/complete`,
+        cancel: `/v1/outsourcing/order/cancel`
+
+    },
+    contract: {
+        register: `/v1/outsourcing/contract/register`,
+        list: `/v1/outsourcing/contract/list`,
+        update: `/v1/outsourcing/contract/update`,
+        load: `/v1/outsourcing/contract/load`,
+        delete: `/v1/outsourcing/contract/delete`,
+        complete: `/v1/outsourcing/contract/complete`,
+        cancel: `/v1/outsourcing/contract/cancel`,
+    }
 }

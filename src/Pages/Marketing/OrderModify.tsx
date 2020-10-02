@@ -3,12 +3,13 @@ import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
 import OrderModifyContainer from "../../Containers/Marketing/OrderModify";
 
-const OrderModify = () => {
+const OrderModify = ({match}:any) => {
+
     return (
         <DashboardWrapContainer index={'statistics'}>
 
             <InnerBodyContainer>
-                <OrderModifyContainer/>
+                <OrderModifyContainer match={match}/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

@@ -29,15 +29,16 @@ const JunheeRouters = () => {
             <Switch>
                 {/* 외주관리 */}
                 <Route exact path="/outsourcing/register" component={OutsourcingRegister} />
+                <Route exact path="/outsourcing/register/:pk" component={OutsourcingRegister} />
                 {/* 생산관리 */}
                 <Route exact path="/project/chit/register" component={ChitRegister} />
                 <Route exact path="/project/production/register" component={ProductionRegister} />
                 <Route exact path="/project/work/history/register" component={WorkHistoryRegister} />
                 {/*영업관리*/}
                 <Route exact path="/marketing/contract/register" component={ContractRegister} />
-                <Route exact path="/marketing/contract/modify" component={ContractModify} />
+                <Route exact path="/marketing/contract/modify/:pk" component={ContractModify} />
                 <Route exact path="/marketing/order/register" component={OrderRegister} />
-                <Route exact path="/marketing/order/modify" component={OrderModify} />
+                <Route exact path="/marketing/order/modify/:pk" component={OrderModify} />
                 {/*바코드관리*/}
                 <Route exact path="/barcode/register" component={BarcodeRegister} />
                 <Route exact path="/barcode/modify" component={BarcodeModify} />

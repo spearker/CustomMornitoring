@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from "styled-components";
 import {Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
@@ -6,31 +6,19 @@ import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
 import IcButton from "../../Components/Button/IcButton";
 import searchImage from "../../Assets/Images/ic_search.png";
-import {API_URLS, postContractRegister} from "../../Api/mes/business";
+import {API_URLS, postContractRegister} from "../../Api/mes/marketing";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
-
-const factoryDummy = [
-    '더미 업체 1',
-    '더미 업체 2',
-    '더미 업체 3',
-]
-
-const productionDummy = [
-    '더미 품목 1',
-    '더미 품목 2',
-    '더미 품목 3',
-]
-
-const listDummy = [
-    { project_pk: 'dummy01', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
-    { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
-]
+import CustomerPickerModal from "../../Components/Modal/CustomerPickerModal";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import {useHistory} from 'react-router-dom'
 
 const ContractRegisterContainer = () => {
+    const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
     const [selectOpen, setSelectOpen] = useState<boolean>(false)
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [factoryList, setFactoryList] = useState<string[]>(factoryDummy)
+    const [customer, setCustomer] = useState<{ name?:string, pk?: string }>()
+    const [selectMaterial, setSelectMaterial] = useState<{ name?:string, pk?: string }>()
     const [selectFactory, setSelectFactory] = useState<string>()
     const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
         factory: undefined,
@@ -41,16 +29,18 @@ const ContractRegisterContainer = () => {
         end: moment().format("YYYY-MM-DD"),
     })
 
-    const [contractData, setContractData] = useState<{customer_pk: string, material_pk: string, amount: Number, date: string}>({
-        customer_pk: '',
-        material_pk: '',
-        amount: 2000,
+    const [contractData, setContractData] = useState<{customer_pk?: string, material_pk?: string, amount: Number, date: string}>({
+        customer_pk: customer?.pk,
+        material_pk: selectMaterial?.pk,
+        amount: 0,
         date: moment().format('YYYY-MM-DD'),
     })
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['contract'].register}`
         const resultData = await postContractRegister(tempUrl, contractData);
+
+        history.goBack()
     }, [contractData])
 
     return (
@@ -68,34 +58,15 @@ const ContractRegisterContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 거래처 명</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectFactory(e)} select={selectFactory} contents={factoryList} text={'선택해 주세요'}/></td>
+                            <td><CustomerPickerModal onClickEvent={(e)=> setCustomer(e)} select={customer} text={'거래처를 선택해주세요.'}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3'}}>
-                                    <div style={{width: 885}}>
-                                        <div style={{marginTop: 5}}>
-                                        {
-                                            contractData.material_pk === ''
-                                                ?<InputText>&nbsp; 품목(품목명)을 선택해 주세요</InputText>
-                                                :<InputText style={{color: '#111319'}}></InputText>
-                                        }
-                                        </div>
-                                    </div>
-                                    <div style={{width: 32}} onClick={()=> {
-                                        setOpen(true)
-                                    }}>
-                                        <IcButton customStyle={{width: 32, height: 32}} image={searchImage} dim={true} onClickEvent={() => {
-                                            setOpen(true)
-                                        }}/>
-                                    </div>
-                                </div>
-                            </td>
+                            <td><ProductionPickerModal select={selectMaterial} onClickEvent={(e) => setSelectMaterial(e)} text={'품목(품목명)을 선택해주세요.'}/></td>
                         </tr>
                         <tr>
                             <td>• 수량</td>
-                            <td><Input placeholder="입력해 주세요." onChangeText={(e:number) => setContractData({...contractData, amount: e})}/></td>
+                            <td><input placeholder="수량을 입력해 주세요." type="number"  onChange={(e) => setContractData({...contractData, amount: Number(e.target.value)})}/></td>
                         </tr>
                         <tr>
                             <td>• 수주 날짜</td>

@@ -69,8 +69,10 @@ const JMRouters = () => {
             <Route exact path="/outsourcing/current/list" component={OutsourcingCurrent} />
             <Route exact path="/outsourcing/order/list" component={OutsourcingOrder} />
             <Route exact path="/outsourcing/order/register" component={OrderRegister} />
+            <Route exact path="/outsourcing/order/register/:pk" component={OrderRegister} />
             <Route exact path="/outsourcing/contract/list" component={OutsourcingContract} />
             <Route exact path="/outsourcing/contract/register" component={ContractRegister} />
+            <Route exact path="/outsourcing/contract/register/:pk" component={ContractRegister} />
 
             <Route exact path="/marketing/order/list" component={OrderBusiness}/>
             <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/>

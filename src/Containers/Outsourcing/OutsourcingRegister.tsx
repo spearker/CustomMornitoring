@@ -263,7 +263,7 @@ const OutsourcingRegister = () => {
 
     return (
         <div>
-            <Header title={isUpdate ? '외주처 거래처 정보수정' : '외주처 거래처 정보등록'}/>
+            <Header title={isUpdate ? '외주처 정보수정' : '외주처 정보등록'}/>
             <WhiteBoxContainer>
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>

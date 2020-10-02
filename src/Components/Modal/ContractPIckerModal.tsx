@@ -17,15 +17,16 @@ interface IProps{
     text: string
 }
 
-const CustomerPickerModal = ({select, onClickEvent, text}: IProps) => {
+const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
 
     const [machineList, setMachineList] = useState([{
         pk: "",
-        name: "",
-        ceo_name: "",
+        customer_name: "",
+        material_name: "",
+        amount: 0,
     }])
     const [searchName, setSearchName] = useState<string>('')
 
@@ -100,20 +101,22 @@ const CustomerPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 250}}>거래처 명</th>
-                                        <th style={{width: 250}}>거래처 대표</th>
+                                        <th style={{width: 250}}>품목(품목명)</th>
+                                        <th style={{width: 250}}>수량</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
-                                                    <td><span>{v.name}</span></td>
-                                                    <td><span>{v.ceo_name}</span></td>
+                                                    <td><span>{v.customer_name}</span></td>
+                                                    <td><span>{v.material_name}</span></td>
+                                                    <td><span>{v.amount}</span></td>
                                                     <td>
                                                         <button
                                                             onClick={() => {
-                                                                setMachineName(v.name)
-                                                                return onClickEvent({name: v.name, pk: v.pk})
+                                                                setMachineName(v.customer_name)
+                                                                return onClickEvent({customer_name: v.customer_name,material_name: v.material_name,amount: v.amount ,pk: v.pk})
                                                             }}
                                                             style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
@@ -248,4 +251,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default CustomerPickerModal;
+export default ContractPickerModal;

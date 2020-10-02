@@ -1,4 +1,34 @@
-import client from '../configs/common';
+import client from '../configs/basic';
+
+/**
+ * postMarketing()
+ * 영업관리 포스트 메소드 관리
+ * @param {string} url 링크 주소
+ * @param object
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const postMarketing = async( url: string,object: object) =>{
+    const temp: IServerData = await client.post(url,object);
+    console.log(temp.status);
+    return temp.status;
+}
+
+/**
+ * getMarketing()
+ * 영업 관리 겟 메소드 관리
+ * @param {string} url 링크 주소
+ * @returns {object} data object
+ * @author 정민
+ * @version 0.1
+ */
+export const getMarketing = async( url: string) =>{
+    const temp: IServerData = await client.get(url);
+    console.log(temp.results);
+    return temp.results;
+}
+
 
 /**
  * postContractRegister()
@@ -55,13 +85,16 @@ export const postOrderModify = async( url: string, bodyData: object) =>{
 export const API_URLS = {
     contract:{
         register: `/v1/marketing/contract/register`,
-        update: `/v1/marketing/contract/update`
+        update: `/v1/marketing/contract/update`,
+        load: `/v1/marketing/contract/load`,
+        list: `/v1/marketing/contract/list`,
+        delete: `/v1/marketing/contract/delete`,
     },
-    order:{
-        register: `/v1/marketing/order/register`,
-        update: `/v1/marketing/order/update`
-    }
-
+    shipment: {
+        register: `/v1/marketing/shipment/register`,
+        update: `/v1/marketing/shipment/update`,
+        load: `/v1/marketing/shipmnet/load`,
+        list: `/v1/marketing/shipment/list`,
+        delete: `/v1/marketing/shipment/delete`,
+    },
 }
-
-

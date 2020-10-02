@@ -4,33 +4,28 @@ import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
 import {getToken} from '../../Common/tokenFunctions';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import {uploadTempFile} from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
-import OldFileInput from '../../Components/Input/OldFileInput';
-import RadioInput from '../../Components/Input/RadioInput';
-import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom'
-import {Input} from "semantic-ui-react";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import moment from "moment";
 import InputContainer from "../InputContainer";
 import Styled from "styled-components";
-import SearchModalContainer from "../SearchModalContainer";
-import SearchInput from "../../Components/Input/SearchInput";
-import SearchedList from "../../Components/List/SearchedList";
-import InnerBodyContainer from "../InnerBodyContainer";
-import AddInput from "../../Components/Input/AddInput";
-import TextList from "../../Components/List/TextList";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import NormalAddressInput from "../../Components/Input/NormalAddressInput";
 import useObjectInput from "../../Functions/UseInput";
+import OutsourcingPickerModal from "../../Components/Modal/OutsourcingRegister";
+import NormalNumberInput from "../../Components/Input/NormalNumberInput";
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const ContractRegister = () => {
+interface Props {
+    match: any;
+    // chilren: string;
+}
+
+const ContractRegister = ({match}:Props) => {
     const history = useHistory()
 
     const [selectDate, setSelectDate] = useState<string>('')
@@ -54,6 +49,10 @@ const ContractRegister = () => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
     const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
+    const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
+    const [quantity, setQuantity] = useState()
+    const [unpaid, setUnpaid] = useState()
+    const [paymentCondition, setPaymentCondition] = useState('')
 
     //생산품 검색
     const [isPoupup, setIsPoupup] = useState<boolean>(false);
@@ -75,8 +74,7 @@ const ContractRegister = () => {
     });
 
     useEffect(()=>{
-        if(getParameter('pk') !== "" ){
-            setPk(getParameter('pk'))
+        if( match.params.pk ){
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
             getData()
@@ -171,35 +169,24 @@ const ContractRegister = () => {
      */
     const getData = useCallback(async()=>{
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/load?pk=' + match.params.pk , getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             if(res.status === 200){
                 const data = res.results;
-                setName(data.name);
-                setPk(data.pk);
-                setNo(Number(data.number));
-                setType(Number(data.type));
-                setPk(data.pk);
-                setCeo(data.ceo);
-                setOldPaths([data.photo])
-                setPhone(data.telephone);
-                setEmailM(data.manager_email);
-                setPhoneM(data.manager_phone)
-                setManager(data.manager)
-                setEmail(data.ceo_email)
-
-                setInfoList(data.info_list)
-                setAddress(data.address);
-                setFax(data.fax);
+                setInputData('location',data.address)
+                setQuantity(data.quantity)
+                setUnpaid(data.unpaid)
+                setSelectDate(data.due_date)
+                setPaymentCondition(data.payment_condition)
 
             }else{
                 //TODO:  기타 오류
             }
         }
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
+    },[pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData ])
 
     /**
      * onsubmitFormUpdate()
@@ -223,24 +210,19 @@ const ContractRegister = () => {
         }
 
         const data = {
-            pk: getParameter('pk'),
-            name: name,
-            number: no,
-            type: type,
-            ceo: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
+            pk: match.params.pk ,
+            company: selectOutsource?.pk,
+            product: selectMaterial?.pk,
+            quantity: quantity,
+            unpaid: unpaid,
+            due_date: selectDate,
+            payment_condition: paymentCondition,
+            address: inputData.location
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
 
         if(res === false){
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -254,7 +236,7 @@ const ContractRegister = () => {
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
+    },[pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData ])
 
     /**
      * onsubmitForm()
@@ -273,61 +255,32 @@ const ContractRegister = () => {
         console.log(infoList)
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
         const data = {
-
-            name: name,
-            number: no,
-            type: type,
-            ceo_name: ceo,
-            photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
-            // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+            company: selectOutsource?.pk,
+            product: selectMaterial?.pk,
+            quantity: quantity,
+            unpaid: unpaid,
+            due_date: selectDate,
+            payment_condition: paymentCondition,
+            address: inputData.location
 
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             if(res.status === 200){
-                //alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo(undefined);
-                setType(0);
 
-                setCeo('');
-                setPaths([null])
-                setOldPaths([null])
-                setPhone('');
-                setEmailM('');
-                setPhoneM('')
-                setEmail('')
-
-                setInfoList([])
-                setAddress('');
-                setFax('');
-
+                history.goBack()
             }else{
                 //TODO:  기타 오류
             }
         }
 
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
-
+    },[selectOutsource,selectMaterial,selectDate,quantity,unpaid,paymentCondition,inputData])
 
 
 
@@ -337,22 +290,21 @@ const ContractRegister = () => {
             <WhiteBoxContainer>
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
-                    <InputContainer title={"거래처 명"} width={120}>
-                        <ProductionPickerModal select={selectMaterial}
+                    <InputContainer title={"외주처 명"} width={120}>
+                        <OutsourcingPickerModal select={selectOutsource}
                                                onClickEvent={(e) => {
-                                                   setSelectMaterial({...selectMaterial, ...e })
-                                               }} text={"품목명을 검색해주세요."} type={true}/>
+                                                   setSelectOutsource({...selectOutsource, ...e })
+                                               }} text={"외주처 명을 검색해주세요."} />
                     </InputContainer>
-                    <NormalInput title={'대표자 명'} value={address} description={'대표자 명을 입력해 주세요.'}  width={120}/>
-                    <NormalInput title={'담당자 명'} value={address} description={'담당자 명을 입력해 주세요.'}  width={120}/>
                     <InputContainer title={"품목(품목명)"} width={120}>
                         <ProductionPickerModal select={selectMaterial}
                                                onClickEvent={(e) => {
                                                    setSelectMaterial({...selectMaterial, ...e })
                                                }} text={"품목명을 검색해주세요."} type={true}/>
                     </InputContainer>
-                    <NormalInput title={'수량'} value={address} onChangeEvent={setAddress} description={'수량을 입력해 주세요.'}  width={120}/>
-                    <NormalInput title={'미납 수량'} value={address} onChangeEvent={setAddress} description={'미납 수량을 입력해 주세요.'}  width={120}/>
+                    <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity} description={'수량을 입력하세요.'} width={120} />
+                    <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid} description={'미납 수량을 입력하세요.'} width={120} />
+                    <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition} description={'대금 지불조건을 입력해 주세요.'}  width={120}/>
                     <InputContainer title={"납기일"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
                             <div style={{width: 817, display: 'table-cell'}}>
