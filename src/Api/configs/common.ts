@@ -12,7 +12,6 @@ const client = axios.create();
 
 client.defaults.baseURL = 'http://203.234.183.22:8299';
 
-
 client.interceptors.response.use(function (response) {
 
 
