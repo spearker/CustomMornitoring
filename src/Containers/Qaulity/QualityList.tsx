@@ -33,7 +33,7 @@ const QualityListContainer = () => {
 
     const indexList = {
         quality: {
-            material_name: '(품목)품목명',
+            material_name: '품목(품목명)',
             factory_name: '공정명',
             total_count: '총 완료 개수',
             none_defective_count: '적격 개수',
@@ -228,17 +228,11 @@ const QualityListContainer = () => {
         <div>
             <OvertonTable
                 title={'제품 품질 현황'}
-                dropDown={true}
-                dropDownContents={contentsList}
-                dropDownOption={option}
-                dropDownOnClick={optionChange}
-                searchBar={true}
-                searchBarChange={searchChange}
-                searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}>
+                mainOnClickEvent={onClick}
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'제품 품질 현황 자세히 보기 : 품목명 00 _ 공정명 00 '}>

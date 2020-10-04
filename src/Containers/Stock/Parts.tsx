@@ -27,7 +27,7 @@ const PartsContainer = () => {
     const indexList = {
         parts: {
             parts_name: "부품명",
-            parts_type: "부품 종류",
+            parts_type_name: "부품 종류",
             parts_stock: "부품 재고량",
             parts_cost: "부품 원가",
             location_name: "공장명"

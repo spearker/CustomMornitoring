@@ -12,7 +12,7 @@ import {getRequest, postRequest} from '../../Common/requestFunctions';
 import Chart from 'react-apexcharts'
 import moment from 'moment';
 
-const DuedateKpi = () => {
+const Old_DuedateKpi = () => {
 
 
   const [list, setList] = useState<IBarcode[]>([]);
@@ -279,4 +279,4 @@ const ChartHeadText = Styled.p`
   color: white;
 `
 
-export default DuedateKpi;
+export default Old_DuedateKpi;

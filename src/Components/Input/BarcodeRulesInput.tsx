@@ -6,7 +6,7 @@ import IC_MINUS from '../../Assets/Images/ic_minus.png'
 //바코드 규칙
 interface IProps{
     title: string,
-    value: any[],
+    value: string,
     onChangeEvent: any,
     onRemoveEvent: any,
 }

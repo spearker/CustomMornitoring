@@ -73,7 +73,6 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        console.log(type)
         if (type === 'machine') {
             const tempUrl = `${BASIC_URLS['machine'].list}?page=0&keyword=&type=0`
             const resultData = await getBasicList(tempUrl);
@@ -96,10 +95,6 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
             setCustomList(resultData.info_list)
         }
     }, [searchName,type,customList])
-
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
@@ -188,7 +183,6 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                                     return(
                                                         vi === type ?
                                                             Object.keys(customName[vi]).map(m => {
-                                                                console.log(m)
                                                                 return(
                                                                     <td key={v[m]}>{v[m]}</td>
                                                                 )})

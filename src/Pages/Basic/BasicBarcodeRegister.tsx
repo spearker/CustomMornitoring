@@ -38,6 +38,7 @@ const initialData = {
 
 const indexList = ['기계 기본정보', '주변장치 기본정보','금형 기본정보','품목 기본정보','전표 리스트']
 const indexType = ['machine','device','mold','material','voucher']
+const indexBarcodeType = getBarcodeTypeList('kor');
 
 const BasicBarcodeRegister = () => {
 
@@ -203,6 +204,7 @@ const BasicBarcodeRegister = () => {
                     })
                   }
                   </FullAddInput>
+                    <DropdownInput title={'바코드 종류'} target={indexList[inputData.type]} contents={indexList} onChangeEvent={(input)=>setInputData(`type`, input)}/>
                   <DateInput title={'등록 날짜'} description={""} value={selectDate} onChangeEvent={setSelectDate}/>
                {/*<br/>*/}
                {/* <ListHeader title="선택 항목"/>*/}

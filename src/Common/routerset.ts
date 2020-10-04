@@ -216,17 +216,22 @@ export const MES_MENU_LIST = {
   ],
   kpi: [
     { name: 'KPI', url: '/kpi/' },
-    { name: '생산지수(P)', url: ''},
-    { name: '품질지수(Q)', url: ''},
-    { name: '원가지수(C)', url: ''},
-    { name: '납기지수(D)', url: ''},
-    { name: '에너지지수(E)', url: ''},
+    { name: '생산지수(P)', url: '/kpi/production'},
+    { name: '품질지수(Q)', url: '/kpi/quality'},
+    { name: '원가지수(C)', url: '/kpi/cost'},
+    { name: '납기지수(D)', url: '/kpi/duedate'},
+    { name: '에너지지수(E)', url: '/kpi/energy'},
   ],
   quality: [
-    // { name : '품질 관리', url: '/quality/quality/list'},
-    // { name : '제품 품질 현황', url: '/quality/current/list'}
-    { name : '품질 관리', url: '/commingsoon'},
-    { name : '제품 품질 현황', url: '/commingsoon'}
+    { name : '품질 관리', url: '/quality/quality/list'},
+    { name : '제품 검사 요청', url: '/quality/test/request'},
+    { name : '제품 검사 요청 리스트', url: '/quality/test/list'},
+    { name : '제품 검사 요청 리스트 (작업자)', url: '/quality/test/list/worker'},
+    { name : '제품 검사 완료', url: '/quality/test/complete'},
+    { name : '제품 검사 완료 (작업자)', url: '/quality/test/complete/worker'},
+    { name : '제품 품질 현황', url: '/quality/current/list'}
+    // { name : '품질 관리', url: '/commingsoon'},
+    // { name : '제품 품질 현황', url: '/commingsoon'}
   ],
   basic: [ // 기준정보 관리
     { name : '기준 정보 관리', url : '/basic/list/machine/'}, //상위메뉴
@@ -237,12 +242,12 @@ export const MES_MENU_LIST = {
     { name : '공장 기본정보', url : '/basic/list/factory'},
     { name : '공장 세분화 관리', url : '/basic/list/subdivided'},
     { name : '부품 기본정보', url : '/basic/list/parts'},
-    { name : '바코드 표준 관리', url : '/basic/list/barcode'},
-    { name : '표준 항목 관리', url : '/basic/list/item'},
-    { name : '표준 문서 관리', url : '/basic/list/document'},
-      // { name : '바코드 표준 관리', url : '/commingsoon'},
-      // { name : '표준 항목 관리', url : '/commingsoon'},
-      // { name : '표준 문서 관리', url : '/commingsoon'},
+    // { name : '바코드 표준 관리', url : '/basic/list/barcode'},
+    // { name : '표준 항목 관리', url : '/basic/list/item'},
+    // { name : '표준 문서 관리', url : '/basic/list/document'},
+      { name : '바코드 표준 관리', url : '/commingsoon'},
+      { name : '표준 항목 관리', url : '/commingsoon'},
+      { name : '표준 문서 관리', url : '/commingsoon'},
   ],
 }
 

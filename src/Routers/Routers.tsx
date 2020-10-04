@@ -88,10 +88,10 @@ import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory';
 import BasicBarcodeList from '../Pages/List/Barcode';
 import BasicBarcodeRegister from '../Pages/Basic/BasicBarcodeRegister';
 import StockHistory from '../Pages/Stock/Old_History';
-import ProductKpi from '../Pages/Kpi/ProductKpi';
-import QualityKpi from '../Pages/Kpi/QualityKpi';
-import PriceKpi from '../Pages/Kpi/PriceKpi';
-import DuedateKpi from '../Pages/Kpi/DuedateKpi';
+import Old_ProductKpi from '../Pages/Kpi/Old_ProductKpi';
+import Old_QualityKpi from '../Pages/Kpi/Old_QualityKpi';
+import Old_PriceKpi from '../Pages/Kpi/Old_PriceKpi';
+import Old_DuedateKpi from '../Pages/Kpi/Old_DuedateKpi';
 import PressStatistics from '../Pages/PM_Statistics/PressStatistics';
 import CmsMonitoring from '../Pages/PM_Monitoring/CMS';
 import FullMonitoring from '../Pages/PM_Monitoring/Full';
@@ -346,10 +346,10 @@ const Routers = () => {
                 <Route exact path="/monitoring/vibration" component={VibrationMonitoring}/>
 
                 {/* 14.0 KPI 생산지수 */}
-                <Route exact path="/kpi/product" component={ProductKpi} />
-                <Route exact path="/kpi/quality" component={QualityKpi} />
-                <Route exact path="/kpi/price" component={PriceKpi} />
-                <Route exact path="/kpi/duedate" component={DuedateKpi} />
+                {/*<Route exact path="/kpi/product" component={Old_ProductKpi} />*/}
+                {/*<Route exact path="/kpi/quality" component={Old_QualityKpi} />*/}
+                {/*<Route exact path="/kpi/price" component={Old_PriceKpi} />*/}
+                {/*<Route exact path="/kpi/duedate" component={Old_DuedateKpi} />*/}
 
                 {/* 15.0 프레스 분석 및 통계 */}
                 <Route exact path="/pm/statistics/press" component={PressStatistics} />

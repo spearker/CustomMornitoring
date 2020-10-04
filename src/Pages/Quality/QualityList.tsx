@@ -6,7 +6,6 @@ import QualityListContainer from "../../Containers/Qaulity/QualityList";
 const QualityList = () => {
     return (
         <DashboardWrapContainer index={'quality'}>
-
             <InnerBodyContainer>
                 <QualityListContainer/>
             </InnerBodyContainer>

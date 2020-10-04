@@ -12,7 +12,7 @@ import {getRequest, postRequest} from '../../Common/requestFunctions';
 import Chart from 'react-apexcharts'
 import moment from 'moment';
 
-const PriceKpi = () => {
+const Old_PriceKpi = () => {
 
 
   const [list, setList] = useState<IBarcode[]>([]);
@@ -286,4 +286,4 @@ const ChartHeadText = Styled.p`
   color: white;
 `
 
-export default PriceKpi;
+export default Old_PriceKpi;

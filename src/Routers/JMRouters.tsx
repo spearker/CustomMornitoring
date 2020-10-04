@@ -36,6 +36,15 @@ import BasicPartsRegister from "../Pages/Basic/BasicPartsRegister";
 import StockParts from "../Pages/Stock/Parts";
 import WarehousingRegister from "../Pages/Stock/WarehousingRegister";
 import ReleaseRegister from "../Pages/Stock/ReleaseRegister";
+import CostKPI from "../Pages/Kpi/CostKPI";
+import DuedateKPI from "../Pages/Kpi/DuedateKPI";
+import EnergyKPI from "../Pages/Kpi/EnergyKPI";
+import QualityKPI from "../Pages/Kpi/QualityKPI";
+import ProductionKPI from "../Pages/Kpi/ProductionKPI";
+import MoldMangeCreate from "../Pages/Mold/MoldManageCreate";
+import QualityTestRequest from "../Pages/Quality/QualityTestRequest";
+import QualityTestList from "../Pages/Quality/QualityTestList";
+import QualityTestComplete from "../Pages/Quality/QualityTestComplete";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -81,6 +90,9 @@ const JMRouters = () => {
 
             <Route exact path="/barcode/current/list" component={BarCodeList}/>
 
+            <Route exact path="/quality/test/request" component={QualityTestRequest}/>
+            <Route exact path="/quality/test/list" component={QualityTestList}/>
+            <Route exact path="/quality/test/complete" component={QualityTestComplete}/>
             <Route exact path="/quality/current/list" component={QualityList}/>
 
             <Route exact path="/stock/wip/list" component={StockWip}/>
@@ -91,10 +103,17 @@ const JMRouters = () => {
             <Route exact path="/stock/warehousing/register/:pk/:name" component={WarehousingRegister}/>
             <Route exact path="/stock/release/register/:pk/:name" component={ReleaseRegister}/>
 
+            <Route exact path="/mold/manage/register" component={MoldMangeCreate}/>
             <Route exact path="/mold/create/register" component={MoldCreateRegister}/>
             <Route exact path="/mold/create/list" component={MoldCreate}/>
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
+
+            <Route exact path="/kpi/production" component={ProductionKPI}/>
+            <Route exact path="/kpi/quality" component={QualityKPI}/>
+            <Route exact path="/kpi/cost" component={CostKPI}/>
+            <Route exact path="/kpi/duedate" component={DuedateKPI}/>
+            <Route exact path="/kpi/energy" component={EnergyKPI}/>
         </Switch>
     );
 }

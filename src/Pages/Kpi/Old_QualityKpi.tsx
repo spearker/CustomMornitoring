@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB, BG_COLOR_SUB2, POINT_COLOR, POINT_COLOR_2, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import {getToken} from '../../Common/tokenFunctions';
@@ -12,16 +12,13 @@ import {getRequest, postRequest} from '../../Common/requestFunctions';
 import Chart from 'react-apexcharts'
 import moment from 'moment';
 
-const ProductKpi = () => {
+const Old_QualityKpi = () => {
 
 
   const [list, setList] = useState<IBarcode[]>([]);
   const [option, setOption] = useState(0);
   const [keyword, setKeyword] = useState<string>('');
   const dateArray = ['','','','','','','','','','','',''];
-
-  const tempArray = new Array(12);
-
   const monthArray = dateArray.map((v, i)=>{
     return(
       moment().subtract(i, 'month').format('MM')
@@ -30,14 +27,11 @@ const ProductKpi = () => {
 
   const timeArray = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
 
-  const dayArray =  dateArray.map((v, i)=>{
-
+  const dayArray = dateArray.map((v, i)=>{
     return(
       moment().subtract(i, 'days').format('MM.DD')
     )
   }).reverse();
-
-
 
   const yearArray = dateArray.map((v, i)=>{
     return(
@@ -60,17 +54,17 @@ const ProductKpi = () => {
         id: '생산품목_증감'
       },
       xaxis: {
-        categories: monthArray
+        categories:yearArray
       },
-      colors:[POINT_COLOR, '#E91E63'],
+      colors:['#F44336', '#E91E63', '#9C27B0'],
     },
 
     series: [{
-      name: '완제품',
-      data: [11, 23, 21, 23, 35, 34, 45, 52, 54, 57, 60, 61]
+      name: '생산품목',
+      data: [30, 40, 45, 50, 49, 60, 70, 91]
     },{
-      name: '반제품',
-      data: [11, 24, 45, 50, 49, 54, 61, 60, 70, 65, 89, 91]
+      name: '생산품목',
+      data: [30, 40, 45, 50, 49, 60, 70, 91]
     }]
   }
 
@@ -78,100 +72,6 @@ const ProductKpi = () => {
     series: [{
       name: "STOCK ABC",
       data: [30, 40, 45, 50, 49, 60, 70, 91]
-    }],
-    options: {
-      chart: {
-        type: 'area',
-        height: 350,
-        zoom: {
-          enabled: false
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'straight'
-      },
-
-      title: {
-        text: 'Fundamental Analysis of Stocks',
-        align: 'left'
-      },
-      subtitle: {
-        text: 'Price Movements',
-        align: 'left'
-      },
-      labels: [30, 40, 45, 50, 49, 60, 70, 91],
-      xaxis: {
-        type: 'datetime',
-      },
-      yaxis: {
-        opposite: true
-      },
-      legend: {
-        horizontalAlign: 'left'
-      }
-    },
-  }
-
-
-  const option_benefit = {
-    options: {
-      chart: {
-        id: '영업이익률'
-      },
-      xaxis: {
-        categories: monthArray
-      },
-      colors:['#F44336'],
-    },
-
-    series: [{
-      name: '',
-      data: [10, 12, 15, 20, 28, 10, 33, 13, 11, 27, 22, 33]
-    }]
-  }
-
-  const option_running = {
-    options: {
-      chart: {
-        id: '설비가동률'
-      },
-      xaxis: {
-        categories: dayArray
-      },
-      colors:['#E91E63'],
-    },
-
-    series: [{
-      name: '',
-      data: [62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9]
-    }
-    ]
-  }
-
-  const option_leadtime = {
-    options: {
-      chart: {
-        id: '제조리드타임'
-      },
-      xaxis: {
-        categories: monthArray
-      },
-      colors:['#E91E63'],
-    },
-
-    series: [{
-      name: '',
-      data: [2.0, 2.0, 2.3, 2.2, 1.8, 1.9, 1.6, 1.4, 1.4, 1.2, 1.2, 1.1]
-    }
-    ]
-  }
-  const option_benefit2 = {
-    series: [{
-      name: "영업이익률",
-      data: monthArray
     }],
     options: {
       chart: {
@@ -316,148 +216,44 @@ const ProductKpi = () => {
     console.log('--select id : ' + id)
     window.location.href=`/update/material?pk=${id}`
 
-  },[]);
-
-  const option_timeperproduce = {
-    series: [
-      {
-        name: "Today",
-        data: ['0','0','0','0','0','0','0','0','10','18','20','49','32','11','20','30','20','9','0','0','0','0','0','0','0']
-      },
-      {
-        name: "Yesterday",
-        data: ['0','0','0','0','0','0','0','0','8','11','19','34','27','8','27','30','15','11','10','0','0','0','0','0','0']
-      }
-    ],
-    options: {
-      chart: {
-        type: 'line',
-        dropShadow: {
-          enabled: true,
-          color: '#000',
-          top: 18,
-          left: 7,
-          blur: 10,
-          opacity: 0.2
-        },
-        toolbar: {
-          show: false
-        }
-      },
-      colors: [POINT_COLOR, POINT_COLOR_2+'97'],
-      dataLabels: {
-        enabled: true,
-      },
-      grid: {
-        borderColor: '#e7e7e760',
-        row: {
-          colors: [BG_COLOR_SUB2, 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5
-        },
-      },
-      markers: {
-        size: 1
-      },
-      xaxis: {
-        categories: timeArray,
-        title: {
-          text: 'time'
-        }
-      },
-      yaxis: {
-        title: {
-          text: 'percent'
-        },
-        min: 0,
-        max: 100
-      },
-
-    },
-
-  }
-
-
-  const option_price = {
-
-    series: [{
-      name: '',
-      data: [62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9]
-    }],
-    options: {
-      chart: {
-        type: 'area',
-
-        zoom: {
-          enabled: false
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'straight'
-      },
-      labels:[62.9, 66.3, 67.3, 65.3, 69.2, 70.1, 70.3, 70.6, 72.2, 73.3, 74.3, 74.9],
-
-
-      xaxis: {
-        categories: monthArray,
-      },
-      yaxis: {
-        opposite: true
-      },
-      legend: {
-        horizontalAlign: 'left'
-      }
-    },
-
-
-  };
+  },[])
 
   return (
       <DashboardWrapContainer index={12}>
         <SubNavigation list={ROUTER_MENU_LIST[12]}/>
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
-            <Header title={`KPI 생산지수`}/>
+            <Header title={`KPI 품질지수`}/>
 
           </div>
           <div style={{display:'flex', width: '100%'}}>
           <ChartBox id="chart" >
-            <ChartHeadText>생산품 증감</ChartHeadText>
+            <ChartHeadText>공정 불량률 </ChartHeadText>
             <Chart options={chartOption.options} series={chartOption.series} type="bar" height={240} />
           </ChartBox>
           <ChartBox id="chart" >
-            <ChartHeadText>매출액 증감</ChartHeadText>
-            <Chart options={option_price.options} series={option_price.series} type="area" height={240} />
+            <ChartHeadText>완제품 불량률 </ChartHeadText>
+            <Chart options={chartOption.options} series={chartOption.series} type="area" height={240} />
           </ChartBox>
-
+          <ChartBox id="chart" >
+            <ChartHeadText>검사불량률 </ChartHeadText>
+            <Chart options={chartOption.options} series={chartOption.series} type="bar" height={240} />
+          </ChartBox>
 
           </div>
 
           <div style={{display:'flex', width: '100%', marginTop:22}}>
           <ChartBox id="chart" >
-            <ChartHeadText>시간당 생산량</ChartHeadText>
-            <Chart options={option_timeperproduce.options} series={option_timeperproduce.series} type="line" height={320} />
-          </ChartBox>
-
-
-          </div>
-          <div style={{display:'flex', width: '100%', marginTop:22}}>
-          <ChartBox id="chart" >
-            <ChartHeadText>영업이익률</ChartHeadText>
-            <Chart options={option_benefit.options} series={option_benefit.series} type="bar" height={240} />
+            <ChartHeadText>반품률</ChartHeadText>
+            <Chart options={chartOption.options} series={chartOption.series} type="bar" height={240} />
           </ChartBox>
           <ChartBox id="chart" >
-            <ChartHeadText>제조리드타임 증감</ChartHeadText>
-            <Chart options={option_leadtime.options} series={option_leadtime.series} type="bar" height={240} />
-          </ChartBox>
-          <ChartBox id="chart" >
-            <ChartHeadText>설비가동률 증감</ChartHeadText>
-            <Chart options={option_running.options} series={option_running.series} type="bar" height={240} />
+            <ChartHeadText>Claim 건수</ChartHeadText>
+            <Chart options={chartOption.options} series={chartOption.series} type="bar" height={240} />
           </ChartBox>
 
           </div>
+
 
         </InnerBodyContainer>
       </DashboardWrapContainer>
@@ -473,17 +269,17 @@ const FullPageDiv = Styled.div`
 
 const ChartBox = Styled.div`
 
-  flex: 1;
+flex: 1;
   background-color: ${BG_COLOR_SUB};
   text-align: left;
   margin-right: 16px;
   padding: 22px 24px 11px 11px;
   color: black !important;
   border-radius: 5px;
-  -webkit-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28); 
-  -moz-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
-  box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
-  
+  -webkit-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
+-moz-box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
+box-shadow: 1px 19px 55px -21px rgba(0,0,0,0.28);
+
 
 `
 
@@ -493,4 +289,4 @@ const ChartHeadText = Styled.p`
   color: white;
 `
 
-export default ProductKpi;
+export default Old_QualityKpi;

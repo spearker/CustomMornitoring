@@ -117,9 +117,9 @@ export const getMoldTypeList = (lang) =>{
 export const getBarcodeTypeList = (lang) =>{
     switch(lang) {
         case 'kor':
-            return ['바코드 (기본)', 'QR코드 용도', '데이터 매트릭스']
+            return ['바코드 (기본)']
         default:
-            return ['바코드 (기본)', 'QR코드 용도', '데이터 매트릭스']
+            return ['바코드 (기본)']
       }
 }
 
