@@ -237,6 +237,7 @@ const MoldCreateRegisterContainer = () => {
 
                 <MoldPartDropdown title={'부품'} part={false}>
                     {
+
                         components.map((v, i) =>
                             <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                                 <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>

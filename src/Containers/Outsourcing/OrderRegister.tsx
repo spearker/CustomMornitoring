@@ -224,7 +224,6 @@ const OutsourcingRegister = ({match}:Props) => {
 
         };
 
-
         const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/register', data, getToken(TOKEN_NAME))
 
         if(res === false){

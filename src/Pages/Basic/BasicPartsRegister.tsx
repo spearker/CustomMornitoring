@@ -285,7 +285,7 @@ const BasicPartsRegister = () => {
                             {/*<br/>*/}
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/material/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://112.186.20.155:8299/api/v1/material/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 
@@ -296,7 +296,7 @@ const BasicPartsRegister = () => {
                             {/*    onChangeEvent={(input)=>setInputData(`using_mold`, input)}*/}
                             {/*    solo={true}*/}
                             {/*    list={inputData.using_mold}*/}
-                            {/*    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}*/}
+                            {/*    searchUrl={'http://112.186.20.155:8299/api/v1/mold/search?'}*/}
                             {/*/>*/}
 
                             <div style={{marginTop: 72,marginLeft: 340}}>
