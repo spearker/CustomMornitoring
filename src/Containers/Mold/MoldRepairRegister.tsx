@@ -3,8 +3,10 @@ import Styled from "styled-components";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
-import {API_URLS, postContractModify} from "../../Api/mes/business";
+import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
 import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
+import PartsPickerModal from '../../Components/Modal/PartsPickerModal'
+import {Input} from 'semantic-ui-react'
 
 const factoryDummy = [
     '더미 업체 1',
@@ -29,20 +31,22 @@ const MoldRepairRegisterContainer = () => {
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
 
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
-    const [managerData, setManagerData] = useState<{name: string, pk: string}>()
-
-    const [contractData, setContractData] = useState<{pk: string, customer_pk: string, material_pk: string, amount: Number, date: string}>({
-        pk: '',
-        customer_pk: '',
-        material_pk: '',
-        amount: 2000,
-        date: moment().format('YYYY-MM-DD'),
-    })
+    const [parts, setParts] = useState<{name: string, pk: string}>()
+    const [managerData, setManagerData] = useState<string>()
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].update}`
-        const resultData = await postContractModify(tempUrl, contractData);
-    }, [contractData])
+        const tempUrl = `${API_URLS['mold'].repairRegister}`
+        const resultData = await postMoldRegister(tempUrl, {
+            mold_pk: moldData?.pk,
+            description: reason,
+            manager: managerData,
+            complete_date: selectDate
+        });
+
+        if(resultData.status === 200){
+            alert('금형 수리 요청이 등록되었습니다.')
+        }
+    }, [moldData, reason, parts, managerData, selectDate])
 
     return (
         <div>
@@ -73,7 +77,7 @@ const MoldRepairRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 수리 담당자</td>
-                            <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setManagerData(e)} select={managerData}/></td>
+                            <td><Input placeholder="수리 담당자명 입력해 주세요." onChange={(e) => setManagerData( e.target.value)}/></td>
                         </tr>
                         <tr>
                             <td>• 완료 예정일</td>
@@ -90,7 +94,6 @@ const MoldRepairRegisterContainer = () => {
                                     </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
-                                        setContractData({...contractData, date: select})
                                     }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>

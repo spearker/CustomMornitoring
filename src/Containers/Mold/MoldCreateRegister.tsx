@@ -13,6 +13,8 @@ import NormalInput from "../../Components/Input/NormalInput";
 import PartInput from "../../Components/Input/PartInput";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import IcPlusGray from '../../Assets/Images/ic_plus_gray.png'
+import PartsPickerModal from '../../Components/Modal/PartsPickerModal'
+import {uploadTempFile} from '../../Common/fileFuctuons'
 
 const typeDummy = [
     '타입 A',
@@ -47,29 +49,17 @@ const initDrawing = ''
 
 const MoldCreateRegisterContainer = () => {
     const history = useHistory();
-    const [open, setOpen] = useState<boolean>(false)
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
-    const [moldBarcode, setMoldBarcode] = useState<string>('')
-    const [selectOpen, setSelectOpen] = useState<boolean>(false)
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
-    const [processData, setProcessData] = useState<IProcessRegister>({
-        type: 1,
-        name: '',
-        processes: [{machine_pk: ''}],
-        description: ''
-    })
-    const [typeList, setTypeList] = useState<string[]>(typeDummy)
-    const [locationList, setLocationList] = useState<string[]>(locationDummy)
-    const [companyList, setCompanyList] = useState<string[]>(locationDummy)
-    const [selectFactory, setSelectFactory] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
-        factory: undefined,
-        production: undefined
-    })
-    const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
-        start: moment().format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD"),
+    const [selectParts, setSelectParts] = useState<{part: {pk: string, name: string}[][], parts: {pk: string, name: string}[]}>({
+        part:[[{
+            pk: '',
+            name: '',
+        }]],
+        parts: [{
+            pk: '',
+            name: '',
+        }]
     })
 
     const [components, setComponents] = useState<{material_pk: string, usage: string}[]>([{
@@ -93,31 +83,43 @@ const MoldCreateRegisterContainer = () => {
 
     const [drawing, setDrawing] = useState<string[]>([''])
 
-    const [contractData, setContractData] = useState<{mold_type:string,mold_name:string,part_name:string[],mold_location:string,delivery_company:string,mold_barcode:string,registered: string}>({
-        mold_type: '',
-        mold_name: '',
-        part_name: [''],
-        mold_location: '',
-        delivery_company: '',
-        mold_barcode: '',
-        registered: moment().format('YYYY-MM-DD'),
-    })
-
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].register}`
-        const resultData = await postMoldRegister(tempUrl, contractData);
+        const tempUrl = `${API_URLS['mold'].makingRegister}`
+        const resultData = await postMoldRegister(tempUrl, {
+            mold_pk: moldData?.pk,
+            schedule: selectDate,
+            part: parts,
+            component: components
+        });
         if(resultData.status === 200){
             history.push('/mold/current/list')
         }
-    }, [contractData])
+    }, [parts, drawing, components, moldData, selectDate])
 
-    useEffect(() => {
-        console.log(contractData)
-    }, [contractData])
+    const addFile = async (event: any, index: number): Promise<void> => {
 
-    useEffect(() => {
-        console.log(parts)
-    }, [parts])
+        if(event.target.files[0] === undefined){
+            return;
+        }
+
+
+        // if(target !== undefined && !event.target.files[0].type.includes('image')){ //이미지인지 판별
+        //     //alert('이미지 형식만 업로드 가능합니다.');
+        //     return onChangeEvent('');
+        // }
+
+        const res = await uploadTempFile(event.target.files[0]);
+
+        console.log(res, event.target.files[0])
+        let tmp = drawing
+        if (res !== false) {
+            tmp[index] = res
+        }else{
+            tmp[index] = ''
+        }
+
+        return setDrawing(tmp);
+    }
 
     return (
         <div>
@@ -136,10 +138,10 @@ const MoldCreateRegisterContainer = () => {
                             <td>• 금형명</td>
                             <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)} select={moldData}/></td>
                         </tr>
-                        <tr>
-                            <td>• 금형 바코드 번호</td>
-                            <td><Input placeholder="Read only" disabled onChangeText={(e:string) => setMoldBarcode(e)} /></td>
-                        </tr>
+                        {/*<tr>*/}
+                        {/*    <td>• 금형 바코드 번호</td>*/}
+                        {/*    <td><Input placeholder="Read only" disabled onChangeText={(e:string) => setMoldBarcode(e)} /></td>*/}
+                        {/*</tr>*/}
                         <tr>
                             <td>• 제작 일정</td>
                             <td>
@@ -153,7 +155,6 @@ const MoldCreateRegisterContainer = () => {
                                     </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
-                                        setContractData({...contractData, registered: select})
                                     }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>
@@ -162,8 +163,12 @@ const MoldCreateRegisterContainer = () => {
                 </div>
                 {
                     parts && parts.map((v, i) =>
-                      <MoldPartDropdown title={'파트'} part={true} onClick={() => setParts([...parts, initParts])} onClickDelete={() => {
+                      <MoldPartDropdown title={'파트'} part={true} onClick={() => {
+                          setSelectParts({...selectParts, part: [...selectParts.part, [{pk: '', name: ''}]]})
+                          setParts([...parts, initParts])
+                      }} onClickDelete={() => {
                           let tmpParts = parts
+
                           if(tmpParts.length === 1){
                               console.log('삭제불가능')
                           }else{
@@ -171,21 +176,51 @@ const MoldCreateRegisterContainer = () => {
                               setParts([...tmpParts])
                           }
                     }}>
-                        <PartInput title={'거래처명'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
-                        <PartInput title={'강종'} value={processData.name} onChangeEvent={(input)=>setProcessData({...processData,name: input})} />
+                        <PartInput title={'거래처명'} value={parts[i].name} onChangeEvent={(input)=>{
+                            let tmp = parts
+                            tmp[i] = {...tmp[i], name: input}
+                            return setParts([...tmp])
+                        }} />
+                        <PartInput title={'강종'} value={parts[i].steel_grade} onChangeEvent={(input)=>{
+                            let tmp = parts
+                            tmp[i] = {...tmp[i], steel_grade: input}
+                            return setParts([...tmp])
+                        }} />
                         <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                             <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 규격`}</p>
                             <div style={{width: "90%",justifyContent: "space-around",display:"flex"}}>
                                 <InputWrap>
-                                    <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'가로규격 입력'} />
+                                    <InputBox type="text" value={parts[i].standard.w} onChange={(input)=>{
+                                        let tmp = parts
+                                        tmp[i] = {...tmp[i], standard: {
+                                              ...tmp[i].standard,
+                                                w: Number(input.target.value)
+                                            }
+                                        }
+                                        return setParts([...tmp])
+                                    }} placeholder={'가로규격 입력'} />
                                     <p>mm</p>
                                 </InputWrap>
                                 <InputWrap>
-                                    <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'세로규격 입력'} />
+                                    <InputBox type="text" value={parts[i].standard.h} onChange={(input)=>{
+                                        let tmp = parts
+                                        tmp[i] = {...tmp[i], standard: {
+                                                ...tmp[i].standard,
+                                                h: Number(input.target.value)
+                                            }
+                                        }
+                                        return setParts([...tmp])}} placeholder={'세로규격 입력'} />
                                     <p>mm</p>
                                 </InputWrap>
                                 <InputWrap>
-                                    <InputBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'높이규격 입력'} />
+                                    <InputBox type="text" value={parts[i].standard.l} onChange={(input)=>{
+                                        let tmp = parts
+                                        tmp[i] = {...tmp[i], standard: {
+                                                ...tmp[i].standard,
+                                                l: Number(input.target.value)
+                                            }
+                                        }
+                                        return setParts([...tmp])}} placeholder={'높이규격 입력'} />
                                     <p>mm</p>
                                 </InputWrap>
                             </div>
@@ -195,21 +230,35 @@ const MoldCreateRegisterContainer = () => {
                                 <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                                     <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품`}</p>
                                     <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                                        <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
-                                        <SearchButton style={{width: 32}} onClick={() => {
-                                        }}>
-                                            <img src={IcSearchButton}/>
-                                        </SearchButton>
-                                        <p>현재 재고량</p>
+                                        <PartsPickerModal text={'부품을 검색해 주세요.'} onClickEvent={(e) => {
+                                            let tmpArr = parts
+                                            let tmp = selectParts
+                                            tmp.part[i][index] = e
+                                            tmpArr[i].material[index] = {...tmpArr[i].material[index], material_pk: e.pk}
+
+                                            setParts([...tmpArr])
+                                            setSelectParts({...tmp})
+                                        }} select={selectParts.part[i][index]} width={365}/>
+                                        <p style={{marginLeft: 15}}>현재 재고량</p>
                                         <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
                                         <p>사용할 수량</p>
-                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                        <MaterialBox type="text" value={parts[i].material[index].usage} onChange={(e) => {
+                                            let tmpArr = parts
+                                            tmpArr[i].material[index] = {...tmpArr[i].material[index], usage: e.target.value}
+
+                                            setParts([...tmpArr])
+                                        }} placeholder={'9,999,999,999'} />
                                         <DeleteButton onClick={() => {
                                             let tmpCompo = parts
+                                            let tmp = selectParts
+
                                             if(tmpCompo[i].material.length === 1){
                                                 console.log('삭제불가능')
                                             }else{
                                                 tmpCompo[i].material.splice(i, 1)
+                                                tmp.part[i].splice(i, 1)
+
+                                                setSelectParts({...tmp})
                                                 setParts([...tmpCompo])
                                             }
                                         }}>
@@ -224,7 +273,13 @@ const MoldCreateRegisterContainer = () => {
                             <div style={{width: "87%",display:"flex",alignItems: "center"}}>
                                 <AddButton onClick={() => {
                                     let tmpArr = parts
+                                    let tmp = selectParts
+
+                                    tmp.part[i].push({pk: '', name: ''})
+
                                     tmpArr[i] = {...tmpArr[i], material: [...tmpArr[i].material, initComponent]}
+
+                                    setSelectParts({...tmp})
                                     setParts([...tmpArr])
                                 }}>
                                     <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
@@ -242,15 +297,24 @@ const MoldCreateRegisterContainer = () => {
                             <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                                 <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>
                                 <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                                <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360-28}} onChange={(e) => console.log(e.target.value)}/>
-                                <SearchButton style={{width: 32}} onClick={() => {
-                                }}>
-                                    <img src={IcSearchButton}/>
-                                </SearchButton>
-                                <p>현재 재고량</p>
+                                    <PartsPickerModal text={'부품을 검색해 주세요.'} onClickEvent={(e) => {
+                                        let tmpArr = components
+                                        let tmp = selectParts
+                                        tmp.parts[i] = e
+                                        tmpArr[i] = {...tmpArr[i], material_pk: e.pk}
+
+                                        setComponents([...tmpArr])
+                                        setSelectParts({...tmp})
+                                    }} select={selectParts.parts[i]} width={365}/>
+                                <p style={{marginLeft: 15}}>현재 재고량</p>
                                 <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
                                 <p>사용할 수량</p>
-                                <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                <MaterialBox type="text" value={components[i].usage} onChange={(e) => {
+                                    let tmpArr = components
+                                    tmpArr[i] = {...tmpArr[i], usage: e.target.value}
+
+                                    setComponents([...tmpArr])
+                                }} placeholder={'9,999,999,999'} />
                                 <DeleteButton onClick={() => {
                                     let tmpCompo = components
                                     if(tmpCompo.length === 1){
@@ -283,8 +347,14 @@ const MoldCreateRegisterContainer = () => {
                             <div style={{width: "87%",display:"flex",alignItems: "center"}}>
                                 <UploadBox placeholder="검색어를 입력해주세요." style={{width: 700}} onChange={(e) => console.log(e.target.value)}/>
                                 <UploadButton onClick={() => {}}>
-                                    <p>업로드</p>
+                                    <label htmlFor={'file'}  style={{ textAlign:'center', fontSize:14, width:'100%', height: '100%', paddingBottom:2 , paddingTop:4, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>
                                 </UploadButton>
+                                <input type={'file'} name="file" id={'file'} style={{display:'none'}} onChange={(e) => {
+                                    e.persist();
+
+                                    console.log('inputEvent', e)
+                                    addFile(e, i)
+                                }}/>
                                 <DeleteButton onClick={() => {
                                     let tmpCompo = drawing
                                     if(tmpCompo.length === 1){

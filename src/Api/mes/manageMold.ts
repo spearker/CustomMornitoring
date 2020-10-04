@@ -16,7 +16,10 @@ export const postMoldRegister = async( url: string, bodyData: object) =>{
 
 export const API_URLS = {
     mold:{
-        register: `/manageMold/registerMold`,
+        register: `/v1/manageMold/registerMold`,
+        manageRegister: `/v1/manageMold/manage/register`,
+        makingRegister: `/v1/manageMold/making/register`,
+        repairRegister: `/v1/manageMold/repair/register`
     },
 }
 

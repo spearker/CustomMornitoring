@@ -64,7 +64,7 @@ const TeamsSetting = () => {
       }
 
       console.log('--select id : ' + id)
-      const results = await postRequest('http://112.186.20.155:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
+      const results = await postRequest('http://203.234.183.22:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
       if (results === false) {
        ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       } else {
@@ -85,7 +85,7 @@ const TeamsSetting = () => {
       }
 
       console.log('--select id : ' + id)
-    const results = await postRequest('http://112.186.20.155:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/member/teams/register' ,data, getToken(TOKEN_NAME))
     if (results === false) {
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -110,7 +110,7 @@ const TeamsSetting = () => {
    */
   const getList = useCallback(async () => {
 
-    const results = await getRequest('http://112.186.20.155:8299/api/v1/member/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -132,7 +132,7 @@ const TeamsSetting = () => {
    */
   const getDataSubTeams = useCallback(async () => {
     if(target === null){return}
-    const results = await getRequest('http://112.186.20.155:8299/api/v1/member/teams/list?pk=' +  target!.pk  + '&keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/teams/list?pk=' +  target!.pk  + '&keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -153,7 +153,7 @@ const TeamsSetting = () => {
      */
   const getSearchList = useCallback(async (e) => {
     e.preventDefault();
-    const results = await getRequest('http://112.186.20.155:8299/api/v1/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/teams/list?keyword=' + keyword, getToken(TOKEN_NAME))
     if (results === false) {
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
     } else {
@@ -170,7 +170,7 @@ const TeamsSetting = () => {
 
   const onClickDelete = useCallback(async (id, abl) => {
 
-    const results = await postRequest('http://112.186.20.155:8299/api/v1/member/teams/delete', { pk: id }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/member/teams/delete', { pk: id }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {
@@ -193,7 +193,7 @@ const TeamsSetting = () => {
   const onClickModify = useCallback(async (id, value) => {
 
 
-    const results = await postRequest('http://112.186.20.155:8299/api/v1/member/teams/update', { pk: id, name: value }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/member/teams/update', { pk: id, name: value }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {

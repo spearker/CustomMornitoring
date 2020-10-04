@@ -1,31 +1,30 @@
 import React, {useCallback, useState} from "react";
 import moment from "moment";
-import {API_URLS, postContractModify} from "../../Api/mes/business";
+import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
 import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import Styled from "styled-components";
 import {POINT_COLOR} from "../../Common/configset";
+import {useHistory} from 'react-router-dom';
 
 const MoldManageCreate = () => {
-    const [open, setOpen] = useState<boolean>(false)
+    const history = useHistory()
     const [reason, setReason] = useState<string>('')
-    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
 
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
-    const [managerData, setManagerData] = useState<{name: string, pk: string}>()
-
-    const [contractData, setContractData] = useState<{pk: string, customer_pk: string, material_pk: string, amount: Number, date: string}>({
-        pk: '',
-        customer_pk: '',
-        material_pk: '',
-        amount: 2000,
-        date: moment().format('YYYY-MM-DD'),
-    })
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].update}`
-        const resultData = await postContractModify(tempUrl, contractData);
-    }, [contractData])
+        const tempUrl = `${API_URLS['mold'].manageRegister}`
+        const resultData = await postMoldRegister(tempUrl, {
+            mold_pk: moldData?.pk,
+            contents: reason
+        });
+
+        if(resultData.status === 200){
+            alert('성공적으로 등록되었습니다.')
+            history.goBack()
+        }
+    }, [moldData, reason])
 
     return (
         <div>

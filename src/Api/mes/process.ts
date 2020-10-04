@@ -126,6 +126,9 @@ export const API_URLS = {
     },
     chit: {
         search: `/v1/chit/search`
+    },
+    parts: {
+        search: `/v1/parts/list`
     }
 
 }
