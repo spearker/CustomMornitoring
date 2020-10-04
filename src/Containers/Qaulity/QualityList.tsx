@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getQualityList} from "../../Api/mes/quality";
 import {getCustomerData} from "../../Api/mes/customer";
 import QualityTableDropdown from "../../Components/Dropdown/QualityTableDropdown";
 
@@ -10,9 +10,6 @@ import QualityTableDropdown from "../../Components/Dropdown/QualityTableDropdown
 const QualityListContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
-    const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
-    const [contentsList, setContentsList] = useState<any[]>(['품목명','공정명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
     const [detailList,setDetailList] = useState<any[]>([]);
@@ -38,41 +35,7 @@ const QualityListContainer = () => {
             total_count: '총 완료 개수',
             none_defective_count: '적격 개수',
             defective_count: '부적격 개수',
-            state: '검수 여부'
-        }
-    }
-
-
-    const detailTitle = {
-       quality: {
-           factory_name: '공정명',
-           supplier_name: '납품 업체',
-           date: '납기날짜',
-        },
-    }
-
-    const detailTitle2 = {
-        checker: {
-            checker: '검사자',
-            check_detail: '검사 내용',
-            check_time: '검사 완료 시간',
-        }
-    }
-
-    const detailTitle3 = {
-        count: {
-            total_count: '총 완료 개수',
-            none_defective_count: '적격 개수',
-            defective_count: '부적격 개수',
-            state: '검수 여부'
-        }
-    }
-
-    const detailTitle4 = {
-        worker: {
-            worker: '작업자',
-            check_request: '검사 요청',
-            check_request_time: '검사 요청 시간'
+            whether: '적격 여부'
         }
     }
 
@@ -114,42 +77,6 @@ const QualityListContainer = () => {
         },
     ]
 
-    const detaildummy = [
-        {
-            factory_name: '공정 01',
-            supplier_name: '(주)대한민국',
-            date: '2020.08.09',
-        },
-    ]
-
-    const detaildummy2 = [
-        {
-            checker: '김검사',
-            check_detail: '검사 내용은 다음과 같습니다. 검사 내용검사 내용검사 내용검사 내용검사 내용 검사 \n' +
-                '검사 내용 검사 내용 검사 내용 검사 내용 검사 내용 검사 내용 검사 내용 검사 내용\n' +
-                '검사 내용 검사 내용 검사 내용 검사 내용 검사 내용 검사 내용 검사 내용 검사 내용',
-            check_time: '2020.08.07 16:22:35',
-        },
-    ]
-
-    const detaildummy3 = [
-        {
-            total_count: '9,999,999,999,999,999,999',
-            none_defective_count: '9,999,999,999,999',
-            defective_count: '999,999',
-            state: '검수 완료'
-        },
-    ]
-
-    const detaildummy4 = [
-        {
-            worker: '작업자',
-            check_request: '검사 요청 내용은 다음과 같습니다. 검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 \n' +
-                '검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 \n' +
-                '검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 검사 요청 내용 ',
-            check_request_time: '2020. 08. 07 16:22:55'
-        },
-    ]
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
@@ -191,37 +118,19 @@ const QualityListContainer = () => {
 
     },[searchValue,option])
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
-
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['response'].list}?currentPage=${page.current}`
+        const res = await getQualityList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["quality"])
-        setList(dummy)
-        setSubIndex(detailTitle['quality'])
-        setDetailList(detaildummy)
-        setCheckIndex(detailTitle2['checker'])
-        setCheckDetail(detaildummy2)
-        setCountIndex(detailTitle3['count'])
-        setCountDetail(detaildummy3)
-        setWorkerIndex(detailTitle4['worker'])
-        setWorkerDetail(detaildummy4)
-
+        // setList(dummy)
     },[])
 
     return (

@@ -2,8 +2,9 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getBarcode, postBarcode} from "../../Api/mes/barcode";
 import {useHistory} from "react-router-dom";
+import {postProjectDelete} from "../../Api/mes/production";
 
 
 const BarcodeListContainer = () => {
@@ -11,19 +12,39 @@ const BarcodeListContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({   item_name: "품목명",});
+    const [detailList,setDetailList] = useState<{barcode_pk : string,
+        barcode_name : string,
+        main_type: string,
+        detail_type: string,
+        item_pk: string ,
+        barcode_type : string,
+        barcode_number: string,
+        barcode_photo: string,
+        description : string | null}>({barcode_pk : '',
+        barcode_name : '',
+        main_type: '',
+        detail_type: '',
+        item_pk: '' ,
+        barcode_type : '',
+        barcode_number: '',
+        barcode_photo: '',
+        description : ''});
+    const [index, setIndex] = useState({ main_type: "품목(품목명)" });
     const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
+    const [selectBarcode, setSelectBarcode ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [deletePk, setDeletePk] = useState<(string[])>([]);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const history = useHistory();
 
     const indexList = {
         barcode: {
-            item_name: "품목(품목명)",
-            item_type: "제품 분류",
-            barcode_num : "바코드 번호",
-            basic_barcode : "기준 바코드",
+            main_type: "항목",
+            detail_type: "상세 항목",
+            barcode_number : "바코드 번호",
+            barcode_name : "바코드 명",
             registered: "등록 날짜",
         }
     }
@@ -74,6 +95,7 @@ const BarcodeListContainer = () => {
         },
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
@@ -82,33 +104,66 @@ const BarcodeListContainer = () => {
         {
             Name: '수정',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v) => history.push(`/barcode/register/${v.barcode_pk}`)
         },
     ]
 
 
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+    const onClick = useCallback((barcode) => {
+        console.log('dsfewfewf',barcode.barcode_pk,barcode.barcode_name );
+        if(barcode.pk === selectPk){
             setSelectPk(null);
-            setSelectMold(null);
+            setSelectBarcode(null);
             setSelectValue(null);
         }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
+            setSelectPk(barcode.barcode_pk);
+            setSelectBarcode(barcode.barcode_name);
+            setSelectValue(barcode)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(barcode.barcode_pk)
         }
-
-
 
     }, [list, selectPk]);
 
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        {list.length === 0 ?
+            deletePk.map((v,i)=>{
+                deletePk.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.barcode_pk)
+                deletePk.push(tmpPk.toString())
+            })
+        }
+    },[deletePk])
+
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.indexOf(Data.barcode_pk)
+        {deletePk.indexOf(Data.barcode_pk) !== -1 ?
+            deletePk.splice(IndexPk,1)
+            :
+            deletePk.push(Data.barcode_pk)
+        }
+    },[deletePk])
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['barcode'].delete}`
+        const res = await postProjectDelete(tempUrl, deletePk)
+        console.log(res)
+
+        getList()
+
+        selectPk(null)
+    },[deletePk])
+
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['barcode'].detailInfo}?barcode_pk=${pk}`
+        const res = await getBarcode(tempUrl)
 
         setDetailList(res)
 
@@ -116,17 +171,17 @@ const BarcodeListContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}`
+        const res = await getBarcode(tempUrl)
 
         setList(res)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["barcode"])
-        setList(dummy)
+        // setList(dummy)
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
     },[])
@@ -136,29 +191,35 @@ const BarcodeListContainer = () => {
             <OvertonTable
                 title={'바코드 현황'}
                 allCheckbox={true}
+                allCheckOnClickEvent={allCheckOnClick}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
                 checkBox={true}
+                checkOnClickEvent={checkOnClick}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'바코드 이미지'} >
+                        <LineTable title={selectBarcode+' 바코드 이미지'} >
                                 <BarcodeContainer>
                                     <BarcodeImage>
-                                        <p>바코드 이미지가 없습니다.</p>
+                                        {detailList.barcode_photo === '' && detailList.barcode_photo === undefined ?
+                                            <p>바코드 이미지가 없습니다.</p>
+                                            :
+                                            <img src={detailList.barcode_photo} style={{width: '100%', height: '100%'}}/>
+                                        }
                                     </BarcodeImage>
                                     <BarcodeNum>
                                         <div>
                                             <p>바코드 번호</p>
-                                            <p>A123456789B</p>
+                                            <p>{detailList.barcode_number}</p>
                                         </div>
-                                        <div>
-                                            <p>기준 바코드</p>
-                                            <p>A123</p>
-                                        </div>
+                                        {/*<div>*/}
+                                        {/*    <p>기준 바코드</p>*/}
+                                        {/*    <p>A123</p>*/}
+                                        {/*</div>*/}
                                     </BarcodeNum>
                                     <ButtonBox>바코드 이미지 다운로드</ButtonBox>
                                 </BarcodeContainer>
@@ -182,7 +243,7 @@ const BarcodeContainer = Styled.div`
 
 const BarcodeImage = Styled.div`
     display: flex;
-    width: 310px;
+    width: 370px;
     height: 182px;
     background-color: #ffffff;
     justify-content: center;
@@ -194,9 +255,9 @@ const BarcodeImage = Styled.div`
 `
 
 const BarcodeNum = Styled.div`
-    padding: 140px 0px 10px 40px;
+    padding: 140px 0px 10px 10px;
     color: white;
-    width: 235px;
+    width: 600px;
     height: 52px;
     div {
         font-family: NotoSansCJKkr-Bold;
@@ -211,7 +272,7 @@ const BarcodeNum = Styled.div`
 `
 
 const ButtonBox = Styled.button`
-    margin-left: 30%;
+    margin-left: 10%;
     color: white;
     border-radius: 5px;
     background-color: #717c90;

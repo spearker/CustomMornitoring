@@ -14,7 +14,7 @@ const MoldManageCreate = () => {
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].manageRegister}`
+        const tempUrl = `${API_URLS["manage"].register}`
         const resultData = await postMoldRegister(tempUrl, {
             mold_pk: moldData?.pk,
             contents: reason

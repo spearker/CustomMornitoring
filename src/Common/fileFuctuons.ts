@@ -14,7 +14,6 @@ export const uploadTempFile = async(data)=>{
     const formData = new FormData()
     formData.append('file',data)
     const res = await postRequest('http://203.234.183.22:8299/api/v1/file/upload',formData, getToken(TOKEN_NAME))
-    console.log(res)
 
     if(res === false){
       return false

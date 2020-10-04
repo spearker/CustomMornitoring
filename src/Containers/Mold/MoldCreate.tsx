@@ -2,7 +2,8 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
+import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 
 
 const CreateContainer = () => {
@@ -16,14 +17,18 @@ const CreateContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
 
     const indexList = {
-        repair: {
-            mold_name: '금형 명',
-            mold_barcode: '금형 바코드 번호',
-            charge_name: '제작 담당자',
-            registered_date: '제작 일정',
-            state: '제작 현황'
+        making: {
+            mold_name: "금형 명",
+            barcode:"금형 바코드 번호",
+            manager: "제작 담당자" ,
+            schedule: "제작 일정",
+            status:"제작 현황",
         }
     }
 
@@ -36,59 +41,6 @@ const CreateContainer = () => {
             complete_date: '완료 날짜',
         },
     }
-
-    const dummy = [
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-    ]
-
-    const detaildummy = [
-        {
-            part_name: '부품명00',
-            repair_content: '부품명00에 대한 수리내용은 본 내용과 같습니다.',
-            repair_status: '완료',
-            complete_date: '2020.08.09'
-        },
-    ]
-
 
     const eventdummy = [
         {
@@ -123,32 +75,30 @@ const CreateContainer = () => {
 
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
+    // const getData = useCallback( async(pk)=>{
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0`
+        const res = await getMoldList(tempUrl)
 
-        setList(res)
+        setList(res.items)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
-        setIndex(indexList["repair"])
-        setList(dummy)
-        setDetailList(detaildummy)
+        getList()
+        setIndex(indexList["making"])
+        // setList(dummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle['repair'])
     },[])
 
     return (
@@ -171,6 +121,7 @@ const CreateContainer = () => {
                         :
                         null
                 }
+                <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
             </OvertonTable>
         </div>
     );

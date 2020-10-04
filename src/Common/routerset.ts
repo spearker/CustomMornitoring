@@ -173,20 +173,20 @@ export const MES_MENU_LIST = {
     { name : '불량 이력', url: '/project/defective/list' }
   ],
   stock: [
-    // { name : '재고 관리', url: '/stock/status/list'},
-    // { name : '재고 현황', url: '/stock/status/list'},
-    // { name : '원자재 관리', url: '/stock/rawmaterial/list'},
-    // { name : '재공 재고 관리', url:'/stock/wip/list'},
-    // { name : '완제품 관리', url: '/stock/finishmaterial/list'},
-    // { name : '외주 재고 관리', url:'/stock/outsource/list'},
-    // { name : '부품 관리', url: '/stock/parts/list'}
+    { name : '재고 관리', url: '/stock/status/list'},
+    { name : '재고 현황', url: '/stock/status/list'},
+    { name : '원자재 관리', url: '/stock/rawmaterial/list'},
+    { name : '재공 재고 관리', url:'/stock/wip/list'},
+    { name : '완제품 관리', url: '/stock/finishmaterial/list'},
+    { name : '외주 재고 관리', url:'/stock/outsource/list'},
+    { name : '부품 관리', url: '/stock/parts/list'}
 
-      { name: '재고 관리', url: '/commingsoon'},
-      { name: '재고 현황', url: '/commingsoon'},
-      { name : '재공재고 관리', url:'/commingsoon'},
-      { name : '외주 재고 관리', url:'/commingsoon'},
-      { name : '원자재 관리', url: '/commingsoon'},
-      { name : '완제품 관리', url: '/commingsoon'},
+      // { name: '재고 관리', url: '/commingsoon'},
+      // { name: '재고 현황', url: '/commingsoon'},
+      // { name : '재공재고 관리', url:'/commingsoon'},
+      // { name : '외주 재고 관리', url:'/commingsoon'},
+      // { name : '원자재 관리', url: '/commingsoon'},
+      // { name : '완제품 관리', url: '/commingsoon'},
   ],
   barcode: [
     { name : '바코드 관리', url: '/barcode/current/list'},

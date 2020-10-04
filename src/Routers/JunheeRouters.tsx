@@ -41,7 +41,7 @@ const JunheeRouters = () => {
                 <Route exact path="/marketing/order/modify/:pk" component={OrderModify} />
                 {/*바코드관리*/}
                 <Route exact path="/barcode/register" component={BarcodeRegister} />
-                <Route exact path="/barcode/modify" component={BarcodeModify} />
+                <Route exact path="/barcode/register/:barcode_pk" component={BarcodeRegister} />
                 {/*재고 관리*/}
                 <Route exact path="/manageStock/register" component={ManageStockRegister} />
                 {/*공정 관리*/}

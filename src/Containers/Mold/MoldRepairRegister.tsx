@@ -35,7 +35,7 @@ const MoldRepairRegisterContainer = () => {
     const [managerData, setManagerData] = useState<string>()
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].repairRegister}`
+        const tempUrl = `${API_URLS['repair'].register}`
         const resultData = await postMoldRegister(tempUrl, {
             mold_pk: moldData?.pk,
             description: reason,

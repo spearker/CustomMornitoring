@@ -45,6 +45,10 @@ import MoldMangeCreate from "../Pages/Mold/MoldManageCreate";
 import QualityTestRequest from "../Pages/Quality/QualityTestRequest";
 import QualityTestList from "../Pages/Quality/QualityTestList";
 import QualityTestComplete from "../Pages/Quality/QualityTestComplete";
+import QualityTestListWorker from "../Pages/Quality/QualityTestListWorker";
+import QualityTestCompleteWorker from "../Pages/Quality/QualityTestCompleteWorker";
+import QualityDetailList from "../Pages/Quality/QualityDetailList";
+import QualityTestRequestInspector from "../Pages/Quality/QualityTestRequestInspector";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -92,8 +96,12 @@ const JMRouters = () => {
 
             <Route exact path="/quality/test/request" component={QualityTestRequest}/>
             <Route exact path="/quality/test/list" component={QualityTestList}/>
+            <Route exact path="/quality/test/detail" component={QualityTestRequestInspector}/>
+            <Route exact path="/quality/test/list/worker" component={QualityTestListWorker}/>
             <Route exact path="/quality/test/complete" component={QualityTestComplete}/>
+            <Route exact path="/quality/test/complete/worker" component={QualityTestCompleteWorker}/>
             <Route exact path="/quality/current/list" component={QualityList}/>
+            <Route exact path="/quality/current/detail" component={QualityDetailList}/>
 
             <Route exact path="/stock/wip/list" component={StockWip}/>
             <Route exact path="/stock/outsource/list" component={StockOutSource}/>

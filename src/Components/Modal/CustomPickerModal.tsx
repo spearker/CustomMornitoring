@@ -45,9 +45,9 @@ const DummyMachine = {
         stock: '재고'
     },
     voucher: {
+        material_name: '품목(품목명)',
         registerer: '등록자',
         supplier_name: '납품 업체',
-        material_name: '품목(품목명)',
         goal: '생산 할 수량',
         current_amount: '현재 생산 수량'
     }
@@ -110,8 +110,9 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                     <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 210}}>{'· 세부 항목'}</p>
                     <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                         <div style={{display:'inline-block', height: 32, width: 832}}>
+                            {console.log(select)}
                             {
-                                select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                                select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
                                     : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                             }
                         </div>
@@ -190,20 +191,35 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                                             null
                                                     )
                                                 })
-                                            })
-                                        }
-                                        </tr>}
-                                            {/*<td>*/}
-                                            {/*    <button*/}
-                                            {/*        onClick={() => {*/}
-                                            {/*            setMachineName(v.machine_name)*/}
-                                            {/*            return onClickEvent({name: v.machine_name, pk: v.pk})*/}
-                                            {/*        }}*/}
-                                            {/*        style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}*/}
-                                            {/*    >*/}
-                                            {/*        <img src={ic_check} style={{width: 20, height: 20}}/>*/}
-                                            {/*    </button>*/}
-                                            {/*</td>*/}
+                                            })}
+                                            {customList?.map((v,i) =>
+                                            {
+                                                return Object.keys(customName).map((vi)=>{
+                                                    return(
+                                                        vi === type ?
+                                                            Object.keys(customName[vi]).map((m,index) => {
+                                                                return(
+                                                                    <td>
+                                                                        {index === 0 ?
+                                                                            <button onClick={() => {setMachineName(v[m])
+                                                                                return onClickEvent({name: v[m], pk: v.pk})}}
+                                                                                style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                                            >
+                                                                                <img src={ic_check}
+                                                                                     style={{width: 20, height: 20}}/>
+                                                                            </button> :
+                                                                            null
+                                                                        }
+                                                                    </td>
+                                                                )
+                                                            })
+                                                            :
+                                                            null
+                                                    )
+                                                })
+                                            })}
+                                        </tr>
+                                    }
                                 </MachineTable>
                             </ReactShadowScroll>
                         </div>

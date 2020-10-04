@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
 import {useHistory} from "react-router-dom";
 
 
@@ -17,71 +17,31 @@ const CurrentContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
     const history = useHistory()
 
     const indexList = {
-        current: {
-            mold_name: '금형 이름',
-            mold_location: '보관장소',
-            charge_name: '수리 담당자',
-            registered_date: '수리 등록 날짜',
-            complete_date: '완료 예정 날짜',
-            status: '완료'
+        repair: {
+            mold_name: '금형명',
+            manager: "담당자 이름",
+            registered: "수리 등록 날짜",
+            complete_date: "완료 예정 날짜",
+            status: "상태"
         }
     }
 
 
     const detailTitle = {
-        current: {
-            part_name: '부품명00',
-            repair_content: '부품명00에 대한 수리내용은 본 내용과 같습니다.',
-            repair_status: '완료',
-            complete_date: '2020.08.09'
+        repair: {
+            part_name: '부품명',
+            repair_content: '수리 내용',
+            repair_status: '상태',
+            complete_date: '완료 날짜'
         },
     }
-
-    const dummy = [
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '수리중'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '수리중'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-    ]
 
     const detaildummy = [
         {
@@ -89,19 +49,6 @@ const CurrentContainer = () => {
             total_count: '99,999',
             defective_count: '91',
             description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
-        },
-    ]
-
-    const eventdummy = [
-        {
-            Name: '입고',
-            Width: 60,
-            Color: 'white'
-        },
-        {
-            Name: '출고',
-            Width: 60,
-            Color: 'white'
         },
     ]
 
@@ -124,11 +71,11 @@ const CurrentContainer = () => {
             setSelectMold(null);
             setSelectValue(null);
         }else{
-            setSelectPk(mold.pk);
+            setSelectPk(mold.repair_pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.repair_pk)
         }
 
 
@@ -137,26 +84,26 @@ const CurrentContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
+        const res = await getMoldList(tempUrl)
 
-        setDetailList(res)
+        setDetailList(res.mold_partList)
 
     },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=''&type=0`
+        const res = await getMoldList(tempUrl)
 
         setList(res)
 
     },[list])
 
     useEffect(()=>{
-        // getList()
-        setIndex(indexList["current"])
-        setList(dummy)
+        getList()
+        setIndex(indexList["repair"])
+        // setList(dummy)
         setDetailList(detaildummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle["current"])
@@ -176,7 +123,7 @@ const CurrentContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={selectMold+' 수리 현황'} contentTitle={subIndex} contentList={detailList}>
                             <Line/>
                         </LineTable>
                         :

@@ -3,12 +3,12 @@ import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
 import BarcodeRegisterContainer from "../../Containers/Barcode/BarcodeRegisterContainter";
 
-const BarcodeRegister = () => {
+const BarcodeRegister = ({match}:any) => {
     return (
         <DashboardWrapContainer index={'statistics'}>
 
             <InnerBodyContainer>
-                <BarcodeRegisterContainer/>
+                <BarcodeRegisterContainer match={match}/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

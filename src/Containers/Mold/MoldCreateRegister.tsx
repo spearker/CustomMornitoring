@@ -84,7 +84,7 @@ const MoldCreateRegisterContainer = () => {
     const [drawing, setDrawing] = useState<string[]>([''])
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].makingRegister}`
+        const tempUrl = `${API_URLS["making"].register}`
         const resultData = await postMoldRegister(tempUrl, {
             mold_pk: moldData?.pk,
             schedule: selectDate,
