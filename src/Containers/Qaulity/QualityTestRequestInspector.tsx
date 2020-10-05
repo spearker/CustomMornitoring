@@ -8,6 +8,8 @@ import {POINT_COLOR} from "../../Common/configset";
 import useObjectInput from "../../hooks/UseInput";
 import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
+import DropdownInput from "../../Components/Input/DropdownInput";
+import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 
 const initialInputValue = {
     process_name: '',
@@ -78,7 +80,7 @@ const QualityTestRequestInspectorContainer = () => {
                         </tr>
                         <tr>
                             <td>• 적격 여부</td>
-                            <td><input value={inputData.whether} placeholder="적격 여부"  onChange={(e) => setInputData('whether',e.target.value)} /></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setInputData('whether',e)} select={inputData.whether} contents={['적격','부적격']} text={'적격 여부를 선택해 주세요.'}/></td>
                         </tr>
                         <tr>
                             <td>• 검사자</td>
@@ -94,12 +96,20 @@ const QualityTestRequestInspectorContainer = () => {
                         </tr>
                     </table>
                 </div>
-                <div style={{marginTop: 72}}>
+                <div style={{marginTop: 42, paddingBottom: 42}}>
+                    <TestButton onClick={async () => {
+                        await console.log(123)
+                    }}>
+                        <div>
+                            <p style={{fontSize: 18}}>검수 완료</p>
+                        </div>
+                    </TestButton>
+
                     <ButtonWrap onClick={async () => {
                         await console.log(123213)
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        <div>
+                            <p style={{fontSize: 18}}>취소하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -110,7 +120,7 @@ const QualityTestRequestInspectorContainer = () => {
 
 const ContainerMain = Styled.div`
     width: 1060px;
-    height: 827px;
+    height: auto;
     border-radius: 6px;
     background-color: white;
     padding: 35px 20px 0 20px;
@@ -164,14 +174,36 @@ const ButtonWrap = Styled.button`
     border-radius: 5px;
     color: black;
     background-color: ${POINT_COLOR};
+    width: 224px;
+    height: 46px;
+    border-radius: 6px;
+    border-radius: 6px;
     border: none;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
     font-weight: bold;
-    font-size: 13px;
-    img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
-    }
+    font-stretch: normal;
+    font-style: normal;
+    color: #0d0d0d;
+`
+
+const TestButton = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: #e7e9eb;
+    width: 224px;
+    height: 46px;
+    border-radius: 6px;
+    border-radius: 6px;
+    border: none;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: #666d79;
+    margin-right: 20px;
 `
 
 
