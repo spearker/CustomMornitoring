@@ -7,12 +7,18 @@ import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getCustomerData} from "../../Api/mes/customer";
+import {API_URLS, getMarketing} from "../../Api/mes/marketing";
 
 //드롭다운 컴포넌트
 
 interface IProps{
-    select?: { name?:string, pk?: string },
+    select?: {
+        pk?: string
+        customer_name?: string
+        material_name?: string
+        amount?: number
+        date?: string
+    },
     onClickEvent: any
     text: string
 }
@@ -27,6 +33,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
         customer_name: "",
         material_name: "",
         amount: 0,
+        date: ""
     }])
     const [searchName, setSearchName] = useState<string>('')
 
@@ -35,10 +42,10 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}`
-        const resultData = await getCustomerData(tempUrl);
+        const tempUrl = `${API_URLS['contract'].list}?page=1`
+        const resultData = await getMarketing(tempUrl);
         console.log(resultData)
-        setMachineList(resultData)
+        setMachineList(resultData.info_list)
     }, [searchName])
 
     useEffect(() => {
@@ -59,7 +66,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                            select && select.customer_name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
@@ -114,9 +121,12 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                                                     <td><span>{v.amount}</span></td>
                                                     <td>
                                                         <button
-                                                            onClick={() => {
+                                                            onClick={(e) => {
+                                                                console.log('asldkfjaslkdjflkjsf')
                                                                 setMachineName(v.customer_name)
-                                                                return onClickEvent({customer_name: v.customer_name,material_name: v.material_name,amount: v.amount ,pk: v.pk})
+
+                                                                console.log(select && select.pk, v.pk)
+                                                                return onClickEvent(v)
                                                             }}
                                                             style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
