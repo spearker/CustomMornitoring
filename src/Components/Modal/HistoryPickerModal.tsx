@@ -31,7 +31,13 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [workerName, setWorkerName] = useState('')
 
-    const [historyList, setHistoryList] = useState(DummyMachine)
+    const [historyList, setHistoryList] = useState<{
+        pk:string,
+        worker_name: string,
+        material_name: string,
+        worked: string,
+        amount: string
+    }[]>(DummyMachine)
     const [searchName, setSearchName] = useState<string>('')
 
     // const ref = useOnclickOutside(() => {
@@ -39,9 +45,10 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['production'].search2}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}`
         const resultData = await getHistorySearch(tempUrl);
-        setHistoryList(resultData.results)
+        console.log('resultData', resultData)
+        setHistoryList(resultData)
     }, [searchName])
 
     useEffect(() => {
@@ -91,7 +98,7 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업자 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
@@ -102,14 +109,18 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 195}}>작업자 명</th>
-                                        <th style={{width: 195}}>품목명</th>
-                                        <th style={{width: 225}}>작업 시간</th>
-                                        <th style={{width: 225}}>총 작업</th>
+                                        <th style={{width: 150}}>작업자 명</th>
+                                        <th style={{width: 150}}>품목명</th>
+                                        <th style={{width: 275}}>작업 시간</th>
+                                        <th style={{width: 200}}>총 작업</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        historyList?.map((v,i) => {
+                                        console.log('historyList', historyList)
+                                    }
+                                    {
+                                        historyList && historyList.map((v,i) => {
+                                            console.log(v)
                                             return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.worker_name}</span></td>

@@ -229,7 +229,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             <WhiteBoxContainer>
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
-                    <InputContainer title={"작업자 이력"} width={120}>
+                    <InputContainer title={"작업 이력"} width={120}>
                         <HistoryPickerModal select={selectHistory} onClickEvent={(e)=>setSelectHistory({...selectHistory,...e})} text={'작업자명을 검색해주세요.'}/>
                     </InputContainer>
                     <InputContainer title={"품목(품목명)"} width={120}>

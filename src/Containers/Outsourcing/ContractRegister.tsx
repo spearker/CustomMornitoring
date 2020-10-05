@@ -320,8 +320,8 @@ const ContractRegister = ({match}:Props) => {
                     </InputContainer>
                     <NormalAddressInput title={'공장 주소'} value={inputData.location} onChangeEvent={(input)=>setInputData(`location`, input)}  />
                     {/* 자유항목 입력 창
-             <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
-              const tempInfo = infoList.slice();
+             <FullAddInput title={'자유 항목'}  ={()=>{
+              const tempInfo = infoList.slice()=-
               tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
               setInfoList(tempInfo)
             }}>

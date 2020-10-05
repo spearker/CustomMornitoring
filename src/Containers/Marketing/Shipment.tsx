@@ -86,7 +86,7 @@ const ShipmentContainer = () => {
         const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}`
         const res = await getMarketing(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
     },[list])
 

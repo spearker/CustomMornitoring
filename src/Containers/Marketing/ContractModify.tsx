@@ -48,7 +48,7 @@ const ContractModifyContainer = ({match}:Props) => {
     },[contractData,customer,selectMaterial])
 
     const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].register}`
+        const tempUrl = `${API_URLS['contract'].update}`
         const resultData = await postContractModify(tempUrl, contractData);
 
         history.goBack()
@@ -57,6 +57,10 @@ const ContractModifyContainer = ({match}:Props) => {
     useEffect(()=>{
         getContractLoadData()
     },[])
+
+    useEffect(()=>{
+        console.log(contractData)
+    },[contractData])
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
@@ -80,7 +84,7 @@ const ContractModifyContainer = ({match}:Props) => {
                         </tr>
                         <tr>
                             <td>• 수량</td>
-                            <td><input placeholder="수량을 입력해 주세요." type="number"  onChange={(e) => setContractData({...contractData, amount: Number(e.target.value)})}/></td>
+                            <td><input value={Number(contractData.amount)} placeholder="수량을 입력해 주세요." type="number" onChange={(e) => setContractData({...contractData, amount: Number(e.target.value)})}/></td>
                         </tr>
                         <tr>
                             <td>• 수주 날짜</td>

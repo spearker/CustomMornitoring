@@ -105,6 +105,9 @@ export const API_URLS = {
     },
     material: {
         search: `/v1/material/search`
+    },
+    history: {
+        search: `/v1/project/history/search`
     }
 }
 
