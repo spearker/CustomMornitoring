@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {Input} from 'semantic-ui-react'
 import ProjectPlanPickerModal from '../../Components/Modal/ProjectPlanPickerModal'
 import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
@@ -10,10 +10,16 @@ import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import moment from 'moment'
 import {API_URLS, postQualityRegister} from '../../Api/mes/quality'
 import {useHistory} from 'react-router-dom'
+import {getProjectList} from '../../Api/mes/production'
 
 const nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
 
-const QualityTestRequest = () => {
+interface Props {
+    match: any;
+    // chilren: string;
+}
+
+const QualityTestRequest = ({ match }: Props) => {
     const history = useHistory()
     const [processData, setProcessData] = useState<{pk: string, name: string}>({pk: '', name: ''})
     const [machineData, setMachineData] = useState<{pk: string, name: string}>({pk: '', name: ''})
@@ -21,6 +27,38 @@ const QualityTestRequest = () => {
     const [totalCount, setTotalCount] = useState<number>(0)
     const [reason, setReason] = useState<string>()
     const [worker, setWorker] = useState<string>('')
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
+
+    useEffect(()=>{
+        console.log(match.params.pk)
+        if( match.params.pk ){
+            // alert(`수정 페이지 진입 - pk :` + match.params.pk)
+            setIsUpdate(true)
+            // getData()
+        }
+
+    },[])
+
+    // const getData = useCallback(async()=>{
+    //
+    //     const tempUrl = `${API_URLS['defective'].load}?pk=${match.params.pk}`
+    //     const res = await getProjectList(tempUrl)
+    //
+    //     console.log('resresres', res)
+    //
+    //     if(res === false){
+    //         //TODO: 에러 처리
+    //     }else{
+    //         // setSelectHistory()
+    //         setName(res.name);
+    //         setPk(res.pk);
+    //         setAmount(Number(res.number));
+    //         setPk(res.pk);
+    //         setPaths([res.photo])
+    //         setInfoList(res.info_list)
+    //     }
+    // },[pk, name, amount,paths])
+
 
     const postQualityRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['request'].register}`
@@ -35,7 +73,7 @@ const QualityTestRequest = () => {
 
         if(resultData.status === 200){
             alert("성공적으로 등록되었습니다!")
-            history.goBack()
+            history.push('/quality/test/list')
         }
     }, [processData, machineData, productionData, totalCount, reason, worker])
 
@@ -83,13 +121,34 @@ const QualityTestRequest = () => {
 
                     </table>
                 </div>
-                <div style={{marginTop: 180, paddingBottom: 20}}>
-                    <ButtonWrap onClick={postQualityRegisterData}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>검수 요청</p>
-                        </div>
-                    </ButtonWrap>
-                </div>
+                {
+                    isUpdate ?
+                    <div style={{marginTop: 42, paddingBottom: 42}}>
+                        <TestButton onClick={async () => {
+                            await console.log(123)
+                        }}>
+                            <div>
+                                <p style={{fontSize: 18}}>검수 완료</p>
+                            </div>
+                        </TestButton>
+
+                        <ButtonWrap onClick={async () => {
+                            await console.log(123213)
+                        }}>
+                            <div>
+                                <p style={{fontSize: 18}}>취소하기</p>
+                            </div>
+                        </ButtonWrap>
+                    </div> :
+                      <div style={{marginTop: 180, paddingBottom: 20}}>
+                          <ButtonWrap onClick={postQualityRegisterData}>
+                              <div style={{width: 360, height: 46}}>
+                                  <p style={{fontSize: 18, marginTop: 8}}>검수 요청</p>
+                              </div>
+                          </ButtonWrap>
+                      </div>
+                }
+
             </ContainerMain>
 
         </div>
@@ -132,19 +191,23 @@ const ContainerMain = Styled.div`
     }
 `
 
-const CheckButton = Styled.button`
-    position: absolute;
-    bottom: 0px;
+const TestButton = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: #e7e9eb;
+    width: 224px;
     height: 46px;
-    width: 225px;
-    div{
-        width: 100%;
-    }
-    span{
-        line-height: 46px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-    }
+    border-radius: 6px;
+    border-radius: 6px;
+    border: none;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: #666d79;
+    margin-right: 20px;
 `
 
 const ButtonWrap = Styled.button`
@@ -152,14 +215,17 @@ const ButtonWrap = Styled.button`
     border-radius: 5px;
     color: black;
     background-color: ${POINT_COLOR};
+    width: 224px;
+    height: 46px;
+    border-radius: 6px;
+    border-radius: 6px;
     border: none;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
     font-weight: bold;
-    font-size: 13px;
-    img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
-    }
-  `
+    font-stretch: normal;
+    font-style: normal;
+    color: #0d0d0d;
+`
 
 export default QualityTestRequest

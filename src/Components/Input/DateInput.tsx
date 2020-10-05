@@ -32,8 +32,8 @@ const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
 
 
   return (
-        <InputContainer title={title}>
-            <div ref={ref} style={{ width: 'calc(100% - 200px)'}} >
+        <InputContainer title={title} width={170}>
+            <div ref={ref} style={{ width: 'calc(100% - 180px)'}} >
             <InputBox onClick={()=>handleClickBtn()}>{value === ""|| value === undefined ? "(선택)" : value} </InputBox>
             {
                 isOpen ?
@@ -60,7 +60,6 @@ const InputBox = Styled.p`
     font-size: 14px;
     padding: 6px;
     width: 100%;
-    padding-left: 10px;
     background-color: #f4f6fa;
 `
 

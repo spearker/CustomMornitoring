@@ -14,6 +14,7 @@ import RadioInput from '../../Components/Input/RadioInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom'
 import {API_URLS, getCustomerData} from "../../Api/mes/customer";
+import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 
 interface Props {
     match: any;
@@ -34,7 +35,9 @@ const CustomerRegister = ({ match }: Props)  => {
     const [no, setNo] = useState<string>('');
     const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
     const [phone, setPhone]= useState<string>('');
-    const [address, setAddress]= useState<string>('');
+    const [address, setAddress]= useState<{postcode:string, roadAddress:string, detail: string}>(
+      {postcode:'', roadAddress:'', detail: ''}
+    );
     const [fax, setFax]= useState<string>('');
     const [phoneM, setPhoneM]= useState<string>('');
     const [emailM, setEmailM]= useState<string>('');
@@ -130,7 +133,7 @@ const CustomerRegister = ({ match }: Props)  => {
             setEmail(res.ceo_email)
 
             setInfoList(res.info_list)
-            setAddress(res.address.roadAddress+' '+ res.address.detail);
+            setAddress(res.address ? res.address : {roadAddress: '', detail: '', postcode: ''});
             setFax(res.fax);
         }
     },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
@@ -157,7 +160,7 @@ const CustomerRegister = ({ match }: Props)  => {
         }
 
         const data = {
-            pk: getParameter('pk'),
+            pk: pk,
             name: name,
             number: no,
             type: type,
@@ -168,7 +171,7 @@ const CustomerRegister = ({ match }: Props)  => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: address === '' ? null : address,
+            address: address ? address : null,
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
@@ -219,7 +222,7 @@ const CustomerRegister = ({ match }: Props)  => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: address === '' ? null : address,
+            address: address ? address : null,
             fax: fax === '' ? null : fax,
             // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
@@ -248,7 +251,7 @@ const CustomerRegister = ({ match }: Props)  => {
                 setEmail('')
 
                 setInfoList([])
-                setAddress('');
+                setAddress({postcode:'', roadAddress:'', detail: ''});
                 setFax('');
 
                 history.goBack();
@@ -282,8 +285,8 @@ const CustomerRegister = ({ match }: Props)  => {
                             :
                             null
                     }
-                    <NormalInput title={'사업장 주소'} value={address} onChangeEvent={setAddress} description={'사업자 등록증에 기재되어있는 주소를 입력하세요'} />
-                    <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} description={'사업자 등록증에 기재되어있는 연락처를 입력하세요'} />
+                    <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
+                    <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input)=>setAddress(input)}/>
                     <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail} description={'사업장 이메일을 입력하세요'} />
                     <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax} description={'사업장 팩스번호를 입력하세요'} />
                     <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager} description={'사업장 담당자(관리자) 이름을 입력하세요'} />
