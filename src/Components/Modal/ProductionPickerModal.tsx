@@ -93,7 +93,7 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps
                    }
                 }}
             >
-                <div style={{width: width ? 700 : 900}}>
+                <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
