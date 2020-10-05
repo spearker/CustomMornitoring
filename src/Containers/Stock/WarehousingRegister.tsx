@@ -19,11 +19,9 @@ import {transferStringToCode} from "../../Common/codeTransferFunctions";
 
 
 const typeDummy = [
-    '원자재',
-    '부자재',
-    '중간자재',
-    '공정품',
-    '최종 생산품',
+    '정상 입고',
+    '생산',
+    '오류 정정',
 ]
 
 const StockDummy = [
