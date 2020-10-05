@@ -31,8 +31,8 @@ const CustomerRegister = ({ match }: Props)  => {
 
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>();
-    const [type, setType] = useState<number>(0); //0: 법인, 1:개인
+    const [no, setNo] = useState<string>('');
+    const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
     const [phone, setPhone]= useState<string>('');
     const [address, setAddress]= useState<string>('');
     const [fax, setFax]= useState<string>('');
@@ -118,8 +118,8 @@ const CustomerRegister = ({ match }: Props)  => {
         }else{
             setName(res.name);
             setPk(res.pk);
-            setNo(Number(res.number));
-            setType(Number(res.type));
+            setNo(res.number);
+            setType(res.type);
             setPk(res.pk);
             setCeo(res.ceo_name);
             setPaths([res.photo])
@@ -161,15 +161,15 @@ const CustomerRegister = ({ match }: Props)  => {
             name: name,
             number: no,
             type: type,
-            ceo: ceo,
+            ceo_name: ceo,
             photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
+            telephone: phone === '' ? null : phone,
+            ceo_email: email === '' ? null : email,
+            manager: manager === '' ? null : manager,
+            manager_phone: phoneM === '' ? null : phoneM,
+            manager_email: emailM === '' ? null : emailM,
+            address: address === '' ? null : address,
+            fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
@@ -214,13 +214,13 @@ const CustomerRegister = ({ match }: Props)  => {
             type: type,
             ceo_name: ceo,
             photo: paths[0],
-            telephone: phone,
-            ceo_email: email,
-            manager: manager,
-            manager_phone: phoneM,
-            manager_email: emailM,
-            address: address,
-            fax: fax,
+            telephone: phone === '' ? null : phone,
+            ceo_email: email === '' ? null : email,
+            manager: manager === '' ? null : manager,
+            manager_phone: phoneM === '' ? null : phoneM,
+            manager_email: emailM === '' ? null : emailM,
+            address: address === '' ? null : address,
+            fax: fax === '' ? null : fax,
             // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
@@ -236,8 +236,8 @@ const CustomerRegister = ({ match }: Props)  => {
                 const data = res.results;
                 setName('');
                 setPk('');
-                setNo(undefined);
-                setType(0);
+                setNo('');
+                setType('0');
 
                 setCeo('');
                 setPaths([null])
@@ -270,9 +270,9 @@ const CustomerRegister = ({ match }: Props)  => {
                     <ListHeader title="필수 항목"/>
                     <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'} />
                     <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'} />
-                    <RadioInput title={'사업자 구분'} target={type} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
+                    <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType} contents={[{value:0, title:'법인'}, {value:1, title:'개인'}]}/>
 
-                    <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
+                    <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
                     <br/>
                     <ListHeader title="선택 항목"/>
                     <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
