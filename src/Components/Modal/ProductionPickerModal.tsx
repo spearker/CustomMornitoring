@@ -15,7 +15,7 @@ interface IProps{
     onClickEvent: any
     text: string
     width?: boolean
-    type?: boolean
+    type?: number
 }
 
 const DummyItem = [
@@ -45,7 +45,7 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? 1 : 0 }`
+        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}`
         const resultData = await getProductionSearch(tempUrl);
 
         setProductList(resultData.results)

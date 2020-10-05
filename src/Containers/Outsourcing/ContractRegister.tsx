@@ -297,7 +297,7 @@ const ContractRegister = ({match}:Props) => {
                         <ProductionPickerModal select={selectMaterial}
                                                onClickEvent={(e) => {
                                                    setSelectMaterial({...selectMaterial, ...e })
-                                               }} text={"품목명을 검색해주세요."} type={true}/>
+                                               }} text={"품목명을 검색해주세요."} type={1}/>
                     </InputContainer>
                     <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity} description={'수량을 입력하세요.'} width={120} />
                     <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid} description={'미납 수량을 입력하세요.'} width={120} />

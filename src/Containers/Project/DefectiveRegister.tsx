@@ -71,13 +71,13 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         const tempUrl = `${API_URLS['defective'].load}?pk=${match.params.pk}`
         const res = await getProjectList(tempUrl)
 
-        
+
 
         if(res === false){
             //TODO: 에러 처리
         }else{
             //console.log('resresres------->', res)
-            
+
             setPk(res.pk);
             setSelectHistory({ name: res.history_name, pk: res.history_pk});
             setSelectMachine({ name: res.machine_name, pk: res.machine_pk});
@@ -200,7 +200,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                         <ProductionPickerModal select={selectMaterial}
                                                onClickEvent={(e) => {
                                                    setSelectMaterial({...selectMaterial, ...e })
-                                               }} text={"품목명을 검색해주세요."} type={true}/>
+                                               }} text={"품목명을 검색해주세요."} type={1}/>
                     </InputContainer>
                     <InputContainer title={"기계"} width={120}>
                         <MachinePickerModal select={

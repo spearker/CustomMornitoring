@@ -93,7 +93,7 @@ const WorkHistoryRegisterContainer = () => {
                                 <ProductionPickerModal select={modalSelect.production} onClickEvent={(e) => {
                                     setModalSelect({...modalSelect, production: e})
                                     setWorkHistoryData({...workHistoryData, material_pk: e.pk})
-                                }} text={'품목(품목명)을 선택해 주세요'}/>
+                                }} text={'품목(품목명)을 선택해 주세요'} type={-1}/>
                             </td>
                         </tr>
                         <tr>

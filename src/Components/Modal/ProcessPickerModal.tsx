@@ -15,9 +15,10 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    seg?: boolean
 }
 
-const ProcessPickerModal = ({select, onClickEvent, text}: IProps) => {
+const ProcessPickerModal = ({select, onClickEvent, text, seg}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [processName, setProcessName] = useState('')
@@ -27,6 +28,11 @@ const ProcessPickerModal = ({select, onClickEvent, text}: IProps) => {
         process_name: "",
         process_type: "",
     }])
+    const [segList, setSegList] = useState([{
+        pk: "",
+        name: "",
+        process_names: "",
+    }])
     const [searchName, setSearchName] = useState<string>('')
 
     // const ref = useOnclickOutside(() => {
@@ -34,9 +40,13 @@ const ProcessPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${searchName}`
+
+        const tempUrl = seg
+          ? `${API_URLS['process'].search2}?keyword=${searchName}`
+          : `${API_URLS['process'].search}?keyword=${searchName}`
         const resultData = await getSearchMachine(tempUrl);
 
+        setSegList(resultData.results)
         setMachineList(resultData.results)
 
     }, [searchName])
@@ -99,13 +109,33 @@ const ProcessPickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 300}}>기계명</th>
-                                        <th style={{width: 500}}>타입</th>
+                                        <th style={{width: 300}}>{seg ? '세분화 공정명' :'기계명'}</th>
+                                        <th style={{width: 500}}>{seg ? '속한 공정명' :'타입'}</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        machineList.map((v,i) => {
-                                            return(
+                                        seg
+                                          ? segList.map((v, i) => {
+                                              return(
+                                                <tr style={{height: 32}}>
+                                                    <td><span>{v.name}</span></td>
+                                                    <td><span>{v.process_names}</span></td>
+                                                    <td>
+                                                        <button
+                                                          onClick={() => {
+                                                              setProcessName(v.name)
+                                                              return onClickEvent({name:v.name, pk: v.pk})
+                                                          }}
+                                                          style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                        >
+                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                              )
+                                          })
+                                          : machineList.map((v,i) => {
+                                              return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.process_name}</span></td>
                                                     <td><span>{transferCodeToName('process', Number(v.process_type))}</span></td>

@@ -115,7 +115,7 @@ const ProductionRegisterContainer = () => {
                             <td><ProductionPickerModal select={modalSelect.production}
                                                        onClickEvent={(e) => {
                                 setModalSelect({...modalSelect, production: e })
-                            }} text={"품목명을 검색해주세요."} type={true}/></td>
+                            }} text={"품목명을 검색해주세요."} type={1}/></td>
                         </tr>
                         <tr>
                             <td>• 생산 계획 일정</td>
@@ -162,6 +162,7 @@ const ProductionRegisterContainer = () => {
                                         console.log(e)
                                         setModalSelect({...modalSelect, segment: e })
                                     }}
+                                                    seg
                                     text={"공정명을 검색해 주세요"} />
                             </td>
                         </tr>
