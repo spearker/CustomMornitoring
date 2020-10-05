@@ -33,8 +33,6 @@ interface Props {
 
 const DefectiveRegisterContainer = ({ match }: Props)  => {
 
-    console.log(match)
-
     const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
     const [selectHistory, setSelectHistory] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
@@ -44,7 +42,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
     const [name, setName] = useState<string>('');
     const [amount, setAmount] = useState<number>();
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"));
-    const [reason, setReason] = useState<string>('')
+    const [reason, setReason] = useState<string>('');
     const textBoxRef = useRef(null);
     const [infoList, setInfoList] = useState<IInfo[]>([]);
     const [paths, setPaths] = useState<any[1]>([null]);
@@ -53,55 +51,12 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
 
 
     useEffect(()=>{
-        console.log(match.params.pk)
         if( match.params.pk ){
-            // alert(`수정 페이지 진입 - pk :` + match.params.pk)
             setIsUpdate(true)
             getData()
         }
 
     },[])
-
-
-
-    /**
-     * addFiles()
-     * 사진 등록
-     * @param {object(file)} event.target.files[0] 파일
-     * @returns X
-     */
-    const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0]);
-        console.log(index)
-        if(event.target.files[0] === undefined){
-
-            return;
-        }
-        console.log(event.target.files[0].type);
-        if(event.target.files[0].type.includes('image')){ //이미지인지 판별
-
-            const tempFile  = event.target.files[0];
-            console.log(tempFile)
-            const res = await uploadTempFile(event.target.files[0]);
-
-            if(res !== false){
-                console.log(res)
-                const tempPatchList= paths.slice()
-                tempPatchList[index] = res;
-                console.log(tempPatchList)
-                setPaths(tempPatchList)
-                return
-            }else{
-                return
-            }
-
-        }else{
-
-            //alert('이미지 형식만 업로드 가능합니다.')
-        }
-
-    }
-
 
 
     /**
@@ -116,18 +71,23 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         const tempUrl = `${API_URLS['defective'].load}?pk=${match.params.pk}`
         const res = await getProjectList(tempUrl)
 
-        console.log('resresres', res)
+        
 
         if(res === false){
             //TODO: 에러 처리
         }else{
-            // setSelectHistory()
-            setName(res.name);
+            //console.log('resresres------->', res)
+            
             setPk(res.pk);
-            setAmount(Number(res.number));
-            setPk(res.pk);
-            setPaths([res.photo])
-            setInfoList(res.info_list)
+            setSelectHistory({ name: res.history_name, pk: res.history_pk});
+            setSelectMachine({ name: res.machine_name, pk: res.machine_pk});
+            setSelectMaterial({ name: res.material_name, pk: res.material_pk});
+            setName(res.checker);
+            setAmount(res.amount);
+            setSelectDate(res.date);
+            setReason(res.reason);
+
+
         }
     },[pk, name, amount,paths])
 
@@ -152,12 +112,18 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         }
 
         const data = {
-            pk: getParameter('pk'),
-            name: name,
-            number: amount,
-            photo: paths[0],
+            pk: pk,
+            // name: name,
+            // number: amount,
+            // photo: paths[0],
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-
+            history_pk: selectHistory.pk,
+            material_pk: selectMaterial.pk,
+            machine_pk: selectMachine.pk,
+            checker: name,
+            amount: amount,
+            date: selectDate,
+            reason: reason
         };
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/defective/update/', data, getToken(TOKEN_NAME))
@@ -170,7 +136,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             history.goBack()
         }
 
-    },[pk, name, amount, paths,])
+    },[pk, name, amount, paths, selectHistory, selectMaterial, selectMachine, selectDate, reason])
 
     /**
      * onsubmitForm()
@@ -217,7 +183,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             }
         }
 
-    },[selectMaterial,selectMachine,name,amount,selectDate,reason])
+    },[selectHistory,selectMaterial,selectMachine,name,amount,selectDate,reason])
 
 
 
@@ -262,13 +228,11 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                         </div>
                     </InputContainer>
                     <InputContainer title={"불량 사유"} width={120}>
-                        <textarea maxLength={160} ref={textBoxRef} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width:'calc(100% - 124px)'}} placeholder="내용을 입력해주세요 (80자 미만)">
-                            {reason}
-                        </textarea>
+                        <textarea maxLength={160} ref={textBoxRef} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width:'calc(100% - 124px)'}} placeholder="내용을 입력해주세요 (80자 미만)" value={reason} />
                     </InputContainer>
                 <div style={{marginTop: 40, display: 'flex', justifyContent: 'center'}}>
                     <ButtonWrap onClick={async () => {
-                        await onsubmitForm()
+                        await isUpdate ? onsubmitFormUpdate() : onsubmitForm()
                     }}>
                         <div style={{width: 360, height: 40}}>
                             <p style={{fontSize: 18, marginTop: 15}}>{isUpdate? '수정하기' : '등록하기'}</p>
