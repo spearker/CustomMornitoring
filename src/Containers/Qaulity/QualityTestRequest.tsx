@@ -20,6 +20,7 @@ const QualityTestRequest = () => {
     const [productionData, setProductionData] = useState<{pk: string, name: string}>({pk: '', name: ''})
     const [totalCount, setTotalCount] = useState<number>(0)
     const [reason, setReason] = useState<string>()
+    const [worker, setWorker] = useState<string>('')
 
     const postQualityRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['request'].register}`
@@ -29,14 +30,14 @@ const QualityTestRequest = () => {
             materialPk: productionData.pk,
             amount: totalCount,
             description: reason,
-            worker: ''
+            worker: worker
         });
 
         if(resultData.status === 200){
             alert("성공적으로 등록되었습니다!")
             history.goBack()
         }
-    }, [processData, machineData, productionData, totalCount, reason])
+    }, [processData, machineData, productionData, totalCount, reason, worker])
 
     return(
         <div>
@@ -64,10 +65,6 @@ const QualityTestRequest = () => {
                             <td><ProductionPickerModal select={productionData} onClickEvent={(e) => setProductionData(e)} text={'품목을 입력해주세요.'}/></td>
                         </tr>
                         <tr>
-                            <td>• 요청 시간</td>
-                            <td><Input disabled={true} value={nowTime}/></td>
-                        </tr>
-                        <tr>
                             <td>• 총 완료 개수</td>
                             <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={totalCount} onChange={(e) => setTotalCount(Number(e.target.value))}/></td>
                         </tr>
@@ -78,6 +75,10 @@ const QualityTestRequest = () => {
                                     {reason}
                                 </textarea>
                             </td>
+                        </tr>
+                        <tr>
+                            <td>• 작업자</td>
+                            <td><Input value={worker} onChange={(e) => setWorker(e.target.value)}/></td>
                         </tr>
 
                     </table>

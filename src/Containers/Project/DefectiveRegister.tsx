@@ -53,6 +53,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
 
 
     useEffect(()=>{
+        console.log(match.params.pk)
         if( match.params.pk ){
             alert(`수정 페이지 진입 - pk :` + match.params.pk)
             setIsUpdate(true)
@@ -270,7 +271,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                         await onsubmitForm()
                     }}>
                         <div style={{width: 360, height: 40}}>
-                            <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
+                            <p style={{fontSize: 18, marginTop: 15}}>{isUpdate? '수정하기' : '등록하기'}</p>
                         </div>
                     </ButtonWrap>
                 </div>

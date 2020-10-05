@@ -48,7 +48,7 @@ const DefectiveContainer = () => {
             Name: '수정',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/project/defective/register?pk=${v.pk}`)
+            Link: (v)=>history.push(`/project/defective/register/${v.pk}`)
         },
     ]
 
