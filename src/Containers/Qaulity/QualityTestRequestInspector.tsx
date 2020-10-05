@@ -5,61 +5,105 @@ import {Input} from "semantic-ui-react";
 import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
 import Styled from "styled-components";
 import {POINT_COLOR} from "../../Common/configset";
+import useObjectInput from "../../hooks/UseInput";
+import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
+import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
+
+const initialInputValue = {
+    process_name: '',
+    machine_name: '',
+    material_name: '',
+    request_time: '',
+    request_reason: '',
+    total_count: '',
+    defective_count: '',
+    none_defective_count: '',
+    whether: '',
+    inspector_name: '',
+    test_reason: '',
+};
 
 const QualityTestRequestInspectorContainer = () => {
+
+    const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
+
     return (
         <div>
-            {/*<div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>*/}
-            {/*    <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>*/}
-            {/*        <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>제품 검사 요청</span>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-            {/*<ContainerMain>*/}
-            {/*    <div>*/}
-            {/*        <p className={'title'}>필수 항목</p>*/}
-            {/*    </div>*/}
-            {/*    <div>*/}
-            {/*        <table style={{color: "black"}}>*/}
-            {/*            <tr>*/}
-            {/*                <td>• 총 완료 개수</td>*/}
-            {/*                <td><ProductionPickerModal select={selectItem} onClickEvent={(e) => setSelectItem(e)} text={'품목(품목명)을 선택해주세요.'}/></td>*/}
-            {/*            </tr>*/}
-            {/*            <tr>*/}
-            {/*                <td>• 적격 개수</td>*/}
-            {/*                <td><Input disabled={true} placeholder="품목을 선택하면 자동 입력됩니다." value={selectItem?.type} /></td>*/}
-            {/*            </tr>*/}
-            {/*            <tr>*/}
-            {/*                <td>• 부적격 개수</td>*/}
-            {/*                <td><BasicBarcodePickerModal select={selectBasicBarcode} onClickEvent={(e) => setSelectBasicBarcode(e)} text={'기준 바코드를 선택해 주세요.'}/></td>*/}
-            {/*            </tr>*/}
-            {/*            <tr>*/}
-            {/*                <td>• 적격 여부</td>*/}
-            {/*                <td></td>*/}
-            {/*            </tr>*/}
-            {/*            <tr>*/}
-            {/*                <td>• 검사자</td>*/}
-            {/*                <td></td>*/}
-            {/*            </tr>*/}
-            {/*            <tr>*/}
-            {/*                <td>• 검사 내용</td>*/}
-            {/*                <td>*/}
-            {/*                    <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>*/}
-            {/*                        <textarea maxLength={160} onChange={(e)=>setReason(e.target.value)} value={reasen} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>*/}
-            {/*                    </div>*/}
-            {/*                </td>*/}
-            {/*            </tr>*/}
-            {/*        </table>*/}
-            {/*    </div>*/}
-            {/*    <div style={{marginTop: 72}}>*/}
-            {/*        <ButtonWrap onClick={async () => {*/}
-            {/*            await postContractRegisterData()*/}
-            {/*        }}>*/}
-            {/*            <div style={{width: 360, height: 46}}>*/}
-            {/*                <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>*/}
-            {/*            </div>*/}
-            {/*        </ButtonWrap>*/}
-            {/*    </div>*/}
-            {/*</ContainerMain>*/}
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
+                <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>제품 검사 요청</span>
+                </div>
+            </div>
+            <ContainerMain>
+                <div>
+                    <p className={'title'}>필수 항목</p>
+                </div>
+                <div>
+                    <table style={{color: "black"}}>
+                        <tr>
+                            <td>• 공정명</td>
+                            <td><input value={inputData.process_name} placeholder="공정명"  onChange={(e) => setInputData('process_name',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 기계명</td>
+                            <td><input value={inputData.machine_name} placeholder="기계명"  onChange={(e) => setInputData('machine_name',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 품목(품목명)</td>
+                            <td><input value={inputData.material_name} placeholder="품목명"  onChange={(e) => setInputData('material_name',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 요청 시간</td>
+                            <td><input value={inputData.request_time} placeholder="요청 시간"  onChange={(e) => setInputData('request_time',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 검사 요청 내용</td>
+                            <td>
+                                <textarea maxLength={120} value={inputData.request_reason} onChange={(e)=>setInputData('request_reason',e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'95%'}} placeholder="내용을 입력해주세요 (80자 미만)">
+                                    {inputData.request_reason}
+                                </textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 총 완료 개수</td>
+                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={inputData.total_count} onChange={(e) => setInputData(Number(e.target.value))}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 적격 개수</td>
+                            <td><input value={inputData.defective_count} placeholder="적격 개수"  onChange={(e) => setInputData('defective_count',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 부적격 개수</td>
+                            <td><input value={inputData.none_defective_count} placeholder="부적격 개수"  onChange={(e) => setInputData('none_defective_count',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 적격 여부</td>
+                            <td><input value={inputData.whether} placeholder="적격 여부"  onChange={(e) => setInputData('whether',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 검사자</td>
+                            <td><input value={inputData.inspector_name} placeholder="검사자"  onChange={(e) => setInputData('inspector_name',e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>• 검사 내용</td>
+                            <td>
+                                <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
+                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reasonn} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div style={{marginTop: 72}}>
+                    <ButtonWrap onClick={async () => {
+                        await console.log(123213)
+                    }}>
+                        <div style={{width: 360, height: 46}}>
+                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        </div>
+                    </ButtonWrap>
+                </div>
+            </ContainerMain>
         </div>
     )
 }

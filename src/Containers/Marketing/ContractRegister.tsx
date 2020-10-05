@@ -30,8 +30,8 @@ const ContractRegisterContainer = () => {
     })
 
     const [contractData, setContractData] = useState<{customer_pk?: string, material_pk?: string, amount: Number, date: string}>({
-        customer_pk: customer?.pk,
-        material_pk: selectMaterial?.pk,
+        customer_pk: '',
+        material_pk: '',
         amount: 0,
         date: moment().format('YYYY-MM-DD'),
     })
@@ -41,7 +41,11 @@ const ContractRegisterContainer = () => {
         const resultData = await postContractRegister(tempUrl, contractData);
 
         history.goBack()
-    }, [contractData])
+    }, [contractData,selectMaterial,customer])
+
+    useEffect(()=>{
+        setContractData({...contractData,customer_pk:customer?.pk,material_pk:selectMaterial?.pk})
+    },[selectMaterial,customer])
 
     return (
         <div>

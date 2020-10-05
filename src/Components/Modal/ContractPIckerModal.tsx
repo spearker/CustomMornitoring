@@ -134,6 +134,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                     <div style={{width: 900}}>
                         <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
                             onClickEvent({name: undefined, pk: undefined})
+                            onClickEvent({customer_name: undefined, material_name: undefined,amount: 0 ,pk: ''})
                             setIsOpen(false)
                         }}>
                             <div>

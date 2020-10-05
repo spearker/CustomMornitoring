@@ -7,7 +7,9 @@ import BasicDropdown from "../Dropdown/BasicDropdown";
 import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
+import IcDropDownButton from "../../Assets/Images/ic_dropdown_white.png"
 import {Input} from "semantic-ui-react";
+import IMG_BG from "../../Assets/Images/img_welcome_bg.png";
 
 interface Props {
     title: string
@@ -142,12 +144,14 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                             Object.keys(indexList[v]).map(m => {
                                                 return (
                                                     <>
-                                                    <option value={indexList[v][m]}>{indexList[v][m]}</option>
+                                                        <option value={indexList[v][m]} >{indexList[v][m]}</option>
+
                                                     </>
                                                 )
                                             })
                                         }
-                                    </select>:
+                                    </select>
+                                    :
                                     <p key={v} className="p-limits">{indexList[v]}</p>
                         )
                     })

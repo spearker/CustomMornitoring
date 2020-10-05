@@ -107,7 +107,7 @@ const OrderRegisterContainer = () => {
                                         </BoxWrap>
                                     </div>:
                                     <div style={{display: "flex"}}>
-                                        <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." disabled={true} onChange={(e) => setOrderData({...orderData, amount: Number(e.target.value)})} value={Number(orderData.amount) === 0 ? '' : Number(orderData.amount)}/>
+                                        <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." disabled={true} onChange={(e) => setOrderData({...orderData, amount: Number(e.target.value)})} value={Number(orderData.amount) === 0 ? '' : Number(orderData.amount) }/>
                                         <BoxWrap style={{height: 36}}>
                                             <span className="p-bold" onClick={() => {setIsOpen(true)}}>수량 변경</span>
                                         </BoxWrap>
