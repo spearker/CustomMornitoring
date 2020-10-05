@@ -96,7 +96,7 @@ const CurrentContainer = () => {
         const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=''&type=0`
         const res = await getMoldList(tempUrl)
 
-        setList(res)
+        setList(res.items)
 
     },[list])
 

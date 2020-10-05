@@ -139,7 +139,13 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                     Object.keys(indexList).map((v, i) => {
                         return (
                                 typeof indexList[v] === 'object' ?
-                                    <select className="p-limits" style={{backgroundColor: "#111319", borderColor: '#111319',color:'white', fontSize: "14px"}}>
+                                    <>
+                                    <select className="p-limits"
+                                            style={{
+                                                backgroundColor: "#111319", borderColor: '#111319',color:'white', fontSize: "14px", width: '70%', marginRight: 30,
+                                                background: `url(${IcDropDownButton}) no-repeat 95% 50%`
+                                            }}
+                                    >
                                         {
                                             Object.keys(indexList[v]).map(m => {
                                                 return (
@@ -151,6 +157,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                             })
                                         }
                                     </select>
+                                    </>
                                     :
                                     <p key={v} className="p-limits">{indexList[v]}</p>
                         )
