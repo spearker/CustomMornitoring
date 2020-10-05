@@ -26,6 +26,16 @@ const typeDummy = [
     '최종 생산품',
 ]
 
+const StockDummy = [
+    '정상 출고',
+    '생산 소진',
+    '불량',
+    '정상 입고',
+    '생산',
+    '오류 정정',
+    '금형 제작'
+]
+
 interface Props {
     match: any;
     // chilren: string;
@@ -52,6 +62,7 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
     const [ceo, setCeo]= useState<string>('');
     const [infoList, setInfoList] = useState<IInfo[]>([]);
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
+    const [stockList, setStockList] = useState<string[]>(StockDummy)
     const [selectType, setSelectType] = useState<string>()
 
     const [paths, setPaths] = useState<any[1]>([null]);
@@ -84,7 +95,6 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
             setPk(getParameter('pk'))
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
-            getData()
         }
 
     },[])
@@ -167,91 +177,6 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
 
 
 
-    /**
-     * getData()
-     * 기계 정보 수정을 위한 조회
-     * @param {string} url 요청 주소
-     * @param {string} pk 기계 pk
-     * @returns X
-     */
-    const getData = useCallback(async()=>{
-
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
-
-        if(res === false){
-            //TODO: 에러 처리
-        }else{
-            if(res.status === 200){
-                const data = res.results;
-                setName(data.name);
-                setPk(data.pk);
-                setNo(Number(data.number));
-                setType(Number(data.type));
-                setPk(data.pk);
-                setCeo(data.ceo);
-                setOldPaths([data.photo])
-                setPhone(data.telephone);
-                setEmailM(data.manager_email);
-                setPhoneM(data.manager_phone)
-                setManager(data.manager)
-                setEmail(data.ceo_email)
-
-                setInfoList(data.info_list)
-                setAddress(data.address);
-                setFax(data.fax);
-
-            }else{
-                //TODO:  기타 오류
-            }
-        }
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax])
-
-    /**
-     * onsubmitFormUpdate()
-     * 기계 정보 수정 요청
-     * @param {string} url 요청 주소
-     * @param {string} pk 기계 pk
-     * @param {string} name 이름
-     * @param {string} no 넘버
-     * @param {object(file)} file 사진 파일
-     * @param {string} info 상세정보
-     * @param {string} made 제조정보
-     * @param {string} type 종류
-     * @param {string} madeNo 제조사넘버
-     * @returns X
-     */
-    const onsubmitFormUpdate = useCallback(async(e)=>{
-        e.preventDefault();
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
-
-        const data = {
-
-            pk: getParameter('pk'),
-            amount: amount,
-            type: transferStringToCode('material',selectType),
-            date: selectDate
-            //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-
-        };
-
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
-
-        if(res === false){
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        }else{
-            if(res.status === 200){
-                //alert('성공적으로 수정 되었습니다')
-                setIsUpdate(false)
-                history.goBack()
-            }else{
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
-        }
-
-    },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
 
     /**
      * onsubmitForm()
@@ -266,30 +191,51 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
      * @returns X
      */
     const onsubmitForm = useCallback(async()=>{
-        const data = {
 
-            material_pk: match.params.pk,
-            amount: amount,
-            type: transferStringToCode('material',selectType),
-            date: selectDate
+        if(match.params.parts){
+            const data = {
+                parts_pk: match.params.pk,
+                amount: amount,
+                type: transferStringToCode('material', selectType),
+                date: selectDate
+            };
 
-        };
+            const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/parts/warehousing/register', data, getToken(TOKEN_NAME))
+
+            if (res === false) {
+                //TODO: 에러 처리
+            } else {
+                if (res.status === 200) {
+                    //alert('성공적으로 등록 되었습니다')
+
+                    history.goBack()
+                } else {
+                    //TODO:  기타 오류
+                }
+            }
+        }else {
+            const data = {
+                material_pk: match.params.pk,
+                amount: amount,
+                type: transferStringToCode('material', selectType),
+                date: selectDate
+            };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/warehousing/register', data, getToken(TOKEN_NAME))
+            const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/warehousing/register', data, getToken(TOKEN_NAME))
 
-        if(res === false){
-            //TODO: 에러 처리
-        }else{
-            if(res.status === 200){
-                //alert('성공적으로 등록 되었습니다')
+            if (res === false) {
+                //TODO: 에러 처리
+            } else {
+                if (res.status === 200) {
+                    //alert('성공적으로 등록 되었습니다')
 
-                history.goBack()
-            }else{
-                //TODO:  기타 오류
+                    history.goBack()
+                } else {
+                    //TODO:  기타 오류
+                }
             }
         }
-
     },[selectType,amount,selectDate])
 
 
@@ -307,7 +253,7 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
                     <ListHeader title={match.params.name}/>
                     <div style={{borderBottom: 'solid 0.5px #d3d3d3' , display:'flex', paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 120, display:'inline-block'}}>· 입고 구분</p>
-                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'입고 구분을 선택해 주세요'}/>
+                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={match.params.parts ? stockList : typeList} text={'입고 구분을 선택해 주세요'}/>
                     </div>
                     <NormalNumberInput title={'입고 수량'} width={120} value={amount} onChangeEvent={(input) => setAmount(input)} description={'입고 수량을 입력해주세요'} />
                     <InputContainer title={"입고 날짜"} width={120}>

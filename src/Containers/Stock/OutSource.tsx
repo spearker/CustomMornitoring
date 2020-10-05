@@ -14,7 +14,7 @@ const OutSourceContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ material_name: "품목명" });
-    const [subIndex, setSubIndex] = useState({   writer: '작성자', })
+    const [subIndex, setSubIndex] = useState({ registerer: '작성자' })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -37,10 +37,10 @@ const OutSourceContainer = () => {
 
     const detailTitle = {
         outsource: {
-            writer: '작성자',
-            sortation:'구분' ,
-            stock_quantity:'수량',
-            before_quantity:'변경전 재고량',
+            registerer: '작성자',
+            type:'구분' ,
+            amount:'수량',
+            before_amount:'변경전 재고량',
             date:'날짜',
         },
     }
@@ -91,21 +91,21 @@ const OutSourceContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
 
     }, [list, selectPk]);
 
-    // const getData = useCallback( async(pk)=>{
-    //     //TODO: 성공시
-    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    //     const res = await getMoldData(tempUrl)
-    //
-    //     setDetailList(res)
-    //
-    // },[detailList])
+    const getData = useCallback( async(pk)=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}`
+        const res = await getStockList(tempUrl)
+
+        setDetailList(res.logs)
+
+    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -139,7 +139,6 @@ const OutSourceContainer = () => {
                 title={'외주 재고 관리'}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {

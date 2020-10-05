@@ -13,7 +13,7 @@ const QualityListContainer = () => {
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ material_name: '(품목)품목명' });
+    const [index, setIndex] = useState({ materialName: '품목(품목명)' });
     const [subIndex, setSubIndex] = useState({ factory_name: '공정명' });
     const [checkIndex, setCheckIndex] = useState({ checker: '검사자' });
     const [checkDetail, setCheckDetail] = useState<any[]>([]);
@@ -30,11 +30,11 @@ const QualityListContainer = () => {
 
     const indexList = {
         quality: {
-            material_name: '품목(품목명)',
-            factory_name: '공정명',
-            total_count: '총 완료 개수',
-            none_defective_count: '적격 개수',
-            defective_count: '부적격 개수',
+            materialName: '품목(품목명)',
+            processName: '공정명',
+            amount: '총 완료 개수',
+            eligible: '적격 개수',
+            ineligible: '부적격 개수',
             whether: '적격 여부'
         }
     }
@@ -140,7 +140,6 @@ const QualityListContainer = () => {
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}
                 noChildren={true}>
                 {
                     selectPk !== null ?

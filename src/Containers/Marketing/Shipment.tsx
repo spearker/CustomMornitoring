@@ -104,11 +104,13 @@ const ShipmentContainer = () => {
                 title={'출하 리스트'}
                 allCheckbox={true}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 EventList={eventList}
                 checkBox={true}
+                checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>
         </div>

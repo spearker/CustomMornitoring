@@ -71,7 +71,7 @@ const ChitRegisterContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 등록자</td>
-                            <td><Input placeholder="입력해 주세요." onChange={(e) => setChitData({...chitData, registerer: e.target.value})}/></td>
+                            <td><Input placeholder="등록자를 입력해 주세요." onChange={(e) => setChitData({...chitData, registerer: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 생산계획</td>

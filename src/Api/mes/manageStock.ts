@@ -36,7 +36,7 @@ export const API_URLS = {
     },
     parts:{
         list: `/v1/stock/parts/list`,
-        detail: `/v1/stock/parts/load`,
+        detail: `/v1/stock/parts/detail`,
         warehousingRegister: `/v1/stock/parts/warehousing/register`,
         releaseRegister: `/v1/stock/parts/release/register`,
     },

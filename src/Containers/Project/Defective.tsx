@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import moment from "moment";
 import {useHistory} from "react-router-dom";
-import {API_URLS, getProjectList} from "../../Api/mes/production";
+import {API_URLS, getProjectList, postProjectDelete} from "../../Api/mes/production";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 
@@ -16,6 +16,7 @@ const DefectiveContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
+    const [deletePk, setDeletePk] = useState<(string[])>([]);
     const [selectValue, setSelectValue ]= useState<any>(null);
     const history = useHistory();
 
@@ -49,6 +50,40 @@ const DefectiveContainer = () => {
             Color: 'white'
         },
     ]
+
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        {list.length === 0 ?
+            deletePk.map((v,i)=>{
+                deletePk.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.barcode_pk)
+                deletePk.push(tmpPk.toString())
+            })
+        }
+    },[deletePk])
+
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.indexOf(Data.barcode_pk)
+        {deletePk.indexOf(Data.barcode_pk) !== -1 ?
+            deletePk.splice(IndexPk,1)
+            :
+            deletePk.push(Data.barcode_pk)
+        }
+    },[deletePk])
+
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['barcode'].delete}`
+        const res = await postProjectDelete(tempUrl, deletePk)
+        console.log(res)
+
+        getList()
+
+        selectPk(null)
+    },[deletePk])
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
@@ -102,10 +137,12 @@ const DefectiveContainer = () => {
                 title={'불량 이력'}
                 titleOnClickEvent={titleEventList}
                 allCheckbox={true}
+                allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 checkBox={true}
+                checkOnClickEvent={checkOnClick}
                 EventList={eventList}
                 noChildren={true}
                 mainOnClickEvent={onClick}>

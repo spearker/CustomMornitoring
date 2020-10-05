@@ -236,7 +236,7 @@ const TwoDepthDiv = Styled.div`
 const NavDiv = Styled.div`
   background: linear-gradient(0.25turn,#1f2d48, #1d2a43);
   min-width: 200px;
-  min-height: 100vh;
+  min-height: 100%;
   display: inline-block;
   color: white;
   padding-top: 40px;

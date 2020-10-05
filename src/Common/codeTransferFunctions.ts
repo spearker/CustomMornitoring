@@ -49,13 +49,13 @@ export const subMachineCodes = [
 ]
 
 export const stockReasonCodes = [
-
     {code: 0, name: '정상 출고'},
     {code: 1, name: '생산 소진'},
     {code: 2, name: '불량'},
     {code: 3, name: '정상 입고'},
     {code: 4, name: '생산'},
     {code: 9, name: '오류 정정'},
+    {code: 10, name: '금형 제작'}
 ]
 
 

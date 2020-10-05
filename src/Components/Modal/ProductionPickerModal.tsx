@@ -106,9 +106,9 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 278}}>&nbsp; 품목명</th>
-                                        <th style={{width: 220}}>품목 종류</th>
-                                        <th style={{width: 240}}>공장명</th>
+                                        <th style={{width: 138}}>&nbsp; 품목명</th>
+                                        <th style={{width: 130}}>품목 종류</th>
+                                        <th style={{width: 130}}>공장명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {

@@ -6,6 +6,7 @@ import {useHistory} from "react-router-dom"
 import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
+const SelectType = [0,10,30]
 
 const WipContainer = () => {
 
@@ -16,6 +17,7 @@ const WipContainer = () => {
     const [index, setIndex] = useState({ material_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
     const [filter, setFilter] = useState(-1)
+    const [type, setType] = useState(10)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -27,7 +29,7 @@ const WipContainer = () => {
     const indexList = {
         wip: {
             material_name: "품목(품목명)",
-            material_type: ['자재 종류','원자재','부자재'],
+            material_type: ['자재 종류','반제품','공정품'],
             current_stock: "재고량",
             location_name: "보관장소",
             safe_stock: "안전재고",
@@ -109,7 +111,7 @@ const WipContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
@@ -120,12 +122,14 @@ const WipContainer = () => {
         {
             Name: '입고',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
         },
     ]
 
@@ -140,18 +144,28 @@ const WipContainer = () => {
         }
     ]
 
-    // const getData = useCallback( async(pk)=>{
-    //     //TODO: 성공시
-    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    //     const res = await getMoldData(tempUrl)
-    //
-    //     setDetailList(res)
-    //
-    // },[detailList])
+    const selectBox = useCallback((value)=>{
+        console.log(value)
+        if(value === '반제품' || value === '자재 종류'){
+            setType(10)
+        } else if (value === '공정품'){
+            setType(15)
+        }
+
+    },[type])
+
+    const getData = useCallback( async(pk)=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}`
+        const res = await getStockList(tempUrl)
+
+        setDetailList(res.logs)
+
+    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=10&filter=${filter}&page=${page.current}`
+        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}`
         const res = await getStockList(tempUrl)
 
         const getStock = res.items.map((v,i)=>{
@@ -163,7 +177,11 @@ const WipContainer = () => {
         setList(getStock)
 
         setPage({ current: res.current_page+1, total: res.total_page })
-    },[list])
+    },[list,type])
+
+    useEffect(()=>{
+        getList()
+    },[type])
 
     useEffect(()=>{
         getList()
@@ -182,8 +200,9 @@ const WipContainer = () => {
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
+                selectBoxChange={selectBox}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>

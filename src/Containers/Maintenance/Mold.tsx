@@ -87,7 +87,7 @@ const MoldMaintenanceContainer = () => {
                     </div>
                     <div>
                       <MoldMaxBar>
-                        <div style={{width: detailList.percent+"%" }}>
+                        <div style={{width: (100 <detailList.percent ? 100 : detailList.percent)+"%" }}>
 
                         </div>
                       </MoldMaxBar>

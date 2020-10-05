@@ -203,10 +203,6 @@ const OutsourcingRegister = () => {
         console.log(infoList)
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
         const data = {
 
             name: name,
@@ -233,24 +229,7 @@ const OutsourcingRegister = () => {
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo('');
-                setType('0');
-
-                setCeo('');
-                setPaths([null])
-                setOldPaths([null])
-                setPhone('');
-                setEmailM('');
-                setPhoneM('')
-                setEmail('')
-
-                setInfoList([])
-                setAddress('');
-                setFax('');
-
+                history.goBack()
             }else{
                 //TODO:  기타 오류
             }

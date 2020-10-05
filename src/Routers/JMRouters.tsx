@@ -110,6 +110,8 @@ const JMRouters = () => {
             <Route exact path="/stock/parts/list" component={StockParts}/>
             <Route exact path="/stock/warehousing/register/:pk/:name" component={WarehousingRegister}/>
             <Route exact path="/stock/release/register/:pk/:name" component={ReleaseRegister}/>
+            <Route exact path="/stock/warehousing/register/:pk/:name/:parts" component={WarehousingRegister}/>
+            <Route exact path="/stock/release/register/:pk/:name/:parts" component={ReleaseRegister}/>
 
             <Route exact path="/mold/manage/register" component={MoldMangeCreate}/>
             <Route exact path="/mold/create/register" component={MoldCreateRegister}/>

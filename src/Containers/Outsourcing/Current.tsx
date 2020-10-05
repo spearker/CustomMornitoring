@@ -18,7 +18,7 @@ const CurrentContainer = () => {
     const [searchValue, setSearchValue] = useState<any>('')
     const [index, setIndex] = useState({ name: '외주처' });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -50,24 +50,40 @@ const CurrentContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
+            deletePk.pk.map((v,i)=>{
+                deletePk.pk.pop()
             })
             :
             list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
+
+                if(deletePk.pk.indexOf(v.pk) === -1){
+                    tmpPk.push(v.pk)
+                }
+
+                tmpPk.map((vi, index) => {
+                    if(deletePk.pk.indexOf(v.pk) === -1){
+                        deletePk.pk.push(vi)
+                    }
+                })
+
+                if(tmpPk.length < deletePk.pk.length){
+                    deletePk.pk.shift()
+                }
+
+                console.log(deletePk.pk)
+
             })
         }
     },[deletePk])
 
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
             :
-            deletePk.keys.push(Data.pk)
+            deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 

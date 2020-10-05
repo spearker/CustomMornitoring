@@ -39,7 +39,7 @@ export const getOutsourcingList = async( url: string) =>{
  * @version 0.1
  */
 export const postOutsourcingList = async( url: string, object: object) =>{
-    const temp: IServerData = await client.get(url);
+    const temp: IServerData = await client.post(url,object);
     console.log(temp.results);
     return temp.results;
 }

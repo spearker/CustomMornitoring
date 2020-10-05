@@ -20,7 +20,7 @@ const OrderContainer = () => {
     const [searchValue, setSearchValue] = useState<any>('')
     const [index, setIndex] = useState({ name: '외주처' });
     const [subIndex, setSubIndex] = useState({ manager: '작성자' })
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMaterial, setSelectMaterial] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -32,9 +32,9 @@ const OrderContainer = () => {
     const indexList = {
         order: {
             name: '외주처 명',
-            material_name: '제품 명',
+            product: '제품 명',
             quantity: '수량',
-            unpaid_quantity: '미납 수량',
+            unpaid: '미납 수량',
             ceo_name: '대표자 명',
             registered: '등록 날짜',
         }
@@ -65,23 +65,23 @@ const OrderContainer = () => {
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
+            deletePk.pk.map((v,i)=>{
+                deletePk.pk.pop()
             })
             :
             list.map((v, i) => {
                 tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
+                deletePk.pk.push(tmpPk.toString())
             })
         }
     },[deletePk])
 
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
             :
-            deletePk.keys.push(Data.pk)
+            deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
@@ -121,7 +121,7 @@ const OrderContainer = () => {
             setSelectMaterial(mold.name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
     }, [list, selectPk]);
@@ -165,9 +165,9 @@ const OrderContainer = () => {
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['order'].load}`
-        const res = await postOutsourcingList(tempUrl,pk)
+        const res = await postOutsourcingList(tempUrl,{pk:pk})
 
-        setDetailList(res)
+        setDetailList([res])
 
     }, [detailList])
 
@@ -184,7 +184,7 @@ const OrderContainer = () => {
         getList()
         setIndex(indexList["order"])
         // setList(dummy)
-        setDetailList(detaildummy)
+        // setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setDetaileventList(detaileventdummy)

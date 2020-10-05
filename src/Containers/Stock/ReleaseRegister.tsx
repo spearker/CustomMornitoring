@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import RegisterButton from '../../Components/Button/RegisterButton';
@@ -26,6 +26,15 @@ const typeDummy = [
     '완제품',
 ]
 
+const StockDummy = [
+    '정상 출고',
+    '생산 소진',
+    '불량',
+    '정상 입고',
+    '생산',
+    '오류 정정',
+    '금형 제작'
+]
 
 interface Props {
     match: any;
@@ -51,6 +60,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
     const [ceo, setCeo]= useState<string>('');
     const [infoList, setInfoList] = useState<IInfo[]>([]);
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
+    const [stockList, setStockList] = useState<string[]>(StockDummy)
     const [selectType, setSelectType] = useState<string>()
     const [amount, setAmount] = useState<number>()
 
@@ -272,37 +282,51 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitForm = useCallback(async(e)=>{
-        e.preventDefault();
-        console.log(infoList)
-        ////alert(JSON.stringify(infoList))
-        console.log(JSON.stringify(infoList))
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
-        const data = {
-            material_pk: match.params.pk,
-            amount: amount,
-            type: transferStringToCode('material',selectType),
-            date: selectDate
-        };
+    const onsubmitForm = useCallback(async()=>{
+        if(match.params.parts){
+            const data = {
+                parts_pk: match.params.pk,
+                amount: amount,
+                type: transferStringToCode('material', selectType),
+                date: selectDate
+            };
+
+            const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/parts/release/register', data, getToken(TOKEN_NAME))
+
+            if (res === false) {
+                //TODO: 에러 처리
+            } else {
+                if (res.status === 200) {
+                    //alert('성공적으로 등록 되었습니다')
+
+                    history.goBack()
+                } else {
+                    //TODO:  기타 오류
+                }
+            }
+        }else {
+            const data = {
+                material_pk: match.params.pk,
+                amount: amount,
+                type: transferStringToCode('material', selectType),
+                date: selectDate
+            };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/release/register', data, getToken(TOKEN_NAME))
+            const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/release/register', data, getToken(TOKEN_NAME))
 
-        if(res === false){
-            //TODO: 에러 처리
-        }else{
-            if(res.status === 200){
-                //alert('성공적으로 등록 되었습니다')
+            if (res === false) {
+                //TODO: 에러 처리
+            } else {
+                if (res.status === 200) {
+                    //alert('성공적으로 등록 되었습니다')
 
-                history.goBack()
-            }else{
-                //TODO:  기타 오류
+                    history.goBack()
+                } else {
+                    //TODO:  기타 오류
+                }
             }
         }
-
     },[selectType,amount,selectDate])
 
 
@@ -312,11 +336,10 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
         <div>
             <Header title={isUpdate ? '출고 수정' : "출고 등록"}/>
             <WhiteBoxContainer>
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title={match.params.name}/>
                     <div style={{borderBottom: 'solid 0.5px #d3d3d3' , display:'flex', paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 120, display:'inline-block'}}>· 출고 구분</p>
-                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'출고 구분을 선택해 주세요'}/>
+                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={match.params.parts ? stockList : typeList} text={'출고 구분을 선택해 주세요'}/>
                     </div>
                     <NormalNumberInput title={'출고 수량'} width={120} value={amount} onChangeEvent={(input) => setAmount(input)} description={'출고 수량을 입력해주세요'} />
                     <InputContainer title={"출고 날짜"} width={120}>
@@ -362,8 +385,15 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-                </form>
+                    <div style={{marginTop: 40,marginLeft: 320}}>
+                        <ButtonWrap onClick={async () => {
+                            await onsubmitForm()
+                        }}>
+                            <div style={{width: 360, height: 40}}>
+                                <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
+                            </div>
+                        </ButtonWrap>
+                    </div>
             </WhiteBoxContainer>
         </div>
     )
@@ -377,5 +407,20 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    margin-top: 24px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+`
 
 export default ReleaseRegisterContainer

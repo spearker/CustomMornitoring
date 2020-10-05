@@ -108,7 +108,9 @@ const OrderContainer = () => {
                 clickValue={selectValue}
                 EventList={eventList}
                 allCheckbox={true}
+                allCheckOnClickEvent={allCheckOnClick}
                 checkBox={true}
+                checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>
         </div>

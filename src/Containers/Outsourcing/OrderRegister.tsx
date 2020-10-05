@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
@@ -208,8 +208,7 @@ const OutsourcingRegister = ({match}:Props) => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitForm = useCallback(async(e)=>{
-        e.preventDefault();
+    const onsubmitForm = useCallback(async()=>{
         console.log(infoList)
         ////alert(JSON.stringify(infoList))
 
@@ -224,6 +223,7 @@ const OutsourcingRegister = ({match}:Props) => {
 
         };
 
+        console.log(inputData.location)
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/register', data, getToken(TOKEN_NAME))
 
@@ -232,7 +232,7 @@ const OutsourcingRegister = ({match}:Props) => {
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-               history.goBack()
+               history.push('/outsourcing/order/list')
 
             }else{
                 //TODO:  기타 오류
@@ -248,7 +248,6 @@ const OutsourcingRegister = ({match}:Props) => {
         <div>
             <Header title={isUpdate ? '발주 수정' : '발주 등록'}/>
             <WhiteBoxContainer>
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
                     <InputContainer title={"외주처 명"} width={120}>
                         <OutsourcingPickerModal select={selectOutsource}
@@ -309,8 +308,15 @@ const OutsourcingRegister = ({match}:Props) => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-                </form>
+                <div style={{marginTop: 40,marginLeft: 340}}>
+                    <ButtonWrap onClick={async () => {
+                        await onsubmitForm()
+                    }}>
+                        <div style={{width: 360, height: 40}}>
+                            <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
+                        </div>
+                    </ButtonWrap>
+                </div>
             </WhiteBoxContainer>
         </div>
     );
@@ -324,5 +330,20 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+`
 
 export default OutsourcingRegister;

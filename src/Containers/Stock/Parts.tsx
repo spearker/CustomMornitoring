@@ -58,12 +58,14 @@ const PartsContainer = () => {
         {
             Name: '입고',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.parts_name}/${true}`)
         },
         {
             Name: '출고',
             Width: 60,
-            Color: 'white'
+            Color: 'white',
+            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.parts_name}/${true}`)
         },
     ]
 
@@ -101,7 +103,13 @@ const PartsContainer = () => {
         const tempUrl = `${API_URLS['parts'].detail}?pk=${pk}`
         const res = await getStockList(tempUrl)
 
-        setDetailList(res)
+        const getStock = res.items.map((v,i)=>{
+            const division = transferCodeToName('stock', Number(v.division))
+            return {...v, division: division}
+        })
+
+        console.log(getStock)
+        setDetailList(getStock)
 
     },[detailList])
 

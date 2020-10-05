@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
@@ -250,9 +250,7 @@ const ContractRegister = ({match}:Props) => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitForm = useCallback(async(e)=>{
-        e.preventDefault();
-        console.log(infoList)
+    const onsubmitForm = useCallback(async()=>{
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
         const data = {
@@ -274,7 +272,7 @@ const ContractRegister = ({match}:Props) => {
         }else{
             if(res.status === 200){
 
-                history.goBack()
+                history.push('/outsourcing/contract/list')
             }else{
                 //TODO:  기타 오류
             }
@@ -288,7 +286,6 @@ const ContractRegister = ({match}:Props) => {
         <div>
             <Header title={isUpdate ? '수주 수정' : '수주 등록'}/>
             <WhiteBoxContainer>
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
                     <InputContainer title={"외주처 명"} width={120}>
                         <OutsourcingPickerModal select={selectOutsource}
@@ -349,8 +346,15 @@ const ContractRegister = ({match}:Props) => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-                </form>
+                <div style={{marginTop: 72,marginLeft: 340}}>
+                    <ButtonWrap onClick={async () => {
+                        await onsubmitForm()
+                    }}>
+                        <div style={{width: 360, height: 46, }}>
+                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        </div>
+                    </ButtonWrap>
+                </div>
             </WhiteBoxContainer>
         </div>
     );
@@ -364,5 +368,20 @@ const InputText = Styled.p`
     font-weight: regular;
 `
 
+
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+`
 
 export default ContractRegister

@@ -146,7 +146,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
                         <>
                             {console.log(ruleLength)}
                             <BarcodeText><br/><span>현재 규칙</span><br/>{rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'')}</BarcodeText>
-                            <p style={{textAlign: "center", color:( Number(ruleLength) > 11 && Number(ruleLength) < 31) ? 'black' : 'red'}}>{ (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? '사용 할 수 있는 바코드 규칙' : '사용할 수 없는 바코드 규칙 입니다.'}</p>
+                            <p style={{textAlign: "center", color:( Number(ruleLength) > 11 && Number(ruleLength) < 31) ? 'black' : 'red'}}>{ (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? '사용 할 수 있는 바코드 규칙입니다.' : '자리수는 12자 이상 30자 이하로 가능합니다.'}</p>
                         </>
                     }
                     <FullAddInput title={'바코드 규칙'} onChangeEvent={()=>{
@@ -188,7 +188,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
                         {barcodeImg === '' ?
                             <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: "center"}}>바코드 이미지가 없습니다.</p>
                             :
-                            <img src={`http://61.101.55.224:8388/api/v1/barcode/previewImg?barcode_img_name=${barcodeImg}`} style={{ width:'100%',height: '100%', float:'right'}}/>
+                            <img src={`http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=${barcodeImg}`} style={{ width:'100%',height: '100%', float:'right'}}/>
                         }
                     </div>
                     <ListHeader title="선택 항목"/>

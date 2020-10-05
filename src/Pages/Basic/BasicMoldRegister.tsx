@@ -189,6 +189,7 @@ const BasicMoldRegister = () => {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     }else{
       if(res.status === 200){
+        history.push('/basic/list/mold')
           //alert('성공적으로 수정 되었습니다')
       }else{
         ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -286,7 +287,6 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
                   <InputContainer title={"투입 품목"}>
-                    {console.log(input_material)}
                     <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={false}/>
                   </InputContainer>
                   <InputContainer title={"생산 품목"}>

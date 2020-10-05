@@ -9,7 +9,6 @@ import {getToken} from "../../Common/tokenFunctions";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import IcDropDownButton from "../../Assets/Images/ic_dropdown_white.png"
 import {Input} from "semantic-ui-react";
-import IMG_BG from "../../Assets/Images/img_welcome_bg.png";
 
 interface Props {
     title: string
@@ -23,6 +22,7 @@ interface Props {
     dropDownContents?: any
     dropDownOnClick?:any
     dropDownOption?: any
+    selectBoxChange?:any
     titleOnClickEvent?: any
     indexList: any
     valueList: any[]
@@ -39,7 +39,7 @@ interface Props {
     calendarState?: boolean
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,calendarState,children}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,selectBoxChange,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,calendarState,children}:Props) => {
 
     const [checked, setChecked] = useState<any[]>([])
     const [option, setOption] = useState<number>(0)
@@ -139,12 +139,12 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                     Object.keys(indexList).map((v, i) => {
                         return (
                                 typeof indexList[v] === 'object' ?
-                                    <>
                                     <select className="p-limits"
                                             style={{
                                                 backgroundColor: "#111319", borderColor: '#111319',color:'white', fontSize: "14px", width: '70%', marginRight: 30,
                                                 background: `url(${IcDropDownButton}) no-repeat 95% 50%`
                                             }}
+                                            onChange={(e)=>selectBoxChange(e.target.value)}
                                     >
                                         {
                                             Object.keys(indexList[v]).map(m => {
@@ -157,7 +157,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                             })
                                         }
                                     </select>
-                                    </>
                                     :
                                     <p key={v} className="p-limits">{indexList[v]}</p>
                         )
