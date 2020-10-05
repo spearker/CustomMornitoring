@@ -26,7 +26,7 @@ const QualityTestCompleteWorker = () => {
             processName: "공정명",
             machineName: "기계명",
             materialName: "품목(품목명)",
-            requestTime: "요청 시간",
+            time: "요청 시간",
             whether: "적격 여부",
         }
     }
@@ -127,7 +127,7 @@ const QualityTestCompleteWorker = () => {
     return (
         <div>
             <OvertonTable
-                title={'제품 검사 요청 완료'}
+                title={'제품 검사 완료 (작업자)'}
                 indexList={index}
                 valueList={list}
                 noChildren={true}>

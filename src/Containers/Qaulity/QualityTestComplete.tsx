@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {Route, Switch, useHistory} from "react-router-dom";
 import {API_URLS, getQualityList} from "../../Api/mes/quality";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import Styled from "styled-components";
+import QualityDetailList from "../../Pages/Quality/QualityDetailList";
 
 const QualityTestComplete = () => {
     const [list, setList] = useState<any[]>([]);
@@ -26,7 +27,7 @@ const QualityTestComplete = () => {
             processName: "공정명",
             machineName: "기계명",
             materialName: "품목(품목명)",
-            requestTime: "요청 시간",
+            time: "요청 시간",
             statement: "상태",
         }
     }
@@ -77,23 +78,9 @@ const QualityTestComplete = () => {
     ]
 
 
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
-            //TODO: api 요청
-            // getData(mold.pk)
-        }
-
-
-
-    }, [list, selectPk]);
+    const onClick = useCallback(() => {
+        history.push('/quality/current/detail')
+    }, []);
 
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시
@@ -127,9 +114,10 @@ const QualityTestComplete = () => {
     return (
         <div>
             <OvertonTable
-                title={'제품 검사 요청 완료'}
+                title={'제품 검사 요청 리스트'}
                 indexList={index}
                 valueList={list}
+                mainOnClickEvent={onClick}
                 noChildren={true}>
                 {
                     selectPk !== null ?

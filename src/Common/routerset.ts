@@ -223,17 +223,17 @@ export const MES_MENU_LIST = {
     { name: '납기지수(D)', url: '/kpi/duedate'},
     { name: '에너지지수(E)', url: '/kpi/energy'},
   ],
-  // quality: [
-  //   { name : '품질 관리', url: '/quality/quality/list'},
-  //   { name : '제품 검사 요청', url: '/quality/test/request'},
-  //   { name : '제품 검사 요청 리스트', url: '/quality/test/list'},
-  //   { name : '제품 검사 요청 리스트 (작업자)', url: '/quality/test/list/worker'},
-  //   { name : '제품 검사 완료', url: '/quality/test/complete'},
-  //   { name : '제품 검사 완료 (작업자)', url: '/quality/test/complete/worker'},
-  //   { name : '제품 품질 현황', url: '/quality/current/list'}
-  //   // { name : '품질 관리', url: '/commingsoon'},
-  //   // { name : '제품 품질 현황', url: '/commingsoon'}
-  // ],
+  quality: [
+    { name : '품질 관리', url: '/quality/quality/list'},
+    { name : '제품 검사 요청', url: '/quality/test/request'},
+    { name : '제품 검사 요청 리스트', url: '/quality/test/list'},
+    { name : '제품 검사 요청 리스트 (작업자)', url: '/quality/test/list/worker'},
+    { name : '제품 검사 완료', url: '/quality/test/complete'},
+    { name : '제품 검사 완료 (작업자)', url: '/quality/test/complete/worker'},
+    { name : '제품 품질 현황', url: '/quality/current/list'}
+    // { name : '품질 관리', url: '/commingsoon'},
+    // { name : '제품 품질 현황', url: '/commingsoon'}
+  ],
   basic: [ // 기준정보 관리
     { name : '기준 정보 관리', url : '/basic/list/machine/'}, //상위메뉴
     { name : '기계 기본정보', url : '/basic/list/machine'},

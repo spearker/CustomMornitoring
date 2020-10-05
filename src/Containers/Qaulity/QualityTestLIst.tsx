@@ -27,7 +27,7 @@ const QualityTestList = () => {
             processName: "공정명",
             machineName: "기계명",
             materialName: "품목(품목명)",
-            requestTime: "요청 시간",
+            time: "요청 시간",
             statement: "상태"
         }
     }
@@ -77,10 +77,10 @@ const QualityTestList = () => {
         }
     ]
 
-
-    const onClick = useCallback((quality) => {
-        history.push('/')
+    const onClick = useCallback(() => {
+        history.push('/quality/test/detail')
     }, []);
+
 
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시
@@ -117,6 +117,7 @@ const QualityTestList = () => {
                 title={'제품 검사 요청 리스트'}
                 indexList={index}
                 valueList={list}
+                mainOnClickEvent={onClick}
                 noChildren={true}>
                 {
                     selectPk !== null ?

@@ -17,7 +17,7 @@ const BarcodeListContainer = () => {
         main_type: string,
         detail_type: string,
         item_pk: string ,
-        barcode_img_name: string,
+        barcode_img_url: string,
         barcode_type : string,
         barcode_number: string,
         barcode_photo: string,
@@ -25,7 +25,7 @@ const BarcodeListContainer = () => {
         barcode_name : '',
         main_type: '',
         detail_type: '',
-        barcode_img_name:'',
+        barcode_img_url:'',
         item_pk: '' ,
         barcode_type : '',
         barcode_number: '',
@@ -114,7 +114,7 @@ const BarcodeListContainer = () => {
 
     const onClick = useCallback((barcode) => {
         console.log('dsfewfewf',barcode.barcode_pk,barcode.barcode_name );
-        if(barcode.barcde_pk === selectPk){
+        if(barcode.barcode_pk === selectPk){
             setSelectPk(null);
             setSelectBarcode(null);
             setSelectValue(null);
@@ -207,10 +207,10 @@ const BarcodeListContainer = () => {
                         <LineTable title={selectBarcode+' 바코드 이미지'} >
                                 <BarcodeContainer>
                                     <BarcodeImage>
-                                        {detailList.barcode_img_name === '' && detailList.barcode_img_name === undefined ?
+                                        {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
                                             <p>바코드 이미지가 없습니다.</p>
                                             :
-                                            <img src={`http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=${detailList.barcode_img_name}`} style={{width: '100%', height: '100%'}}/>
+                                            <img src={detailList.barcode_img_url} style={{width: '100%', height: '100%'}}/>
                                         }
                                     </BarcodeImage>
                                     <BarcodeNum>

@@ -5,9 +5,12 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getQualityList} from "../../Api/mes/quality";
 import {getCustomerData} from "../../Api/mes/customer";
 import QualityTableDropdown from "../../Components/Dropdown/QualityTableDropdown";
+import {useHistory} from 'react-router-dom';
 
 
 const QualityListContainer = () => {
+
+    const history = useHistory()
 
     const [list, setList] = useState<any[]>([]);
     const [option, setOption] = useState<number>(0)
@@ -77,21 +80,9 @@ const QualityListContainer = () => {
         },
     ]
 
-
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
-            //TODO: api 요청
-            // getData(mold.pk)
-        }
-    }, [list, selectPk]);
+    const onClick = useCallback(() => {
+        history.push('/quality/current/detail')
+    }, []);
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
@@ -139,7 +130,7 @@ const QualityListContainer = () => {
                 title={'제품 품질 현황'}
                 indexList={index}
                 valueList={list}
-                clickValue={selectValue}
+                mainOnClickEvent={onClick}
                 noChildren={true}>
                 {
                     selectPk !== null ?

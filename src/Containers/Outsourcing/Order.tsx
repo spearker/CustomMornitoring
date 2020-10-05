@@ -64,14 +64,30 @@ const OrderContainer = () => {
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
             deletePk.pk.map((v,i)=>{
                 deletePk.pk.pop()
             })
             :
             list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.pk.push(tmpPk.toString())
+
+                if(deletePk.pk.indexOf(v.pk) === -1){
+                    tmpPk.push(v.pk)
+                }
+
+                tmpPk.map((vi, index) => {
+                    if(deletePk.pk.indexOf(v.pk) === -1){
+                        deletePk.pk.push(vi)
+                    }
+                })
+
+                if(tmpPk.length < deletePk.pk.length){
+                    deletePk.pk.shift()
+                }
+
+                console.log(deletePk.pk)
+
             })
         }
     },[deletePk])

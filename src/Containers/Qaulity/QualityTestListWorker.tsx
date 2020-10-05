@@ -76,24 +76,10 @@ const QualityTestListWorker = () => {
     ]
 
 
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
-            //TODO: api 요청
-            // getData(mold.pk)
-        }
 
-
-
-    }, [list, selectPk]);
-
+    const onClick = useCallback(() => {
+        history.push('/quality/test/request')
+    }, []);
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시
     //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
@@ -126,9 +112,10 @@ const QualityTestListWorker = () => {
     return (
         <div>
             <OvertonTable
-                title={'제품 검사 요청 리스트'}
+                title={'제품 검사 요청 리스트(작업자)'}
                 indexList={index}
                 valueList={list}
+                mainOnClickEvent={onClick}
                 noChildren={true}>
                 {
                     selectPk !== null ?
