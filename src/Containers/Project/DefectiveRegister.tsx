@@ -72,7 +72,6 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         const res = await getProjectList(tempUrl)
 
 
-
         if(res === false){
             //TODO: 에러 처리
         }else{
@@ -151,9 +150,9 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
      * @returns X
      */
     const onsubmitForm = useCallback(async()=>{
-        console.log(infoList)
-        //alert(JSON.stringify(infoList))
-        console.log(JSON.stringify(infoList))
+        // console.log(infoList)
+        // alert(JSON.stringify(infoList))
+        // console.log(JSON.stringify(infoList))
 
         const data = {
 
