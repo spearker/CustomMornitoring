@@ -1,4 +1,3 @@
-
 import React, {useCallback, useEffect, useState} from 'react';
 import {TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
@@ -230,6 +229,7 @@ const OutsourcingRegister = () => {
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
+
                 history.goBack()
             }else{
                 //TODO:  기타 오류

@@ -93,7 +93,7 @@ export const API_URLS = {
     shipment: {
         register: `/v1/marketing/shipment/register`,
         update: `/v1/marketing/shipment/update`,
-        load: `/v1/marketing/shipmnet/load`,
+        load: `/v1/marketing/shipment/load`,
         list: `/v1/marketing/shipment/list`,
         delete: `/v1/marketing/shipment/delete`,
     },

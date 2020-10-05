@@ -101,7 +101,8 @@ export const API_URLS = {
         search2: `/v1/project/history/search`
     },
     defective:{
-        list: '/v1/defective/list'
+        list: '/v1/defective/list',
+        load: '/v1/defective/load'
     },
     material: {
         search: `/v1/material/search`

@@ -23,32 +23,51 @@ const OrderModifyContainer = ({match}:Props) => {
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [customer,setCustomer] = useState<string>('')
     const [material,setMaterial] = useState<string>('')
-    const [orderData, setOrderData] = useState<{pk: string,contract_pk: string, amount: Number, date: string}>({
-        pk: match.params.pk,
-        contract_pk: '',
+    const [pk, setPk] = useState<string>('')
+    const [orderData, setOrderData] = useState<{
+        pk: string
+        customer_name: string
+        material_name: string
+        amount: number
+        date: string
+    }>({
+        pk: "",
+        customer_name: "",
+        material_name: "",
         amount: 0,
-        date: moment().format('YYYY-MM-DD'),
+        date: ""
     })
 
     const getContractLoadData = useCallback(async ()=>{
-        const tempUrl = `${API_URLS['order'].load}?pk=${match.params.pk}`
+        const tempUrl = `${API_URLS['shipment'].load}?pk=${match.params.pk}`
         const resultData = await getMarketing(tempUrl);
+
+        setSelectDate(resultData.date)
 
         setCustomer(resultData.customer_name)
         setMaterial(resultData.material_name)
+        setPk(resultData.pk)
         setOrderData({
-            pk: match.params.pk,
-            contract_pk: resultData.contract_pk,
+            pk: resultData.contract_pk,
+            customer_name: resultData.customer_name,
+            material_name: resultData.material_name,
             amount: resultData.amount,
             date: resultData.date
         })
     },[])
 
     const postContractUpdateData = useCallback(async () => {
-        const tempUrl = `${API_URLS['order'].update}`
-        const resultData = await postOrderRegister(tempUrl, orderData);
+        const tempUrl = `${API_URLS['shipment'].update}`
+        const resultData = await postOrderRegister(tempUrl, {
+           pk: pk,
+           contract_pk: orderData.pk,
+           amount: orderData.amount,
+           date: selectDate
+        });
 
-        history.goBack()
+        if(resultData.status === 200){
+            history.goBack()
+        }
     }, [orderData])
 
     useEffect(()=>{
@@ -70,7 +89,7 @@ const OrderModifyContainer = ({match}:Props) => {
                         <tr>
                             <td>• 수주 리스트</td>
                             <td>
-                                <ContractPickerModal onClickEvent={(e)=>{setOrderData({...orderData, contract_pk: e.pk, amount: e.amount}); setCustomer(e.customer_name); setMaterial(e.material_name)}} text={'수주 리스트를 선택해 주세요.'}/>
+                                <ContractPickerModal select={orderData} onClickEvent={(e)=>{setOrderData(e); setCustomer(e.customer_name); setMaterial(e.material_name)}} text={'수주 리스트를 선택해 주세요.'}/>
                             </td>
                         </tr>
                         <tr>
@@ -79,9 +98,9 @@ const OrderModifyContainer = ({match}:Props) => {
                                 <div style={{width: 885, display: 'table-cell'}}>
                                     <div style={{marginTop: 5}}>
                                         {
-                                            orderData.contract_pk === ''
+                                            orderData.customer_name === ''
                                                 ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
-                                                :<InputText style={{color: '#111319'}}>{customer}</InputText>
+                                                :<InputText style={{color: '#111319'}}>{orderData.customer_name}</InputText>
                                         }
                                     </div>
                                 </div>
@@ -101,9 +120,9 @@ const OrderModifyContainer = ({match}:Props) => {
                                     <div style={{width: 885}}>
                                         <div style={{marginTop: 5}}>
                                             {
-                                                orderData.contract_pk === ''
+                                                orderData.material_name === ''
                                                     ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
-                                                    :<InputText style={{color: '#111319'}}>{material}</InputText>
+                                                    :<InputText style={{color: '#111319'}}>{orderData.material_name}</InputText>
                                             }
                                         </div>
                                     </div>

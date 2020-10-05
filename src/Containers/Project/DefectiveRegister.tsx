@@ -4,7 +4,7 @@ import {uploadTempFile} from "../../Common/fileFuctuons";
 import {API_URLS, getProjectList} from "../../Api/mes/production";
 import {getParameter, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from "../../Components/Text/Header";
 import WhiteBoxContainer from "../WhiteBoxContainer";
 import ListHeader from "../../Components/Text/ListHeader";
@@ -54,7 +54,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
 
     useEffect(()=>{
         if( match.params.pk ){
-            ////alert(`수정 페이지 진입 - pk :` + param)
+            alert(`수정 페이지 진입 - pk :` + match.params.pk)
             setIsUpdate(true)
             getData()
         }
@@ -112,12 +112,15 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
      */
     const getData = useCallback(async()=>{
 
-        const tempUrl = `${API_URLS['customer'].load}?pk=${match.params.pk}`
+        const tempUrl = `${API_URLS['defective'].load}?pk=${match.params.pk}`
         const res = await getProjectList(tempUrl)
+
+        console.log('resresres', res)
 
         if(res === false){
             //TODO: 에러 처리
         }else{
+            // setSelectHistory()
             setName(res.name);
             setPk(res.pk);
             setAmount(Number(res.number));
@@ -141,8 +144,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitFormUpdate = useCallback(async(e)=>{
-        e.preventDefault();
+    const onsubmitFormUpdate = useCallback(async()=>{
         if(name === "" ){
             //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -181,15 +183,11 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitForm = useCallback(async(e)=>{
-        e.preventDefault();
+    const onsubmitForm = useCallback(async()=>{
         console.log(infoList)
-        ////alert(JSON.stringify(infoList))
+        //alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        }
+
         const data = {
 
             history_pk: selectHistory.pk,
@@ -227,7 +225,6 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         <div>
             <Header title={isUpdate ? '불량 이력수정' : '불량 이력등록'}/>
             <WhiteBoxContainer>
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                     <ListHeader title="필수 항목"/>
                     <InputContainer title={"작업 이력"} width={120}>
                         <HistoryPickerModal select={selectHistory} onClickEvent={(e)=>setSelectHistory({...selectHistory,...e})} text={'작업자명을 검색해주세요.'}/>
@@ -268,8 +265,15 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                             {reason}
                         </textarea>
                     </InputContainer>
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
-                </form>
+                <div style={{marginTop: 40, display: 'flex', justifyContent: 'center'}}>
+                    <ButtonWrap onClick={async () => {
+                        await onsubmitForm()
+                    }}>
+                        <div style={{width: 360, height: 40}}>
+                            <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
+                        </div>
+                    </ButtonWrap>
+                </div>
             </WhiteBoxContainer>
         </div>
     );
@@ -281,6 +285,21 @@ const InputText = Styled.p`
     text-align: left;
     vertical-align: middle;
     font-weight: regular;
+`
+
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
 `
 
 export default DefectiveRegisterContainer
