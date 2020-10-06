@@ -1,6 +1,20 @@
 import client from '../configs/basic';
 
 /**
+ * postQualityRequestDetail()
+ * 작업자 제품 검사 요청 리스트 상세보기
+ * @param {string} url 링크 주소
+ * @param {Object} bodyData 제품 검사 요청 리스트 pk
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 예지
+ */
+
+export const postQualityRequestDetail = async( url: string, bodyData: object) =>{
+    const temp: IServerData = await client.post(url, bodyData);
+    return temp
+}
+
+/**
  * postQualityRegister()
  * 품질 등록하기
  * @param {string} url 링크 주소
@@ -32,7 +46,8 @@ export const API_URLS = {
         register: `/v1/quality/request/register`,
         list: `/v1/quality/request/list`,
         search: `/v1/quality/request/search`,
-        update: `/v1/quality/request/update`
+        update: `/v1/quality/request/update`,
+        detail: `/v1/quality/request/detail`
     },
     response:{
         requestList: `/v1/quality/response/request/list`,

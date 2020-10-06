@@ -8,7 +8,7 @@ import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 import MachinePickerModal from '../../Components/Modal/MachinePickerModal'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import moment from 'moment'
-import {API_URLS, postQualityRegister} from '../../Api/mes/quality'
+import {API_URLS, postQualityRegister, postQualityRequestDetail} from '../../Api/mes/quality'
 import {useHistory} from 'react-router-dom'
 import {getProjectList} from '../../Api/mes/production'
 
@@ -27,6 +27,7 @@ const QualityTestRequest = ({ match }: Props) => {
     const [totalCount, setTotalCount] = useState<number>()
     const [reason, setReason] = useState<string>()
     const [worker, setWorker] = useState<string>('')
+    const [statement, setStatement] = useState<string>('')
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
     useEffect(()=>{
@@ -34,30 +35,28 @@ const QualityTestRequest = ({ match }: Props) => {
         if( match.params.pk ){
             // alert(`수정 페이지 진입 - pk :` + match.params.pk)
             setIsUpdate(true)
-            // getData()
+            getData()
         }
 
     },[])
 
-    // const getData = useCallback(async()=>{
-    //
-    //     const tempUrl = `${API_URLS['defective'].load}?pk=${match.params.pk}`
-    //     const res = await getProjectList(tempUrl)
-    //
-    //     console.log('resresres', res)
-    //
-    //     if(res === false){
-    //         //TODO: 에러 처리
-    //     }else{
-    //         // setSelectHistory()
-    //         setName(res.name);
-    //         setPk(res.pk);
-    //         setAmount(Number(res.number));
-    //         setPk(res.pk);
-    //         setPaths([res.photo])
-    //         setInfoList(res.info_list)
-    //     }
-    // },[pk, name, amount,paths])
+    const getData = useCallback(async()=>{
+        const tempUrl = `${API_URLS['request'].detail}`
+        const res = await postQualityRequestDetail(tempUrl, {
+            requestPk: match.params.pk
+        })
+    
+        if(res.status === 200){
+            setProcessData({pk: res.results.processPk, name: res.results.processName})
+            setMachineData({pk: res.results.machinePk, name: res.results.machinePk})
+            setProductionData({pk: res.results.materialPk, name: res.results.materialName})
+            setTotalCount(res.results.amount)
+            setReason(res.results.description)
+            setWorker(res.results.worker)
+            setStatement(res.results.statement)
+        }
+        
+    },[processData, machineData, productionData, totalCount, reason, worker])
 
 
     const postQualityRegisterData = useCallback(async () => {
@@ -77,6 +76,22 @@ const QualityTestRequest = ({ match }: Props) => {
         }
     }, [processData, machineData, productionData, totalCount, reason, worker])
 
+    const onClickModify = useCallback( async ()=>{
+        const tempUrl = `${API_URLS['request'].update}`
+        const res = await postQualityRegister(tempUrl, {
+            requestPk: match.params.pk,
+            statement: statement,
+            amount: totalCount,
+            description: reason,
+            worker: worker
+        });
+        if(res.status === 200){
+            alert("성공적으로 수정하였습니다!")
+            history.push('/quality/test/list/worker')
+        }
+
+    }, [match.params.pk, statement, totalCount, reason, worker])
+
     return(
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
@@ -92,15 +107,33 @@ const QualityTestRequest = ({ match }: Props) => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 공정명</td>
-                            <td><ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)} text={'공정명을 입력해주세요.'}/></td>
+                            <td>
+                                {
+                                    isUpdate ?
+                                        <input value={processData.name} style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}} disabled />
+                                    : <ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)} text={'공정명을 입력해주세요.'}/>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td>• 기계명</td>
-                            <td><MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)} text={'기계명을 입력해주세요.'}/></td>
+                            <td>
+                                {
+                                    isUpdate ?
+                                        <input value={machineData.name} style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}} disabled />
+                                    : <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)} text={'기계명을 입력해주세요.'}/>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><ProductionPickerModal select={productionData} onClickEvent={(e) => setProductionData(e)} text={'품목을 입력해주세요.'}/></td>
+                            <td>
+                            {
+                                    isUpdate ?
+                                        <input value={productionData.name} style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}} disabled />
+                                    : <ProductionPickerModal select={productionData} onClickEvent={(e) => setProductionData(e)} text={'품목을 입력해주세요.'}/>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
@@ -109,7 +142,7 @@ const QualityTestRequest = ({ match }: Props) => {
                         <tr>
                             <td>• 요청 내용</td>
                             <td>
-                                <textarea maxLength={120} value={reason} onChange={(e)=>setReason(e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'95%'}} placeholder="내용을 입력해주세요 (80자 미만)">
+                                <textarea maxLength={120} value={reason} onChange={(e)=>setReason(e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'96%'}} placeholder="내용을 입력해주세요 (80자 미만)">
                                     {reason}
                                 </textarea>
                             </td>
@@ -124,17 +157,13 @@ const QualityTestRequest = ({ match }: Props) => {
                 {
                     isUpdate ?
                     <div style={{marginTop: 42, paddingBottom: 42}}>
-                        <TestButton onClick={async () => {
-                            await console.log(123)
-                        }}>
+                        <TestButton onClick={() => onClickModify()}>
                             <div>
                                 <p style={{fontSize: 18}}>수정하기</p>
                             </div>
                         </TestButton>
 
-                        <ButtonWrap onClick={async () => {
-                            await console.log(123213)
-                        }}>
+                        <ButtonWrap onClick={() => history.goBack()}>
                             <div>
                                 <p style={{fontSize: 18}}>리스트 보기</p>
                             </div>
@@ -165,7 +194,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr-Bold;
+        font-family: NotoSansCJKkr-Bold;
         color: #19b8df;
         text-align: left;
     }
@@ -175,7 +204,7 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr-Bold;
+        font-family: NotoSansCJKkr-Bold;
         font-size: 15px;
         input{
             height: 28px;

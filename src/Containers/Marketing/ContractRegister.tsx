@@ -66,7 +66,7 @@ const ContractRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><ProductionPickerModal select={selectMaterial} onClickEvent={(e) => setSelectMaterial(e)} text={'품목(품목명)을 선택해주세요.'} type={-1}/></td>
+                            <td><ProductionPickerModal select={selectMaterial} onClickEvent={(e) => setSelectMaterial(e)} text={'품목(품목명)을 선택해주세요.'} type={1}/></td>
                         </tr>
                         <tr>
                             <td>• 수량</td>

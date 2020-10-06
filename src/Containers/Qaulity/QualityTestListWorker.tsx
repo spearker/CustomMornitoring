@@ -77,8 +77,8 @@ const QualityTestListWorker = () => {
 
 
 
-    const onClick = useCallback(() => {
-        history.push('/quality/test/request')
+    const onClick = useCallback((obj) => {
+        history.push(`/quality/test/request/${obj.requestPk}`)
     }, []);
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시
