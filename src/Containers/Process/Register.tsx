@@ -39,8 +39,8 @@ const ProcessRegisterContainer = () => {
         description: ''
     })
 
-    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
-    const [selectMold, setSelectMold] = useState<{ name?: string, pk?: string }>()
+    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }[]>([])
+    const [selectMold, setSelectMold] = useState<{ name?: string, pk?: string }[]>([])
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['process'].register}`
@@ -58,18 +58,24 @@ const ProcessRegisterContainer = () => {
                 ...processData,
                 processes: [{machine_pk: ''}]
             })
+            await setSelectMachine([{}])
+            await setSelectMold([{}])
         }else if(e === 1){
             console.log("1번")
             await setProcessData({
                 ...processData,
                 processes: [{machine_pk: ''}, {machine_pk: ''}]
             })
+            await setSelectMachine([{}, {}])
+            await setSelectMold([{}])
         }else{
             console.log("나머지")
             await setProcessData({
                 ...processData,
                 processes: []
             })
+            await setSelectMachine([])
+            await setSelectMold([])
         }    }
 
     useEffect(() => {
@@ -113,32 +119,36 @@ const ProcessRegisterContainer = () => {
                                     return(
                                         <tbody>
                                             <tr>
-                                                <td>• {i+1}번 공정</td>
+                                                <td>• {i+1}번 기계</td>
                                                 <td><MachinePickerModal select={
-                                                    selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
+                                                    selectMachine[i] && (selectMachine[i].name && selectMachine[i].pk) ? selectMachine[i] : undefined
                                                 } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
                                                     let tmpList = processData.processes
                                                     if (tmpList && e.pk) {
                                                         tmpList[i] = {...tmpList[i], machine_pk: e.pk}
                                                     }
 
-                                                    console.log(tmpList)
-                                                    setSelectMachine(e)
+                                                    let tmpMachineList = selectMachine
+                                                    selectMachine[i] = e
+
+                                                    setSelectMachine(tmpMachineList)
                                                     return setProcessData({...processData, processes: tmpList})
                                                 }}/></td>
                                             </tr>
                                             <tr>
                                                 <td>• 사용 금형</td>
                                                 <td><MoldPickerModal select={
-                                                    selectMold && (selectMold.name && selectMold.pk) ? selectMold : undefined
+                                                    selectMold[i] && (selectMold[i].name && selectMold[i].pk) ? selectMold[i] : undefined
                                                 } text={'금형명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
                                                     let tmpList = processData.processes
                                                     if (tmpList && e.pk) {
                                                         tmpList[i] = {...tmpList[i], mold_pk: e.pk, }
                                                     }
 
-                                                    console.log(tmpList)
-                                                    setSelectMold(e)
+                                                    let tmpMold = selectMold
+                                                    tmpMold[i] = e
+
+                                                    setSelectMold(tmpMold)
                                                     return setProcessData({...processData, processes: tmpList})
                                                 }}/></td>
                                             </tr>

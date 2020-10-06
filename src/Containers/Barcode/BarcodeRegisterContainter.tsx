@@ -188,7 +188,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
                         {barcodeImg === '' ?
                             <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: "center"}}>바코드 이미지가 없습니다.</p>
                             :
-                            <img src={`http://293.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=${barcodeImg}`} style={{ width:'100%',height: '100%', float:'right'}}/>
+                            <img src={`http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=${barcodeImg}`} style={{ width:'100%',height: '100%', float:'right'}}/>
                         }
                     </div>
                     <ListHeader title="선택 항목"/>

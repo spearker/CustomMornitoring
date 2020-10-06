@@ -101,7 +101,7 @@ const BasicBarcodeRegister = () => {
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://293.234.183.22:8299/api/v1/barcode/standard/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/standard/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
      ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -142,7 +142,7 @@ const BasicBarcodeRegister = () => {
       };
     }
 
-    const res = await postRequest('http://293.234.183.22:8299/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
     if(res === false){
      ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
 
@@ -213,7 +213,7 @@ const BasicBarcodeRegister = () => {
                {/* /!*<DocumentFormatInputList*!/*/}
 
                {/* /!*  pk={!isUpdate ? document.pk : undefined}*!/*/}
-               {/* /!*  loadDataUrl={isUpdate? `http://293.234.183.22:8299/api/v1/barcode/standard/load?pk=${pk}` :''}*!/*/}
+               {/* /!*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/barcode/standard/load?pk=${pk}` :''}*!/*/}
                {/* /!*  onChangeEssential={setEssential} onChangeOptional={setOptional}*!/*/}
                {/* /!*  />*!/*/}
 

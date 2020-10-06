@@ -104,7 +104,7 @@ const RegisterMachine = () => {
    */
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://293.234.183.22:8299/api/v1/machine/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/machine/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -165,7 +165,7 @@ const RegisterMachine = () => {
       capacity_nameplate: paths[2]
     };
 
-    const res = await postRequest('http://293.234.183.22:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -213,7 +213,7 @@ const RegisterMachine = () => {
     };
 
 
-    const res = await postRequest('http://293.234.183.22:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
