@@ -6,7 +6,6 @@ import WorkHistoryRegisterContainer from "../../Containers/Project/WorkHistoryRe
 const WorkHistoryRegister = () => {
     return (
         <DashboardWrapContainer index={'project'}>
-
             <InnerBodyContainer>
                 <WorkHistoryRegisterContainer />
             </InnerBodyContainer>

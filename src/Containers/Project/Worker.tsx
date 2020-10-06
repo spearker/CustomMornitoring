@@ -39,7 +39,7 @@ const WorkerContainer =  ({ match }: Props) => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/project/work/history/register')
+            Link: ()=>history.push('/project/history/register')
         },
     ]
 

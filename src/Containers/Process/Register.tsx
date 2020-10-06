@@ -105,7 +105,7 @@ const ProcessRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 공정명</td>
-                            <td><Input placeholder="공장명을 입력해 주세요." onChange={(e) => setProcessData({...processData, name: e.target.value})}/></td>
+                            <td><Input placeholder="공정명을 입력해 주세요." onChange={(e) => setProcessData({...processData, name: e.target.value})}/></td>
                         </tr>
                         {
                             processData.processes && processData.processes.length !== 0

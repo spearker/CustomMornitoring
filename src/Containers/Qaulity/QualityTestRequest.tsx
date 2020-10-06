@@ -24,7 +24,7 @@ const QualityTestRequest = ({ match }: Props) => {
     const [processData, setProcessData] = useState<{pk: string, name: string}>({pk: '', name: ''})
     const [machineData, setMachineData] = useState<{pk: string, name: string}>({pk: '', name: ''})
     const [productionData, setProductionData] = useState<{pk: string, name: string}>({pk: '', name: ''})
-    const [totalCount, setTotalCount] = useState<number>(0)
+    const [totalCount, setTotalCount] = useState<number>()
     const [reason, setReason] = useState<string>()
     const [worker, setWorker] = useState<string>('')
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
@@ -128,7 +128,7 @@ const QualityTestRequest = ({ match }: Props) => {
                             await console.log(123)
                         }}>
                             <div>
-                                <p style={{fontSize: 18}}>검수 완료</p>
+                                <p style={{fontSize: 18}}>수정하기</p>
                             </div>
                         </TestButton>
 
@@ -136,15 +136,17 @@ const QualityTestRequest = ({ match }: Props) => {
                             await console.log(123213)
                         }}>
                             <div>
-                                <p style={{fontSize: 18}}>취소하기</p>
+                                <p style={{fontSize: 18}}>리스트 보기</p>
                             </div>
                         </ButtonWrap>
                     </div> :
-                      <div style={{marginTop: 180, paddingBottom: 20}}>
+                      <div style={{marginTop: 10, paddingBottom: 20, }}>
                           <ButtonWrap onClick={postQualityRegisterData}>
+                              {
                               <div style={{width: 360, height: 46}}>
-                                  <p style={{fontSize: 18, marginTop: 8}}>검수 요청</p>
+                                  <p style={{fontSize: 18, marginTop: 8, paddingRight: 150,}}>검사 요청</p>
                               </div>
+                              }
                           </ButtonWrap>
                       </div>
                 }

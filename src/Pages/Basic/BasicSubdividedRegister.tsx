@@ -47,7 +47,7 @@ const BasicSubdividedRegister = () => {
 
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://293.234.183.22:8299/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -81,7 +81,7 @@ const BasicSubdividedRegister = () => {
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://293.234.183.22:8299/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
 
      if(res === false){
       // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -108,7 +108,7 @@ const BasicSubdividedRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://293.234.183.22:8299/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -151,7 +151,7 @@ const BasicSubdividedRegister = () => {
                       }
                       solo={true}
                       list={inputData.factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                      searchUrl={'http://293.234.183.22:8299/api/v1/factory/search?'}
                 />
 
                 <NormalInput title={'세분화 이름'} value={inputData.name} description={''} onChangeEvent={(input)=>{let temp = _.cloneDeep(inputData); temp.name = input; setInputData(temp)}} />

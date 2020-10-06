@@ -2,7 +2,6 @@ import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
 import WarehousingRegisteContainer from "../../Containers/Stock/WarehousingRegister";
-import Container from "../../Containers/Project/Worker";
 
 interface Props {
     match: any;

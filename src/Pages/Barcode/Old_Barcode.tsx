@@ -41,7 +41,7 @@ const BarcodeList = () => {
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
 
-    const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+    const results = await getRequest('http://293.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -66,7 +66,7 @@ const BarcodeList = () => {
   const getList = useCallback(async ()=>{
 
 
-    const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+    const results = await getRequest('http://293.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
     if(results === false){
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -90,7 +90,7 @@ const BarcodeList = () => {
     setOption(filter)
     ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-    const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
+    const results = await getRequest('http://293.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword,getToken(TOKEN_NAME))
 
 
 
@@ -114,7 +114,7 @@ const BarcodeList = () => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://203.234.183.22:8299/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://293.234.183.22:8299/api/v1/barcode/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     //console.log('--select id : ' + id)
     if(results === false){

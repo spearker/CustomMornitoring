@@ -17,7 +17,7 @@ const initialInputValue = {
     material_name: '',
     request_time: '',
     request_reason: '',
-    total_count: '',
+    total_count: 0,
     defective_count: '',
     none_defective_count: '',
     whether: '',
@@ -28,12 +28,13 @@ const initialInputValue = {
 const QualityTestRequestInspectorContainer = () => {
 
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
+    const [ isDetail, setIsDetail ] = useState('Modify');
 
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>제품 검사 요청</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>{isDetail === "Modify" ? "제품 검사 요청" : (isDetail === 'Detail' ? '제품 검사 내용 보기' : '제품 검사 내용 보기')}</span>
                 </div>
             </div>
             <ContainerMain>
@@ -97,21 +98,53 @@ const QualityTestRequestInspectorContainer = () => {
                     </table>
                 </div>
                 <div style={{marginTop: 42, paddingBottom: 42}}>
-                    <TestButton onClick={async () => {
-                        await console.log(123)
-                    }}>
-                        <div>
-                            <p style={{fontSize: 18}}>검수 완료</p>
-                        </div>
-                    </TestButton>
+                    {isDetail === 'Modify'?
+                        <>
+                        <TestButton onClick={async () => {
+                            await console.log(123)
+                        }}>
+                            <div>
+                                <p style={{fontSize: 18}}>검수 완료</p>
+                            </div>
+                        </TestButton>
 
-                    <ButtonWrap onClick={async () => {
+                        <ButtonWrap onClick={async () => {
                         await console.log(123213)
-                    }}>
+                        }}>
                         <div>
-                            <p style={{fontSize: 18}}>취소하기</p>
+                        <p style={{fontSize: 18}}>취소하기</p>
                         </div>
-                    </ButtonWrap>
+                        </ButtonWrap>
+                        </>
+                        :
+                        (isDetail === 'Detail' ?
+                                <ButtonWrap onClick={async () => {
+                                    await console.log(123213)
+                                }}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>리스트 보기</p>
+                                    </div>
+                                </ButtonWrap>
+                                :
+                                <>
+                                    <TestButton onClick={async () => {
+                                        await console.log(123)
+                                    }}>
+                                        <div>
+                                            <p style={{fontSize: 18}}>저장 하기</p>
+                                        </div>
+                                    </TestButton>
+
+                                    <ButtonWrap onClick={async () => {
+                                        await console.log(123213)
+                                    }}>
+                                        <div>
+                                            <p style={{fontSize: 18}}>취소하기</p>
+                                        </div>
+                                    </ButtonWrap>
+                                </>
+                        )
+                    }
                 </div>
             </ContainerMain>
         </div>
