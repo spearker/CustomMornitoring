@@ -27,7 +27,7 @@ const QualityTestComplete = () => {
             processName: "공정명",
             machineName: "기계명",
             materialName: "품목(품목명)",
-            time: "요청 시간",
+            requestTime: "요청 시간",
             statement: "상태",
         }
     }
@@ -78,8 +78,8 @@ const QualityTestComplete = () => {
     ]
 
 
-    const onClick = useCallback(() => {
-        history.push('/quality/current/detail')
+    const onClick = useCallback((obj) => {
+        history.push(`/quality/test/detail/modify/${obj.requestPk}`)
     }, []);
 
     // const getData = useCallback( async(pk)=>{
@@ -93,7 +93,7 @@ const QualityTestComplete = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['response'].requestList}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['response'].list}?currentPage=${page.current}`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
@@ -114,7 +114,7 @@ const QualityTestComplete = () => {
     return (
         <div>
             <OvertonTable
-                title={'제품 검사 요청 리스트'}
+                title={'제품 검사 완료'}
                 indexList={index}
                 valueList={list}
                 mainOnClickEvent={onClick}

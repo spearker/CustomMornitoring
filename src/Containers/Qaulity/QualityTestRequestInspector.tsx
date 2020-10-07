@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from "react";
-import {API_URLS, postContractModify} from "../../Api/mes/business";
+import React, {useCallback, useEffect, useState} from "react";
+import {API_URLS, postQualityRequestDetail} from "../../Api/mes/quality";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import {Input} from "semantic-ui-react";
 import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
@@ -10,6 +10,11 @@ import ProcessPickerModal from "../../Components/Modal/ProcessPickerModal";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import DropdownInput from "../../Components/Input/DropdownInput";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import {useHistory} from 'react-router-dom'
+
+interface Props {
+    match: any;
+}
 
 const initialInputValue = {
     process_name: '',
@@ -25,16 +30,157 @@ const initialInputValue = {
     test_reason: '',
 };
 
-const QualityTestRequestInspectorContainer = () => {
+const QualityTestRequestInspectorContainer = ({match}:Props) => {
 
+    const history = useHistory()
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
-    const [ isDetail, setIsDetail ] = useState('Modify');
+    const [ isDetail, setIsDetail ] = useState('Inspection');
+
+    useEffect(()=>{
+        console.log(match.params.pk)
+        /* if( match.params.pk ){
+            alert(`수정 페이지 진입 - pk :` + match.params.pk + match.params.type)
+            
+        } */
+        if( match.params.type ){
+            if(match.params.type === 'inspection'){
+                setIsDetail('Inspection');
+                getDataInspection();
+            } else if(match.params.type === 'worker'){
+                setIsDetail('Worker');
+                getDataWorker();
+            } else if(match.params.type === 'modify'){
+                setIsDetail('Modify');
+                getDataModify();
+            }
+        }
+        
+
+    },[match])
+
+    // 제품 검사 요청 리스트 자세히보기
+    const getDataInspection = useCallback(async()=>{
+        const tempUrl = `${API_URLS['response'].requestDetail}`
+        const res = await postQualityRequestDetail(tempUrl, {
+            requestPk: match.params.pk
+        })
+    
+        if(res.status === 200){
+            setInputData('process_name',res.results.processName)
+            setInputData('machine_name',res.results.machineName)
+            setInputData('material_name',res.results.materialName)
+            setInputData('request_time',res.results.time)
+            setInputData('request_reason',res.results.description)
+            setInputData('total_count',Number(res.results.amount))
+
+            //부적격 개수 입력전 적격 개수
+            setInputData('defective_count',Number(res.results.amount))
+        }
+    },[inputData])
+
+    // 제품 검사 완료 자세히보기
+    const getDataModify = useCallback(async()=>{
+        const tempUrl = `${API_URLS['response'].detail}`
+        const res = await postQualityRequestDetail(tempUrl, {
+            responsePk: match.params.pk
+        })
+    
+        if(res.status === 200){
+            setInputData('process_name',res.results.processName)
+            setInputData('machine_name',res.results.machineName)
+            setInputData('material_name',res.results.materialName)
+            setInputData('request_time',res.results.requestTime)
+            setInputData('request_reason',res.results.requestDescription)
+            setInputData('total_count',Number(res.results.amount))
+            setInputData('defective_count',Number(res.results.eligible))
+            setInputData('none_defective_count',Number(res.results.ineligible)); 
+            setInputData('whether',res.results.whether);
+            setInputData('inspector_name',res.results.writer)
+            setInputData('test_reason',res.results.responseDescription)
+
+        }
+    },[inputData])
+
+    // 제품 검사 완료 (작업자) 자세히보기
+    const getDataWorker = useCallback(async()=>{
+        const tempUrl = `${API_URLS['request'].completeDetail}`
+        const res = await postQualityRequestDetail(tempUrl, {
+            requestPk: match.params.pk
+        })
+    
+        if(res.status === 200){
+            setInputData('process_name',res.results.processName)
+            setInputData('machine_name',res.results.machineName)
+            setInputData('material_name',res.results.materialName)
+            setInputData('request_time',res.results.requestTime)
+            setInputData('request_reason',res.results.description)
+            setInputData('total_count',Number(res.results.amount))
+            setInputData('defective_count',Number(res.results.eligible))
+            setInputData('none_defective_count',Number(res.results.ineligible)); 
+            setInputData('whether',res.results.whether);
+            setInputData('inspector_name',res.results.writer)
+            setInputData('test_reason',res.results.responseDescription)
+
+        }
+    },[inputData])
+
+    const onClickRegister = useCallback(async()=>{
+
+        if(inputData.defective_count === '' || inputData.none_defective_count === '' ||  inputData.test_reason === '' || inputData.inspector_name === '' || inputData.whether === '') {
+            alert("공백을 채워주세요")
+            return;
+        }
+
+        const tempUrl = `${API_URLS['response'].register}`
+    
+        const res = await postQualityRequestDetail(tempUrl, {
+            requestPk: match.params.pk,
+            eligible: Number(inputData.defective_count),
+            ineligible: Number(inputData.none_defective_count),
+            responseDescription: inputData.test_reason,
+            writer: inputData.inspector_name,
+            whether: inputData.whether
+        });
+
+        if(res.status === 200){
+            alert("성공적으로 검수 완료하였습니다!")
+            history.push('/quality/test/list')
+        }
+        
+    },[inputData])
+
+    const onClickModify = useCallback(async()=>{
+        
+        if(inputData.inspector_name === '' || inputData.total_count === '' || inputData.defective_count === '' || inputData.none_defective_count === '' || inputData.whether === '' || inputData.test_reason === '') {
+            alert("공백을 채워주세요")
+            return;
+        }
+        
+        const tempUrl = `${API_URLS['response'].update}`
+    
+        const res = await postQualityRequestDetail(tempUrl, {
+            requestPk: match.params.pk,
+            writer: inputData.inspector_name,
+            amount: inputData.total_count,
+            eligible: inputData.defective_count,
+            ineligible: inputData.none_defective_count,
+            whether: inputData.whether,
+            responseDescription: inputData.test_reason
+        });
+
+        if(res.status === 200){
+            alert("성공적으로 수정하였습니다!")
+            history.push('/quality/test/complete')
+        }
+        
+    },[inputData])
+
 
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>{isDetail === "Modify" ? "제품 검사 요청" : (isDetail === 'Detail' ? '제품 검사 내용 보기' : '제품 검사 내용 보기')}</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>{isDetail === "Inspection" ? "제품 검사 요청" : (isDetail === 'Worker' ? '제품 검사 내용 보기' : '제품 검사 내용 보기')}</span>
                 </div>
             </div>
             <ContainerMain>
@@ -45,39 +191,43 @@ const QualityTestRequestInspectorContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 공정명</td>
-                            <td><input value={inputData.process_name} placeholder="공정명"  onChange={(e) => setInputData('process_name',e.target.value)} /></td>
+                            <td><input value={inputData.process_name} placeholder="공정명" onChange={(e) => setInputData('process_name',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
                         </tr>
                         <tr>
                             <td>• 기계명</td>
-                            <td><input value={inputData.machine_name} placeholder="기계명"  onChange={(e) => setInputData('machine_name',e.target.value)} /></td>
+                            <td><input value={inputData.machine_name} placeholder="기계명" onChange={(e) => setInputData('machine_name',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><input value={inputData.material_name} placeholder="품목명"  onChange={(e) => setInputData('material_name',e.target.value)} /></td>
+                            <td><input value={inputData.material_name} placeholder="품목명" onChange={(e) => setInputData('material_name',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
                         </tr>
                         <tr>
                             <td>• 요청 시간</td>
-                            <td><input value={inputData.request_time} placeholder="요청 시간"  onChange={(e) => setInputData('request_time',e.target.value)} /></td>
+                            <td><input value={inputData.request_time} placeholder="요청 시간" onChange={(e) => setInputData('request_time',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
                         </tr>
                         <tr>
                             <td>• 검사 요청 내용</td>
                             <td>
-                                <textarea maxLength={120} value={inputData.request_reason} onChange={(e)=>setInputData('request_reason',e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'95%'}} placeholder="내용을 입력해주세요 (80자 미만)">
+                                <textarea maxLength={120} value={inputData.request_reason} onChange={(e)=>setInputData('request_reason',e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'95%'}} placeholder="내용을 입력해주세요 (80자 미만)" disabled={isDetail === 'Modify' ? true : false} >
                                     {inputData.request_reason}
                                 </textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
-                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={inputData.total_count} onChange={(e) => setInputData(Number(e.target.value))}/></td>
+                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={inputData.total_count} onChange={(e) => {setInputData('total_count',e.target.value); setInputData('none_defective_count',''); setInputData('defective_count',e.target.value);}}/></td>
                         </tr>
                         <tr>
                             <td>• 적격 개수</td>
-                            <td><input value={inputData.defective_count} placeholder="적격 개수"  onChange={(e) => setInputData('defective_count',e.target.value)} /></td>
+                            <td><input value={inputData.defective_count} placeholder="적격 개수" type="number" onChange={(e) => setInputData('defective_count',e.target.value)} disabled /></td>
                         </tr>
                         <tr>
                             <td>• 부적격 개수</td>
-                            <td><input value={inputData.none_defective_count} placeholder="부적격 개수"  onChange={(e) => setInputData('none_defective_count',e.target.value)} /></td>
+                            <td><input value={inputData.none_defective_count} placeholder="부적격 개수" type="number" onChange={(e) => {
+                                if(Number(e.target.value) <= Number(inputData.total_count)){
+                                    setInputData('none_defective_count',e.target.value); 
+                                    setInputData('defective_count',inputData.total_count-Number(e.target.value));
+                                }}} /></td>
                         </tr>
                         <tr>
                             <td>• 적격 여부</td>
@@ -85,61 +235,51 @@ const QualityTestRequestInspectorContainer = () => {
                         </tr>
                         <tr>
                             <td>• 검사자</td>
-                            <td><input value={inputData.inspector_name} placeholder="검사자"  onChange={(e) => setInputData('inspector_name',e.target.value)} /></td>
+                            <td><input value={inputData.inspector_name} placeholder="검사자" onChange={(e) => setInputData('inspector_name',e.target.value)} /></td>
                         </tr>
                         <tr>
                             <td>• 검사 내용</td>
                             <td>
                                 <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
-                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reasonn} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>
+                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reason} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div style={{marginTop: 42, paddingBottom: 42}}>
-                    {isDetail === 'Modify'?
+                    {isDetail === 'Inspection'?
                         <>
-                        <TestButton onClick={async () => {
-                            await console.log(123)
-                        }}>
+                        <TestButton onClick={() => onClickRegister()}>
                             <div>
                                 <p style={{fontSize: 18}}>검수 완료</p>
                             </div>
                         </TestButton>
 
-                        <ButtonWrap onClick={async () => {
-                        await console.log(123213)
-                        }}>
-                        <div>
-                        <p style={{fontSize: 18}}>취소하기</p>
-                        </div>
+                        <ButtonWrap onClick={() => history.goBack()}>
+                            <div>
+                                <p style={{fontSize: 18}}>취소하기</p>
+                            </div>
                         </ButtonWrap>
                         </>
                         :
-                        (isDetail === 'Detail' ?
-                                <ButtonWrap onClick={async () => {
-                                    await console.log(123213)
-                                }}>
+                        (isDetail === 'Worker' ?
+                                <ButtonWrap onClick={() => history.goBack()}>
                                     <div>
                                         <p style={{fontSize: 18}}>리스트 보기</p>
                                     </div>
                                 </ButtonWrap>
                                 :
                                 <>
-                                    <TestButton onClick={async () => {
-                                        await console.log(123)
-                                    }}>
+                                    <TestButton onClick={() => onClickModify()}>
                                         <div>
-                                            <p style={{fontSize: 18}}>저장 하기</p>
+                                            <p style={{fontSize: 18}}>수정하기</p>
                                         </div>
                                     </TestButton>
 
-                                    <ButtonWrap onClick={async () => {
-                                        await console.log(123213)
-                                    }}>
+                                    <ButtonWrap onClick={() => history.goBack()}>
                                         <div>
-                                            <p style={{fontSize: 18}}>취소하기</p>
+                                            <p style={{fontSize: 18}}>리스트 보기</p>
                                         </div>
                                     </ButtonWrap>
                                 </>

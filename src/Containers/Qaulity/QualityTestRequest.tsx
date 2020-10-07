@@ -48,7 +48,7 @@ const QualityTestRequest = ({ match }: Props) => {
     
         if(res.status === 200){
             setProcessData({pk: res.results.processPk, name: res.results.processName})
-            setMachineData({pk: res.results.machinePk, name: res.results.machinePk})
+            setMachineData({pk: res.results.machinePk, name: res.results.machineName})
             setProductionData({pk: res.results.materialPk, name: res.results.materialName})
             setTotalCount(res.results.amount)
             setReason(res.results.description)
@@ -96,7 +96,7 @@ const QualityTestRequest = ({ match }: Props) => {
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>제품 검사 요청</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>제품 검사 요청 정보</span>
                 </div>
             </div>
             <ContainerMain>

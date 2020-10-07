@@ -26,7 +26,7 @@ const QualityTestCompleteWorker = () => {
             processName: "공정명",
             machineName: "기계명",
             materialName: "품목(품목명)",
-            time: "요청 시간",
+            requestTime: "요청 시간",
             whether: "적격 여부",
         }
     }
@@ -76,24 +76,9 @@ const QualityTestCompleteWorker = () => {
         }
     ]
 
-
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
-            //TODO: api 요청
-            // getData(mold.pk)
-        }
-
-
-
-    }, [list, selectPk]);
+    const onClick = useCallback((obj) => {
+        history.push(`/quality/test/detail/worker/${obj.requestPk}`)
+    }, []);
 
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시
@@ -106,7 +91,7 @@ const QualityTestCompleteWorker = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['response'].requestList}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['request'].completeList}?currentPage=${page.current}`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
@@ -129,6 +114,7 @@ const QualityTestCompleteWorker = () => {
             <OvertonTable
                 title={'제품 검사 완료 (작업자)'}
                 indexList={index}
+                mainOnClickEvent={onClick}
                 valueList={list}
                 noChildren={true}>
                 {

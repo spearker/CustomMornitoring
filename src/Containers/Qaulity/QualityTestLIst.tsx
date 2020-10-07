@@ -77,8 +77,8 @@ const QualityTestList = () => {
         }
     ]
 
-    const onClick = useCallback(() => {
-        history.push('/quality/test/detail')
+    const onClick = useCallback((obj) => {
+        history.push(`/quality/test/detail/inspection/${obj.requestPk}`)
     }, []);
 
 

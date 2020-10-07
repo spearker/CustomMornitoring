@@ -47,12 +47,17 @@ export const API_URLS = {
         list: `/v1/quality/request/list`,
         search: `/v1/quality/request/search`,
         update: `/v1/quality/request/update`,
-        detail: `/v1/quality/request/detail`
+        detail: `/v1/quality/request/detail`,
+        completeList: `/v1/quality/request/complete/list`,
+        completeDetail: `/v1/quality/request/complete/detail`
     },
     response:{
         requestList: `/v1/quality/response/request/list`,
+        requestDetail: `/v1/quality/response/request/detail`,
         update: `/v1/quality/response/update`,
         list: `/v1/quality/response/list`,
-        search: `/v1/quality/response/search`
+        search: `/v1/quality/response/search`,
+        detail: `/v1/quality/response/detail`,
+        register: `/v1/quality/response/register`
     }
 }

@@ -3,11 +3,15 @@ import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import QualityTestRequestInspectorContainer from "../../Containers/Qaulity/QualityTestRequestInspector";
 
-const QualityTestRequestInspector = () => {
+interface Props {
+    match: any;
+}
+
+const QualityTestRequestInspector = ({match}: Props) => {
     return (
         <DashboardWrapContainer index={'quality'}>
             <InnerBodyContainer>
-                <QualityTestRequestInspectorContainer/>
+                <QualityTestRequestInspectorContainer match={match} />
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

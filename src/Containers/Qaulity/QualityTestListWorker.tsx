@@ -19,7 +19,8 @@ const QualityTestListWorker = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
-    const history = useHistory()
+    const [searchValue, setSearchValue] = useState<any>('');
+    const history = useHistory();
 
     const indexList = {
         request: {
@@ -75,7 +76,20 @@ const QualityTestListWorker = () => {
         }
     ]
 
+    const searchChange = useCallback(async (search)=>{
+        setSearchValue(search)
 
+    },[searchValue])
+
+    const searchOnClick = useCallback(async () => {
+
+        const tempUrl = `${API_URLS['request'].search}?keyWord=${searchValue}&currentPage=${page.current}`
+        const res = await getQualityList(tempUrl)
+
+        setList(res.info_list)
+        setPage({ current: res.currentPage, total: res.totalPage })
+
+    },[searchValue, page])
 
     const onClick = useCallback((obj) => {
         history.push(`/quality/test/request/${obj.requestPk}`)
@@ -95,10 +109,9 @@ const QualityTestListWorker = () => {
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
-
         setPage({ current: res.currentPage, total: res.totalPage })
 
-    },[list])
+    },[list, page])
 
     useEffect(()=>{
         getList()
@@ -116,7 +129,10 @@ const QualityTestListWorker = () => {
                 indexList={index}
                 valueList={list}
                 mainOnClickEvent={onClick}
-                noChildren={true}>
+                noChildren={true}
+                searchBar={true}
+                searchBarChange={searchChange}
+                searchButtonOnClick={searchOnClick}>
                 {
                     selectPk !== null ?
                         <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>
