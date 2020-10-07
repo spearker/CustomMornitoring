@@ -49,6 +49,9 @@ import QualityTestListWorker from "../Pages/Quality/QualityTestListWorker";
 import QualityTestCompleteWorker from "../Pages/Quality/QualityTestCompleteWorker";
 import QualityDetailList from "../Pages/Quality/QualityDetailList";
 import QualityTestRequestInspector from "../Pages/Quality/QualityTestRequestInspector";
+import LoadtonDashBoard from "../Pages/jeil1981/LoadtonDashBoard";
+import MainDashboard from "../Pages/jeil1981/MainDashBoard";
+import CapitalDashBoard from "../Pages/jeil1981/CapitalDashBoard";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -57,6 +60,10 @@ const JMRouters = () => {
     return (
 
         <Switch>
+            <Route exact path="/jeil/main" component={MainDashboard}/>
+            <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
+            <Route exact path="/jeil/capacity" component={CapitalDashBoard}/>
+
             <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 
             <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis} />

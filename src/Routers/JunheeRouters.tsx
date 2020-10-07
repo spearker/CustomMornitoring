@@ -53,8 +53,6 @@ const JunheeRouters = () => {
                 {/*거래처관리*/}
                 <Route exact path="/customer/register" component={CustomerRegister} />
                 <Route exact path="/customer/register/:pk" component={CustomerRegister} />
-                {/*품질관리*/}
-                <Route exact path="/quality/quality/list" component={QualityTestRequest} />
                 {/* pm */}
                 <Route exact path="/pm/statistics/oil" component={OilSupplyStatistics} />
                 <Route exact path="/pm/statistics/ability" component={AbilityStatistics} />

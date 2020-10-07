@@ -25,7 +25,7 @@ const DefectiveContainer = () => {
             checker: '검수자명',
             material_name: "품목명",
             amount: "불량 개수",
-            registered: "검수일",
+            date: "검수일",
         }
     }
 
@@ -145,8 +145,7 @@ const DefectiveContainer = () => {
                 checkBox={true}
                 checkOnClickEvent={checkOnClick}
                 EventList={eventList}
-                noChildren={true}
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
             </OvertonTable>
             <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>

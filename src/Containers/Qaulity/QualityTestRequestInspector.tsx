@@ -17,10 +17,10 @@ interface Props {
 }
 
 const initialInputValue = {
-    process_name: '',
-    machine_name: '',
-    material_name: '',
-    request_time: '',
+    processName: '',
+    machineName: '',
+    materialName: '',
+    res: '',
     request_reason: '',
     total_count: 0,
     defective_count: '',
@@ -40,7 +40,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
         console.log(match.params.pk)
         /* if( match.params.pk ){
             alert(`수정 페이지 진입 - pk :` + match.params.pk + match.params.type)
-            
+
         } */
         if( match.params.type ){
             if(match.params.type === 'inspection'){
@@ -54,7 +54,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
                 getDataModify();
             }
         }
-        
+
 
     },[match])
 
@@ -64,7 +64,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk
         })
-    
+
         if(res.status === 200){
             setInputData('process_name',res.results.processName)
             setInputData('machine_name',res.results.machineName)
@@ -84,7 +84,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
         const res = await postQualityRequestDetail(tempUrl, {
             responsePk: match.params.pk
         })
-    
+
         if(res.status === 200){
             setInputData('process_name',res.results.processName)
             setInputData('machine_name',res.results.machineName)
@@ -93,7 +93,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
             setInputData('request_reason',res.results.requestDescription)
             setInputData('total_count',Number(res.results.amount))
             setInputData('defective_count',Number(res.results.eligible))
-            setInputData('none_defective_count',Number(res.results.ineligible)); 
+            setInputData('none_defective_count',Number(res.results.ineligible));
             setInputData('whether',res.results.whether);
             setInputData('inspector_name',res.results.writer)
             setInputData('test_reason',res.results.responseDescription)
@@ -107,7 +107,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk
         })
-    
+
         if(res.status === 200){
             setInputData('process_name',res.results.processName)
             setInputData('machine_name',res.results.machineName)
@@ -116,7 +116,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
             setInputData('request_reason',res.results.description)
             setInputData('total_count',Number(res.results.amount))
             setInputData('defective_count',Number(res.results.eligible))
-            setInputData('none_defective_count',Number(res.results.ineligible)); 
+            setInputData('none_defective_count',Number(res.results.ineligible));
             setInputData('whether',res.results.whether);
             setInputData('inspector_name',res.results.writer)
             setInputData('test_reason',res.results.responseDescription)
@@ -132,7 +132,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
         }
 
         const tempUrl = `${API_URLS['response'].register}`
-    
+
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk,
             eligible: Number(inputData.defective_count),
@@ -146,18 +146,18 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
             alert("성공적으로 검수 완료하였습니다!")
             history.push('/quality/test/list')
         }
-        
+
     },[inputData])
 
     const onClickModify = useCallback(async()=>{
-        
+
         if(inputData.inspector_name === '' || inputData.total_count === '' || inputData.defective_count === '' || inputData.none_defective_count === '' || inputData.whether === '' || inputData.test_reason === '') {
             alert("공백을 채워주세요")
             return;
         }
-        
+
         const tempUrl = `${API_URLS['response'].update}`
-    
+
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk,
             writer: inputData.inspector_name,
@@ -172,8 +172,18 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
             alert("성공적으로 수정하였습니다!")
             history.push('/quality/test/complete')
         }
-        
+
     },[inputData])
+
+
+    const resquestDetail = useCallback( async () => {
+        const tempUrl = `${API_URLS['response'].requestDetail}?`
+        const resultData = await postQualityRegister(tempUrl,{requestPk: match.params.pk});
+
+        setInputData('',)
+
+    },[])
+
 
 
     return (
@@ -225,7 +235,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
                             <td>• 부적격 개수</td>
                             <td><input value={inputData.none_defective_count} placeholder="부적격 개수" type="number" onChange={(e) => {
                                 if(Number(e.target.value) <= Number(inputData.total_count)){
-                                    setInputData('none_defective_count',e.target.value); 
+                                    setInputData('none_defective_count',e.target.value);
                                     setInputData('defective_count',inputData.total_count-Number(e.target.value));
                                 }}} /></td>
                         </tr>

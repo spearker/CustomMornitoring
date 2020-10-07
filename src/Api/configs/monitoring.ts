@@ -45,7 +45,7 @@ const getErrorCase = (code) => {
     case '200':
       return false
     default:
-      return '[RESPONSE ERROR] 요청을 처리 할 수 없습니다.'
+      // return '[RESPONSE ERROR] 요청을 처리 할 수 없습니다.'
   }
 }
 export default client;

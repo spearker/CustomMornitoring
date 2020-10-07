@@ -159,7 +159,7 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent ,buttonName}: IPr
             <td>생산목표량</td>
             <td>공정</td>
             <td>작업자</td>
-            <td>댓글</td>
+            {/*<td>댓글</td>*/}
 
           </tr>
           {/* 테이블 바디 */}

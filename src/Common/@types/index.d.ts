@@ -96,7 +96,7 @@ interface ITask{
      appointment: string,
      photo: string,
    },
-   comments: number,
+   // comments: number,
 
 }
 

@@ -5,6 +5,7 @@ export const ROUTER_SUPER_ADMIN = [
   {url:"/super/register", name:'고객사 등록'},
 ]
 
+
 export const ROUTER_MENU_LIST = [
 
   [ // 기준 정보 관리
@@ -269,7 +270,7 @@ export const PM_MENU_LIST = {
   ],
   analysis: [ //
     { name : '프레스 데이터 분석', url : '/pm/analysis/press'},
-    { name : '생산량', url : '/pm/analysis/capacity'},
+    { name : '생산량', url : '/pm/analysis/'},
     { name : '능력', url : '/pm/analysis/ability'},
     { name : '비가동시간', url : '/pm/analysis/readytime'},
     { name : '불량 공정', url : '/pm/analysis/defective'}
