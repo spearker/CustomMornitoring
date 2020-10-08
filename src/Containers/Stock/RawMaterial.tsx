@@ -14,7 +14,7 @@ const RawMaterialContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ material_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
-    const [filter, setFilter] = useState(-1)
+    const [filter, setFilter] = useState(0)
     const [type, setType] = useState(0)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -154,12 +154,12 @@ const RawMaterialContainer = () => {
     const selectBox = useCallback((value)=>{
         console.log(value)
         if(value === '원자재' || value === '자재 종류'){
-            setType(0)
+            setFilter(0)
         } else if (value === '부자재'){
-            setType(1)
+            setFilter(1)
         }
 
-    },[type])
+    },[filter])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
@@ -180,7 +180,7 @@ const RawMaterialContainer = () => {
 
     useEffect(()=>{
         getList()
-    },[type])
+    },[filter])
 
     useEffect(()=>{
         getList()

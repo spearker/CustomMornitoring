@@ -16,7 +16,7 @@ const WipContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ material_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({ writer: '작성자' })
-    const [filter, setFilter] = useState(-1)
+    const [filter, setFilter] = useState(10)
     const [type, setType] = useState(10)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -147,12 +147,12 @@ const WipContainer = () => {
     const selectBox = useCallback((value)=>{
         console.log(value)
         if(value === '반제품' || value === '자재 종류'){
-            setType(10)
+            setFilter(10)
         } else if (value === '완제품'){
-            setType(15)
+            setFilter(15)
         }
 
-    },[type])
+    },[filter])
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
@@ -177,11 +177,11 @@ const WipContainer = () => {
         setList(getStock)
 
         setPage({ current: res.current_page+1, total: res.total_page })
-    },[list,type])
+    },[list,type,filter])
 
     useEffect(()=>{
         getList()
-    },[type])
+    },[filter])
 
     useEffect(()=>{
         getList()
