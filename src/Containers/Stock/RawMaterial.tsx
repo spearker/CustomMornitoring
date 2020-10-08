@@ -201,7 +201,8 @@ const RawMaterialContainer = () => {
                 EventList={eventList}
                 clickValue={selectValue}
                 selectBoxChange={selectBox}
-                mainOnClickEvent={onClick}>
+                mainOnClickEvent={onClick}
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>

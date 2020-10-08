@@ -40,7 +40,7 @@ const SubMachineList = () => {
    */
   const getSearchList = useCallback(async (e)=>{
     e.preventDefault();
-    const results = await getRequest('http://61.101.55.224:8299/api/v1/peripheral/list/search?page='+page+'&keyword='+ keyword +'&type=' + option ,getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/peripheral/list/search?page='+page+'&keyword='+ keyword +'&type=' + option ,getToken(TOKEN_NAME))
 
     if(results === false){
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -64,7 +64,7 @@ const SubMachineList = () => {
    */
   const getList = useCallback(async ()=>{
 
-    const results = await getRequest('http://61.101.55.224:8299/api/v1/peripheral/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/peripheral/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
 
     if(results === false){
      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -86,7 +86,7 @@ const SubMachineList = () => {
   const onClickFilter = useCallback(async (filter:number)=>{
     setOption(filter)
     ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-    const results = await getRequest('http://61.101.55.224:8299/api/v1/peripheral/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/peripheral/list?page='+page+'&keyword='+ keyword +'&type=' + option, getToken(TOKEN_NAME))
 
 
     if(results === false){
@@ -108,7 +108,7 @@ const SubMachineList = () => {
 
   const onClickDelete = useCallback(async (id)=>{
 
-    const results = await postRequest('http://61.101.55.224:8299/api/v1/peripheral/delete', {pk:id}, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/peripheral/delete', {pk:id}, getToken(TOKEN_NAME))
     const tg = id
     console.log('--select id : ' + id)
     if(results === false){

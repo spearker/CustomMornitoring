@@ -35,7 +35,7 @@ const Members = () => {
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
   const getList = useCallback(async ()=> {
-    const results = await getRequest('http://61.101.55.224:8299/api/v1/member/list?keyword='+keyword +'&orderBy='+option, getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/list?keyword='+keyword +'&orderBy='+option, getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리

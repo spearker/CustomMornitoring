@@ -253,6 +253,7 @@ const ChartListBox = Styled.div`
     background-color: #353b48;
     border-radius: 6px;
     float: left;
+    overflow-y:scroll;
 `
 
 const ChartDetailBox = Styled.div`

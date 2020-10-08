@@ -29,7 +29,7 @@ const WipContainer = () => {
     const indexList = {
         wip: {
             material_name: "품목(품목명)",
-            material_type: ['자재 종류','반제품','공정품'],
+            material_type: ['자재 종류','반제품','완제품'],
             current_stock: "재고량",
             location_name: "보관장소",
             safe_stock: "안전재고",
@@ -148,7 +148,7 @@ const WipContainer = () => {
         console.log(value)
         if(value === '반제품' || value === '자재 종류'){
             setType(10)
-        } else if (value === '공정품'){
+        } else if (value === '완제품'){
             setType(15)
         }
 
