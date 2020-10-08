@@ -119,7 +119,7 @@ const ProcessListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['process'].list+'?page='}+${page.current}`
+        const tempUrl = `${API_URLS['process'].list+'?page='}${page.current}`
         const res = await getProcessList(tempUrl)
 
         const getprocesses = res.info_list.map((v,i)=>{

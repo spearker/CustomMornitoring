@@ -104,8 +104,8 @@ const DefectiveContainer = () => {
     const [selectValue, setSelectValue ]= useState<any>(null);
 
     const [selectDate, setSelectDate] = useState({
-        start: moment().subtract(2, 'days').format("YYYY-MM-DD"),
-        end: moment().subtract(1, "days").format("YYYY-MM-DD")
+        start: moment().subtract(1, 'days').format("YYYY-MM-DD"),
+        end: moment().format("YYYY-MM-DD")
     })
 
     const indexList = {
@@ -219,9 +219,9 @@ const DefectiveContainer = () => {
                                 <div>
                                     <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
                                         <div style={{alignSelf:"center"}}>
-                                            <p>공정 04 불량률</p>
+                                            <p>{selectValue.material_name} 불량률</p>
                                         </div>
-                                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})} toDayLimit={true}></CalendarDropdown>
                                     </div>
                                     <ReactApexChart options={{...chartOption, labels: [' ', ...labels,'(일/day)']}} type={'area'} height={444} width={630}
                                                     series={[{name: "data", data:series}]}/>
