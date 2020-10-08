@@ -10,7 +10,8 @@ const MoldContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 명' });
-    const [detailList,setDetailList] = useState<({ accumulate: number, mold_life: number, yesterday_count: number, percent: number})>({
+    const [detailList,setDetailList] = useState<({ max_life:number,accumulate: number, mold_life: number, yesterday_count: number, percent: number})>({
+        max_life:0,
         accumulate: 0,
         mold_life: 0,
         yesterday_count: 0,
@@ -139,7 +140,7 @@ const MoldContainer = () => {
                                         <CountingNum>
                                             {[0,1,2,3,4,5].map((v, i)=>{
 
-                                                const value = v*=(detailList.mold_life/5);
+                                                const value = v*=(detailList.max_life/5);
                                                 return(
                                                     <span>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                                                 )
@@ -183,7 +184,7 @@ const MoldContainer = () => {
                     <div style={{paddingTop: 30, paddingBottom: 22}}>
                         <BottomBox>
                             <div style={{display:"flex",flexDirection:"row"}}>
-                                <p>{(detailList.mold_life-detailList.accumulate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                                <p>{(detailList.mold_life).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
                                 <p style={{marginTop:22, paddingLeft: 7}}>회</p>
                             </div>
                         </BottomBox>
