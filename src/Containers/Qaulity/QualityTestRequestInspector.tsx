@@ -176,6 +176,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
     },[inputData])
 
 
+
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>

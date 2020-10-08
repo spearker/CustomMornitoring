@@ -15,7 +15,7 @@ const FinishMaterialContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ material_name: "품목(품목명)" });
     const [subIndex, setSubIndex] = useState({ worker: '작업자'})
-    const [filter, setFilter] = useState(-1)
+    const [filter, setFilter] = useState(30)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
