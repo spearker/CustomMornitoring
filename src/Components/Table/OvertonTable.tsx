@@ -268,12 +268,12 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
 }
 
 const Title = Styled.div`
-   text-align: left;
+   textAlign: left;
    display: flex;
    flex-direction: row;
    justify-content: space-between;
    margin-bottom: 15px;
-   margin-top: 87px;
+   margin-top: 41px;
 `
 
 const TitleBar = Styled.div`

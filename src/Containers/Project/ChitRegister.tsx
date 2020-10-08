@@ -58,7 +58,7 @@ const ChitRegisterContainer = () => {
 
     return (
         <div>
-            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>전표 등록</span>
                 </div>
@@ -84,13 +84,13 @@ const ChitRegisterContainer = () => {
                             <td>• 납기일</td>
                             <td>
                                 <div style={{ display: 'flex', flex: 1, flexDirection: 'row'}}>
-                                    <InputBox style={{ flex: 95}}>
+                                    <div style={{ flex: 95}}>
                                         <Input style={{width: "100%"}} disabled placeholder="YYYY-MM-DD" value={selectDate}/>
-                                    </InputBox>
+                                    </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
                                         setChitData({...chitData, deadline: select})
-                                    }} text={'날짜 선택'} type={'single'} customStyle={{ marginLeft: 0}}/>
+                                    }} text={'날짜 선택'} type={'single'}/>
                                 </div>
                             </td>
                         </tr>
@@ -130,7 +130,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-family: NotoSansCJKkr-Bold;
+        font-famaily: NotoSansCJKkr-Bold;
         color: #19b8df;
         text-align: left;
     }
@@ -140,7 +140,7 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-family: NotoSansCJKkr-Bold;
+        font-famaily: NotoSansCJKkr-Bold;
         font-size: 15px;
         input{
             height: 28px;
@@ -187,16 +187,5 @@ const ButtonWrap = Styled.button`
       height: 14px;
     }
   `
-
-const InputBox = Styled.div`
-    &>div{
-        &:first-child{
-            &>input{
-                width: 100%;
-            }
-        }
-    }
-
-`
 
 export default ChitRegisterContainer

@@ -30,7 +30,6 @@ const QualityTestComplete = () => {
             materialName: "품목(품목명)",
             requestTime: "요청 시간",
             statement: "상태",
-            whether: "적격 여부"
         }
     }
 

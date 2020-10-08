@@ -178,7 +178,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
 
     return (
         <div>
-            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>{isDetail === "Inspection" ? "제품 검사 요청 정보" : (isDetail === 'Worker' ? '제품 검사 내용 보기' : '제품 검사 내용 보기')}</span>
                 </div>

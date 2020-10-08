@@ -291,7 +291,7 @@ const OilMaintenanceContainer = () => {
   return (
     <div>
       <div style={{position:'relative', textAlign:'left'}}>
-        <div style={{display:'inline-block', textAlign:'left',marginBottom: "15px" ,marginTop: "87px"}}>
+        <div style={{display:'inline-block', textAlign:'left',marginBottom: "15px" ,marginTop: "41px"}}>
           <p className="p-bold" style={{fontSize: 20 }}>오일 교환 및 보충</p>
         </div>
       </div>

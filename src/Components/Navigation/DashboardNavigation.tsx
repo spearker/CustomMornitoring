@@ -244,12 +244,11 @@ const NavDiv = Styled.div`
   left: 70px;
   position: absolute;
   padding-bottom: 40px;
-  z-index: 5;
-  box-sizing: border-box;
+  z-index: 0;
 `
 
 const NavDivLeft = Styled.div`
-  height: 100%;
+  heigth: 100%;
   text-align: center;
   font-size: 13px;
   div{

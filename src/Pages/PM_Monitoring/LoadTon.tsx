@@ -78,7 +78,7 @@ const LoadtonMonitoring = () => {
             <InnerBodyContainer>
                 <div style={{position:'relative', marginBottom: 20}}>
                     <WrapBox>
-                        <span className="p-bold" style={{fontSize:20, marginRight:18, marginLeft: 3}}>장비별 로드모니터</span>
+                        <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>장비별 로드모니터</span>
                     </WrapBox>
                 </div>
                 <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory} />
@@ -112,7 +112,7 @@ const LoadtonMonitoring = () => {
 
 const WrapBox = Styled.div`
     text-align: left;
-    margin-top: 87px;
+    margin-top: 24px;
     position: relative;
     display: block;
     margin-bottom: 2px;

@@ -219,7 +219,7 @@ const LoadtonDashBoard = () => {
 
 const WrapBox = Styled.div`
     text-align: left;
-    margin-top: 87px;
+    margin-top: 24px;
     position: relative;
     display: block;
     margin-bottom: 2px;

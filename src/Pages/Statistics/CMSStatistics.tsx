@@ -184,7 +184,7 @@ const LoadStatistics = () => {
       <DashboardWrapContainer index={15}>
         <SubNavigation list={ROUTER_MENU_LIST[15]}/>
         <InnerBodyContainer>
-        <div style={{position:'relative', textAlign:'left', marginTop:87}}>
+        <div style={{position:'relative', textAlign:'left', marginTop:48}}>
 
             <div style={{display:'inline-block', textAlign:'left'}}>
               <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>CMS 통계·분석</span>

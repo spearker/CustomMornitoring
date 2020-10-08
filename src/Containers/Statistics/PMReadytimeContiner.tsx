@@ -106,7 +106,7 @@ const  PMReadyTimeContainer = () => {
 
     return (
         <div>
-            <div style={{position:'relative', textAlign:'left', marginTop:87}}>
+            <div style={{position:'relative', textAlign:'left', marginTop:48}}>
 
                 <div style={{display:'inline-block', textAlign:'left', marginBottom: 20}}>
                     <span style={{fontSize:20, fontWeight: 'bold', marginRight:18, marginLeft: 3}}>비가동시간 분석</span>

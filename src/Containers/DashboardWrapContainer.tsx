@@ -83,7 +83,6 @@ const DashboardWrapDiv = Styled.div`
     height: 100%;
     min-width: 1180px;
     background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
-    position: relative;
 `
 
 export default DashboardWrapContainer;
