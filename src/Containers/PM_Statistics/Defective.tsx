@@ -102,6 +102,7 @@ const DefectiveContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+
     const [selectDate, setSelectDate] = useState({
         start: moment().subtract(2, 'days').format("YYYY-MM-DD"),
         end: moment().subtract(1, "days").format("YYYY-MM-DD")
@@ -214,6 +215,7 @@ const DefectiveContainer = () => {
                         </div>
                         <GraphContainer>
                             {
+
                                 <div>
                                     <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
                                         <div style={{alignSelf:"center"}}>

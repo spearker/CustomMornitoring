@@ -188,7 +188,6 @@ const DashboardNavigation = ({ select, folding }: Props) => {
         {/*</div>*/}
 
 
-
       </NavDivLeft>
       { nav.mode !== 'home' &&
       <NavDiv>
