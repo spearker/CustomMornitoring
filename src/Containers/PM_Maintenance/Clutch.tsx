@@ -63,7 +63,7 @@ const ClutchMaintenanceContainer = () => {
 
     return (
         <div>
-            <div style={{position:'relative', textAlign:'left', marginTop:48, marginBottom: 20}}>
+            <div style={{position:'relative', textAlign:'left', marginTop:87, marginBottom: 20}}>
 
                 <div style={{display:'inline-block', textAlign:'left'}}>
                     <span style={{fontSize:20, marginRight:18, marginLeft: 3, fontWeight: 'bold'}}>클러치&브레이크</span>

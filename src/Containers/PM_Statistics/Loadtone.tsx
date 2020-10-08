@@ -178,7 +178,7 @@ const LoadtoneContiner = () => {
 
     return (
         <div>
-            <div style={{marginTop:42, marginBottom: 19}}>
+            <div style={{marginTop:87, marginBottom: 19}}>
                 <p style={{fontSize: 22, fontWeight: "bold", textAlign: "left"}}>프레스 로드톤</p>
             </div>
             <ChartListBox>

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
+import searchButton from "../../Assets/Images/btn_search.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
@@ -70,7 +70,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
 
                     </div>
                     <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
+                        <img src={searchButton} style={{width: '20px', height: '20px', marginTop: '5px'}} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
                 </BoxWrap>
