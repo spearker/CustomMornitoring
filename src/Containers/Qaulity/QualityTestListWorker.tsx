@@ -4,6 +4,7 @@ import {API_URLS, getQualityList} from "../../Api/mes/quality";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import Styled from "styled-components";
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 
 const QualityTestListWorker = () => {
     const [list, setList] = useState<any[]>([]);
@@ -143,6 +144,7 @@ const QualityTestListWorker = () => {
                         null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     )
 }

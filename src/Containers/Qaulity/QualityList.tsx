@@ -5,6 +5,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getQualityList} from "../../Api/mes/quality";
 import {getCustomerData} from "../../Api/mes/customer";
 import QualityTableDropdown from "../../Components/Dropdown/QualityTableDropdown";
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 import {useHistory} from 'react-router-dom';
 
 
@@ -112,14 +113,14 @@ const QualityListContainer = () => {
         setList(res.info_list)
         setPage({ current: res.currentPage, total: res.totalPage })
 
-    },[searchValue])
+    },[searchValue, page])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['status'].list}?currentPage=${page.current}`
         const res = await getQualityList(tempUrl)
 
-        let viewList = [{}];
+        let viewList:any[] = [];
 
         res.info_list.map(v => viewList.push(
             {
@@ -135,6 +136,7 @@ const QualityListContainer = () => {
         ))
         
         setList(viewList.filter((f: any) => f.materialName !== undefined))
+        setPage({ current: res.currentPage, total: res.totalPage })
 
     },[list])
 
@@ -172,6 +174,7 @@ const QualityListContainer = () => {
                         null
                 }
             </OvertonTable>
+            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }
