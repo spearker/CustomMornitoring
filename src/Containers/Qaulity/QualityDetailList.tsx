@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import {Input} from "semantic-ui-react";
 import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
@@ -6,6 +6,8 @@ import Styled from "styled-components";
 import {POINT_COLOR} from "../../Common/configset";
 import useObjectInput from "../../hooks/UseInput";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
+import { useHistory } from "react-router-dom";
+import {API_URLS, postQualityRequestDetail} from "../../Api/mes/quality";
 
 const initialInputValue = {
     customer_name: '',
@@ -24,9 +26,47 @@ const initialInputValue = {
     whether: '',
 };
 
-const QualityDetailListContainer = () => {
-
+const QualityDetailListContainer = ({match}) => {
+    const history = useHistory();
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
+
+    useEffect(()=>{
+        console.log(match.params.pk)
+        if( match.params.pk ){
+            // alert(`수정 페이지 진입 - pk :` + match.params.pk)
+            getData()
+        }
+
+    },[])
+
+    const getData = useCallback(async()=>{
+        const tempUrl = `${API_URLS['status'].detail}`
+        const res = await postQualityRequestDetail(tempUrl, {
+            requestPk: match.params.pk
+        })
+    
+        if(res.status === 200){
+
+            // setInputData('customer_name',res.results.)
+            // setInputData('due_date',res.results.)
+            setInputData('process_name',res.results.processName)
+            setInputData('machine_name',res.results.machineName)
+            setInputData('material_name',res.results.materialName)
+            setInputData('request_time',res.results.requestTime)
+            setInputData('request_reason',res.results.requestDescription)
+            setInputData('inspector_name',res.results.worker)
+            setInputData('request_complete_time',res.results.responseTime)
+            setInputData('test_reason',res.results.responseDescription)
+            setInputData('total_count',res.results.amount)
+            setInputData('defective_count',res.results.eligible)
+            setInputData('none_defective_count',res.results.ineligible)
+            setInputData('whether',res.results.whether)
+
+        }
+        
+    },[])
+
+
 
     return (
         <div>
@@ -41,82 +81,84 @@ const QualityDetailListContainer = () => {
                 </div>
                 <div>
                     <table style={{color: "black"}}>
-                        <tr>
+                        {/* <tr>
                             <td>• 납품 업체</td>
                             <td><input value={inputData.customer_name} placeholder="납품 업체명"  onChange={(e) => setInputData('customer_name',e.target.value)} /></td>
                         </tr>
                         <tr>
                             <td>• 납기 날짜</td>
                             <td><input value={inputData.due_date} placeholder="납기 날짜"  onChange={(e) => setInputData('due_date',e.target.value)}/></td>
-                        </tr>
+                        </tr> */}
                         <tr>
                             <td>• 공정명</td>
-                            <td><input value={inputData.process_name} placeholder="공정명"  onChange={(e) => setInputData('material_name',e.target.value)}/></td>
+                            <td><input value={inputData.process_name} placeholder="공정명"  onChange={(e) => setInputData('process_name',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 기계명</td>
-                            <td><input value={inputData.machine_name} placeholder="기계명" onChange={(e) => setInputData('machine_name',e.target.value)}/></td>
+                            <td><input value={inputData.machine_name} placeholder="기계명" onChange={(e) => setInputData('machine_name',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><input value={inputData.material_name} placeholder="품목(품목명)"  onChange={(e) => setInputData('material_name',e.target.value)}/></td>
+                            <td><input value={inputData.material_name} placeholder="품목(품목명)"  onChange={(e) => setInputData('material_name',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 검사 요청 시간</td>
+                            <td><input value={inputData.request_time} placeholder="검사 요청 시간"  onChange={(e) => setInputData('request_time',e.target.value)} disabled/></td>
+                        </tr>
+                        <tr>
+                            <td>• 검사 요청 내용</td>
                             <td>
                                 <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
-                                    <textarea maxLength={160} onChange={(e)=>inputData('request_time',e.target.value)} value={inputData.request_time} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>
+                                    <textarea maxLength={160} onChange={(e)=>setInputData('request_reason',e.target.value)} value={inputData.request_reason} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)" disabled/>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>• 검사자</td>
-                            <td><input value={inputData.inspector_name} placeholder="검사자"  onChange={(e) => setInputData('inspector_name',e.target.value)}/></td>
+                            <td><input value={inputData.inspector_name} placeholder="검사자"  onChange={(e) => setInputData('inspector_name',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 검사 완료 시간</td>
-                            <td><input value={inputData.request_complete_time} placeholder="검사 완료 시간"  onChange={(e) => setInputData('request_complete_time',e.target.value)}/></td>
+                            <td><input value={inputData.request_complete_time} placeholder="검사 완료 시간"  onChange={(e) => setInputData('request_complete_time',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 검사 내용</td>
                             <td>
                                 <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
-                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reason} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>
+                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reason} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)" disabled/>
                                 </div>
 
                             </td>
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
-                            <td><input value={inputData.total_count} placeholder="총 완료 개수"  onChange={(e) => setInputData('total_count',e.target.value)}/></td>
+                            <td><input value={inputData.total_count} placeholder="총 완료 개수"  onChange={(e) => setInputData('total_count',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 적격 개수</td>
-                            <td><input value={inputData.defective_count} placeholder="적격 개수"  onChange={(e) => setInputData('defective_count',e.target.value)}/></td>
+                            <td><input value={inputData.defective_count} placeholder="적격 개수"  onChange={(e) => setInputData('defective_count',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
                             <td>• 부적격 개수</td>
-                            <td><input value={inputData.none_defective_count} placeholder="부적격 개수"  onChange={(e) => setInputData('none_defective_count',e.target.value)}/></td>
+                            <td><input value={inputData.none_defective_count} placeholder="부적격 개수"  onChange={(e) => setInputData('none_defective_count',e.target.value)} disabled/></td>
                         </tr>
                         <tr>
-                            <td>• 걱격 여부</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setInputData('whether',e)} select={inputData.whether} contents={['적격','부적격']} text={'적격 여부를 선택해 주세요.'}/></td>
+                            <td>• 적격 여부</td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => false && setInputData('whether',e)} select={inputData.whether} contents={['적격','부적격']} text={'적격 여부를 선택해 주세요.'}/></td>
                         </tr>
                     </table>
                 </div>
                 <div style={{marginTop: 42, paddingBottom: 42}}>
                     <>
-                        <TestButton onClick={async () => {
+                        {/* <TestButton onClick={async () => {
                             await console.log(123)
                         }}>
                             <div>
                                 <p style={{fontSize: 18}}>수정하기</p>
                             </div>
-                        </TestButton>
+                        </TestButton> */}
 
-                        <ButtonWrap onClick={async () => {
-                            await console.log(123213)
-                        }}>
+                        <ButtonWrap onClick={() => history.goBack()}>
                             <div>
                                 <p style={{fontSize: 18}}>리스트 보기</p>
                             </div>
@@ -136,7 +178,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -147,12 +189,12 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
             padding-left: 8px;
-            font-famaily: NotoSansCJKkr;
+            font-family: NotoSansCJKkr;
             height: 28px;
             border: 0.5px solid #b3b3b3;
             width: calc( 100% - 8px );

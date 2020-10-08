@@ -69,7 +69,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
             setInputData('process_name',res.results.processName)
             setInputData('machine_name',res.results.machineName)
             setInputData('material_name',res.results.materialName)
-            setInputData('request_time',res.results.time)
+            setInputData('request_time',res.results.requestTime)
             setInputData('request_reason',res.results.description)
             setInputData('total_count',Number(res.results.amount))
 
@@ -190,7 +190,7 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>{isDetail === "Inspection" ? "제품 검사 요청" : (isDetail === 'Worker' ? '제품 검사 내용 보기' : '제품 검사 내용 보기')}</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>{isDetail === "Inspection" ? "제품 검사 요청 정보" : (isDetail === 'Worker' ? '제품 검사 내용 보기' : '제품 검사 내용 보기')}</span>
                 </div>
             </div>
             <ContainerMain>
@@ -201,31 +201,31 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 공정명</td>
-                            <td><input value={inputData.process_name} placeholder="공정명" onChange={(e) => setInputData('process_name',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
+                            <td><input value={inputData.process_name} placeholder="공정명" onChange={(e) => setInputData('process_name',e.target.value)} disabled /></td>
                         </tr>
                         <tr>
                             <td>• 기계명</td>
-                            <td><input value={inputData.machine_name} placeholder="기계명" onChange={(e) => setInputData('machine_name',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
+                            <td><input value={inputData.machine_name} placeholder="기계명" onChange={(e) => setInputData('machine_name',e.target.value)} disabled /></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><input value={inputData.material_name} placeholder="품목명" onChange={(e) => setInputData('material_name',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
+                            <td><input value={inputData.material_name} placeholder="품목명" onChange={(e) => setInputData('material_name',e.target.value)} disabled /></td>
                         </tr>
                         <tr>
                             <td>• 요청 시간</td>
-                            <td><input value={inputData.request_time} placeholder="요청 시간" onChange={(e) => setInputData('request_time',e.target.value)} disabled={isDetail === 'Modify' ? true : false} /></td>
+                            <td><input value={inputData.request_time} placeholder="요청 시간" onChange={(e) => setInputData('request_time',e.target.value)} disabled /></td>
                         </tr>
                         <tr>
                             <td>• 검사 요청 내용</td>
                             <td>
-                                <textarea maxLength={120} value={inputData.request_reason} onChange={(e)=>setInputData('request_reason',e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'95%'}} placeholder="내용을 입력해주세요 (80자 미만)" disabled={isDetail === 'Modify' ? true : false} >
+                                <textarea maxLength={120} value={inputData.request_reason} onChange={(e)=>setInputData('request_reason',e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'95%'}} placeholder="내용을 입력해주세요 (80자 미만)" disabled >
                                     {inputData.request_reason}
                                 </textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
-                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={inputData.total_count} onChange={(e) => {setInputData('total_count',e.target.value); setInputData('none_defective_count',''); setInputData('defective_count',e.target.value);}}/></td>
+                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={inputData.total_count} onChange={(e) => {setInputData('total_count',e.target.value); setInputData('none_defective_count',''); setInputData('defective_count',e.target.value);}} disabled /></td>
                         </tr>
                         <tr>
                             <td>• 적격 개수</td>

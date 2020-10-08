@@ -28,6 +28,7 @@ const QualityTestListWorker = () => {
             machineName: "기계명",
             materialName: "품목(품목명)",
             requestTime: "요청 시간",
+            statement: "상태"
         }
     }
 
@@ -92,7 +93,7 @@ const QualityTestListWorker = () => {
     },[searchValue, page])
 
     const onClick = useCallback((obj) => {
-        history.push(`/quality/test/request/${obj.requestPk}`)
+        history.push(`/quality/test/request/request/${obj.requestPk}`)
     }, []);
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시

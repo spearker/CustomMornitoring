@@ -59,5 +59,10 @@ export const API_URLS = {
         search: `/v1/quality/response/search`,
         detail: `/v1/quality/response/detail`,
         register: `/v1/quality/response/register`
+    },
+    status:{
+        list: `/v1/quality/status/list`,
+        search: `/v1/quality/status/search`,
+        detail: `/v1/quality/status/detail`
     }
 }

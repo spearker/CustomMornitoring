@@ -38,7 +38,8 @@ const QualityListContainer = () => {
             amount: '총 완료 개수',
             eligible: '적격 개수',
             ineligible: '부적격 개수',
-            whether: '적격 여부'
+            whether: '적격 여부',
+            statement: '상태 여부'
         }
     }
 
@@ -80,18 +81,22 @@ const QualityListContainer = () => {
         },
     ]
 
-    const onClick = useCallback(() => {
-        history.push('/quality/current/detail')
+    const onClick = useCallback((obj) => {
+        if(obj.statement === "검수 완료") {
+            history.push(`/quality/current/detail/${obj.requestPk}`)
+        } else {
+            history.push(`/quality/test/request/status/${obj.requestPk}`)
+        }
     }, []);
 
-    const optionChange = useCallback(async (filter:number)=>{
-        setOption(filter)
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
-        const res = await getCustomerData(tempUrl)
+    // const optionChange = useCallback(async (filter:number)=>{
+    //     setOption(filter)
+    //     const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
+    //     const res = await getCustomerData(tempUrl)
 
-        setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
+    //     setList(res.info_list)
+    //     setPage({ current: res.current_page, total: res.total_page })
+    // },[option,searchValue])
 
 
     const searchChange = useCallback(async (search)=>{
@@ -101,20 +106,35 @@ const QualityListContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option+1)}&page=${page.current}`
+        const tempUrl = `${API_URLS['status'].search}?keyWord=${searchValue}&currentPage=${page.current}`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({ current: res.currentPage, total: res.totalPage })
 
-    },[searchValue,option])
+    },[searchValue])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['response'].list}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['status'].list}?currentPage=${page.current}`
         const res = await getQualityList(tempUrl)
 
-        setList(res.info_list)
+        let viewList = [{}];
+
+        res.info_list.map(v => viewList.push(
+            {
+                requestPk: v.requestPk,
+                materialName: v.materialName !== undefined ? v.materialName : "-",
+                processName: v.processName !== undefined ? v.processName : "-",
+                amount: v.amount !== undefined ? v.amount : 0,
+                eligible: v.eligible !== undefined ? v.eligible : 0,
+                ineligible: v.ineligible !== undefined ? v.ineligible : 0,
+                whether: v.whether !== undefined ? v.whether : "-",
+                statement: v.statement !== undefined ? v.statement : "-"
+            }
+        ))
+        
+        setList(viewList.filter((f: any) => f.materialName !== undefined))
 
     },[list])
 
@@ -131,7 +151,10 @@ const QualityListContainer = () => {
                 indexList={index}
                 valueList={list}
                 mainOnClickEvent={onClick}
-                noChildren={true}>
+                noChildren={true}
+                searchBar={true}
+                searchBarChange={searchChange}
+                searchButtonOnClick={searchOnClick}>
                 {
                     selectPk !== null ?
                         <LineTable title={'제품 품질 현황 자세히 보기 : 품목명 00 _ 공정명 00 '}>

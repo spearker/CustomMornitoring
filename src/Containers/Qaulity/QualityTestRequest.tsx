@@ -41,7 +41,7 @@ const QualityTestRequest = ({ match }: Props) => {
     },[])
 
     const getData = useCallback(async()=>{
-        const tempUrl = `${API_URLS['request'].detail}`
+        const tempUrl = match.params.type !== 'status' ? `${API_URLS['request'].detail}` : `${API_URLS['status'].detail}`
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk
         })
@@ -51,7 +51,11 @@ const QualityTestRequest = ({ match }: Props) => {
             setMachineData({pk: res.results.machinePk, name: res.results.machineName})
             setProductionData({pk: res.results.materialPk, name: res.results.materialName})
             setTotalCount(res.results.amount)
-            setReason(res.results.description)
+            if(match.params.type !== 'status') {
+                setReason(res.results.description)
+            } else {
+                setReason(res.results.requestDescription)
+            }
             setWorker(res.results.worker)
             setStatement(res.results.statement)
         }
@@ -72,7 +76,7 @@ const QualityTestRequest = ({ match }: Props) => {
 
         if(resultData.status === 200){
             alert("성공적으로 등록되었습니다!")
-            history.push('/quality/test/list')
+            history.push('/quality/test/list/worker')
         }
     }, [processData, machineData, productionData, totalCount, reason, worker])
 
@@ -137,38 +141,48 @@ const QualityTestRequest = ({ match }: Props) => {
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
-                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={totalCount} onChange={(e) => setTotalCount(Number(e.target.value))}/></td>
+                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={totalCount} onChange={(e) => setTotalCount(Number(e.target.value))} disabled={match.params.type !== 'status' ? false : true}/></td>
                         </tr>
                         <tr>
                             <td>• 요청 내용</td>
                             <td>
-                                <textarea maxLength={120} value={reason} onChange={(e)=>setReason(e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'96%'}} placeholder="내용을 입력해주세요 (80자 미만)">
+                                <textarea maxLength={120} value={reason} onChange={(e)=>setReason(e.target.value)} style={{border:'1px solid #b3b3b3', fontSize:14, padding:12, height:'70px', width:'96%'}} placeholder="내용을 입력해주세요 (80자 미만)" disabled={match.params.type !== 'status' ? false : true}>
                                     {reason}
                                 </textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>• 작업자</td>
-                            <td><Input value={worker} onChange={(e) => setWorker(e.target.value)}/></td>
+                            <td><Input value={worker} onChange={(e) => setWorker(e.target.value)}  disabled={match.params.type !== 'status' ? false : true}/></td>
                         </tr>
 
                     </table>
                 </div>
                 {
                     isUpdate ?
-                    <div style={{marginTop: 42, paddingBottom: 42}}>
-                        <TestButton onClick={() => onClickModify()}>
-                            <div>
-                                <p style={{fontSize: 18}}>수정하기</p>
-                            </div>
-                        </TestButton>
+                        match.params.type !== 'status' ?
+                            <div style={{marginTop: 42, paddingBottom: 42}}>
+                                <TestButton onClick={() => onClickModify()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>수정하기</p>
+                                    </div>
+                                </TestButton>
 
-                        <ButtonWrap onClick={() => history.goBack()}>
-                            <div>
-                                <p style={{fontSize: 18}}>리스트 보기</p>
+                                <ButtonWrap onClick={() => history.goBack()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>리스트 보기</p>
+                                    </div>
+                                </ButtonWrap>
                             </div>
-                        </ButtonWrap>
-                    </div> :
+                        :
+                        <div style={{marginTop: 42, paddingBottom: 42}}>
+                                <ButtonWrap onClick={() => history.goBack()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>리스트 보기</p>
+                                    </div>
+                                </ButtonWrap>
+                            </div>
+                    :
                       <div style={{marginTop: 10, paddingBottom: 20, }}>
                           <ButtonWrap onClick={postQualityRegisterData}>
                               {
