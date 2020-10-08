@@ -138,7 +138,8 @@ const LoadtonDashBoard = () => {
         ////alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
         //return;
 
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/monitoring/loadton/detail?factory=8PP29J_factory0' ,"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaXpsQHNpemwuY28ua3IiLCJjb21wYW55IjoiOFBQMjlKIiwiaXNzIjoiU0laTCIsImlhdCI6MTYwMjAzOTk1NiwiZXhwIjoxNjAyMTI2MzU2fQ.ZbVggAoYUkNZW5LSEZeHzRYeYqo0YSxayWQ4pv-CCeI")
+
+        const results = await getRequest('http://61.101.55.224:18299/api/v1/monitoring/loadton/detail?factory=8PP29J_factory0' ,getToken(TOKEN_NAME))
 
         if(results === false){
             ////alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
@@ -219,7 +220,11 @@ const LoadtonDashBoard = () => {
 
 const WrapBox = Styled.div`
     text-align: left;
+<<<<<<< HEAD
+    margin-top: 24px;
+=======
     margin-top: 87px;
+>>>>>>> 2c920148683d0392c68990d40c3361da594fbf89
     position: relative;
     display: block;
     margin-bottom: 2px;

@@ -56,7 +56,7 @@ const RegisterBarcode = () => {
    */
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://61.101.55.224:8299/api/v1/barcode/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/barcode/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -111,7 +111,7 @@ const RegisterBarcode = () => {
 
     }
 
-    const res = await postRequest('http://61.101.55.224:8299/api/v1/barcode/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -172,7 +172,7 @@ const RegisterBarcode = () => {
     }
 
 
-    const res = await postRequest('http://61.101.55.224:8299/api/v1/barcode/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

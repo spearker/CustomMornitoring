@@ -57,7 +57,7 @@ const RegisterDesign = () => {
    */
   const getData = useCallback(async ()=>{
 
-    const res = await getRequest('http://61.101.55.224:8299/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/mold/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -150,7 +150,7 @@ const RegisterDesign = () => {
         below_photo: paths[1]
     }
 
-    const res = await postRequest('http://61.101.55.224:8299/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/register' + pk, data, getToken(TOKEN_NAME))
 
     if(res === false){
       //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -205,7 +205,7 @@ const RegisterDesign = () => {
         below_photo: paths[1]
     }
 
-    const res = await postRequest('http://61.101.55.224:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
