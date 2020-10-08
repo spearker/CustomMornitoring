@@ -87,7 +87,7 @@ const ProcessRegisterContainer = () => {
 
     return (
         <div>
-            <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>공정 등록</span>
                 </div>

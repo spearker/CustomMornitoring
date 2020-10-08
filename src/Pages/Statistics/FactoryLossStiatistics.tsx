@@ -19,7 +19,7 @@ const FactoryLossSatistics = () => {
         <DashboardWrapContainer index={15}>
             <SubNavigation list={ROUTER_MENU_LIST[15]}/>
             <InnerBodyContainer>
-                <div style={{position:'relative', textAlign:'left', marginTop:48, width: "100%"}}>
+                <div style={{position:'relative', textAlign:'left', marginTop:87, width: "100%"}}>
                     <div style={{display:'flex', textAlign:'left', flexDirection: 'row', justifyContent: 'space-between', width: "100%", marginBottom: 20}}>
                         <div>
                             <span style={{fontSize:20, marginRight:18, marginLeft: 3, fontWeight: 'bold'}}>최적 SPM 분석</span>
