@@ -176,16 +176,6 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
     },[inputData])
 
 
-    const resquestDetail = useCallback( async () => {
-        const tempUrl = `${API_URLS['response'].requestDetail}?`
-        const resultData = await postQualityRegister(tempUrl,{requestPk: match.params.pk});
-
-        setInputData('',)
-
-    },[])
-
-
-
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 48}}>
@@ -309,7 +299,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -320,12 +310,12 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
             padding-left: 8px;
-            font-famaily: NotoSansCJKkr;
+            font-family: NotoSansCJKkr;
             height: 28px;
             border: 0.5px solid #b3b3b3;
             width: calc( 100% - 8px );
