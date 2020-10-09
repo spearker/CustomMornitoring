@@ -92,6 +92,9 @@ const QualityTestRequest = ({ match }: Props) => {
         if(res.status === 200){
             alert("성공적으로 수정하였습니다!")
             history.push('/quality/test/list/worker')
+        } else if(res.status === 1001){
+            alert("이미 검사를 완료한 제품 검사요청입니다.")
+            history.push('/quality/test/complete/worker')
         }
 
     }, [match.params.pk, statement, totalCount, reason, worker])

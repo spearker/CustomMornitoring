@@ -228,21 +228,21 @@ const QualityTestRequestInspectorContainer = ({match}:Props) => {
                                 if(Number(e.target.value) <= Number(inputData.total_count)){
                                     setInputData('none_defective_count',e.target.value);
                                     setInputData('defective_count',inputData.total_count-Number(e.target.value));
-                                }}} /></td>
+                                }}} disabled={isDetail === 'Worker'} /></td>
                         </tr>
                         <tr>
                             <td>• 적격 여부</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setInputData('whether',e)} select={inputData.whether} contents={['적격','부적격']} text={'적격 여부를 선택해 주세요.'}/></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => isDetail === 'Worker' || setInputData('whether',e)} select={inputData.whether} contents={['적격','부적격']} text={'적격 여부를 선택해 주세요.'}/></td>
                         </tr>
                         <tr>
                             <td>• 검사자</td>
-                            <td><input value={inputData.inspector_name} placeholder="검사자" onChange={(e) => setInputData('inspector_name',e.target.value)} /></td>
+                            <td><input value={inputData.inspector_name} placeholder="검사자" onChange={(e) => setInputData('inspector_name',e.target.value)} disabled={isDetail === 'Worker'} /></td>
                         </tr>
                         <tr>
                             <td>• 검사 내용</td>
                             <td>
                                 <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
-                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reason} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)"/>
+                                    <textarea maxLength={160} onChange={(e)=>setInputData('test_reason',e.target.value)} value={inputData.test_reason} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)" disabled={isDetail === 'Worker'}/>
                                 </div>
                             </td>
                         </tr>

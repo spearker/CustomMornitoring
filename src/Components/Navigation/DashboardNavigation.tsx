@@ -243,7 +243,7 @@ const NavDiv = Styled.div`
   left: 70px;
   position: absolute;
   padding-bottom: 40px;
-  z-index: 5;
+  z-index: 4;
   box-sizing: border-box;
 `
 
@@ -281,7 +281,7 @@ const NavDivLeft = Styled.div`
   padding-bottom: 600px;
   position: relative;
   padding-bottom: 40px;
-  z-index: 5;
+  z-index: 4;
 
 `
 

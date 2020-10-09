@@ -97,7 +97,7 @@ const QualityTestComplete = () => {
     },[searchValue, page])
 
     const onClick = useCallback((obj) => {
-        history.push(`/quality/test/detail/modify/${obj.requestPk}`)
+        history.push(`/quality/test/detail/modify/${obj.responsePk}`)
     }, []);
 
     // const getData = useCallback( async(pk)=>{
