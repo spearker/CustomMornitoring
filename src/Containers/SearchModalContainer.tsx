@@ -75,6 +75,7 @@ const InnerBox = Styled.div`
     top: 50%;
     margin-top: -230px; 
     overflow: auto;
+    z-index: 4;
     p{
         font-size: 14px;
     }

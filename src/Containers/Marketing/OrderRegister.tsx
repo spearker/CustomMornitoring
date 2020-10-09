@@ -103,7 +103,7 @@ const OrderRegisterContainer = () => {
                                     <div style={{width: 32}} onClick={()=> {
                                         setOpen(true)
                                     }}>
-                                        <IcButton customStyle={{width: 32, height: 32, border: 0}} image={searchImage} dim={true} onClickEvent={() => {
+                                        <IcButton customStyle={{width: 32, height: 32, border: 0, padding: 5}} image={searchImage} dim={true} onClickEvent={() => {
                                             setOpen(true)
                                         }}/>
                                     </div>
