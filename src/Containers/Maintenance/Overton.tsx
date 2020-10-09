@@ -13,7 +13,9 @@ const OvertonMaintenanceContainer = () => {
     const [keyword, setKeyword] = useState<string>('');
     const [index, setIndex] = useState({machine_name:'기계명'});
     const [subIndex, setSubIndex] = useState({tons:'정상톤'})
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMachine, setSelectMachine ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -62,24 +64,28 @@ const OvertonMaintenanceContainer = () => {
 
         setDetailList(res)
 
-
     },[detailList])
 
 
     const getList = useCallback(async ()=>{ // useCallback
-        const tempUrl = `${API_URLS['overtone'].list}`
+        const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=15`
         const res = await getOvertoneData(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
         setIndex(indexList["overtone"])
         setSubIndex(detailTitle["overtone"])
         getList()
-
     },[])
+
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     return (
         <OvertonTable
@@ -87,6 +93,9 @@ const OvertonMaintenanceContainer = () => {
             indexList={index}
             valueList={list}
             clickValue={selectValue}
+            currentPage={page.current}
+            totalPage={page.total}
+            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?

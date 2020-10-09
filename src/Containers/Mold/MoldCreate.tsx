@@ -86,12 +86,17 @@ const CreateContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0`
+        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         setList(res.items)
 
-    },[list])
+        setPage({ current: res.currentPage, total: res.totalPage })
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -106,12 +111,13 @@ const CreateContainer = () => {
             <OvertonTable
                 title={'금형 제작 현황 리스트'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
-                checkBox={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?
@@ -121,7 +127,6 @@ const CreateContainer = () => {
                         :
                         null
                 }
-                <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
             </OvertonTable>
         </div>
     );

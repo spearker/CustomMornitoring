@@ -3,43 +3,9 @@ import Styled from "styled-components";
 import {API_URLS, getProductData} from "../../Api/pm/statistics";
 import HalfTalbe from "../../Components/Table/HalfTable";
 import {API_URLS as MACHINE_URLS, getSearchMachine} from "../../Api/mes/process";
-
-//
-// const ChartOptionDetailLable = {
-//     yaxis: {
-//         min: 0,
-//         max: 250,
-//         tickAmount: 25,
-//         labels:{
-//             formatter:(value) => {
-//                 if(value===250){
-//                     return "(ton)"
-//                 }else{
-//                     if(value%50===0){
-//                         return value
-//                     }
-//                 }
-//             }
-//         }
-//     },
-//     xaxis: {
-//         type: 'numeric',
-//         tickAmount: 24,
-//         // categories: ["10","20","30","40","50","60","70","80","90","100","110","120"],
-//         min: 0,
-//         max: 120,
-//         labels: {
-//             style: {
-//                 fontSize: '12px'
-//             },
-//             formatter: (value) => {
-//                 if(value%10 === 0){
-//                     return value
-//                 }
-//             }
-//         }
-//     },
-// }
+import moment from "moment";
+import OvertonTable from "../../Components/Table/OvertonTable";
+import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
 
 const DummyMachine = [
     {
@@ -53,92 +19,30 @@ const DummyMachine = [
 
 const ProductToneContainer = () => {
 
-    // const ChartInitOptions = {
-    //     chart: {
-    //         type: 'scatter',
-    //         events: {
-    //             click: function(chart, w, e) {
-    //                 console.log(chart, w, e)
-    //             }
-    //         },
-    //         toolbar: {
-    //             show: true,
-    //             tools: {
-    //                 download: false,
-    //                 selection: true,
-    //                 zoom: false,
-    //                 zoomin: true,
-    //                 zoomout: true,
-    //             }
-    //         },
-    //     },
-    //     plotOptions: {
-    //         scatter: {
-    //             columnWidth: '55%',
-    //             distributed: false
-    //         }
-    //     },
-    //     grid: {
-    //         borderColor: '#42444b',
-    //         xaxis: {
-    //             lines: {
-    //                 show: true
-    //             }
-    //         },
-    //         yaxis: {
-    //             lines: {
-    //                 show: true
-    //             }
-    //         },
-    //     },
-    //     colors: ['#ffffff','#ff341a'],
-    //     dataLabels: {
-    //         enabled: false
-    //     },
-    //     legend: {
-    //         show: false
-    //     },
-    //     markers: {
-    //         strokeOpacity: 0,
-    //         size: 3,
-    //     },
-    //     tooltip: {
-    //         custom: ({}) => {
-    //             return  '<div style=" border-width: 0;    border-radius: 10px;    width: 170px;    height: 122px;    font-family: NotoSansCJKkr-Bold;    padding: 10px;">' +
-    //                 '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
-    //                 '<p style="color: black">'+'설정톤'+'</p>'+
-    //                 '<p style="color: black">'+`${detailList[0].settingTone}`+' ton'+'</p>'+
-    //                 '</div>'+
-    //                 '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
-    //                 '<p style="color: black">'+'평균톤'+'</p>'+
-    //                 '<p style="color: black">'+`${detailList[0].normalTone}`+' ton'+'</p>'+
-    //                 '</div>'+
-    //                 '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
-    //                 '<p style="color: black">'+'최대톤'+'</p>'+
-    //                 '<p style="color: black">'+`${detailList[0].maxTone}`+' ton'+'</p>'+
-    //                 '</div>'+
-    //                 '<div style="  padding: 5px;       display: flex;       flex-direction: row;        justify-content: space-between;">' +
-    //                 '<p style="color: black">'+'최소톤'+'</p>'+
-    //                 '<p style="color: black">'+`${detailList[0].minTone}`+' ton'+'</p>'+
-    //                 '</div>'+
-    //                 '</div>'
-    //         }
-    //     }
-    // }
-
     const [list, setList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [detailTonList, setDetailTonList] = useState<any[]>([]);
     const [index, setIndex] = useState({product_name:'품목'});
     const [subIndex, setSubIndex] = useState({low: '최저'});
     const [sub2Index, setSub2Index] = useState({ ton: "톤"});
-    const [machinPk, setMachinePk] = useState<string>('all');
+    const [machinePk, setMachinePk] = useState<string>('all');
+    const [materialPage, setMaterialPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+    const [minPage, setMinPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+    const [tonPage, setTonPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
 
     const [machineList, setMachineList] = useState(DummyMachine)
     const [searchName, setSearchName] = useState<string>('')
+
+    const [selectDate, setSelectDate] = useState(moment().subtract(1, 'days').format("YYYY-MM-DD"))
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
@@ -150,48 +54,9 @@ const ProductToneContainer = () => {
         setMachineList(resultData.results)
     }, [searchName])
 
-    useEffect(() => {
-        // console.log(searchName)
-    },[searchName])
-
-    useEffect(()=>{
-        // console.log(machineList)
-    },[machineList])
-
     useEffect(()=>{
         getMachineList()
     },[])
-    //
-    // const MachineInitData = {
-    //     manufacturer_code:'',
-    //     machine_name: '',
-    //     machine_ton: '',
-    //     white: {
-    //         Xaxis: [4,7,8,9,10,11,12,13,14,15],
-    //         Yaxis: [100,105,97,110,101,112,102,104,106,103]
-    //     },
-    //     red: {
-    //         Xaxis: [2,12,13,5,4,16,3,6,9,11],
-    //         Yaxis: [97,80,130,134,128,140,150,138,130,80]
-    //     },
-    // }
-
-    const [series, setSeries] = useState<object[]>([{name: "value1", data: [[1, 120]]},{name: "value2", data: [[2, 120]]}])
-
-    // useEffect(() => {
-    //     let tmpList: number[][] = [];
-    //     MachineInitData.white.Xaxis.map((v, i) => {
-    //         tmpList.push([v,MachineInitData.white.Yaxis[i]])
-    //     })
-    //
-    //     let tmpList2: number[][] = [];
-    //     MachineInitData.red.Xaxis.map((v, i) => {
-    //         tmpList2.push([v,MachineInitData.red.Yaxis[i]])
-    //     })
-    //
-    //
-    //     setSeries([{name: "value1", data: tmpList},{name: "value2", data: tmpList2}])
-    // }, [])
 
     const indexList = {
         productTone: {
@@ -246,24 +111,23 @@ const ProductToneContainer = () => {
 
     const getData = useCallback( async(mold,process,product)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=2020-09-11`
+        const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}`
         const res = await getProductData(tempUrl)
 
-        console.log(res.length,[res].length,res.dataList)
         setDetailList(res.length === undefined ? [] : [res])
 
         setDetailTonList(res.dataList)
 
-    },[machinPk])
+    },[machinePk,selectDate])
 
     const getList = useCallback(async (pk)=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['product'].list}?filter=${pk}`
+        const tempUrl = `${API_URLS['product'].list}?filter=${pk}&limit=15`
         const res = await getProductData(tempUrl)
 
         setList(res)
 
-    },[machinPk])
+    },[machinePk])
 
     useEffect(()=>{
         // getList()
@@ -275,8 +139,8 @@ const ProductToneContainer = () => {
     },[])
 
     useEffect(()=>{
-        getList(machinPk)
-    },[machinPk])
+        getList(machinePk)
+    },[machinePk,materialPage])
 
     useEffect(()=>{
         setDetailList([])
@@ -285,10 +149,14 @@ const ProductToneContainer = () => {
 
     return (
         <div>
-            <div style={{width: "100%", height: 50,marginTop: 41, borderRadius: 10,paddingLeft: '81%'}}>
-                <div style={{display:"flex"}}>
-                    <p style={{marginRight: 14,marginBottom: 3}}>기계 :</p>
-                    <select className="p-limits" style={{width: '15%', borderRadius: 5, backgroundColor:'#353b48', color:'#ffffff', paddingLeft: 10,}} onChange={(e)=>setMachinePk(e.target.value)}>
+            <div style={{width: "1107px", height: 30,marginTop: 41, borderRadius: 10, display:"flex"}} >
+                <div style={{marginLeft: "65%"}}>
+                    <CalendarDropdown type={'single'} select={selectDate}
+                                      onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                </div>
+                <div style={{display:"flex",marginLeft: 20}}>
+                    <p style={{marginRight: 10,marginBottom:2}}>기계 :</p>
+                    <select style={{width: "130px", height: "98%",borderRadius: 5, backgroundColor:'#353b48', color:'#ffffff', paddingLeft: 10,}} onChange={(e)=>setMachinePk(e.target.value)}>
                         <option value={'all'}>전체</option>
                         {
                             machineList.map((v,i)=>{
@@ -307,6 +175,9 @@ const ProductToneContainer = () => {
                         valueList={list}
                         clickValue={selectValue}
                         mainOnClickEvent={onClick}
+                        currentPage={materialPage.current}
+                        totalPage={materialPage.total}
+                        pageOnClickEvent={(i: number) => setMaterialPage({...materialPage, current: i}) }
                         noChildren={true}>
                     </HalfTalbe>
                 </div>
@@ -314,11 +185,17 @@ const ProductToneContainer = () => {
                     <HalfTalbe
                         indexList={subIndex}
                         valueList={detailList}
+                        currentPage={minPage.current}
+                        totalPage={minPage.total}
+                        pageOnClickEvent={(i: number) => setMinPage({...minPage, current: i}) }
                         noChildren={true}>
                     </HalfTalbe>
                     <HalfTalbe
                         indexList={sub2Index}
                         valueList={detailTonList}
+                        currentPage={tonPage.current}
+                        totalPage={tonPage.total}
+                        pageOnClickEvent={(i: number) => setTonPage({...tonPage, current: i}) }
                         noChildren={true}>
                     </HalfTalbe>
                 </div>

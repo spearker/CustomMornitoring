@@ -43,13 +43,13 @@ const BasicListContainer = ({type}:Props) => {
    * 목록 불러오기
    */
   const getList = useCallback(async (pageType)=>{
-    const tempUrl = `${API_URLS[pageType].list}?page=${page.current-1}&keyword=${keyword}&type=${option}`
+    const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}&limit=15`
     const resultList = await getBasicList(tempUrl);
     setList(resultList.items);
 
     console.log(resultList)
 
-     setPage({ current: resultList.current_page+1, total: resultList.total_page+1 })
+     setPage({ current: resultList.current_page, total: resultList.total_page })
 
   },[list, keyword, option, pageType])
 

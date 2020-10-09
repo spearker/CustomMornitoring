@@ -172,14 +172,14 @@ const SegmentListContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['segment'].list+'?page='}${page.current}`
+        const tempUrl = `${API_URLS['segment'].list+'?page='}${page.current}&limit=15`
         const res = await getSegmentList(tempUrl)
 
         setPage({ current: res.current_page, total: res.total_page })
 
         setList(res.info_list)
 
-    },[list])
+    },[list,page])
 
     useEffect(()=>{
         // getList()
@@ -199,14 +199,15 @@ const SegmentListContainer = () => {
             <OvertonTable
                 title={'프로세스 리스트(공정별 세분화)'}
                 allCheckOnClickEvent={allCheckOnClick}
-                allCheckbox={true}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 checkOnClickEvent={checkOnClick}
-                checkBox={true}
-                mainOnClickEvent={onClick}>
+                mainOnClickEvent={onClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }>
                 {
                     selectPk !== null ?
                         <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList} objectLine={true}>
@@ -216,7 +217,6 @@ const SegmentListContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

@@ -109,7 +109,7 @@ const FinishMaterialContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}`
+        const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
         const getStock = res.items.map((v,i)=>{
@@ -120,9 +120,13 @@ const FinishMaterialContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page+1, total: res.total_page })
+        setPage({ current: res.current_page, total: res.total_page })
 
-    },[list])
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -141,6 +145,9 @@ const FinishMaterialContainer = () => {
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?

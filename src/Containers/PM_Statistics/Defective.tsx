@@ -99,6 +99,9 @@ const DefectiveContainer = () => {
     const [index, setIndex] = useState({ material_name: '품목(품목명)' });
     const [labels, setLabels] = useState([]);
     const [series, setSeries] = useState([]);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -165,12 +168,13 @@ const DefectiveContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['defective'].list}`
+        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
         const res = await getDefectiveData(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
         getList()
@@ -178,12 +182,9 @@ const DefectiveContainer = () => {
         setDetailList(detaildummy)
     },[])
 
-    const WidthPercent = detaildummy[0].current_count/detaildummy[0].max_count*100
-
-    useEffect(() => {
-        console.log(series, labels)
-    }, [selectValue, selectDate])
-
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     return (
         <OvertonTable
@@ -191,6 +192,9 @@ const DefectiveContainer = () => {
             indexList={index}
             valueList={list}
             clickValue={selectValue}
+            currentPage={page.current}
+            totalPage={page.total}
+            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?

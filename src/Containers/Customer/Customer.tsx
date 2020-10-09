@@ -15,7 +15,7 @@ const ClientContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [index, setIndex] = useState({  name: "거래처 명" });
+    const [index, setIndex] = useState({ name: "거래처 명" });
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [option, setOption] = useState<number>(0)
     const [contentsList, setContentsList] = useState<any[]>(['거래처명','대표자명'])
@@ -59,12 +59,12 @@ const ClientContainer = () => {
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
+    },[option,searchValue,page])
 
 
     const searchChange = useCallback(async (search)=>{
@@ -74,13 +74,13 @@ const ClientContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option+1)}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option+1)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
 
-    },[searchValue,option])
+    },[searchValue,option,page])
 
     const eventdummy = [
         {
@@ -113,13 +113,18 @@ const ClientContainer = () => {
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
 
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option+1}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option+1}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         console.log('response', res)
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
-    },[searchValue,option,list])
+    },[searchValue,option,list,page])
+
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -130,32 +135,27 @@ const ClientContainer = () => {
         setEventList(eventdummy)
     },[])
 
-    useEffect(()=>{
-        console.log(deletePk)
-    },[deletePk])
 
     return (
         <div>
             <OvertonTable
                 title={'거래처 리스트'}
                 titleOnClickEvent={titleEventList}
-                dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
-                searchBar={true}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

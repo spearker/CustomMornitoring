@@ -83,20 +83,25 @@ const OrderContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['contract'].list}?page=${page.current}`
+        const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=15`
         const res = await getMarketing(tempUrl)
 
         setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
         getList()
         setIndex(indexList["order"])
-        // setList(dummy)
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
     },[])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
 
     return (
         <div>
@@ -107,10 +112,11 @@ const OrderContainer = () => {
                 valueList={list}
                 clickValue={selectValue}
                 EventList={eventList}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
             </OvertonTable>
         </div>

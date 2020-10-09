@@ -89,12 +89,12 @@ const CurrentContainer = () => {
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
-        const tempUrl = `${API_URLS['outsourcing'].list}?type=${(filter)}&keyword=${(searchValue)}&page=${page.current}`
+        const tempUrl = `${API_URLS['outsourcing'].list}?type=${(filter)}&keyword=${(searchValue)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
+    },[option,searchValue,page])
 
 
     const searchChange = useCallback(async (search)=>{
@@ -104,13 +104,13 @@ const CurrentContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['outsourcing'].list}?type=${option}&keyword=${(searchValue)}&page=${page.current}`
+        const tempUrl = `${API_URLS['outsourcing'].list}?type=${option}&keyword=${(searchValue)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
 
-    },[searchValue,option])
+    },[searchValue,option,page])
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf', mold.pk, mold.mold_name);
@@ -169,12 +169,13 @@ const CurrentContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['outsourcing'].list}?type=0&keyword=&page=${page.current}`
+        const tempUrl = `${API_URLS['outsourcing'].list}?type=0&keyword=&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
 
         setList(res.info_list)
 
-    }, [list])
+        setPage({ current: res.current_page, total: res.total_page })
+    }, [list,page])
 
     useEffect(() => {
         getList()
@@ -185,30 +186,32 @@ const CurrentContainer = () => {
         setSubIndex(detailTitle['current'])
     }, [])
 
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
     return (
         <div>
             <OvertonTable
                 title={'외주처 현황'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
-                dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
-                searchBar={true}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 /* clickValue={selectValue} */
                 noChildren={true}
                 mainOnClickEvent={onClick}>
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

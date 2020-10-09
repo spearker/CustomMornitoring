@@ -103,7 +103,7 @@ const OrderContainer = () => {
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
-        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}`
+        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
@@ -118,7 +118,7 @@ const OrderContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
@@ -189,12 +189,13 @@ const OrderContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
 
         setList(res.info_list)
 
-    }, [list])
+        setPage({ current: res.current_page, total: res.total_page })
+    }, [list,page])
 
     useEffect(() => {
         getList()
@@ -207,24 +208,27 @@ const OrderContainer = () => {
         setSubIndex(detailTitle['order'])
     }, [])
 
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
     return (
         <div>
             <OvertonTable
                 title={'외주처 발주 리스트'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
-                dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
-                searchBar={true}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 checkOnClickEvent={checkOnClick}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
@@ -237,7 +241,6 @@ const OrderContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

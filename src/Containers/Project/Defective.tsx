@@ -104,7 +104,7 @@ const DefectiveContainer = () => {
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
 
-        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}`
+        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
         const getWorker= res.info_list.map((v,i)=>{
@@ -137,17 +137,17 @@ const DefectiveContainer = () => {
             <OvertonTable
                 title={'불량 이력'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
                 EventList={eventList}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     )
 }

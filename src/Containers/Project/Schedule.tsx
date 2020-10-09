@@ -119,7 +119,7 @@ const ScheduleContainer = () => {
     const calendarOnClick = useCallback(async (start, end)=>{
         setSelectDate({start: start, end: end ? end : ''})
 
-        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}`
+        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
         const getprocesses = res.info_list.map((v,i)=>{
 
@@ -129,9 +129,9 @@ const ScheduleContainer = () => {
             return {...v, state: statement, amount: amount}
         })
 
-
+        setPage({ current: res.current_page, total: res.total_page })
         setList(getprocesses)
-    },[selectDate])
+    },[selectDate,page])
 
     const voucherOnClick = useCallback((voucher)=>{
         if(voucher === 1) {
@@ -180,7 +180,7 @@ const ScheduleContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}`
+        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
         const getprocesses = res.info_list.map((v,i)=>{
 
@@ -193,7 +193,11 @@ const ScheduleContainer = () => {
         setPage({ current: res.current_page, total: res.total_page })
         setList(getprocesses)
 
-    },[list])
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     const getDistribute = useCallback (async () => {
         //TODO: 성공시
@@ -229,18 +233,18 @@ const ScheduleContainer = () => {
         <div>
             <OvertonTable
                 title={'생산 계획 리스트'}
-                calendar={true}
                 selectDate={selectDate}
                 calendarOnClick={calendarOnClick}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
-                allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 checkOnClickEvent={checkOnClick}
-                checkBox={true}
                 mainOnClickEvent={onClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 calendarState={true}>
                 {
                     selectPk !== null ?
@@ -276,7 +280,6 @@ const ScheduleContainer = () => {
                     null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

@@ -119,7 +119,7 @@ const ProcessListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['process'].list+'?page='}${page.current}`
+        const tempUrl = `${API_URLS['process'].list+'?page='}${page.current}&limit=15`
         const res = await getProcessList(tempUrl)
 
         const getprocesses = res.info_list.map((v,i)=>{
@@ -130,7 +130,7 @@ const ProcessListContainer = () => {
         setPage({ current: res.current_page, total: res.total_page })
         setList(getprocesses)
 
-    }, [list])
+    }, [list,page])
 
     useEffect(() => {
         // getList()
@@ -151,13 +151,14 @@ const ProcessListContainer = () => {
                 title={'공정 리스트'}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
-                allCheckbox={true}
                 checkOnClickEvent={checkOnClick}
-                checkBox={true}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
@@ -168,7 +169,6 @@ const ProcessListContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current+1} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

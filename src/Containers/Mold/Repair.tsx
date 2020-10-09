@@ -16,6 +16,9 @@ const RepairContainer = () => {
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const indexList = {
         repair: {
@@ -138,12 +141,17 @@ const RepairContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
+        const tempUrl = `${API_URLS['mold'].list}&limit=15`
         const res = await getMoldData(tempUrl)
 
         setList(res)
 
-    },[list])
+        setPage({ current: res.currentPage, total: res.totalPage })
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         // getList()
@@ -163,7 +171,11 @@ const RepairContainer = () => {
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}>
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                mainOnClickEvent={onClick}
+            >
                 {
                     selectPk !== null ?
                         <LineTable title={'수리 현황'} contentTitle={subIndex} contentList={detailList}>

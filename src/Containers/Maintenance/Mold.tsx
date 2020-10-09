@@ -18,6 +18,9 @@ const MoldMaintenanceContainer = () => {
     pk: ""
   });
   const [index, setIndex] = useState({mold_name: '금형 명'});
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  });
   const [selectPk, setSelectPk ]= useState<any>(null);
   const [selectMold, setSelectMold ]= useState<any>(null);
   const [selectValue, setSelectValue ]= useState<any>(null);
@@ -57,17 +60,22 @@ const MoldMaintenanceContainer = () => {
 
   const getList = useCallback(async ()=>{ // useCallback
     //TODO: 성공시
-    const tempUrl = `${API_URLS['mold'].list}`
+    const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=15`
     const res = await getMoldData(tempUrl)
 
     setList(res)
 
-  },[])
+    setPage({ current: res.current_page, total: res.total_page })
+  },[list,page])
 
   useEffect(()=>{
     getList()
     setIndex(indexList["mold"])
   },[])
+
+  useEffect(()=>{
+    getList()
+  },[page.current])
 
   return (
       <OvertonTable
@@ -75,6 +83,9 @@ const MoldMaintenanceContainer = () => {
           indexList={index}
           valueList={list}
           clickValue={selectValue}
+          currentPage={page.current}
+          totalPage={page.total}
+          pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
           mainOnClickEvent={onClick}>
         {
           selectPk !== null ?

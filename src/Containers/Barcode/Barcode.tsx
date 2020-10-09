@@ -173,12 +173,17 @@ const BarcodeListContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}`
+        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}&limit=15`
         const res = await getBarcode(tempUrl)
 
         setList(res)
 
-    },[list])
+        setPage({ current: res.currentPage, total: res.totalPage })
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -192,15 +197,16 @@ const BarcodeListContainer = () => {
         <div>
             <OvertonTable
                 title={'바코드 현황'}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?

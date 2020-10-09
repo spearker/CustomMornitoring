@@ -17,6 +17,9 @@ const MoldContainer = () => {
         yesterday_count: 0,
         percent: 0
     });
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -94,12 +97,13 @@ const MoldContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}?page=1`
+        console.log(page.current)
+        const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=15`
         const res = await getMoldData(tempUrl)
-        setList(res.items)
+        setList(res.info_list.content)
 
-
-    },[])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page.current])
 
     useEffect(()=>{
         getList()
@@ -109,6 +113,10 @@ const MoldContainer = () => {
 
     },[])
 
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
 
     return (
         <div>
@@ -117,6 +125,9 @@ const MoldContainer = () => {
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?

@@ -62,7 +62,7 @@ const WorkerContainer =  ({ match }: Props) => {
     const calendarOnClick = useCallback(async (start, end)=>{
         setSelectDate({start: start, end: end ? end : ''})
 
-        const tempUrl = `${API_URLS['production'].history}?pk=&from=${start}&to=${end}&page=${page.current}`
+        const tempUrl = `${API_URLS['production'].history}?pk=&from=${start}&to=${end}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
         const getWorker= res.info_list.map((v,i)=>{
@@ -79,7 +79,7 @@ const WorkerContainer =  ({ match }: Props) => {
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
 
-        const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${selectDate.start}&to=${selectDate.end}&page=${page.current}`
+        const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
         const getWorker= res.info_list.map((v,i)=>{
@@ -110,7 +110,6 @@ const WorkerContainer =  ({ match }: Props) => {
         <div>
             <OvertonTable
                 title={'작업 이력'}
-                calendar={true}
                 selectDate={selectDate}
                 calendarOnClick={calendarOnClick}
                 titleOnClickEvent={titleEventList}
@@ -118,9 +117,11 @@ const WorkerContainer =  ({ match }: Props) => {
                 valueList={list}
                 clickValue={selectValue}
                 noChildren={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

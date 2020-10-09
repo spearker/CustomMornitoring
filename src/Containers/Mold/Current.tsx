@@ -93,12 +93,18 @@ const CurrentContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=''&type=0`
+        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=''&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         setList(res.items)
 
+        setPage({ current: res.currentPage, total: res.totalPage })
     },[list])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
 
     useEffect(()=>{
         getList()
@@ -114,12 +120,13 @@ const CurrentContainer = () => {
             <OvertonTable
                 title={'금형 수리 현황'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
-                checkBox={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?

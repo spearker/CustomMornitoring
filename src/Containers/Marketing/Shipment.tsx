@@ -83,12 +83,13 @@ const ShipmentContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}`
+        const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}&limit=15`
         const res = await getMarketing(tempUrl)
 
         setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
         getList()
@@ -98,18 +99,20 @@ const ShipmentContainer = () => {
         setEventList(eventdummy)
     },[])
 
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
     return (
         <div>
             <OvertonTable
                 title={'출하 리스트'}
-                allCheckbox={true}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 EventList={eventList}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>
