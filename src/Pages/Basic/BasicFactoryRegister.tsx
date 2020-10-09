@@ -96,7 +96,7 @@ const BasicFactoryRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-    if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === "" || inputData.description === ""){
+    if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
       alert("공백을 채워주세요.");
       return;
     }
