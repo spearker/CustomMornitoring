@@ -112,8 +112,8 @@ const ChitRegisterContainer = () => {
                     <ButtonWrap onClick={async () => {
                         await postChitRegisterData()
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>전표 등록하기</p>
+                        <div style={{}}>
+                            <p style={{fontSize: 18}}>전표 등록하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -181,6 +181,9 @@ const ButtonWrap = Styled.button`
     border: none;
     font-weight: bold;
     font-size: 13px;
+    width: 360px;
+    height: 46px;
+    box-sizing: border-box;
     img {
       margin-right: 7px;
       width: 14px;

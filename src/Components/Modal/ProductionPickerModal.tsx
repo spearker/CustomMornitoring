@@ -16,6 +16,8 @@ interface IProps{
     text: string
     width?: boolean
     type?: number
+    style?: any,
+    innerWidth?: string | number
 }
 
 const DummyItem = [
@@ -26,7 +28,7 @@ const DummyItem = [
     }
 ]
 
-const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps) => {
+const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, innerWidth}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [searchName, setSearchName] = useState('')
@@ -61,10 +63,10 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type}: IProps
     },[select])
 
     return (
-        <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: width ? 867 : 917}}>
+        <div style={style}>
+            <div style={{position:'relative', display:'inline-block', zIndex:0, width: innerWidth ? innerWidth : width ? 867 : 917}}>
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}} type={'button'}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
+                    <div style={{display:'inline-block', height: 32, width: innerWidth? innerWidth : 885}}>
                         {
                             select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
                                 :  <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>

@@ -287,10 +287,10 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
                   <InputContainer title={"투입 품목"}>
-                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={1}/>
+                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={1} style={{width: 'calc(100% - 124px)'}} innerWidth={'100%'} />
                   </InputContainer>
                   <InputContainer title={"생산 품목"}>
-                    <ProductionPickerModal select={output_material} onClickEvent={setOutput_material} text={'생산품목'} width={true} type={1}/>
+                    <ProductionPickerModal select={output_material} onClickEvent={setOutput_material} text={'생산품목'} width={true} type={1} style={{width: 'calc(100% - 124px)'}} innerWidth={'100%'} />
                   </InputContainer>
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -298,8 +298,8 @@ const BasicMoldRegister = () => {
                 <NormalNumberInput title={'현재 타수'} description={""} value={current} onChangeEvent={setCurrent}/>
                 {/*<NormalInput title={'책임자(정)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
                 {/*<NormalInput title={'책임자(부)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
-                <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} />
-                <NormalFileInput title={'하금형 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'하금형 사진을 찍어 등록해주세요'} />
+                <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
+                <NormalFileInput title={'하금형 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'하금형 사진을 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['상금형', '하금형']} isImage={true} />
@@ -332,7 +332,7 @@ const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;
   color: white;
-  background-color: ${BG_COLOR_SUB2}
+  background-color: ${BG_COLOR_SUB2};
 `
 
 
