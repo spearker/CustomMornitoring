@@ -63,7 +63,7 @@ const MoldMaintenanceContainer = () => {
     const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=15`
     const res = await getMoldData(tempUrl)
 
-    setList(res)
+    setList(res.info_list)
 
     setPage({ current: res.current_page, total: res.total_page })
   },[list,page])

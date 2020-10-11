@@ -122,12 +122,13 @@ const ProductToneContainer = () => {
 
     const getList = useCallback(async (pk)=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['product'].list}?filter=${pk}&limit=15`
+        const tempUrl = `${API_URLS['product'].list}?filter=${pk}&page=${materialPage.current}&limit=15`
         const res = await getProductData(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
-    },[machinePk])
+        setMaterialPage({ current: res.current_page, total: res.total_page })
+    },[machinePk,materialPage])
 
     useEffect(()=>{
         // getList()
@@ -140,7 +141,8 @@ const ProductToneContainer = () => {
 
     useEffect(()=>{
         getList(machinePk)
-    },[machinePk,materialPage])
+    },[machinePk,materialPage.current])
+
 
     useEffect(()=>{
         setDetailList([])

@@ -16,6 +16,10 @@ const ErrorContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMachine, setSelectMachine ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -47,12 +51,14 @@ const ErrorContainer = () => {
             setSelectPk(null);
             setSelectMachine(null);
             setSelectValue(null);
+            setDetailPage({...detailPage, current: 1})
         }else{
             setSelectPk(machine.pressPk);
             setSelectMachine(machine.pressName);
             setSelectValue(machine)
             //TODO: api 요청
             getData(machine.pressPk);
+            setDetailPage({...detailPage, current: 1})
         }
 
 
@@ -61,11 +67,12 @@ const ErrorContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['error'].load}?pk=${pk}`
+        const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
         const res = await getErrorData(tempUrl)
 
         setDetailList(res.errorList)
 
+        setDetailPage({ current: res.current_page, total: res.total_page })
     },[detailList])
 
 
@@ -87,6 +94,10 @@ const ErrorContainer = () => {
         getList()
     },[page.current])
 
+    useEffect(()=>{
+        getData(selectPk)
+    },[page.current])
+
     return (
         <OvertonTable
             title={'프레스 에러 로그'}
@@ -99,7 +110,12 @@ const ErrorContainer = () => {
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <LineTable title={selectMachine+' 상세 에러 로그'} contentTitle={subIndex} contentList={detailList}>
+                    <LineTable title={selectMachine+' 상세 에러 로그'}
+                               contentTitle={subIndex}
+                               contentList={detailList}
+                               currentPage={detailPage.current}
+                               totalPage={detailPage.total}
+                               pageOnClickEvent={(i: number) => setDetailPage({...detailPage, current: i}) }>
                         <Line/>
                     </LineTable>
                     :
