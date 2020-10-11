@@ -25,9 +25,6 @@ const typeDummy = [
 ]
 
 const StockDummy = [
-    '정상 출고',
-    '생산 소진',
-    '불량',
     '정상 입고',
     '생산',
     '오류 정정',
