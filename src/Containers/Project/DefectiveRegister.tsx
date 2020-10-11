@@ -192,26 +192,26 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             <WhiteBoxContainer>
                     <ListHeader title="필수 항목"/>
                     <InputContainer title={"작업 이력"} width={120}>
-                        <HistoryPickerModal select={selectHistory} onClickEvent={(e)=>setSelectHistory({...selectHistory,...e})} text={'작업자명을 검색해주세요.'}/>
+                        <HistoryPickerModal select={selectHistory} onClickEvent={(e)=>setSelectHistory({...selectHistory,...e})} text={'작업자명을 검색해주세요.'} buttonWid={30} />
                     </InputContainer>
                     <InputContainer title={"품목(품목명)"} width={120}>
                         <ProductionPickerModal select={selectMaterial}
                                                onClickEvent={(e) => {
                                                    setSelectMaterial({...selectMaterial, ...e })
-                                               }} text={"품목명을 검색해주세요."} type={1}/>
+                                               }} text={"품목명을 검색해주세요."} type={1} buttonWid={30} />
                     </InputContainer>
                     <InputContainer title={"기계"} width={120}>
                         <MachinePickerModal select={
                             selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
                         } text={'기계명을 검색해 주세요'} onClickEvent={(e: {name?: string, pk?: string}) => {
                             setSelectMachine({...selectMachine, name: e.name, pk: e.pk})
-                        }}/>
+                        }} buttonWid={30} />
                     </InputContainer>
                     <NormalInput title={'검수자'} value={name} onChangeEvent={setName} description={'검수자'} width={120} />
                     <NormalNumberInput title={'불량 개수'} value={amount} onChangeEvent={setAmount} description={'불량 개수를 입력하세요.'} width={120} />
                     <InputContainer title={"불량 검수일"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
-                            <div style={{width: 817, display: 'table-cell'}}>
+                            <div style={{width: '100%', display: 'table-cell'}}>
                                 <div style={{marginTop: 5}}>
                                     {
                                         selectDate === ''
@@ -232,8 +232,8 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
                     <ButtonWrap onClick={async () => {
                         await isUpdate ? onsubmitFormUpdate() : onsubmitForm()
                     }}>
-                        <div style={{width: 360, height: 40}}>
-                            <p style={{fontSize: 18, marginTop: 15}}>{isUpdate? '수정하기' : '등록하기'}</p>
+                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                            <p style={{fontSize: 18}}>{isUpdate? '수정하기' : '등록하기'}</p>
                         </div>
                     </ButtonWrap>
                 </div>

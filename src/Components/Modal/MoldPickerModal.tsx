@@ -16,9 +16,10 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    buttonWid?: string | number
 }
 
-const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
+const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
@@ -67,9 +68,9 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <SearchButton style={{flex: 4}} onClick={()=>{setIsOpen(true)}}>
-                        <img src={IcSearchButton} />
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
+                        <SearchButton style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}} onClick={()=>{setIsOpen(true)}}>
+                            <img src={IcSearchButton} />
                         </SearchButton>
                     </div>
 
@@ -199,7 +200,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );
@@ -212,8 +213,6 @@ const SearchBox = Styled(Input)`
 `
 
 const SearchButton = Styled.button`
-    width: 32px;
-    height: 32px;
     background-color: ${POINT_COLOR};
     img{
         width: 20px;

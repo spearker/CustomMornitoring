@@ -118,7 +118,7 @@ const QualityTestRequest = ({ match }: Props) => {
                                 {
                                     isUpdate ?
                                         <input value={processData.name} style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}} disabled />
-                                    : <ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)} text={'공정명을 입력해주세요.'}/>
+                                    : <ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)} text={'공정명을 입력해주세요.'} buttonWid={30} />
                                 }
                             </td>
                         </tr>
@@ -128,7 +128,7 @@ const QualityTestRequest = ({ match }: Props) => {
                                 {
                                     isUpdate ?
                                         <input value={machineData.name} style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}} disabled />
-                                    : <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)} text={'기계명을 입력해주세요.'}/>
+                                    : <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)} text={'기계명을 입력해주세요.'} buttonWid={30} />
                                 }
                             </td>
                         </tr>
@@ -138,7 +138,7 @@ const QualityTestRequest = ({ match }: Props) => {
                             {
                                     isUpdate ?
                                         <input value={productionData.name} style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}} disabled />
-                                    : <ProductionPickerModal select={productionData} onClickEvent={(e) => setProductionData(e)} text={'품목을 입력해주세요.'}/>
+                                    : <ProductionPickerModal select={productionData} onClickEvent={(e) => setProductionData(e)} text={'품목을 입력해주세요.'} buttonWid={30} />
                                 }
                             </td>
                         </tr>
@@ -226,8 +226,9 @@ const ContainerMain = Styled.div`
         input{
             height: 28px;
             border: 0.5px solid #b3b3b3;
-            width: 98%;
+            width: 100%;
             background-color: #f4f6fa;
+            box-sizing: border-box;
         }
         &:first-child{
             width: 133px;

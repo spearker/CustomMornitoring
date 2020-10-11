@@ -350,8 +350,8 @@ const ContractRegister = ({match}:Props) => {
                     <ButtonWrap onClick={async () => {
                         await onsubmitForm()
                     }}>
-                        <div style={{width: 360, height: 46, }}>
-                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                            <p style={{fontSize: 18}}>등록하기</p>
                         </div>
                     </ButtonWrap>
                 </div>

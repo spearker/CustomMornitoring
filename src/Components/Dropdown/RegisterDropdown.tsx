@@ -12,8 +12,9 @@ interface IProps{
     contents: any,
     text: string
     type: 'string' | 'number'
+    buttonWid?: string | number
 }
-const RegisterDropdown = ({select, contents, onClickEvent, text, type}: IProps) => {
+const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -38,7 +39,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type}: IProps) 
                     }
 
                 </div>
-                <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                     <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
                 </div>
 
@@ -53,7 +54,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type}: IProps) 
                                         : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                                 }
                             </div>
-                            <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                            <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                                 <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
                             </div>
                         </BoxWrap>

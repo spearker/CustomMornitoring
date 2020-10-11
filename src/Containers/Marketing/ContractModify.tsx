@@ -112,8 +112,8 @@ const ContractModifyContainer = ({match}:Props) => {
                     <ButtonWrap onClick={async () => {
                         await postContractRegisterData()
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
+                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                            <p style={{fontSize: 18}}>수정하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -130,7 +130,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -141,12 +141,12 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
             padding-left: 8px;
-            font-famaily: NotoSansCJKkr;
+            font-family: NotoSansCJKkr;
             height: 32px;
             border: 0.5px solid #b3b3b3;
             width: calc( 100% - 8px );

@@ -251,12 +251,12 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
                     <ListHeader title={match.params.name}/>
                     <div style={{borderBottom: 'solid 0.5px #d3d3d3' , display:'flex', paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 120, display:'inline-block'}}>· 입고 구분</p>
-                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={match.params.parts ? stockList : typeList} text={'입고 구분을 선택해 주세요'}/>
+                        <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={match.params.parts ? stockList : typeList} text={'입고 구분을 선택해 주세요'} buttonWid={30}/>
                     </div>
                     <NormalNumberInput title={'입고 수량'} width={120} value={amount} onChangeEvent={(input) => setAmount(input)} description={'입고 수량을 입력해주세요'} />
                     <InputContainer title={"입고 날짜"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
-                            <div style={{width: 817, display: 'table-cell'}}>
+                            <div style={{width: 'calc(100% - 100px)', display: 'table-cell'}}>
                                 <div style={{marginTop: 5}}>
                                     {
                                         selectDate === ''
@@ -302,8 +302,8 @@ const WarehousingRegisterContainer = ({ match }: Props) => {
                             <ButtonWrap onClick={async () => {
                                 await onsubmitForm()
                             }}>
-                                <div style={{width: 360, height: 46}}>
-                                    <p style={{fontSize: 18, marginTop: 8}}>전표 등록하기</p>
+                                <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                                    <p style={{fontSize: 18}}>등록하기</p>
                                 </div>
                             </ButtonWrap>
                         </div>

@@ -78,12 +78,12 @@ const ChitRegisterContainer = () => {
                             <td><ProjectPlanPickerModal select={modalSelect.production} text={'생산계획을 검색해주세요.'} onClickEvent={(e) => setModalSelect({
                                 ...modalSelect,
                                 production: e
-                            })}/></td>
+                            })} inputWidth={'calc(99% - 4px)'} buttonWid={30} /></td>
                         </tr>
                         <tr>
                             <td>• 납기일</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row'}}>
+                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', width: 'calc(99% - 4px)', margin: '0 auto'}}>
                                     <InputBox style={{ flex: 95}}>
                                         <Input style={{width: "100%"}} disabled placeholder="YYYY-MM-DD" value={selectDate}/>
                                     </InputBox>

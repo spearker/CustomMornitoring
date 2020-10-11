@@ -104,7 +104,7 @@ const ProductionRegisterContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 타입</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'타입을 선택해 주세요'}/></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'타입을 선택해 주세요'} buttonWid={30} /></td>
                         </tr>
                         <tr>
                             <td>• 계획자</td>
@@ -115,7 +115,7 @@ const ProductionRegisterContainer = () => {
                             <td><ProductionPickerModal select={modalSelect.production}
                                                        onClickEvent={(e) => {
                                 setModalSelect({...modalSelect, production: e })
-                            }} text={"품목명을 검색해주세요."} type={1}/></td>
+                            }} text={"품목명을 검색해주세요."} type={1} buttonWid={30} /></td>
                         </tr>
                         <tr>
                             <td>• 생산 계획 일정</td>
@@ -151,7 +151,7 @@ const ProductionRegisterContainer = () => {
                                 <CustomerPickerModal select={modalSelect.factory}
                                                        onClickEvent={(e) => {
                                                            setModalSelect({...modalSelect, factory: e })
-                                                       }} text={"거래처를 검색해주세요."}/>
+                                                       }} text={"거래처를 검색해주세요."} buttonWid={30} />
                             </td>
                         </tr>
                         <tr>
@@ -163,7 +163,7 @@ const ProductionRegisterContainer = () => {
                                         setModalSelect({...modalSelect, segment: e })
                                     }}
                                                     seg
-                                    text={"공정명을 검색해 주세요"} />
+                                    text={"공정명을 검색해 주세요"} buttonWid={30} />
                             </td>
                         </tr>
                         {/*<tr>*/}

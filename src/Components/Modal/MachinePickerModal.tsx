@@ -14,6 +14,7 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    buttonWid?: string | number
 }
 
 const DummyMachine = [
@@ -26,7 +27,7 @@ const DummyMachine = [
     }
 ]
 
-const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
+const MachinePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
@@ -66,7 +67,7 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
@@ -198,7 +199,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

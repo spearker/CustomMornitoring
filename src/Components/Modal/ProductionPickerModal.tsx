@@ -18,6 +18,7 @@ interface IProps{
     type?: number
     style?: any,
     innerWidth?: string | number
+    buttonWid?: string | number
 }
 
 const DummyItem = [
@@ -28,7 +29,7 @@ const DummyItem = [
     }
 ]
 
-const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, innerWidth}: IProps) => {
+const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, innerWidth, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [searchName, setSearchName] = useState('')
@@ -72,7 +73,7 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
                                 :  <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
