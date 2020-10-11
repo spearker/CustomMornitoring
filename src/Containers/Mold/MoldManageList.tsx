@@ -3,17 +3,16 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
-import {useHistory} from "react-router-dom";
 
 
-const CurrentContainer = () => {
+const CreateContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [subIndex, setSubIndex] = useState({ part_name: '부품명00' })
+    const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -21,15 +20,14 @@ const CurrentContainer = () => {
         current: 1,
     });
 
-    const history = useHistory()
 
     const indexList = {
-        repair: {
-            mold_name: '금형명',
-            manager: "담당자 이름",
-            registered: "수리 등록 날짜",
-            complete_date: "완료 예정 날짜",
-            status: "상태"
+        making: {
+            mold_name: "금형명",
+            manufacturing_date: "제조일",
+            site: "창고위치" ,
+            production:"생산품목",
+            registered:"등록날짜",
         }
     }
 
@@ -38,26 +36,20 @@ const CurrentContainer = () => {
         repair: {
             part_name: '부품명',
             repair_content: '수리 내용',
-            repair_status: '상태',
-            complete_date: '완료 날짜'
+            repair_status: '수리 상태',
+            complete_date: '완료 날짜',
         },
     }
 
-    const detaildummy = [
+    const eventdummy = [
         {
-            worker: '홍길동',
-            total_count: '99,999',
-            defective_count: '91',
-            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
+            Name: '수정',
+            Width: 60,
+            Color: 'white'
         },
     ]
 
     const titleeventdummy = [
-        {
-            Name: '등록하기',
-            Width: 90,
-            Link: ()=> history.push('/mold/repair/register')
-        },
         {
             Name: '삭제',
         }
@@ -71,54 +63,52 @@ const CurrentContainer = () => {
             setSelectMold(null);
             setSelectValue(null);
         }else{
-            setSelectPk(mold.repair_pk);
+            setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            getData(mold.repair_pk)
+            // getData(mold.pk)
         }
 
 
 
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
-        const res = await getMoldList(tempUrl)
-
-        setDetailList(res.mold_partList)
-
-    },[detailList])
+    // const getData = useCallback( async(pk)=>{
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=''&type=0&limit=15`
+        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
 
         setPage({ current: res.currentPage, total: res.totalPage })
-    },[list])
+    },[list,page])
 
     useEffect(()=>{
         getList()
     },[page.current])
 
-
     useEffect(()=>{
         getList()
-        setIndex(indexList["repair"])
+        setIndex(indexList["making"])
         // setList(dummy)
-        setDetailList(detaildummy)
+        setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle["current"])
     },[])
 
     return (
         <div>
             <OvertonTable
-                title={'금형 수리 현황'}
+                title={'금형 제작 현황 리스트'}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
@@ -127,10 +117,10 @@ const CurrentContainer = () => {
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
-                mainOnClickEvent={onClick}>
+                noChildren={true}>
                 {
                     selectPk !== null ?
-                        <LineTable title={selectMold+' 수리 현황'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'수리 현황'} contentTitle={subIndex} contentList={detailList}>
                             <Line/>
                         </LineTable>
                         :
@@ -148,4 +138,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default CurrentContainer
+export default CreateContainer

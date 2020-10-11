@@ -159,8 +159,8 @@ const BarcodeListContainer = () => {
 
         getList()
 
-        selectPk(null)
-    },[deletePk])
+        setSelectPk(null)
+    },[deletePk,selectPk])
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시

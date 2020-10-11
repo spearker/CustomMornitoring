@@ -143,7 +143,6 @@ const ProductToneContainer = () => {
         getList(machinePk)
     },[machinePk,materialPage.current])
 
-
     useEffect(()=>{
         setDetailList([])
         setDetailTonList([])

@@ -51,14 +51,16 @@ const MoldCreateRegisterContainer = () => {
     const history = useHistory();
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [selectParts, setSelectParts] = useState<{part: {pk: string, name: string}[][], parts: {pk: string, name: string}[]}>({
+    const [selectParts, setSelectParts] = useState<{part: {pk: string, name: string, current: string }[][], parts: {pk: string, name: string, current:string}[]}>({
         part:[[{
             pk: '',
             name: '',
+            current: ''
         }]],
         parts: [{
             pk: '',
             name: '',
+            current: ''
         }]
     })
 
@@ -113,13 +115,18 @@ const MoldCreateRegisterContainer = () => {
         console.log(res, event.target.files[0])
         let tmp = drawing
         if (res !== false) {
+            console.log(111)
             tmp[index] = res
         }else{
             tmp[index] = ''
         }
-
-        return setDrawing(tmp);
+        console.log(tmp)
+        setDrawing(tmp);
     }
+
+    useEffect(()=>{
+        console.log(drawing)
+    },[drawing])
 
     return (
         <div>
@@ -164,7 +171,7 @@ const MoldCreateRegisterContainer = () => {
                 {
                     parts && parts.map((v, i) =>
                       <MoldPartDropdown title={'파트'} part={true} onClick={() => {
-                          setSelectParts({...selectParts, part: [...selectParts.part, [{pk: '', name: ''}]]})
+                          setSelectParts({...selectParts, part: [...selectParts.part, [{pk: '', name: '', current:''}]]})
                           setParts([...parts, initParts])
                       }} onClickDelete={() => {
                           let tmpParts = parts
@@ -176,7 +183,7 @@ const MoldCreateRegisterContainer = () => {
                               setParts([...tmpParts])
                           }
                     }}>
-                        <PartInput title={'거래처명'} value={parts[i].name} onChangeEvent={(input)=>{
+                        <PartInput title={'파트명'} value={parts[i].name} onChangeEvent={(input)=>{
                             let tmp = parts
                             tmp[i] = {...tmp[i], name: input}
                             return setParts([...tmp])
@@ -233,6 +240,7 @@ const MoldCreateRegisterContainer = () => {
                                         <PartsPickerModal text={'부품을 검색해 주세요.'} onClickEvent={(e) => {
                                             let tmpArr = parts
                                             let tmp = selectParts
+                                            console.log(e)
                                             tmp.part[i][index] = e
                                             tmpArr[i].material[index] = {...tmpArr[i].material[index], material_pk: e.pk}
 
@@ -240,7 +248,7 @@ const MoldCreateRegisterContainer = () => {
                                             setSelectParts({...tmp})
                                         }} select={selectParts.part[i][index]} width={365}/>
                                         <p style={{marginLeft: 15}}>현재 재고량</p>
-                                        <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                        <MaterialBox type="text" value={selectParts.part[i][index].current} placeholder={'9,999,999,999'} />
                                         <p>사용할 수량</p>
                                         <MaterialBox type="text" value={parts[i].material[index].usage} onChange={(e) => {
                                             let tmpArr = parts
@@ -275,7 +283,7 @@ const MoldCreateRegisterContainer = () => {
                                     let tmpArr = parts
                                     let tmp = selectParts
 
-                                    tmp.part[i].push({pk: '', name: ''})
+                                    tmp.part[i].push({pk: '', name: '', current: ''})
 
                                     tmpArr[i] = {...tmpArr[i], material: [...tmpArr[i].material, initComponent]}
 
@@ -307,7 +315,7 @@ const MoldCreateRegisterContainer = () => {
                                         setSelectParts({...tmp})
                                     }} select={selectParts.parts[i]} width={365}/>
                                 <p style={{marginLeft: 15}}>현재 재고량</p>
-                                <MaterialBox type="text" value={''} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {console.log('')}} placeholder={'9,999,999,999'} />
+                                <MaterialBox type="text" value={selectParts.parts[i].current}  placeholder={'9,999,999,999'} />
                                 <p>사용할 수량</p>
                                 <MaterialBox type="text" value={components[i].usage} onChange={(e) => {
                                     let tmpArr = components
@@ -343,9 +351,10 @@ const MoldCreateRegisterContainer = () => {
                 <MoldPartDropdown title={'도면'} part={false}>
                     {
                         drawing.map((v, i) => <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
+                            {console.log(v)}
                             <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
                             <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                                <UploadBox placeholder="검색어를 입력해주세요." style={{width: 700}} onChange={(e) => console.log(e.target.value)}/>
+                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} onChange={()=>drawing[i]}/>
                                 <UploadButton onClick={() => {}}>
                                     <label htmlFor={'file'}  style={{ textAlign:'center', fontSize:14, width:'100%', height: '100%', paddingBottom:2 , paddingTop:4, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>
                                 </UploadButton>

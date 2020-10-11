@@ -130,7 +130,6 @@ const PartsContainer = () => {
 
     },[list,page])
 
-
     useEffect(()=>{
         getList()
     },[page.current])

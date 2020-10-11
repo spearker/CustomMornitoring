@@ -89,7 +89,7 @@ const CreateContainer = () => {
         const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
-        setList(res.items)
+        setList(res.info_list)
 
         setPage({ current: res.currentPage, total: res.totalPage })
     },[list,page])

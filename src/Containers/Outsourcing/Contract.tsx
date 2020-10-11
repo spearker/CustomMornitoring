@@ -32,7 +32,7 @@ const ContractContainer = () => {
     const indexList = {
         contract: {
             name: '외주처 명',
-            material_name: '제품 명',
+            product: '제품 명',
             quantity: '수량',
             unpaid: '미납 수량',
             ceo_name: '대표자 명',

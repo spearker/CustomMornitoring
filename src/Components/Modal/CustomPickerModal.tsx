@@ -76,19 +76,19 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
         if (type === 'machine') {
             const tempUrl = `${BASIC_URLS['machine'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'device') {
             const tempUrl = `${BASIC_URLS['device'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'mold') {
             const tempUrl = `${BASIC_URLS['mold'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'material') {
             const tempUrl = `${BASIC_URLS['material'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'voucher') {
             const tempUrl = `${PRODUCTION_URLS['chit'].list}?pk=''&page=${page.current}`
             const resultData = await getProjectList(tempUrl);

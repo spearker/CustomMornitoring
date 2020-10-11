@@ -44,7 +44,7 @@ const MoldManageCreate = () => {
                             <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)} select={moldData}/></td>
                         </tr>
                         <tr>
-                            <td>• 수리 요청 사유</td>
+                            <td>• 관리 내용</td>
                             <td>
                                 <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
                                     <textarea maxLength={160} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)">
