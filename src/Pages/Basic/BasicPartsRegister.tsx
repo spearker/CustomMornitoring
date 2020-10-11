@@ -305,7 +305,7 @@ const BasicPartsRegister = () => {
                                         await onsubmitFormUpdate()
                                     }}>
                                         <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
-                                            <p style={{fontSize: 18}}>등록하기</p>
+                                            <p style={{fontSize: 18}}>수정하기</p>
                                         </div>
                                     </ButtonWrap>
                                     :
