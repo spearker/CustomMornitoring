@@ -91,7 +91,8 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
                        padding: 0
                    },
                    overlay:{
-                       background: 'rgba(0,0,0,.6)'
+                       background: 'rgba(0,0,0,.6)',
+                       zIndex: 5
                    }
                 }}
             >
@@ -169,7 +170,7 @@ const BoxWrap = Styled.button`
     height: 32px;
     background-color: white;
     font-weight: bold;
-    text-algin: center;
+    text-align: center;
     font-size: 13px;
     display: flex;
     p{
@@ -182,7 +183,7 @@ const BoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );
@@ -213,9 +214,9 @@ const InnerBoxWrap = Styled.button`
     background-color: ${BG_COLOR_SUB};
     border: none;
     font-weight: bold;
-    text-algin: left;
+    text-align: left;
     p{
-        text-algin: left;
+        text-align: left;
      }
     font-size: 13px;
     img {

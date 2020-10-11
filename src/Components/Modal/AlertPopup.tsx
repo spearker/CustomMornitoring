@@ -58,7 +58,7 @@ const WrapHoverBox = Styled.div`
     position: fixed;
     width: 100vw;
     height: 100vh;
-    z-index: 4, 
+    z-index: 5;
 `
 const InnerBox = Styled.div`
     position: fixed;

@@ -85,7 +85,8 @@ const MachinePickerModal = ({select, onClickEvent, text}: IProps) => {
                        padding: 0
                    },
                    overlay:{
-                       background: 'rgba(0,0,0,.6)'
+                       background: 'rgba(0,0,0,.6)',
+                       zIndex: 5
                    }
                 }}
             >
