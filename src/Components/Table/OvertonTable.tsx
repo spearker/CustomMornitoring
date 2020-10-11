@@ -242,7 +242,6 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarO
                             }
                             {
                                 EventList && EventList.map((bv,bi)=>{
-                                    console.log(v.status)
                                     return(
                                         <div className="p-limits">
                                             {buttonState ?

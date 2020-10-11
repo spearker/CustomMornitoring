@@ -184,7 +184,7 @@ const CustomerRegister = ({ match }: Props)  => {
         }else{
                 //alert('성공적으로 수정 되었습니다')
                 setIsUpdate(false)
-                history.goBack()
+                history.push('/customer/current/list')
         }
 
     },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
@@ -319,7 +319,7 @@ const CustomerRegister = ({ match }: Props)  => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
+                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
                 </form>
             </WhiteBoxContainer>
         </div>

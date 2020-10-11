@@ -48,42 +48,49 @@ const CurrentContainer = () => {
         },
     }
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
 
         {list.length === 0 ?
-            deletePk.pk.map((v,i)=>{
-                deletePk.pk.pop()
-            })
-            :
-            list.map((v, i) => {
+          arrayDelete()
+          :
+          list.map((v, i) => {
+              arrayDelete()
 
-                if(deletePk.pk.indexOf(v.pk) === -1){
-                    tmpPk.push(v.pk)
-                }
+              if(deletePk.pk.indexOf(v.pk) === -1){
+                  tmpPk.push(v.pk)
+              }
 
-                tmpPk.map((vi, index) => {
-                    if(deletePk.pk.indexOf(v.pk) === -1){
-                        deletePk.pk.push(vi)
-                    }
-                })
+              tmpPk.map((vi, index) => {
+                  if(deletePk.pk.indexOf(v.pk) === -1){
+                      deletePk.pk.push(vi)
+                  }
+              })
 
-                if(tmpPk.length < deletePk.pk.length){
-                    deletePk.pk.shift()
-                }
+              if(tmpPk.length < deletePk.pk.length){
+                  deletePk.pk.shift()
+              }
 
-                console.log(deletePk.pk)
-
-            })
+              console.log('deletePk.pk', deletePk.pk)
+          })
         }
     },[deletePk])
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
         {deletePk.pk.indexOf(Data.pk) !== -1 ?
-            deletePk.pk.splice(IndexPk,1)
-            :
-            deletePk.pk.push(Data.pk)
+          deletePk.pk.splice(IndexPk,1)
+          :
+          deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 

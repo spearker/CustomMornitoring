@@ -287,7 +287,7 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
                   <InputContainer title={"투입 품목"}>
-                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={1} style={{width: 'calc(100% - 100px)'}} innerWidth={'100%'} />
+                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={0} style={{width: 'calc(100% - 100px)'}} innerWidth={'100%'} />
                   </InputContainer>
                   <InputContainer title={"생산 품목"}>
                     <ProductionPickerModal select={output_material} onClickEvent={setOutput_material} text={'생산품목'} width={true} type={1} style={{width: 'calc(100% - 100px)'}} innerWidth={'100%'} />
