@@ -100,6 +100,17 @@ const MoldCreateRegisterContainer = () => {
             })
         })
 
+        components.map((v, i) => {
+          if(v.material_pk!=='' || v.usage!=='')  {
+              state = true
+          }
+        })
+
+        drawing.map((v) => {
+            if(v!==""){
+                state = true
+            }
+        })
         if(!moldData?.pk || !selectDate || !state){
             alert('모든 칸을 입력해주세요.')
         }else{
@@ -113,7 +124,6 @@ const MoldCreateRegisterContainer = () => {
             if(resultData.status === 200){
                 history.push('/mold/create/list')
             }
-
         }
     }, [parts, drawing, components, moldData, selectDate])
 
@@ -267,11 +277,17 @@ const MoldCreateRegisterContainer = () => {
                                             setSelectParts({...tmp})
                                         }} select={selectParts.part[i][index]} width={365}/>
                                         <p style={{marginLeft: 15}}>현재 재고량</p>
-                                        <MaterialBox type="text" value={selectParts.part[i][index].current} placeholder={'9,999,999,999'} />
+                                        <MaterialBox type="number" value={selectParts.part[i][index].current} placeholder={'9,999,999,999'} />
                                         <p>사용할 수량</p>
-                                        <MaterialBox type="text" value={parts[i].material[index].usage} onChange={(e) => {
+                                        <MaterialBox type="number" value={parts[i].material[index].usage} onChange={(e) => {
                                             let tmpArr = parts
-                                            tmpArr[i].material[index] = {...tmpArr[i].material[index], usage: e.target.value}
+
+                                            if(Number(selectParts.part[i][index].current) >= Number(e.target.value)){
+                                                tmpArr[i].material[index] = {...tmpArr[i].material[index], usage: e.target.value}
+                                            }else{
+                                                tmpArr[i].material[index] = {...tmpArr[i].material[index], usage: selectParts.part[i][index].current}
+                                            }
+
 
                                             setParts([...tmpArr])
                                         }} placeholder={'9,999,999,999'} />
