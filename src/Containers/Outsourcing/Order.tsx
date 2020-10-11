@@ -62,13 +62,20 @@ const OrderContainer = () => {
         },
     ]
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
 
         {list.length === 0 ?
-            deletePk.pk.map((v,i)=>{
-                deletePk.pk.pop()
-            })
+            arrayDelete()
             :
             list.map((v, i) => {
 

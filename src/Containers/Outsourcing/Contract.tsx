@@ -18,7 +18,7 @@ const ContractContainer = () => {
     const [contentsList, setContentsList] = useState<any[]>(['거래처명','제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [index, setIndex] = useState({ name: '외주처' });
+    const [index, setIndex] = useState({ company_name: '외주처' });
     const [subIndex, setSubIndex] = useState({ manager: '작성자' })
     const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk] = useState<any>(null);
@@ -31,7 +31,7 @@ const ContractContainer = () => {
 
     const indexList = {
         contract: {
-            name: '외주처 명',
+            company_name: '외주처 명',
             product: '제품 명',
             quantity: '수량',
             unpaid: '미납 수량',
@@ -99,15 +99,27 @@ const ContractContainer = () => {
         },
     ]
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
+    useEffect(() => {
+        console.log('deletePk.pk', deletePk.pk)
+    })
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
 
         {list.length === 0 ?
-            deletePk.pk.map((v,i)=>{
-                deletePk.pk.pop()
-            })
+          arrayDelete()
             :
             list.map((v, i) => {
+                arrayDelete()
 
                 if(deletePk.pk.indexOf(v.pk) === -1){
                     tmpPk.push(v.pk)
@@ -123,8 +135,7 @@ const ContractContainer = () => {
                     deletePk.pk.shift()
                 }
 
-                console.log(deletePk.pk)
-
+                console.log('deletePk.pk', deletePk.pk)
             })
         }
     },[deletePk])

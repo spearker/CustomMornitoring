@@ -87,14 +87,33 @@ const MoldCreateRegisterContainer = () => {
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS["making"].register}`
-        const resultData = await postMoldRegister(tempUrl, {
-            mold_pk: moldData?.pk,
-            schedule: selectDate,
-            part: parts,
-            component: components
-        });
-        if(resultData.status === 200){
-            history.push('/mold/create/list')
+
+        let state = false
+        parts.map((v, i) => {
+            if(v.name!==''||v.standard.w!==0||v.standard.h!==0||v.standard.l!==0||v.steel_grade!==''){
+                state = true
+            }
+            v.material.map((value, index) => {
+                if(value.material_pk!=='' || value.usage!==''){
+                    state = true
+                }
+            })
+        })
+
+        if(!moldData?.pk || !selectDate || !state){
+            alert('모든 칸을 입력해주세요.')
+        }else{
+            const resultData = await postMoldRegister(tempUrl, {
+                mold_pk: moldData?.pk,
+                schedule: selectDate,
+                part: parts,
+                component: components,
+                drawing: drawing
+            });
+            if(resultData.status === 200){
+                history.push('/mold/create/list')
+            }
+
         }
     }, [parts, drawing, components, moldData, selectDate])
 
