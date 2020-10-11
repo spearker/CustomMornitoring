@@ -96,7 +96,8 @@ const ErrorContainer = () => {
 
     useEffect(()=>{
         getData(selectPk)
-    },[page.current])
+    },[detailPage.current])
+
 
     return (
         <OvertonTable

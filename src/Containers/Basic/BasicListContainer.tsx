@@ -5,6 +5,7 @@ import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import InfoTable from '../../Components/Table/InfoTable';
 import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic';
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 interface Props{
   type: string
@@ -13,6 +14,8 @@ interface Props{
 const optionList = [
   "등록순",
 ]
+
+
 
 // 리스트 부분 컨테이너
 const BasicListContainer = ({type}:Props) => {
@@ -45,13 +48,19 @@ const BasicListContainer = ({type}:Props) => {
   const getList = useCallback(async (pageType)=>{
     const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}&limit=15`
     const resultList = await getBasicList(tempUrl);
-    setList(resultList.items);
 
-    console.log(resultList)
+     const getBasic = resultList.info_list.map((v,i)=>{
+
+       const Type = transferCodeToName(pageType, v[pageType+"_type"])
+       console.log(v[pageType])
+       return {...v, [pageType+"_type"]: Type}
+     })
+
+     setList(getBasic);
 
      setPage({ current: resultList.current_page, total: resultList.total_page })
 
-  },[list, keyword, option, pageType])
+  },[list, keyword, option, pageType,page])
 
   useEffect(() => {
     getList(pageType)

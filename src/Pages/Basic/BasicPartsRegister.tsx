@@ -144,11 +144,11 @@ const BasicPartsRegister = () => {
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
 
-                const list = res.results.items.map((v)=>{
+                const list = res.results.info_list.map((v)=>{
                     return v.name
                 })
                 list.push('부픔 등록하기')
-                const pk = res.results.items.map((v=>{
+                const pk = res.results.info_list.map((v=>{
                     return v.pk
                 }))
 

@@ -172,9 +172,9 @@ export const MES_MENU_LIST = {
   ],
   outsourcing: [ // 외주처 관리
     { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
-    { name: '외주처 발주 리스트', url: '/outsourcing/order/list' },
-    { name: '외주처 수주 리스트', url: '/outsourcing/contract/list' },
     { name: '외주처 현황', url: '/outsourcing/current/list' },
+    { name: '외주처 수주 리스트', url: '/outsourcing/contract/list' },
+    { name: '외주처 발주 리스트', url: '/outsourcing/order/list' },
       // { name: '외주처 관리', url: '/commingsoon' }, //상위메뉴
       // { name: '외주처 발주 리스트', url: '/commingsoon' },
       // { name: '외주처 수주 리스트', url: '/commingsoon' },
@@ -231,7 +231,7 @@ export const MES_MENU_LIST = {
   mold: [
     { name : '금형 관리', url: '/mold/current/list'},
     { name : '금형 관리 등록', url: '/mold/manage/register'},
-    // { name : '금형 제작 등록', url: '/mold/create/register'},
+    { name : '금형 제작 등록', url: '/mold/create/register'},
     { name : '금형 제작 현황', url: '/mold/create/list'},
     { name : '금형 수리 완료', url: '/mold/repair/list'},
     { name : '금형 수리 등록', url: '/mold/repair/register'},

@@ -166,7 +166,7 @@ const RawMaterialContainer = () => {
         const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.items.map((v,i)=>{
+        const getStock = res.info_list.map((v,i)=>{
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}

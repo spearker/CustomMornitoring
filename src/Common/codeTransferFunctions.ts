@@ -185,7 +185,7 @@ export const transferCodeToName = (type, value) =>{
                 str = v.name
             }
         })
-    }else if(type==='submachine'){
+    }else if(type==='device'){
         subMachineCodes.forEach((v: {code: number, name: string},i)=>{
             if (v.code === value){
                 str = v.name
@@ -261,7 +261,7 @@ export const transferStringToCode = (type, value) =>{
                 num = v.code
             }
         })
-    }else if(type === 'submachine'){
+    }else if(type === 'device'){
         subMachineCodes.forEach((v: {code: number, name: string},i)=>{
             if (v.name === value){
                 num = v.code

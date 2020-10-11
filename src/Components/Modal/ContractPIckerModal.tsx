@@ -42,7 +42,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].list}?page=1`
+        const tempUrl = `${API_URLS['contract'].list}?page=1&limit=15`
         const resultData = await getMarketing(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)
@@ -103,7 +103,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>

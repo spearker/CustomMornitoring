@@ -176,7 +176,7 @@ const BarcodeListContainer = () => {
         const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}&limit=15`
         const res = await getBarcode(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
         setPage({ current: res.currentPage, total: res.totalPage })
     },[list,page])

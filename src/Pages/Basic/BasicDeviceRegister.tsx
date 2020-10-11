@@ -12,7 +12,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import {uploadTempFile} from '../../Common/fileFuctuons';
-import {getSubMachineTypeList} from '../../Common/codeTransferFunctions';
+import {getSubMachineTypeList, transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -35,7 +35,7 @@ const BasicDeviceRegister = () => {
   const [info, setInfo] = useState<string>('');
   const [infoList, setInfoList] = useState<IInfo[]>([]);
   const [name, setName] = useState<string>('');
-  const [type, setType] = useState<number>(1); //1: 프레스
+  const [type, setType] = useState<number>(51); //1: 프레스
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
   const [factory, setFactory] = useState<any[]>([]);
@@ -229,7 +229,7 @@ const BasicDeviceRegister = () => {
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'장치 이름'} value={name} onChangeEvent={setName} description={'장치 이름을 입력하세요'} />
-                <DropdownInput title={'장치 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+                <DropdownInput title={'장치 종류'} target={transferCodeToName('device',indexList[type])} contents={indexList} onChangeEvent={(v)=>setType(transferStringToCode('device',indexList[v]))} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요 (장치에 부착되어있음)'} />
 
