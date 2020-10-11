@@ -254,7 +254,7 @@ const BasicPartsRegister = () => {
                                     <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={setPartsName} description={'부품명을 입력하세요'} />
                                 <div style={{marginLeft: partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 30 : 10}}>
                                     {partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ?
-                                        <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()}/>
+                                        <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()} ButtonStyle={{width: 60, padding: '7px 0'}} />
                                         :
                                         <div style={{display:"flex"}}>
                                             <div style={{marginRight: 15}}>
@@ -304,16 +304,16 @@ const BasicPartsRegister = () => {
                                     <ButtonWrap onClick={async () => {
                                         await onsubmitFormUpdate()
                                     }}>
-                                        <div style={{width: 360, height: 46}}>
-                                            <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
+                                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                                            <p style={{fontSize: 18}}>등록하기</p>
                                         </div>
                                     </ButtonWrap>
                                     :
                                     <ButtonWrap onClick={async () => {
                                         await onsubmitForm()
                                     }}>
-                                        <div style={{width: 360, height: 46}}>
-                                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                                            <p style={{fontSize: 18}}>등록하기</p>
                                         </div>
                                     </ButtonWrap>
                                 }
