@@ -7,6 +7,7 @@ import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
 import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
 import PartsPickerModal from '../../Components/Modal/PartsPickerModal'
 import {Input} from 'semantic-ui-react'
+import {useHistory} from "react-router-dom";
 
 const factoryDummy = [
     '더미 업체 1',
@@ -26,6 +27,9 @@ const listDummy = [
 ]
 
 const MoldRepairRegisterContainer = () => {
+
+    const history = useHistory();
+
     const [open, setOpen] = useState<boolean>(false)
     const [reason, setReason] = useState<string>('')
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
@@ -45,6 +49,7 @@ const MoldRepairRegisterContainer = () => {
 
         if(resultData.status === 200){
             alert('금형 수리 요청이 등록되었습니다.')
+            history.goBack()
         }
     }, [moldData, reason, parts, managerData, selectDate])
 

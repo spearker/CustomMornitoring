@@ -158,17 +158,17 @@ export const MES_MENU_LIST = {
     //   { name : '표준 항목 관리', url : '/commingsoon'},
     //   { name : '표준 문서 관리', url : '/commingsoon'},
   ],
+  customer: [
+    { name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
+    { name: '거래처 리스트', url: '/customer/current/list'},
+    // { name: '거래처 리스트', url: '/commingsoon'}
+  ],
   marketing: [
     { name : '영업 관리', url: '/marketing/order/list'}, //상위메뉴
     { name : '수주 리스트', url: '/marketing/order/list'},
     { name : '출하 리스트', url: '/marketing/shipment/list'},
       // { name : '수주 리스트', url: '/commingsoon'},
       // { name : '출하 리스트', url: '/commingsoon'},
-  ],
-  customer: [
-    { name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
-    { name: '거래처 리스트', url: '/customer/current/list'},
-    // { name: '거래처 리스트', url: '/commingsoon'}
   ],
   outsourcing: [ // 외주처 관리
     { name: '외주처 관리', url: '/outsourcing/current/list' }, //상위메뉴
@@ -231,11 +231,12 @@ export const MES_MENU_LIST = {
   mold: [
     { name : '금형 관리', url: '/mold/current/list'},
     { name : '금형 관리 등록', url: '/mold/manage/register'},
+    { name : '금형 관리 리스트', url: '/mold/manage/list'},
     { name : '금형 제작 등록', url: '/mold/create/register'},
     { name : '금형 제작 현황', url: '/mold/create/list'},
-    { name : '금형 수리 완료', url: '/mold/repair/list'},
     { name : '금형 수리 등록', url: '/mold/repair/register'},
     { name : '금형 수리 현황', url: '/mold/current/list'},
+    { name : '금형 수리 완료', url: '/mold/repair/list'},
     // { name : '금형 등록', url: '/mold/register'}
     // { name : '금형 관리 등록', url: '/commingsoon'},
     // { name : '금형 제작 등록', url: '/commingsoon'},

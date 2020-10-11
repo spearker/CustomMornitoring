@@ -13,6 +13,7 @@ const CreateContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
     const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
+    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -22,7 +23,7 @@ const CreateContainer = () => {
 
 
     const indexList = {
-        making: {
+        manage: {
             mold_name: "금형명",
             manufacturing_date: "제조일",
             site: "창고위치" ,
@@ -56,6 +57,30 @@ const CreateContainer = () => {
     ]
 
 
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+        {list.length === 0 ?
+            deletePk.keys.map((v,i)=>{
+                deletePk.keys.pop()
+            })
+            :
+            list.map((v, i) => {
+                tmpPk.push(v.pk)
+                deletePk.keys.push(tmpPk.toString())
+            })
+        }
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        {deletePk.keys.indexOf(Data.pk) !== -1 ?
+            deletePk.keys.splice(IndexPk,1)
+            :
+            deletePk.keys.push(Data.pk)
+        }
+    },[deletePk])
+
+
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
         if(mold.pk === selectPk){
@@ -85,12 +110,12 @@ const CreateContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0&limit=15`
+        const tempUrl = `${API_URLS["manage"].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({ current: res.current_page, total: res.total_page })
     },[list,page])
 
     useEffect(()=>{
@@ -99,7 +124,7 @@ const CreateContainer = () => {
 
     useEffect(()=>{
         getList()
-        setIndex(indexList["making"])
+        setIndex(indexList["manage"])
         // setList(dummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
@@ -108,8 +133,10 @@ const CreateContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 현황 리스트'}
+                title={'금형 관리 리스트'}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
+                checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}

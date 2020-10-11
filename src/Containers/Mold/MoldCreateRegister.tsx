@@ -4,7 +4,7 @@ import {Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
 import moment from "moment";
 import {POINT_COLOR} from "../../Common/configset";
-import {API_URLS, postMoldRegister} from "../../Api/mes/manageMold";
+import {API_URLS, getMoldList, postMoldRegister} from "../../Api/mes/manageMold";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import {useHistory} from "react-router-dom"
 import MoldPickerModal from "../../Components/Modal/MoldPickerModal";
@@ -47,8 +47,10 @@ const initComponent = {
 
 const initDrawing = ''
 
-const MoldCreateRegisterContainer = () => {
+
+const MoldCreateRegisterContainer = ({match}:any) => {
     const history = useHistory();
+    const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [moldData, setMoldData] = useState<{name: string, pk: string}>()
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectParts, setSelectParts] = useState<{part: {pk: string, name: string, current: string }[][], parts: {pk: string, name: string, current:string}[]}>({
@@ -84,6 +86,15 @@ const MoldCreateRegisterContainer = () => {
     )
 
     const [drawing, setDrawing] = useState<string[]>([''])
+
+    const getManageMoldDetail = useCallback(async ()=>{
+        const tempUrl = `${API_URLS["making"].detail}?pk=${match.params.pk}`
+        const resultData = await getMoldList(tempUrl)
+
+        setMoldData({name: resultData.mold_name, pk: resultData.pk})
+
+
+    },[])
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS["making"].register}`
@@ -128,6 +139,16 @@ const MoldCreateRegisterContainer = () => {
         }
     }, [parts, drawing, components, moldData, selectDate])
 
+
+    useEffect(()=>{
+        if( match.params.pk ){
+            ////alert(`수정 페이지 진입 - pk :` + param)
+            setIsUpdate(true)
+            getManageMoldDetail()
+        }
+
+    },[])
+
     const addFile = async (event: any, index: number): Promise<void> => {
 
         if(event.target.files[0] === undefined){
@@ -145,7 +166,6 @@ const MoldCreateRegisterContainer = () => {
         console.log(res, event.target.files[0])
         let tmp = drawing
         if (res !== false) {
-            console.log(111)
             tmp[index] = res
         }else{
             tmp[index] = ''
@@ -390,7 +410,7 @@ const MoldCreateRegisterContainer = () => {
                             {console.log(v)}
                             <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
                             <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} value={drawing[i]} onChange={()=>drawing[i]}/>
+                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} value={drawing[i]} />
                                 <UploadButton onClick={() => {}}>
                                     <label htmlFor={'file'}  style={{ textAlign:'center', fontSize:14, width:'100%', height: '100%', paddingBottom:2 , paddingTop:4, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>
                                 </UploadButton>

@@ -1,16 +1,16 @@
 import React from "react";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import MoldRegisterContainer from "../../Containers/Mold/MoldRegister";
+import MoldListContainer from "../../Containers/Mold/MoldManageList";
 
-const MoldRegister = () => {
+const MoldManageList = () => {
     return (
         <DashboardWrapContainer index={'mold'}>
             <InnerBodyContainer>
-                <MoldRegisterContainer/>
+                <MoldListContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default MoldRegister
+export default MoldManageList

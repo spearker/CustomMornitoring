@@ -4,6 +4,7 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
 import {useHistory} from "react-router-dom";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
 const CurrentContainer = () => {
@@ -13,7 +14,7 @@ const CurrentContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [subIndex, setSubIndex] = useState({ part_name: '부품명00' })
+    const [subIndex, setSubIndex] = useState({  manager: "작업자" })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -36,9 +37,9 @@ const CurrentContainer = () => {
 
     const detailTitle = {
         repair: {
-            part_name: '부품명',
+            manager: "작업자",
             repair_content: '수리 내용',
-            repair_status: '상태',
+            status: '상태',
             complete_date: '완료 날짜'
         },
     }
@@ -75,28 +76,40 @@ const CurrentContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            getData(mold.repair_pk)
+            getData(mold.pk)
         }
-
-
-
     }, [list, selectPk]);
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
+        console.log(pk)
         const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
         const res = await getMoldList(tempUrl)
 
-        setDetailList(res.mold_partList)
+        console.log([res])
 
-    },[detailList])
+        const Detail = [res].map((v,i)=>{
+            const status = v.status === 'WAIT' ? "처리 중" : "수리 완료"
+
+            return {...v, status: status}
+        })
+
+        setDetailList(Detail)
+
+    },[detailList, selectPk])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=''&type=0&limit=15`
+        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
-        setList(res.info_list)
+        const getStock = res.info_list.map((v,i)=>{
+            const status = v.status === 'WAIT' ? "처리 중" : "수리 완료"
+
+            return {...v, status: status}
+        })
+
+        setList(getStock)
 
         setPage({ current: res.currentPage, total: res.totalPage })
     },[list])
@@ -107,12 +120,16 @@ const CurrentContainer = () => {
 
 
     useEffect(()=>{
+        console.log(detailList)
+    },[detailList])
+
+    useEffect(()=>{
         getList()
         setIndex(indexList["repair"])
         // setList(dummy)
         setDetailList(detaildummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle["current"])
+        setSubIndex(detailTitle["repair"])
     },[])
 
     return (

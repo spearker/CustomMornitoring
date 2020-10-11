@@ -15,6 +15,20 @@ export const postMoldRegister = async( url: string, bodyData: object) =>{
 }
 
 /**
+ * postMoldState()
+ * 금형 상태
+ * @param {string} url 링크 주소
+ * @param {Object} bodyData 공정 등록 정보 객체
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 정민
+ */
+
+export const postMoldState = async( url: string, bodyData: object) =>{
+    const temp: IServerData = await client.post(url, bodyData);
+    return temp.results
+}
+
+/**
  * getMoldList()
  * 금형 리스트 불러오기
  * @param {string} url 링크 주소
@@ -53,7 +67,7 @@ export const API_URLS = {
         list: `/v1/manageMold/making/list`,
         detail: `/v1/manageMold/making/detail`,
         complete: `/v1/manageMold/making/complete`,
-        cancel: `/v1/manageMold/making/cancle`
+        cancel: `/v1/manageMold/making/cancel`
     }
 }
 

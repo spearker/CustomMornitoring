@@ -155,7 +155,7 @@ const OrderContainer = () => {
             Name: '수정',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`'/outsourcing/order/register/${v.pk}`)
+            Link: (v)=>history.push(`/outsourcing/order/register/${v.pk}`)
         }
     ]
 

@@ -141,10 +141,10 @@ const RepairContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}&limit=15`
+        const tempUrl = `${API_URLS['mold'].list}&page=${page.current}&limit=15`
         const res = await getMoldData(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
         setPage({ current: res.currentPage, total: res.totalPage })
     },[list,page])

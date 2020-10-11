@@ -30,6 +30,7 @@ interface Props {
     clickValue?: object
     mainOnClickEvent?: any
     onClickEvent?: any
+    buttonState?: boolean
     currentPage?:number
     totalPage?: number
     pageOnClickEvent?: any
@@ -38,7 +39,7 @@ interface Props {
     calendarState?: boolean
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarOnClick,searchBarChange,searchButtonOnClick,dropDownContents,dropDownOnClick,dropDownOption,selectBoxChange,titleOnClickEvent,indexList,valueList,EventList,allCheckOnClickEvent,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,calendarState,children,currentPage,totalPage,pageOnClickEvent}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarOnClick,searchBarChange,searchButtonOnClick,dropDownContents,dropDownOnClick,dropDownOption,selectBoxChange,titleOnClickEvent,indexList,valueList,EventList,allCheckOnClickEvent,checkOnClickEvent,buttonState,clickValue,mainOnClickEvent,noChildren,calendarState,children,currentPage,totalPage,pageOnClickEvent}:Props) => {
 
     const [checked, setChecked] = useState<any[]>([])
     const [allChecked, setAllChecked] = useState(false)
@@ -183,10 +184,10 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarO
                     },
                     */
                     return (
-                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}} onClick={mainOnClickEvent && mainOnClickEvent ? ()=>mainOnClickEvent(v) : ()=>console.log()}>
+                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}} >
                             {
                                 checkOnClickEvent ?
-                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}} >
                                             <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]} onClick={(e) => {
                                                 let tmpArr: boolean[] = checked
                                                 tmpArr = tmpArr.map((vm,vi)=>{
@@ -216,7 +217,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarO
                                     //mv : [pk , machin_list, machine_name ... ]
                                     return (
                                         typeof v[mv] === 'object' ?
-                                            <select className="p-limits" style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48',borderColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
+                                            <select className="p-limits" style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48',borderColor: clickValue=== v ? '#19b9df' : '#353b48'}} >
                                                 <option value={''}>선택</option>
                                                 {
                                                     Object.keys(v[mv]).map(m => {
@@ -228,7 +229,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarO
                                             </select>
                                             :
                                         <p key={`td-${i}-${mv}`}
-                                           className="p-limits" >
+                                           className="p-limits" onClick={mainOnClickEvent && mainOnClickEvent ? ()=>mainOnClickEvent(v) : ()=>console.log()} >
                                             {v[mv] === '' ?
                                                     'ㅡ'
                                                 :
@@ -241,9 +242,14 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarO
                             }
                             {
                                 EventList && EventList.map((bv,bi)=>{
+                                    console.log(v.status)
                                     return(
                                         <div className="p-limits">
-                                            <ButtonBox onClick={()=>bv.Link(v)} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
+                                            {buttonState ?
+                                                <ButtonBox onClick={() => bv.Link(v)} style={{width: bv.Width, color: v.status === '진행중' ? 'white' : 'white', backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df' }}>{ v.status === '진행중' ? '완료 하기' : '취소 하기' }</ButtonBox>
+                                                :
+                                                <ButtonBox onClick={() => bv.Link(v)} style={{width: bv.Width, color: bv.Color}}>{bv.Name}</ButtonBox>
+                                            }
                                         </div>
                                     )
                                 })
