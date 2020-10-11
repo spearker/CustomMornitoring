@@ -94,7 +94,7 @@ const MoldCreateRegisterContainer = () => {
             component: components
         });
         if(resultData.status === 200){
-            history.push('/mold/current/list')
+            history.push('/mold/create/list')
         }
     }, [parts, drawing, components, moldData, selectDate])
 
@@ -121,7 +121,7 @@ const MoldCreateRegisterContainer = () => {
             tmp[index] = ''
         }
         console.log(tmp)
-        setDrawing(tmp);
+        setDrawing([...tmp]);
     }
 
     useEffect(()=>{
@@ -354,7 +354,7 @@ const MoldCreateRegisterContainer = () => {
                             {console.log(v)}
                             <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
                             <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} onChange={()=>drawing[i]}/>
+                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} value={drawing[i]} onChange={()=>drawing[i]}/>
                                 <UploadButton onClick={() => {}}>
                                     <label htmlFor={'file'}  style={{ textAlign:'center', fontSize:14, width:'100%', height: '100%', paddingBottom:2 , paddingTop:4, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>
                                 </UploadButton>

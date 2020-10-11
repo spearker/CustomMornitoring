@@ -103,7 +103,7 @@ const PartsContainer = () => {
         const tempUrl = `${API_URLS['parts'].detail}?pk=${pk}`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.items.map((v,i)=>{
+        const getStock = res.info_list.map((v,i)=>{
             const division = transferCodeToName('stock', Number(v.division))
             return {...v, division: division}
         })
