@@ -111,6 +111,7 @@ const MoldCreateRegisterContainer = () => {
                 state = true
             }
         })
+
         if(!moldData?.pk || !selectDate || !state){
             alert('모든 칸을 입력해주세요.')
         }else{
