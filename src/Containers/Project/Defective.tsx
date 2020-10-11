@@ -16,7 +16,7 @@ const DefectiveContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [selectPk, setSelectPk ]= useState<any>(null);
-    const [deletePk, setDeletePk] = useState<(string[])>([]);
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectValue, setSelectValue ]= useState<any>(null);
     const history = useHistory();
 
@@ -38,7 +38,7 @@ const DefectiveContainer = () => {
         },
         {
             Name: '삭제',
-
+            Link: () => postDelete()
         }
     ]
 
@@ -52,38 +52,59 @@ const DefectiveContainer = () => {
         },
     ]
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.map((v,i)=>{
-                deletePk.pop()
-            })
-            :
-            list.map((v, i) => {
-                tmpPk.push(v.barcode_pk)
-                deletePk.push(tmpPk.toString())
-            })
+          arrayDelete()
+          :
+          list.map((v, i) => {
+              arrayDelete()
+
+              if(deletePk.pk.indexOf(v.pk) === -1){
+                  tmpPk.push(v.pk)
+              }
+
+              tmpPk.map((vi, index) => {
+                  if(deletePk.pk.indexOf(v.pk) === -1){
+                      deletePk.pk.push(vi)
+                  }
+              })
+
+              if(tmpPk.length < deletePk.pk.length){
+                  deletePk.pk.shift()
+              }
+
+              console.log('deletePk.pk', deletePk.pk)
+          })
         }
     },[deletePk])
 
-
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.indexOf(Data.barcode_pk)
-        {deletePk.indexOf(Data.barcode_pk) !== -1 ?
-            deletePk.splice(IndexPk,1)
-            :
-            deletePk.push(Data.barcode_pk)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+          deletePk.pk.splice(IndexPk,1)
+          :
+          deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
     const postDelete = useCallback(async () => {
-        const tempUrl = `${API_URLS['barcode'].delete}`
-        const res = await postProjectDelete(tempUrl, deletePk)
+        const tempUrl = `${API_URLS['defective'].delete}`
+        const res = await postProjectDelete(tempUrl, {pk: deletePk.pk[0]})
         console.log(res)
 
         getList()
-
-        selectPk(null)
+        // selectPk(null)
     },[deletePk])
 
     const onClick = useCallback((mold) => {

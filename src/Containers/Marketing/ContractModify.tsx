@@ -59,8 +59,8 @@ const ContractModifyContainer = ({match}:Props) => {
     },[])
 
     useEffect(()=>{
-        console.log(contractData)
-    },[contractData])
+        setContractData({...contractData, material_pk: selectMaterial?.pk})
+    },[selectMaterial])
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
@@ -80,7 +80,7 @@ const ContractModifyContainer = ({match}:Props) => {
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
-                            <td><ProductionPickerModal select={selectMaterial} onClickEvent={(e) => setSelectMaterial(e)} text={'품목(품목명)을 선택해주세요.'}/></td>
+                            <td><ProductionPickerModal select={selectMaterial} type={1} onClickEvent={(e) => setSelectMaterial(e)} text={'품목(품목명)을 선택해주세요.'} /></td>
                         </tr>
                         <tr>
                             <td>• 수량</td>

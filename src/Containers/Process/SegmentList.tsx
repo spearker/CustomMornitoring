@@ -16,7 +16,7 @@ const SegmentListContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [index, setIndex] = useState({ name: "공정별 세분화 명"});
     const [subIndex, setSubIndex] = useState({order: '공정 순서'})
     const [selectPk, setSelectPk ]= useState<any>(null);
@@ -82,8 +82,6 @@ const SegmentListContainer = () => {
         }
     ]
 
-
-
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf',mold.pk,mold.mold_name);
         if(mold.pk === selectPk){
@@ -100,32 +98,57 @@ const SegmentListContainer = () => {
 
     }, [list, selectPk]);
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
-            })
-            :
-            list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
-            })
+          arrayDelete()
+          :
+          list.map((v, i) => {
+              arrayDelete()
+
+              if(deletePk.pk.indexOf(v.pk) === -1){
+                  tmpPk.push(v.pk)
+              }
+
+              tmpPk.map((vi, index) => {
+                  if(deletePk.pk.indexOf(v.pk) === -1){
+                      deletePk.pk.push(vi)
+                  }
+              })
+
+              if(tmpPk.length < deletePk.pk.length){
+                  deletePk.pk.shift()
+              }
+
+              console.log('deletePk.pk', deletePk.pk)
+          })
         }
     },[deletePk])
 
-      const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
-            :
-            deletePk.keys.push(Data.pk)
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+          deletePk.pk.splice(IndexPk,1)
+          :
+          deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
         const postDelete = useCallback(async () => {
             const tempUrl = `${API_URLS['segment'].delete}`
             const res = await postSegmentDelete(tempUrl, deletePk)
+
+            getList()
 
         },[deletePk])
 

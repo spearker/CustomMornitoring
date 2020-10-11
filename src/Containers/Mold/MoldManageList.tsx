@@ -42,13 +42,14 @@ const CreateContainer = () => {
         },
     }
 
-    const eventdummy = [
-        {
-            Name: '수정',
-            Width: 60,
-            Color: 'white'
-        },
-    ]
+    // const eventdummy = [
+    //     {
+    //         Name: '수정',
+    //         Width: 60,
+    //         Color: 'white',
+    //         Link: () => {}
+    //     },
+    // ]
 
     const titleeventdummy = [
         {
@@ -60,7 +61,7 @@ const CreateContainer = () => {
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
+            deletePk.keys.map((v,i) =>{
                 deletePk.keys.pop()
             })
             :
@@ -126,7 +127,7 @@ const CreateContainer = () => {
         getList()
         setIndex(indexList["manage"])
         // setList(dummy)
-        setEventList(eventdummy)
+        // setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
     },[])
 
@@ -139,7 +140,7 @@ const CreateContainer = () => {
                 checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
+                // EventList={eventList}
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}

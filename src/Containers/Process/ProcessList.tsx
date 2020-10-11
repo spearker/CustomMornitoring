@@ -19,7 +19,7 @@ const ProcessListContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any>([]);
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [index, setIndex] = useState({ type: "타입" });
     const [BOMindex, setBOMIndex] = useState({ material_name: '품목(품목명)' });
     const [selectPk, setSelectPk] = useState<any>(null);
@@ -72,27 +72,49 @@ const ProcessListContainer = () => {
 
     }, [list, selectPk]);
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
 
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
-            })
-            :
-            list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
-            })
+          arrayDelete()
+          :
+          list.map((v, i) => {
+              arrayDelete()
+
+              if(deletePk.pk.indexOf(v.pk) === -1){
+                  tmpPk.push(v.pk)
+              }
+
+              tmpPk.map((vi, index) => {
+                  if(deletePk.pk.indexOf(v.pk) === -1){
+                      deletePk.pk.push(vi)
+                  }
+              })
+
+              if(tmpPk.length < deletePk.pk.length){
+                  deletePk.pk.shift()
+              }
+
+              console.log('deletePk.pk', deletePk.pk)
+          })
         }
     },[deletePk])
 
-      const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
-            :
-            deletePk.keys.push(Data.pk)
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+          deletePk.pk.splice(IndexPk,1)
+          :
+          deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 

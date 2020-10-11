@@ -177,11 +177,13 @@ const ContractRegister = ({match}:Props) => {
             if(res.status === 200){
                 const data = res.results;
                 setInputData('location',data.address)
+                setSelectMaterial({name: data.product, pk: data.product_pk})
+                setSelectOutsource({name: data.company_name, pk: data.company_pk})
                 setQuantity(data.quantity)
                 setUnpaid(data.unpaid)
                 setSelectDate(data.due_date)
                 setPaymentCondition(data.payment_condition)
-
+                console.log(data)
             }else{
                 //TODO:  기타 오류
             }
