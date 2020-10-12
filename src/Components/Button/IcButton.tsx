@@ -26,7 +26,7 @@ const IcButton = ({image, dim, onClickEvent, customStyle}: IProps) => {
   return (
 
        <ButtonBox type="submit" style={customStyle} onClick={()=>onClickEvent}>
-         <img src={image} style={{width: 14}}/>
+         <img src={image} style={{width: 20}}/>
        </ButtonBox>
 
 

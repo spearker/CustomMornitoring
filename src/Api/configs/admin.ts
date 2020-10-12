@@ -35,6 +35,7 @@ const getErrorCase = (code) => {
     console.log(code)
     switch(code){
         case 2000:
+            alert('[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다')
             return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
         case 3000:
             return '[조회 불가] 해당 ID를 지닌 데이터가 없습니다';

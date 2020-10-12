@@ -238,8 +238,8 @@ const ProcessDetailRegisterContainer = () => {
                     <ButtonWrap onClick={async () => {
                         postProcessRegisterFunc()
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                            <p style={{fontSize: 18}}>등록하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -256,7 +256,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -266,12 +266,12 @@ const ContainerMain = Styled.div`
         height: 100%;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
             padding-left: 8px;
-            font-famaily: NotoSansCJKkr;
+            font-family: NotoSansCJKkr;
             height: 28px;
             border: 0.5px solid #b3b3b3;
             width: calc( 100% - 8px );
@@ -346,7 +346,7 @@ const HeaderTable = styled.div`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

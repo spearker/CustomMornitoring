@@ -57,7 +57,7 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
@@ -81,7 +81,8 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                         padding: 0
                     },
                     overlay:{
-                        background: 'rgba(0,0,0,.6)'
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
                     }
                 }}
             >
@@ -94,7 +95,7 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -187,7 +188,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

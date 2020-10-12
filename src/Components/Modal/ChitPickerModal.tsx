@@ -14,9 +14,10 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    buttonWid?: string | number
 }
 
-const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
+const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [processName, setProcessName] = useState('')
@@ -63,7 +64,7 @@ const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
@@ -82,7 +83,8 @@ const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
                        padding: 0
                    },
                    overlay:{
-                       background: 'rgba(0,0,0,.6)'
+                       background: 'rgba(0,0,0,.6)',
+                       zIndex: 5
                    }
                 }}
             >
@@ -95,7 +97,7 @@ const ChitPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -192,7 +194,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

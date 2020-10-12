@@ -74,21 +74,21 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
 
     const getList = useCallback(async () => {
         if (type === 'machine') {
-            const tempUrl = `${BASIC_URLS['machine'].list}?page=0&keyword=&type=0`
+            const tempUrl = `${BASIC_URLS['machine'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'device') {
-            const tempUrl = `${BASIC_URLS['device'].list}?page=0&keyword=&type=0`
+            const tempUrl = `${BASIC_URLS['device'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'mold') {
-            const tempUrl = `${BASIC_URLS['mold'].list}?page=0&keyword=&type=0`
+            const tempUrl = `${BASIC_URLS['mold'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'material') {
-            const tempUrl = `${BASIC_URLS['material'].list}?page=0&keyword=&type=0`
+            const tempUrl = `${BASIC_URLS['material'].list}?page=${page.current}&keyword=&type=0&limit=15`
             const resultData = await getBasicList(tempUrl);
-            setCustomList(resultData.items)
+            setCustomList(resultData.info_list)
         } else if (type === 'voucher') {
             const tempUrl = `${PRODUCTION_URLS['chit'].list}?pk=''&page=${page.current}`
             const resultData = await getProjectList(tempUrl);
@@ -135,7 +135,8 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                         padding: 0
                     },
                     overlay:{
-                        background: 'rgba(0,0,0,.6)'
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
                     }
                 }}
             >
@@ -148,7 +149,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -177,48 +178,46 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                             })}
                                         </tr>
                                         :
-                                        <tr style={{height: 32}}>
-                                            {customList?.map((v,i) =>
-                                            {
+                                        <>
+                                            {customList?.map((v,i) => {
                                                 return Object.keys(customName).map((vi)=>{
                                                     return(
-                                                        vi === type ?
-                                                            Object.keys(customName[vi]).map(m => {
-                                                                return(
-                                                                    <td key={v[m]}>{v[m]}</td>
-                                                                )})
-                                                            :
-                                                            null
-                                                    )
-                                                })
-                                            })}
-                                            {customList?.map((v,i) =>
-                                            {
-                                                return Object.keys(customName).map((vi)=>{
-                                                    return(
-                                                        vi === type ?
+                                                        <tr>
+                                                            {vi === type ?
+                                                                Object.keys(customName[vi]).map(m => {
+                                                                    return (
+                                                                        <td key={v[m]}>{v[m]}</td>
+                                                                    )
+                                                                })
+                                                                :
+                                                                null
+                                                            }
+                                                            {
+                                                            vi === type ?
                                                             Object.keys(customName[vi]).map((m,index) => {
-                                                                return(
-                                                                    <td>
-                                                                        {index === 0 ?
-                                                                            <button onClick={() => {setMachineName(v[m])
-                                                                                return onClickEvent({name: v[m], pk: v.pk})}}
-                                                                                style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
-                                                                            >
-                                                                                <img src={ic_check}
-                                                                                     style={{width: 20, height: 20}}/>
-                                                                            </button> :
-                                                                            null
-                                                                        }
-                                                                    </td>
-                                                                )
-                                                            })
+                                                            return(
+                                                            <td>
+                                                            {index === 0 ?
+                                                                <button onClick={() => {setMachineName(v[m])
+                                                                    return onClickEvent({name: v[m], pk: v.pk})}}
+                                                                        style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                                >
+                                                                    <img src={ic_check}
+                                                                         style={{width: 20, height: 20}}/>
+                                                                </button> :
+                                                                null
+                                                            }
+                                                            </td>
+                                                            )
+                                                        })
                                                             :
                                                             null
+                                                            }
+                                                        </tr>
                                                     )
                                                 })
                                             })}
-                                        </tr>
+                                        </>
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
@@ -286,7 +285,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );
@@ -330,7 +329,6 @@ const MachineTable = Styled.table`
     border-collapse: collapse;
     border-spacing: 0px;
     tr{
-        height: 32px;
         border: 1px solid #b3b3b3;
         padding: 0px;
         th{

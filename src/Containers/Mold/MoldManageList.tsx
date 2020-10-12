@@ -3,9 +3,10 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
+import {postCustomerDelete} from "../../Api/mes/customer";
 
 
-const RepairContainer = () => {
+const CreateContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
@@ -13,6 +14,7 @@ const RepairContainer = () => {
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
     const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -20,13 +22,14 @@ const RepairContainer = () => {
         current: 1,
     });
 
+
     const indexList = {
-        repair: {
-            mold_name: '금형 이름',
-            manager: '수리 담당자',
-            complete_date: '완료 예정 날짜',
-            registered: '수리 등록 날짜',
-            status: "상태"
+        manage: {
+            mold_name: "금형명",
+            manufacturing_date: "제조일",
+            site: "창고위치" ,
+            production:"생산품목",
+            registered:"등록날짜",
         }
     }
 
@@ -40,76 +43,67 @@ const RepairContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-    ]
-
-    const detaildummy = [
-        {
-            part_name: '부품명00',
-            repair_content: '부품명00에 대한 수리내용은 본 내용과 같습니다.',
-            repair_status: '완료',
-            complete_date: '2020.08.09'
-        },
-    ]
-
-    const eventdummy = [
-        {
-            Name: '입고',
-            Width: 60,
-            Color: 'white'
-        },
-        {
-            Name: '출고',
-            Width: 60,
-            Color: 'white'
-        },
-    ]
+    // const eventdummy = [
+    //     {
+    //         Name: '수정',
+    //         Width: 60,
+    //         Color: 'white',
+    //         Link: () => {}
+    //     },
+    // ]
 
     const titleeventdummy = [
         {
             Name: '삭제',
+            Link: ()=> postDelete()
         }
     ]
+
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+
+        {list.length === 0 ?
+            arrayDelete()
+            :
+            list.map((v, i) => {
+                arrayDelete()
+
+                if(deletePk.pk.indexOf(v.pk) === -1){
+                    tmpPk.push(v.pk)
+                }
+
+                tmpPk.map((vi, index) => {
+                    if(deletePk.pk.indexOf(v.pk) === -1){
+                        deletePk.pk.push(vi)
+                    }
+                })
+
+                if(tmpPk.length < deletePk.pk.length){
+                    deletePk.pk.shift()
+                }
+
+                console.log('deletePk.pk', deletePk.pk)
+            })
+        }
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
+            :
+            deletePk.pk.push(Data.pk)
+        }
+    },[deletePk])
 
 
     const onClick = useCallback((mold) => {
@@ -130,10 +124,18 @@ const RepairContainer = () => {
 
     }, [list, selectPk]);
 
+    // const getData = useCallback( async(pk)=>{
+    //     //TODO: 성공시
+    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
+    //     const res = await getMoldData(tempUrl)
+    //
+    //     setDetailList(res)
+    //
+    // },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS["manage"].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
@@ -141,34 +143,40 @@ const RepairContainer = () => {
         setPage({ current: res.current_page, total: res.total_page })
     },[list,page])
 
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['manage'].delete}`
+        const res = await postCustomerDelete(tempUrl, deletePk)
+
+        getList()
+    },[deletePk])
+
     useEffect(()=>{
         getList()
     },[page.current])
 
     useEffect(()=>{
         getList()
-        setIndex(indexList["repair"])
+        setIndex(indexList["manage"])
         // setList(dummy)
-        setDetailList(detaildummy)
-        setEventList(eventdummy)
+        // setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle['repair'])
     },[])
 
     return (
         <div>
             <OvertonTable
-                title={'금형 수리 완료'}
+                title={'금형 관리 리스트'}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
+                checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
+                // EventList={eventList}
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
-                mainOnClickEvent={onClick}
-                noChildren={true}
-            >
+                noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'수리 현황'} contentTitle={subIndex} contentList={detailList}>
@@ -189,4 +197,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default RepairContainer
+export default CreateContainer

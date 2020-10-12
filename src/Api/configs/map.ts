@@ -35,6 +35,7 @@ client.interceptors.response.use(function (response) {
 const getErrorCase = (code: any) => {
   switch(code){
     case 2000:
+      alert('[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다')
       return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
     case 3000:
       return '[삭제 불가] 기존 지도 데이터가 존재합니다. 기존 데이터를 수정해주세요.';

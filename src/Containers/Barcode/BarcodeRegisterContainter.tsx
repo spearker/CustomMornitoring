@@ -63,7 +63,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
         const resultData = await getBarcode(tempUrl);
         console.log(resultData)
 
-        setBarcodeImg(resultData.barcode_photo)
+        setBarcodeImg("http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name="+resultData.barcode_photo)
     },[rules,barcodeImg])
 
     const getLoad = useCallback( async() => {
@@ -74,7 +74,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
         setInputData('barcode_name',resultData.barcode_name)
         setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
         setRules(resultData.barcode_number.split(','))
-        setBarcodeImg(resultData.barcode_img_name)
+        setBarcodeImg(resultData.barcode_img_url)
         setReason(resultData.description)
 
     },[inputData,rules,barcodeImg,reason,type,selectMachine])
@@ -188,7 +188,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
                         {barcodeImg === '' ?
                             <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: "center"}}>바코드 이미지가 없습니다.</p>
                             :
-                            <img src={`http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=${barcodeImg}`} style={{ width:'100%',height: '100%', float:'right'}}/>
+                            <img src={`${barcodeImg}`} style={{ width:'100%',height: '100%', float:'right'}}/>
                         }
                     </div>
                     <ListHeader title="선택 항목"/>
@@ -228,7 +228,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -239,12 +239,12 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
             padding-left: 8px;
-            font-famaily: NotoSansCJKkr;
+            font-family: NotoSansCJKkr;
             height: 28px;
             border: 0.5px solid #b3b3b3;
             width: calc( 100% - 8px );

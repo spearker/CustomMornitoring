@@ -85,7 +85,7 @@ const QualityTestListWorker = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['request'].search}?keyWord=${searchValue}&currentPage=${page.current}`
+        const tempUrl = `${API_URLS['request'].search}?keyWord=${searchValue}&currentPage=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
@@ -107,7 +107,7 @@ const QualityTestListWorker = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['request'].list}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['request'].list}?currentPage=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
@@ -124,6 +124,10 @@ const QualityTestListWorker = () => {
         setTitleEventList(titleeventdummy)
     },[])
 
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
     return (
         <div>
             <OvertonTable
@@ -132,7 +136,9 @@ const QualityTestListWorker = () => {
                 valueList={list}
                 mainOnClickEvent={onClick}
                 noChildren={true}
-                searchBar={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}>
                 {
@@ -144,7 +150,6 @@ const QualityTestListWorker = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     )
 }

@@ -93,7 +93,8 @@ const BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
                        padding: 0
                    },
                    overlay:{
-                       background: 'rgba(0,0,0,.6)'
+                       background: 'rgba(0,0,0,.6)',
+                       zIndex: 5
                    }
                 }}
             >
@@ -183,7 +184,7 @@ const BoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

@@ -2,17 +2,20 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
+import {API_URLS, getMoldList, postMoldRegister, postMoldState} from "../../Api/mes/manageMold";
 import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
-
+import {useHistory} from 'react-router-dom';
+import {postCustomerDelete} from "../../Api/mes/customer";
 
 const CreateContainer = () => {
 
+    const history = useHistory()
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -20,6 +23,53 @@ const CreateContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
+
+
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
+    const allCheckOnClick = useCallback((list)=>{
+        let tmpPk: string[] = []
+
+        {list.length === 0 ?
+            arrayDelete()
+            :
+            list.map((v, i) => {
+                arrayDelete()
+
+                if(deletePk.pk.indexOf(v.pk) === -1){
+                    tmpPk.push(v.pk)
+                }
+
+                tmpPk.map((vi, index) => {
+                    if(deletePk.pk.indexOf(v.pk) === -1){
+                        deletePk.pk.push(vi)
+                    }
+                })
+
+                if(tmpPk.length < deletePk.pk.length){
+                    deletePk.pk.shift()
+                }
+
+                console.log('deletePk.pk', deletePk.pk)
+            })
+        }
+    },[deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
+            :
+            deletePk.pk.push(Data.pk)
+        }
+    },[deletePk])
 
 
     const indexList = {
@@ -44,54 +94,62 @@ const CreateContainer = () => {
 
     const eventdummy = [
         {
-            Name: '수정',
-            Width: 60,
-            Color: 'white'
+            Width: 98,
+            Link: (v)=> v.status === '진행중' ?  getComplete(v.pk) : getCancel(v.pk)
         },
     ]
 
     const titleeventdummy = [
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['making'].delete}`
+        const res = await postCustomerDelete(tempUrl, deletePk)
 
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
-        }else{
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
-            setSelectValue(mold)
-            //TODO: api 요청
-            // getData(mold.pk)
-        }
+        getList()
+    },[deletePk])
 
+    const getComplete = useCallback( async(pk)=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['making'].complete}`
+        const res = await postMoldState(tempUrl,{pk:pk})
 
+        setDetailList(res)
+        getList()
+    },[detailList])
 
-    }, [list, selectPk]);
+    const getCancel = useCallback( async(pk)=>{
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['making'].cancel}`
+        const res = await postMoldState(tempUrl,{pk:pk})
 
-    // const getData = useCallback( async(pk)=>{
-    //     //TODO: 성공시
-    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    //     const res = await getMoldData(tempUrl)
-    //
-    //     setDetailList(res)
-    //
-    // },[detailList])
+        setDetailList(res)
+        getList()
+    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=''&type=0`
+        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
-        setList(res.items)
+        const Detail = res.info_list.map((v,i)=>{
+            const status = v.status === 'WAIT' ? "진행중" : "완료"
 
-    },[list])
+            return {...v, status: status}
+        })
+
+        setList(Detail)
+
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -106,12 +164,17 @@ const CreateContainer = () => {
             <OvertonTable
                 title={'금형 제작 현황 리스트'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
+                mainOnClickEvent={(v)=>history.push(`/mold/create/register/${v.pk}`)}
+                allCheckOnClickEvent={allCheckOnClick}
+                checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
-                checkBox={true}
+                buttonState={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?
@@ -121,7 +184,6 @@ const CreateContainer = () => {
                         :
                         null
                 }
-                <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
             </OvertonTable>
         </div>
     );

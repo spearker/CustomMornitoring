@@ -66,7 +66,7 @@ const WrapHoverBox = Styled.div`
     position: fixed;
     width: 100vw;
     height: 100vh;
-    z-index: 4;
+    z-index: 5;
 `
 const InnerBox = Styled.div`
     position: fixed;
@@ -75,6 +75,7 @@ const InnerBox = Styled.div`
     top: 50%;
     margin-top: -230px; 
     overflow: auto;
+    z-index: 5;
     p{
         font-size: 14px;
     }

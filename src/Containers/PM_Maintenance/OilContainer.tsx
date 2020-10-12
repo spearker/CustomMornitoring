@@ -189,19 +189,19 @@ const OilMaintenanceContainer = () => {
     temperature: "",
     machine_name: "",
     pk:"dummyPK1",
-    x_time: ["1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17" ,"18", "19", "20", "21", "22", "23", "24"],
-    y_pressure: [58, 55, 55, 60, 57, 58, 60, 55, 56 ,11,11,12,24,24,24,24,24,24,22,24,22,22,22,30,20],
+    x_time: [],
+    y_pressure: [],
   }
 
   const [data, setData] = React.useState(dummyData)
-  const [pressData,setPressData] = React.useState<[{
+  const [pressData,setPressData] = React.useState<{
     machine_name: string,
   pk: string,
-  tons: number}]>([{
+  tons: number}>({
     machine_name: "제스텍 프레스 컨트롤러",
     pk: "v1_SIZL_machine_1_null_1",
     tons: 200
-  }])
+  })
   const TODAY_START = new Date(moment().format('YYYY-MM-DD 00:00:00')).getTime();
   const TODAY_END = new Date(moment().format('YYYY-MM-DD 24:00:00')).getTime();
 
@@ -240,7 +240,7 @@ const OilMaintenanceContainer = () => {
     dials: {
       dial: [
         {
-          value: pressData[0].pk !== '' ? data.pressure_average : "0"
+          value: pressData.pk !== '' ? data.pressure_average : "0"
         }
       ]
     }
@@ -266,11 +266,10 @@ const OilMaintenanceContainer = () => {
     setPressData(resultData)
 
     getData()
-  },[])
-
+  },[pressData, selectComponent])
 
   const getData = useCallback(async ()=>{
-    const tempUrl = `${URLS_PRE['oil'].load}?pk=${pressData[0].pk}&date=${selectDate}`
+    const tempUrl = `${URLS_PRE['oil'].load}?pk=${selectComponent}&date=${selectDate}`
     const resultData = await getOilData(tempUrl);
     console.log("resultData", resultData)
     // if(index === '1'){
@@ -282,11 +281,11 @@ const OilMaintenanceContainer = () => {
     // }
     setData(resultData)
 
-  },[ selectDate])
+  },[ selectDate, selectComponent])
 
   useEffect(()=>{
     getList()
-  },[selectComponent])
+  },[selectComponent, selectDate])
 
   return (
     <div>

@@ -3,11 +3,11 @@ import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import OutsourcingRegisterContainer from "../../Containers/Outsourcing/OutsourcingRegister";
 
-const OutsourcingRegister = () => {
+const OutsourcingRegister = ({match}:any) => {
     return (
         <DashboardWrapContainer index={'outsourcing'}>
             <InnerBodyContainer>
-                <OutsourcingRegisterContainer />
+                <OutsourcingRegisterContainer match={match}/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

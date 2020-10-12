@@ -1,17 +1,16 @@
 import React from "react";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import MoldCreateRegisterContainer from "../../Containers/Mold/MoldCreateRegister";
+import MoldListContainer from "../../Containers/Mold/MoldManageList";
 
-const MoldCreateRegister = ({match}:any) => {
+const MoldManageList = () => {
     return (
         <DashboardWrapContainer index={'mold'}>
             <InnerBodyContainer>
-                <MoldCreateRegisterContainer match={match}/>
+                <MoldListContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default MoldCreateRegister
-
+export default MoldManageList
