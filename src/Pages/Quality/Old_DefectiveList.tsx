@@ -60,7 +60,7 @@ const Old_DefectiveList = () => {
 
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://203.234.183.22:8299/api/v1/stock/history/inferior?'}/>
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://112.168.150.239:8299/api/v1/stock/history/inferior?'}/>
 
           <InfoTable indexList={index} pkKey={'pk'} type={'stock'} onClickLinkUrl="/stock/view?pk=" contents={list} />
 
