@@ -5,6 +5,7 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getMoldList, postMoldRegister, postMoldState} from "../../Api/mes/manageMold";
 import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 import {useHistory} from 'react-router-dom';
+import {postCustomerDelete} from "../../Api/mes/customer";
 
 const CreateContainer = () => {
 
@@ -14,7 +15,7 @@ const CreateContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
@@ -24,26 +25,49 @@ const CreateContainer = () => {
     });
 
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
-            })
+            arrayDelete()
             :
             list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
+                arrayDelete()
+
+                if(deletePk.pk.indexOf(v.pk) === -1){
+                    tmpPk.push(v.pk)
+                }
+
+                tmpPk.map((vi, index) => {
+                    if(deletePk.pk.indexOf(v.pk) === -1){
+                        deletePk.pk.push(vi)
+                    }
+                })
+
+                if(tmpPk.length < deletePk.pk.length){
+                    deletePk.pk.shift()
+                }
+
+                console.log('deletePk.pk', deletePk.pk)
             })
         }
     },[deletePk])
 
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
             :
-            deletePk.keys.push(Data.pk)
+            deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
@@ -78,9 +102,16 @@ const CreateContainer = () => {
     const titleeventdummy = [
         {
             Name: '삭제',
+            Link: ()=>postDelete()
         }
     ]
 
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['making'].delete}`
+        const res = await postCustomerDelete(tempUrl, deletePk)
+
+        getList()
+    },[deletePk])
 
     const getComplete = useCallback( async(pk)=>{
         //TODO: 성공시
@@ -132,6 +163,7 @@ const CreateContainer = () => {
         <div>
             <OvertonTable
                 title={'금형 제작 현황 리스트'}
+                titleOnClickEvent={titleEventList}
                 mainOnClickEvent={(v)=>history.push(`/mold/create/register/${v.pk}`)}
                 allCheckOnClickEvent={allCheckOnClick}
                 checkOnClickEvent={checkOnClick}

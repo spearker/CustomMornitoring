@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
 
 
 const RepairContainer = () => {
@@ -23,10 +23,10 @@ const RepairContainer = () => {
     const indexList = {
         repair: {
             mold_name: '금형 이름',
-            mold_location: '보관장소',
-            charge_name: '수리 담당자',
-            registered_date: '수리 등록 날짜',
-            complete_date: '완료 예정 날짜'
+            manager: '수리 담당자',
+            complete_date: '완료 예정 날짜',
+            registered: '수리 등록 날짜',
+            status: "상태"
         }
     }
 
@@ -130,23 +130,15 @@ const RepairContainer = () => {
 
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
-    },[detailList])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}&page=${page.current}&limit=15`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&limit=15`
+        const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({ current: res.current_page, total: res.total_page })
     },[list,page])
 
     useEffect(()=>{
@@ -154,9 +146,9 @@ const RepairContainer = () => {
     },[page.current])
 
     useEffect(()=>{
-        // getList()
+        getList()
         setIndex(indexList["repair"])
-        setList(dummy)
+        // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
@@ -175,6 +167,7 @@ const RepairContainer = () => {
                 totalPage={page.total}
                 pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}
+                noChildren={true}
             >
                 {
                     selectPk !== null ?

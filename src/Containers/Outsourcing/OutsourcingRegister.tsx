@@ -160,10 +160,10 @@ const OutsourcingRegister = ({match}:any) => {
         e.preventDefault();
 
         const data = {
-            pk: getParameter('pk'),
+            pk: match.params.pk,
             name: name,
             number: no,
-            type: type,
+            type: type.toString(),
             ceo_name: ceo,
             photo: paths[0],
             telephone: phone === '' ? null : phone,
@@ -214,7 +214,7 @@ const OutsourcingRegister = ({match}:any) => {
 
             name: name,
             number: no,
-            type: type,
+            type: type.toString(),
             ceo_name: ceo,
             photo: paths[0],
             telephone: phone === '' ? null : phone,

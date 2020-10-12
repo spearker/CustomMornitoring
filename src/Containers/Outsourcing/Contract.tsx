@@ -227,8 +227,8 @@ const ContractContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['contract'].load}`
-        const res = await postOutsourcingList(tempUrl, {pk:pk})
+        const tempUrl = `${API_URLS['contract'].load}?pk=${pk}`
+        const res = await getOutsourcingList(tempUrl)
 
         setDetailList([res])
 

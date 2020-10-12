@@ -18,7 +18,7 @@ const OrderContainer = () => {
     const [contentsList, setContentsList] = useState<any[]>(['거래처명','제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [index, setIndex] = useState({ name: '외주처' });
+    const [index, setIndex] = useState({ company_name: '외주처 명' });
     const [subIndex, setSubIndex] = useState({ manager: '작성자' })
     const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk] = useState<any>(null);
@@ -31,7 +31,7 @@ const OrderContainer = () => {
 
     const indexList = {
         order: {
-            name: '외주처 명',
+            company_name: '외주처 명',
             product: '제품 명',
             quantity: '수량',
             unpaid: '미납 수량',
@@ -187,8 +187,8 @@ const OrderContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['order'].load}`
-        const res = await postOutsourcingList(tempUrl,{pk:pk})
+        const tempUrl = `${API_URLS['order'].load}?pk=${pk}`
+        const res = await getOutsourcingList(tempUrl)
 
         setDetailList([res])
 

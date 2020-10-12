@@ -12,7 +12,7 @@ const Email = () => {
   const history = useHistory();
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const [subDomain, setSubDomain] = useState<string>(window.location.hostname+':5000');
+  const [subDomain, setSubDomain] = useState<string>(window.location.hostname);
   const [check, setCheck] = useState<boolean>(false);
   const {t} = useTranslation();
 ;

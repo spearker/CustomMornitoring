@@ -143,8 +143,8 @@ const BasicMoldRegister = () => {
          setInput_material({...input_material, pk: data.input_material_pk, name: data.input_material_name});
          setOutput_material({...output_material, pk: data.output_material_pk, name: data.output_material_name});
          const tempList = paths.slice();
-         tempList[0]= data.photo;
-         tempList[1]= data.qualification;
+         tempList[0]= data.upper;
+         tempList[1]= data.below;
          setOldPaths(tempList);
 
 

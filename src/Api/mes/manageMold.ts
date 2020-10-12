@@ -49,7 +49,8 @@ export const API_URLS = {
         list: `/v1/manageMold/repair/list`,
         detail: `/v1/manageMold/repair/detail`,
         complete: `/v1/manageMold/repair/complete`,
-        cancel: `/v1/manageMold/repair/cancel`
+        cancel: `/v1/manageMold/repair/cancel`,
+        completeList: `/v1/manageMold/repair/complete/list`
     },
     manage:{
         register: `/v1/manageMold/manage/register`,
@@ -58,7 +59,8 @@ export const API_URLS = {
         list: `/v1/manageMold/manage/list`,
         detail: `/v1/manageMold/manage/detail`,
         complete: `/v1/manageMold/manage/complete`,
-        cancel: `/v1/manageMold/manage/cancle`
+        cancel: `/v1/manageMold/manage/cancle`,
+        selectInfo: `/v1/manageMold/manage/selectInfo`
     },
     making:{
         register: `/v1/manageMold/making/register`,

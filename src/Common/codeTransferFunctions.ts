@@ -40,11 +40,11 @@ export  const getPartsTypeList = (lang) => {
 export const subMachineCodes = [
 
     {code: 51, name: '미스피드'},
-    {code: 52, name: '하사점'},
+    {code: 52, name: '하사점 검출장치'},
     {code: 53, name: '로드모니터'},
     {code: 54, name: '앵글시퀀서'},
     {code: 55, name: '엔코더'},
-    {code: 56, name: '통과센터'},
+    {code: 56, name: '통과센서'},
     {code: 50, name: '기타(분류없음)'},
 ]
 

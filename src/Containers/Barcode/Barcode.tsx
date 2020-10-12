@@ -229,7 +229,7 @@ const BarcodeListContainer = () => {
                                         {/*    <p>A123</p>*/}
                                         {/*</div>*/}
                                     </BarcodeNum>
-                                    <ButtonBox>바코드 이미지 다운로드</ButtonBox>
+                                    {/*<ButtonBox>바코드 이미지 다운로드</ButtonBox>*/}
                                 </BarcodeContainer>
                         </LineTable>
                         :
