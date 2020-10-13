@@ -33,7 +33,7 @@ const BasicPartsRegister = () => {
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [partsName,setPartsName] = useState<string>('');
-    const [type,setType] = useState<string>('');
+    const [type,setType] = useState<number>(0);
     const [location, setLocation] = useState<any[]>([]);
     const [cost,setCost] = useState<number>()
 
@@ -58,81 +58,6 @@ const BasicPartsRegister = () => {
         }
 
     },[])
-
-    const getData = useCallback(async()=>{
-
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
-
-        if(res === false){
-            //TODO: 에러 처리
-        }else{
-            if(res.status === 200 || res.status === "200"){
-                    const data = res.results;
-
-                    setPk(data.pk)
-                    setLocation ([{pk: data.location_pk, name: data.location_name}])
-                    setCost(data.parts_cost)
-                    setName(data.parts_name)
-                    setPartsName(data.parts_type_name)
-
-            }else{
-                //TODO:  기타 오류
-            }
-        }
-    },[pk, optional, essential, inputData ])
-
-
-    const onsubmitFormUpdate = useCallback(async()=>{
-
-        const data = {
-            pk: getParameter('pk'),
-            material_name: inputData.material_name,
-            material_type: inputData.material_type,
-            location: inputData.location[0].pk,
-            using_mold:  inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
-            cost: inputData.cost,
-            safe_stock: inputData.safe_stock,
-            material_spec: inputData.material_spec,
-            info_list: JsonStringifyList(essential, optional)
-        };
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
-
-        if(res === false){
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        }else{
-            if(res.status === 200){
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/material')
-            }else{
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
-        }
-
-    },[pk, optional, essential, inputData ])
-
-    const onsubmitForm = useCallback(async()=>{
-
-        const data = {
-            parts_name: name,
-            parts_type: partsPkList[type],
-            location:  location[0].pk,
-            parts_cost: cost
-        };
-
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/register', data, getToken(TOKEN_NAME))
-
-        if(res === false){
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        }else{
-            if(res.status === 200){
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/parts')
-            }else{
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
-        }
-
-    },[name,type,location,cost])
 
     const partsListLoad = useCallback(async()=>{
 
@@ -160,6 +85,80 @@ const BasicPartsRegister = () => {
         }
 
     },[partsList,partsPkList])
+
+    const getData = useCallback(async()=>{
+
+        const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+
+        if(res === false){
+            //TODO: 에러 처리
+        }else{
+            if(res.status === 200 || res.status === "200"){
+                    const data = res.results;
+
+                    setPk(data.pk)
+                    setLocation ([{pk: data.location_pk, name: data.location_name}])
+                    setCost(data.parts_cost)
+                    setName(data.parts_name)
+                    setPartsName(data.parts_type_name)
+                console.log(partsPkList)
+                console.log(partsList.indexOf(data.parts_type_name))
+            }else{
+                //TODO:  기타 오류
+            }
+        }
+    },[pk, partsList, essential, inputData, partsPkList, type ])
+
+
+    const onsubmitFormUpdate = useCallback(async()=>{
+        console.log(type)
+        const data = {
+            pk: getParameter('pk'),
+            parts_name: name,
+            parts_type: partsPkList[type],
+            location:  location[0].pk,
+            parts_cost: cost
+        };
+
+
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
+
+        if(res === false){
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        }else{
+            if(res.status === 200){
+                //alert('성공적으로 등록 되었습니다')
+                history.push('/basic/list/parts')
+            }else{
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    },[pk, location,name,type,cost, partsPkList ])
+
+    const onsubmitForm = useCallback(async()=>{
+
+        const data = {
+            parts_name: name,
+            parts_type: partsPkList[type],
+            location:  location[0].pk,
+            parts_cost: cost
+        };
+
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/register', data, getToken(TOKEN_NAME))
+
+        if(res === false){
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        }else{
+            if(res.status === 200){
+                //alert('성공적으로 등록 되었습니다')
+                history.push('/basic/list/parts')
+            }else{
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    },[name,type,location,cost])
 
 
     const partsRegister = useCallback(async()=>{
@@ -197,7 +196,7 @@ const BasicPartsRegister = () => {
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
                 partsListLoad()
-                setType('')
+                setType(0)
             }else{
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -237,6 +236,11 @@ const BasicPartsRegister = () => {
             setPartsName(partsList[type])
         }
     },[type])
+
+    useEffect(()=>{
+        partsList.indexOf(partsName)
+        setType(partsList.indexOf(partsName))
+    },[partsList,partsName])
 
     return(
         <DashboardWrapContainer index={'basic'}>

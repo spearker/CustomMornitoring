@@ -106,7 +106,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
             item_pk: selectMachine?.pk,
             barcode_type: 'barcode',
             barcode_number: rules.toString(),
-            barcode_img_name: barcodeImg,
+            barcode_img_name: barcodeImg.split('=')[1],
             description: reason
         }
 
@@ -144,7 +144,6 @@ const BarcodeRegisterContainer = ({match}:Props) => {
                     {
                         rules.length > 0 && rules[0] !== null &&
                         <>
-                            {console.log(ruleLength)}
                             <BarcodeText><br/><span>현재 규칙</span><br/>{rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'')}</BarcodeText>
                             <p style={{textAlign: "center", color:( Number(ruleLength) > 11 && Number(ruleLength) < 31) ? 'black' : 'red'}}>{ (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? '사용 할 수 있는 바코드 규칙입니다.' : '자리수는 12자 이상 30자 이하로 가능합니다.'}</p>
                         </>
@@ -178,7 +177,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
                         <BodyDiv>
                             <InputWrapBox>
                                 <input type="text" disabled value={rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'').length === 0 ? '' : rules.map(v=>{if(v !== null)return v + `-`}).join().replace(/,/g,'')} placeholder={'바코드 번호 생성 버튼을 눌러주세요.'} style={{textAlign:'left',border: 'solid 0.5px #d3d3d3', flex: 85,borderRight:0, width:'calc(100% - 90px)', padding:6, backgroundColor:'#f4f6fa', paddingLeft:8, fontSize:14}}/>
-                                <SearchButton style={{flex: 15}} onClick={()=>getBarcodeImg()}>
+                                <SearchButton style={{flex: 15}} onClick={()=>(Number(ruleLength) > 11 && Number(ruleLength) < 31) ? getBarcodeImg() : null}>
                                     <p>바코드 번호 생성</p>
                                 </SearchButton>
                             </InputWrapBox>

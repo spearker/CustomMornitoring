@@ -122,7 +122,7 @@ const ProcessListContainer = () => {
         const tempUrl = `${API_URLS['process'].delete}`
         const res = await postProcessDelete(tempUrl, deletePk)
         console.log(res)
-
+        getList()
     },[deletePk])
 
     const getData = useCallback(async (pk) => {

@@ -133,7 +133,7 @@ const BasicMoldRegister = () => {
          setCurrent(data.current)
          setDate(data.manufactured_at);
          setPk(data.pk);
-          setFactory([{pk: data.location_pk, name: data.location_name}])
+          setFactory([{pk: data.location, name: data.location_name}])
          setMadeNo(data.manufacturer_code);
          setType(Number(data.mold_type));
          setInfoList(data.info_list);
@@ -152,14 +152,47 @@ const BasicMoldRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
+  },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName,input_material,output_material, name,oldPaths, infoList, paths, essential, optional, factory ])
 
 
   const onsubmitFormUpdate = useCallback(async()=>{
+
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(madeNo === ""){
+      alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(limit.toString() === ""){
+      alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inspect.toString() === ""){
+      alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(proper.toString() === ""){
+      alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(factory[0] === ""){
+      alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_l === "" ){
+      alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_w === ""){
+      alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(mold_spec_t === ""){
+      alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(output_material.pk === ""){
+      alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(input_material.pk=== ""){
+      alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
+    console.log(factory)
     const data = {
       pk: getParameter('pk'),
       mold_name: name,
@@ -183,6 +216,8 @@ const BasicMoldRegister = () => {
 
     };
 
+
+
     const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
@@ -196,7 +231,7 @@ const BasicMoldRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, name,limit, inspect, mold_spec_w, mold_spec_l, mold_spec_t, type, date, madeNo, infoList, paths,essential, optional, factory ])
+  },[pk, made, madeNo, name,limit, inspect,input_material,output_material, mold_spec_w, mold_spec_l, mold_spec_t, type, date, madeNo, infoList, paths,essential, optional, factory ])
 
   /**
    * onsubmitForm()
@@ -207,7 +242,37 @@ const BasicMoldRegister = () => {
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(madeNo === ""){
+      alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(limit.toString() === ""){
+      alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inspect.toString() === ""){
+      alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(proper.toString() === ""){
+      alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(factory[0] === ""){
+      alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_l === "" ){
+      alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_w === ""){
+      alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(mold_spec_t === ""){
+      alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(output_material.pk === ""){
+      alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(input_material.pk=== ""){
+      alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
