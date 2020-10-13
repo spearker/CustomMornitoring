@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {API_URLS, postQualityRequestDetail} from "../../Api/mes/quality";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import {Input} from "semantic-ui-react";
-import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
+import Old_BasicBarcodePickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
 import Styled from "styled-components";
 import {POINT_COLOR} from "../../Common/configset";
 import useObjectInput from "../../hooks/UseInput";

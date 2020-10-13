@@ -48,7 +48,7 @@ const DummyItem = [
     },
 ]
 
-const BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
+const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [basicBarcodeName, setBasicBarcodeName] = useState('')
@@ -262,4 +262,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default BasicBarcodePickerModal;
+export default Old_BasicBarcodePickerModal;

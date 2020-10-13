@@ -107,6 +107,11 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
+                                        machineList !== undefined && machineList.length === 0 ?
+                                            <tr>
+                                                <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                            </tr>
+                                            :
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>

@@ -4,7 +4,7 @@ import {Input} from 'semantic-ui-react'
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, getBarcode, postBarcode} from "../../Api/mes/barcode";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
-import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
+import Old_BasicBarcodePickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
 import ListHeader from "../../Components/Text/ListHeader";
 import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
 import NormalInput from "../../Components/Input/NormalInput";

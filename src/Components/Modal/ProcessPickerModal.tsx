@@ -117,7 +117,12 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
                                     </tr>
                                     {
                                         seg
-                                          ? segList.map((v, i) => {
+                                          ? segList !== undefined && segList.length === 0 ?
+                                            <tr>
+                                                <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                            </tr>
+                                            :
+                                            segList.map((v, i) => {
                                               return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.name}</span></td>
@@ -136,7 +141,12 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
                                                 </tr>
                                               )
                                           })
-                                          : machineList.map((v,i) => {
+                                          : machineList !== undefined && machineList.length === 0 ?
+                                            <tr>
+                                                <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                            </tr>
+                                            :
+                                            machineList.map((v,i) => {
                                               return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.process_name}</span></td>
