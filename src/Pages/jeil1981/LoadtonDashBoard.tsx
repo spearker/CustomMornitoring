@@ -139,7 +139,7 @@ const LoadtonDashBoard = () => {
         //return;
 
 
-        const results = await getRequest('http://203.234.183.22:18299/api/v1/monitoring/loadton/detail?factory=8PP29J_factory0' ,getToken(TOKEN_NAME))
+        const results = await getRequest('http://112.168.150.239:18299/api/v1/monitoring/loadton/detail?factory=8PP29J_factory0' ,getToken(TOKEN_NAME))
 
         if(results === false){
             ////alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')

@@ -41,7 +41,7 @@ const Email = () => {
     }
 
 
-    const results = await postRequestWithNoToken('http://203.234.183.22:8290/email/send', data)
+    const results = await postRequestWithNoToken('http://112.168.150.239:8290/email/send', data)
 
     console.log(results)
     if(results === false){
