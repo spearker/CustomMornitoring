@@ -322,8 +322,8 @@ const MoldCreateRegisterContainer = ({match}:any) => {
                                             if(tmpCompo[i].material.length === 1){
                                                 console.log('삭제불가능')
                                             }else{
-                                                tmpCompo[i].material.splice(i, 1)
-                                                tmp.part[i].splice(i, 1)
+                                                tmpCompo[i].material.splice(index, 1)
+                                                tmp.part[i].splice(index, 1)
 
                                                 setSelectParts({...tmp})
                                                 setParts([...tmpCompo])
