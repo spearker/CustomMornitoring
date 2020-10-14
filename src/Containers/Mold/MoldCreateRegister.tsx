@@ -225,12 +225,15 @@ const MoldCreateRegisterContainer = ({match}:any) => {
                           setParts([...parts, initParts])
                       }} onClickDelete={() => {
                           let tmpParts = parts
+                          let tmp = selectParts
 
                           if(tmpParts.length === 1){
                               console.log('삭제불가능')
                           }else{
                               tmpParts.splice(i, 1)
+                              tmp.part.splice(i, 1)
                               setParts([...tmpParts])
+                              setSelectParts({...selectParts, ...tmp})
                           }
                     }}>
                         <PartInput title={'파트명'} value={parts[i].name} onChangeEvent={(input)=>{

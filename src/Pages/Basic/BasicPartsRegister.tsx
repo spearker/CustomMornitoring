@@ -238,8 +238,11 @@ const BasicPartsRegister = () => {
     },[type])
 
     useEffect(()=>{
-        partsList.indexOf(partsName)
-        setType(partsList.indexOf(partsName))
+        if(partsList[type] !== '부픔 등록하기' || partsList[type] === undefined) {
+            setType(partsList.indexOf(partsName))
+        } else {
+            return
+        }
     },[partsList,partsName])
 
     return(
@@ -255,9 +258,10 @@ const BasicPartsRegister = () => {
                                 <div style={{width: '60%',marginRight: 20}}>
                                     <DropdownInput title={'부품 종류'}  target={partsList[type]} contents={partsList} onChangeEvent={(input)=>setType(input)} />
                                 </div>
-                                    <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={setPartsName} description={'부품명을 입력하세요'} />
+                                {console.log(partsList[type])}
+                                    <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={(input)=>setPartsName(input)} description={'부품명을 입력하세요'} />
                                 <div style={{marginLeft: partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 30 : 10}}>
-                                    {partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ?
+                                    {partsList[type] === undefined || partsList[type] === '부픔 등록하기' ?
                                         <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()} ButtonStyle={{width: 60, padding: '7px 0'}} />
                                         :
                                         <div style={{display:"flex"}}>
