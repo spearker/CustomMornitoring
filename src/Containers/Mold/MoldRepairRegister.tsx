@@ -49,7 +49,7 @@ const MoldRepairRegisterContainer = () => {
 
         if(resultData.status === 200){
             alert('금형 수리 요청이 등록되었습니다.')
-            history.goBack()
+            history.push('/mold/current/list')
         }
     }, [moldData, reason, parts, managerData, selectDate])
 

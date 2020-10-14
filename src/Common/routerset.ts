@@ -234,6 +234,7 @@ export const MES_MENU_LIST = {
     { name : '금형 관리 리스트', url: '/mold/manage/list'},
     { name : '금형 제작 등록', url: '/mold/create/register'},
     { name : '금형 제작 현황', url: '/mold/create/list'},
+    { name : '금형 제작 완료', url: '/mold/create/complete/list'},
     { name : '금형 수리 등록', url: '/mold/repair/register'},
     { name : '금형 수리 현황', url: '/mold/current/list'},
     // { name : '금형 수리 완료', url: '/mold/repair/list'},

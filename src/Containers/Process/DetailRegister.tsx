@@ -41,8 +41,16 @@ const ProcessDetailRegisterContainer = () => {
     const getSearchProcessList = useCallback(async () => {
         const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}`
         const resultData = await getSearchProcess(tempUrl);
-        console.log(resultData)
-        setProcessList(resultData.results)
+
+        const getProcess = resultData.results.map((v,i)=>{
+
+            const process_type = transferCodeToName('process', Number(v.process_type))
+
+            return {...v, process_type: process_type}
+        })
+
+
+        setProcessList(getProcess)
     }, [searchData])
 
     const postProcessRegisterFunc = async () => {
@@ -97,18 +105,21 @@ const ProcessDetailRegisterContainer = () => {
                                            <div style={{height: 169, width: 'calc(100%-20px)', backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
                                                <div>
                                                    <MachineTable style={{margin: 0, padding: 0}}>
-                                                       <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>
-                                                           <th><span>공정명</span></th>
-                                                           <th><span>타입</span></th>
-                                                           <th style={{width: 28}}></th>
-                                                       </tr>
+                                                       <thead>
+                                                           <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>
+                                                               <th><span>공정명</span></th>
+                                                               <th><span>타입</span></th>
+                                                               <th style={{width: 28}}></th>
+                                                           </tr>
+                                                       </thead>
+                                                       <tbody style={{overflowY:"scroll",height: 140, width: 359}}>
                                                        {
                                                            processList.map((v, i) => {
                                                                console.log(v)
                                                                 return (
-                                                                    <tr style={{borderBottom: '1px solid #b3b3b35f', padding: 0}}>
-                                                                        <td><span>{v.process_name}</span></td>
-                                                                        <td><span>{transferCodeToName('process', v.process_type)}</span></td>
+                                                                    <tr style={{borderBottom: '1px solid #b3b3b35f', padding: 0 }}>
+                                                                        <td style={{width: 160, height: 28}}><span>{v.process_name}</span></td>
+                                                                        <td style={{width: 160, height:28}}><span>{v.process_type}</span></td>
                                                                         <td style={{width: 28, height: 28}}>
                                                                             <div>
                                                                                 <SearchButton style={{
@@ -141,6 +152,7 @@ const ProcessDetailRegisterContainer = () => {
                                                                 )
                                                            })
                                                        }
+                                                       </tbody>
 
                                                    </MachineTable>
                                                </div>
@@ -296,6 +308,11 @@ const MachineTable = styled.table`
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0px;
+    tbody {
+    display: block;
+    height: 100%;
+    overflow: auto;
+    }
     tr{
         height: 28px;
         th{

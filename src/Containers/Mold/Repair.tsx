@@ -12,7 +12,7 @@ const RepairContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
+    const [subIndex, setSubIndex] = useState({    manager: "작업자" })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -33,10 +33,10 @@ const RepairContainer = () => {
 
     const detailTitle = {
         repair: {
-            part_name: '부품명',
+            manager: "작업자",
             repair_content: '수리 내용',
-            repair_status: '수리 상태',
-            complete_date: '완료 날짜',
+            status: '상태',
+            complete_date: '완료 날짜'
         },
     }
 
@@ -123,17 +123,35 @@ const RepairContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
 
     }, [list, selectPk]);
 
+    const getData = useCallback( async(pk)=>{
+        //TODO: 성공시
+        console.log(pk)
+        const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
+        const res = await getMoldList(tempUrl)
+
+        console.log([res])
+
+        const Detail = [res].map((v,i)=>{
+            const status = v.status === 'WAIT' ? "진행중" : "완료"
+
+            return {...v, status: status}
+        })
+
+        setDetailList(Detail)
+
+    },[detailList, selectPk])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&keyword=&type=0&limit=15`
+
         const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
@@ -159,7 +177,6 @@ const RepairContainer = () => {
         <div>
             <OvertonTable
                 title={'금형 수리 완료'}
-                titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}

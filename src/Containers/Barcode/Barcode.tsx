@@ -178,7 +178,7 @@ const BarcodeListContainer = () => {
 
         setList(res.info_list)
 
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({ current: res.current_page, total: res.total_page })
     },[list,page])
 
     useEffect(()=>{

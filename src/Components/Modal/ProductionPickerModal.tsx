@@ -115,7 +115,11 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
                                         <th style={{width: 130}}>공장명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {
+                                    { productList !== undefined && productList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         productList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>

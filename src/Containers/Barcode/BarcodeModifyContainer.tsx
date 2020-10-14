@@ -4,7 +4,7 @@ import {Input} from 'semantic-ui-react'
 import {POINT_COLOR} from "../../Common/configset";
 import {API_URLS, postContractModify} from "../../Api/mes/business";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
-import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
+import Old_BasicBarcodePickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
 
 const typeDummy = [
     '단발',
@@ -66,7 +66,7 @@ const BarcodeModifyContainer = () => {
                         </tr>
                         <tr>
                             <td>• 기준 바코드</td>
-                            <td><BasicBarcodePickerModal select={selectBasicBarcode} onClickEvent={(e) => setSelectBasicBarcode(e)} text={'기준 바코드를 선택해 주세요.'}/></td>
+                            <td><Old_BasicBarcodePickerModal select={selectBasicBarcode} onClickEvent={(e) => setSelectBasicBarcode(e)} text={'기준 바코드를 선택해 주세요.'}/></td>
                         </tr>
                         <tr>
                             <td>• 바코드 번호</td>

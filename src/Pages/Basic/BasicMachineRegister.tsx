@@ -48,7 +48,7 @@ const BasicMachineRegister = () => {
   const [type, setType] = useState<number>(1); //1: 프레스
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
-  const [factory, setFactory] = useState<any[]>([]);
+  const [factory, setFactory] = useState<any[]>([{pk: '',name:''}]);
   const [volt, setVolt] = useState<number>(0);
   const [tons, setTons] = useState<number>(0);
   const [files, setFiles] = useState<any[3]>([null, null, null]);
@@ -196,9 +196,19 @@ const BasicMachineRegister = () => {
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (madeNo === ""){
+      alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (volt.toString() === ""){
+      alert("전압은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (factory[0].pk === ""){
+      alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
     const data = {
       document_pk: document.pk,
       machine_name: name,

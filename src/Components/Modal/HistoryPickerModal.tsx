@@ -120,7 +120,11 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
                                     {
                                         console.log('historyList', historyList)
                                     }
-                                    {
+                                    { historyList !== undefined && historyList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={5} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         historyList && historyList.map((v,i) => {
                                             console.log(v)
                                             return(

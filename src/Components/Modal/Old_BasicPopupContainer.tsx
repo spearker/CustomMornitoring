@@ -16,7 +16,7 @@ interface Props{
     isActive?: boolean
 }
 
-const BasicPopupContainer = ({ title, isActive, onClickOpen, onClickConfirm, children }:Props) => {
+const Old_BasicPopupContainer = ({ title, isActive, onClickOpen, onClickConfirm, children }:Props) => {
 
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const popUp = usePopup();
@@ -138,4 +138,4 @@ const ButtonBox = Styled.div`
     
 `
 
-export default BasicPopupContainer;
+export default Old_BasicPopupContainer;

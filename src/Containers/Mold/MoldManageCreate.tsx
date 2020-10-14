@@ -53,7 +53,7 @@ const MoldManageCreate = () => {
 
         if(resultData.status === 200){
             alert('성공적으로 등록되었습니다.')
-            history.goBack()
+            history.push('/mold/manage/list')
         }
     }, [moldData, reason])
 

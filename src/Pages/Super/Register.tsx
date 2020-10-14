@@ -5,11 +5,12 @@ import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import {ROUTER_SUPER_ADMIN} from '../../Common/routerset';
+import {useHistory} from "react-router-dom";
 
 // 회사 등록 페이지
 
 const SuperRegister = () => {
-
+    const history = useHistory();
   const [name, setName] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -62,6 +63,7 @@ const SuperRegister = () => {
         setPwCheck('')
         setName('')
 
+          history.push('/login')
 
       }else{
         //기타 에러처리
