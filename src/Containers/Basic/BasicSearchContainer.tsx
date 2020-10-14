@@ -51,16 +51,16 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl,option ,sol
   },[keyword, searchedList])
 
     const onSearchInit = async () => {
-        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}`, getToken(TOKEN_NAME))
+        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=1`, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
             // //alert('[SERVER ERROR] 조회가 불가능합니다.')
         }else{
             if(res.status === 200){
-                const results = res.results.info_list;
-                setSearchedList(results);
-
+                const results = res.results;
+                console.log(results)
+                setSearchedList(results.info_list);
             }else{
                 //TODO:  기타 오류
             }
