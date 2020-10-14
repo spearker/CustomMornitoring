@@ -87,7 +87,7 @@ const QualityTestComplete = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['response'].search}?keyWord=${searchValue}&currentPage=${page.current}`
+        const tempUrl = `${API_URLS['response'].search}?keyWord=${searchValue}&currentPage=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
@@ -97,7 +97,7 @@ const QualityTestComplete = () => {
     },[searchValue, page])
 
     const onClick = useCallback((obj) => {
-        history.push(`/quality/test/detail/modify/${obj.requestPk}`)
+        history.push(`/quality/test/detail/modify/${obj.responsePk}`)
     }, []);
 
     // const getData = useCallback( async(pk)=>{
@@ -111,14 +111,14 @@ const QualityTestComplete = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['response'].list}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['response'].list}?currentPage=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
 
         setPage({ current: res.currentPage, total: res.totalPage })
 
-    },[list])
+    },[list,page])
 
     useEffect(()=>{
         getList()
@@ -129,6 +129,10 @@ const QualityTestComplete = () => {
         setTitleEventList(titleeventdummy)
     },[])
 
+    useEffect(()=>{
+        getList()
+    },[])
+
     return (
         <div>
             <OvertonTable
@@ -137,7 +141,9 @@ const QualityTestComplete = () => {
                 valueList={list}
                 mainOnClickEvent={onClick}
                 noChildren={true}
-                searchBar={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}>
                 {
@@ -149,7 +155,6 @@ const QualityTestComplete = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     )
 }

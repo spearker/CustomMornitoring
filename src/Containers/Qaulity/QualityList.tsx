@@ -107,7 +107,7 @@ const QualityListContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['status'].search}?keyWord=${searchValue}&currentPage=${page.current}`
+        const tempUrl = `${API_URLS['status'].search}?keyWord=${searchValue}&currentPage=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
@@ -117,7 +117,7 @@ const QualityListContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['status'].list}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['status'].list}?currentPage=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         let viewList:any[] = [];
@@ -134,11 +134,15 @@ const QualityListContainer = () => {
                 statement: v.statement !== undefined ? v.statement : "-"
             }
         ))
-        
+
         setList(viewList.filter((f: any) => f.materialName !== undefined))
         setPage({ current: res.currentPage, total: res.totalPage })
 
-    },[list])
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[])
 
     useEffect(()=>{
         getList()
@@ -154,7 +158,9 @@ const QualityListContainer = () => {
                 valueList={list}
                 mainOnClickEvent={onClick}
                 noChildren={true}
-                searchBar={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}>
                 {
@@ -174,7 +180,6 @@ const QualityListContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

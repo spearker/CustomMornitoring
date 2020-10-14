@@ -13,7 +13,13 @@ const ErrorContainer = () => {
     const [keyword, setKeyword] = useState<string>('');
     const [index, setIndex] = useState({pressName: '기계명'});
     const [subIndex, setSubIndex] = useState({keycamType: '키캠 상태'})
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMachine, setSelectMachine ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -45,12 +51,14 @@ const ErrorContainer = () => {
             setSelectPk(null);
             setSelectMachine(null);
             setSelectValue(null);
+            setDetailPage({...detailPage, current: 1})
         }else{
             setSelectPk(machine.pressPk);
             setSelectMachine(machine.pressName);
             setSelectValue(machine)
             //TODO: api 요청
             getData(machine.pressPk);
+            setDetailPage({...detailPage, current: 1})
         }
 
 
@@ -59,39 +67,56 @@ const ErrorContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['error'].load}?pk=${pk}`
+        const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
         const res = await getErrorData(tempUrl)
 
         setDetailList(res.errorList)
 
+        setDetailPage({ current: res.current_page, total: res.total_page })
     },[detailList])
 
 
     const getList = useCallback(async ()=>{ // useCallback
-        const tempUrl = `${API_URLS['error'].list}`
+        const tempUrl = `${API_URLS['error'].list}?page=${page.current}&limit=15`
         const res = await getErrorData(tempUrl)
 
-        setList(res)
-
-    },[list])
+        setList(res.info_list)
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
         setIndex(indexList['error'])
         setSubIndex(detailTitle['error'])
         getList()
-
     },[])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
+    useEffect(()=>{
+        getData(selectPk)
+    },[detailPage.current])
+
 
     return (
         <OvertonTable
             title={'프레스 에러 로그'}
             indexList={index}
             valueList={list}
+            currentPage={page.current}
+            totalPage={page.total}
+            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
             clickValue={selectValue}
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <LineTable title={selectMachine+' 상세 에러 로그'} contentTitle={subIndex} contentList={detailList}>
+                    <LineTable title={selectMachine+' 상세 에러 로그'}
+                               contentTitle={subIndex}
+                               contentList={detailList}
+                               currentPage={detailPage.current}
+                               totalPage={detailPage.total}
+                               pageOnClickEvent={(i: number) => setDetailPage({...detailPage, current: i}) }>
                         <Line/>
                     </LineTable>
                     :

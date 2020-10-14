@@ -15,12 +15,12 @@ const ClientContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [index, setIndex] = useState({  name: "거래처 명" });
+    const [index, setIndex] = useState({ name: "거래처 명" });
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [option, setOption] = useState<number>(0)
     const [contentsList, setContentsList] = useState<any[]>(['거래처명','대표자명'])
     const [searchValue, setSearchValue] = useState<any>('')
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const history = useHistory();
 
     const indexList = {
@@ -34,37 +34,60 @@ const ClientContainer = () => {
         }
     }
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
-            })
-            :
-            list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
-            })
+          arrayDelete()
+          :
+          list.map((v, i) => {
+              arrayDelete()
+
+              if(deletePk.pk.indexOf(v.pk) === -1){
+                  tmpPk.push(v.pk)
+              }
+
+              tmpPk.map((vi, index) => {
+                  if(deletePk.pk.indexOf(v.pk) === -1){
+                      deletePk.pk.push(vi)
+                  }
+              })
+
+              if(tmpPk.length < deletePk.pk.length){
+                  deletePk.pk.shift()
+              }
+
+              console.log('deletePk.pk', deletePk.pk)
+          })
         }
     },[deletePk])
 
       const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
             :
-            deletePk.keys.push(Data.pk)
+            deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
+    },[option,searchValue,page])
 
 
     const searchChange = useCallback(async (search)=>{
@@ -74,13 +97,13 @@ const ClientContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option+1)}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option+1)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
 
-    },[searchValue,option])
+    },[searchValue,option,page])
 
     const eventdummy = [
         {
@@ -113,13 +136,18 @@ const ClientContainer = () => {
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
 
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option+1}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option+1}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         console.log('response', res)
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
-    },[searchValue,option,list])
+    },[searchValue,option,list,page])
+
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -130,32 +158,27 @@ const ClientContainer = () => {
         setEventList(eventdummy)
     },[])
 
-    useEffect(()=>{
-        console.log(deletePk)
-    },[deletePk])
 
     return (
         <div>
             <OvertonTable
                 title={'거래처 리스트'}
                 titleOnClickEvent={titleEventList}
-                dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
-                searchBar={true}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

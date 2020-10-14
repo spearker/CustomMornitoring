@@ -15,9 +15,10 @@ interface IProps{
     type: "range" | "single"
     onClickEvent: (date: string, date2?: string) => void
     unLimit?: boolean
+    toDayLimit?: boolean
 }
 
-const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit}: IProps) => {
+const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit,toDayLimit}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -81,7 +82,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit}: IP
                                 <div style={{display: "inline-block", float: "left", flex: 1}}>
                                     {type === 'range' && <p>종료 날짜</p>}
                                     <Calendar
-                                        maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : moment().subtract(1, 'days').toDate()}
+                                        maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : toDayLimit ? moment().toDate() : moment().subtract(1, 'days').toDate()}
                                         minDate={moment(selectRange?.start).toDate()}
                                         onChange={(date)=>{
                                             if(selectRange){

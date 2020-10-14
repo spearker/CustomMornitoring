@@ -147,10 +147,10 @@ const StockListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}`
+        const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.items.map((v,i)=>{
+        const getStock = res.info_list.map((v,i)=>{
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -158,8 +158,8 @@ const StockListContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page+1, total: res.total_page })
-    }, [list])
+        setPage({ current: res.current_page, total: res.total_page })
+    }, [list,page])
 
     useEffect(() => {
         getList()
@@ -169,6 +169,10 @@ const StockListContainer = () => {
         setSubIndex(detailTitle['item_detailList'])
     }, [])
 
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
     return (
         <div>
             <OvertonTable
@@ -176,6 +180,9 @@ const StockListContainer = () => {
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?
@@ -186,7 +193,6 @@ const StockListContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

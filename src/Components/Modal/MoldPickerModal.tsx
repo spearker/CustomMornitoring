@@ -16,9 +16,10 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    buttonWid?: string | number
 }
 
-const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
+const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
@@ -67,9 +68,9 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <SearchButton style={{flex: 4}} onClick={()=>{setIsOpen(true)}}>
-                        <img src={IcSearchButton} />
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
+                        <SearchButton style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}} onClick={()=>{setIsOpen(true)}}>
+                            <img src={IcSearchButton} />
                         </SearchButton>
                     </div>
 
@@ -88,7 +89,8 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
                        padding: 0
                    },
                    overlay:{
-                       background: 'rgba(0,0,0,.6)'
+                       background: 'rgba(0,0,0,.6)',
+                       zIndex: 5
                    }
                 }}
             >
@@ -101,7 +103,7 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -110,7 +112,11 @@ const MoldPickerModal = ({select, onClickEvent, text}: IProps) => {
                                         <th style={{width: 325}}>공장명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {
+                                    {   machineList !== undefined && machineList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
@@ -198,7 +204,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );
@@ -211,8 +217,6 @@ const SearchBox = Styled(Input)`
 `
 
 const SearchButton = Styled.button`
-    width: 32px;
-    height: 32px;
     background-color: ${POINT_COLOR};
     img{
         width: 20px;

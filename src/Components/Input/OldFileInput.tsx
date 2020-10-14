@@ -19,9 +19,9 @@ const OldFileInput = ({title, urlList, nameList, isImage}: IProps) => {
   return (
 
         <InputContainer title={title}>
+            { console.log(urlList)}
             {
             urlList.map((f,i)=>{
-
                 return(
                 <a key={'file-'+ i} href={f} target="_blank" style={{textAlign:'center', display:'inline-block', marginRight:11}}>
                     {

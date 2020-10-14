@@ -103,7 +103,7 @@ const PartsContainer = () => {
         const tempUrl = `${API_URLS['parts'].detail}?pk=${pk}`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.items.map((v,i)=>{
+        const getStock = res.info_list.map((v,i)=>{
             const division = transferCodeToName('stock', Number(v.division))
             return {...v, division: division}
         })
@@ -115,10 +115,10 @@ const PartsContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['parts'].list}?page=${page.current}`
+        const tempUrl = `${API_URLS['parts'].list}?page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.items.map((v,i)=>{
+        const getStock = res.info_list.map((v,i)=>{
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -126,9 +126,13 @@ const PartsContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page+1, total: res.total_page })
+        setPage({ current: res.current_page, total: res.total_page })
 
-    },[list])
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -148,6 +152,9 @@ const PartsContainer = () => {
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?

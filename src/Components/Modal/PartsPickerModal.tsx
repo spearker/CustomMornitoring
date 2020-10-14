@@ -13,7 +13,7 @@ import {transferCodeToName} from "../../Common/codeTransferFunctions";
 //드롭다운 컴포넌트
 
 interface IProps{
-    select?: { name?:string, pk?: string },
+    select?: { name?:string, pk?: string, parts_stock?: string  },
     onClickEvent: any
     text: string
     width?: number
@@ -29,6 +29,7 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
         parts_name: '',
         parts_type: '',
         parts_type_name: '',
+        parts_stock:'',
         location_pk: '',
         location_name: '',
         parts_cost: '',
@@ -40,10 +41,10 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=0&type=0`
+        const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=1&type=0&limit=15`
         const resultData = await getSearchMachine(tempUrl);
         console.log(resultData)
-        setMachineList(resultData.results.items)
+        setMachineList(resultData.results.info_list)
     }, [searchName])
 
     useEffect(() => {
@@ -90,7 +91,8 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                        padding: 0
                    },
                    overlay:{
-                       background: 'rgba(0,0,0,.6)'
+                       background: 'rgba(0,0,0,.6)',
+                       zIndex: 5
                    }
                 }}
             >
@@ -103,29 +105,35 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 100}}>부품명</th>
                                         <th style={{width: 100}}>부품종류</th>
                                         <th style={{width: 200}}>공장명</th>
+                                        <th style={{width: 100}}>부품 재고량</th>
                                         <th style={{width: 100}}>부품원가</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {
+                                    {   machineList !== undefined && machineList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={6} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
                                                     <td style={{width: 100}}>{v.parts_name}</td>
                                                     <td style={{width: 100}}>{v.parts_type_name}</td>
                                                     <td style={{width: 200}}>{v.location_name}</td>
+                                                    <td style={{width: 100}}>{v.parts_stock}</td>
                                                     <td style={{width: 100}}>{v.parts_cost}</td>
                                                     <td>
                                                         <button
                                                           onClick={() => {
                                                               setMachineName(v.parts_name)
-                                                              return onClickEvent({name: v.parts_name, pk: v.pk})
+                                                              return onClickEvent({name: v.parts_name, pk: v.pk, current: v.parts_stock})
                                                           }}
                                                           style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
@@ -202,7 +210,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );
