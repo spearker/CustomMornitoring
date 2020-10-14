@@ -135,7 +135,7 @@ const OutsourcingRegister = ({match}:Props) => {
             if(res.status === 200){
                 const data = res.results;
                 setSelectOutsource({ name: data.company_name, pk: data.company_pk })
-                setSelectMaterial({ name: data.product, pk: data.porduct_pk })
+                setSelectMaterial({ name: data.product, pk: data.product_pk })
                 setInputData('location',data.address)
                 setQuantity(data.quantity)
                 setUnpaid(data.unpaid)
@@ -200,8 +200,7 @@ const OutsourcingRegister = ({match}:Props) => {
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
-
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/oder/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/update/', data, getToken(TOKEN_NAME))
 
         if(res === false){
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -217,6 +216,9 @@ const OutsourcingRegister = ({match}:Props) => {
 
     },[pk, selectOutsource,selectMaterial,selectDate,quantity,unpaid,paymentCondition,inputData])
 
+    useEffect(()=>{
+        console.log(selectMaterial)
+    },[selectMaterial])
     /**
      * onsubmitForm()
      * 기계 정보 등록

@@ -58,7 +58,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl,option ,sol
             // //alert('[SERVER ERROR] 조회가 불가능합니다.')
         }else{
             if(res.status === 200){
-                const results = res.results;
+                const results = res.results.info_list;
                 setSearchedList(results);
 
             }else{

@@ -79,6 +79,8 @@ const BasicPartsRegister = () => {
 
                 setPartsPkList(pk)
                 setPartsList(list)
+
+
             }else{
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -100,6 +102,7 @@ const BasicPartsRegister = () => {
                     setLocation ([{pk: data.location_pk, name: data.location_name}])
                     setCost(data.parts_cost)
                     setName(data.parts_name)
+                console.log(data.parts_type_name)
                     setPartsName(data.parts_type_name)
                 console.log(partsPkList)
                 console.log(partsList.indexOf(data.parts_type_name))
@@ -107,7 +110,7 @@ const BasicPartsRegister = () => {
                 //TODO:  기타 오류
             }
         }
-    },[pk, partsList, essential, inputData, partsPkList, type ])
+    },[pk, partsList, essential, inputData, partsPkList, type,partsName ])
 
 
     const onsubmitFormUpdate = useCallback(async()=>{

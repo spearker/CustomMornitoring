@@ -222,7 +222,8 @@ const BasicDeviceRegister = () => {
     <DashboardWrapContainer index={'basic'}>
 
         <InnerBodyContainer>
-            <Header title={isUpdate ? '주변장치 정보수정' : '주변장치 정보등록'}/>
+            <Header title={isUpdate ? '' +
+                '주변장치 정보수정' : '주변장치 정보등록'}/>
             <WhiteBoxContainer>
               {
                 // document.id !== '' || isUpdate == true?
@@ -245,7 +246,7 @@ const BasicDeviceRegister = () => {
                       option={1}
                       solo={true}
                       list={factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?page=1&limit=15&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>

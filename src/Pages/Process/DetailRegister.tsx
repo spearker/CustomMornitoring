@@ -5,8 +5,7 @@ import ProcessDetailRegisterContainer from "../../Containers/Process/DetailRegis
 
 const ProcessDetailRegister = () => {
     return (
-        <DashboardWrapContainer index={'project'}>
-
+        <DashboardWrapContainer index={'process'}>
             <InnerBodyContainer>
                 <ProcessDetailRegisterContainer/>
             </InnerBodyContainer>
