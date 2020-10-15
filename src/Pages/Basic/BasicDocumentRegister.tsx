@@ -56,7 +56,7 @@ const BasicDocumentRegister = () => {
    */
   const getItems = useCallback(async()=>{
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/item/involved?category=' + necessary['standard_type'].data.id, getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.47:8299/api/v1/item/involved?category=' + necessary['standard_type'].data.id, getToken(TOKEN_NAME))
     setIsChange(false)
     if(res === false){
       //TODO: 에러 처리
@@ -90,7 +90,7 @@ const BasicDocumentRegister = () => {
    */
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/document/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.47:8299/api/v1/document/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -126,7 +126,7 @@ const BasicDocumentRegister = () => {
     };
     ////alert(data);
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/document/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.47:8299/api/v1/document/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
      ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -158,7 +158,7 @@ const BasicDocumentRegister = () => {
       };
       ////alert(data);
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/document/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.47:8299/api/v1/document/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

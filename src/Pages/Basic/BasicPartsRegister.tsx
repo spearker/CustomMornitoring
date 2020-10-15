@@ -61,7 +61,7 @@ const BasicPartsRegister = () => {
 
     const getData = useCallback(async()=>{
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://192.168.0.47:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
@@ -95,7 +95,7 @@ const BasicPartsRegister = () => {
             material_spec: inputData.material_spec,
             info_list: JsonStringifyList(essential, optional)
         };
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.47:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -119,7 +119,7 @@ const BasicPartsRegister = () => {
             parts_cost: cost
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.47:8299/api/v1/parts/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -136,7 +136,7 @@ const BasicPartsRegister = () => {
 
     const partsListLoad = useCallback(async()=>{
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/type/list', getToken(TOKEN_NAME))
+        const res = await getRequest('http://192.168.0.47:8299/api/v1/parts/type/list', getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -168,7 +168,7 @@ const BasicPartsRegister = () => {
             name: partsName
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/type/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.47:8299/api/v1/parts/type/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -189,7 +189,7 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type]
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/type/delete', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.47:8299/api/v1/parts/type/delete', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -211,7 +211,7 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type],
             name: partsName
         }
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/type/update', data ,getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.47:8299/api/v1/parts/type/update', data ,getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -273,7 +273,7 @@ const BasicPartsRegister = () => {
                                 option={0}
                                 solo={true}
                                 list={location}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                                searchUrl={'http://192.168.0.47:8299/api/v1/factory/search?'}
                             />
 
                             <NormalNumberInput title={'원가'}  value={cost} onChangeEvent={(input)=>setCost(input)} description={'원가를 입력해주세요.'}/>
@@ -285,7 +285,7 @@ const BasicPartsRegister = () => {
                             {/*<br/>*/}
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/material/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://192.168.0.47:8299/api/v1/material/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 
@@ -296,7 +296,7 @@ const BasicPartsRegister = () => {
                             {/*    onChangeEvent={(input)=>setInputData(`using_mold`, input)}*/}
                             {/*    solo={true}*/}
                             {/*    list={inputData.using_mold}*/}
-                            {/*    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}*/}
+                            {/*    searchUrl={'http://192.168.0.47:8299/api/v1/mold/search?'}*/}
                             {/*/>*/}
 
                             <div style={{marginTop: 72,marginLeft: 340}}>

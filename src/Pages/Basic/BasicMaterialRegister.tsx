@@ -53,7 +53,7 @@ const BasicMaterialRegister = () => {
 
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://192.168.0.47:8299/api/v1/material/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -97,7 +97,7 @@ const BasicMaterialRegister = () => {
       material_spec: inputData.material_spec,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/material/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.47:8299/api/v1/material/update', data, getToken(TOKEN_NAME))
 
     if(res === false){
       // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -129,7 +129,7 @@ const BasicMaterialRegister = () => {
       info_list: JsonStringifyList(essential, optional)
     };
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/material/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://192.168.0.47:8299/api/v1/material/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -167,7 +167,7 @@ const BasicMaterialRegister = () => {
                       option={1}
                       solo={true}
                       list={inputData.location}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                      searchUrl={'http://192.168.0.47:8299/api/v1/factory/search?'}
                 />
 
                 <NormalNumberInput title={'안전 재고'}  value={inputData.safe_stock} onChangeEvent={(input)=>setInputData(`safe_stock`, input)} description={''}/>
@@ -180,7 +180,7 @@ const BasicMaterialRegister = () => {
                 {/*<br/>*/}
                 {/*<DocumentFormatInputList*/}
                 {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/material/load?pk=${pk}` :''}*/}
+                {/*  loadDataUrl={isUpdate? `http://192.168.0.47:8299/api/v1/material/load?pk=${pk}` :''}*/}
                 {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                 {/*  />*/}
 
@@ -191,7 +191,7 @@ const BasicMaterialRegister = () => {
                 {/*    onChangeEvent={(input)=>setInputData(`using_mold`, input)}*/}
                 {/*    solo={true}*/}
                 {/*    list={inputData.using_mold}*/}
-                {/*    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}*/}
+                {/*    searchUrl={'http://192.168.0.47:8299/api/v1/mold/search?'}*/}
                 {/*/>*/}
 
                 <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />

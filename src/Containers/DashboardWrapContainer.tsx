@@ -23,7 +23,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
     if(User.pk !== ""){
       return;
     }
-    const results = await getRequest('http://203.234.183.22:8299/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.47:8299/api/v1/user/load', getToken(TOKEN_NAME))
 
     if(results === false){
       //TODO: 에러 처리
