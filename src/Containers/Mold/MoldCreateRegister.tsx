@@ -68,7 +68,7 @@ const MoldCreateRegisterContainer = ({match}:any) => {
 
     const [components, setComponents] = useState<{material_pk: string, usage: string}[]>([{
         material_pk:'',
-        usage: ''
+        usage: '',
     }])
 
     const [parts, setParts] = React.useState<{name: string, steel_grade: string, standard: {w: number, h: number, l:number}, material:{material_pk:string,usage: string}[]}[]>(
@@ -179,7 +179,7 @@ const MoldCreateRegisterContainer = ({match}:any) => {
     },[drawing])
 
     return (
-        <div>
+        <div>{ console.log('selectParts', selectParts) }
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>금형 제작 등록</span>
@@ -359,7 +359,6 @@ const MoldCreateRegisterContainer = ({match}:any) => {
 
                 <MoldPartDropdown title={'부품'} part={false}>
                     {
-
                         components.map((v, i) =>
                             <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                                 <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 부품명`}</p>
@@ -400,7 +399,17 @@ const MoldCreateRegisterContainer = ({match}:any) => {
                     <div style={{ display:'flex', paddingTop:16, verticalAlign: 'top'}}>
                         <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{``}</p>
                         <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                            <AddButton onClick={() => setComponents([...components, initComponent ])}>
+                            <AddButton onClick={() => {
+                                let tmpArr = components
+                                let tmp = selectParts
+
+                                tmp.parts.push({pk: '', name: '', current: ''})
+
+                                tmpArr = [...tmpArr, initComponent]
+
+                                setSelectParts({...tmp})
+                                setComponents([...tmpArr])
+                            }}>
                                 <img src={IcPlusGray} style={{width: 13, height: 13, marginTop:3, marginBottom:3}} />
                                 <p>부품 추가</p>
                             </AddButton>
