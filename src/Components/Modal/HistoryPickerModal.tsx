@@ -14,6 +14,7 @@ interface IProps{
     select?: { name?:string, pk?: string },
     onClickEvent: any
     text: string
+    buttonWid?: string | number
 }
 
 const DummyMachine = [
@@ -26,7 +27,7 @@ const DummyMachine = [
     }
 ]
 
-const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
+const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [workerName, setWorkerName] = useState('')
@@ -73,7 +74,7 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
@@ -92,7 +93,8 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
                         padding: 0
                     },
                     overlay:{
-                        background: 'rgba(0,0,0,.6)'
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
                     }
                 }}
             >
@@ -105,7 +107,7 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -118,7 +120,11 @@ const HistoryPickerModal = ({select, onClickEvent, text}: IProps) => {
                                     {
                                         console.log('historyList', historyList)
                                     }
-                                    {
+                                    { historyList !== undefined && historyList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={5} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         historyList && historyList.map((v,i) => {
                                             console.log(v)
                                             return(
@@ -208,7 +214,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

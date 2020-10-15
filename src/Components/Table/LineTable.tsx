@@ -1,5 +1,6 @@
 import React from "react";
 import Styled from "styled-components";
+import NumberPagenation from "../Pagenation/NumberPagenation";
 
 interface Props {
     title?: string,
@@ -10,9 +11,12 @@ interface Props {
     contentList?: any[]
     objectLine? : boolean
     children?: any
+    currentPage?:number
+    totalPage?: number
+    pageOnClickEvent?: any
 }
 
-const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allCheckbox,contentTitle,checkBox,contentList,objectLine,children}:Props) => {
+const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allCheckbox,contentTitle,checkBox,contentList,objectLine,currentPage,totalPage,pageOnClickEvent,children}:Props) => {
     return(
         <ClickBar>
             <ClickTitle>
@@ -110,6 +114,12 @@ const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allC
                         )
                     })
 
+            }
+            {currentPage && totalPage ?
+                <NumberPagenation stock={totalPage ? totalPage : 0} selected={currentPage}
+                                  onClickEvent={pageOnClickEvent}/>
+                :
+                null
             }
         </ClickBar>
     )

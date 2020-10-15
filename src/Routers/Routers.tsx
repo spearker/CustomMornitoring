@@ -257,147 +257,143 @@ const Routers = () => {
                 <Route exact path="/outsourcing/contract" component={Contract}/>
                 */}
 
-          {/* 6.0 바코드 관리 */}
-          {/*<Route exact path="/list/barcode/product" component={BarcodeProductList}/>*/}
-          {/*<Route exact path="/connect/barcode" component={ProductRegister}/>*/}
-          {/*<Route exact path="/connect/barcode/update" component={ProductRegister}/>*/}
-          {/*<Route exact path="/barcode/register" component={RegisterBarcode}/>*/}
+                {/* 6.0 바코드 관리 */}
+                {/*<Route exact path="/list/barcode/product" component={BarcodeProductList}/>*/}
+                {/*<Route exact path="/connect/barcode" component={ProductRegister}/>*/}
+                {/*<Route exact path="/connect/barcode/update" component={ProductRegister}/>*/}
+                {/*<Route exact path="/barcode/register" component={RegisterBarcode}/>*/}
 
 
-          {/* 7.0 보전 관리 */}
-          <Route exact path="/pm/maintenance/press" component={MachineMaintenance}/>
-          <Route exact path="/maintenance/submachine" component={SubmachineMaintenance}/>
-          <Route exact path="/pm/maintenance/mold" component={MoldMaintenance}/>
+                {/* 7.0 보전 관리 */}
+                <Route exact path="/pm/maintenance/press" component={MachineMaintenance} />
+                <Route exact path="/maintenance/submachine" component={SubmachineMaintenance} />
+                <Route exact path="/pm/maintenance/mold" component={MoldMaintenance} />
 
-          <Route exact path="/maintenance/list" component={MaintenanceList}/>
-          <Route exact path="/maintenance/history" component={MaintenanceHistory}/>
-          <Route exact path="/maintenance/search" component={SearchMaintenance}/>
-          <Route exact path="/maintenance/errorcode" component={ErrorCodeMaintenance}/>
-          <Route exact path="/maintenance/motor" component={MotorRotationMaintenance}/>
-          <Route exact path="/pm/maintenance/clutch" component={ClutchMaintenance}/>
-          <Route exact path="/pm/maintenance/overton" component={OvertonMaintenance}/>
-
-
-          {/* 8.0 공정 관리 */}
-          <Route exact path="/process/register" component={ProcessRegister}/>
-          <Route exact path="/process/list" component={ProcessList}/>
-          <Route exact path="/recommend/press" component={PressRecommend}/>
-          <Route exact path="/register/process" component={RegisterProcess}/>
-          <Route exact path="/list/process" component={ProcessList}/>
-          <Route exact path="/update/process" component={RegisterProcess}/>
+                <Route exact path="/maintenance/list" component={MaintenanceList} />
+                <Route exact path="/maintenance/history" component={MaintenanceHistory} />
+                <Route exact path="/maintenance/search" component={SearchMaintenance} />
+                <Route exact path="/maintenance/errorcode" component={ErrorCodeMaintenance} />
+                <Route exact path="/maintenance/motor" component={MotorRotationMaintenance} />
+                <Route exact path="/pm/maintenance/clutch" component={ClutchMaintenance} />
+                <Route exact path="/pm/maintenance/overton" component={OvertonMaintenance} />
 
 
-          {/* 9.0 작업지시서 관리 */}
-          <Route exact path="/task/register" component={RegisterTask}/>
-          <Route exact path="/task/list" component={TaskList}/>
-          <Route exact path="/task/update" component={RegisterTask}/>
+                {/* 8.0 공정 관리 */}
+                <Route exact path="/process/register" component={ProcessRegister} />
+                <Route exact path="/process/list" component={ProcessList} />
+                <Route exact path="/recommend/press" component={PressRecommend} />
+                <Route exact path="/register/process" component={RegisterProcess}/>
+                <Route exact path="/list/process" component={ProcessList} />
+                <Route exact path="/update/process" component={RegisterProcess}/>
 
 
-          {/* 10.0 재고관리 */}
-          <Route exact path="/stock/list" component={StockList}/>
-          <Route exact path="/stock/product" component={ProductStockList}/>
-          <Route exact path="/stock/in" component={StockInList}/>
-          <Route exact path="/stock/out" component={StockOutList}/>
-          <Route exact path="/stock/product" component={ProductStock}/>
-          <Route exact path="/stock/material" component={MaterialStock}/>
-          <Route exact path="/stock/history" component={StockHistory}/>
-          <Route exact path="/stock/change/in" component={ChangeStockIn}/>
-          <Route exact path="/stock/change/out" component={ChangeStockOut}/>
-          <Route exact path="/stock/view" component={StockView}/>
-
-          {/* 11.0 품질관리 */}
-          <Route exact path="/defective/register" component={DefectiveRegister}/>
-          <Route exact path="/defective/list" component={Old_DefectiveList}/>
-          <Route exact path="/inferior/register" component={RegisterInferior}/>
+                {/* 9.0 작업지시서 관리 */}
+                <Route exact path="/task/register" component={RegisterTask}/>
+                <Route exact path="/task/list" component={TaskList}/>
+                <Route exact path="/task/update" component={RegisterTask}/>
 
 
-          {/* 12.0 키인 */}
-          <Route exact path="/keyin/input/press" component={InputKeyinPress}/>
-          <Route exact path="/keyin/input/press" component={InputKeyinPress}/>
-          <Route exact path="/keyin/input/material" component={InputKeyinMaterial}/>
-          <Route exact path="/keyin/input/welding" component={InputKeyinWelding}/>
-          <Route exact path="/keyin/input/sunban" component={InputKeyinSunban}/>
-          <Route exact path="/keyin/input/tab" component={InputKeyinTab}/>
-          <Route exact path="/keyin/input/mold" component={InputKeyinMold}/>
-          <Route exact path="/keyin/input/milling" component={InputKeyinMilling}/>
+                {/* 10.0 재고관리 */}
+                <Route exact path="/stock/list" component={StockList} />
+                <Route exact path="/stock/product" component={ProductStockList} />
+                <Route exact path="/stock/in" component={StockInList} />
+                <Route exact path="/stock/out" component={StockOutList} />
+                <Route exact path="/stock/product" component={ProductStock} />
+                <Route exact path="/stock/material" component={MaterialStock} />
+                <Route exact path="/stock/history" component={StockHistory}/>
+                <Route exact path="/stock/change/in" component={ChangeStockIn}/>
+                <Route exact path="/stock/change/out" component={ChangeStockOut}/>
+                <Route exact path="/stock/view" component={StockView}/>
 
-          <Route exact path="/keyin/list/press" component={ListKeyinPress}/>
-          <Route exact path="/keyin/list/press" component={ListKeyinPress}/>
-          <Route exact path="/keyin/list/material" component={ListKeyinMaterial}/>
-          <Route exact path="/keyin/list/welding" component={ListKeyinWelding}/>
-          <Route exact path="/keyin/list/sunban" component={ListKeyinSunban}/>
-          <Route exact path="/keyin/list/tab" component={ListKeyinTab}/>
-          <Route exact path="/keyin/list/mold" component={ListKeyinMold}/>
-          <Route exact path="/keyin/list/milling" component={ListKeyinMilling}/>
-
-          <Route exact path="/keyin/set/press" component={SetKeyinPress}/>
-          <Route exact path="/keyin/set/press" component={SetKeyinPress}/>
-          <Route exact path="/keyin/set/material" component={SetKeyinMaterial}/>
-          <Route exact path="/keyin/set/welding" component={SetKeyinWelding}/>
-          <Route exact path="/keyin/set/sunban" component={SetKeyinSunban}/>
-          <Route exact path="/keyin/set/tab" component={SetKeyinTab}/>
-          <Route exact path="/keyin/set/mold" component={SetKeyinMold}/>
-          <Route exact path="/keyin/set/milling" component={SetKeyinMilling}/>
-
-          {/* 13.0 모니터링 */}
-          <Route exact path="/monitoring/full" component={FullMonitoring}/>
-          <Route exact path="/pm/monitoring/loadton" component={LoadtonMonitoring}/>
-          <Route exact path="/pm/monitoring/cms" component={CmsMonitoring}/>
-          <Route exact path="/monitoring/statistics" component={CmsStatistics}/>
-          <Route exact path="/pm/monitoring/press" component={PressMonitoring}/>
-
-          <Route exact path="/monitoring/vibration" component={VibrationMonitoring}/>
-
-          {/* 14.0 KPI 생산지수 */}
-          {/*<Route exact path="/kpi/product" component={Old_ProductKpi} />*/}
-          {/*<Route exact path="/kpi/quality" component={Old_QualityKpi} />*/}
-          {/*<Route exact path="/kpi/price" component={Old_PriceKpi} />*/}
-          {/*<Route exact path="/kpi/duedate" component={Old_DuedateKpi} />*/}
-
-          {/* 15.0 프레스 분석 및 통계 */}
-          <Route exact path="/pm/statistics/press" component={PressStatistics}/>
-          <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatistics}/>
-          <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatics}/>
-          <Route exact path="/pm/statistics/power" component={PowerStatistics}/>
-          <Route exact path="/pm/analysis/capacity" component={CapacityStatistics}/>
-          <Route exact path="/statistics/qdctime" component={QdcTimeStatistics}/>
-          <Route exact path="/statistics/loss" component={FactoryLossSatistics}/>
-          <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics}/>
-          <Route exact path="/statistics/leadtime" component={LeadTimeAnalysis}/>
-          <Route exact path="/statistics/environmental" component={FactoryEnvironmentalAnalysis}/>
-          <Route exact path="/pm/statistics/error" component={ErrorStatistics}/>
-
-          {/* 16.0 서비스 */}
-          <Route exact path="/service" component={ServiceDesk}/>
-
-          {/* 17.0 마이페이지 */}
-          <Route exact path="/mypage" component={MyPage}/>
-
-          {/*슈퍼 어드민*/}
-          <Route exact path="/super/register" component={SuperRegister}/>
-          <Route exact path="/super/list
-                " component={SuperList}/>
+                {/* 11.0 품질관리 */}
+                <Route exact path="/defective/register" component={DefectiveRegister} />
+                <Route exact path="/defective/list" component={Old_DefectiveList} />
+                <Route exact path="/inferior/register" component={RegisterInferior}/>
 
 
-          {/* 안쓰는것 */}
-          <Route exact path="/register/product" component={RegisterProduct}/>
-          <Route exact path="/register/line" component={RegisterLine}/>
-          <Route exact path="/status" component={StatusList}/>
-          <Route exact path="/list/line" component={LineList}/>
-          <Route exact path="/charts" component={Charts}/>
-          <Route exact path="/reports" component={Reports}/>
-          <Route exact path="/list/product" component={ProductList}/>
-          <Route exact path="/barcode/setting" component={BarcodeSetting}/>
+                {/* 12.0 키인 */}
+                <Route exact path="/keyin/input/press" component={InputKeyinPress} />
+                <Route exact path="/keyin/input/press" component={InputKeyinPress} />
+                <Route exact path="/keyin/input/material" component={InputKeyinMaterial} />
+                <Route exact path="/keyin/input/welding" component={InputKeyinWelding} />
+                <Route exact path="/keyin/input/sunban" component={InputKeyinSunban} />
+                <Route exact path="/keyin/input/tab" component={InputKeyinTab} />
+                <Route exact path="/keyin/input/mold" component={InputKeyinMold} />
+                <Route exact path="/keyin/input/milling" component={InputKeyinMilling} />
 
-          {/* 준비중 / 404 / 기타오류 */}
-          <Route exact path="/commingsoon" component={CommingSoon}/>
+                <Route exact path="/keyin/list/press" component={ListKeyinPress} />
+                <Route exact path="/keyin/list/press" component={ListKeyinPress} />
+                <Route exact path="/keyin/list/material" component={ListKeyinMaterial} />
+                <Route exact path="/keyin/list/welding" component={ListKeyinWelding} />
+                <Route exact path="/keyin/list/sunban" component={ListKeyinSunban} />
+                <Route exact path="/keyin/list/tab" component={ListKeyinTab} />
+                <Route exact path="/keyin/list/mold" component={ListKeyinMold} />
+                <Route exact path="/keyin/list/milling" component={ListKeyinMilling} />
+
+                <Route exact path="/keyin/set/press" component={SetKeyinPress} />
+                <Route exact path="/keyin/set/press" component={SetKeyinPress} />
+                <Route exact path="/keyin/set/material" component={SetKeyinMaterial} />
+                <Route exact path="/keyin/set/welding" component={SetKeyinWelding} />
+                <Route exact path="/keyin/set/sunban" component={SetKeyinSunban} />
+                <Route exact path="/keyin/set/tab" component={SetKeyinTab} />
+                <Route exact path="/keyin/set/mold" component={SetKeyinMold} />
+                <Route exact path="/keyin/set/milling" component={SetKeyinMilling} />
+
+                {/* 13.0 모니터링 */}
+                <Route exact path="/monitoring/full" component={FullMonitoring}/>
+                <Route exact path="/pm/monitoring/loadton" component={LoadtonMonitoring} />
+                <Route exact path="/pm/monitoring/cms" component={CmsMonitoring}/>
+                <Route exact path="/monitoring/statistics" component={CmsStatistics}/>
+                <Route exact path="/pm/monitoring/press" component={PressMonitoring}/>
+
+                <Route exact path="/monitoring/vibration" component={VibrationMonitoring}/>
+
+                {/* 14.0 KPI 생산지수 */}
+                {/*<Route exact path="/kpi/product" component={Old_ProductKpi} />*/}
+                {/*<Route exact path="/kpi/quality" component={Old_QualityKpi} />*/}
+                {/*<Route exact path="/kpi/price" component={Old_PriceKpi} />*/}
+                {/*<Route exact path="/kpi/duedate" component={Old_DuedateKpi} />*/}
+
+                {/* 15.0 프레스 분석 및 통계 */}
+                <Route exact path="/pm/statistics/press" component={PressStatistics} />
+                <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatistics} />
+                <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatics} />
+                <Route exact path="/pm/statistics/power" component={PowerStatistics} />
+                <Route exact path="/pm/analysis/capacity" component={CapacityStatistics} />
+                <Route exact path="/statistics/qdctime" component={QdcTimeStatistics} />
+                <Route exact path="/statistics/loss" component={FactoryLossSatistics} />
+                <Route exact path="/statistics/optimalspm" component={OptimalSPMStatistics} />
+                <Route exact path="/statistics/leadtime" component={LeadTimeAnalysis} />
+                <Route exact path="/statistics/environmental" component={FactoryEnvironmentalAnalysis}/>
+                <Route exact path="/pm/statistics/error" component={ErrorStatistics}/>
+
+                {/* 16.0 서비스 */}
+                <Route exact path="/service" component={ServiceDesk}/>
+
+                {/* 17.0 마이페이지 */}
+                <Route exact path="/mypage" component={MyPage}/>
+
+                {/*슈퍼 어드민*/}
+                <Route exact path="/super/register" component={SuperRegister} />
+                <Route exact path="/super/list" component={SuperList} />
 
 
-          <Route exact path="/custom/dashboard/loadton/:press" component={CustomLoadtonChartContainer}/>
+                {/* 안쓰는것 */}
+                <Route exact path="/register/product" component={RegisterProduct} />
+                <Route exact path="/register/line" component={RegisterLine} />
+                <Route exact path="/status" component={StatusList}/>
+                <Route exact path="/list/line" component={LineList} />
+                <Route exact path="/charts" component={Charts}/>
+                <Route exact path="/reports" component={Reports}/>
+                <Route exact path="/list/product" component={ProductList} />
+                <Route exact path="/barcode/setting" component={BarcodeSetting}/>
 
-        </Switch>
-      </div>
-  );
+                {/* 준비중 / 404 / 기타오류 */}
+                <Route exact path="/commingsoon" component={CommingSoon}/>
+
+            </Switch>
+        </div>
+    );
 }
 
 export default Routers;

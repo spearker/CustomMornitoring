@@ -42,7 +42,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].list}?page=1`
+        const tempUrl = `${API_URLS['contract'].list}?page=1&limit=15`
         const resultData = await getMarketing(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)
@@ -90,7 +90,8 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                         padding: 0
                     },
                     overlay:{
-                        background: 'rgba(0,0,0,.6)'
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
                     }
                 }}
             >
@@ -103,7 +104,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -112,7 +113,11 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                                         <th style={{width: 250}}>수량</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {
+                                    {machineList !== undefined && machineList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
@@ -204,7 +209,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

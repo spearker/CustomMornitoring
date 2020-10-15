@@ -40,11 +40,11 @@ export  const getPartsTypeList = (lang) => {
 export const subMachineCodes = [
 
     {code: 51, name: '미스피드'},
-    {code: 52, name: '하사점'},
+    {code: 52, name: '하사점 검출장치'},
     {code: 53, name: '로드모니터'},
     {code: 54, name: '앵글시퀀서'},
     {code: 55, name: '엔코더'},
-    {code: 56, name: '통과센터'},
+    {code: 56, name: '통과센서'},
     {code: 50, name: '기타(분류없음)'},
 ]
 
@@ -185,7 +185,7 @@ export const transferCodeToName = (type, value) =>{
                 str = v.name
             }
         })
-    }else if(type==='submachine'){
+    }else if(type==='device'){
         subMachineCodes.forEach((v: {code: number, name: string},i)=>{
             if (v.code === value){
                 str = v.name
@@ -261,7 +261,7 @@ export const transferStringToCode = (type, value) =>{
                 num = v.code
             }
         })
-    }else if(type === 'submachine'){
+    }else if(type === 'device'){
         subMachineCodes.forEach((v: {code: number, name: string},i)=>{
             if (v.name === value){
                 num = v.code

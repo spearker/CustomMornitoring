@@ -9,16 +9,14 @@ import {getToken} from "../../Common/tokenFunctions";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import IcDropDownButton from "../../Assets/Images/ic_dropdown_white.png"
 import {Input} from "semantic-ui-react";
+import NumberPagenation from "../Pagenation/NumberPagenation";
 
 interface Props {
     title: string
-    calendar?: boolean
     selectDate?: any
     calendarOnClick?: any
-    searchBar?: boolean
     searchBarChange?: any
     searchButtonOnClick?: any
-    dropDown?: boolean
     dropDownContents?: any
     dropDownOnClick?:any
     dropDownOption?: any
@@ -27,27 +25,28 @@ interface Props {
     indexList: any
     valueList: any[]
     EventList?: any[]
-    allCheckbox?: boolean
     allCheckOnClickEvent?: any
-    checkBox?: boolean
     checkOnClickEvent?: any
     clickValue?: object
     mainOnClickEvent?: any
     onClickEvent?: any
+    buttonState?: boolean
+    currentPage?:number
+    totalPage?: number
+    pageOnClickEvent?: any
     noChildren?: boolean
     children?: any
     calendarState?: boolean
 }
 
-const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,calendarOnClick,searchBar,searchBarChange,searchButtonOnClick,dropDown,dropDownContents,dropDownOnClick,dropDownOption,selectBoxChange,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,allCheckOnClickEvent,checkBox,checkOnClickEvent,clickValue,mainOnClickEvent,noChildren,calendarState,children}:Props) => {
+const OvertonTable:React.FunctionComponent<Props> = ({title,selectDate,calendarOnClick,searchBarChange,searchButtonOnClick,dropDownContents,dropDownOnClick,dropDownOption,selectBoxChange,titleOnClickEvent,indexList,valueList,EventList,allCheckOnClickEvent,checkOnClickEvent,buttonState,clickValue,mainOnClickEvent,noChildren,calendarState,children,currentPage,totalPage,pageOnClickEvent}:Props) => {
 
     const [checked, setChecked] = useState<any[]>([])
-    const [option, setOption] = useState<number>(0)
     const [allChecked, setAllChecked] = useState(false)
 
 
     React.useEffect(() => {
-        if(checkBox === true) {
+        if(checkOnClickEvent) {
             console.log('valueList', valueList)
             let tmpArr: boolean[] = []
             const arrData = valueList.map((v, i) => {
@@ -66,14 +65,14 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
             <Title>
                 <p className="p-bold" style={{fontSize: 20 }}>{title}</p>
                 <div style={{display: "flex", flexDirection: "row"}}>
-                {dropDown !== undefined || false ?
+                {dropDownOnClick ?
                     <div style={{alignItems: "center"}} >
                         <BasicDropdown contents={dropDownContents} select={dropDownContents[dropDownOption]}
                                        onClickEvent={dropDownOnClick}/>
                     </div> :
                     null
                 }
-                {searchBar !== undefined || false ?
+                {searchButtonOnClick ?
                     <div style={{width: "300px",display: "flex", flexDirection: "row", marginRight: 15}}>
                         <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}} onChange={(e) => searchBarChange(e.target.value)}/>
                         <SearchButton style={{flex: 10}} onClick={()=>searchButtonOnClick()}>
@@ -82,7 +81,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                     </div> :
                     null
                 }
-                {calendar !== undefined || false ?
+                {calendarOnClick ?
                     <div style={{marginRight: 15}}>
                         <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => calendarOnClick(start,end)} unLimit={calendarState}/>
                     </div>
@@ -102,7 +101,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
             </Title>
             <TitleBar>
                 {
-                    allCheckbox !== undefined || false ?
+                    allCheckOnClickEvent ?
                         <div style={{paddingRight:10, paddingLeft: 10, paddingTop:5}}>
                             <input type="checkbox" id={'all'} onClick={(e) => {
                                 if(allChecked === false) {
@@ -127,7 +126,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                         </div>
                         :
                         (
-                            checkBox !== undefined || false ?
+                            checkOnClickEvent ?
                             <div style={{paddingRight:10, paddingLeft: 10}}>
                                 <p> </p>
                             </div>
@@ -150,7 +149,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                             Object.keys(indexList[v]).map(m => {
                                                 return (
                                                     <>
-                                                        <option value={indexList[v][m]} >{indexList[v][m]}</option>
+                                                        <option value={indexList[v][m]} style={{backgroundColor: "#111319"}} >{indexList[v][m]}</option>
 
                                                     </>
                                                 )
@@ -185,10 +184,10 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                     },
                     */
                     return (
-                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}} onClick={mainOnClickEvent && mainOnClickEvent ? ()=>mainOnClickEvent(v) : ()=>console.log()}>
+                        <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}} >
                             {
-                                checkBox !== undefined || false ?
-                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                checkOnClickEvent ?
+                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}} >
                                             <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]} onClick={(e) => {
                                                 let tmpArr: boolean[] = checked
                                                 tmpArr = tmpArr.map((vm,vi)=>{
@@ -218,7 +217,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                     //mv : [pk , machin_list, machine_name ... ]
                                     return (
                                         typeof v[mv] === 'object' ?
-                                            <select className="p-limits" style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48',borderColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
+                                            <select className="p-limits" style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48',borderColor: clickValue=== v ? '#19b9df' : '#353b48'}} >
                                                 <option value={''}>선택</option>
                                                 {
                                                     Object.keys(v[mv]).map(m => {
@@ -230,7 +229,7 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                             </select>
                                             :
                                         <p key={`td-${i}-${mv}`}
-                                           className="p-limits" >
+                                           className="p-limits" onClick={mainOnClickEvent && mainOnClickEvent ? ()=>mainOnClickEvent(v) : ()=>console.log()} >
                                             {v[mv] === '' ?
                                                     'ㅡ'
                                                 :
@@ -245,7 +244,11 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
                                 EventList && EventList.map((bv,bi)=>{
                                     return(
                                         <div className="p-limits">
-                                            <ButtonBox onClick={()=>bv.Link(v)} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
+                                            {buttonState ?
+                                                <ButtonBox onClick={() => bv.Link(v)} style={{width: bv.Width, color: v.status === '진행중' ? 'white' : 'white', backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df' }}>{ v.status === '진행중' ? '완료 하기' : '취소 하기' }</ButtonBox>
+                                                :
+                                                <ButtonBox onClick={() => bv.Link(v)} style={{width: bv.Width, color: bv.Color}}>{bv.Name}</ButtonBox>
+                                            }
                                         </div>
                                     )
                                 })
@@ -256,6 +259,12 @@ const OvertonTable:React.FunctionComponent<Props> = ({title,calendar,selectDate,
 
                     )
                 })
+            }
+            {currentPage && totalPage ?
+                <NumberPagenation stock={totalPage ? totalPage : 0} selected={currentPage}
+                                  onClickEvent={pageOnClickEvent}/>
+                                  :
+                null
             }
             {noChildren !== undefined || false ?
                 null :
@@ -355,7 +364,7 @@ const ButtonBox = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         border-radius: 10px 0 0px 10px;

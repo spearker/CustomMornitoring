@@ -92,14 +92,14 @@ const QualityTestCompleteWorker = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['request'].completeList}?currentPage=${page.current}`
+        const tempUrl = `${API_URLS['request'].completeList}?currentPage=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
 
         setPage({ current: res.currentPage, total: res.totalPage })
 
-    },[list])
+    },[list,page])
 
     useEffect(()=>{
         getList()
@@ -110,6 +110,10 @@ const QualityTestCompleteWorker = () => {
         setTitleEventList(titleeventdummy)
     },[])
 
+    useEffect(()=>{
+        getList()
+    },[])
+
     return (
         <div>
             <OvertonTable
@@ -117,6 +121,9 @@ const QualityTestCompleteWorker = () => {
                 indexList={index}
                 mainOnClickEvent={onClick}
                 valueList={list}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?
@@ -127,7 +134,6 @@ const QualityTestCompleteWorker = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     )
 }

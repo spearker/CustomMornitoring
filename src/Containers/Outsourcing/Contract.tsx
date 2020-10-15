@@ -18,7 +18,7 @@ const ContractContainer = () => {
     const [contentsList, setContentsList] = useState<any[]>(['거래처명','제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [index, setIndex] = useState({ name: '외주처' });
+    const [index, setIndex] = useState({ company_name: '외주처' });
     const [subIndex, setSubIndex] = useState({ manager: '작성자' })
     const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk] = useState<any>(null);
@@ -31,8 +31,8 @@ const ContractContainer = () => {
 
     const indexList = {
         contract: {
-            name: '외주처 명',
-            material_name: '제품 명',
+            company_name: '외주처 명',
+            product: '제품 명',
             quantity: '수량',
             unpaid: '미납 수량',
             ceo_name: '대표자 명',
@@ -99,15 +99,27 @@ const ContractContainer = () => {
         },
     ]
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
+    useEffect(() => {
+        console.log('deletePk.pk', deletePk.pk)
+    })
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
 
         {list.length === 0 ?
-            deletePk.pk.map((v,i)=>{
-                deletePk.pk.pop()
-            })
+          arrayDelete()
             :
             list.map((v, i) => {
+                arrayDelete()
 
                 if(deletePk.pk.indexOf(v.pk) === -1){
                     tmpPk.push(v.pk)
@@ -123,8 +135,7 @@ const ContractContainer = () => {
                     deletePk.pk.shift()
                 }
 
-                console.log(deletePk.pk)
-
+                console.log('deletePk.pk', deletePk.pk)
             })
         }
     },[deletePk])
@@ -140,12 +151,12 @@ const ContractContainer = () => {
 
     const optionChange = useCallback(async (filter:number)=>{
         setOption(filter)
-        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}`
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
+    },[option,searchValue,page])
 
 
     const searchChange = useCallback(async (search)=>{
@@ -155,13 +166,13 @@ const ContractContainer = () => {
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
         setPage({ current: res.current_page, total: res.total_page })
 
-    },[searchValue,option])
+    },[searchValue,option,page])
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf', mold.pk, mold.mold_name);
@@ -216,8 +227,8 @@ const ContractContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['contract'].load}`
-        const res = await postOutsourcingList(tempUrl, {pk:pk})
+        const tempUrl = `${API_URLS['contract'].load}?pk=${pk}`
+        const res = await getOutsourcingList(tempUrl)
 
         setDetailList([res])
 
@@ -225,12 +236,17 @@ const ContractContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}`
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
 
         setList(res.info_list)
 
     }, [list])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
 
     useEffect(() => {
         getList()
@@ -248,19 +264,18 @@ const ContractContainer = () => {
             <OvertonTable
                 title={'외주처 수주 리스트'}
                 titleOnClickEvent={titleEventList}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
-                dropDown={true}
                 dropDownContents={contentsList}
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
-                searchBar={true}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                checkBox={true}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 checkOnClickEvent={checkOnClick}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
@@ -273,7 +288,6 @@ const ContractContainer = () => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

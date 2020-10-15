@@ -102,7 +102,8 @@ export const API_URLS = {
     },
     defective:{
         list: '/v1/defective/list',
-        load: '/v1/defective/load'
+        load: '/v1/defective/load',
+        delete: '/v1/defective/delete',
     },
     material: {
         search: `/v1/material/search`

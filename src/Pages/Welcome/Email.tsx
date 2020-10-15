@@ -4,11 +4,12 @@ import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import {useTranslation} from 'react-i18next';
+import {useHistory} from "react-router-dom";
 
 // 회원가입을 위한 이메일 입력 페이지
 
 const Email = () => {
-
+  const history = useHistory();
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [subDomain, setSubDomain] = useState<string>(window.location.hostname);
@@ -39,13 +40,16 @@ const Email = () => {
       base_url: subDomain
     }
 
-    const results = await postRequestWithNoToken('http://192.168.0.47:8299/email/send', data)
+
+    const results = await postRequestWithNoToken('http://203.234.183.22:8290/email/send', data)
+
     console.log(results)
     if(results === false){
       //TODO: 에러 처리
     }else{
       if(results.status === 200){
         alert('인증메일이 발송되었습니다. 메일함을 확인해주세요.')
+        history.push('')
       }else if(results.status === 1001 || results.data.status === 1002){
         alert('가입 불가능한 이메일 입니다.')
       }else{

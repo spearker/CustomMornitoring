@@ -78,12 +78,12 @@ const ChitRegisterContainer = () => {
                             <td><ProjectPlanPickerModal select={modalSelect.production} text={'생산계획을 검색해주세요.'} onClickEvent={(e) => setModalSelect({
                                 ...modalSelect,
                                 production: e
-                            })}/></td>
+                            })} inputWidth={'calc(99% - 4px)'} buttonWid={30} /></td>
                         </tr>
                         <tr>
                             <td>• 납기일</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row'}}>
+                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', width: 'calc(99% - 4px)', margin: '0 auto'}}>
                                     <InputBox style={{ flex: 95}}>
                                         <Input style={{width: "100%"}} disabled placeholder="YYYY-MM-DD" value={selectDate}/>
                                     </InputBox>
@@ -112,8 +112,8 @@ const ChitRegisterContainer = () => {
                     <ButtonWrap onClick={async () => {
                         await postChitRegisterData()
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>전표 등록하기</p>
+                        <div style={{}}>
+                            <p style={{fontSize: 18}}>전표 등록하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -181,6 +181,9 @@ const ButtonWrap = Styled.button`
     border: none;
     font-weight: bold;
     font-size: 13px;
+    width: 360px;
+    height: 46px;
+    box-sizing: border-box;
     img {
       margin-right: 7px;
       width: 14px;

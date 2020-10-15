@@ -35,6 +35,7 @@ const ForgotPw = () => {
       email : email,
       base_url: subDomain
     }
+
     const results = await postRequestWithNoToken('http://192.168.0.47:8299/email/password/send', data)
 
     if(results === false){

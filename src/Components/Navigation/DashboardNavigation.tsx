@@ -243,7 +243,7 @@ const NavDiv = Styled.div`
   left: 70px;
   position: absolute;
   padding-bottom: 40px;
-  z-index: 5;
+  z-index: 4;
   box-sizing: border-box;
 `
 
@@ -281,11 +281,12 @@ const NavDivLeft = Styled.div`
   padding-bottom: 600px;
   position: relative;
   padding-bottom: 40px;
+  z-index: 4;
 
 `
 
 const TabletIconDiv = Styled.div`
-  heigth: 60px;
+  height: 60px;
   width: 60px;
   position: absolute;
   top: 22px;
@@ -294,7 +295,7 @@ const TabletIconDiv = Styled.div`
 `
 const NavDivFixedTop = Styled.div`
   background-color: ${BG_COLOR};
-  heigth: 100%;
+  height: 100%;
   min-height: 100vh;
   overflow: scroll;
   min-width: 180px;

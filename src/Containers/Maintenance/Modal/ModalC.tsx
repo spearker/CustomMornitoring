@@ -19,6 +19,7 @@ const ModalC: React.FunctionComponent<Props> = ({ isOpen, modals, setOpen }) => 
             style={{
                 overlay: {
                     backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    zIndex: 5
                 },
                 content: {
                     width: 900,

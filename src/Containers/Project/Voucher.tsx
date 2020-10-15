@@ -190,7 +190,7 @@ const VoucherContainer = ({ match }: Props) => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['chit'].list}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&page=${page.current}`
+        const tempUrl = `${API_URLS['chit'].list}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
         const getVoucher = res.info_list.map((v,i)=>{
@@ -203,7 +203,7 @@ const VoucherContainer = ({ match }: Props) => {
         setPage({ current: res.current_page, total: res.total_page })
         setList(getVoucher)
 
-    },[list])
+    },[list,page])
 
     useEffect(() => {
         getList()
@@ -233,13 +233,14 @@ const VoucherContainer = ({ match }: Props) => {
                 title={'전표 리스트'}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
-                allCheckbox={true}
                 checkOnClickEvent={checkOnClick}
-                checkBox={true}
                 indexList={index}
                 valueList={list}
                 // EventList={eventList}
                 clickValue={selectValue}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?
@@ -294,7 +295,6 @@ const VoucherContainer = ({ match }: Props) => {
                         null
                 }
             </OvertonTable>
-            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current} onClickEvent={(i: number) => setPage({...page, current: i})}/>
         </div>
     );
 }

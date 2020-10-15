@@ -159,8 +159,8 @@ const BarcodeListContainer = () => {
 
         getList()
 
-        selectPk(null)
-    },[deletePk])
+        setSelectPk(null)
+    },[deletePk,selectPk])
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
@@ -173,12 +173,17 @@ const BarcodeListContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}`
+        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}&limit=15`
         const res = await getBarcode(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -192,15 +197,16 @@ const BarcodeListContainer = () => {
         <div>
             <OvertonTable
                 title={'바코드 현황'}
-                allCheckbox={true}
                 allCheckOnClickEvent={allCheckOnClick}
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
                 clickValue={selectValue}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
@@ -223,7 +229,7 @@ const BarcodeListContainer = () => {
                                         {/*    <p>A123</p>*/}
                                         {/*</div>*/}
                                     </BarcodeNum>
-                                    <ButtonBox>바코드 이미지 다운로드</ButtonBox>
+                                    {/*<ButtonBox>바코드 이미지 다운로드</ButtonBox>*/}
                                 </BarcodeContainer>
                         </LineTable>
                         :

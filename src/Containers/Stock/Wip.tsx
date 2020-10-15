@@ -165,10 +165,10 @@ const WipContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}`
+        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.items.map((v,i)=>{
+        const getStock = res.info_list.map((v,i)=>{
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -176,12 +176,17 @@ const WipContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page+1, total: res.total_page })
+
+        setPage({ current: res.current_page, total: res.total_page })
     },[list,type,filter])
 
     useEffect(()=>{
         getList()
     },[filter])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(()=>{
         getList()
@@ -202,6 +207,9 @@ const WipContainer = () => {
                 EventList={eventList}
                 selectBoxChange={selectBox}
                 clickValue={selectValue}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
                 noChildren={true}>
                 {
                     selectPk !== null ?
