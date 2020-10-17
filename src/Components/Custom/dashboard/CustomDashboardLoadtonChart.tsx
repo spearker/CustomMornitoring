@@ -14,6 +14,9 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
   const [ isFirstLoad, setIsFirstLoad ] = useState<boolean>(false);
 
   useEffect(() => {
+    const documentEvent: any = document
+    documentEvent.body.style.zoom = .7;
+
     getFactoryData()
     getPressMonitoring()
     setIsFirstLoad(true)
@@ -82,7 +85,72 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
             alignItems: 'center'
           }}>
             <TitleText style={{ fontSize: 32 }}>{list && list.machines[0]?.machine_name}</TitleText>
-            {/*<TitleText style={{ fontSize: 20 }}>{Number(propData?.limited_ton).toFixed(2)}ton</TitleText>*/}
+            {/*<TitleText style={{ fontSize: 20 }}>{Number(propData?.limited_ton)}ton</TitleText>*/}
+          </div>
+        </div>
+    )
+  }
+
+  const standardInfo = () => {
+    return (
+        <div style={{
+          width: "15%",
+          position: 'absolute',
+          top: 100,
+          right: 130,
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '0 auto',
+            width: '80%',
+            marginBottom: 40
+          }}>
+            <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 32, fontWeight: 'bold' }}>Total</p>
+            <TitleText
+                style={{ fontSize: 58 }}>{list && list.machines[0].total_maxTon ? Number(list.machines[0].total_maxTon) + 't' : '0'}</TitleText>
+
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '0 auto',
+            width: '80%',
+            marginBottom: 60,
+            opacity: .75
+          }}>
+            <div>
+              <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 32, fontWeight: 'bold' }}>CH1 (좌)</p>
+              <TitleText>{list && list.machines[0]?.ch1_maxTon ? Number(list.machines[0].ch1_maxTon) + ' t' : '-'}</TitleText>
+            </div>
+            <div>
+              <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 32, fontWeight: 'bold' }}>CH1 (우)</p>
+              <TitleText>{list && list.machines[0]?.ch1_maxTon ? Number(list.machines[0].ch1_maxTon) + ' t' : '-'}</TitleText>
+            </div>
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '0 auto',
+            width: '80%',
+            opacity: .75
+          }}>
+            <div>
+              <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 32, fontWeight: 'bold' }}>CH2 (좌)</p>
+              <TitleText>{list && list.machines[0]?.ch1_maxTon ? Number(list.machines[0].ch1_maxTon) + ' t' : '-'}</TitleText>
+            </div>
+            <div>
+              <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 32, fontWeight: 'bold' }}>CH2 (우)</p>
+              <TitleText>{list && list.machines[0]?.ch1_maxTon ? Number(list.machines[0].ch1_maxTon) + ' t' : '-'}</TitleText>
+            </div>
           </div>
         </div>
     )
@@ -101,16 +169,30 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
             selectFactory.pk !== ''
             && <ItemBox>
               <CustomLoadTon color={0} propData={list ? list.machines[0] : undefined}
-                             styles={{ width: '100%' }}/>
-              <div style={{ width: '80%', marginLeft: 20 }}>
-                {
+                             styles={{ width: '100%', height: '50%' }}/>
+              <div style={{ width: '98%', marginLeft: 20 }}>
+                <div style={{ width: '100%' }}>
+                  {standardInfo()}
+                  {
+                    pressMonitoringList &&
+                    <React.Fragment>
+                      <div style={{
+                        width: "20%",
+                        borderBottomRightRadius: 8,
+                        borderBottomLeftRadius: 8,
+                        display: 'flex',
+                        position: 'absolute',
+                        right: 0
+                      }}>
+                      </div>
+                      <CustomMonitoringCard contents={pressMonitoringList.length > 0 && pressMonitoringList[0]}
+                                            optionList={pressMonitoringList.length > 0 && pressMonitoringList[0].info_list.map((m) => {
+                                              return Number(m.title)
+                                            })}/>
 
-                  <CustomMonitoringCard contents={pressMonitoringList.length > 0 && pressMonitoringList[0]}
-                                        optionList={pressMonitoringList.length > 0 && pressMonitoringList[0].info_list.map((m) => {
-                                          return Number(m.title)
-                                        })}/>
-                }
-
+                    </React.Fragment>
+                  }
+                </div>
               </div>
             </ItemBox>
           }
@@ -127,7 +209,7 @@ const ItemBox = Styled.div`
 const TitleText = Styled.p`
     text-align: center;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 42px;
 `
 
 export default CustomDashboardLoadtonChart
