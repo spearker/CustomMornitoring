@@ -62,7 +62,7 @@ const StockHistory = () => {
             <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/>
             </div>
           </div>
-          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://192.168.0.47:8299/api/v1/stock/history/target?'}/>
+          <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')} searchUrl={'http://112.168.150.239:8299/api/v1/stock/history/target?'}/>
 
           <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName} onClickLinkUrl="/stock/history?pk=" contents={list} />
 

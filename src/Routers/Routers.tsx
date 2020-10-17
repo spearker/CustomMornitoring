@@ -154,6 +154,7 @@ import PowerStatistics from "../Pages/PM_Statistics/PowerStatistics";
 import ErrorStatistics from "../Pages/PM_Statistics/ErrorStatistics";
 import ProcessRegister from "../Pages/Process/Register";
 import CustomLoadtonChartContainer from "../Containers/Custom/dashboard/CustomLoadtonChartContainer";
+import CustomDashboardIndex from "../Containers/Custom/dashboard/CustomDashboardIndex";
 
 const Routers = () => {
 
@@ -393,6 +394,7 @@ const Routers = () => {
           <Route exact path="/commingsoon" component={CommingSoon}/>
 
 
+          <Route exact path="/custom/dashboard" component={CustomDashboardIndex}/>
           <Route exact path="/custom/dashboard/loadton/:press" component={CustomLoadtonChartContainer}/>
 
         </Switch>

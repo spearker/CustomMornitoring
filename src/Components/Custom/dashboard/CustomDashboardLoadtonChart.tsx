@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { API_URLS, getLoadTonList } from "../../../Api/pm/monitoring";
 import { API_URLS as URLS_MAP, getMonitoringMapData } from "../../../Api/pm/map";
-import NoDataCard from "../../Card/NoDataCard";
 import InnerBodyContainer from "../../../Containers/InnerBodyContainer";
 import Styled from "styled-components";
 import CustomLoadTon from "../loadton/CustomLoadTonCard";
@@ -72,6 +71,23 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
   }, [ pressMonitoringList ])
 
 
+  const Header = () => {
+    return (
+        <div style={{ paddingTop: 11, paddingLeft: 10, height: '5%', marginBottom: 20 }}>
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <TitleText style={{ fontSize: 32 }}>{list && list.machines[0]?.machine_name}</TitleText>
+            {/*<TitleText style={{ fontSize: 20 }}>{Number(propData?.limited_ton).toFixed(2)}ton</TitleText>*/}
+          </div>
+        </div>
+    )
+  }
+
   return (
       <React.Fragment>
         <InnerBodyContainer styles={{
@@ -80,33 +96,23 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
           marginLeft: '0',
           marginRight: '0'
         }}>
-          {/*<FactorySelector width={'100%'} select={selectFactory} list={facotories} onChangeEvent={setSelectFactory}/>*/}
+          {Header()}
           {
             selectFactory.pk !== ''
-                ? list
-                ? list.machines.length !== 0
-                    ? <ItemBox>
-                      <CustomLoadTon color={0} propData={list.machines[0]}
-                                     styles={{ width: '100%' }}/>
-                      <div style={{ width: '80%', marginLeft: 20 }}>
-                        {
-                          pressMonitoringList.length > 0 &&
-                          <CustomMonitoringCard contents={pressMonitoringList[0]}
-                                                optionList={pressMonitoringList[0].info_list.map((m) => {
-                                                  return Number(m.title)
-                                                })}/>
-                        }
+            && <ItemBox>
+              <CustomLoadTon color={0} propData={list ? list.machines[0] : undefined}
+                             styles={{ width: '100%' }}/>
+              <div style={{ width: '80%', marginLeft: 20 }}>
+                {
 
-                      </div>
-                      {/*{*/}
-                      {/*  list && list.machines.map((item, index) => {*/}
-                      {/*    return (<LoadTonCard color={index} propData={item}/>)*/}
-                      {/*  })*/}
-                      {/*}*/}
-                    </ItemBox>
-                    : <NoDataCard height={'100vh'} contents={"기계 정보가 없습니다."}/>
-                : <NoDataCard height={'100vh'} contents={"데이터를 불러오는 중입니다."}/>
-                : <NoDataCard height={'100vh'} contents={'데이터가 없습니다.'}/>
+                  <CustomMonitoringCard contents={pressMonitoringList.length > 0 && pressMonitoringList[0]}
+                                        optionList={pressMonitoringList.length > 0 && pressMonitoringList[0].info_list.map((m) => {
+                                          return Number(m.title)
+                                        })}/>
+                }
+
+              </div>
+            </ItemBox>
           }
         </InnerBodyContainer>
       </React.Fragment>
@@ -118,5 +124,10 @@ const ItemBox = Styled.div`
     width: 100%;
 `
 
+const TitleText = Styled.p`
+    text-align: center;
+    font-weight: bold;
+    font-size: 32px;
+`
 
 export default CustomDashboardLoadtonChart

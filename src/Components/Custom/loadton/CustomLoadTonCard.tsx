@@ -7,10 +7,6 @@ interface power {
   ampere: number
 }
 
-interface dataType {
-  today: power,
-  yesterday: power
-}
 
 interface IProps {
   color: number
@@ -21,9 +17,6 @@ interface IProps {
 
 // 로드톤 모니터링
 const CustomLoadTon = ({ color, propData, styles }: IProps) => {
-  // const [series, setSeries] = useState([{
-  //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  // }])
   const colorList = [ '#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff' ]
   const [ datum, setDatum ] = useState([
     { data: propData?.capacity, color: 'gray', name: '능률곡선' },
@@ -53,19 +46,19 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
       toolbar: {
         show: false,
       },
-      // events : {
-      //     beforeZoom : (e, {xaxis}) => {
-      //         console.log(e, xaxis)
-      //         if(xaxis.min < 0 || xaxis.max > 360){
-      //             return {
-      //                 xaxis: {
-      //                     min: 0,
-      //                     max: 360
-      //                 }
-      //             }
-      //         }
-      //     }
-      // },
+      events: {
+        beforeZoom: (e, { xaxis }) => {
+          console.log(e, xaxis)
+          if (xaxis.min < 0 || xaxis.max > 360) {
+            return {
+              xaxis: {
+                min: 0,
+                max: 360
+              }
+            }
+          }
+        }
+      },
       // toolbar: {
       //     show: true,
       //     tools: {
@@ -98,10 +91,14 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
     },
     xaxis: {
       show: false,
+      rotateAlways: true,
       min: 120,
       max: 200,
       labels: {
         show: false,
+        formatter: (value: number, _, index: number) => {
+          return value
+        }
       },
       type: 'numeric',
       tickAmount: 360,
@@ -111,7 +108,14 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
     },
     yaxis: {
       show: true,
+      opposite: true,
       min: 0,
+      labels: {
+        show: true,
+        formatter: (value) => {
+          return Math.floor(value)
+        }
+      },
       axisBorder: {
         show: true,
         color: '#78909C',
@@ -140,18 +144,6 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
 
   return (
       <div>
-        <div style={{ paddingTop: 11, paddingLeft: 10, height: '5%', marginBottom: 20 }}>
-          <div style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <TitleText style={{ fontSize: 32 }}>{propData?.machine_name}</TitleText>
-            {/*<TitleText style={{ fontSize: 20 }}>{Number(propData?.limited_ton).toFixed(2)}ton</TitleText>*/}
-          </div>
-        </div>
         <div>
           <div
               style={{ width: '90%', ...styles, display: 'flex' }}>
@@ -235,7 +227,7 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
                   width: '80%',
                   marginBottom: 40
                 }}>
-                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>
+                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH2 (좌)</p>
                   <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>
                 </div>
                 <div style={{
@@ -246,7 +238,7 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
                   width: '80%',
                   marginBottom: 40
                 }}>
-                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>
+                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH2 (우)</p>
                   <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>
                 </div>
                 <div style={{
@@ -257,42 +249,42 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
                   width: '80%',
                   marginBottom: 40
                 }}>
-                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>
+                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>일률</p>
                   <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>
                 </div>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  margin: '0 auto',
-                  width: '80%',
-                  marginBottom: 40
-                }}>
-                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>
-                  <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>
-                </div>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  margin: '0 auto',
-                  width: '80%',
-                  marginBottom: 40
-                }}>
-                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>
-                  <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>
-                </div>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  margin: '0 auto',
-                  width: '80%',
-                  marginBottom: 40
-                }}>
-                  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>
-                  <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>
-                </div>
+                {/*<div style={{*/}
+                {/*  display: 'flex',*/}
+                {/*  justifyContent: 'space-between',*/}
+                {/*  alignItems: 'center',*/}
+                {/*  margin: '0 auto',*/}
+                {/*  width: '80%',*/}
+                {/*  marginBottom: 40*/}
+                {/*}}>*/}
+                {/*  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>*/}
+                {/*  <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>*/}
+                {/*</div>*/}
+                {/*<div style={{*/}
+                {/*  display: 'flex',*/}
+                {/*  justifyContent: 'space-between',*/}
+                {/*  alignItems: 'center',*/}
+                {/*  margin: '0 auto',*/}
+                {/*  width: '80%',*/}
+                {/*  marginBottom: 40*/}
+                {/*}}>*/}
+                {/*  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>*/}
+                {/*  <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>*/}
+                {/*</div>*/}
+                {/*<div style={{*/}
+                {/*  display: 'flex',*/}
+                {/*  justifyContent: 'space-between',*/}
+                {/*  alignItems: 'center',*/}
+                {/*  margin: '0 auto',*/}
+                {/*  width: '80%',*/}
+                {/*  marginBottom: 40*/}
+                {/*}}>*/}
+                {/*  <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 28 }}>CH1 (우)</p>*/}
+                {/*  <TitleText>{propData?.ch1_maxTon ? Number(propData.ch1_maxTon).toFixed(1) + ' t' : '-'}</TitleText>*/}
+                {/*</div>*/}
               </div>
             </div>
           </div>
