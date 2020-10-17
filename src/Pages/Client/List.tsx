@@ -13,8 +13,6 @@ import {getRequest, postRequest} from '../../Common/requestFunctions';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import InfoTable from '../../Components/Table/InfoTable';
-import DotPagenation from '../../Components/Pagenation/DotPagenation'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 interface PaginationInfo {

@@ -85,13 +85,25 @@ const BasicMaterialRegister = () => {
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    if(inputData.safe_stock === "" ){
+
+    if(inputData.material_name === ""){
+      alert("품목 이름는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inputData.material_type === "" ) {
+      alert("품목 종류는 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk === ''  ){
+      alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if(inputData.safe_stock === "" ) {
       alert("안전재고는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if(inputData.cost === ""){
       alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
+
     const data = {
       pk: getParameter('pk'),
       material_name: inputData.material_name,
@@ -120,7 +132,17 @@ const BasicMaterialRegister = () => {
 
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
-    if(inputData.safe_stock === "" ){
+
+    if(inputData.material_name === ""){
+      alert("품목 이름는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inputData.material_type === "" ) {
+      alert("품목 종류는 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk === ''  ){
+      alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if(inputData.safe_stock === "" ) {
       alert("안전재고는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if(inputData.cost === ""){

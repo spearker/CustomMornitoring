@@ -35,15 +35,21 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     const [machineList, setMachineList] = useState(DummyMachine)
     const [searchName, setSearchName] = useState<string>('')
 
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=15`
         const resultData = await getSearchMachine(tempUrl);
-        setMachineList(resultData.results)
-    }, [searchName])
+        setMachineList(resultData.info_list)
+
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+    }, [searchName,page])
 
     useEffect(() => {
         console.log(searchName)
@@ -52,9 +58,14 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
+
     useEffect(()=>{
         getList()
     },[])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     return (
         <div>

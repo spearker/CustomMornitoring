@@ -37,6 +37,21 @@ const ContractRegisterContainer = () => {
     })
 
     const postContractRegisterData = useCallback(async () => {
+
+        if(contractData.customer_pk === '' || contractData.customer_pk === undefined  ){
+            alert("거래처 명은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if (contractData.material_pk === '' || contractData.material_pk === undefined){
+            alert("품목(품목명) 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if (contractData.amount === 0){
+            alert("수리 담당자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (contractData.date === ""){
+            alert("완료 예정일은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const tempUrl = `${API_URLS['contract'].register}`
         const resultData = await postContractRegister(tempUrl, contractData);
 

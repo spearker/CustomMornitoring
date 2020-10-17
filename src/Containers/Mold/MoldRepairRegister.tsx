@@ -34,11 +34,26 @@ const MoldRepairRegisterContainer = () => {
     const [reason, setReason] = useState<string>('')
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
 
-    const [moldData, setMoldData] = useState<{name: string, pk: string}>()
+    const [moldData, setMoldData] = useState<{name: string, pk: string}>({name: '', pk: ''})
     const [parts, setParts] = useState<{name: string, pk: string}>()
     const [managerData, setManagerData] = useState<string>()
 
     const postContractRegisterData = useCallback(async () => {
+
+        if(moldData?.pk === ""  ){
+            alert("금형명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (reason === ""){
+            alert("수리사유 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (managerData === ""){
+            alert("수리 담당자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (selectDate === ""){
+            alert("완료 예정일은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const tempUrl = `${API_URLS['repair'].register}`
         const resultData = await postMoldRegister(tempUrl, {
             mold_pk: moldData?.pk,

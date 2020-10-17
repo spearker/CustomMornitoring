@@ -29,17 +29,21 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) =>
         ceo_name: "",
     }])
     const [searchName, setSearchName] = useState<string>('')
-
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${page.current}`
         const resultData = await getCustomerData(tempUrl);
         console.log(resultData)
-        setMachineList(resultData)
-    }, [searchName])
+        setMachineList(resultData.info_list)
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+
+    }, [searchName, page])
 
     useEffect(() => {
         console.log(searchName)
@@ -49,9 +53,10 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) =>
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
+
     useEffect(()=>{
         getList()
-    },[])
+    },[page.current])
 
     return (
         <div>

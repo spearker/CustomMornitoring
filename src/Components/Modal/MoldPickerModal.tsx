@@ -23,6 +23,9 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [machineList, setMachineList] = useState([{
         pk: "",
@@ -39,10 +42,10 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}`
         const resultData = await getSearchMachine(tempUrl);
         console.log(resultData)
-        setMachineList(resultData.results)
+        setMachineList(resultData.info_list)
     }, [searchName])
 
     useEffect(() => {

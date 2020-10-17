@@ -31,7 +31,9 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [workerName, setWorkerName] = useState('')
-
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [historyList, setHistoryList] = useState<{
         pk:string,
         worker_name: string,
@@ -46,11 +48,13 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&`
         const resultData = await getHistorySearch(tempUrl);
         console.log('resultData', resultData)
-        setHistoryList(resultData)
-    }, [searchName])
+        setHistoryList(resultData.info_list)
+
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+    }, [searchName,page])
 
     useEffect(() => {
         console.log(searchName)
@@ -62,6 +66,11 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     useEffect(()=>{
         getList()
     },[])
+
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     return (
         <div>

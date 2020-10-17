@@ -33,6 +33,9 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [searchName, setSearchName] = useState('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [selectMaterial, setSelectMaterial] = useState('')
     const [productList, setProductList] = useState([
         {
@@ -48,10 +51,10 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=1&limit=15`
+        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=15`
         const resultData = await getProductionSearch(tempUrl);
 
-        setProductList(resultData.results.info_list)
+        setProductList(resultData.info_list)
 
     }, [searchName])
 

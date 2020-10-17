@@ -36,13 +36,16 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
         date: ""
     }])
     const [searchName, setSearchName] = useState<string>('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].list}?page=1&limit=15`
+        const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=15`
         const resultData = await getMarketing(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)

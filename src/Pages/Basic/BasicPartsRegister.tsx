@@ -6,16 +6,13 @@ import WhiteBoxContainer from "../../Containers/WhiteBoxContainer";
 import ListHeader from "../../Components/Text/ListHeader";
 import NormalInput from "../../Components/Input/NormalInput";
 import DropdownInput from "../../Components/Input/DropdownInput";
-import {getMaterialTypeList, transferCodeToName, transferStringToCode} from "../../Common/codeTransferFunctions";
 import BasicSearchContainer from "../../Containers/Basic/BasicSearchContainer";
 import NormalNumberInput from "../../Components/Input/NormalNumberInput";
-import RegisterButton from "../../Components/Button/RegisterButton";
 import {useHistory} from "react-router-dom";
 import useObjectInput from "../../Functions/UseInput";
 import {getParameter, getRequest, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {POINT_COLOR, TOKEN_NAME} from "../../Common/configset";
-import {JsonStringifyList} from "../../Functions/JsonStringifyList";
 import SmallButton from "../../Components/Button/SmallButton";
 import Styled from "styled-components";
 
@@ -115,6 +112,21 @@ const BasicPartsRegister = () => {
 
     const onsubmitFormUpdate = useCallback(async()=>{
         console.log(type)
+
+        if (name === ''){
+            alert("부품 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(partsPkList[type] === '' || partsPkList[type] === undefined){
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if( location === undefined || location[0]?.pk === undefined || location[0]?.pk === ''  ){
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(cost === null || cost === undefined){
+            alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const data = {
             pk: getParameter('pk'),
             parts_name: name,
@@ -122,7 +134,6 @@ const BasicPartsRegister = () => {
             location:  location[0].pk,
             parts_cost: cost
         };
-
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
 
@@ -140,6 +151,19 @@ const BasicPartsRegister = () => {
     },[pk, location,name,type,cost, partsPkList ])
 
     const onsubmitForm = useCallback(async()=>{
+        if (name === ''){
+            alert("부품 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(partsPkList[type] === '' || partsPkList[type] === undefined){
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if( location === undefined || location[0]?.pk === undefined || location[0]?.pk === ''  ){
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(cost === null || cost === undefined){
+            alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             parts_name: name,
@@ -165,6 +189,10 @@ const BasicPartsRegister = () => {
 
 
     const partsRegister = useCallback(async()=>{
+        if(partsName === '' || partsName === null || partsName === undefined){
+            alert("파츠 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             name: partsName
@@ -208,7 +236,15 @@ const BasicPartsRegister = () => {
     },[partsList,partsPkList,type])
 
     const partsUpdate = useCallback(async()=>{
-        console.log(type)
+
+        if(partsName === '' || partsName === null || partsName === undefined){
+            alert("파츠 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(partsPkList[type] === '' || partsPkList[type] === undefined) {
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }
+
         const data = {
             pk: partsPkList[type],
             name: partsName

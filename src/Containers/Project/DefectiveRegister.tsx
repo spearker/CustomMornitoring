@@ -104,8 +104,27 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
      * @returns X
      */
     const onsubmitFormUpdate = useCallback(async()=>{
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+
+        if(selectHistory?.pk === '' ){
+            alert("작업 이력은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(selectMaterial?.pk === '' ){
+            alert("품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(selectMachine.pk === '' ){
+            alert("기계은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if (name === '' ){
+            alert("검수자은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(amount === null ){
+            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(selectDate === ''){
+            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
+            return;
+        } else if(reason === '' ){
+            alert("불량 사유는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
 
@@ -152,6 +171,30 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         // console.log(infoList)
         // alert(JSON.stringify(infoList))
         // console.log(JSON.stringify(infoList))
+
+        if(selectHistory?.pk === '' ){
+            alert("작업 이력은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(selectMaterial?.pk === '' ){
+            alert("품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(selectMachine.pk === '' ){
+            alert("기계은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if (name === '' ){
+            alert("검수자은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(amount === null ){
+            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(selectDate === ''){
+            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
+            return;
+        } else if(reason === '' ){
+            alert("불량 사유는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
 
         const data = {
 

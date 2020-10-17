@@ -8,6 +8,7 @@ import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import {API_URLS, getSearchMachine} from "../../Api/mes/process";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import NumberPagenation from "../Pagenation/NumberPagenation";
 
 //드롭다운 컴포넌트
 
@@ -23,6 +24,9 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [processName, setProcessName] = useState('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [machineList, setMachineList] = useState([{
         pk: "",
@@ -39,18 +43,22 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     const getList = useCallback(async () => {
 
         const tempUrl = seg
-          ? `${API_URLS['process'].search2}?keyword=${searchName}`
-          : `${API_URLS['process'].search}?keyword=${searchName}`
+          ? `${API_URLS['process'].search2}?keyword=${searchName}&page=${page.current}&limit=15`
+          : `${API_URLS['process'].search}?keyword=${searchName}&page=${page.current}&limit=15`
         const resultData = await getSearchMachine(tempUrl);
 
-        setSegList(resultData.results)
-        setMachineList(resultData.results)
+        setSegList(resultData.info_list)
+        setMachineList(resultData.info_list)
 
-    }, [searchName])
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+    }, [searchName,page])
 
     useEffect(() => {
         getList()
@@ -168,6 +176,8 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <NumberPagenation stock={page.total ? page.total : 0} selected={page.current}
+                                              onClickEvent={(i: number) => setPage({...page, current: i})}/>
                         </div>
                     </div>
                     <div style={{width: 900}}>

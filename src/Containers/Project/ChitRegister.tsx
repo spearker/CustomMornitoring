@@ -39,12 +39,28 @@ const ChitRegisterContainer = () => {
 
     const [chitData, setChitData] = useState<{project_pk: string, registerer: string, deadline: string, goal: Number}>({
         project_pk: '',
-        registerer: 'Unknown',
+        registerer: '',
         deadline: moment().format('YYYY-MM-DD'),
         goal: 2000
     })
 
     const postChitRegisterData = useCallback(async () => {
+
+        if(chitData.registerer === '' ){
+            alert("등록자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else  if(modalSelect.production?.pk === '' ){
+            alert("생산 계획은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(selectDate === '' ){
+            alert("납기일은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if (chitData.goal === null ){
+            alert("생산 할 수량은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
+
         const tempUrl = `${API_URLS['chit'].register}`
         const resultData = await postChitRegister(tempUrl, {
             project_pk: modalSelect.production.pk,

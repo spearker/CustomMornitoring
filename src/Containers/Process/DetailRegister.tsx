@@ -9,6 +9,7 @@ import IcPlushButton from "../../Assets/Images/plus_ic.png";
 import {API_URLS, getSearchProcess, postProcessRegister} from "../../Api/mes/process";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import {useHistory} from "react-router-dom"
+import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 
 interface IMachineData {
     machine_name: string,
@@ -32,26 +33,28 @@ const ProcessDetailRegisterContainer = () => {
 
     const [processList, setProcessList] = useState<IDetailRegister[]>([])
     const [machineList, setMachineList] = useState<IMachineData[]>([])
-
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     const [processPKList, setProcessPKList] = useState<string[]>([])
     const [processDataList, setProcessDataList] = useState<{ name: string, type: number, machines: string }[]>([
         { name: '', type: -1, machines: '' }
     ])
 
     const getSearchProcessList = useCallback(async () => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}`
+        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${page.current}&limit=15`
         const resultData = await getSearchProcess(tempUrl);
 
-        const getProcess = resultData.results.map((v,i)=>{
+        const getProcess = resultData.results.info_list.map((v,i)=>{
 
             const process_type = transferCodeToName('process', Number(v.process_type))
 
             return {...v, process_type: process_type}
         })
 
-
+        setPage({ current: resultData.results.current_page, total: resultData.results.total_page })
         setProcessList(getProcess)
-    }, [searchData])
+    }, [searchData,page])
 
     const postProcessRegisterFunc = async () => {
         const tempUrl = `${API_URLS['segment'].register}`
@@ -67,6 +70,11 @@ const ProcessDetailRegisterContainer = () => {
     useEffect(() => {
         getSearchProcessList()
     }, [])
+
+    useEffect(()=>{
+        getSearchProcessList()
+    },[page.current])
+
     useEffect(() => {
         console.log(processPKList)
     }, [processPKList])
@@ -247,6 +255,8 @@ const ProcessDetailRegisterContainer = () => {
                             </tr>
                         </table>
                     </div>
+                    <NumberPagenation stock={page.total ? page.total : 0} selected={page.current}
+                                              onClickEvent={(i: number) => setPage({...page, current: i})}/>
                     <ButtonWrap onClick={async () => {
                         postProcessRegisterFunc()
                     }}>

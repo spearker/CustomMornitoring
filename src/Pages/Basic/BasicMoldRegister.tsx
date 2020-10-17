@@ -152,7 +152,7 @@ const BasicMoldRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName,input_material,output_material, name,oldPaths, infoList, paths, essential, optional, factory ])
+  },[pk, made, madeNo, document, mold_spec_w, mold_spec_l, mold_spec_t, limit,date, name,proper ,type, madeNo, infoList, paths,inspect, essential, optional , factory,output_material,input_material,current])
 
 
   const onsubmitFormUpdate = useCallback(async()=>{
@@ -172,7 +172,7 @@ const BasicMoldRegister = () => {
     } else if(proper.toString() === ""){
       alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    } else if(factory[0] === ""){
+    }else if( factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === ''  ){
       alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if(mold_spec_l === "" ){
@@ -184,15 +184,15 @@ const BasicMoldRegister = () => {
     }  else if(mold_spec_t === ""){
       alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    }  else if(output_material.pk === ""){
+    }  else if(input_material.pk === ""){
       alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    } else if(input_material.pk=== ""){
+    } else if(output_material.pk=== ""){
       alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
 
-    console.log(factory)
+
     const data = {
       pk: getParameter('pk'),
       mold_name: name,
@@ -231,7 +231,7 @@ const BasicMoldRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, name,limit, inspect,input_material,output_material, mold_spec_w, mold_spec_l, mold_spec_t, type, date, madeNo, infoList, paths,essential, optional, factory ])
+  },[pk, made, madeNo,current ,document, mold_spec_w, mold_spec_l, mold_spec_t, limit,date, name,proper ,type, madeNo, infoList, paths,inspect, essential, optional , factory,output_material,input_material])
 
   /**
    * onsubmitForm()
@@ -241,6 +241,8 @@ const BasicMoldRegister = () => {
     //console.log(infoList)
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
+
+    console.log(input_material, output_material)
     if(name === "" ){
       alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
@@ -256,7 +258,7 @@ const BasicMoldRegister = () => {
     } else if(proper.toString() === ""){
       alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    } else if(factory[0] === ""){
+    }else if( factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === ''  ){
       alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if(mold_spec_l === "" ){
@@ -268,13 +270,14 @@ const BasicMoldRegister = () => {
     }  else if(mold_spec_t === ""){
       alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    }  else if(output_material.pk === ""){
+    }  else if(input_material.pk === ""){
       alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    } else if(input_material.pk=== ""){
+    } else if(output_material.pk=== ""){
       alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
     const data = {
       document_pk: document.pk,
       mold_name: name,
@@ -311,9 +314,11 @@ const BasicMoldRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, document, mold_spec_w, mold_spec_l, mold_spec_t, limit,date, name, type, madeNo, infoList, paths, essential, optional , factory])
+  },[pk, made, madeNo,current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit,date, name,proper ,type, madeNo, infoList, paths,inspect, essential, optional , factory,output_material,input_material])
 
-
+ useEffect(()=>{
+   console.log(input_material.pk)
+ },[input_material])
 
 
   return (

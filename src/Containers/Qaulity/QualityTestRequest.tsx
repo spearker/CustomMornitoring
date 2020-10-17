@@ -24,8 +24,8 @@ const QualityTestRequest = ({ match }: Props) => {
     const [processData, setProcessData] = useState<{pk: string, name: string}>({pk: '', name: ''})
     const [machineData, setMachineData] = useState<{pk: string, name: string}>({pk: '', name: ''})
     const [productionData, setProductionData] = useState<{pk: string, name: string}>({pk: '', name: ''})
-    const [totalCount, setTotalCount] = useState<number>()
-    const [reason, setReason] = useState<string>()
+    const [totalCount, setTotalCount] = useState<string>("")
+    const [reason, setReason] = useState<string>("")
     const [worker, setWorker] = useState<string>('')
     const [statement, setStatement] = useState<string>('')
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
@@ -45,7 +45,7 @@ const QualityTestRequest = ({ match }: Props) => {
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk
         })
-    
+
         if(res.status === 200){
             setProcessData({pk: res.results.processPk, name: res.results.processName})
             setMachineData({pk: res.results.machinePk, name: res.results.machineName})
@@ -59,17 +59,38 @@ const QualityTestRequest = ({ match }: Props) => {
             setWorker(res.results.worker)
             setStatement(res.results.statement)
         }
-        
+
     },[processData, machineData, productionData, totalCount, reason, worker])
 
 
     const postQualityRegisterData = useCallback(async () => {
+
+        if(processData.pk === "" ){
+            alert("공정명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (machineData.pk === ""){
+            alert("기계명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (productionData.pk === ""){
+            alert("품목(품목명)은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (totalCount === ""){
+            alert("총 완료 개수는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (reason === ""){
+            alert("요청 내용은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (worker === ""){
+            alert("작업자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const tempUrl = `${API_URLS['request'].register}`
         const resultData = await postQualityRegister(tempUrl, {
             processPk: processData.pk,
             machinePk: machineData.pk,
             materialPk: productionData.pk,
-            amount: totalCount,
+            amount: Number(totalCount),
             description: reason,
             worker: worker
         });
@@ -81,11 +102,32 @@ const QualityTestRequest = ({ match }: Props) => {
     }, [processData, machineData, productionData, totalCount, reason, worker])
 
     const onClickModify = useCallback( async ()=>{
+        if(processData.pk === "" ){
+            alert("공정명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (machineData.pk === ""){
+            alert("기계명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (productionData.pk === ""){
+            alert("품목(품목명)은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (totalCount === ""){
+            alert("총 완료 개수는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (reason === ""){
+            alert("요청 내용은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (worker === ""){
+            alert("작업자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
+
         const tempUrl = `${API_URLS['request'].update}`
         const res = await postQualityRegister(tempUrl, {
             requestPk: match.params.pk,
             statement: statement,
-            amount: totalCount,
+            amount: Number(totalCount),
             description: reason,
             worker: worker
         });
@@ -144,7 +186,7 @@ const QualityTestRequest = ({ match }: Props) => {
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
-                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={totalCount} onChange={(e) => setTotalCount(Number(e.target.value))} disabled={match.params.type !== 'status' ? false : true}/></td>
+                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={totalCount} onChange={(e) => setTotalCount(e.target.value)} disabled={match.params.type !== 'status' ? false : true}/></td>
                         </tr>
                         <tr>
                             <td>• 요청 내용</td>

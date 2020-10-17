@@ -19,11 +19,8 @@ import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
 import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput';
 import {API_URLS, loadBasicItem} from '../../Api/mes/basic';
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import InputContainer from "../../Containers/InputContainer";
 import moment from "moment";
 import DateInput from "../../Components/Input/DateInput";
-import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
 // 바코드 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용

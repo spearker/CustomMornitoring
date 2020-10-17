@@ -24,6 +24,9 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
     const [selectData, setSelectData] = useState<{ name?:string, pk?: string, parts_stock?: string  }>()
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [machineList, setMachineList] = useState<any[]>([{
         pk: '',
@@ -45,8 +48,11 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
         const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=1&type=0&limit=15`
         const resultData = await getSearchMachine(tempUrl);
         console.log(resultData)
-        setMachineList(resultData.results.info_list)
-    }, [searchName])
+        setMachineList(resultData.info_list)
+
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+
+    }, [searchName,page])
 
     useEffect(() => {
         setSelectData(select)
@@ -59,6 +65,10 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     useEffect(()=>{
         getList()
     },[])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     return (
         <div>
