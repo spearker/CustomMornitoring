@@ -133,7 +133,7 @@ const BasicMoldRegister = () => {
          setCurrent(data.current)
          setDate(data.manufactured_at);
          setPk(data.pk);
-          setFactory([{pk: data.location_pk, name: data.location_name}])
+          setFactory([{pk: data.location, name: data.location_name}])
          setMadeNo(data.manufacturer_code);
          setType(Number(data.mold_type));
          setInfoList(data.info_list);
@@ -143,8 +143,8 @@ const BasicMoldRegister = () => {
          setInput_material({...input_material, pk: data.input_material_pk, name: data.input_material_name});
          setOutput_material({...output_material, pk: data.output_material_pk, name: data.output_material_name});
          const tempList = paths.slice();
-         tempList[0]= data.photo;
-         tempList[1]= data.qualification;
+         tempList[0]= data.upper;
+         tempList[1]= data.below;
          setOldPaths(tempList);
 
 
@@ -152,14 +152,47 @@ const BasicMoldRegister = () => {
         //TODO:  기타 오류
       }
     }
-  },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName, name,oldPaths, infoList, paths, essential, optional, factory ])
+  },[pk, made,limit, inspect, current, madeNo, date, mold_spec_l, mold_spec_w, mold_spec_t, type,photoName,input_material,output_material, name,oldPaths, infoList, paths, essential, optional, factory ])
 
 
   const onsubmitFormUpdate = useCallback(async()=>{
+
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(madeNo === ""){
+      alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(limit.toString() === ""){
+      alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inspect.toString() === ""){
+      alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(proper.toString() === ""){
+      alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(factory[0] === ""){
+      alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_l === "" ){
+      alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_w === ""){
+      alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(mold_spec_t === ""){
+      alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(output_material.pk === ""){
+      alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(input_material.pk=== ""){
+      alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
+    console.log(factory)
     const data = {
       pk: getParameter('pk'),
       mold_name: name,
@@ -196,7 +229,7 @@ const BasicMoldRegister = () => {
       }
     }
 
-  },[pk, made, madeNo, name,limit, inspect, mold_spec_w, mold_spec_l, mold_spec_t, type, date, madeNo, infoList, paths,essential, optional, factory ])
+  },[pk, made, madeNo, name,limit, inspect,input_material,output_material, mold_spec_w, mold_spec_l, mold_spec_t, type, date, madeNo, infoList, paths,essential, optional, factory ])
 
   /**
    * onsubmitForm()
@@ -207,7 +240,37 @@ const BasicMoldRegister = () => {
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(madeNo === ""){
+      alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(limit.toString() === ""){
+      alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inspect.toString() === ""){
+      alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(proper.toString() === ""){
+      alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(factory[0] === ""){
+      alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_l === "" ){
+      alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(mold_spec_w === ""){
+      alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(mold_spec_t === ""){
+      alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }  else if(output_material.pk === ""){
+      alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(input_material.pk=== ""){
+      alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -287,10 +350,10 @@ const BasicMoldRegister = () => {
                 <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w} description={'치수를 입력하세요.'} />
                 <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t} description={'치수를 입력하세요.'} />
                   <InputContainer title={"투입 품목"}>
-                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={1}/>
+                    <ProductionPickerModal select={input_material} onClickEvent={setInput_material} text={'투입품목'} width={true} type={0} style={{width: 'calc(100% - 100px)'}} innerWidth={'100%'} />
                   </InputContainer>
                   <InputContainer title={"생산 품목"}>
-                    <ProductionPickerModal select={output_material} onClickEvent={setOutput_material} text={'생산품목'} width={true} type={1}/>
+                    <ProductionPickerModal select={output_material} onClickEvent={setOutput_material} text={'생산품목'} width={true} type={1} style={{width: 'calc(100% - 100px)'}} innerWidth={'100%'} />
                   </InputContainer>
                 <br/>
                 <ListHeader title="선택 항목"/>
@@ -298,8 +361,8 @@ const BasicMoldRegister = () => {
                 <NormalNumberInput title={'현재 타수'} description={""} value={current} onChangeEvent={setCurrent}/>
                 {/*<NormalInput title={'책임자(정)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
                 {/*<NormalInput title={'책임자(부)'} value={made} onChangeEvent={setMade} description={'제조사명을 입력하세요'} />*/}
-                <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} />
-                <NormalFileInput title={'하금형 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'하금형 사진을 찍어 등록해주세요'} />
+                <NormalFileInput title={'상금형 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'상금형 사진을 찍어 등록해주세요'} style={{width: 'calc(100% - 100px)'}} />
+                <NormalFileInput title={'하금형 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'하금형 사진을 찍어 등록해주세요'} style={{width: 'calc(100% - 100px)'}} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['상금형', '하금형']} isImage={true} />
@@ -332,7 +395,7 @@ const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;
   color: white;
-  background-color: ${BG_COLOR_SUB2}
+  background-color: ${BG_COLOR_SUB2};
 `
 
 

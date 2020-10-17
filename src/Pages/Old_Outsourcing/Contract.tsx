@@ -12,7 +12,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import MultiButtonTaskTable from '../../Components/Table/MultiButtonTaskTable';
-import BasicPopupContainer from '../../Components/Modal/BasicPopupContainer';
+import Old_BasicPopupContainer from '../../Components/Modal/Old_BasicPopupContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 
 const dummy = [
@@ -60,7 +60,7 @@ const Contract = () => {
     name:'거래처명',
     product_name:'제품명',
     stock: '수량',
-    price:'총 금액(원)', 
+    price:'총 금액(원)',
     created:'등록일',
   }
   const subIndexList = {
@@ -70,12 +70,12 @@ const Contract = () => {
     condition:'대금지급조건'
   }
 
- 
- 
+
+
 
   useEffect(()=>{
     //getList()
-   
+
   },[])
 
 
@@ -85,11 +85,11 @@ const Contract = () => {
         <InnerBodyContainer>
         <div style={{position:'relative'}}>
             <Header title={`수주 관리 (${list.length})`}/>
-            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>           
-           
-            <SearchInputSmall 
-                description={'검색어 입력'} 
-                value={keyword} 
+            <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
+
+            <SearchInputSmall
+                description={'검색어 입력'}
+                value={keyword}
                 onChangeEvent={()=>{}}
                 onClickEvent={()=>{}}
                 button={{
@@ -97,27 +97,27 @@ const Contract = () => {
                   event: setIsOpen
                 }}
                 />
-                 
+
             </div>
           </div>
 
-          <MultiButtonTaskTable 
-            indexList={indexList} 
-            subIndexList={subIndexList} 
-            target={target} 
-            keyName={'pk'} 
-            contents={list} 
+          <MultiButtonTaskTable
+            indexList={indexList}
+            subIndexList={subIndexList}
+            target={target}
+            keyName={'pk'}
+            contents={list}
             events={[
-              
+
               {name: '보기', event: (t)=>setTarget(t)},
               {name: '수정', color:'gray', event: ()=>{}},
-            ]} 
+            ]}
             onClickEvent={(t)=>setTarget(t)}/>
 
         </InnerBodyContainer>
         {
               isOpen &&
-              <BasicPopupContainer isActive={true} title={'수주 등록'} onClickOpen={setIsOpen} onClickConfirm={onClickRegister}>
+              <Old_BasicPopupContainer isActive={true} title={'수주 등록'} onClickOpen={setIsOpen} onClickConfirm={onClickRegister}>
                   <NormalInput title={'거래처 명'} value={store} onChangeEvent={setStore} description={''} />
                   <NormalInput title={'담당자 명'} value={manager} onChangeEvent={setManager} description={''} />
                   <NormalInput title={'제품명'} value={name} onChangeEvent={setName} description={''} />
@@ -125,13 +125,13 @@ const Contract = () => {
                   <NormalInput title={'개당단가'} value={price} onChangeEvent={setPrice} description={''} />
                   <NormalInput title={'총 금액'} value={fullPrice} onChangeEvent={setFullPrice} description={''} />
                   <NormalInput title={'납기 날짜'} value={date} onChangeEvent={setDate} description={''} />
-                  <NormalInput title={'대금 지불조건'} value={condition} onChangeEvent={setCondition} description={''} />     
-                 
-              </BasicPopupContainer>
+                  <NormalInput title={'대금 지불조건'} value={condition} onChangeEvent={setCondition} description={''} />
+
+              </Old_BasicPopupContainer>
             }
 
       </DashboardWrapContainer>
-      
+
   );
 }
 

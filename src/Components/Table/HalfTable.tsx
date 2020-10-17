@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Styled from "styled-components";
 import CalendarDropdown from "../Dropdown/CalendarDropdown";
 import moment from "moment";
+import NumberPagenation from "../Pagenation/NumberPagenation";
 
 interface Props {
     title?: string
@@ -16,11 +17,14 @@ interface Props {
     clickValue?: object
     mainOnClickEvent?: any
     onClickEvent?: any
+    currentPage?:number
+    totalPage?: number
+    pageOnClickEvent?: any
     noChildren?: boolean
     children?: any
 }
 
-const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,checkBox,pkKey,clickValue,mainOnClickEvent,onClickEvent,noChildren,children}:Props) => {
+const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,checkBox,clickValue,mainOnClickEvent,currentPage,totalPage,pageOnClickEvent,noChildren,children}:Props) => {
 
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
     const [checked, setChecked] = useState<any[]>([])
@@ -198,6 +202,12 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
 
                         )
                     })
+            }
+            {currentPage && totalPage ?
+                <NumberPagenation stock={totalPage ? totalPage : 0} selected={currentPage}
+                                  onClickEvent={pageOnClickEvent}/>
+                :
+                null
             }
             {noChildren !== undefined || false ?
                 null :

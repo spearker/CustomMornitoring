@@ -253,7 +253,7 @@ const Dashboard = () => {
               </div>
               <div style={{flexWrap: 'wrap', flexDirection: 'row',marginTop: 25, width:'90%', marginBottom: 17, textAlign:'center'}}>
               <div className="p-limit" style={{display: 'flex', flexDirection: 'row',width:'100%',textAlign:'center'}}>
-                { dummy !== undefined && dummy.length === 0 ?<p style={{color: '#ffffff', textAlign: "center",marginLeft: '43%' }}>데이터가 없습니다.</p> :
+                { dummy !== undefined && dummy.length === 0 ?<p style={{color: '#ffffff', textAlign: "center",marginLeft: '43%' }}>comming soon</p> :
                   dummy.map((v: IStatus2, index)=>{
                       if((page-1)*6 <= index){
                         if((page-1)*6 + 5 >= index){

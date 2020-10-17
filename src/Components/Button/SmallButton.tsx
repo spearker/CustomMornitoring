@@ -8,25 +8,25 @@ interface IProps{
     name: any,
     onClickEvent?: ()=>void,
     color?: string,
-
+    ButtonStyle?: any
 }
-const SmallButton = ({name, onClickEvent, color}: IProps) => {
+const SmallButton = ({name, onClickEvent, color, ButtonStyle}: IProps) => {
   const ButtonBox = Styled.button`
-    padding: 7px 18px 7px 18px;
+    padding: 7px 18px;
     color: black;
     border-radius: 5px;
     background-color: ${color === undefined ? POINT_COLOR : color};
     border: 0;
     font-size: 14px;
     font-weight: bold;
-`
+  `
   useEffect(()=>{
 
   },[])
 
   return (
     <div style={{textAlign:'center', }}>
-       <ButtonBox type="submit" onClick={onClickEvent}>{name}</ButtonBox>
+       <ButtonBox type="submit" onClick={onClickEvent} style={ButtonStyle}>{name}</ButtonBox>
     </div>
 
   );

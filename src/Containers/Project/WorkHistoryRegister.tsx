@@ -81,7 +81,7 @@ const WorkHistoryRegisterContainer = () => {
                             <td><ChitPickerModal select={modalSelect.chit} onClickEvent={(e) => {
                                 setModalSelect({...modalSelect, chit: e})
                                 setWorkHistoryData({...workHistoryData, chit_pk: e.pk})
-                            }} text={'전표를 선택해 주세요'} /></td>
+                            }} text={'전표를 선택해 주세요'} buttonWid={30} /></td>
                         </tr>
                         <tr>
                             <td>• 작업자명</td>
@@ -93,7 +93,7 @@ const WorkHistoryRegisterContainer = () => {
                                 <ProductionPickerModal select={modalSelect.production} onClickEvent={(e) => {
                                     setModalSelect({...modalSelect, production: e})
                                     setWorkHistoryData({...workHistoryData, material_pk: e.pk})
-                                }} text={'품목(품목명)을 선택해 주세요'} type={-1}/>
+                                }} text={'품목(품목명)을 선택해 주세요'} type={-1} buttonWid={30} />
                             </td>
                         </tr>
                         <tr>
@@ -102,7 +102,7 @@ const WorkHistoryRegisterContainer = () => {
                                 <ProcessPickerModal select={modalSelect.factory} onClickEvent={(e) => {
                                     setModalSelect({...modalSelect, factory: e})
                                     setWorkHistoryData({...workHistoryData, process_pk: e.pk})
-                                }} text={'공정명을 선택해 주세요'}/>
+                                }} text={'공정명을 선택해 주세요'} buttonWid={30} />
                             </td>
                         </tr>
                         <tr>
@@ -175,8 +175,8 @@ const WorkHistoryRegisterContainer = () => {
                     <ButtonWrap onClick={async () => {
                         await postChitRegisterData()
                     }}>
-                        <div style={{width: 360, height: 46}}>
-                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+                        <div>
+                            <p style={{fontSize: 18}}>등록하기</p>
                         </div>
                     </ButtonWrap>
                 </div>
@@ -193,7 +193,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -204,7 +204,7 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
@@ -251,6 +251,9 @@ const ButtonWrap = Styled.button`
     border: none;
     font-weight: bold;
     font-size: 13px;
+    width: 360px;
+    height: 46px;
+    box-sizing: border-box;
     img {
       margin-right: 7px;
       width: 14px;

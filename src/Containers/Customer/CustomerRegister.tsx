@@ -184,7 +184,7 @@ const CustomerRegister = ({ match }: Props)  => {
         }else{
                 //alert('성공적으로 수정 되었습니다')
                 setIsUpdate(false)
-                history.goBack()
+                history.push('/customer/current/list')
         }
 
     },[pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM,  address, fax, manager])
@@ -278,7 +278,7 @@ const CustomerRegister = ({ match }: Props)  => {
                     <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'} />
                     <br/>
                     <ListHeader title="선택 항목"/>
-                    <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} />
+                    <NormalFileInput title={'사업자 등록증 사진'} name={ paths[0]} thisId={'photo'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'사업자 등록증 사진 혹은 스캔본을 등록하세요'} style={{width: 'calc(100% - 124px)'}} />
                     {
                         isUpdate ?
                             <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={['']} isImage={true} />
@@ -319,7 +319,7 @@ const CustomerRegister = ({ match }: Props)  => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'} />
+                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
                 </form>
             </WhiteBoxContainer>
         </div>

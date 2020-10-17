@@ -69,6 +69,11 @@ const BasicFactoryRegister = () => {
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
+    
+    if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
+      alert("공백을 채워주세요.");
+      return;
+    }
 
     const data = {
       pk: getParameter('pk'),
@@ -96,7 +101,10 @@ const BasicFactoryRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-
+    if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
+      alert("공백을 채워주세요.");
+      return;
+    }
 
     const data = {
       document_pk: document.pk,
@@ -165,7 +173,7 @@ const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;
   color: white;
-  background-color: ${BG_COLOR_SUB2}
+  background-color: ${BG_COLOR_SUB2};
 `
 
 

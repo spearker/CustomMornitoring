@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import {Input} from "semantic-ui-react";
-import BasicBarcodePickerModal from "../../Components/Modal/BasicBarcodePickerModal";
+import Old_BasicBarcodePickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
 import Styled from "styled-components";
 import {POINT_COLOR} from "../../Common/configset";
 import useObjectInput from "../../hooks/UseInput";
@@ -44,7 +44,7 @@ const QualityDetailListContainer = ({match}) => {
         const res = await postQualityRequestDetail(tempUrl, {
             requestPk: match.params.pk
         })
-    
+
         if(res.status === 200){
 
             // setInputData('customer_name',res.results.)
@@ -63,7 +63,7 @@ const QualityDetailListContainer = ({match}) => {
             setInputData('whether',res.results.whether)
 
         }
-        
+
     },[])
 
 

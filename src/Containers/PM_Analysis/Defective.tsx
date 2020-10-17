@@ -137,6 +137,9 @@ const DefectiveContainer = () => {
     const [series, setSeries] = useState<number[]>([])
     const [pieData, setPieData] = useState<PIDATA[]>([])
     const [selectPie, setSelectPie] = useState<PIDATA>()
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const ChartInitOption = {
         chart: {
@@ -229,12 +232,13 @@ const DefectiveContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['defective'].list}`
+        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
         const res = await getDefectiveData(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     const pieOnClick = useCallback((index)=>{
         setSelectPie(pieData[index])
@@ -244,6 +248,10 @@ const DefectiveContainer = () => {
         getList()
         setIndex(indexList["defective"])
     },[])
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
 
     useEffect(() => {
         console.log(pieData)
@@ -259,6 +267,9 @@ const DefectiveContainer = () => {
             indexList={index}
             valueList={list}
             clickValue={selectValue}
+            currentPage={page.current}
+            totalPage={page.total}
+            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?

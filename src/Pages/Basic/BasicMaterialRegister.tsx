@@ -85,7 +85,13 @@ const BasicMaterialRegister = () => {
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-
+    if(inputData.safe_stock === "" ){
+      alert("안전재고는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inputData.cost === ""){
+      alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
     const data = {
       pk: getParameter('pk'),
       material_name: inputData.material_name,
@@ -114,8 +120,13 @@ const BasicMaterialRegister = () => {
 
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
-
-
+    if(inputData.safe_stock === "" ){
+      alert("안전재고는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(inputData.cost === ""){
+      alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }
 
     const data = {
       document_pk: document.pk,

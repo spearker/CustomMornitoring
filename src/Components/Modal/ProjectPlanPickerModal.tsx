@@ -20,9 +20,11 @@ interface IProps{
     },
     onClickEvent: any
     text: string
+    inputWidth?: string | number
+    buttonWid?: string | number
 }
 
-const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
+const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonWid}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
@@ -60,7 +62,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
+            <div style={{position:'relative', display:'inline-block', zIndex:0, width: inputWidth ? inputWidth : 917}}>
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
@@ -69,7 +71,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
                         <img src={searchButton} style={{width: '20px', height: '20px', marginTop: '5px'}} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
@@ -88,7 +90,8 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
                         padding: 0
                     },
                     overlay:{
-                        background: 'rgba(0,0,0,.6)'
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
                     }
                 }}
             >
@@ -101,7 +104,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -110,7 +113,11 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text}: IProps) => {
                                         <th style={{width: 250}}>납품업체</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {
+                                    {   machineList !== undefined && machineList.length === 0 ?
+                                        <tr>
+                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
                                         machineList.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
@@ -198,7 +205,7 @@ const InnerBoxWrap = Styled.button`
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         width: calc( 100% - 8px );

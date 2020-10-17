@@ -1,51 +1,61 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
+import IcSearchButton from "../../Assets/Images/ic_search.png";
 import Modal from "react-modal";
 import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
-import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getSearchMachine} from "../../Api/mes/process";
 
 //드롭다운 컴포넌트
 
 interface IProps{
-    select?: { name?:string, pk?: string },
+    select?: { name?:string, type?: string, pk?: string },
     onClickEvent: any
     text: string
-    buttonWid?: string | number
 }
 
-const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
+const DummyItem = [
+    {
+        basic_barcode_pk: 'dummy01',
+        basic_barcode_name: '더미 바코드 1',
+        basic_barcode_num: '123-1234',
+        basic_barcode_type: '더미 타입 A'
+    },
+    {
+        basic_barcode_pk: 'dummy02',
+        basic_barcode_name: '더미 바코드 2',
+        basic_barcode_num: '124-1434',
+        basic_barcode_type: '더미 타입 B'
+    },
+    {
+        basic_barcode_pk: 'dummy03',
+        basic_barcode_name: '더미 바코드 3',
+        basic_barcode_num: '123-1234',
+        basic_barcode_type: '더미 타입 A'
+    },
+    {
+        basic_barcode_pk: 'dummy04',
+        basic_barcode_name: '더미 바코드 4',
+        basic_barcode_num: '123-1224',
+        basic_barcode_type: '더미 타입 B'
+    },
+    {
+        basic_barcode_pk: 'dummy05',
+        basic_barcode_name: '더미 바코드 5',
+        basic_barcode_num: '123-1212',
+        basic_barcode_type: '더미 타입 C'
+    },
+]
+
+const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
-    const [processName, setProcessName] = useState('')
-
-    const [machineList, setMachineList] = useState([{
-        pk: "",
-        registerer: "",
-        supplier_name: "",
-        material_name: "",
-    }])
-    const [searchName, setSearchName] = useState<string>('')
+    const [basicBarcodeName, setBasicBarcodeName] = useState('')
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
-
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}`
-        const resultData = await getSearchMachine(tempUrl);
-
-        setMachineList(resultData.results)
-
-    }, [searchName])
-
-    useEffect(() => {
-        getList()
-    },[])
-
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
@@ -60,11 +70,11 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {processName}</p>
+                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {basicBarcodeName}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
+                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
                         <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
                     </div>
 
@@ -90,41 +100,36 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 전표 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기준 바코드 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchBox placeholder="기존 바코드명을 입력해주세요." style={{flex: 96}}/>
+                            <SearchButton style={{flex: 4}}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY:"scroll"}}>
+                        <div style={{height: 340, width: 860, backgroundColor: '#f4f6fa'}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 230}}>등록자명</th>
-                                        <th style={{width: 200}}>납품업체명</th>
-                                        <th style={{width: 200}}>생산 품목명</th>
+                                        <th style={{width: 306}}>&nbsp; 기계명</th>
+                                        <th style={{width: 308}}>기계 종류</th>
+                                        <th style={{width: 216}}>기계 종류</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        machineList !== undefined && machineList.length === 0 ?
-                                            <tr>
-                                                <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
-                                            </tr>
-                                            :
-                                        machineList.map((v,i) => {
+                                        DummyItem.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
-                                                    <td><span>{v.registerer}</span></td>
-                                                    <td><span>{v.supplier_name}</span></td>
-                                                    <td><span>{v.material_name}</span></td>
+                                                    <td><span>&nbsp; {v.basic_barcode_name}</span></td>
+                                                    <td><span>{v.basic_barcode_num}</span></td>
+                                                    <td><span>{v.basic_barcode_type}</span></td>
                                                     <td>
                                                         <button
                                                             onClick={() => {
-                                                                setProcessName(v.registerer)
-                                                                return onClickEvent({name:v.registerer, pk: v.pk})
+                                                                setBasicBarcodeName(v.basic_barcode_name)
+                                                                return onClickEvent({name: v.basic_barcode_name, pk: v.basic_barcode_pk})
                                                             }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            style={{backgroundColor: select ? v.basic_barcode_pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>
@@ -176,26 +181,6 @@ const BoxWrap = Styled.button`
     }
 `
 
-const InnerBoxWrap = Styled.button`
-    padding: 5px 15px 4px 15px;
-    border-radius: 0px;
-    color: white;
-    min-width: 100px;
-    background-color: ${BG_COLOR_SUB};
-    border: none;
-    font-weight: bold;
-    text-algin: left;
-    p{
-        text-algin: left;
-     }
-    font-size: 13px;
-    img {
-    margin-right: 7px;
-    width: 14px;
-    height: 14px;
-    }
-`
-
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;
@@ -219,6 +204,26 @@ const SearchButton = Styled.button`
         width: 20px;
         height: 20px;
         margin-top: 5px;
+    }
+`
+
+const InnerBoxWrap = Styled.button`
+    padding: 5px 15px 4px 15px;
+    border-radius: 0px;
+    color: white;
+    min-width: 100px;
+    background-color: ${BG_COLOR_SUB};
+    border: none;
+    font-weight: bold;
+    text-algin: left;
+    p{
+        text-algin: left;
+     }
+    font-size: 13px;
+    img {
+    margin-right: 7px;
+    width: 14px;
+    height: 14px;
     }
 `
 
@@ -257,4 +262,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default ChitPickerModal;
+export default Old_BasicBarcodePickerModal;

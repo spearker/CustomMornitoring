@@ -48,7 +48,7 @@ const BasicMachineRegister = () => {
   const [type, setType] = useState<number>(1); //1: 프레스
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
-  const [factory, setFactory] = useState<any[]>([]);
+  const [factory, setFactory] = useState<any[]>([{pk: '',name:''}]);
   const [volt, setVolt] = useState<number>(0);
   const [tons, setTons] = useState<number>(0);
   const [files, setFiles] = useState<any[3]>([null, null, null]);
@@ -196,9 +196,19 @@ const BasicMachineRegister = () => {
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (madeNo === ""){
+      alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (volt.toString() === ""){
+      alert("전압은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (factory[0].pk === ""){
+      alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
     const data = {
       document_pk: document.pk,
       machine_name: name,
@@ -279,9 +289,9 @@ const BasicMachineRegister = () => {
                   <NormalNumberInput title={'정상 톤 값'} value={tons} onChangeEvent={setTons} description={'기계의 톤 값을 입력해주세요.'} />
                   </>
                 }
-                <NormalFileInput title={'기계 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-                <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-                <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
+                <NormalFileInput title={'기계 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
+                <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
+                <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'기계 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['기계사진', '스펙명판', '능력명판']} isImage={true} />

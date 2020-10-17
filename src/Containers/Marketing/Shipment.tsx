@@ -12,7 +12,7 @@ const ShipmentContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({customer_name: '거래처 명'});
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
@@ -30,26 +30,49 @@ const ShipmentContainer = () => {
         }
     }
 
+    const arrayDelete = () => {
+        while(true){
+            deletePk.pk.pop()
+            if(deletePk.pk.length === 0){
+                break;
+            }
+        }
+    }
+
     const allCheckOnClick = useCallback((list)=>{
         let tmpPk: string[] = []
+
         {list.length === 0 ?
-            deletePk.keys.map((v,i)=>{
-                deletePk.keys.pop()
-            })
-            :
-            list.map((v, i) => {
-                tmpPk.push(v.pk)
-                deletePk.keys.push(tmpPk.toString())
-            })
+          arrayDelete()
+          :
+          list.map((v, i) => {
+              arrayDelete()
+
+              if(deletePk.pk.indexOf(v.pk) === -1){
+                  tmpPk.push(v.pk)
+              }
+
+              tmpPk.map((vi, index) => {
+                  if(deletePk.pk.indexOf(v.pk) === -1){
+                      deletePk.pk.push(vi)
+                  }
+              })
+
+              if(tmpPk.length < deletePk.pk.length){
+                  deletePk.pk.shift()
+              }
+
+              console.log('deletePk.pk', deletePk.pk)
+          })
         }
     },[deletePk])
 
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
-            :
-            deletePk.keys.push(Data.pk)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+          deletePk.pk.splice(IndexPk,1)
+          :
+          deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
@@ -83,12 +106,13 @@ const ShipmentContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}`
+        const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}&limit=15`
         const res = await getMarketing(tempUrl)
 
         setList(res.info_list)
 
-    },[list])
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
         getList()
@@ -98,18 +122,20 @@ const ShipmentContainer = () => {
         setEventList(eventdummy)
     },[])
 
+
+    useEffect(()=>{
+        getList()
+    },[page.current])
     return (
         <div>
             <OvertonTable
                 title={'출하 리스트'}
-                allCheckbox={true}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 EventList={eventList}
-                checkBox={true}
                 checkOnClickEvent={checkOnClick}
                 noChildren={true}>
             </OvertonTable>

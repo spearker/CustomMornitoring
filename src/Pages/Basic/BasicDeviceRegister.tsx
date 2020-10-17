@@ -12,7 +12,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import {uploadTempFile} from '../../Common/fileFuctuons';
-import {getSubMachineTypeList} from '../../Common/codeTransferFunctions';
+import {getSubMachineTypeList, transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
@@ -35,7 +35,7 @@ const BasicDeviceRegister = () => {
   const [info, setInfo] = useState<string>('');
   const [infoList, setInfoList] = useState<IInfo[]>([]);
   const [name, setName] = useState<string>('');
-  const [type, setType] = useState<number>(1); //1: 프레스
+  const [type, setType] = useState<number>(0); //1: 프레스
   const [madeNo, setMadeNo] = useState<string>('');
   const [photoName, setPhotoName] = useState<string>('');
   const [factory, setFactory] = useState<any[]>([]);
@@ -229,7 +229,7 @@ const BasicDeviceRegister = () => {
                 <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm} >
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'장치 이름'} value={name} onChangeEvent={setName} description={'장치 이름을 입력하세요'} />
-                <DropdownInput title={'장치 종류'} target={indexList[type]} contents={indexList} onChangeEvent={(v)=>setType(v)} />
+                <DropdownInput title={'장치 종류'} target={transferCodeToName('device',type)} contents={indexList} onChangeEvent={(v)=>setType(transferStringToCode('device',indexList[v]))} />
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo} description={'제조사가 발급한 제조사 번호를 입력하세요 (장치에 부착되어있음)'} />
 
@@ -251,9 +251,9 @@ const BasicDeviceRegister = () => {
                 <ListHeader title="선택 항목"/>
                 <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={' 제조사명을 입력하세요'} />
 
-                <NormalFileInput title={'장치 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-                <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
-                <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} />
+                <NormalFileInput title={'장치 사진'} name={ paths[0]} thisId={'machinePhoto0'} onChangeEvent={(e)=>addFiles(e,0)} description={isUpdate ? oldPaths[0] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
+                <NormalFileInput title={'스펙명판 사진'} name={ paths[1]} thisId={'machinePhoto1'} onChangeEvent={(e)=>addFiles(e,1)} description={isUpdate ? oldPaths[1] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
+                <NormalFileInput title={'능력명판 사진'} name={ paths[2]} thisId={'machinePhoto2'} onChangeEvent={(e)=>addFiles(e,2)} description={isUpdate ? oldPaths[2] :'장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'} style={{width: 'calc(100% - 124px)'}} />
                 {
                     isUpdate ?
                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['장치사진', '스펙명판', '능력명판']} isImage={true} />

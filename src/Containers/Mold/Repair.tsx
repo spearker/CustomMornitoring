@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
 
 
 const RepairContainer = () => {
@@ -12,28 +12,31 @@ const RepairContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList,setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
+    const [subIndex, setSubIndex] = useState({    manager: "작업자" })
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
     const [selectValue, setSelectValue ]= useState<any>(null);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const indexList = {
         repair: {
             mold_name: '금형 이름',
-            mold_location: '보관장소',
-            charge_name: '수리 담당자',
-            registered_date: '수리 등록 날짜',
-            complete_date: '완료 예정 날짜'
+            manager: '수리 담당자',
+            complete_date: '완료 예정 날짜',
+            registered: '수리 등록 날짜',
+            status: "상태"
         }
     }
 
 
     const detailTitle = {
         repair: {
-            part_name: '부품명',
+            manager: "작업자",
             repair_content: '수리 내용',
-            repair_status: '수리 상태',
-            complete_date: '완료 날짜',
+            status: '상태',
+            complete_date: '완료 날짜'
         },
     }
 
@@ -120,7 +123,7 @@ const RepairContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
@@ -129,26 +132,41 @@ const RepairContainer = () => {
 
     const getData = useCallback( async(pk)=>{
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-        const res = await getMoldData(tempUrl)
+        console.log(pk)
+        const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
+        const res = await getMoldList(tempUrl)
 
-        setDetailList(res)
+        console.log([res])
 
-    },[detailList])
+        const Detail = [res].map((v,i)=>{
+            const status = v.status === 'WAIT' ? "진행중" : "완료"
+
+            return {...v, status: status}
+        })
+
+        setDetailList(Detail)
+
+    },[detailList, selectPk])
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['mold'].list}`
-        const res = await getMoldData(tempUrl)
+        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&keyword=&type=0&limit=15`
 
-        setList(res)
+        const res = await getMoldList(tempUrl)
 
-    },[list])
+        setList(res.info_list)
+
+        setPage({ current: res.current_page, total: res.total_page })
+    },[list,page])
 
     useEffect(()=>{
-        // getList()
+        getList()
+    },[page.current])
+
+    useEffect(()=>{
+        getList()
         setIndex(indexList["repair"])
-        setList(dummy)
+        // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
@@ -159,11 +177,15 @@ const RepairContainer = () => {
         <div>
             <OvertonTable
                 title={'금형 수리 완료'}
-                titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                mainOnClickEvent={onClick}>
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                mainOnClickEvent={onClick}
+                noChildren={true}
+            >
                 {
                     selectPk !== null ?
                         <LineTable title={'수리 현황'} contentTitle={subIndex} contentList={detailList}>

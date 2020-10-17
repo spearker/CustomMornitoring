@@ -7,7 +7,7 @@ import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 import {useHistory} from 'react-router-dom';
 import {postCustomerDelete} from "../../Api/mes/customer";
 
-const CreateContainer = () => {
+const MoldCreateCompleteListContainer = () => {
 
     const history = useHistory()
     const [list, setList] = useState<any[]>([]);
@@ -133,7 +133,7 @@ const CreateContainer = () => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=&type=0&limit=15`
+        const tempUrl = `${API_URLS['making'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
         const res = await getMoldList(tempUrl)
 
         const Detail = res.info_list.map((v,i)=>{
@@ -162,14 +162,10 @@ const CreateContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 현황 리스트'}
-                titleOnClickEvent={titleEventList}
+                title={'금형 제작 완료 리스트'}
                 mainOnClickEvent={(v)=>history.push(`/mold/create/register/${v.pk}`)}
-                allCheckOnClickEvent={allCheckOnClick}
-                checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
                 clickValue={selectValue}
                 buttonState={true}
                 currentPage={page.current}
@@ -196,4 +192,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default CreateContainer
+export default MoldCreateCompleteListContainer

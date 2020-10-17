@@ -52,6 +52,8 @@ import QualityTestRequestInspector from "../Pages/Quality/QualityTestRequestInsp
 import LoadtonDashBoard from "../Pages/jeil1981/LoadtonDashBoard";
 import MainDashboard from "../Pages/jeil1981/MainDashBoard";
 import CapitalDashBoard from "../Pages/jeil1981/CapitalDashBoard";
+import MoldManageList from "../Pages/Mold/MoldManageList";
+import MoldCreateCompleteList from "../Pages/Mold/MoldCreateCompleteList";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -122,8 +124,11 @@ const JMRouters = () => {
             <Route exact path="/stock/release/register/:pk/:name/:parts" component={ReleaseRegister}/>
 
             <Route exact path="/mold/manage/register" component={MoldMangeCreate}/>
+            <Route exact path="/mold/manage/list" component={MoldManageList}/>
             <Route exact path="/mold/create/register" component={MoldCreateRegister}/>
+            <Route exact path="/mold/create/register/:pk" component={MoldCreateRegister}/>
             <Route exact path="/mold/create/list" component={MoldCreate}/>
+            <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
 
