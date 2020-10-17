@@ -40,7 +40,7 @@ const PressRecommend = () => {
    */
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://112.168.150.239:8299/api/v1/monitoring/press' , getToken(TOKEN_NAME))
+    const res = await getRequest('http://203.234.183.22:8299/api/v1/monitoring/press' , getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if(res === false){
       //alert('서버에서 데이터를 받아올 수 없습니다.')
