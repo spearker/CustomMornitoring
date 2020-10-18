@@ -44,7 +44,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
         setMachineList(resultData.info_list)
 

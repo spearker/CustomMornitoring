@@ -48,7 +48,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&`
+        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getHistorySearch(tempUrl);
         console.log('resultData', resultData)
         setHistoryList(resultData.info_list)

@@ -37,7 +37,7 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) =>
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${page.current}`
+        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getCustomerData(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)

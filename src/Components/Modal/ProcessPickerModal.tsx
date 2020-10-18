@@ -50,8 +50,8 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
     const getList = useCallback(async () => {
 
         const tempUrl = seg
-          ? `${API_URLS['process'].search2}?keyword=${searchName}&page=${page.current}&limit=15`
-          : `${API_URLS['process'].search}?keyword=${searchName}&page=${page.current}&limit=15`
+          ? `${API_URLS['process'].search2}?keyword=${searchName}&page=${page.current}&limit=1000`
+          : `${API_URLS['process'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
 
         setSegList(resultData.info_list)

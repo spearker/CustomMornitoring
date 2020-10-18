@@ -27,13 +27,16 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
         name: "",
     }])
     const [searchName, setSearchName] = useState<string>('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['outsourcing'].search}`
+        const tempUrl = `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000`
         const resultData = await getSearchOutsourcing(tempUrl);
         console.log(resultData)
         setMachineList(resultData)

@@ -51,7 +51,7 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=1000`
         const resultData = await getProductionSearch(tempUrl);
 
         setProductList(resultData.info_list)

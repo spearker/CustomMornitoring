@@ -42,7 +42,7 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}`
+        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)

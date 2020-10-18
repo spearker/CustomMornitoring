@@ -45,7 +45,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=1000`
         const resultData = await getMarketing(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)

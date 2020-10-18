@@ -45,7 +45,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=0&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=0&page=${page.current}&limit=1000`
         const resultData = await getProductionSearch(tempUrl);
         console.log(resultData)
         setMachineList(resultData.info_list)
