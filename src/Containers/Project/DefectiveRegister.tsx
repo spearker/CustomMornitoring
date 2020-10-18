@@ -143,7 +143,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
             reason: reason
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/defective/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/defective/update/', data, getToken(TOKEN_NAME))
 
         if(res === false){
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -210,7 +210,7 @@ const DefectiveRegisterContainer = ({ match }: Props)  => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/defective/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/defective/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리

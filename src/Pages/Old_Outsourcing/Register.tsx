@@ -106,7 +106,7 @@ const OutsourcingRegister = () => {
    */
   const getData = useCallback(async()=>{
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest('http://112.168.150.239:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리
@@ -175,7 +175,7 @@ const OutsourcingRegister = () => {
 
     };
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://112.168.150.239:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
 
     if(res === false){
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -230,7 +230,7 @@ const OutsourcingRegister = () => {
     };
 
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://112.168.150.239:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
 
     if(res === false){
       //TODO: 에러 처리

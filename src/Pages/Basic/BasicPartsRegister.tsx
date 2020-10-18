@@ -30,7 +30,7 @@ const BasicPartsRegister = () => {
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [partsName,setPartsName] = useState<string>('');
-    const [type,setType] = useState<number>(0);
+    const [type,setType] = useState<string>('');
     const [location, setLocation] = useState<any[]>([]);
     const [cost,setCost] = useState<number>()
 
@@ -56,6 +56,8 @@ const BasicPartsRegister = () => {
 
     },[])
 
+<<<<<<< HEAD
+=======
     const partsListLoad = useCallback(async()=>{
 
         const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/type/list', getToken(TOKEN_NAME))
@@ -85,9 +87,10 @@ const BasicPartsRegister = () => {
 
     },[partsList,partsPkList])
 
+>>>>>>> upstream/master
     const getData = useCallback(async()=>{
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://112.168.150.239:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if(res === false){
             //TODO: 에러 처리
@@ -101,12 +104,17 @@ const BasicPartsRegister = () => {
                     setName(data.parts_name)
                 console.log(data.parts_type_name)
                     setPartsName(data.parts_type_name)
-                console.log(partsPkList)
-                console.log(partsList.indexOf(data.parts_type_name))
+
             }else{
                 //TODO:  기타 오류
             }
         }
+<<<<<<< HEAD
+    },[pk, optional, essential, inputData ])
+
+
+    const onsubmitFormUpdate = useCallback(async()=>{
+=======
     },[pk, partsList, essential, inputData, partsPkList, type,partsName ])
 
 
@@ -126,29 +134,38 @@ const BasicPartsRegister = () => {
             alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
+>>>>>>> upstream/master
 
         const data = {
             pk: getParameter('pk'),
-            parts_name: name,
-            parts_type: partsPkList[type],
-            location:  location[0].pk,
-            parts_cost: cost
+            material_name: inputData.material_name,
+            material_type: inputData.material_type,
+            location: inputData.location[0].pk,
+            using_mold:  inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
+            cost: inputData.cost,
+            safe_stock: inputData.safe_stock,
+            material_spec: inputData.material_spec,
+            info_list: JsonStringifyList(essential, optional)
         };
+<<<<<<< HEAD
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
+=======
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
+>>>>>>> upstream/master
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
         }else{
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/parts')
+                history.push('/basic/list/material')
             }else{
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
         }
 
-    },[pk, location,name,type,cost, partsPkList ])
+    },[pk, optional, essential, inputData ])
 
     const onsubmitForm = useCallback(async()=>{
         if (name === ''){
@@ -172,7 +189,7 @@ const BasicPartsRegister = () => {
             parts_cost: cost
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/parts/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -187,6 +204,33 @@ const BasicPartsRegister = () => {
 
     },[name,type,location,cost])
 
+    const partsListLoad = useCallback(async()=>{
+
+        const res = await getRequest('http://112.168.150.239:8299/api/v1/parts/type/list', getToken(TOKEN_NAME))
+
+        if(res === false){
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        }else{
+            if(res.status === 200){
+                //alert('성공적으로 등록 되었습니다')
+
+                const list = res.results.items.map((v)=>{
+                    return v.name
+                })
+                list.push('부픔 등록하기')
+                const pk = res.results.items.map((v=>{
+                    return v.pk
+                }))
+
+                setPartsPkList(pk)
+                setPartsList(list)
+            }else{
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    },[partsList,partsPkList])
+
 
     const partsRegister = useCallback(async()=>{
         if(partsName === '' || partsName === null || partsName === undefined){
@@ -198,7 +242,7 @@ const BasicPartsRegister = () => {
             name: partsName
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/type/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/parts/type/register', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -219,7 +263,7 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type]
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/type/delete', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/parts/type/delete', data, getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -227,7 +271,7 @@ const BasicPartsRegister = () => {
             if(res.status === 200){
                 //alert('성공적으로 등록 되었습니다')
                 partsListLoad()
-                setType(0)
+                setType('')
             }else{
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -249,7 +293,7 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type],
             name: partsName
         }
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/type/update', data ,getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/parts/type/update', data ,getToken(TOKEN_NAME))
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -276,6 +320,8 @@ const BasicPartsRegister = () => {
         }
     },[type])
 
+<<<<<<< HEAD
+=======
     useEffect(()=>{
         console.log('1111111111', type)
         if(partsList[type] !== '부픔 등록하기' || partsList[type] === undefined) {
@@ -289,6 +335,7 @@ const BasicPartsRegister = () => {
         console.log(type)
     }, [type])
 
+>>>>>>> upstream/master
     return(
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
@@ -308,8 +355,13 @@ const BasicPartsRegister = () => {
                                         setPartsName(input)
                                     }} description={'부품명을 입력하세요'} />
                                 <div style={{marginLeft: partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 30 : 10}}>
+<<<<<<< HEAD
+                                    {partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ?
+                                        <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()}/>
+=======
                                     {partsList[type] === undefined || partsList[type] === '부픔 등록하기' ?
                                         <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()} ButtonStyle={{width: 60, padding: '7px 0'}} />
+>>>>>>> upstream/master
                                         :
                                         <div style={{display:"flex"}}>
                                             <div style={{marginRight: 15}}>
@@ -328,7 +380,7 @@ const BasicPartsRegister = () => {
                                 option={0}
                                 solo={true}
                                 list={location}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                                searchUrl={'http://112.168.150.239:8299/api/v1/factory/search?'}
                             />
 
                             <NormalNumberInput title={'원가'}  value={cost} onChangeEvent={(input)=>setCost(input)} description={'원가를 입력해주세요.'}/>
@@ -340,7 +392,7 @@ const BasicPartsRegister = () => {
                             {/*<br/>*/}
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/material/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://112.168.150.239:8299/api/v1/material/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 
@@ -351,7 +403,7 @@ const BasicPartsRegister = () => {
                             {/*    onChangeEvent={(input)=>setInputData(`using_mold`, input)}*/}
                             {/*    solo={true}*/}
                             {/*    list={inputData.using_mold}*/}
-                            {/*    searchUrl={'http://203.234.183.22:8299/api/v1/mold/search?'}*/}
+                            {/*    searchUrl={'http://112.168.150.239:8299/api/v1/mold/search?'}*/}
                             {/*/>*/}
 
                             <div style={{marginTop: 72,marginLeft: 340}}>
@@ -359,16 +411,16 @@ const BasicPartsRegister = () => {
                                     <ButtonWrap onClick={async () => {
                                         await onsubmitFormUpdate()
                                     }}>
-                                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
-                                            <p style={{fontSize: 18}}>수정하기</p>
+                                        <div style={{width: 360, height: 46}}>
+                                            <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
                                         </div>
                                     </ButtonWrap>
                                     :
                                     <ButtonWrap onClick={async () => {
                                         await onsubmitForm()
                                     }}>
-                                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
-                                            <p style={{fontSize: 18}}>등록하기</p>
+                                        <div style={{width: 360, height: 46}}>
+                                            <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
                                         </div>
                                     </ButtonWrap>
                                 }

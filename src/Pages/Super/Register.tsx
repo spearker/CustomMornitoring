@@ -5,12 +5,11 @@ import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import {ROUTER_SUPER_ADMIN} from '../../Common/routerset';
-import {useHistory} from "react-router-dom";
 
 // 회사 등록 페이지
 
 const SuperRegister = () => {
-    const history = useHistory();
+
   const [name, setName] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -29,23 +28,22 @@ const SuperRegister = () => {
 
     //발리데이션
     if(pw == '' || name == '' || email ==='' || username === ''){
-      alert('필수 항목을 모두 입력해주세요.')
+      //alert('필수 항목을 모두 입력해주세요.')
       return
     }
     if(pw.length < 6 || pw !== pwCheck){
-      alert('비밀번호를 확인해주세요. (6자 이상)')
+      //alert('비밀번호를 확인해주세요. (6자 이상)')
       setPwCheck('')
       return
     }
     if(email.length < 6 || !email.includes('@')){
-      alert('이메일 형식을 확인해주세요.')
+      //alert('이메일 형식을 확인해주세요.')
       setEmail('')
       return
     }
 
     // 이메일 보내기
-
-    Axios.post('http://203.234.183.22:8286/api/v2/super/company/create', {
+    Axios.post('http://112.168.150.239:8299/api/v2/super/company/create', {
       company_name: name,
       user_email: email,
       user_name: username,
@@ -63,7 +61,6 @@ const SuperRegister = () => {
         setPwCheck('')
         setName('')
 
-          history.push('/login')
 
       }else{
         //기타 에러처리
