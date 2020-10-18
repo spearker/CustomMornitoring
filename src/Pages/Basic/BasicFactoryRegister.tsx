@@ -69,9 +69,12 @@ const BasicFactoryRegister = () => {
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
-    
-    if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
-      alert("공백을 채워주세요.");
+
+    if (inputData.name === ""){
+      alert("공장명은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }else if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
+      alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
 
@@ -101,8 +104,11 @@ const BasicFactoryRegister = () => {
   const onsubmitForm = useCallback(async(e)=>{
     e.preventDefault();
 
-    if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
-      alert("공백을 채워주세요.");
+    if (inputData.name === ""){
+      alert("공장명은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    }else if(inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === ""){
+      alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
 

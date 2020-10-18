@@ -9,13 +9,10 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import IC_NEXT from '../../Assets/Images/ic_next_page.png';
 import IC_BEFORE from '../../Assets/Images/ic_before_page.png';
 import IC_REFRESH from '../../Assets/Images/ic_refresh.png';
-import IC_ADD from '../../Assets/Images/ic_add.png';
 import DotPagenation from '../../Components/Pagenation/DotPagenation';
 import {getRequest, postRequest} from '../../Common/requestFunctions';
 import {getToken} from '../../Common/tokenFunctions';
 import TaskTable from '../../Components/Table/TaskTable';
-import ColorButtonLink from '../../Components/Button/ColorButtonLink';
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import StatusCard2 from '../../Components/Card/StatusCard2';
 import {changeStatusToColor} from '../../Common/statusFunctions';
 

@@ -237,24 +237,7 @@ const ClientRegister = () => {
     }else{
       if(res.status === 200){
          //alert('성공적으로 등록 되었습니다')
-         const data = res.results;
-         setName('');
-         setPk('');
-         setNo(undefined);
-         setType(0);
-
-         setCeo('');
-         setPaths([null])
-         setOldPaths([null])
-         setPhone('');
-         setEmailM('');
-         setPhoneM('')
-         setEmail('')
-
-         setInfoList([])
-         setAddress('');
-         setFax('');
-
+          history.goBack()
       }else{
         //TODO:  기타 오류
       }

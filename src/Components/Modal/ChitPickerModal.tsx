@@ -29,13 +29,15 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
         material_name: "",
     }])
     const [searchName, setSearchName] = useState<string>('')
-
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}`
+        const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
 
         setMachineList(resultData.results)

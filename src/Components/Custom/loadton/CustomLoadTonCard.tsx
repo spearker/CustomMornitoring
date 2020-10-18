@@ -35,7 +35,7 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
   }, [ propData ])
 
   const options = {
-    series: propData ? datum : basicData,
+    series: propData ? datum : basicData, ZZ
     colors: [ colorList[color] ],
     grid: {
       show: false

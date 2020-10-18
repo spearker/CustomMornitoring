@@ -77,7 +77,7 @@ export const postProductionRegister = async( url: string, bodyData: object) =>{
  */
 export const getProductionSearch = async( url: string ) =>{
     const temp: IServerData = await client.get(url);
-    return temp
+    return temp.results
 }
 
 export const API_URLS = {

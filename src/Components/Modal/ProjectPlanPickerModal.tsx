@@ -36,17 +36,21 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
         supplier_name: "",
     }])
     const [searchName, setSearchName] = useState<string>('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=0`
+        const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=0&page=${page.current}&limit=1000`
         const resultData = await getProductionSearch(tempUrl);
         console.log(resultData)
-        setMachineList(resultData.results)
-    }, [searchName])
+        setMachineList(resultData.info_list)
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+    }, [searchName, page])
 
     useEffect(() => {
         console.log(searchName)

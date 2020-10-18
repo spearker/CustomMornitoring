@@ -149,7 +149,7 @@ const SegmentListContainer = () => {
             const res = await postSegmentDelete(tempUrl, deletePk)
 
             getList()
-
+            setDeletePk({pk: []})
         },[deletePk])
 
 

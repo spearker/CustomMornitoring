@@ -2,8 +2,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import moment from "moment";
 import ReactApexChart from "react-apexcharts";
-import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
 import tempImage from "../../Assets/Images/temp_machine.png"
 import NoDataCard from "../../Components/Card/NoDataCard";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";

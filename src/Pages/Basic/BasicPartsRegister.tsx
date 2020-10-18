@@ -6,16 +6,13 @@ import WhiteBoxContainer from "../../Containers/WhiteBoxContainer";
 import ListHeader from "../../Components/Text/ListHeader";
 import NormalInput from "../../Components/Input/NormalInput";
 import DropdownInput from "../../Components/Input/DropdownInput";
-import {getMaterialTypeList, transferCodeToName, transferStringToCode} from "../../Common/codeTransferFunctions";
 import BasicSearchContainer from "../../Containers/Basic/BasicSearchContainer";
 import NormalNumberInput from "../../Components/Input/NormalNumberInput";
-import RegisterButton from "../../Components/Button/RegisterButton";
 import {useHistory} from "react-router-dom";
 import useObjectInput from "../../Functions/UseInput";
 import {getParameter, getRequest, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {POINT_COLOR, TOKEN_NAME} from "../../Common/configset";
-import {JsonStringifyList} from "../../Functions/JsonStringifyList";
 import SmallButton from "../../Components/Button/SmallButton";
 import Styled from "styled-components";
 
@@ -59,6 +56,38 @@ const BasicPartsRegister = () => {
 
     },[])
 
+<<<<<<< HEAD
+=======
+    const partsListLoad = useCallback(async()=>{
+
+        const res = await getRequest('http://203.234.183.22:8299/api/v1/parts/type/list', getToken(TOKEN_NAME))
+
+        if(res === false){
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        }else{
+            if(res.status === 200){
+                //alert('성공적으로 등록 되었습니다')
+
+                const list = res.results.info_list.map((v)=>{
+                    return v.name
+                })
+                list.push('부픔 등록하기')
+                const pk = res.results.info_list.map((v=>{
+                    return v.pk
+                }))
+
+                setPartsPkList(pk)
+                setPartsList(list)
+
+
+            }else{
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    },[partsList,partsPkList])
+
+>>>>>>> upstream/master
     const getData = useCallback(async()=>{
 
         const res = await getRequest('http://112.168.150.239:8299/api/v1/parts/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
@@ -73,16 +102,39 @@ const BasicPartsRegister = () => {
                     setLocation ([{pk: data.location_pk, name: data.location_name}])
                     setCost(data.parts_cost)
                     setName(data.parts_name)
+                console.log(data.parts_type_name)
                     setPartsName(data.parts_type_name)
 
             }else{
                 //TODO:  기타 오류
             }
         }
+<<<<<<< HEAD
     },[pk, optional, essential, inputData ])
 
 
     const onsubmitFormUpdate = useCallback(async()=>{
+=======
+    },[pk, partsList, essential, inputData, partsPkList, type,partsName ])
+
+
+    const onsubmitFormUpdate = useCallback(async()=>{
+        console.log(type)
+
+        if (name === ''){
+            alert("부품 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(partsPkList[type] === '' || partsPkList[type] === undefined){
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if( location === undefined || location[0]?.pk === undefined || location[0]?.pk === ''  ){
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(cost === null || cost === undefined){
+            alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+>>>>>>> upstream/master
 
         const data = {
             pk: getParameter('pk'),
@@ -95,7 +147,12 @@ const BasicPartsRegister = () => {
             material_spec: inputData.material_spec,
             info_list: JsonStringifyList(essential, optional)
         };
+<<<<<<< HEAD
         const res = await postRequest('http://112.168.150.239:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
+=======
+
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
+>>>>>>> upstream/master
 
         if(res === false){
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -111,6 +168,19 @@ const BasicPartsRegister = () => {
     },[pk, optional, essential, inputData ])
 
     const onsubmitForm = useCallback(async()=>{
+        if (name === ''){
+            alert("부품 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(partsPkList[type] === '' || partsPkList[type] === undefined){
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if( location === undefined || location[0]?.pk === undefined || location[0]?.pk === ''  ){
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(cost === null || cost === undefined){
+            alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             parts_name: name,
@@ -163,6 +233,10 @@ const BasicPartsRegister = () => {
 
 
     const partsRegister = useCallback(async()=>{
+        if(partsName === '' || partsName === null || partsName === undefined){
+            alert("파츠 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             name: partsName
@@ -206,7 +280,15 @@ const BasicPartsRegister = () => {
     },[partsList,partsPkList,type])
 
     const partsUpdate = useCallback(async()=>{
-        console.log(type)
+
+        if(partsName === '' || partsName === null || partsName === undefined){
+            alert("파츠 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(partsPkList[type] === '' || partsPkList[type] === undefined) {
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }
+
         const data = {
             pk: partsPkList[type],
             name: partsName
@@ -230,7 +312,7 @@ const BasicPartsRegister = () => {
     },[])
 
     useEffect(()=>{
-        if(partsList[type] === '부픔 등록하기' || partsList[type] === undefined)
+        if(partsList[type] === '부픔 등록하기')
         {
             setPartsName('')
         }else {
@@ -238,6 +320,22 @@ const BasicPartsRegister = () => {
         }
     },[type])
 
+<<<<<<< HEAD
+=======
+    useEffect(()=>{
+        console.log('1111111111', type)
+        if(partsList[type] !== '부픔 등록하기' || partsList[type] === undefined) {
+            setType(partsList.indexOf(partsName))
+        } else {
+            return
+        }
+    },[partsList,partsName])
+
+    useEffect(() => {
+        console.log(type)
+    }, [type])
+
+>>>>>>> upstream/master
     return(
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
@@ -251,10 +349,19 @@ const BasicPartsRegister = () => {
                                 <div style={{width: '60%',marginRight: 20}}>
                                     <DropdownInput title={'부품 종류'}  target={partsList[type]} contents={partsList} onChangeEvent={(input)=>setType(input)} />
                                 </div>
-                                    <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={setPartsName} description={'부품명을 입력하세요'} />
+                                {console.log(partsList[type])}
+                                    <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={(input)=>{
+                                        console.log(input)
+                                        setPartsName(input)
+                                    }} description={'부품명을 입력하세요'} />
                                 <div style={{marginLeft: partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 30 : 10}}>
+<<<<<<< HEAD
                                     {partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ?
                                         <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()}/>
+=======
+                                    {partsList[type] === undefined || partsList[type] === '부픔 등록하기' ?
+                                        <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()} ButtonStyle={{width: 60, padding: '7px 0'}} />
+>>>>>>> upstream/master
                                         :
                                         <div style={{display:"flex"}}>
                                             <div style={{marginRight: 15}}>

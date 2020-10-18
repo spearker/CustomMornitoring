@@ -81,6 +81,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
 
   const postBarcodeUpdate = useCallback(async () => {
 
+<<<<<<< HEAD
     const data = {
       barcode_pk: match.params.barcode_pk,
       barcode_name: inputData.barcode_name,
@@ -91,6 +92,18 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
       barcode_img_name: barcodeImg,
       description: reason
     }
+=======
+        const data = {
+            barcode_pk: match.params.barcode_pk,
+            barcode_name: inputData.barcode_name,
+            item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
+            item_pk: selectMachine?.pk,
+            barcode_type: 'barcode',
+            barcode_number: rules.toString(),
+            barcode_img_name: barcodeImg.split('=')[1],
+            description: reason
+        }
+>>>>>>> upstream/master
 
     const tempUrl = `${API_URLS["barcode"].update}`
     const resultData = await postBarcode(tempUrl, data)

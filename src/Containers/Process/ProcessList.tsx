@@ -123,6 +123,7 @@ const ProcessListContainer = () => {
         const res = await postProcessDelete(tempUrl, deletePk)
         console.log(res)
         getList()
+        setDeletePk({pk: []})
     },[deletePk])
 
     const getData = useCallback(async (pk) => {

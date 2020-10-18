@@ -146,10 +146,12 @@ const WipContainer = () => {
 
     const selectBox = useCallback((value)=>{
         console.log(value)
-        if(value === '반제품' || value === '자재 종류'){
+        if(value === '반제품'){
             setFilter(10)
         } else if (value === '완제품'){
             setFilter(15)
+        } else if (value === '자재 종류'){
+            setFilter(-1)
         }
 
     },[filter])
