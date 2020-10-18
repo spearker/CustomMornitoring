@@ -138,10 +138,21 @@ const BasicDeviceRegister = () => {
 
   const onsubmitFormUpdate = useCallback(async(e)=>{
     e.preventDefault();
+
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(type === 0) {
+      alert("장치 종류는 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if(madeNo === '') {
+      alert("제조(제품)번호 는 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if ( factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === ''  ){
+      alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
+
     const data = {
       pk: getParameter('pk'),
 
@@ -182,7 +193,16 @@ const BasicDeviceRegister = () => {
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
     if(name === "" ){
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if(type === 0) {
+      alert("장치 종류는 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if(madeNo === '') {
+      alert("제조(제품)번호 는 필수 항목입니다. 반드시 선택해주세요.")
+      return;
+    } else if ( factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === ''  ){
+      alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
     const data = {
@@ -222,7 +242,8 @@ const BasicDeviceRegister = () => {
     <DashboardWrapContainer index={'basic'}>
 
         <InnerBodyContainer>
-            <Header title={isUpdate ? '주변장치 정보수정' : '주변장치 정보등록'}/>
+            <Header title={isUpdate ? '' +
+                '주변장치 정보수정' : '주변장치 정보등록'}/>
             <WhiteBoxContainer>
               {
                 // document.id !== '' || isUpdate == true?
@@ -245,7 +266,7 @@ const BasicDeviceRegister = () => {
                       option={1}
                       solo={true}
                       list={factory}
-                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                      searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?page=1&limit=15&'}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>

@@ -4,14 +4,11 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import 'react-dropdown/style.css'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import LoadTonCard from '../../Components/Card/LoadTonCard';
-import {API_URLS, getLoadTonList} from "../../Api/pm/monitoring";
 import {API_URLS as URLS_MAP, getMonitoringMapData} from "../../Api/pm/map";
-import FactorySelector from "../../Components/Map/FactorySelector";
 import NoDataCard from "../../Components/Card/NoDataCard";
-import {getRequest, postRequest} from "../../Common/requestFunctions";
+import {getRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
-import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 // 로드톤 모니터링
 const LoadtonDashBoard = () => {

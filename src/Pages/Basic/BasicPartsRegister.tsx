@@ -6,16 +6,13 @@ import WhiteBoxContainer from "../../Containers/WhiteBoxContainer";
 import ListHeader from "../../Components/Text/ListHeader";
 import NormalInput from "../../Components/Input/NormalInput";
 import DropdownInput from "../../Components/Input/DropdownInput";
-import {getMaterialTypeList, transferCodeToName, transferStringToCode} from "../../Common/codeTransferFunctions";
 import BasicSearchContainer from "../../Containers/Basic/BasicSearchContainer";
 import NormalNumberInput from "../../Components/Input/NormalNumberInput";
-import RegisterButton from "../../Components/Button/RegisterButton";
 import {useHistory} from "react-router-dom";
 import useObjectInput from "../../Functions/UseInput";
 import {getParameter, getRequest, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {POINT_COLOR, TOKEN_NAME} from "../../Common/configset";
-import {JsonStringifyList} from "../../Functions/JsonStringifyList";
 import SmallButton from "../../Components/Button/SmallButton";
 import Styled from "styled-components";
 
@@ -79,6 +76,8 @@ const BasicPartsRegister = () => {
 
                 setPartsPkList(pk)
                 setPartsList(list)
+
+
             }else{
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -100,6 +99,7 @@ const BasicPartsRegister = () => {
                     setLocation ([{pk: data.location_pk, name: data.location_name}])
                     setCost(data.parts_cost)
                     setName(data.parts_name)
+                console.log(data.parts_type_name)
                     setPartsName(data.parts_type_name)
                 console.log(partsPkList)
                 console.log(partsList.indexOf(data.parts_type_name))
@@ -107,11 +107,26 @@ const BasicPartsRegister = () => {
                 //TODO:  기타 오류
             }
         }
-    },[pk, partsList, essential, inputData, partsPkList, type ])
+    },[pk, partsList, essential, inputData, partsPkList, type,partsName ])
 
 
     const onsubmitFormUpdate = useCallback(async()=>{
         console.log(type)
+
+        if (name === ''){
+            alert("부품 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(partsPkList[type] === '' || partsPkList[type] === undefined){
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if( location === undefined || location[0]?.pk === undefined || location[0]?.pk === ''  ){
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(cost === null || cost === undefined){
+            alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const data = {
             pk: getParameter('pk'),
             parts_name: name,
@@ -119,7 +134,6 @@ const BasicPartsRegister = () => {
             location:  location[0].pk,
             parts_cost: cost
         };
-
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/parts/update', data, getToken(TOKEN_NAME))
 
@@ -137,6 +151,19 @@ const BasicPartsRegister = () => {
     },[pk, location,name,type,cost, partsPkList ])
 
     const onsubmitForm = useCallback(async()=>{
+        if (name === ''){
+            alert("부품 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(partsPkList[type] === '' || partsPkList[type] === undefined){
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if( location === undefined || location[0]?.pk === undefined || location[0]?.pk === ''  ){
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }else if(cost === null || cost === undefined){
+            alert("원가는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             parts_name: name,
@@ -162,6 +189,10 @@ const BasicPartsRegister = () => {
 
 
     const partsRegister = useCallback(async()=>{
+        if(partsName === '' || partsName === null || partsName === undefined){
+            alert("파츠 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             name: partsName
@@ -205,7 +236,15 @@ const BasicPartsRegister = () => {
     },[partsList,partsPkList,type])
 
     const partsUpdate = useCallback(async()=>{
-        console.log(type)
+
+        if(partsName === '' || partsName === null || partsName === undefined){
+            alert("파츠 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(partsPkList[type] === '' || partsPkList[type] === undefined) {
+            alert("부품 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        }
+
         const data = {
             pk: partsPkList[type],
             name: partsName
@@ -229,7 +268,7 @@ const BasicPartsRegister = () => {
     },[])
 
     useEffect(()=>{
-        if(partsList[type] === '부픔 등록하기' || partsList[type] === undefined)
+        if(partsList[type] === '부픔 등록하기')
         {
             setPartsName('')
         }else {
@@ -238,9 +277,17 @@ const BasicPartsRegister = () => {
     },[type])
 
     useEffect(()=>{
-        partsList.indexOf(partsName)
-        setType(partsList.indexOf(partsName))
+        console.log('1111111111', type)
+        if(partsList[type] !== '부픔 등록하기' || partsList[type] === undefined) {
+            setType(partsList.indexOf(partsName))
+        } else {
+            return
+        }
     },[partsList,partsName])
+
+    useEffect(() => {
+        console.log(type)
+    }, [type])
 
     return(
         <DashboardWrapContainer index={'basic'}>
@@ -255,9 +302,13 @@ const BasicPartsRegister = () => {
                                 <div style={{width: '60%',marginRight: 20}}>
                                     <DropdownInput title={'부품 종류'}  target={partsList[type]} contents={partsList} onChangeEvent={(input)=>setType(input)} />
                                 </div>
-                                    <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={setPartsName} description={'부품명을 입력하세요'} />
+                                {console.log(partsList[type])}
+                                    <NormalInput title={'부품 이름'} width={partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 140 : 80} value={partsName} onChangeEvent={(input)=>{
+                                        console.log(input)
+                                        setPartsName(input)
+                                    }} description={'부품명을 입력하세요'} />
                                 <div style={{marginLeft: partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ? 30 : 10}}>
-                                    {partsList[type] === '부픔 등록하기' || partsList[type] === undefined  ?
+                                    {partsList[type] === undefined || partsList[type] === '부픔 등록하기' ?
                                         <SmallButton name={'등록'} color={'#dddddd'} onClickEvent={() => partsRegister()} ButtonStyle={{width: 60, padding: '7px 0'}} />
                                         :
                                         <div style={{display:"flex"}}>

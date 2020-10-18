@@ -118,13 +118,7 @@ const PartsContainer = () => {
         const tempUrl = `${API_URLS['parts'].list}?page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.info_list.map((v,i)=>{
-            const material_type = transferCodeToName('material', v.material_type)
-
-            return {...v, material_type: material_type}
-        })
-
-        setList(getStock)
+        setList(res.info_list)
 
         setPage({ current: res.current_page, total: res.total_page })
 

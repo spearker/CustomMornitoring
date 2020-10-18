@@ -23,6 +23,10 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
+    const [selectData, setSelectData] = useState<{ name?:string, pk?: string, parts_stock?: string  }>()
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
 
     const [machineList, setMachineList] = useState<any[]>([{
         pk: '',
@@ -41,15 +45,18 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=1&type=0&limit=15`
+        const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=${page.current}&type=0&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
         console.log(resultData)
-        setMachineList(resultData.results.info_list)
-    }, [searchName])
+        setMachineList(resultData.info_list)
+
+        setPage({ current: resultData.current_page, total: resultData.total_page })
+
+    }, [searchName,page])
 
     useEffect(() => {
-        console.log(searchName)
-    },[searchName])
+        setSelectData(select)
+    },[select])
 
 
     const handleClickBtn = () => {
@@ -59,13 +66,17 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
         getList()
     },[])
 
+    useEffect(()=>{
+        getList()
+    },[page.current])
+
     return (
         <div>
             <div style={{position:'relative', display:'inline-block', zIndex:0, width: width ? width : 917}}>
                 <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display:'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                            selectData ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {selectData.name}</p>
                                 : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
@@ -135,7 +146,7 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                                               setMachineName(v.parts_name)
                                                               return onClickEvent({name: v.parts_name, pk: v.pk, current: v.parts_stock})
                                                           }}
-                                                          style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                          style={{backgroundColor: selectData ? v.pk === selectData.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>

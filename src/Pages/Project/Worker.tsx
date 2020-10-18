@@ -2,7 +2,6 @@ import React from 'react';
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import Container from '../../Containers/Project/Worker';
-import CustomerRegisterContainer from "../../Containers/Customer/CustomerRegister";
 
 interface Props {
     match: any;

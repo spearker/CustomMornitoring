@@ -88,7 +88,7 @@ const BarcodeRegisterContainer = ({match}:Props) => {
             item_pk: selectMachine?.pk,
             barcode_type: 'barcode',
             barcode_number: rules.toString(),
-            barcode_img_name: barcodeImg,
+            barcode_img_name: barcodeImg.split('=')[1],
             description: reason
         }
 

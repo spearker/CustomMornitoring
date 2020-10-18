@@ -49,8 +49,8 @@ const OutsourcingRegister = ({match}:Props) => {
 
     const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
     const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
-    const [quantity, setQuantity] = useState()
-    const [unpaid, setUnpaid] = useState()
+    const [quantity, setQuantity] = useState<number>(0)
+    const [unpaid, setUnpaid] = useState<number>(0)
     const [paymentCondition, setPaymentCondition] = useState('')
     const [inputData, setInputData] = useObjectInput('CHANGE', {
         name:'',
@@ -134,6 +134,8 @@ const OutsourcingRegister = ({match}:Props) => {
         }else{
             if(res.status === 200){
                 const data = res.results;
+                setSelectOutsource({ name: data.company_name, pk: data.company_pk })
+                setSelectMaterial({ name: data.product, pk: data.product_pk })
                 setInputData('location',data.address)
                 setQuantity(data.quantity)
                 setUnpaid(data.unpaid)
@@ -160,27 +162,45 @@ const OutsourcingRegister = ({match}:Props) => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitFormUpdate = useCallback(async(e)=>{
-        e.preventDefault();
-        if(name === "" ){
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+    const onsubmitFormUpdate = useCallback(async()=>{
+
+        if(selectOutsource?.pk === '' ){
+            alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(selectMaterial?.pk === '' ){
+            alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(quantity === null ){
+            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (unpaid === null ){
+            alert("미납 수량은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(paymentCondition === '' ){
+            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(selectDate === ''){
+            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
+            return;
+        } else if(inputData.location.postcode === '' ){
+            alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
+
 
         const data = {
             pk: match.params.pk ,
             company: selectOutsource?.pk,
             product: selectMaterial?.pk,
-            quantity: quantity,
-            unpaid: unpaid,
+            quantity: quantity.toString(),
+            unpaid: unpaid.toString(),
             due_date: selectDate,
             payment_condition: paymentCondition,
             address: inputData.location
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
-
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/oder/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/update/', data, getToken(TOKEN_NAME))
 
         if(res === false){
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -196,6 +216,9 @@ const OutsourcingRegister = ({match}:Props) => {
 
     },[pk, selectOutsource,selectMaterial,selectDate,quantity,unpaid,paymentCondition,inputData])
 
+    useEffect(()=>{
+        console.log(selectMaterial)
+    },[selectMaterial])
     /**
      * onsubmitForm()
      * 기계 정보 등록
@@ -209,14 +232,36 @@ const OutsourcingRegister = ({match}:Props) => {
      * @returns X
      */
     const onsubmitForm = useCallback(async()=>{
-        console.log(infoList)
+
         ////alert(JSON.stringify(infoList))
+        if(selectOutsource?.pk === '' ){
+            alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(selectMaterial?.pk === '' ){
+            alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if(quantity === null ){
+            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (unpaid === null ){
+            alert("미납 수량은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(paymentCondition === '' ){
+            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if(selectDate === ''){
+            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
+            return;
+        } else if(inputData.location.postcode === '' ){
+            alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
 
         const data = {
             company: selectOutsource?.pk,
             product: selectMaterial?.pk,
-            quantity: quantity,
-            unpaid: unpaid,
+            quantity: quantity.toString(),
+            unpaid: unpaid.toString(),
             due_date: selectDate,
             payment_condition: paymentCondition,
             address: inputData.location
@@ -261,8 +306,8 @@ const OutsourcingRegister = ({match}:Props) => {
                                                    setSelectMaterial({...selectMaterial, ...e })
                                                }} text={"품목명을 검색해주세요."} type={1}/>
                     </InputContainer>
-                    <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity} description={'수량을 입력하세요.'} width={120} />
-                    <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid} description={'미납 수량을 입력하세요.'} width={120} />
+                    <NormalNumberInput title={'수량'} value={Number(quantity)} onChangeEvent={setQuantity} description={'수량을 입력하세요.'} width={120} />
+                    <NormalNumberInput title={'미납 수량'} value={Number(unpaid)} onChangeEvent={setUnpaid} description={'미납 수량을 입력하세요.'} width={120} />
                     <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition} description={'대금 지불조건을 입력해 주세요.'}  width={120}/>
                     <InputContainer title={"납기일"} width={120}>
                         <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
@@ -308,15 +353,27 @@ const OutsourcingRegister = ({match}:Props) => {
               </FullAddInput>
 
             */}
-                <div style={{marginTop: 40,marginLeft: 340}}>
-                    <ButtonWrap onClick={async () => {
-                        await onsubmitForm()
-                    }}>
-                        <div style={{width: 360, height: 40}}>
-                            <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
-                        </div>
-                    </ButtonWrap>
-                </div>
+                {isUpdate ?
+                    <div style={{marginTop: 40, marginLeft: 340}}>
+                        <ButtonWrap onClick={async () => {
+                            await onsubmitFormUpdate()
+                        }}>
+                            <div style={{width: 360, height: 40}}>
+                                <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
+                            </div>
+                        </ButtonWrap>
+                    </div>
+                    :
+                    <div style={{marginTop: 40, marginLeft: 340}}>
+                        <ButtonWrap onClick={async () => {
+                            await onsubmitForm()
+                        }}>
+                            <div style={{width: 360, height: 40}}>
+                                <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
+                            </div>
+                        </ButtonWrap>
+                    </div>
+                }
             </WhiteBoxContainer>
         </div>
     );

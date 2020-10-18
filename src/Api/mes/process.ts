@@ -85,7 +85,7 @@ export const postProcessRegister = async( url: string, bodyData: object) =>{
 
 export const getSearchMachine = async( url: string) =>{
     const temp: IServerData = await client.get(url);
-    return temp
+    return temp.results
 }
 
 /**

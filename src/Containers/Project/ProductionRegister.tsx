@@ -33,12 +33,12 @@ const ProductionRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
     const [selectType, setSelectType] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory?: { name?: string, pk?: string }, production?: { name?: string, pk?: string },
-        segment?: { name?: string, pk?: string }
+    const [modalSelect, setModalSelect] = useState<{factory: { name?: string, pk?: string }, production: { name?: string, pk?: string },
+        segment: { name?: string, pk?: string }
     }>({
-        factory: {},
-        production: {},
-        segment: {}
+        factory: {name: "", pk: "" },
+        production: {name: "", pk: "" },
+        segment: {name: "", pk: "" },
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
     const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
@@ -66,6 +66,32 @@ const ProductionRegisterContainer = () => {
             type = 1
         }else if(selectType === '주문 예측') {
             type = 1
+        }
+
+        if(type === ""  ){
+            alert("타입은 필수 항목입니다. 반드시 선택해주세요.")
+            return;
+        } else if (chitData.manager === ""){
+            alert("계획자는 필수 항목입니다. 반드시 입력해 주세요.")
+            return;
+        } else if (modalSelect.production?.pk === ""){
+            alert("품목명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (selectDateRange.start=== ""){
+            alert("생산계획 일정은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (selectDateRange.end=== ""){
+            alert("생산계획 일정은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (chitData.amount=== 0){
+            alert("총 수량은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (modalSelect.factory.pk=== ""){
+            alert("납품 업체를 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (modalSelect.segment.pk=== ""){
+            alert("공정명은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
         }
 
         const resultData = await postProductionRegister(tempUrl, {
@@ -108,7 +134,7 @@ const ProductionRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 계획자</td>
-                            <td><Input placeholder="입력해 주세요." onChange={(e) => setChitData({...chitData, manager: e.target.value})}/></td>
+                            <td><Input placeholder="계획자를 입력해 주세요." onChange={(e) => setChitData({...chitData, manager: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>

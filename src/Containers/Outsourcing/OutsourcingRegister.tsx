@@ -23,7 +23,7 @@ const OutsourcingRegister = ({match}:any) => {
 
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>();
+    const [no, setNo] = useState<number>(0);
     const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
     const [phone, setPhone]= useState<string>('');
     const [address, setAddress]= useState<string>('');
@@ -122,7 +122,7 @@ const OutsourcingRegister = ({match}:any) => {
                 const data = res.results;
                 setName(data.name);
                 setPk(data.pk);
-                setNo(Number(data.number));
+                setNo(data.number);
                 setType(data.type);
                 setPk(data.pk);
                 setCeo(data.ceo_name);
@@ -160,10 +160,21 @@ const OutsourcingRegister = ({match}:any) => {
     const onsubmitFormUpdate = useCallback(async(e)=>{
         e.preventDefault();
 
+        if(name === "" ){
+            alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (ceo === ""){
+            alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (no === null){
+            alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const data = {
             pk: match.params.pk,
             name: name,
-            number: no,
+            number: no.toString(),
             type: type.toString(),
             ceo_name: ceo,
             photo: paths[0],
@@ -212,10 +223,22 @@ const OutsourcingRegister = ({match}:any) => {
         console.log(infoList)
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
+
+        if(name === "" ){
+            alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (ceo === ""){
+            alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (no === null){
+            alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }
+
         const data = {
 
             name: name,
-            number: no,
+            number: no.toString(),
             type: type.toString(),
             ceo_name: ceo,
             photo: paths[0],
