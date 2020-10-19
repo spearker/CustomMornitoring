@@ -32,6 +32,7 @@ const ProcessDetailRegisterContainer = () => {
   const [ machineName, setMachineName ] = useState<string>()
 
   const [ processList, setProcessList ] = useState<IDetailRegister[]>([])
+  const [ originalProcessList, setOriginalProcessList ] = useState<IDetailRegister[]>([]);
   const [ machineList, setMachineList ] = useState<IMachineData[]>([])
   const [ page, setPage ] = useState<PaginationInfo>({
     current: 1,
@@ -54,7 +55,9 @@ const ProcessDetailRegisterContainer = () => {
 
     setPage({ current: resultData.results.current_page, total: resultData.results.total_page })
     setProcessList(getProcess)
+    setOriginalProcessList(getProcess)
   }, [ searchData, page ])
+
   const validationCheck = () => {
 
     if (!processName || processName === '') {
@@ -75,28 +78,42 @@ const ProcessDetailRegisterContainer = () => {
 
   const postProcessRegisterFunc = async () => {
     if (validationCheck()) {
-      //   const tempUrl = `${API_URLS['segment'].register}`
-      //   const resultData = await postProcessRegister(tempUrl, { name: processName, processes: processPKList });
-      //   console.log(resultData)
-      //
-      //   if (resultData.status === 200) {
-      //     history.goBack()
-      //   }
-      // }
+      const tempUrl = `${API_URLS['segment'].register}`
+      const resultData = await postProcessRegister(tempUrl, { name: processName, processes: processPKList });
+      console.log(resultData)
+
+      if (resultData.status === 200) {
+        history.goBack()
+      }
     }
   }
-
-  useEffect(() => {
-    getSearchProcessList()
-  }, [])
-
   useEffect(() => {
     getSearchProcessList()
   }, [ page.current ])
 
   useEffect(() => {
-    console.log(processPKList)
-  }, [ processPKList ])
+    if (searchData === '' || !searchData) {
+      setProcessList(originalProcessList)
+    }
+  }, [ searchData ])
+
+
+  const onSearch = () => {
+    console.log('process', searchData)
+    if (searchData && searchData !== '') {
+      const target: IDetailRegister[] = []
+
+      processList.forEach((item) => {
+        if (item.process_name.indexOf(searchData) !== -1) {
+          target.push(item)
+        }
+      })
+
+      setProcessList(target)
+
+    }
+  }
+
 
   return (
       <div>
@@ -124,9 +141,10 @@ const ProcessDetailRegisterContainer = () => {
                       <div style={{ width: 360, height: 211, marginRight: 20 }}>
                         <div style={{ width: 360, display: 'flex', flexDirection: 'row', marginBottom: 12 }}>
                           <SearchBox placeholder="검색어를 입력해주세요." style={{ width: 360 - 28 }}
-                                     onChange={(e) => setSearchData(e.target.value)}/>
+                                     onChange={(e) => setSearchData(e.target.value)}
+                                     onKeyPress={(event) => event.key === 'Enter' && onSearch()}/>
                           <SearchButton style={{ width: 32 }} onClick={() => {
-
+                            onSearch()
                           }}>
                             <img src={IcSearchButton}/>
                           </SearchButton>
@@ -149,7 +167,6 @@ const ProcessDetailRegisterContainer = () => {
                               <tbody style={{ overflowY: "scroll", height: 140, width: 359 }}>
                               {
                                 processList.map((v, i) => {
-                                  console.log(v)
                                   return (
                                       <tr style={{ borderBottom: '1px solid #b3b3b35f', padding: 0 }}>
                                         <td style={{ width: 160, height: 28 }}><span>{v.process_name}</span></td>
