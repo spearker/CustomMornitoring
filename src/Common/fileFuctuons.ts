@@ -1,6 +1,6 @@
-import {postRequest} from './requestFunctions';
-import {getToken} from './tokenFunctions';
-import {TOKEN_NAME} from './configset';
+import { postRequest } from './requestFunctions';
+import { getToken } from './tokenFunctions';
+import { TOKEN_NAME } from './configset';
 
 
 /**
@@ -9,22 +9,22 @@ import {TOKEN_NAME} from './configset';
  * @param {string} data BLOB 객체
  * @returns X
  */
-export const uploadTempFile = async(data)=>{
+export const uploadTempFile = async (data) => {
 
-    const formData = new FormData()
-    formData.append('file',data)
-    const res = await postRequest('http://112.168.150.239:8299/api/v1/file/upload',formData, getToken(TOKEN_NAME))
+  const formData = new FormData()
+  formData.append('file', data)
+  const res = await postRequest('http://203.234.183.22:8299/api/v1/file/upload', formData, getToken(TOKEN_NAME))
 
-    if(res === false){
+  if (res === false) {
+    return false
+  } else {
+    if (res.status === 200) { //res.status === 200 //res !== null
+      const path: string = res.results; //const path: string = res.results; //const path: string = res[0];
+
+      return path;
+    } else {
+      alert('해당 파일 업로드 실패하였습니다.')
       return false
-    }else{
-      if(res.status === 200 ){ //res.status === 200 //res !== null
-        const path: string = res.results; //const path: string = res.results; //const path: string = res[0];
-
-        return path;
-      }else{
-        alert('해당 파일 업로드 실패하였습니다.')
-        return false
-      }
     }
   }
+}

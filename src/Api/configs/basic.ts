@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {getToken} from '../../Common/tokenFunctions';
-import {TOKEN_NAME} from '../../Common/configset';
+import { getToken } from '../../Common/tokenFunctions';
+import { TOKEN_NAME } from '../../Common/configset';
 
 /**
  *
@@ -10,32 +10,32 @@ import {TOKEN_NAME} from '../../Common/configset';
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://112.168.150.239:8299/api';
+client.defaults.baseURL = 'http://203.234.183.22:8299/api';
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
 
 client.interceptors.response.use(function (response) {
-    console.log(response.data)
-    const returnError = getErrorCase(response.data.status)
+  console.log(response.data)
+  const returnError = getErrorCase(response.data.status)
 
-    if(returnError){
-      return Promise.reject(returnError);
-    }else{
-      return response.data
-    }
+  if (returnError) {
+    return Promise.reject(returnError);
+  } else {
+    return response.data
+  }
 
-  }, function (error) {
-    console.error(error)
-   // alert('[ERROR] 요청을 처리 할 수 없습니다.')
-    return Promise.reject(error);
+}, function (error) {
+  console.error(error)
+  // alert('[ERROR] 요청을 처리 할 수 없습니다.')
+  return Promise.reject(error);
 
 });
 
 const getErrorCase = (code) => {
   console.log(code)
-  switch(code){
+  switch (code) {
     case 2000:
-        // alert('[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다')
+      // alert('[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다')
       return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
     case 3000:
       return '[조회 불가] 해당 ID를 지닌 데이터가 없습니다';

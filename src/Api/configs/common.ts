@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {getToken} from "../../Common/tokenFunctions";
-import {TOKEN_NAME} from "../../Common/configset";
+import { getToken } from "../../Common/tokenFunctions";
+import { TOKEN_NAME } from "../../Common/configset";
 
 /**
  *
@@ -10,32 +10,32 @@ import {TOKEN_NAME} from "../../Common/configset";
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://112.168.150.239:8299';
+client.defaults.baseURL = 'http://203.234.183.22:8299';
 
 client.interceptors.response.use(function (response) {
 
 
-    console.log(response.data.status)
-    const returnError = getErrorCase(response.data.status)
+  console.log(response.data.status)
+  const returnError = getErrorCase(response.data.status)
 
-    if(returnError){
-      //alert(returnError)
-      return Promise.reject();
-    }else{
-      return response.data
-    }
-
+  if (returnError) {
+    //alert(returnError)
+    return Promise.reject();
+  } else {
     return response.data
+  }
 
-  }, function (error) {
-    console.error(error)
-    alert('[SERVER ERROR] 서버 사용 불가');
-    return Promise.reject(error);
+  return response.data
+
+}, function (error) {
+  console.error(error)
+  alert('[SERVER ERROR] 서버 사용 불가');
+  return Promise.reject(error);
 
 });
 
 const getErrorCase = (code) => {
-  switch(code){
+  switch (code) {
 
     case 200:
       return false
