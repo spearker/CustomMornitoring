@@ -3,8 +3,8 @@ import Styled from "styled-components";
 import { Input } from 'semantic-ui-react'
 import { POINT_COLOR } from "../../Common/configset";
 import { API_URLS, getBarcode, postBarcode } from "../../Api/mes/barcode";
-import ProductionPickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
-import BasicBarcodePickerModal from "../../Components/Modal/MoldPickerModal";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import Old_BasicBarcodePickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
 import ListHeader from "../../Components/Text/ListHeader";
 import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
 import NormalInput from "../../Components/Input/NormalInput";
@@ -63,7 +63,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
     const resultData = await getBarcode(tempUrl);
     console.log(resultData)
 
-    setBarcodeImg(resultData.barcode_photo)
+    setBarcodeImg("http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=" + resultData.barcode_photo)
   }, [ rules, barcodeImg ])
 
   const getLoad = useCallback(async () => {
@@ -74,14 +74,13 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
     setInputData('barcode_name', resultData.barcode_name)
     setSelectMachine({ name: resultData.detail_type, pk: resultData.item_pk })
     setRules(resultData.barcode_number.split(','))
-    setBarcodeImg(resultData.barcode_img_name)
+    setBarcodeImg(resultData.barcode_img_url)
     setReason(resultData.description)
 
   }, [ inputData, rules, barcodeImg, reason, type, selectMachine ])
 
   const postBarcodeUpdate = useCallback(async () => {
 
-<<<<<<< HEAD
     const data = {
       barcode_pk: match.params.barcode_pk,
       barcode_name: inputData.barcode_name,
@@ -89,21 +88,9 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
       item_pk: selectMachine?.pk,
       barcode_type: 'barcode',
       barcode_number: rules.toString(),
-      barcode_img_name: barcodeImg,
+      barcode_img_name: barcodeImg.split('=')[1],
       description: reason
     }
-=======
-        const data = {
-            barcode_pk: match.params.barcode_pk,
-            barcode_name: inputData.barcode_name,
-            item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
-            item_pk: selectMachine?.pk,
-            barcode_type: 'barcode',
-            barcode_number: rules.toString(),
-            barcode_img_name: barcodeImg.split('=')[1],
-            description: reason
-        }
->>>>>>> upstream/master
 
     const tempUrl = `${API_URLS["barcode"].update}`
     const resultData = await postBarcode(tempUrl, data)
@@ -119,7 +106,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
       item_pk: selectMachine?.pk,
       barcode_type: 'barcode',
       barcode_number: rules.toString(),
-      barcode_img_name: barcodeImg,
+      barcode_img_name: barcodeImg.split('=')[1],
       description: reason
     }
 
@@ -161,7 +148,6 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
             {
               rules.length > 0 && rules[0] !== null &&
               <>
-                {console.log(ruleLength)}
                 <BarcodeText><br/><span>현재 규칙</span><br/>{rules.map(v => {
                   if (v !== null) return v + `-`
                 }).join().replace(/,/g, '')}</BarcodeText>
@@ -214,7 +200,8 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
                     paddingLeft: 8,
                     fontSize: 14
                   }}/>
-                  <SearchButton style={{ flex: 15 }} onClick={() => getBarcodeImg()}>
+                  <SearchButton style={{ flex: 15 }}
+                                onClick={() => (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? getBarcodeImg() : null}>
                     <p>바코드 번호 생성</p>
                   </SearchButton>
                 </InputWrapBox>
@@ -231,8 +218,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
               {barcodeImg === '' ?
                   <p style={{ fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: "center" }}>바코드 이미지가 없습니다.</p>
                   :
-                  <img src={`http://112.168.150.239:8299/api/v1/barcode/previewImg?barcode_img_name=${barcodeImg}`}
-                       style={{ width: '100%', height: '100%', float: 'right' }}/>
+                  <img src={`${barcodeImg}`} style={{ width: '100%', height: '100%', float: 'right' }}/>
               }
             </div>
             <ListHeader title="선택 항목"/>
@@ -274,7 +260,7 @@ const ContainerMain = Styled.div`
     padding: 35px 20px 0 20px;
     .title {
         font-size: 18px;
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         color: #19b8df;
         text-align: left;
@@ -285,12 +271,12 @@ const ContainerMain = Styled.div`
         margin-top: 35px;
     }
     td{
-        font-famaily: NotoSansCJKkr;
+        font-family: NotoSansCJKkr;
         font-weight: bold;
         font-size: 15px;
         input{
             padding-left: 8px;
-            font-famaily: NotoSansCJKkr;
+            font-family: NotoSansCJKkr;
             height: 28px;
             border: 0.5px solid #b3b3b3;
             width: calc( 100% - 8px );
@@ -333,7 +319,6 @@ const ButtonWrap = Styled.button`
 `
 
 const ProcessAddButton = Styled.button`
-
 `
 
 const InputText = Styled.p`
@@ -366,7 +351,6 @@ const BarcodeText = Styled.p`
     padding-top: 14px;
     color: #252525;
   }
-
 `
 
 
