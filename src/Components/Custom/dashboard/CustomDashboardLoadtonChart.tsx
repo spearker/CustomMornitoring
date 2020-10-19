@@ -5,6 +5,9 @@ import InnerBodyContainer from "../../../Containers/InnerBodyContainer";
 import Styled from "styled-components";
 import CustomLoadTon from "../loadton/CustomLoadTonCard";
 import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
+import CustomMainMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart";
+import CustomSlideMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart";
+import getYoudongDashboard from "../../../Api/custom/getYoudongDashboard";
 
 const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
   const [ list, setList ] = useState<IPressLoadTonMonitoring>(); //['공장 모니터링' , '기계별 모니터링']
@@ -13,20 +16,28 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
   const [ facotories, setFactories ] = useState<Factory[]>([]);
   const [ isFirstLoad, setIsFirstLoad ] = useState<boolean>(false);
 
+
   useEffect(() => {
     const documentEvent: any = document
     documentEvent.body.style.zoom = .7;
-
     getFactoryData()
     getPressMonitoring()
     setIsFirstLoad(true)
   }, [])
 
 
+  const getYoudongCustomDashboardData = async () => {
+    const response = await getYoudongDashboard(1)
+
+    console.log('getYoudongCustomDashboardData', response)
+  }
+
+
   useEffect(() => {
     if (selectFactory.pk) {
       const interval = setInterval(() => {
         getData();
+        getYoudongCustomDashboardData()
         getPressMonitoring()
       }, 3000)
       return () => {
@@ -84,7 +95,8 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-            <TitleText style={{ fontSize: 32 }}>{list && list.machines[0]?.machine_name}</TitleText>
+            <TitleText
+                style={{ fontSize: 32 }}>{list && list.machines[0]?.machine_name + `(${list.machines[0]?.limited_ton})`}</TitleText>
             {/*<TitleText style={{ fontSize: 20 }}>{Number(propData?.limited_ton)}ton</TitleText>*/}
           </div>
         </div>
@@ -94,10 +106,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
   const standardInfo = () => {
     return (
         <div style={{
-          width: "15%",
-          position: 'absolute',
-          top: 100,
-          right: 130,
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
         }}>
@@ -114,6 +123,19 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
             <TitleText
                 style={{ fontSize: 58 }}>{list && list.machines[0].total_maxTon ? Number(list.machines[0].total_maxTon) + 't' : '0'}</TitleText>
 
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '0 auto',
+            width: '80%',
+            marginBottom: 50,
+            opacity: .9
+          }}>
+            <p style={{ textAlign: 'left', marginLeft: 20, fontSize: 32, fontWeight: 'bold' }}>일률</p>
+            <TitleText>3492 kgf.m</TitleText>
           </div>
           <div style={{
             display: 'flex',
@@ -168,11 +190,35 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
           {
             selectFactory.pk !== ''
             && <ItemBox>
-              <CustomLoadTon color={0} propData={list ? list.machines[0] : undefined}
-                             styles={{ width: '100%', height: '50%' }}/>
-              <div style={{ width: '98%', marginLeft: 20 }}>
-                <div style={{ width: '100%' }}>
+              <div style={{ display: 'flex' }}>
+                <div style={{
+                  width: '15%',
+                  border: '1px solid rgba(255, 255, 255, .3)',
+                  borderRadius: 8,
+                  paddingTop: 50,
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', height: 300, marginBottom: 40 }}>
+                    <CustomMainMotorAngulargaugeChart/>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', height: 300, }}>
+                    <CustomSlideMotorAngulargaugeChart/>
+                  </div>
+                </div>
+                <div style={{ width: '68%' }}>
+                  <CustomLoadTon color={0} propData={list ? list.machines[0] : undefined}
+                                 styles={{ width: '100%', height: '50%' }}/>
+                </div>
+                <div style={{
+                  width: '15%',
+                  border: '1px solid rgba(255, 255, 255, .3)',
+                  borderRadius: 8,
+                  paddingTop: 50
+                }}>
                   {standardInfo()}
+                </div>
+              </div>
+              <div style={{ width: '98.3%' }}>
+                <div style={{ width: '100%' }}>
                   {
                     pressMonitoringList &&
                     <React.Fragment>
@@ -202,8 +248,9 @@ const CustomDashboardLoadtonChart: React.FunctionComponent = () => {
 }
 
 const ItemBox = Styled.div`
-    position: relative;
     width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
 `
 
 const TitleText = Styled.p`
