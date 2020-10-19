@@ -52,9 +52,10 @@ const ProcessRegisterContainer = () => {
   const [ selectMachine, setSelectMachine ] = useState<{ name?: string, pk?: string }[]>([])
   const [ selectMold, setSelectMold ] = useState<{ name?: string, pk?: string }[]>([])
 
-  const { name, description, processes } = processData
 
   const validationCheck = () => {
+    const { name, description, processes } = processData
+
     if (name === '') {
       return window.alert('공정명을 입력해주세요.')
     } else if (description === '') {
