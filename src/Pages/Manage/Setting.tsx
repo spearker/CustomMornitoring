@@ -1,22 +1,22 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB, TOKEN_NAME} from '../../Common/configset'
+import { BG_COLOR_SUB, TOKEN_NAME } from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import {getToken} from '../../Common/tokenFunctions';
+import { getToken } from '../../Common/tokenFunctions';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import 'react-dropdown/style.css'
-import {getRequest, postRequest} from '../../Common/requestFunctions';
+import { getRequest, postRequest } from '../../Common/requestFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {ROUTER_MENU_LIST} from '../../Common/routerset';
+import { ROUTER_MENU_LIST } from '../../Common/routerset';
 
 const CompanySetting = () => {
 
-  const [list, setList] = useState<string[]>([""]);
+  const [ list, setList ] = useState<string[]>([ "" ]);
 
   const index = {
-    email:'성명',
-    name:'이메일',
+    email: '성명',
+    name: '이메일',
   }
 
   /**
@@ -26,13 +26,13 @@ const CompanySetting = () => {
    * @param {string} e.target.value 인풋박스 입력값
    * @returns X
    */
-  const onChangeListName = useCallback((e, index)=>{
-        console.log(e.target.value)
-        const tempList = list.slice();
-        tempList[index] = e.target.value;
-        console.log(tempList)
-        setList(tempList);
-  },[list])
+  const onChangeListName = useCallback((e, index) => {
+    console.log(e.target.value)
+    const tempList = list.slice();
+    tempList[index] = e.target.value;
+    console.log(tempList)
+    setList(tempList);
+  }, [ list ])
 
   /**
    * onClickModify()
@@ -40,52 +40,52 @@ const CompanySetting = () => {
    * @param {'UP' | 'DOWN' | 'ADD' | 'DELETE'} action 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const onClickModify = useCallback((action: 'UP' | 'DOWN' | 'ADD' | 'DELETE', index:number)=> {
+  const onClickModify = useCallback((action: 'UP' | 'DOWN' | 'ADD' | 'DELETE', index: number) => {
     let tempList = list.slice();
     console.log('onclick modi - ' + index)
     console.log(tempList)
-    switch(action) {
-        case 'UP':
-            if(index !== 0){
-              console.log('onclick up - ' + index)
-              console.log(tempList)
-                tempList.splice(index-1, 0, tempList[index])
-                tempList.splice(index+1, 1)
-            }
-            setList(tempList);
-          // code block
-          break;
-        case 'DOWN':
-            console.log('down')
-            if(index !== tempList.length){
-                console.log('down')
-                tempList.splice(index+2, 0, tempList[index])
-                tempList.splice(index, 1)
-            }
+    switch (action) {
+      case 'UP':
+        if (index !== 0) {
+          console.log('onclick up - ' + index)
+          console.log(tempList)
+          tempList.splice(index - 1, 0, tempList[index])
+          tempList.splice(index + 1, 1)
+        }
+        setList(tempList);
+        // code block
+        break;
+      case 'DOWN':
+        console.log('down')
+        if (index !== tempList.length) {
+          console.log('down')
+          tempList.splice(index + 2, 0, tempList[index])
+          tempList.splice(index, 1)
+        }
 
-            setList(tempList);
-          // code block
-          break;
-        case 'ADD':
-            console.log('add')
-            tempList.push("");
-            setList(tempList);
-            break;
-        case 'DELETE':
-            if(tempList.length <= 1){
-                return;
-            }
-            console.log('delete')
-            tempList.splice(index, 1)
-            setList(tempList);
-          // code block
-          break;
-        default:
-          break;
-          // code block
-      }
+        setList(tempList);
+        // code block
+        break;
+      case 'ADD':
+        console.log('add')
+        tempList.push("");
+        setList(tempList);
+        break;
+      case 'DELETE':
+        if (tempList.length <= 1) {
+          return;
+        }
+        console.log('delete')
+        tempList.splice(index, 1)
+        setList(tempList);
+        // code block
+        break;
+      default:
+        break;
+        // code block
+    }
 
-  },[list])
+  }, [ list ])
 
   /**
    * getRankList()
@@ -93,26 +93,26 @@ const CompanySetting = () => {
    * @param {string} url 요청 주소
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const getRankList = useCallback(async()=> {
-    const results = await getRequest('http://112.168.150.239:8299/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
+  const getRankList = useCallback(async () => {
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/admin/appointment/list', getToken(TOKEN_NAME))
 
-    if(results === false){
-        //setList([""])
+    if (results === false) {
+      //setList([""])
       //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-          if(results.results.length > 0){
-           setList(results.results)
-          }else{
-            //setList([""])
-          }
-      }else if(results.status === 1001 || results.data.status === 1002){
+    } else {
+      if (results.status === 200) {
+        if (results.results.length > 0) {
+          setList(results.results)
+        } else {
+          //setList([""])
+        }
+      } else if (results.status === 1001 || results.data.status === 1002) {
         //TODO:  아이디 존재 확인
-      }else{
+      } else {
         //TODO:  기타 오류
       }
     }
-  },[list])
+  }, [ list ])
 
   /**
    * onClickSave()
@@ -120,56 +120,55 @@ const CompanySetting = () => {
    * @param {string[]} list 직급 배열
    * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
    */
-  const onClickSave = useCallback(async()=> {
-      if(list.indexOf('') !== -1){
-          //alert('직급을 빈칸 없이 입력해주세요.')
-          return
-      }
-      const data = {
-        appointments: list
-      }
-    const results = await postRequest('http://112.168.150.239:8299/api/v1/admin/appointment/update', data ,getToken(TOKEN_NAME))
+  const onClickSave = useCallback(async () => {
+    if (list.indexOf('') !== -1) {
+      //alert('직급을 빈칸 없이 입력해주세요.')
+      return
+    }
+    const data = {
+      appointments: list
+    }
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/admin/appointment/update', data, getToken(TOKEN_NAME))
 
-    if(results === false){
+    if (results === false) {
       //alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
-        //setList([""])
+      //setList([""])
       //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
+    } else {
+      if (results.status === 200) {
 
         //alert('저장되었습니다')
         getRankList()
-      }else{
+      } else {
         //alert('직급 업데이트에 실패하였습니다. 관리자에게 문의하세요.')
       }
     }
-  },[list])
+  }, [ list ])
 
 
-
-  useEffect(()=>{
+  useEffect(() => {
 
     //setList(dataSet.acceptList); //TODO: 테스트용. 지울것.
     getRankList();
 
-  },[])
+  }, [])
 
-  const onClickAccept = useCallback((id)=>{
+  const onClickAccept = useCallback((id) => {
 
     console.log('--select id : ' + id)
 
-  },[])
+  }, [])
 
   return (
       <DashboardWrapContainer index={1}>
-          <SubNavigation list={ROUTER_MENU_LIST[1]}/>
-          <InnerBodyContainer>
-            <div style={{position:'relative'}}>
-                <Header title={'인사 관리'}/>
+        <SubNavigation list={ROUTER_MENU_LIST[1]}/>
+        <InnerBodyContainer>
+          <div style={{ position: 'relative' }}>
+            <Header title={'인사 관리'}/>
 
-            </div>
+          </div>
 
-          </InnerBodyContainer>
+        </InnerBodyContainer>
       </DashboardWrapContainer>
 
   );

@@ -1,20 +1,20 @@
 // 기계 타입
-interface IMachine{
-    machine_name: string,
-    machine_label?: number,
-    machine_code?: string,
-    manufacturer?: string,
-    manufacturer_code?: string,
-    manufacturer_detail?: string,
-    pk: string,
-    status?: string,
-    is_registered?: boolean,
-    is_connect?: boolean,
-    machine_photo?: string,
+interface IMachine {
+  machine_name: string,
+  machine_label?: number,
+  machine_code?: string,
+  manufacturer?: string,
+  manufacturer_code?: string,
+  manufacturer_detail?: string,
+  pk: string,
+  status?: string,
+  is_registered?: boolean,
+  is_connect?: boolean,
+  machine_photo?: string,
 }
 
 // 공정 타입
-interface IProcess{
+interface IProcess {
   pk?: string,
   name?: string,
   material?: IMaterial,
@@ -23,8 +23,9 @@ interface IProcess{
   mold?: IMold,
   mold_name?: string,
 }
+
 // 공정 타입
-interface IBarcode{
+interface IBarcode {
   pk?: string,
   name?: string,
   code?: string,
@@ -32,8 +33,9 @@ interface IBarcode{
   photo?: string,
 
 }
+
 // 주변장치 타입
-interface ISubMachine{
+interface ISubMachine {
   device_name: string,
   device_label?: number,
   device_code: string,
@@ -47,7 +49,7 @@ interface ISubMachine{
 
 
 // 자재 타입
-interface IMaterial{
+interface IMaterial {
   pk: string,
   material_name: string,
   material_code?: string,
@@ -58,12 +60,13 @@ interface IMaterial{
 
 }
 
-interface IInfo{
+interface IInfo {
   title: string,
   value: string,
 }
+
 // 금형 타입
-interface IMold{
+interface IMold {
   manufacturer?: string,
   product_code?: string,
   product_spec?: string,
@@ -74,7 +77,7 @@ interface IMold{
 }
 
 //댓글
-interface IReply{
+interface IReply {
   pk: string,
   name: string,
   writer_pk: string,
@@ -84,24 +87,24 @@ interface IReply{
 }
 
 // 작업지시서
-interface ITask{
-    pk: string,
-   title:string,
-   status: number,
-   process: string[],
-   amount: number,
-   output_name: string,
-   worker: {
-     name: string,
-     appointment: string,
-     photo: string,
-   },
-   // comments: number,
+interface ITask {
+  pk: string,
+  title: string,
+  status: number,
+  process: string[],
+  amount: number,
+  output_name: string,
+  worker: {
+    name: string,
+    appointment: string,
+    photo: string,
+  },
+  // comments: number,
 
 }
 
 //장비 현황
-interface IStatus{
+interface IStatus {
   pk: string,
   group?: string,
   name: string,
@@ -111,23 +114,23 @@ interface IStatus{
   status: string,
   group?: string,
   attached_to?: string,
-  photo?:string,
+  photo?: string,
   is_connect: boolean,
 }
 
 //장비 현황
-interface IStatus2{
+interface IStatus2 {
   pk: string,
   status: string,
   type: press,
   name: string,
-  photo:string,
+  photo: string,
   is_connect: boolean,
 }
 
 
 // 직원 프로필 정보
-interface IMmember{
+interface IMmember {
   pk: string;
   email: string;
   name: string;
@@ -140,7 +143,7 @@ interface IMmember{
 }
 
 // 검색된 유저
-interface IMemberSearched{
+interface IMemberSearched {
   pk: string,
   name: string,
   appointment: string,
@@ -148,7 +151,7 @@ interface IMemberSearched{
 }
 
 // 생산품목
-interface IProduct{
+interface IProduct {
   pk: string,
   product_name: string,
   product_code: string,
@@ -157,77 +160,82 @@ interface IProduct{
   molds: string | array,
   stock?: number | string
 }
+
 // 팝업
-interface IPopupTypes{
-    type?: 'normal' | 'warning' | 'error' | 'notice',
-    contents?: string,
-    is_popup?: boolean,
-    mode?: string,
+interface IPopupTypes {
+  type?: 'normal' | 'warning' | 'error' | 'notice',
+  contents?: string,
+  is_popup?: boolean,
+  mode?: string,
 }
 
 //Axios 요청/응답 관련 타입
-interface IServerResponse  {
-    data: IServerData
-  }
-  interface IServerData {
-    status: number,
-    results?: any
+interface IServerResponse {
+  data: IServerData
+}
 
-  }
+interface IServerData {
+  status: number,
+  results?: any
 
-  //라인 머신 검색
-  interface IMachineLine {
-    pk: string,
-    name: string,
-    group: string,
-    status: string,
-    operation: boolean,
-    end_date: string
-  }
-  interface IMonitoringList {
-    pk: string,
-    file?: string,
-    running_time?: string,
-    error?: string,
-    line?:string | number,
-    ready_time?: string,
-    name: string,
-    code: string,
-    info_list: IInfoM[],
-    is_connect: boolean,
-    operation: number,
-    percent: string | number
-  }
-  // 부서
-interface ITeam{
+}
+
+//라인 머신 검색
+interface IMachineLine {
+  pk: string,
+  name: string,
+  group: string,
+  status: string,
+  operation: boolean,
+  end_date: string
+}
+
+interface IMonitoringList {
+  pk: string,
+  file?: string,
+  running_time?: string,
+  error?: string,
+  line?: string | number,
+  ready_time?: string,
+  name: string,
+  code: string,
+  info_list: IInfoM[],
+  is_connect: boolean,
+  operation: number,
+  percent: string | number
+}
+
+// 부서
+interface ITeam {
   pk: string,
   name: string,
   mother_pk?: string,
 
 }
 
-interface IMaintenance{
+interface IMaintenance {
   pk: string,
   name?: string,
   type: string,
   info_list?: IInfo[],
-  target?:IMaintenance
+  target?: IMaintenance
 }
 
-interface ISearchedList{
+interface ISearchedList {
   pk: string,
   name: string,
   type: string,
   code: string,
 }
 
-interface IAddress{
+interface IAddress {
   pk: string,
   name: string,
   address: string,
 }
+
 // 리드타임
-interface LeadTimeAnalysis{
+interface LeadTimeAnalysis {
   name: string,
   factoryInfo: string,
   material: string,
@@ -240,7 +248,7 @@ interface LeadTimeAnalysis{
   time: string[]
 }
 
-interface IPressMachineType{
+interface IPressMachineType {
   machine_img: string
   machine_name: string
   machine_ton: number
@@ -248,7 +256,7 @@ interface IPressMachineType{
   pk: string
 }
 
-interface IOverTonStatistics{
+interface IOverTonStatistics {
   pressPk: string,
   maxLoadton: string,
   minLoadton: string,
@@ -256,11 +264,11 @@ interface IOverTonStatistics{
   y_average: string[]
 }
 
-interface IPressReadyTimeAnalysis{
+interface IPressReadyTimeAnalysis {
   manufacturer_code: string
   machine_name: string
   machine_ton: string
-  analyze:{
+  analyze: {
     power_off: number
     power_off_time: string
     runtime: number | string
@@ -268,9 +276,9 @@ interface IPressReadyTimeAnalysis{
     downtime: {
       total: number
       total_time: string
-      error : number
-      error_time : string
-      qdc : number
+      error: number
+      error_time: string
+      qdc: number
       qdc_time: string
     }
   }
@@ -312,8 +320,8 @@ interface IPressLoadTonMonitoring {
   current_factory: number
 }
 
-interface IPressAbilityData{
-  pressPk:string,
+interface IPressAbilityData {
+  pressPk: string,
   pressName: string,
   excess_count?: string,
   x_degree: string[],
@@ -327,14 +335,14 @@ interface ChartData {
 }
 
 interface IPressOilSupplyData {
-  pressPk:string,
+  pressPk: string,
   pressName: string,
   insert_oil_time: ChartData
 }
 
 interface IPressReadyTimeStatisticsData {
-  press_pk:string,
-  press_name:string,
+  press_pk: string,
+  press_name: string,
   press_ton: number | "NaN",
   runtime: {
     operating_ratio: number | "NaN",
@@ -360,19 +368,19 @@ interface IPressElectricPowerData {
 }
 
 interface IPressLoadTonSatistics {
-  pressPk:string,
-  pressName:string,
-  pressCode:string,
+  pressPk: string,
+  pressName: string,
+  pressCode: string,
   max_ton: string,
   day_max_ton: string,
   day_min_ton: string,
-  yesterday_max_ton:string,
-  yesterday_min_ton:string,
+  yesterday_max_ton: string,
+  yesterday_min_ton: string,
   ton_data: string
 }
 
 interface IProductionAdd {
-  type: 0|1|2
+  type: 0 | 1 | 2
   manager: string,
   material: string,
   from: string,
@@ -387,7 +395,7 @@ interface IProductionAdd {
 interface IProcessRegister {
   type: number
   name: string
-  processes?: {
+  processes: {
     machine_pk: string
     mold_pk?: string
   }[]
@@ -400,7 +408,7 @@ interface ICustomerRegister {
   type: 0 | 1
   number: string
   photo: string
-  address: { postcode: string, roadAddress:string, detail: string}
+  address: { postcode: string, roadAddress: string, detail: string }
   telephone: string
   ceo_email: string
   fax: string
@@ -409,7 +417,7 @@ interface ICustomerRegister {
   manager_email: string
 }
 
-interface Factory{
+interface Factory {
   pk: string | number,
   name: string,
 }
