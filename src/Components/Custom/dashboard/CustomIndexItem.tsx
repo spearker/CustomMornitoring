@@ -15,17 +15,28 @@ const Container = Styled.div`
   flex-direction: row;
   justify-content: center;
   align-items:center;
-  width: 30%;
-  height: 30%;
-  border: 1px solid rgba(255, 255, 255, .3);
-  margin: 20px;
-  border-radius: 8px;
+  width: 160px;
+  height: 160px;
+  margin: 32px;
+  border-radius: 16px;
   cursor:pointer;
+  background-color: rgba(255, 255, 255, .26);
+  
+   &:hover {
+          background-image: linear-gradient(135deg, #00d1ff, #6821ff);
+      }
 `
 
 const Title = Styled.h2`
-  color: white;
-  fontSize: 28;
+  font-family: NanumGothic;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
 `
 
 const CustomIndexItem: React.FunctionComponent<Props> = ({ info, goToChartPage }) => {

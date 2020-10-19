@@ -34,6 +34,8 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
     ])
   }, [ propData ])
 
+  console.log('@@@@@@@@@@@@propData.capacity@@@@@', propData)
+
   const options = {
     series: propData ? datum : basicData,
     colors: [ colorList[color] ],
@@ -83,25 +85,26 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
       enabled: false
     },
     stroke: {
-      curve: 'straight',
+      curve: 'smooth',
       width: 1
     },
     markers: {
       size: 0
     },
     xaxis: {
-      show: false,
+      show: true,
+      position: 'bottom',
       rotateAlways: true,
       min: 120,
       max: 200,
       labels: {
-        show: false,
+        show: true,
         formatter: (value: number, _, index: number) => {
           return value
         }
       },
       type: 'numeric',
-      tickAmount: 360,
+      tickAmount: 10,
       axisBorder: {
         show: false
       }
@@ -109,6 +112,11 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
     yaxis: {
       show: true,
       opposite: true,
+      type: 'numeric',
+      tickAmount: propData ? Number(propData.capacity.length) / 10 : 10,
+      axisTicks: {
+        show: true
+      },
       min: 0,
       labels: {
         show: true,
@@ -126,7 +134,8 @@ const CustomLoadTon = ({ color, propData, styles }: IProps) => {
     },
     annotations: {
       yaxis: [ {
-        y: propData?.limited_ton,
+        // y: propData ? propData?.limited_ton : 0,
+        y: propData ? propData.limited_ton : 0,
         borderColor: '#ff0000',
         borderWidth: 2, //limit 값으로 변
         label: {
