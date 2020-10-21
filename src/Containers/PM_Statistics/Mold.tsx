@@ -137,15 +137,13 @@ const MoldContainer = () => {
                                         <p>타수 카운팅</p>
                                     </div>
                                     <div>
-                                        <MoldArrowContainer>
-                                            <img src={icCurrentValue}
-                                                 style={{marginLeft: detailList.percent >= 100 ? '98.8%' : detailList.percent - 1.2 + "%"}}>
+                                       <MoldArrowContainer>
+                                           <img src={icCurrentValue} style={{marginLeft: detailList.percent>=100 ? '98.8%' : detailList.percent-1.2+"%"}}>
 
                                             </img>
                                         </MoldArrowContainer>
                                         <MoldMaxBar>
-                                            <div
-                                                style={{width: detailList.percent >= 100 ? '100%' : detailList.percent + "%"}}>
+                                            <div style={{width: detailList.percent>=100 ? '100%' : detailList.percent+"%" }}>
 
                                             </div>
                                         </MoldMaxBar>
