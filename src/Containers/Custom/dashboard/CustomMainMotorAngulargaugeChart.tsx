@@ -5,26 +5,23 @@ const chartStyle = {
   width: 350,
 }
 
-const CustomMainMotorAngulargaugeChart: React.FunctionComponent = () => {
-  const [ percent, setPercent ] = React.useState(Number(Math.random().toFixed(1)));
+interface Props {
+  value: number | undefined
+}
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setPercent(Number(Math.random().toFixed(1)))
-    }, 10000)
-
-    return () => clearTimeout(interval)
-  }, [ percent ])
-
+const CustomMainMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ value }) => {
+  console.log('value :)', value && Math.floor(value))
   return (
       <div>
         <div style={{ marginBottom: 20 }}>
-          <p style={{ textAlign: 'center', fontSize: 38, fontWeight: 'bold' }}>메인 모터 부하량</p>
+          <p style={{ textAlign: 'center', fontSize: 54, fontWeight: 'bold' }}>메인 모터 부하량</p>
         </div>
         <GaugeChart
             id="mainMotor-chart"
             nrOfLevels={25}
-            percent={percent}
+            colors={[ 'rgba(255, 255, 255, .7)' ]}
+            percent={value ? Math.floor(value) / 100 : 0}
+            formatTextValue={(value) => value}
             needleColor={'#FFFFFF'}
             needleBaseColor={'#FFFFFF'}
             style={chartStyle}/>

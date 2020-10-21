@@ -1,21 +1,32 @@
 import axios from 'axios'
 import { getToken } from "../../Common/tokenFunctions";
 import { TOKEN_NAME } from "../../Common/configset";
+import { setToken } from "../../lib/tokenFunctions";
 
-const ENDPOINT = 'http://112.168.150.239:8299'
+const ENDPOINT = 'http://172.30.1.9:8299'
 
-export default async (id: string | number) => {
+export default async (id: string | number, init: boolean) => {
   try {
-    console.info("innnnnnnnnnnnnn")
-    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/press/${id}`, {
+    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/press/${id}?init=${init}`, {
       headers: {
         authorization: getToken(TOKEN_NAME)
       }
     })
 
-    console.info('response', response)
+    console.log('response', response.data)
+
+
+    if (response.data.status === 200) {
+      if (response.data.token) {
+        setToken(TOKEN_NAME, response.data.token)
+      }
+
+      return response.data.results
+    } else {
+      return null
+    }
 
   } catch (error) {
-    console.log('dashboard/press error to youdong', error)
+    console.log(`${ENDPOINT}/api/v1/dashboard/press/${id}?init=${init} API Error`, error)
   }
 }

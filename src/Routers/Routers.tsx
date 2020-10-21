@@ -155,6 +155,7 @@ import ErrorStatistics from "../Pages/PM_Statistics/ErrorStatistics";
 import ProcessRegister from "../Pages/Process/Register";
 import CustomLoadtonChartContainer from "../Containers/Custom/dashboard/CustomLoadtonChartContainer";
 import CustomDashboardIndex from "../Containers/Custom/dashboard/CustomDashboardIndex";
+import CustomPressErrorChart from "../Containers/Custom/dashboard/CustomPressErrorChart";
 
 const Routers = () => {
 
@@ -374,7 +375,7 @@ const Routers = () => {
           {/* 17.0 마이페이지 */}
           <Route exact path="/mypage" component={MyPage}/>
 
-          {/*슈퍼 어드민*/}
+          {/*슈퍼 어드민*/}v
           <Route exact path="/super/register" component={SuperRegister}/>
           <Route exact path="/super/list
                 " component={SuperList}/>
@@ -395,6 +396,7 @@ const Routers = () => {
 
 
           <Route exact path="/custom/dashboard" component={CustomDashboardIndex}/>
+          <Route exact path="/custom/error" component={CustomPressErrorChart}/>
           <Route exact path="/custom/dashboard/loadton/:press" component={CustomLoadtonChartContainer}/>
 
         </Switch>
