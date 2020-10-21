@@ -18,9 +18,9 @@ client.interceptors.response.use(function (response) {
     console.log(response.data)
     const returnError = getErrorCase(response.data.status)
 
-    if(returnError){
+    if (returnError) {
         return Promise.reject(returnError);
-    }else{
+    } else {
         return response.data
     }
 
@@ -33,7 +33,7 @@ client.interceptors.response.use(function (response) {
 
 const getErrorCase = (code) => {
     console.log(code)
-    switch(code){
+    switch (code) {
         case 2000:
             // alert('[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다')
             return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
