@@ -101,29 +101,29 @@ const MoldCreateRegisterContainer = ({match}:any) => {
 
         let state = false
         parts.map((v, i) => {
-            if(v.name!==''||v.standard.w!==0||v.standard.h!==0||v.standard.l!==0||v.steel_grade!==''){
+            if(v.name===''||v.standard.w===0||v.standard.h===0||v.standard.l===0||v.steel_grade===''){
                 state = true
             }
             v.material.map((value, index) => {
-                if(value.material_pk!=='' || value.usage!==''){
+                if(value.material_pk==='' || value.usage===''){
                     state = true
                 }
             })
         })
 
         components.map((v, i) => {
-          if(v.material_pk!=='' || v.usage!=='')  {
+          if(v.material_pk==='' || v.usage==='')  {
               state = true
           }
         })
 
         drawing.map((v) => {
-            if(v!==""){
+            if(v===""){
                 state = true
             }
         })
 
-        if(!moldData?.pk || !selectDate || !state){
+        if(!moldData?.pk || !selectDate || state){
             alert('모든 칸을 입력해주세요.')
         }else{
             const resultData = await postMoldRegister(tempUrl, {
@@ -422,7 +422,7 @@ const MoldCreateRegisterContainer = ({match}:any) => {
                             {console.log(v)}
                             <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: "13%",textAlign: "left" ,display:'inline-block'}}>{`• 도면명`}</p>
                             <div style={{width: "87%",display:"flex",alignItems: "center"}}>
-                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} value={drawing[i]} />
+                                <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} value={drawing[i]} disabled />
                                 <UploadButton onClick={() => {}}>
                                     <label htmlFor={'file'}  style={{ textAlign:'center', fontSize:14, width:'100%', height: '100%', paddingBottom:2 , paddingTop:4, backgroundColor:POINT_COLOR, paddingLeft:12, paddingRight:12, cursor:'pointer'}}>파일 선택</label>
                                 </UploadButton>
