@@ -16,26 +16,26 @@ const QualityListContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ materialName: '품목(품목명)' });
-    const [subIndex, setSubIndex] = useState({ factory_name: '공정명' });
-    const [checkIndex, setCheckIndex] = useState({ checker: '검사자' });
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({material_name: '품목(품목명)'});
+    const [subIndex, setSubIndex] = useState({factory_name: '공정명'});
+    const [checkIndex, setCheckIndex] = useState({checker: '검사자'});
     const [checkDetail, setCheckDetail] = useState<any[]>([]);
-    const [countIndex, setCountIndex] = useState({ total_count: '총 완료 개수' });
+    const [countIndex, setCountIndex] = useState({total_count: '총 완료 개수'});
     const [countDetail, setCountDetail] = useState<any[]>([]);
-    const [workerIndex, setWorkerIndex] = useState({ worker: '작업자' });
+    const [workerIndex, setWorkerIndex] = useState({worker: '작업자'});
     const [workerDetail, setWorkerDetail] = useState<any[]>([]);
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
 
     const indexList = {
         quality: {
-            materialName: '품목(품목명)',
-            processName: '공정명',
+            material_name: '품목(품목명)',
+            process_name: '공정명',
             amount: '총 완료 개수',
             eligible: '적격 개수',
             ineligible: '부적격 개수',
@@ -83,10 +83,10 @@ const QualityListContainer = () => {
     ]
 
     const onClick = useCallback((obj) => {
-        if(obj.statement === "검수 완료") {
-            history.push(`/quality/current/detail/${obj.requestPk}`)
+        if (obj.statement === "검수 완료") {
+            history.push(`/quality/current/detail/${obj.request_pk}`)
         } else {
-            history.push(`/quality/test/request/status/${obj.requestPk}`)
+            history.push(`/quality/test/request/status/${obj.request_pk}`)
         }
     }, []);
 
@@ -100,33 +100,33 @@ const QualityListContainer = () => {
     // },[option,searchValue])
 
 
-    const searchChange = useCallback(async (search)=>{
+    const searchChange = useCallback(async (search) => {
         setSearchValue(search)
 
-    },[searchValue])
+    }, [searchValue])
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['status'].search}?keyWord=${searchValue}&currentPage=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['status'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[searchValue, page])
+    }, [searchValue, page])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['status'].list}?currentPage=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['status'].list}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
-        let viewList:any[] = [];
+        let viewList: any[] = [];
 
         res.info_list.map(v => viewList.push(
             {
-                requestPk: v.requestPk,
-                materialName: v.materialName !== undefined ? v.materialName : "-",
-                processName: v.processName !== undefined ? v.processName : "-",
+                request_pk: v.request_pk,
+                material_name: v.material_name !== undefined ? v.material_name : "-",
+                process_name: v.process_name !== undefined ? v.process_name : "-",
                 amount: v.amount !== undefined ? v.amount : 0,
                 eligible: v.eligible !== undefined ? v.eligible : 0,
                 ineligible: v.ineligible !== undefined ? v.ineligible : 0,
@@ -135,20 +135,20 @@ const QualityListContainer = () => {
             }
         ))
 
-        setList(viewList.filter((f: any) => f.materialName !== undefined))
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setList(viewList.filter((f: any) => f.material_name !== undefined))
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[list,page])
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["quality"])
         // setList(dummy)
-    },[])
+    }, [])
 
     return (
         <div>
@@ -160,21 +160,25 @@ const QualityListContainer = () => {
                 noChildren={true}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}>
                 {
                     selectPk !== null ?
                         <LineTable title={'제품 품질 현황 자세히 보기 : 품목명 00 _ 공정명 00 '}>
-                            <QualityTableDropdown pk={'123'} clickValue={'123'} contentTitle={subIndex} contentList={detailList} widthList={['40%','45%','15%']}/>
-                            <QualityTableDropdown pk={'123'} clickValue={'123'} contentTitle={checkIndex} contentList={checkDetail} widthList={['10%','75%','15%']}>
-                                <div style={{marginTop: "70px",marginLeft: "10%", marginBottom: "50px"}}>
-                                    <QualityTableDropdown pk={'123'} contentTitle={countIndex} contentList={countDetail} widthList={['32%','30%','19%','16%']}>
+                            <QualityTableDropdown pk={'123'} clickValue={'123'} contentTitle={subIndex}
+                                                  contentList={detailList} widthList={['40%', '45%', '15%']}/>
+                            <QualityTableDropdown pk={'123'} clickValue={'123'} contentTitle={checkIndex}
+                                                  contentList={checkDetail} widthList={['10%', '75%', '15%']}>
+                                <div style={{marginTop: "70px", marginLeft: "10%", marginBottom: "50px"}}>
+                                    <QualityTableDropdown pk={'123'} contentTitle={countIndex} contentList={countDetail}
+                                                          widthList={['32%', '30%', '19%', '16%']}>
 
                                     </QualityTableDropdown>
                                 </div>
                             </QualityTableDropdown>
-                            <QualityTableDropdown pk={'123'} clickValue={'123'} contentTitle={workerIndex} contentList={workerDetail} widthList={['10%','75%','15%']}/>
+                            <QualityTableDropdown pk={'123'} clickValue={'123'} contentTitle={workerIndex}
+                                                  contentList={workerDetail} widthList={['10%', '75%', '15%']}/>
                         </LineTable>
                         :
                         null

@@ -11,13 +11,13 @@ const QualityTestComplete = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({  processName: "공정명" });
-    const [subIndex, setSubIndex] = useState({ worker: '작업자'})
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({process_name: "공정명"});
+    const [subIndex, setSubIndex] = useState({worker: '작업자'})
     const [filter, setFilter] = useState(-1)
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -26,10 +26,10 @@ const QualityTestComplete = () => {
 
     const indexList = {
         request: {
-            processName: "공정명",
-            machineName: "기계명",
-            materialName: "품목(품목명)",
-            requestTime: "요청 시간",
+            process_name: "공정명",
+            machine_name: "기계명",
+            material_name: "품목(품목명)",
+            request_time: "요청 시간",
             statement: "상태",
             whether: "적격 여부"
         }
@@ -50,7 +50,7 @@ const QualityTestComplete = () => {
             worker: '홍길동',
             total_count: '99,999',
             defective_count: '91',
-            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
+            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.', '요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.', '요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
         },
     ]
 
@@ -59,13 +59,13 @@ const QualityTestComplete = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
         },
     ]
 
@@ -73,31 +73,31 @@ const QualityTestComplete = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/manageStock/register')
+            Link: () => history.push('/manageStock/register')
         },
         {
             Name: '삭제',
         }
     ]
 
-    const searchChange = useCallback(async (search)=>{
+    const searchChange = useCallback(async (search) => {
         setSearchValue(search)
 
-    },[searchValue])
+    }, [searchValue])
 
     const searchOnClick = useCallback(async () => {
 
-        const tempUrl = `${API_URLS['response'].search}?keyWord=${searchValue}&currentPage=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['response'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[searchValue, page])
+    }, [searchValue, page])
 
     const onClick = useCallback((obj) => {
-        history.push(`/quality/test/detail/modify/${obj.responsePk}`)
+        history.push(`/quality/test/detail/modify/${obj.response_pk}`)
     }, []);
 
     // const getData = useCallback( async(pk)=>{
@@ -109,29 +109,29 @@ const QualityTestComplete = () => {
     //
     // },[detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['response'].list}?currentPage=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['response'].list}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[list,page])
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["request"])
         // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[])
+    }, [])
 
     return (
         <div>
@@ -143,7 +143,7 @@ const QualityTestComplete = () => {
                 noChildren={true}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}>
                 {

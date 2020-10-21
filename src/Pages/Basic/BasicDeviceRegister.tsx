@@ -102,7 +102,7 @@ const BasicDeviceRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://112.168.150.239:8299/api/v1/device/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://192.168.0.21:8299/api/v1/device/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -165,7 +165,7 @@ const BasicDeviceRegister = () => {
             capacity: paths[2]
         };
 
-        const res = await postRequest('http://112.168.150.239:8299/api/v1/device/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.21:8299/api/v1/device/update/', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -217,7 +217,7 @@ const BasicDeviceRegister = () => {
         };
 
 
-        const res = await postRequest('http://112.168.150.239:8299/api/v1/device/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://192.168.0.21:8299/api/v1/device/register', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -265,7 +265,7 @@ const BasicDeviceRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://112.168.150.239:8299/api/v1/factory/search?page=1&limit=15&'}
+                                searchUrl={'http://192.168.0.21:8299/api/v1/factory/search?page=1&limit=15&'}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -297,7 +297,7 @@ const BasicDeviceRegister = () => {
                             {/*<DocumentFormatInputList*/}
 
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://112.168.150.239:8299/api/v1/device/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://192.168.0.21:8299/api/v1/device/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 

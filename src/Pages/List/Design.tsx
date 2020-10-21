@@ -41,7 +41,7 @@ const DesignList = () => {
      */
     const getSearchList = useCallback(async (e) => {
         e.preventDefault();
-        const results = await getRequest('http://112.168.150.239:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://192.168.0.21:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -63,7 +63,7 @@ const DesignList = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest('http://112.168.150.239:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://192.168.0.21:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -86,7 +86,7 @@ const DesignList = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-        const results = await getRequest('http://112.168.150.239:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://192.168.0.21:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -113,7 +113,7 @@ const DesignList = () => {
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://112.168.150.239:8299/api/v1/mold/delete', {pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest('http://192.168.0.21:8299/api/v1/mold/delete', {pk: id}, getToken(TOKEN_NAME))
         const tg = id
         //console.log('--select id : ' + id)
         if (results === false) {

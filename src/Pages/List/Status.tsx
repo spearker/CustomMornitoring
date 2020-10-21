@@ -41,7 +41,7 @@ const StatusList = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
         //return;
-        const results = await getRequest('http://112.168.150.239:8299/api/v1/status/list/' + filter, getToken(TOKEN_NAME))
+        const results = await getRequest('http://192.168.0.21:8299/api/v1/status/list/' + filter, getToken(TOKEN_NAME))
 
         if (results === false) {
             //alert('8087 포트 : 데이터를 불러 올 수 없습니다.')
