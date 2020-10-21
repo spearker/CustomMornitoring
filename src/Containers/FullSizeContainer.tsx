@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME} from '../Common/configset'
+import { BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME } from '../Common/configset'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import { getToken } from '../Common/tokenFunctions';
 import { useUserDispatch, useUser } from '../Context/UserContext';
@@ -8,7 +8,7 @@ import { getRequest } from '../Common/requestFunctions';
 
 //대시보드를 감싸는 wrap 박스  (풀사이즈)
 
-const FullSizeContainer = ({children}: any) => {
+const FullSizeContainer = ({ children }: any) => {
 
   const dispatch = useUserDispatch();
   const User = useUser();
@@ -19,12 +19,12 @@ const FullSizeContainer = ({children}: any) => {
    */
   const loadUserInfo = async () => {
 
-    const results = await getRequest('http://203.234.183.22:8299/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest('http://112.168.150.239:8299/api/v1/user/load', getToken(TOKEN_NAME))
 
-    if(results === false){
+    if (results === false) {
       //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
+    } else {
+      if (results.status === 200) {
         dispatch({
           type: 'SET_USER',
           data: {
@@ -33,37 +33,37 @@ const FullSizeContainer = ({children}: any) => {
             is_admin: results.results.is_admin,
             appointment: results.results.appointment,
             name: results.results.name,
-            profile_img : results.results.profile_img,
-            is_login : true,
+            profile_img: results.results.profile_img,
+            is_login: true,
             company_name: results.results.company_name,
           }
         });
-      }else{
+      } else {
         //TODO : 지울것
         //alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
       }
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
     loadUserInfo();
 
-  },[loadUserInfo])
+  }, [ loadUserInfo ])
 
 
   return (
 
-    <DashboardWrapDiv >
-      <DashboardNavigation folding={true}/>
-      <div style={{width: '100%', marginBottom:88, textAlign:'center'}}>
-       <SearchBarWrapDiv>
-      </SearchBarWrapDiv>
-       <div style={{minWidth: 1100}}>
-        {children}
-       </div>
-      </div>
-    </DashboardWrapDiv>
+      <DashboardWrapDiv>
+        <DashboardNavigation folding={true}/>
+        <div style={{ width: '100%', marginBottom: 88, textAlign: 'center' }}>
+          <SearchBarWrapDiv>
+          </SearchBarWrapDiv>
+          <div style={{ minWidth: 1100 }}>
+            {children}
+          </div>
+        </div>
+      </DashboardWrapDiv>
 
 
   );

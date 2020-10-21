@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {BASE_URL, TOKEN_NAME} from '../../Common/configset'
+import React, { useCallback, useEffect, useState } from 'react';
+import { BASE_URL, TOKEN_NAME } from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
-import {getToken} from '../../Common/tokenFunctions';
+import { getToken } from '../../Common/tokenFunctions';
 import 'react-dropdown/style.css'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_MENU_LIST} from '../../Common/routerset';
+import { ROUTER_MENU_LIST } from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {getRequest, postRequest} from '../../Common/requestFunctions';
-import {useUser} from '../../Context/UserContext';
+import { getRequest, postRequest } from '../../Common/requestFunctions';
+import { useUser } from '../../Context/UserContext';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import TaskTable from '../../Components/Table/TaskTable';
 
@@ -17,37 +17,36 @@ import TaskTable from '../../Components/Table/TaskTable';
 const TaskList = () => {
 
   const User = useUser();
-  const [keyword, setKeyword] = useState<string>('');
-  const [option, setOption] = useState(0);
- const [openTarget, setOpenTarget] = useState<string>('');
- const [list, setList] = useState<ITask[]>([]);
- const [task, setTask]= useState<any>('');
- const [reply, setReply]= useState<string>('');
- const [replyList, setReplyList]= useState<IReply[]>([]);
+  const [ keyword, setKeyword ] = useState<string>('');
+  const [ option, setOption ] = useState(0);
+  const [ openTarget, setOpenTarget ] = useState<string>('');
+  const [ list, setList ] = useState<ITask[]>([]);
+  const [ task, setTask ] = useState<any>('');
+  const [ reply, setReply ] = useState<string>('');
+  const [ replyList, setReplyList ] = useState<IReply[]>([]);
 
- const tabList = [
-   "기계", "라인"
- ]
- const [tab, setTab] = useState<string>(tabList[0]);
+  const tabList = [
+    "기계", "라인"
+  ]
+  const [ tab, setTab ] = useState<string>(tabList[0]);
 
- const optionList = [
-  "등록순", "이름순", "시작시간 순", "마감시간 순",
-]
-const indexList = {
-  status: '상태',
-  title:'이름',
-  output_name: '생산품',
-  amount: '목표생산량',
-  process: '공정',
-  worker: '등록자',
-  comments: '댓글'
- }
- useEffect(()=>{
+  const optionList = [
+    "등록순", "이름순", "시작시간 순", "마감시간 순",
+  ]
+  const indexList = {
+    status: '상태',
+    title: '이름',
+    output_name: '생산품',
+    amount: '목표생산량',
+    process: '공정',
+    worker: '등록자',
+    comments: '댓글'
+  }
+  useEffect(() => {
 
-  getData()
-  //setList(dataSet.taskList)
-  },[])
-
+    getData()
+    //setList(dataSet.taskList)
+  }, [])
 
 
   /**
@@ -56,78 +55,78 @@ const indexList = {
    * @param {string} filter 필터 값
    * @returns X
    */
-  const onClickFilter = useCallback(async(filter:number)=>{
+  const onClickFilter = useCallback(async (filter: number) => {
     setOption(filter)
-   // //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
+    // //alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
     return;
-    const results = await getRequest(BASE_URL + '',getToken(TOKEN_NAME))
+    const results = await getRequest(BASE_URL + '', getToken(TOKEN_NAME))
 
-    if(results === false){
+    if (results === false) {
       //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
+    } else {
+      if (results.status === 200) {
 
-      }else if(results.status === 1001 || results.data.status === 1002){
+      } else if (results.status === 1001 || results.data.status === 1002) {
         //TODO:  아이디 존재 확인
-      }else{
+      } else {
         //TODO:  기타 오류
       }
     }
-  },[option])
+  }, [ option ])
 
 
- /**
+  /**
    * onClickTaskStatus()
    * 작업 내역의 상태 변경
    * @param {string} pk 작업지시서 pk
    * @param {string} value 상태값
    * @returns X
    */
-  const onClickTaskStatus = useCallback(async(pk: string, value:string)=>{
+  const onClickTaskStatus = useCallback(async (pk: string, value: string) => {
     ////alert(`선택 테스트 : 작업지시서 pk: ${pk} - status : ${value}` )
     //return;
     const data = {
       pk: pk,
       status: value
     }
-    const results = await postRequest('http://203.234.183.22:8299/api/v1/task/status', data,getToken(TOKEN_NAME))
+    const results = await postRequest('http://112.168.150.239:8299/api/v1/task/status', data, getToken(TOKEN_NAME))
 
-    if(results === false){
+    if (results === false) {
       //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
-    }else{
-      if(results.status === 200){
+    } else {
+      if (results.status === 200) {
         //alert('성공적으로 변경되었습니다.')
         getData();
 
 
-      }else{
+      } else {
         //alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')
       }
     }
-  },[])
+  }, [])
 
 
- /**
+  /**
    * getSearchList()
    * 목록 검색
    * @param {string} url
    * @returns X
    */
-  const getSearchList = useCallback(async (e)=>{
+  const getSearchList = useCallback(async (e) => {
     e.preventDefault();
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/task/list/0', getToken(TOKEN_NAME))
+    const res = await getRequest('http://112.168.150.239:8299/api/v1/task/list/0', getToken(TOKEN_NAME))
 
-    if(res === false){
-     ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-    }else{
-      if(res.status === 200){
+    if (res === false) {
+      ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+    } else {
+      if (res.status === 200) {
         setList(res.results)
         setKeyword('')
-      }else{
-       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
+      } else {
+        ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  },[list, option, keyword, ])
+  }, [ list, option, keyword, ])
 
   /**
    * getData()
@@ -136,52 +135,49 @@ const indexList = {
    * @param {string} pk 기계 pk
    * @returns X
    */
-  const getData = useCallback(async()=>{
+  const getData = useCallback(async () => {
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/task/list/0', getToken(TOKEN_NAME))
+    const res = await getRequest('http://112.168.150.239:8299/api/v1/task/list/0', getToken(TOKEN_NAME))
 
 
-
-    if(res === false){
+    if (res === false) {
       //TODO: 에러 처리
-    }else{
-      if(res.status === 200){
-         const data = res.results;
-         setList(data)
+    } else {
+      if (res.status === 200) {
+        const data = res.results;
+        setList(data)
 
-      }else{
+      } else {
         //TODO:  기타 오류
       }
     }
-  },[list , keyword, option])
-
-
+  }, [ list, keyword, option ])
 
 
   return (
-    <DashboardWrapContainer index={7}>
-    <SubNavigation list={ROUTER_MENU_LIST[7]}/>
-    <InnerBodyContainer>
-    <div style={{position:'relative', width:'100%'}}>
-        <Header title={`작업지시서 관리 (${list.length})`}/>
-        <div style={{position:'absolute',display:'inline-block',top:0, right:0, zIndex:4}}>
-          <SmallButtonLink name="+ 등록하기" link="/task/register"/>
-          <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
-        </div>
-      </div>
+      <DashboardWrapContainer index={7}>
+        <SubNavigation list={ROUTER_MENU_LIST[7]}/>
+        <InnerBodyContainer>
+          <div style={{ position: 'relative', width: '100%' }}>
+            <Header title={`작업지시서 관리 (${list.length})`}/>
+            <div style={{ position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4 }}>
+              <SmallButtonLink name="+ 등록하기" link="/task/register"/>
+              <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
+            </div>
+          </div>
 
 
-         {/* 작업내역  */}
-         <div style={{marginTop:5}}>
+          {/* 작업내역  */}
+          <div style={{ marginTop: 5 }}>
 
-              <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={list} onClickEvent={onClickTaskStatus}/>
+            <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기' contents={list}
+                       onClickEvent={onClickTaskStatus}/>
           </div>
         </InnerBodyContainer>
       </DashboardWrapContainer>
 
   );
 }
-
 
 
 export default TaskList;
