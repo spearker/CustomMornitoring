@@ -1,6 +1,7 @@
 import React from "react";
 import Styled from "styled-components";
 import NumberPagenation from "../Pagenation/NumberPagenation";
+import Pagination from '@material-ui/lab/Pagination';
 
 interface Props {
     title?: string,
@@ -9,23 +10,23 @@ interface Props {
     contentTitle?: object
     checkBox?: boolean
     contentList?: any[]
-    objectLine? : boolean
+    objectLine?: boolean
     children?: any
-    currentPage?:number
+    currentPage?: number
     totalPage?: number
     pageOnClickEvent?: any
 }
 
-const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allCheckbox,contentTitle,checkBox,contentList,objectLine,currentPage,totalPage,pageOnClickEvent,children}:Props) => {
-    return(
+const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, allCheckbox, contentTitle, checkBox, contentList, objectLine, currentPage, totalPage, pageOnClickEvent, children}: Props) => {
+    return (
         <ClickBar>
             <ClickTitle>
                 {title}
                 {
-                    titleOnClickEvent && titleOnClickEvent.map((bv,bi)=>{
-                        return(
+                    titleOnClickEvent && titleOnClickEvent.map((bv, bi) => {
+                        return (
                             <div>
-                                <TitleButtonBox onClick={bv.Link} style={{width: bv.Width}} >{bv.Name}</TitleButtonBox>
+                                <TitleButtonBox onClick={bv.Link} style={{width: bv.Width}}>{bv.Name}</TitleButtonBox>
                             </div>
                         )
                     })
@@ -34,15 +35,15 @@ const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allC
             <ContentTitle>
                 {
                     allCheckbox !== undefined || false ?
-                        <div style={{paddingRight:10, paddingLeft: 10, paddingTop:5}}>
-                            <input type="checkbox" id='all' onClick={(e) => true} />
+                        <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                            <input type="checkbox" id='all' onClick={(e) => true}/>
                             <label htmlFor='all' style={{backgroundColor: "white"}}></label>
                         </div>
                         :
                         (
                             checkBox !== undefined || false ?
-                                <div style={{paddingRight:10, paddingLeft: 10}}>
-                                    <p> </p>
+                                <div style={{paddingRight: 10, paddingLeft: 10}}>
+                                    <p></p>
                                 </div>
                                 :
                                 null
@@ -59,65 +60,65 @@ const LineTable: React.FunctionComponent<Props> = ({title,titleOnClickEvent,allC
                 }
             </ContentTitle>
             <div>
-                {children == undefined  || children === null ? <></> : children }
+                {children == undefined || children === null ? <></> : children}
             </div>
             {contentList !== undefined && contentList.length === 0
                 ? (<Content><p style={{width: '100%', textAlign: 'center'}}>조회 가능한 데이터가 없습니다.</p></Content>)
-                : contentList&&contentList.map((v, i) => {
-                        return (
-                            <>
-                            <Content key={i} >
-                                {
-                                    checkBox !== undefined || false ?
-                                        <div style={{paddingRight:10, paddingLeft: 10, paddingTop: 5}}>
-                                            <input type="checkbox" id={`check-${i}-${v}`} onClick={(e) => true} />
-                                            <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
-                                        </div>
-                                        :
-                                        null
-                                }
-                                {contentTitle !== undefined ?
-                                    Object.keys(contentTitle).map((mv, mi) => {
-                                        return (
-                                            v[mv] !== null && v[mv] !== undefined ?
-                                                <p key={mv} className="p-limits">
-                                                    {
-                                                        typeof v[mv] === 'object' ?
-                                                            Object.keys(v[mv]).map(m => {
-                                                                return(
-                                                                    <div>
-                                                                        {v[mv][m]}
-                                                                    </div>
-                                                                )
-                                                            })
-                                                            :
-                                                            v[mv]
-                                                    }
-                                                </p>
-                                                :
-                                                null
-                                        )
-                                    }) :
-                                    null
-                                }
-
-                            </Content>
-                                {objectLine !== undefined || false ?
-                                    contentList.length !== i+1 ?
-                                        <Line/>
-                                        :
-                                        null
+                : contentList && contentList.map((v, i) => {
+                return (
+                    <>
+                        <Content key={i}>
+                            {
+                                checkBox !== undefined || false ?
+                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                        <input type="checkbox" id={`check-${i}-${v}`} onClick={(e) => true}/>
+                                        <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
+                                    </div>
                                     :
                                     null
-                                }
-                        </>
-                        )
-                    })
+                            }
+                            {contentTitle !== undefined ?
+                                Object.keys(contentTitle).map((mv, mi) => {
+                                    return (
+                                        v[mv] !== null && v[mv] !== undefined ?
+                                            <p key={mv} className="p-limits">
+                                                {
+                                                    typeof v[mv] === 'object' ?
+                                                        Object.keys(v[mv]).map(m => {
+                                                            return (
+                                                                <div>
+                                                                    {v[mv][m]}
+                                                                </div>
+                                                            )
+                                                        })
+                                                        :
+                                                        v[mv]
+                                                }
+                                            </p>
+                                            :
+                                            null
+                                    )
+                                }) :
+                                null
+                            }
+
+                        </Content>
+                        {objectLine !== undefined || false ?
+                            contentList.length !== i + 1 ?
+                                <Line/>
+                                :
+                                null
+                            :
+                            null
+                        }
+                    </>
+                )
+            })
 
             }
             {currentPage && totalPage ?
-                <NumberPagenation stock={totalPage ? totalPage : 0} selected={currentPage}
-                                  onClickEvent={pageOnClickEvent}/>
+                <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
+                            style={{marginLeft: "30%", marginTop: "1%"}} boundaryCount={1} classes={{root: "white"}}/>
                 :
                 null
             }

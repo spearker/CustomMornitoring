@@ -72,7 +72,7 @@ const Old_ProductRegister = () => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/barcode/product/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://222.100.89.245:8299/api/v1/barcode/product/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -129,7 +129,7 @@ const Old_ProductRegister = () => {
             photo: paths[0]
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://222.100.89.245:8299/api/v1/barcode/product/register', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -188,7 +188,7 @@ const Old_ProductRegister = () => {
             photo: paths[0]
 
         }
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/product/update', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://222.100.89.245:8299/api/v1/barcode/product/update', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -233,7 +233,7 @@ const Old_ProductRegister = () => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`http://203.234.183.22:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
+        const res = await getRequest(`http://222.100.89.245:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리

@@ -114,7 +114,7 @@ const BasicMoldRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://222.100.89.245:8299/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -134,6 +134,7 @@ const BasicMoldRegister = () => {
                 setMadeNo(data.manufacturer_code);
                 setType(Number(data.mold_type));
                 setInfoList(data.info_list);
+                setProper(data.proper_tons)
                 setMold_spec_w(data.mold_spec_W);
                 setMold_spec_l(data.mold_spec_L);
                 setMold_spec_t(data.mold_spec_T);
@@ -157,6 +158,9 @@ const BasicMoldRegister = () => {
         if (name === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (type === 0) {
+            alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -181,10 +185,10 @@ const BasicMoldRegister = () => {
         } else if (mold_spec_t === "") {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (input_material.pk === "") {
+        } else if (input_material.pk === "" || input_material.pk === undefined) {
             alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (output_material.pk === "") {
+        } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -213,7 +217,7 @@ const BasicMoldRegister = () => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://222.100.89.245:8299/api/v1/mold/update', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -241,6 +245,9 @@ const BasicMoldRegister = () => {
         if (name === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (type === 0) {
+            alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -265,10 +272,10 @@ const BasicMoldRegister = () => {
         } else if (mold_spec_t === "") {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (input_material.pk === "") {
+        } else if (input_material.pk === "" || input_material.pk === undefined) {
             alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (output_material.pk === "") {
+        } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -296,7 +303,7 @@ const BasicMoldRegister = () => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/mold/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://222.100.89.245:8299/api/v1/mold/register', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -352,7 +359,7 @@ const BasicMoldRegister = () => {
                                 }
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?&'}
+                                searchUrl={'http://222.100.89.245:8299/api/v1/factory/search?&'}
                             />
                             <NormalInput title={'금형 치수 L'} value={mold_spec_l} onChangeEvent={setMold_spec_l}
                                          description={'치수를 입력하세요.'}/>
@@ -399,7 +406,7 @@ const BasicMoldRegister = () => {
                             {/*<DocumentFormatInputList*/}
 
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/mold/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://222.100.89.245:8299/api/v1/mold/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 

@@ -11,7 +11,7 @@ interface IProps{
 }
 const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
 
-  console.log('props', stock, selected)
+    console.log('props', stock, selected)
     const dotList: any[] = [];
     const DotOn = Styled.p`
     width:10;

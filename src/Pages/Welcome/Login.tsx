@@ -33,7 +33,7 @@ const Login = () => {
             email: email,
             password: password,
         }
-        const results = await postRequestWithNoToken('http://203.234.183.22:8299/user/login', data)
+        const results = await postRequestWithNoToken('http://222.100.89.245:8299/user/login', data)
 
         if (results === false) {
             //TODO: 에러 처리
