@@ -162,6 +162,9 @@ const BasicMachineRegister = () => {
         } else if (factory[0]?.pk === "" || factory[0]?.pk === undefined) {
             alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
             return;
+        } else if (tons < 0) {
+            alert("정상 톤 값이 음수 입니다.")
+            return;
         }
 
         const data = {
