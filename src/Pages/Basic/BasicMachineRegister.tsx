@@ -112,7 +112,7 @@ const BasicMachineRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://192.168.0.21:8299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://112.168.150.239:8299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -182,7 +182,7 @@ const BasicMachineRegister = () => {
 
         };
 
-        const res = await postRequest('http://192.168.0.21:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -221,6 +221,9 @@ const BasicMachineRegister = () => {
         } else if (factory[0]?.pk === "" || factory[0]?.pk === undefined) {
             alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
             return;
+        } else if (tons < 0) {
+            alert("정상 톤 값이 음수 입니다.")
+            return;
         }
 
         const data = {
@@ -240,7 +243,7 @@ const BasicMachineRegister = () => {
         };
 
 
-        const res = await postRequest('http://192.168.0.21:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -293,7 +296,7 @@ const BasicMachineRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://192.168.0.21:8299/api/v1/factory/search?'}
+                                searchUrl={'http://112.168.150.239:8299/api/v1/factory/search?'}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -331,7 +334,7 @@ const BasicMachineRegister = () => {
                             <br/>
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://192.168.0.21:8299/api/v1/machine/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://112.168.150.239:8299/api/v1/machine/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 
