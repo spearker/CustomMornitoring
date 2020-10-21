@@ -146,10 +146,24 @@ const BasicMachineRegister = () => {
 
     const onsubmitFormUpdate = useCallback(async (e) => {
         e.preventDefault();
+
         if (name === "") {
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+            alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (type === 0) {
+            alert("기계 종류는 필수 항목입니다. 반드시 입력해주세요.")
+            return
+        } else if (madeNo === "") {
+            alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (volt.toString() === "") {
+            alert("전압은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (factory[0]?.pk === "" || factory[0]?.pk === undefined) {
+            alert("공장은 필수 항목입니다. 반드시 선택해주세요.")
             return;
         }
+
         const data = {
             pk: getParameter('pk'),
             machine_name: name,
@@ -195,6 +209,9 @@ const BasicMachineRegister = () => {
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (type === 0) {
+            alert("기계 종류는 필수 항목입니다. 반드시 입력해주세요.")
+            return
         } else if (madeNo === "") {
             alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
