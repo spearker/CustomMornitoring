@@ -46,11 +46,16 @@ const MoldManageCreate = () => {
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS["manage"].register}`
+
+        if(moldData === undefined || moldData.pk === undefined || moldData.pk === ''){
+            alert('금형명을 입력해 주세요')
+            return
+        }
+
         const resultData = await postMoldRegister(tempUrl, {
             mold_pk: moldData?.pk,
             contents: reason
-        });
-
+        })
         if(resultData.status === 200){
             alert('성공적으로 등록되었습니다.')
             history.push('/mold/manage/list')
