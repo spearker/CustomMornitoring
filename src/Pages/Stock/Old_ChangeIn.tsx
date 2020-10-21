@@ -96,7 +96,7 @@ const StockChangeIn = () => {
 
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/in', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://112.168.150.239:8299/api/v1/stock/in', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -184,7 +184,7 @@ const StockChangeIn = () => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`http://203.234.183.22:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
+        const res = await getRequest(`http://112.168.150.239:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
