@@ -234,7 +234,11 @@ const BarcodeRegisterContainer = ({match}: Props) => {
                 <div style={{marginTop: 72, marginLeft: 330}}>
                     {isUpdate ?
                         <ButtonWrap onClick={async () => {
-                            await postBarcodeUpdate()
+                            try{
+                                await postBarcodeUpdate()
+                            }catch(error){
+                                alert('새로운 바코드 규칙을 변경해주시고 바코드 번호를 생성해주세요.')
+                            }
                         }}>
                             <div style={{width: 360, height: 46}}>
                                 <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>

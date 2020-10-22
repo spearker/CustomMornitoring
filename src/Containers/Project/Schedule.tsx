@@ -223,13 +223,13 @@ const ScheduleContainer = () => {
     })
 
     setPage({current: res.current_page, total: res.total_page})
-    setList(getprocesses)
+    setList([...getprocesses])
 
-  }, [list, page])
+  }, [list, page, deletePk])
 
   useEffect(() => {
     getList()
-  }, [page.current])
+  }, [page.current,deletePk])
 
   const getDistribute = useCallback(async () => {
     //TODO: 성공시
@@ -243,15 +243,27 @@ const ScheduleContainer = () => {
 
   const postDelete = useCallback(async () => {
     const tempUrl = `${API_URLS['production'].delete}`
+    console.log('@@삭제pk배열 : ',deletePk)
     const res = await postProjectDelete(tempUrl, deletePk)
     console.log(res)
-
-    getList()
+    
+    setDeletePk({...deletePk, pk:[]})
+    // getList()
   }, [deletePk])
+
+  useEffect(()=>{
+    console.log(deletePk)
+  },[deletePk.pk])
+
+  // const resetDeletePk = useCallback(()=>{
+  //   const tempDeletePk = {...deletePk,pk:[]}
+  //   console.log('@@ tempDeletePk : ',tempDeletePk)
+  //   setDeletePk(tempDeletePk)
+  // },[deletePk])
 
 
   useEffect(() => {
-    getList()
+    // getList()
     setIndex(indexList['schedule'])
     // setList(dummy)
     setTitleEventList(titleeventdummy)
