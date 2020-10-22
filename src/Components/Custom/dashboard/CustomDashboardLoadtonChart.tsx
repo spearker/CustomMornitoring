@@ -7,7 +7,6 @@ import CustomSlideMotorAngulargaugeChart from "../../../Containers/Custom/dashbo
 import getYoudongDashboard from "../../../Api/custom/getYoudongDashboard";
 import { YOUDONG_PRESS_CUSTOM_TYPE } from "../../../Common/@types/youdong";
 import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
-import CustomSPMMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomSPMMotorAngulargaugeChart";
 
 interface Props {
   id: string
@@ -15,19 +14,15 @@ interface Props {
 
 const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => {
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>();
-  const [ init, setInit ] = React.useState<boolean>(true);
 
   const getYoudongCustomDashboardData = async () => {
     if (id) {
       try {
+        const response = await getYoudongDashboard(id)
 
-        const response = await getYoudongDashboard(id, init)
-
-        if (init) {
-          setInit(false)
+        if (response !== null) {
+          setData(response)
         }
-
-        setData(response)
       } catch (error) {
         console.log('catched error', error)
       }
@@ -103,18 +98,20 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
         <div style={{
           position: 'absolute',
           top: '25%',
-          width: 800,
+          left: '20%',
+          width: 1000,
           display: 'flex',
           flexDirection: 'column',
         }}>
+          {standardInfItem('일량', data ? data.loadton_data.press_power + ' kgf.m' : '-', { opacity: 1 }, { fontSize: 84 })}
           {standardInfItem('Total', data ? data?.loadton_data.total_ton + ' t' : '-', { opacity: .9 }, { fontSize: 72 }, 'white')}
           {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + ' t' : '-', {}, { fontSize: 48 }, 'white')}
           {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + ' t' : '-', {}, { fontSize: 48 }, 'white')}
-          {standardInfItem('일량', data ? data.loadton_data.press_power + ' kgf.m' : '-', {}, { fontSize: 38 })}
         </div>
     )
   }
 
+  console.log('data?.press_data.error_code', data?.press_data.error_code)
 
   return (
       <React.Fragment>
@@ -141,7 +138,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                     <Title>에러코드</Title>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <SubTitle>{data ? data?.press_data.error_code.type : '-'}</SubTitle>
+                    <SubTitle>{data ? data.press_data.error_code.code === '0' ? '-' : data?.press_data.error_code.type : '-'}</SubTitle>
                   </div>
                 </div>
                 <div>
@@ -160,9 +157,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                 </div>
               </div>
               <div style={{
-                width: '72%',
-                // marginRight: 8,
-                // boxShadow: 'rgba(255, 255, 255, 0.27) 0px 1px 7px 1px',
+                width: '70%',
               }}>
                 <CustomLoadTon color={0} propData={data ? data.loadton_data : undefined}
                                styles={{ width: '100%', height: '50%' }}

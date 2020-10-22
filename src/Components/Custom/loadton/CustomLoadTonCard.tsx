@@ -44,6 +44,7 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
     chart: {
       type: 'area',
       offsetY: 30,
+      offsetX: 150,
       toolbar: {
         show: false,
       },
@@ -137,12 +138,10 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
 
   return (
       <div style={{
-        width: '98%',
-        display: 'flex',
-        justifyContent: 'center'
+        width: '100%',
       }}>
         <CharBox>
-          <Chart options={options} series={options.series} type="area" width={'75%'} height={'auto'}/>
+          <Chart options={options} series={options.series} type="area" width={'90%'} height={'auto'}/>
         </CharBox>
       </div>
   )
@@ -150,7 +149,6 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
 
 const CharBox = Styled.div`
     color: black !important;
-    margin-left: 20px;
     width: 100%;
 `
 

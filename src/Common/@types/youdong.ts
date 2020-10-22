@@ -17,7 +17,7 @@ export interface YOUDONG_PRESS_DATA_TYPE {
   slide_motor_current: number
   error_code: {
     type: string
-    code: number
+    code: string
   }
   main_motor_current: number,
   preset_count: string
