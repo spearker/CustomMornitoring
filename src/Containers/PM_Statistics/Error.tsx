@@ -8,7 +8,7 @@ import Styled from "styled-components";
 const ErrorContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
+    const [detailList, setDetailList] = useState<any[]>([]);
     const [option, setOption] = useState(0);
     const [keyword, setKeyword] = useState<string>('');
     const [index, setIndex] = useState({pressName: '기계명'});
@@ -20,9 +20,9 @@ const ErrorContainer = () => {
         current: 1,
     });
 
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMachine, setSelectMachine ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMachine, setSelectMachine] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
 
 
     const indexList = {
@@ -36,7 +36,7 @@ const ErrorContainer = () => {
 
     const detailTitle = {
         error: {
-            keycamType:'키캠 상태',
+            keycamType: '키캠 상태',
             loadton: '로드톤',
             slideHeight: '슬라이드 높이',
             pressErrorCode: '에러코드',
@@ -46,13 +46,13 @@ const ErrorContainer = () => {
     }
 
     const onClick = useCallback(machine => {
-        console.log(machine.pressPk,machine.pressName);
-        if(machine.pressPk === selectPk){
+        console.log(machine.pressPk, machine.pressName);
+        if (machine.pressPk === selectPk) {
             setSelectPk(null);
             setSelectMachine(null);
             setSelectValue(null);
             setDetailPage({...detailPage, current: 1})
-        }else{
+        } else {
             setSelectPk(machine.pressPk);
             setSelectMachine(machine.pressName);
             setSelectValue(machine)
@@ -62,41 +62,40 @@ const ErrorContainer = () => {
         }
 
 
-
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
+        const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=7`
         const res = await getErrorData(tempUrl)
 
         setDetailList(res.errorList)
 
-        setDetailPage({ current: res.current_page, total: res.total_page })
-    },[detailList])
+        setDetailPage({current: res.current_page, total: res.total_page})
+    }, [detailList, detailPage])
 
 
-    const getList = useCallback(async ()=>{ // useCallback
-        const tempUrl = `${API_URLS['error'].list}?page=${page.current}&limit=15`
+    const getList = useCallback(async () => { // useCallback
+        const tempUrl = `${API_URLS['error'].list}?page=${page.current}&limit=5`
         const res = await getErrorData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         setIndex(indexList['error'])
         setSubIndex(detailTitle['error'])
         getList()
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getData(selectPk)
-    },[detailPage.current])
+    }, [detailPage.current])
 
 
     return (
@@ -106,17 +105,17 @@ const ErrorContainer = () => {
             valueList={list}
             currentPage={page.current}
             totalPage={page.total}
-            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+            pageOnClickEvent={(event, i: number) => setPage({...page, current: i})}
             clickValue={selectValue}
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <LineTable title={selectMachine+' 상세 에러 로그'}
+                    <LineTable title={selectMachine + ' 상세 에러 로그'}
                                contentTitle={subIndex}
                                contentList={detailList}
                                currentPage={detailPage.current}
                                totalPage={detailPage.total}
-                               pageOnClickEvent={(i: number) => setDetailPage({...detailPage, current: i}) }>
+                               pageOnClickEvent={(event, i: number) => setDetailPage({...detailPage, current: i})}>
                         <Line/>
                     </LineTable>
                     :

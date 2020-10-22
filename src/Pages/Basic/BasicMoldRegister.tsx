@@ -134,6 +134,7 @@ const BasicMoldRegister = () => {
                 setMadeNo(data.manufacturer_code);
                 setType(Number(data.mold_type));
                 setInfoList(data.info_list);
+                setProper(data.proper_tons)
                 setMold_spec_w(data.mold_spec_W);
                 setMold_spec_l(data.mold_spec_L);
                 setMold_spec_t(data.mold_spec_T);
@@ -157,6 +158,9 @@ const BasicMoldRegister = () => {
         if (name === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (type === 0) {
+            alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -181,10 +185,10 @@ const BasicMoldRegister = () => {
         } else if (mold_spec_t === "") {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (input_material.pk === "") {
+        } else if (input_material.pk === "" || input_material.pk === undefined) {
             alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (output_material.pk === "") {
+        } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -241,6 +245,9 @@ const BasicMoldRegister = () => {
         if (name === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (type === 0) {
+            alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
+            return
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -265,10 +272,10 @@ const BasicMoldRegister = () => {
         } else if (mold_spec_t === "") {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (input_material.pk === "") {
+        } else if (input_material.pk === "" || input_material.pk === undefined) {
             alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (output_material.pk === "") {
+        } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }

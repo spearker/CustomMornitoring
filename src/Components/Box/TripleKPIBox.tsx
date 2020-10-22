@@ -14,9 +14,9 @@ interface Props {
 }
 
 
-const TripleKPIBox = ({title,yearCompare,yearPercent,dayCompare,dayPercent,monthCompare,monthPercent,quarterCompare,quarterPercent}:Props) => {
+const TripleKPIBox = ({title, yearCompare, yearPercent, dayCompare, dayPercent, monthCompare, monthPercent, quarterCompare, quarterPercent}: Props) => {
 
-    return(
+    return (
         <div>
             <KPIHeader>
                 <p>{title}</p>
@@ -25,7 +25,8 @@ const TripleKPIBox = ({title,yearCompare,yearPercent,dayCompare,dayPercent,month
                 <KPIYear>
                     <p>{yearCompare}</p>
                     <div>
-                        <span style={{color: yearPercent < 0 ? '#ff341a' : '#19b9df'}}>{yearPercent < 0 ? yearPercent : '+'+yearPercent}</span>
+                        <span
+                            style={{color: yearPercent < 0 ? '#ff341a' : '#19b9df'}}>{yearPercent < 0 ? yearPercent : '+' + yearPercent}</span>
                         <p style={{color: yearPercent < 0 ? '#ff341a' : '#19b9df'}}>%</p>
                     </div>
                 </KPIYear>
@@ -33,21 +34,24 @@ const TripleKPIBox = ({title,yearCompare,yearPercent,dayCompare,dayPercent,month
                     <KPIDay>
                         <p>{dayCompare}</p>
                         <div>
-                            <span style={{color: dayPercent < 0 ? '#ff341a' : '#19b9df'}}>{dayPercent < 0 ? dayPercent : '+'+dayPercent}</span>
+                            <span
+                                style={{color: dayPercent < 0 ? '#ff341a' : '#19b9df'}}>{dayPercent < 0 ? dayPercent : '+' + dayPercent}</span>
                             <p style={{color: dayPercent < 0 ? '#ff341a' : '#19b9df'}}>%</p>
                         </div>
                     </KPIDay>
                     <KPIMonth>
                         <p>{monthCompare}</p>
                         <div>
-                            <span style={{color: monthPercent < 0 ? '#ff341a' : '#19b9df'}}>{monthPercent < 0 ? monthPercent : '+'+monthPercent}</span>
+                            <span
+                                style={{color: monthPercent < 0 ? '#ff341a' : '#19b9df'}}>{monthPercent < 0 ? monthPercent : '+' + monthPercent}</span>
                             <p style={{color: monthPercent < 0 ? '#ff341a' : '#19b9df'}}>%</p>
                         </div>
                     </KPIMonth>
                     <KPIQuarter>
                         <p>{quarterCompare}</p>
                         <div>
-                            <span style={{color: quarterPercent < 0 ? '#ff341a' : '#19b9df'}}>{quarterPercent < 0 ? quarterPercent: '+'+quarterPercent }</span>
+                            <span
+                                style={{color: quarterPercent < 0 ? '#ff341a' : '#19b9df'}}>{quarterPercent < 0 ? quarterPercent : '+' + quarterPercent}</span>
                             <p style={{color: quarterPercent < 0 ? '#ff341a' : '#19b9df'}}>%</p>
                         </div>
                     </KPIQuarter>
@@ -104,7 +108,7 @@ const KPIYear = Styled.div`
     justify-content: flex-end;
     display: flex;
     flex-direction: row;
-    margin: 80px 32px 0 0;
+    margin: 150px 32px 0 0;
     span{
       font-family: NotoSansCJKkr;
       font-size: 128px;

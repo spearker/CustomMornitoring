@@ -54,7 +54,6 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
       const arrData = valueList.map((v, i) => {
         tmpArr.push(false)
       })
-
       setChecked(tmpArr)
     } else {
       return
@@ -62,239 +61,247 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
   }, [valueList])
 
 
-  return (
-    <div>
-      <Title>
-        <p className="p-bold" style={{fontSize: 20}}>{title}</p>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-          {dropDownOnClick ?
-            <div style={{alignItems: 'center'}}>
-              <BasicDropdown contents={dropDownContents} select={dropDownContents[dropDownOption]}
-                             onClickEvent={dropDownOnClick}/>
-            </div> :
-            null
-          }
-          {searchButtonOnClick ?
-            <div style={{width: '300px', display: 'flex', flexDirection: 'row', marginRight: 15}}>
-              <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}}
-                         onChange={(e) => searchBarChange(e.target.value)}/>
-              <SearchButton style={{flex: 10}} onClick={() => searchButtonOnClick()}>
-                <img src={IcSearchButton}/>
-              </SearchButton>
-            </div> :
-            null
-          }
-          {calendarOnClick ?
-            <div style={{marginRight: 15}}>
-              <CalendarDropdown type={'range'} selectRange={selectDate}
-                                onClickEvent={(start, end) => calendarOnClick(start, end)} unLimit={calendarState}/>
-            </div>
-            :
-            null
-          }
-          {
-            titleOnClickEvent && titleOnClickEvent.map((bv, bi) => {
-              return (
-                <div style={{marginRight: 15}}>
-                  <TitleButtonBox onClick={bv.Link} style={{width: bv.Width}}>{bv.Name}</TitleButtonBox>
+
+    return (
+        <div>
+            <Title>
+                <p className="p-bold" style={{fontSize: 20}}>{title}</p>
+                <div style={{display: "flex", flexDirection: "row"}}>
+                    {dropDownOnClick ?
+                        <div style={{alignItems: "center"}}>
+                            <BasicDropdown contents={dropDownContents} select={dropDownContents[dropDownOption]}
+                                           onClickEvent={dropDownOnClick}/>
+                        </div> :
+                        null
+                    }
+                    {searchButtonOnClick ?
+                        <div style={{width: "300px", display: "flex", flexDirection: "row", marginRight: 15}}>
+                            <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}}
+                                       onChange={(e) => searchBarChange(e.target.value)}/>
+                            <SearchButton style={{flex: 10}} onClick={() => searchButtonOnClick()}>
+                                <img src={IcSearchButton}/>
+                            </SearchButton>
+                        </div> :
+                        null
+                    }
+                    {calendarOnClick ?
+                        <div style={{marginRight: 15}}>
+                            <CalendarDropdown type={'range'} selectRange={selectDate}
+                                              onClickEvent={(start, end) => calendarOnClick(start, end)}
+                                              unLimit={calendarState}/>
+                        </div>
+                        :
+                        null
+                    }
+                    {
+                        titleOnClickEvent && titleOnClickEvent.map((bv, bi) => {
+                            return (
+                                <div style={{marginRight: 15}}>
+                                    <TitleButtonBox onClick={bv.Link}
+                                                    style={{width: bv.Width}}>{bv.Name}</TitleButtonBox>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
-              )
-            })
-          }
-        </div>
-      </Title>
-      <TitleBar>
-        {
-          allCheckOnClickEvent ?
-            <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-              <input type="checkbox" id={'all'} onClick={(e) => {
-                if (allChecked === false) {
-                  allCheckOnClickEvent(valueList)
-                  let tmpArr: boolean[] = checked
-                  tmpArr = tmpArr.map(() => true)
-                  // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
-                  setChecked(tmpArr)
-                  setAllChecked(true)
-                  return true
-                } else {
-                  let tmpArr: boolean[] = checked
-                  tmpArr = tmpArr.map(() => false)
-                  allCheckOnClickEvent([])
-                  // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
-                  setChecked(tmpArr)
-                  setAllChecked(false)
-                  return false
+            </Title>
+            <TitleBar>
+                {
+                    allCheckOnClickEvent ?
+                        <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                            <input type="checkbox" id={'all'} onClick={(e) => {
+                                if (allChecked === false) {
+                                    allCheckOnClickEvent(valueList)
+                                    let tmpArr: boolean[] = checked
+                                    tmpArr = tmpArr.map(() => true)
+                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                    setChecked(tmpArr)
+                                    setAllChecked(true)
+                                    return true
+                                } else {
+                                    let tmpArr: boolean[] = checked
+                                    tmpArr = tmpArr.map(() => false)
+                                    allCheckOnClickEvent([])
+                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                    setChecked(tmpArr)
+                                    setAllChecked(false)
+                                    return false
+                                }
+                            }}/>
+                            <label htmlFor='all' style={{backgroundColor: "white"}}></label>
+                        </div>
+                        :
+                        (
+                            checkOnClickEvent ?
+                                <div style={{paddingRight: 10, paddingLeft: 10}}>
+                                    <p></p>
+                                </div>
+                                :
+                                null
+                        )
                 }
-              }}/>
-              <label htmlFor='all' style={{backgroundColor: 'white'}}></label>
-            </div>
-            :
-            (
-              checkOnClickEvent ?
-                <div style={{paddingRight: 10, paddingLeft: 10}}>
-                  <p></p>
-                </div>
+                {
+                    Object.keys(indexList).map((v, i) => {
+                        return (
+                            typeof indexList[v] === 'object' ?
+                                <select className="p-limits"
+                                        style={{
+                                            backgroundColor: "#111319",
+                                            borderColor: '#111319',
+                                            color: 'white',
+                                            fontSize: "14px",
+                                            width: '70%',
+                                            marginRight: 30,
+                                            background: `url(${IcDropDownButton}) no-repeat 95% 50%`
+                                        }}
+                                        onChange={(e) => selectBoxChange(e.target.value)}
+                                >
+                                    {
+                                        Object.keys(indexList[v]).map(m => {
+                                            return (
+                                                <>
+                                                    <option value={indexList[v][m]}
+                                                            style={{backgroundColor: "#111319"}}>{indexList[v][m]}</option>
+
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </select>
+                                :
+                                <p key={v} className="p-limits">{indexList[v]}</p>
+                        )
+                    })
+                }
+                {
+                    EventList && EventList.map((bv, bi) => {
+                        return (
+                            <p className="p-limits"></p>
+                        )
+                    })
+                }
+            </TitleBar>
+            {
+                valueList !== undefined && valueList.length === 0
+                    ? (
+                        <ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
+                            없습니다. </p></ValueBar>)
+                    : valueList?.map((v, i) => {
+                        /*
+                        v:  {
+                            pk: 'PK11212',
+                            machine_name: '프레스 01',
+                            machine_number: '000-000-00',
+                            manufacturer_code: '공정 01',
+                            machine_register_time: '2020.06.16 22:34:40',
+                            more_Action: false
+                        },
+                        */
+                        return (
+                            <ValueBar key={i} style={{backgroundColor: clickValue === v ? '#19b9df' : '#353b48'}}>
+                                {
+                                    checkOnClickEvent ?
+                                        <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                            <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]}
+                                                   onClick={(e) => {
+                                                       let tmpArr: boolean[] = checked
+                                                       tmpArr = tmpArr.map((vm, vi) => {
+                                                           if (vi === i) {
+                                                               if (vm) {
+                                                                   checkOnClickEvent(v)
+                                                                   return false
+                                                               } else {
+                                                                   checkOnClickEvent(v)
+                                                                   return true
+                                                               }
+                                                           } else {
+                                                               return vm
+                                                           }
+                                                       })
+                                                       // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                                       setChecked(tmpArr)
+                                                       return false
+                                                   }}/>
+                                            <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
+                                        </div>
+                                        :
+                                        null
+                                }
+                                {
+                                    Object.keys(indexList).map((mv, mi) => {
+                                        //mv : [pk , machin_list, machine_name ... ]
+                                        return (
+                                            typeof v[mv] === 'object' ?
+                                                <select className="p-limits" style={{
+                                                    backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                                                    borderColor: clickValue === v ? '#19b9df' : '#353b48'
+                                                }}>
+                                                    <option value={''}>선택</option>
+                                                    {
+                                                        Object.keys(v[mv]).map(m => {
+                                                            return (
+                                                                <option value={v[mv][m]}>{v[mv][m]}</option>
+                                                            )
+                                                        })
+                                                    }
+                                                </select>
+                                                :
+                                                <p key={`td-${i}-${mv}`}
+                                                   className="p-limits"
+                                                   onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}>
+                                                    {v[mv] === '' ?
+                                                        'ㅡ'
+                                                        :
+                                                        v[mv]
+                                                    }
+                                                </p>
+
+                                        )
+                                    })
+                                }
+                                {
+                                    EventList && EventList.map((bv, bi) => {
+                                        return (
+                                            <div className="p-limits">
+                                                {buttonState ?
+                                                    <ButtonBox onClick={() => bv.Link(v)} style={{
+                                                        width: bv.Width,
+                                                        color: v.status === '진행중' ? 'white' : 'white',
+                                                        backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df'
+                                                    }}>{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
+                                                    :
+                                                    <ButtonBox onClick={() => bv.Link(v)} style={{
+                                                        width: bv.Width,
+                                                        color: bv.Color
+                                                    }}>{bv.Name}</ButtonBox>
+                                                }
+                                            </div>
+                                        )
+                                    })
+                                }
+
+
+                            </ValueBar>
+
+                        )
+                    })
+            }
+            {currentPage && totalPage ?
+                <PaginationBox>
+                    <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
+                                boundaryCount={1} color={"primary"}/>
+                </PaginationBox>
                 :
                 null
-            )
-        }
-        {
-          Object.keys(indexList).map((v, i) => {
-            return (
-              typeof indexList[v] === 'object' ?
-                <select className="p-limits"
-                        style={{
-                          backgroundColor: '#111319',
-                          borderColor: '#111319',
-                          color: 'white',
-                          fontSize: '14px',
-                          width: '70%',
-                          marginRight: 30,
-                          background: `url(${IcDropDownButton}) no-repeat 95% 50%`
-                        }}
-                        onChange={(e) => selectBoxChange(e.target.value)}
-                >
-                  {
-                    Object.keys(indexList[v]).map(m => {
-                      return (
-                        <>
-                          <option value={indexList[v][m]}
-                                  style={{backgroundColor: '#111319'}}>{indexList[v][m]}</option>
-
-                        </>
-                      )
-                    })
-                  }
-                </select>
-                :
-                <p key={v} className="p-limits">{indexList[v]}</p>
-            )
-          })
-        }
-        {
-          EventList && EventList.map((bv, bi) => {
-            return (
-              <p className="p-limits"></p>
-            )
-          })
-        }
-      </TitleBar>
-      {
-        valueList !== undefined && valueList.length === 0
-          ? (
-            <ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가 없습니다. </p>
-            </ValueBar>)
-          : valueList?.map((v, i) => {
-            /*
-            v:  {
-                pk: 'PK11212',
-                machine_name: '프레스 01',
-                machine_number: '000-000-00',
-                manufacturer_code: '공정 01',
-                machine_register_time: '2020.06.16 22:34:40',
-                more_Action: false
-            },
-            */
-            return (
-              <ValueBar key={i} style={{backgroundColor: clickValue === v ? '#19b9df' : '#353b48'}}>
-                {
-                  checkOnClickEvent ?
-                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-                      <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]} onClick={(e) => {
-                        let tmpArr: boolean[] = checked
-                        tmpArr = tmpArr.map((vm, vi) => {
-                          if (vi === i) {
-                            if (vm) {
-                              checkOnClickEvent(v)
-                              return false
-                            } else {
-                              checkOnClickEvent(v)
-                              return true
-                            }
-                          } else {
-                            return vm
-                          }
-                        })
-                        // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
-                        setChecked(tmpArr)
-                        return false
-                      }}/>
-                      <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: 'white'}}></label>
-                    </div>
-                    :
-                    null
-                }
-                {
-                  Object.keys(indexList).map((mv, mi) => {
-                    //mv : [pk , machin_list, machine_name ... ]
-                    return (
-                      typeof v[mv] === 'object' ?
-                        <select className="p-limits" style={{
-                          backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
-                          borderColor: clickValue === v ? '#19b9df' : '#353b48'
-                        }}>
-                          <option value={''}>선택</option>
-                          {
-                            Object.keys(v[mv]).map(m => {
-                              return (
-                                <option value={v[mv][m]}>{v[mv][m]}</option>
-                              )
-                            })
-                          }
-                        </select>
-                        :
-                        <p key={`td-${i}-${mv}`}
-                           className="p-limits"
-                           onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}>
-                          {v[mv] === '' ?
-                            'ㅡ'
-                            :
-                            v[mv]
-                          }
-                        </p>
-
-                    )
-                  })
-                }
-                {
-                  EventList && EventList.map((bv, bi) => {
-                    return (
-                      <div className="p-limits">
-                        {buttonState ?
-                          <ButtonBox onClick={() => bv.Link(v)} style={{
-                            width: bv.Width,
-                            color: v.status === '진행중' ? 'white' : 'white',
-                            backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df'
-                          }}>{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
-                          :
-                          <ButtonBox onClick={() => bv.Link(v)}
-                                     style={{width: bv.Width, color: bv.Color}}>{bv.Name}</ButtonBox>
-                        }
-                      </div>
-                    )
-                  })
-                }
-
-
-              </ValueBar>
-
-            )
-          })
-      }
-      {currentPage && totalPage ?
-        <NumberPagenation stock={totalPage ? totalPage : 0} selected={currentPage}
-                          onClickEvent={pageOnClickEvent}/>
-        :
-        null
-      }
-      {noChildren !== undefined || false ?
-        null :
-        <BlackBg /*style={{backgroundColor:  !== undefind ?  '#ff341a' : '#353b48'}}*/>
-          {children === undefined || children === null ? <p></p> : children}
-        </BlackBg>
-      }
-    </div>
-  )
+            }
+            {noChildren !== undefined || false ?
+                null :
+                <BlackBg /*style={{backgroundColor:  !== undefind ?  '#ff341a' : '#353b48'}}*/>
+                    {children === undefined || children === null ? <p></p> : children}
+                </BlackBg>
+            }
+        </div>
+    )
 }
 
 const Title = Styled.div`
@@ -408,6 +415,18 @@ const SearchButton = Styled.button`
         width: 20px;
         height: 20px;
         margin-top: 5px;
+    }
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: white;
+    }
+    .MuiPaginationItem-root{
+        color: white;
     }
 `
 

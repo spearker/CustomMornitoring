@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
@@ -67,8 +67,7 @@ const BasicFactoryRegister = () => {
     }, [pk, optional, essential, inputData])
 
 
-    const onsubmitFormUpdate = useCallback(async (e) => {
-        e.preventDefault();
+    const onsubmitFormUpdate = useCallback(async () => {
 
         if (inputData.name === "") {
             alert("공장명은 필수 항목입니다. 반드시 입력해주세요.")
@@ -101,8 +100,7 @@ const BasicFactoryRegister = () => {
 
     }, [pk, optional, essential, inputData])
 
-    const onsubmitForm = useCallback(async (e) => {
-        e.preventDefault();
+    const onsubmitForm = useCallback(async () => {
 
         if (inputData.name === "") {
             alert("공장명은 필수 항목입니다. 반드시 입력해주세요.")
@@ -144,32 +142,42 @@ const BasicFactoryRegister = () => {
             <InnerBodyContainer>
                 <Header title={isUpdate ? '공장 정보수정' : '공장 정보등록'}/>
                 <WhiteBoxContainer>
-                    {
-                        // document.id !== '' || isUpdate == true?
-                        <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
-                            <ListHeader title="필수 항목"/>
-                            <NormalInput title={'공장명'} value={inputData.name}
-                                         onChangeEvent={(input) => setInputData(`name`, input)}
-                                         description={'공장 이름을 입력해주세요.'}/>
-                            <NormalAddressInput title={'공장 주소'} value={inputData.location}
-                                                onChangeEvent={(input) => setInputData(`location`, input)}/>
-                            <br/>
-                            <ListHeader title="선택 항목"/>
-                            <NormalInput title={'설명'} value={inputData.description}
-                                         onChangeEvent={(input) => setInputData(`description`, input)}
-                                         description={'(비고)'}/>
-                            {/*<br/>*/}
-                            {/*<DocumentFormatInputList*/}
-                            {/*    pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*    loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/factory/load?pk=${pk}` :''}*/}
-                            {/*    onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
-                            {/*/>*/}
-
-                            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-                        </form>
-                        // :
-                        // <SelectDocumentForm category={5} onChangeEvent={setDocument}/>
-                    }
+                    <ListHeader title="필수 항목"/>
+                    <NormalInput title={'공장명'} value={inputData.name}
+                                 onChangeEvent={(input) => setInputData(`name`, input)}
+                                 description={'공장 이름을 입력해주세요.'}/>
+                    <NormalAddressInput title={'공장 주소'} value={inputData.location}
+                                        onChangeEvent={(input) => setInputData(`location`, input)}/>
+                    <br/>
+                    <ListHeader title="선택 항목"/>
+                    <NormalInput title={'설명'} value={inputData.description}
+                                 onChangeEvent={(input) => setInputData(`description`, input)}
+                                 description={'(비고)'}/>
+                    {/*<br/>*/}
+                    {/*<DocumentFormatInputList*/}
+                    {/*    pk={!isUpdate ? document.pk : undefined}*/}
+                    {/*    loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/factory/load?pk=${pk}` :''}*/}
+                    {/*    onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
+                    {/*/>*/}
+                    <div style={{marginTop: 32, marginLeft: "31%"}}>
+                        {isUpdate ?
+                            <ButtonWrap onClick={async () => {
+                                await onsubmitFormUpdate()
+                            }}>
+                                <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                                    <p style={{fontSize: 18}}>수정하기</p>
+                                </div>
+                            </ButtonWrap>
+                            :
+                            <ButtonWrap onClick={async () => {
+                                await onsubmitForm()
+                            }}>
+                                <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                                    <p style={{fontSize: 18}}>등록하기</p>
+                                </div>
+                            </ButtonWrap>
+                        }
+                    </div>
                 </WhiteBoxContainer>
 
             </InnerBodyContainer>
@@ -178,6 +186,18 @@ const BasicFactoryRegister = () => {
 
     );
 }
+
+
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;s
+`
+
 const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;

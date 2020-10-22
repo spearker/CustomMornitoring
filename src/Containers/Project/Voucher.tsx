@@ -12,7 +12,7 @@ interface Props {
     // chilren: string;
 }
 
-const VoucherContainer = ({ match }: Props) => {
+const VoucherContainer = ({match}: Props) => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -25,9 +25,9 @@ const VoucherContainer = ({ match }: Props) => {
     const [index, setIndex] = useState({registerer:'등록자'});
     const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'});
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const history = useHistory();
 
     const indexList = {
@@ -92,11 +92,11 @@ const VoucherContainer = ({ match }: Props) => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/project/chit/register')
+            Link: () => history.push('/project/chit/register')
         },
         {
             Name: '삭제',
-            Link: ()=>postDelete()
+            Link: () => postDelete()
         }
     ]
 
@@ -140,12 +140,12 @@ const VoucherContainer = ({ match }: Props) => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
@@ -155,7 +155,7 @@ const VoucherContainer = ({ match }: Props) => {
 
     }, [list, selectPk]);
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
         {list.length === 0 ?
             deletePk.pk.map((v,i)=>{
@@ -167,7 +167,8 @@ const VoucherContainer = ({ match }: Props) => {
                 deletePk.pk.push(tmpPk.toString())
             })
         }
-    },[deletePk])
+    }, [deletePk])
+
 
 
       const checkOnClick = useCallback((Data) => {
@@ -177,33 +178,33 @@ const VoucherContainer = ({ match }: Props) => {
             :
             deletePk.pk.push(Data.pk)
         }
-        },[deletePk])
+    }, [deletePk])
 
-        const getData = useCallback( async(pk)=>{
-            //TODO: 성공시
-            const tempUrl = `${API_URLS['chit'].load}?pk=${pk}`
-            const res = await getProjectList(tempUrl)
-
-            setDetailList(res)
-
-        },[detailList])
-
-    const getList = useCallback(async ()=>{ // useCallback
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['chit'].list}?pk=${match.params.pk !== undefined ? match.params.pk : null}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['chit'].load}?pk=${pk}`
         const res = await getProjectList(tempUrl)
 
-        const getVoucher = res.info_list.map((v,i)=>{
+        setDetailList(res)
+
+    }, [detailList])
+
+    const getList = useCallback(async () => { // useCallback
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['chit'].list}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&page=${page.current}&limit=15`
+        const res = await getProjectList(tempUrl)
+
+        const getVoucher = res.info_list.map((v, i) => {
             const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             return {...v, current_amount: current_amount, goal: goal}
         })
 
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
         setList(getVoucher)
 
-    },[list,page])
+    }, [list, page])
 
     useEffect(() => {
         getList()
@@ -214,9 +215,9 @@ const VoucherContainer = ({ match }: Props) => {
         const res = await postProjectDelete(tempUrl, deletePk)
         console.log(res)
 
-    },[deletePk])
+    }, [deletePk])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["voucher"])
         setBOMIndex(BOMtitle["BOM"])
@@ -225,7 +226,7 @@ const VoucherContainer = ({ match }: Props) => {
         setBOMList(BOMvalue)
         setEventList(eventdummy)
         // setDetailList(detaildummy)
-    },[])
+    }, [])
 
     return (
         <div>
@@ -240,51 +241,52 @@ const VoucherContainer = ({ match }: Props) => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?
                         <LineTable title={'홍길동 / (주)대한민국 전표 자세히 보기'}>
                             <VoucherDropdown pk={'123'} name={'전표 바코드'} clickValue={'123'}>
-                                    <BarcodeContainer>
-                                       <BarcodeImage>
-                                           <p>바코드 이미지가 없습니다.</p>
-                                       </BarcodeImage>
-                                       <BarcodeNum>
-                                           <div>
-                                               <p>바코드 번호</p>
-                                               <p>A123456789B</p>
-                                           </div>
-                                           <div>
-                                               <p>기준 바코드</p>
-                                               <p>A123</p>
-                                           </div>
-                                       </BarcodeNum>
-                                       <ButtonBox>수정</ButtonBox>
-                                    </BarcodeContainer>
+                                <BarcodeContainer>
+                                    <BarcodeImage>
+                                        <p>바코드 이미지가 없습니다.</p>
+                                    </BarcodeImage>
+                                    <BarcodeNum>
+                                        <div>
+                                            <p>바코드 번호</p>
+                                            <p>A123456789B</p>
+                                        </div>
+                                        <div>
+                                            <p>기준 바코드</p>
+                                            <p>A123</p>
+                                        </div>
+                                    </BarcodeNum>
+                                    <ButtonBox>수정</ButtonBox>
+                                </BarcodeContainer>
                             </VoucherDropdown>
                             <VoucherDropdown pk={'124'} name={'BOM'} clickValue={'124'}>
-                                <div style={{display:"flex", flexDirection:"row",marginTop: 15}}>
+                                <div style={{display: "flex", flexDirection: "row", marginTop: 15}}>
                                     {
                                         Object.keys(BOMindex).map((v, i) => {
-                                            console.log('sfsdfdsewwefwefwefwee',BOMindex[v])
+                                            console.log('sfsdfdsewwefwefwefwee', BOMindex[v])
                                             return (
-                                                <p key={v} className="p-limits" style={{fontFamily:'NotoSansCJKkr-Bold'}}>{BOMindex[v]}</p>
+                                                <p key={v} className="p-limits"
+                                                   style={{fontFamily: 'NotoSansCJKkr-Bold'}}>{BOMindex[v]}</p>
                                             )
                                         })
                                     }
                                 </div>
                                 {
                                     BOMvalue.map((v, i) => {
-                                        return(
-                                            <div style={{display:"flex", flexDirection:"row"}}>
-                                                        {
-                                                            Object.keys(BOMindex).map((mv, mi) => {
-                                                                return(
-                                                                    <p key={`p-${i}-${mv}`} className="p-limits" >{v[mv]}</p>
-                                                                )
-                                                            })
-                                                        }
+                                        return (
+                                            <div style={{display: "flex", flexDirection: "row"}}>
+                                                {
+                                                    Object.keys(BOMindex).map((mv, mi) => {
+                                                        return (
+                                                            <p key={`p-${i}-${mv}`} className="p-limits">{v[mv]}</p>
+                                                        )
+                                                    })
+                                                }
                                             </div>
                                         )
                                     })
