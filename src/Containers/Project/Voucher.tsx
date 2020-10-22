@@ -190,7 +190,7 @@ const VoucherContainer = ({ match }: Props) => {
 
     const getList = useCallback(async ()=>{ // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['chit'].list}?pk=${match.params.pk !== undefined ? match.params.pk : null}&page=${page.current}&limit=15`
+        const tempUrl = match.params.pk !== undefined ? `${API_URLS['chit'].list}?page=${page.current}&limit=15&pk=${match.params.pk}` : `${API_URLS['chit'].list}?page=${page.current}&limit=15&pk=`
         const res = await getProjectList(tempUrl)
 
         const getVoucher = res.info_list.map((v,i)=>{

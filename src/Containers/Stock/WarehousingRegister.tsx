@@ -193,7 +193,10 @@ const WarehousingRegisterContainer = ({match}: Props) => {
             } else if(selectType === undefined){
                 alert('입고 구분은 필수 항목입니다. 반드시 입력해주세요.')
                 return;
-            } 
+            } else if(Number(amount) <= 0){
+                alert('입고는 최소 1개 이상부터 가능합니다.')
+                return;
+            }
 
             const data = {
                 parts_pk: match.params.pk,
@@ -222,6 +225,9 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 return;
             } else if(selectType === undefined){
                 alert('입고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } else if(Number(amount) <= 0){
+                alert('입고는 최소 1개 이상부터 가능합니다.')
                 return;
             }
 
