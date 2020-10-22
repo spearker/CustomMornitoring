@@ -100,6 +100,22 @@ const BarcodeRegisterContainer = ({match}: Props) => {
 
     const postBarcodeRegister = useCallback(async () => {
 
+        if(inputData.barcode_name === ''){
+            alert('바코드 명은 필수 항목입니다. 반드시 입력해주세요.')
+            return;
+        } else if(indexList[type] === undefined){
+            alert('항목은 필수 항목입니다. 반드시 선택해주세요.')
+            return;
+
+        } else if(selectMachine?.name === undefined || selectMachine?.pk === undefined){
+            alert('상세항목은 필수 항목입니다. 반드시 선택해주세요.')
+            return;
+            
+        } else if(rules.toString() === '' || barcodeImg.split('=')[1] === undefined){
+            alert('바코드 번호는 필수 항목입니다. 반드시 바코드를 생성해주세요.')
+            return;
+        }
+
         const data = {
             barcode_name: inputData.barcode_name,
             item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
@@ -107,13 +123,18 @@ const BarcodeRegisterContainer = ({match}: Props) => {
             barcode_type: 'barcode',
             barcode_number: rules.toString(),
             barcode_img_name: barcodeImg.split('=')[1],
-            description: reason
+            description: reason === '' ? null : reason
         }
-
         const tempUrl = `${API_URLS["barcode"].register}`
         const resultData = await postBarcode(tempUrl, data)
+        if(resultData === 200){
+            history.goBack()
+        } else if(resultData === 2500) {
+            alert('[ERROR] 바코드 번호와 생성된 바코드 이미지가 맞지 않습니다.')
+        } else {
+            alert('바코드 등록에 실패하였습니다.')
+        }
 
-        history.goBack()
     }, [inputData, selectMachine, rules, barcodeImg, reason, type])
 
     const ruleLength = rules.toString().replace(',', '').length

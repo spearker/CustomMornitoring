@@ -45,7 +45,7 @@ const ProcessRegisterContainer = () => {
   const [ processData, setProcessData ] = useState<IProcessRegister>({
     type: 0,
     name: '',
-    processes: [ { machine_pk: '', mold_pk: '' } ],
+    processes: [ { machine_pk: '', mold_pk: null } ], // mold_pk는 좀더 고민 필요!
     description: ''
   })
 
