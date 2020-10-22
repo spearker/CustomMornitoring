@@ -280,13 +280,22 @@ const ReleaseRegisterContainer = ({match}: Props) => {
      */
     const onsubmitForm = useCallback(async () => {
         if (match.params.parts) {
+
+            if(amount === undefined || String(amount) === ''){
+                alert('출고 수량은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } else if(selectType === undefined){
+                alert('출고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } 
+
             const data = {
                 parts_pk: match.params.pk,
-                amount: amount,
-                type: transferStringToCode('material', selectType),
+                amount: Number(amount),
+                type: transferStringToCode('stock', selectType),
                 date: selectDate
             };
-
+            
             const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/parts/release/register', data, getToken(TOKEN_NAME))
 
             if (res === false) {
@@ -301,13 +310,21 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                 }
             }
         } else {
+
+            if(amount === undefined || String(amount) === ''){
+                alert('출고 수량은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } else if(selectType === undefined){
+                alert('출고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } 
+            
             const data = {
                 material_pk: match.params.pk,
-                amount: amount,
-                type: transferStringToCode('material', selectType),
+                amount: Number(amount),
+                type: transferStringToCode('stock', selectType),
                 date: selectDate
             };
-
 
             const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/release/register', data, getToken(TOKEN_NAME))
 

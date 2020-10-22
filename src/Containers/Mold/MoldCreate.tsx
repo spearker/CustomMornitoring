@@ -107,6 +107,12 @@ const CreateContainer = () => {
     ]
 
     const postDelete = useCallback(async () => {
+
+        if(deletePk.pk.length <= 0){
+            alert('삭제하실 항목을 선택해 주세요.')
+            return;
+        }
+
         const tempUrl = `${API_URLS['making'].delete}`
         const res = await postCustomerDelete(tempUrl, deletePk)
 

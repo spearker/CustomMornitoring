@@ -18,7 +18,7 @@ const RawMaterialContainer = () => {
     const [type, setType] = useState(0)
     const [selectPk, setSelectPk ]= useState<any>(null);
     const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    // const [selectValue, setSelectValue ]= useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -109,7 +109,13 @@ const RawMaterialContainer = () => {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+            Link: (v)=>{
+                if(Number(v.current_stock) <= 0){
+                    alert('출고할 수 있는 재고가 없습니다.');
+                } else {
+                    history.push(`/stock/release/register/${v.pk}/${v.material_name}`);
+                }
+            }
         },
     ]
 
@@ -129,11 +135,11 @@ const RawMaterialContainer = () => {
         if(mold.pk === selectPk){
             setSelectPk(null);
             setSelectMold(null);
-            setSelectValue(null);
+            // setSelectValue(null);
         }else{
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
-            setSelectValue(mold)
+            // setSelectValue(mold)
             //TODO: api 요청
             // getData(mold.pk)
         }
@@ -205,7 +211,7 @@ const RawMaterialContainer = () => {
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                clickValue={selectValue}
+                /* clickValue={selectValue} */
                 selectBoxChange={selectBox}
                 mainOnClickEvent={onClick}
                 currentPage={page.current}

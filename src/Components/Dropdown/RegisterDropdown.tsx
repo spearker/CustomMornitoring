@@ -97,7 +97,7 @@ const BoxWrap = Styled.button`
     height: 32px;
     background-color: white;
     font-weight: bold;
-    text-algin: center;
+    text-align: center;
     font-size: 13px;
     display: flex;
     p{
@@ -115,9 +115,9 @@ const InnerBoxWrap = Styled.button`
     background-color: ${BG_COLOR_SUB};
     border: none;
     font-weight: bold;
-    text-algin: left;
+    text-align: left;
     p{
-        text-algin: left;
+        text-align: left;
      }
     font-size: 13px;
     img {
