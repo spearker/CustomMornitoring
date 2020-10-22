@@ -14,7 +14,7 @@ const ScheduleManageContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [deletePk, setDeletePk] = useState<({keys: string[]})>({keys: []});
+    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
     const [index, setIndex] = useState({manager_name:'계획자명'});
     const [selectValue, setSelectValue ]= useState<any>(null);
     const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
@@ -110,11 +110,11 @@ const ScheduleManageContainer = () => {
     }, [list, selectPk]);
 
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
-        {deletePk.keys.indexOf(Data.pk) !== -1 ?
-            deletePk.keys.splice(IndexPk,1)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {deletePk.pk.indexOf(Data.pk) !== -1 ?
+            deletePk.pk.splice(IndexPk,1)
             :
-            deletePk.keys.push(Data.pk)
+            deletePk.pk.push(Data.pk)
         }
     },[deletePk])
 
@@ -158,9 +158,9 @@ const ScheduleManageContainer = () => {
 
     const postDelete = useCallback(async () => {
         const tempUrl = `${API_URLS['production'].delete}`
-        const res = await postProjectDelete(tempUrl, deletePk)
+            const res = await postProjectDelete(tempUrl, deletePk)
         console.log(res)
-
+        getList()
     },[deletePk])
 
     useEffect(()=>{

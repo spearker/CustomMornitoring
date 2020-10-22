@@ -205,10 +205,10 @@ const ContractRegister = ({match}: Props) => {
      */
     const onsubmitFormUpdate = useCallback(async () => {
 
-        if (selectOutsource?.pk === '') {
+        if (selectOutsource?.pk === '' || selectOutsource?.pk === undefined) {
             alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMaterial?.pk === '') {
+        } else if (selectMaterial?.pk === '' || selectOutsource?.pk === undefined) {
             alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
             return;
         } else if (quantity === null) {
@@ -230,7 +230,6 @@ const ContractRegister = ({match}: Props) => {
 
         const data = {
             pk: match.params.pk,
-            company: selectOutsource?.pk,
             product: selectMaterial?.pk,
             quantity: quantity,
             unpaid: unpaid,
@@ -273,10 +272,10 @@ const ContractRegister = ({match}: Props) => {
     const onsubmitForm = useCallback(async () => {
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
-        if (selectOutsource?.pk === '') {
+        if (selectOutsource?.pk === '' || selectOutsource?.pk === undefined) {
             alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMaterial?.pk === '') {
+        } else if (selectMaterial?.pk === '' || selectOutsource?.pk === undefined) {
             alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
             return;
         } else if (quantity === null) {
@@ -295,8 +294,6 @@ const ContractRegister = ({match}: Props) => {
             alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
-
-
         const data = {
             company: selectOutsource?.pk,
             product: selectMaterial?.pk,
