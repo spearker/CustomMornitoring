@@ -37,7 +37,7 @@ const MaterialList = () => {
    */
   const onClickFilter = useCallback(async (filter: number) => {
     setOption(filter)
-    const results = await getRequest('http://112.168.150.239:8299/api/v1/material/list/' + filter, getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.46:8299/api/v1/material/list/' + filter, getToken(TOKEN_NAME))
 
     if (results === false) {
       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -58,7 +58,7 @@ const MaterialList = () => {
    */
   const getList = useCallback(async () => {
 
-    const results = await getRequest('http://112.168.150.239:8299/api/v1/material/list/0', getToken(TOKEN_NAME))
+    const results = await getRequest('http://192.168.0.46:8299/api/v1/material/list/0', getToken(TOKEN_NAME))
 
     if (results === false) {
       ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')

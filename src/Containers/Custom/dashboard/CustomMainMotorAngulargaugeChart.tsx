@@ -2,7 +2,7 @@ import React from 'react'
 import GaugeChart from 'react-gauge-chart'
 
 const chartStyle = {
-  width: 350,
+  width: 400,
 }
 
 interface Props {
@@ -10,11 +10,10 @@ interface Props {
 }
 
 const CustomMainMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ value }) => {
-  console.log('value :)', value && Math.floor(value))
   return (
       <div>
         <div style={{ marginBottom: 20 }}>
-          <p style={{ textAlign: 'center', fontSize: 54, fontWeight: 'bold' }}>메인 모터 부하량</p>
+          <p style={{ textAlign: 'center', fontSize: 48, fontWeight: 'bold' }}>메인 모터 부하량</p>
         </div>
         <GaugeChart
             id="mainMotor-chart"

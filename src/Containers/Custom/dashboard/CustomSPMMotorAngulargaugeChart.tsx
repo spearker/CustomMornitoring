@@ -9,18 +9,18 @@ interface Props {
   value: number | undefined
 }
 
-const CustomSlideMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ value }) => {
+const CustomSPMMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ value }) => {
   return (
       <div>
         <div style={{ marginBottom: 20 }}>
-          <p style={{ textAlign: 'center', fontSize: 48, fontWeight: 'bold' }}>슬라이더 부하량</p>
+          <p style={{ textAlign: 'center', fontSize: 48, fontWeight: 'bold' }}>SPM</p>
         </div>
         <GaugeChart
-            id="slide-chart"
+            id="spm-chart"
             colors={[ 'rgba(255, 255, 255, .7)' ]}
             nrOfLevels={25}
-            formatTextValue={(value) => value}
             percent={value ? value : 0}
+            formatTextValue={(value) => value}
             needleColor={'rgba(255, 255, 255, 1)'}
             needleBaseColor={'rgba(255, 255, 255, 1)'}
             style={chartStyle}/>
@@ -28,4 +28,4 @@ const CustomSlideMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ val
   )
 }
 
-export default CustomSlideMotorAngulargaugeChart
+export default CustomSPMMotorAngulargaugeChart

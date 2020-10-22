@@ -12,8 +12,7 @@ import { usePopupDispatch } from '../../Context/PopupContext';
 import { API_URLS, getServerStatus } from '../../Api/mes/common';
 
 // 로그인 페이지
-const Login = () => {
-
+const Login = ({ location }: any) => {
   const dispatch = useUserDispatch();
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
@@ -33,14 +32,32 @@ const Login = () => {
       email: email,
       password: password,
     }
-    const results = await postRequestWithNoToken('http://112.168.150.239:8299/user/login', data)
+    const results = await postRequestWithNoToken('http://192.168.0.46:8299/user/login', data)
 
     if (results === false) {
       //TODO: 에러 처리
     } else {
       if (results.status === 200) {
         setToken(TOKEN_NAME, results.results.token)
-        window.location.href = "/dashboard"
+
+        try {
+          if (location.search) {
+            const type = location.search.split('type=')
+
+            console.log('type1', type[1])
+
+            if (type[1] === 'dashboard') {
+              window.location.href = "/custom/dashboard"
+            }
+
+          } else {
+            window.location.href = "/dashboard"
+          }
+
+
+        } catch (error) {
+          alert('에러가 발생했습니다. 관리자에게 문의하세요.')
+        }
       } else if (results.status === 1001 || results.status === 1002) {
         alert('아이디와 패스워드를 확인하세요.')
       } else if (results.status === 1003) {

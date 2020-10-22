@@ -18,7 +18,7 @@ const CmsPower: React.FunctionComponent = () => {
   //
   // const DataLoad = async () => {
   //
-  //     const results = await getRequest('http://112.168.150.239:8299/api/v1/monitoring/cms/map?factory=&type=', getToken(TOKEN_NAME))
+  //     const results = await getRequest('http://192.168.0.46:8299/api/v1/monitoring/cms/map?factory=&type=', getToken(TOKEN_NAME))
   //
   //     console.log(results)
   //

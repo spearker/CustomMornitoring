@@ -3,7 +3,7 @@ import { getToken } from "../../Common/tokenFunctions";
 import { TOKEN_NAME } from "../../Common/configset";
 import { setToken } from "../../lib/tokenFunctions";
 
-const ENDPOINT = 'http://172.30.1.9:8299'
+const ENDPOINT = 'http://192.168.0.46:8299'
 
 export default async (id: string | number, init: boolean) => {
   try {

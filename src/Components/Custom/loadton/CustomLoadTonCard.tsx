@@ -22,14 +22,14 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
   const colorList = [ '#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff' ]
   const [ datum, setDatum ] = useState([
     { data: propData?.capacity_point, color: 'gray', name: '능률곡선' },
-    { data: propData?.total_ton, color: '#fb9e70', name: 'Total' },
+    { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
     { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
     { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' }
   ]);
   useEffect(() => {
     setDatum([
       { data: propData?.capacity_point, color: 'gray', name: '능률곡선' },
-      { data: propData?.total_ton, color: '#fb9e70', name: 'Total' },
+      { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
       { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
       { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' }
     ])
@@ -37,14 +37,13 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
 
   const options = {
     series: propData ? datum : basicData,
-    // series: basicData,
     colors: [ colorList[color] ],
     grid: {
       show: false
     },
     chart: {
       type: 'area',
-      height: 650,
+      offsetY: 30,
       toolbar: {
         show: false,
       },
@@ -72,18 +71,23 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
       show: true,
       position: 'bottom',
       rotateAlways: true,
-      min: propData?.x_axis_scope.from,
-      max: propData?.x_axis_scope.to,
+      min: propData ? propData.x_axis_scope.from : 0,
+      max: propData ? propData.x_axis_scope.to : 0,
       labels: {
         show: true,
+        offsetY: 10,
         formatter: (value: number, _, index: number) => {
           return value
+        },
+        style: {
+          fontSize: '32px',
+          color: '#30dfdf',
         }
       },
       type: 'numeric',
-      tickAmount: 10,
+      tickAmount: propData ? 10 : 1,
       axisBorder: {
-        show: false
+        show: true,
       }
     },
     yaxis: {
@@ -94,12 +98,15 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
       axisTicks: {
         show: true
       },
-      min: propData?.x_axis_scope.from,
-      max: propData?.y_axis_scope.to,
+      min: propData ? propData?.y_axis_scope.from : 0,
+      max: propData ? propData?.y_axis_scope.to : 0,
       labels: {
         show: true,
         formatter: (value) => {
           return Math.floor(value)
+        },
+        style: {
+          fontSize: '36px',
         }
       },
       axisBorder: {
@@ -129,18 +136,16 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
   }
 
   return (
-      <div>
-        <div>
-          <div style={{
-            width: '98%',
-          }}>
-            <CharBox>
-              <Chart options={options} series={options.series} type="area" height={1600}/>
-            </CharBox>
-          </div>
-        </div>
+      <div style={{
+        width: '98%',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <CharBox>
+          <Chart options={options} series={options.series} type="area" width={'75%'} height={'auto'}/>
+        </CharBox>
       </div>
-  );
+  )
 }
 
 const CharBox = Styled.div`

@@ -5,7 +5,7 @@ export interface YOUDONG_PRESS_CUSTOM_TYPE {
 }
 
 export interface CHART_DRAW_TYPE {
-  x: string
+  x: number
   y: number
 }
 
@@ -15,17 +15,22 @@ export interface YOUDONG_PRESS_DATA_TYPE {
   tonnage_limit: number
   press_state: string
   slide_motor_current: number
-  error_code: string
+  error_code: {
+    type: string
+    code: number
+  }
   main_motor_current: number,
   preset_count: string
   press_code: string
   press_spm: string
   UPH: string
+  electric_power: string
 }
 
 export interface YOUDONG_LOAD_MONITOR_DATA_TYPE {
   ch1_ton_point: CHART_DRAW_TYPE[]
   ch2_ton_point: CHART_DRAW_TYPE[]
+  total_ton_point: CHART_DRAW_TYPE[]
   capacity_point: CHART_DRAW_TYPE[]
   ch1_ton: number,
   ch2_ton: number

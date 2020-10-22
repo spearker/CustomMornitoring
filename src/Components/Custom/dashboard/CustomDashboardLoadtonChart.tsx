@@ -7,6 +7,7 @@ import CustomSlideMotorAngulargaugeChart from "../../../Containers/Custom/dashbo
 import getYoudongDashboard from "../../../Api/custom/getYoudongDashboard";
 import { YOUDONG_PRESS_CUSTOM_TYPE } from "../../../Common/@types/youdong";
 import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
+import CustomSPMMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomSPMMotorAngulargaugeChart";
 
 interface Props {
   id: string
@@ -18,13 +19,18 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
 
   const getYoudongCustomDashboardData = async () => {
     if (id) {
-      const response = await getYoudongDashboard(id, init)
+      try {
 
-      if (init) {
-        setInit(false)
+        const response = await getYoudongDashboard(id, init)
+
+        if (init) {
+          setInit(false)
+        }
+
+        setData(response)
+      } catch (error) {
+        console.log('catched error', error)
       }
-
-      setData(response)
     }
   }
 
@@ -47,7 +53,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
 
   const Header = () => {
     return (
-        <div style={{ paddingTop: 11, paddingLeft: 10, height: '5%', marginBottom: 20 }}>
+        <div style={{ paddingTop: 50, paddingLeft: 10, marginBottom: 20 }}>
           <div style={{
             width: '100%',
             height: '100%',
@@ -56,7 +62,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             alignItems: 'center'
           }}>
             <TitleText
-                style={{ fontSize: 32 }}>{data && data.press_data.machine_name + `(${data.press_data.tonnage_limit})`}</TitleText>
+                style={{ fontSize: 72 }}>{data ? data.press_data.machine_name + `(${data.press_data.tonnage_limit})` : '-'}</TitleText>
           </div>
         </div>
     )
@@ -92,21 +98,19 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
     )
   }
 
-  console.log('data?.loadton_data', data?.loadton_data)
-
   const standardInfo = () => {
     return (
         <div style={{
           position: 'absolute',
-          top: '10%',
+          top: '25%',
           width: 800,
           display: 'flex',
           flexDirection: 'column',
         }}>
-          {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', { marginBottom: 10 }, { fontSize: 60 }, 'white')}
+          {standardInfItem('Total', data ? data?.loadton_data.total_ton + ' t' : '-', { opacity: .9 }, { fontSize: 72 }, 'white')}
           {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + ' t' : '-', {}, { fontSize: 48 }, 'white')}
           {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + ' t' : '-', {}, { fontSize: 48 }, 'white')}
-          {standardInfItem('일률', data ? data.loadton_data.press_power + 'kgf.m' : '0 kgf.m', {}, { fontSize: 38 })}
+          {standardInfItem('일량', data ? data.loadton_data.press_power + ' kgf.m' : '-', {}, { fontSize: 38 })}
         </div>
     )
   }
@@ -124,26 +128,48 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
           <ItemBox>
             <div style={{ display: 'flex' }}>
               <div style={{
-                width: '18%',
+                width: '13%',
+                paddingTop: 60,
+                display: 'flex',
+                flexDirection: 'column',
               }}>
-                <div style={{ display: 'flex', justifyContent: 'center', height: 300, marginBottom: 40 }}>
-                  <CustomMainMotorAngulargaugeChart value={data?.press_data.main_motor_current}/>
+                <div style={{
+                  marginBottom: 60,
+                  wordBreak: 'break-all'
+                }}>
+                  <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                    <Title>에러코드</Title>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <SubTitle>{data ? data?.press_data.error_code.type : '-'}</SubTitle>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', height: 300, }}>
-                  <CustomSlideMotorAngulargaugeChart value={data?.press_data.slide_motor_current}/>
+                <div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: 300,
+                    marginTop: 50,
+                    marginBottom: 100
+                  }}>
+                    <CustomMainMotorAngulargaugeChart value={data?.press_data.main_motor_current}/>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', height: 300, }}>
+                    <CustomSlideMotorAngulargaugeChart value={data?.press_data.slide_motor_current}/>
+                  </div>
                 </div>
               </div>
               <div style={{
-                width: '68%',
-                marginRight: 8,
-                boxShadow: 'rgba(255, 255, 255, 0.27) 0px 1px 7px 1px',
+                width: '72%',
+                // marginRight: 8,
+                // boxShadow: 'rgba(255, 255, 255, 0.27) 0px 1px 7px 1px',
               }}>
                 <CustomLoadTon color={0} propData={data ? data.loadton_data : undefined}
                                styles={{ width: '100%', height: '50%' }}
                                tonnage_limit={data ? data?.press_data.tonnage_limit : 0}/>
                 {standardInfo()}
               </div>
-              <div style={{ width: '13%' }}>
+              <div style={{ width: '13%', }}>
                 <CustomMonitoringCard contents={data && data.press_data}/>
               </div>
             </div>
@@ -152,6 +178,20 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
       </React.Fragment>
   )
 }
+
+const Title = Styled.span`
+  font-family: NotoSansCJKkr;
+  font-size: 48px;
+  font-weight: bold;
+`
+
+const SubTitle = Styled.span`
+  font-family: NotoSansCJKkr;
+  font-size: 46px;
+  opacity: .7;
+  font-weight: bold;
+`
+
 
 const ItemBox = Styled.div`
     width: 100%;

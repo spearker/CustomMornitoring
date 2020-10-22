@@ -2,6 +2,8 @@ import React from 'react'
 import CustomIndexItem from "../../../Components/Custom/dashboard/CustomIndexItem";
 import Styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { getToken } from "../../../lib/tokenFunctions";
+import { TOKEN_NAME } from "../../../Common/configset";
 
 const dummy = [
   {
@@ -80,6 +82,20 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
 
   const goToChartPage = React.useCallback((pk: string) => {
     history.push(`/custom/dashboard/loadton/${pk}`)
+  }, [])
+
+  const tokenCheck = () => {
+    const token = getToken(TOKEN_NAME)
+
+    if (token === null) {
+      history.push('/login?type=dashboard')
+    }
+
+  }
+
+
+  React.useEffect(() => {
+    tokenCheck()
   }, [])
 
   return (
