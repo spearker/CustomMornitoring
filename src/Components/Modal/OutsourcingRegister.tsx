@@ -22,10 +22,12 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
 
-    const [machineList, setMachineList] = useState([{
-        pk: "",
-        name: "",
-    }])
+    const [machineList, setMachineList] = useState<OutsourcingName>({
+        current_page: 0,
+        info_list: [{name: "", pk: ""}],
+        total_number: 0,
+        total_page: 0
+    })
     const [searchName, setSearchName] = useState<string>('')
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -36,7 +38,7 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000`
+        const tempUrl = searchName === '' ? `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000&keyword=` : `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000&keyword=${searchName}`
         const resultData = await getSearchOutsourcing(tempUrl);
         console.log(resultData)
         setMachineList(resultData)
@@ -102,15 +104,15 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                        <th style={{width: 250}}>와주처 명</th>
+                                        <th style={{width: 250}}>외주처 명</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {   machineList !== undefined && machineList.length === 0 ?
+                                    {   machineList !== undefined && machineList?.info_list.length === 0 ?
                                         <tr>
                                             <td  colSpan={2} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                         </tr>
                                         :
-                                        machineList.map((v,i) => {
+                                        machineList?.info_list.map((v,i) => {
                                             return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.name}</span></td>
