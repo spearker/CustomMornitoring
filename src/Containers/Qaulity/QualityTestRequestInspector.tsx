@@ -126,10 +126,30 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
 
     const onClickRegister = useCallback(async () => {
 
-        if (inputData.defective_count === '' || inputData.none_defective_count === '' || inputData.test_reason === '' || inputData.inspector_name === '' || inputData.whether === '') {
-            alert("공백을 채워주세요")
-            return;
+        if(inputData.inspector_name === ''){
+            alert("검사자 이름를 작성해주세요.")
+            return
+        }else if(inputData.whether === ''){
+            alert('적격 여부를 선택해 주세요.')
+            return
+        }else if(inputData.test_reason === ''){
+            alert('검사 내용을 작성해 주세요.')
+            return
+        }else if(inputData.total_count === ''){
+            alert("총 완료개수가 없습니다.")
+            return
+        }else if(inputData.defective_count === ''){
+            alert("적격 개수가 없습니다.")
+            return
+        }else if(inputData.none_defective_count === ''){
+            alert("부적격 개수가 없습니다.")
+            return
         }
+
+        // if (inputData.defective_count === '' || inputData.none_defective_count === '' || inputData.test_reason === '' || inputData.inspector_name === '' || inputData.whether === '') {
+        //     alert("공백을 채워주세요")
+        //     return;
+        // }
 
         const tempUrl = `${API_URLS['response'].register}`
 
@@ -150,7 +170,7 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
     }, [inputData])
 
     const onClickModify = useCallback(async () => {
-
+        
         if (inputData.inspector_name === '' || inputData.total_count === '' || inputData.defective_count === '' || inputData.none_defective_count === '' || inputData.whether === '' || inputData.test_reason === '') {
             alert("공백을 채워주세요")
             return;

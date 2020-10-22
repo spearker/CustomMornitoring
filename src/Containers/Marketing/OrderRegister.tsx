@@ -153,7 +153,11 @@ const OrderRegisterContainer = () => {
                 </div>
                 <div style={{marginTop: 40}}>
                     <ButtonWrap onClick={async () => {
-                        await postContractRegisterData()
+                        if(orderData.pk === ""){
+                            alert("필수항목입니다. 필수항목을 추가해주세요.")
+                        }else{
+                            await postContractRegisterData()
+                        }
                     }}>
                         <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
                             <p style={{fontSize: 18}}>등록하기</p>
