@@ -117,8 +117,10 @@ const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, al
 
             }
             {currentPage && totalPage ?
-                <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
-                            style={{marginLeft: "30%", marginTop: "1%"}} boundaryCount={1} classes={{root: "white"}}/>
+                <PaginationBox>
+                    <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
+                                boundaryCount={1} color={"primary"}/>
+                </PaginationBox>
                 :
                 null
             }
@@ -183,6 +185,19 @@ const Line = Styled.hr`
     border-color: #353b48;
     height: 1px;
     background-color: #353b48;
+`
+
+
+const PaginationBox = Styled.div`
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: white;
+    }
+    .MuiPaginationItem-root{
+        color: white;
+    }
 `
 
 

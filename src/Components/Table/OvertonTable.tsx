@@ -285,9 +285,10 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                     })
             }
             {currentPage && totalPage ?
-                <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
-                            style={{marginLeft: "33%", marginTop: "1%"}}
-                            boundaryCount={1}/>
+                <PaginationBox>
+                    <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
+                                boundaryCount={1} color={"primary"}/>
+                </PaginationBox>
                 :
                 null
             }
@@ -412,6 +413,18 @@ const SearchButton = Styled.button`
         width: 20px;
         height: 20px;
         margin-top: 5px;
+    }
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: white;
+    }
+    .MuiPaginationItem-root{
+        color: white;
     }
 `
 
