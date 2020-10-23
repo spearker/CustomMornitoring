@@ -53,9 +53,9 @@ const BasicMoldRegister = () => {
     const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
     const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
-    const [mold_spec_w, setMold_spec_w] = useState<string>('');
-    const [mold_spec_l, setMold_spec_l] = useState<string>('');
-    const [mold_spec_t, setMold_spec_t] = useState<string>('');
+    const [mold_spec_w, setMold_spec_w] = useState<number>();
+    const [mold_spec_l, setMold_spec_l] = useState<number>();
+    const [mold_spec_t, setMold_spec_t] = useState<number>();
     const [input_material, setInput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
     const [output_material, setOutput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
 
@@ -164,13 +164,13 @@ const BasicMoldRegister = () => {
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (limit.toString() === "") {
+        } else if (limit.toString() === "" || limit < 0) {
             alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (inspect.toString() === "") {
+        } else if (inspect.toString() === "" || limit <= 0) {
             alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (proper.toString() === "") {
+        } else if (proper.toString() === "" || proper < 0) {
             alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
@@ -361,12 +361,12 @@ const BasicMoldRegister = () => {
                                 list={factory}
                                 searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?&'}
                             />
-                            <NormalInput title={'금형 치수 L'} value={mold_spec_l} onChangeEvent={setMold_spec_l}
-                                         description={'치수를 입력하세요.'}/>
-                            <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w}
-                                         description={'치수를 입력하세요.'}/>
-                            <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t}
-                                         description={'치수를 입력하세요.'}/>
+                            <NormalNumberInput title={'금형 치수 L'} description={"치수를 입력하세요."} value={mold_spec_l}
+                                               onChangeEvent={setMold_spec_l}/>
+                            <NormalNumberInput title={'금형 치수 W'} description={"치수를 입력하세요."} value={mold_spec_w}
+                                               onChangeEvent={setMold_spec_w}/>
+                            <NormalNumberInput title={'금형 치수 T'} description={"치수를 입력하세요."} value={mold_spec_t}
+                                               onChangeEvent={setMold_spec_t}/>
                             <InputContainer title={"투입 품목"}>
                                 <ProductionPickerModal select={input_material} onClickEvent={setInput_material}
                                                        text={'투입품목'}

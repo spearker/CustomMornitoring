@@ -65,7 +65,7 @@ const ChitRegisterContainer = () => {
         } else if (selectDate === '') {
             alert("납기일은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (chitData.goal > 0) {
+        } else if (Number(chitData.goal) <= 0) {
             alert("생산 할 수량은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
