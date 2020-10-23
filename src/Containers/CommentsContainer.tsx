@@ -73,7 +73,7 @@ const CommentsContainer = ({children, pk}: Props) => {
             return;
         }
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/task/comment/list?pk=' + pk, getToken(TOKEN_NAME))
+        const results = await getRequest('http://61.101.55.224:18299/api/v1/task/comment/list?pk=' + pk, getToken(TOKEN_NAME))
 
         if (results === false) {
             //alert('데이터를 불러올 수 없습니다.')
@@ -106,7 +106,7 @@ const CommentsContainer = ({children, pk}: Props) => {
             comment_pk: id,
 
         }
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/task/comment/blind', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/task/comment/blind', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -138,7 +138,7 @@ const CommentsContainer = ({children, pk}: Props) => {
             file: path
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/task/comment/put', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/task/comment/put', data, getToken(TOKEN_NAME))
         setIsCreated(true)
         if (res === false) {
             setIsCreated(false)
