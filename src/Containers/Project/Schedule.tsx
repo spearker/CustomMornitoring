@@ -58,32 +58,6 @@ const ScheduleContainer = () => {
             state: '현황'
         }
     }
-  }
-
-  const detailDummy = [
-    {
-      machine_name: '기계명',
-      mold_name: '금형명',
-      input_material: '입력 자재(품목)명',
-      output_material: '출력 자재(품목)명'
-    }
-  ]
-
-  const titleeventdummy = [
-    {
-      Name: '등록하기',
-      Width: 90,
-      Link: () => history.push('/project/production/register')
-    },
-    // {
-    //     Name: '수정',
-    // },
-    {
-      Name: '삭제',
-      Link: () => postDelete()
-    }
-  ]
-
 
     const detailDummy = [
         {
@@ -125,17 +99,6 @@ const ScheduleContainer = () => {
             }
         }
     }
-  ]
-
-  const arrayDelete = () => {
-    while (true) {
-      deletePk.pk.pop()
-      if (deletePk.pk.length === 0) {
-        break
-      }
-    }
-  }
-
 
     const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
@@ -231,11 +194,6 @@ const ScheduleContainer = () => {
             return getData(segment.pk)
         }
     }, [selectPk, selectMaterial, selectValue])
-
-
-          if (tmpPk.length < deletePk.pk.length) {
-            deletePk.pk.shift()
-          }
 
 
     const getData = useCallback(async (pk) => {
