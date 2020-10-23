@@ -44,10 +44,10 @@ const BasicMoldRegister = () => {
     const [photoName, setPhotoName] = useState<string>('');
     const [factory, setFactory] = useState<any[]>([]);
 
-    const [limit, setLimit] = useState<number>(0);
-    const [inspect, setInspect] = useState<number>(0);
-    const [current, setCurrent] = useState<number>(0);
-    const [proper, setProper] = useState(0);
+    const [limit, setLimit] = useState<number>();
+    const [inspect, setInspect] = useState<number>();
+    const [current, setCurrent] = useState<number>();
+    const [proper, setProper] = useState<number>();
     const [files, setFiles] = useState<any[3]>([null, null]);
     const [paths, setPaths] = useState<any[3]>([null, null]);
     const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
@@ -164,25 +164,25 @@ const BasicMoldRegister = () => {
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (limit.toString() === "" || limit < 0) {
+        } else if (!limit || limit <= 0) {
             alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (inspect.toString() === "" || limit <= 0) {
+        } else if (!inspect || inspect <= 0) {
             alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (proper.toString() === "" || proper < 0) {
+        } else if (!proper || proper < 0) {
             alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
             alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_l === "") {
+        } else if (!mold_spec_l || mold_spec_l <= 0) {
             alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_w === "") {
+        } else if (!mold_spec_w || mold_spec_w <= 0) {
             alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_t === "") {
+        } else if (!mold_spec_t || mold_spec_t <= 0) {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (input_material.pk === "" || input_material.pk === undefined) {
@@ -242,6 +242,7 @@ const BasicMoldRegister = () => {
         //console.log(JSON.stringify(infoList))
 
         console.log(input_material, output_material)
+
         if (name === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -251,25 +252,25 @@ const BasicMoldRegister = () => {
         } else if (madeNo === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (limit.toString() === "") {
+        } else if (!limit || limit <= 0) {
             alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (inspect.toString() === "") {
+        } else if (!inspect || inspect <= 0) {
             alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (proper.toString() === "") {
+        } else if (!proper || proper < 0) {
             alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
             alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_l === "") {
+        } else if (!mold_spec_l || mold_spec_l <= 0) {
             alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_w === "") {
+        } else if (!mold_spec_w || mold_spec_w <= 0) {
             alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_t === "") {
+        } else if (!mold_spec_t || mold_spec_t <= 0) {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (input_material.pk === "" || input_material.pk === undefined) {
