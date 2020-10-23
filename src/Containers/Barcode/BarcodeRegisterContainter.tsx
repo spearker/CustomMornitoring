@@ -63,7 +63,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
         const resultData = await getBarcode(tempUrl);
         console.log(resultData)
 
-        setBarcodeImg("http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=" + resultData.barcode_photo)
+        setBarcodeImg("http://61.101.55.224:18299/api/v1/barcode/previewImg?barcode_img_name=" + resultData.barcode_photo)
     }, [rules, barcodeImg])
 
     const getLoad = useCallback(async () => {

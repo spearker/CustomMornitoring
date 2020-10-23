@@ -24,7 +24,7 @@ const NormalNumberInput = ({title, line, description, value, onChangeEvent, widt
       {onChangeEvent !== null ?
         <InputBox type="number" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
           onChangeEvent(Number(e.target.value.toString()))
-        }} placeholder={description}/>
+        }} defaultValue={''} placeholder={description}/>
         :
         <InputBox type="number" value={value} placeholder={description} disabled/>
       }
