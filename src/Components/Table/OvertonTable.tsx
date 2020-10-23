@@ -229,7 +229,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({ title, selectDate, calen
                                     Object.keys(indexList).map((mv, mi) => {
                                         //mv : [pk , machin_list, machine_name ... ]
                                         return (
-                                            typeof v[mv] === 'object' ?
+                                            v[mv] !== null && typeof v[mv] === 'object' ?
                                                 <select className="p-limits" style={{
                                                     backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
                                                     borderColor: clickValue === v ? '#19b9df' : '#353b48'
@@ -245,10 +245,10 @@ const OvertonTable: React.FunctionComponent<Props> = ({ title, selectDate, calen
                                                 </select>
                                                 :
                                                 <p key={`td-${i}-${mv}`}
-                                                    className="p-limits"
-                                                    onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}>
-                                                    {v[mv] === '' ?
-                                                        'ㅡ'
+                                                   className="p-limits"
+                                                   onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}>
+                                                    {v[mv] === '' || v[mv] === null || v[mv] === null ?
+                                                        ''
                                                         :
                                                         v[mv]
                                                     }
