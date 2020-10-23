@@ -154,10 +154,10 @@ const CustomerRegister = ({match}: Props) => {
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(ceo === ""){
+        } else if (ceo === "") {
             alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(no === ""){
+        } else if (no === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return
         }
@@ -211,10 +211,10 @@ const CustomerRegister = ({match}: Props) => {
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(ceo === ""){
+        } else if (ceo === "") {
             alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(no === ""){
+        } else if (no === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return
         }

@@ -110,7 +110,7 @@ const OutsourcingRegister = ({match}: any) => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await postRequest(`http://203.234.183.22:8299/api/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -163,7 +163,7 @@ const OutsourcingRegister = ({match}: any) => {
         } else if (ceo === "") {
             alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (no === null) {
+        } else if (no === null || no === undefined || no === 0 || no.toString() === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -186,7 +186,7 @@ const OutsourcingRegister = ({match}: any) => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/update/', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -216,17 +216,15 @@ const OutsourcingRegister = ({match}: any) => {
      */
     const onsubmitForm = useCallback(async (e) => {
         e.preventDefault();
-        console.log(infoList)
-        ////alert(JSON.stringify(infoList))
-        console.log(JSON.stringify(infoList))
 
+        console.log(no)
         if (name === "") {
             alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (ceo === "") {
             alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (no === null) {
+        } else if (no === null || no === undefined || no === 0 || no.toString() === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }

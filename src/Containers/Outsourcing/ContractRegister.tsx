@@ -1,22 +1,22 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
-import Header from '../../Components/Text/Header';
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import NormalInput from '../../Components/Input/NormalInput';
-import RegisterButton from '../../Components/Button/RegisterButton';
-import {getToken} from '../../Common/tokenFunctions';
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
-import {uploadTempFile} from '../../Common/fileFuctuons';
-import ListHeader from '../../Components/Text/ListHeader';
+import Header from '../../Components/Text/Header'
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
+import NormalInput from '../../Components/Input/NormalInput'
+import RegisterButton from '../../Components/Button/RegisterButton'
+import {getToken} from '../../Common/tokenFunctions'
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
+import {uploadTempFile} from '../../Common/fileFuctuons'
+import ListHeader from '../../Components/Text/ListHeader'
 import {useHistory} from 'react-router-dom'
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import InputContainer from "../InputContainer";
-import Styled from "styled-components";
-import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
-import NormalAddressInput from "../../Components/Input/NormalAddressInput";
-import useObjectInput from "../../Functions/UseInput";
-import OutsourcingPickerModal from "../../Components/Modal/OutsourcingRegister";
-import NormalNumberInput from "../../Components/Input/NormalNumberInput";
+import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
+import InputContainer from '../InputContainer'
+import Styled from 'styled-components'
+import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
+import NormalAddressInput from '../../Components/Input/NormalAddressInput'
+import useObjectInput from '../../Functions/UseInput'
+import OutsourcingPickerModal from '../../Components/Modal/OutsourcingRegister'
+import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -29,38 +29,38 @@ const ContractRegister = ({match}: Props) => {
     const history = useHistory()
 
     const [selectDate, setSelectDate] = useState<string>('')
-    const [pk, setPk] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>();
-    const [type, setType] = useState<number>(0); //0: 법인, 1:개인
-    const [phone, setPhone] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-    const [fax, setFax] = useState<string>('');
-    const [phoneM, setPhoneM] = useState<string>('');
-    const [emailM, setEmailM] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [manager, setManager] = useState<string>('');
-    const [ceo, setCeo] = useState<string>('');
-    const [infoList, setInfoList] = useState<IInfo[]>([]);
+    const [pk, setPk] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [no, setNo] = useState<number>()
+    const [type, setType] = useState<number>(0) //0: 법인, 1:개인
+    const [phone, setPhone] = useState<string>('')
+    const [address, setAddress] = useState<string>('')
+    const [fax, setFax] = useState<string>('')
+    const [phoneM, setPhoneM] = useState<string>('')
+    const [emailM, setEmailM] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [manager, setManager] = useState<string>('')
+    const [ceo, setCeo] = useState<string>('')
+    const [infoList, setInfoList] = useState<IInfo[]>([])
 
-    const [paths, setPaths] = useState<any[1]>([null]);
-    const [oldPaths, setOldPaths] = useState<any[1]>([null]);
+    const [paths, setPaths] = useState<any[1]>([null])
+    const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
-    const [isUpdate, setIsUpdate] = useState<boolean>(false);
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
     const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
     const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
-    const [quantity, setQuantity] = useState<number>(0)
-    const [unpaid, setUnpaid] = useState<number>(0)
+    const [quantity, setQuantity] = useState<number>()
+    const [unpaid, setUnpaid] = useState<number>()
     const [paymentCondition, setPaymentCondition] = useState('')
 
     //생산품 검색
-    const [isPoupup, setIsPoupup] = useState<boolean>(false);
-    const [isSearched, setIsSearched] = useState<boolean>(false);
-    const [keyword, setKeyword] = useState<string>('');
-    const [checkList, setCheckList] = useState<IMaterial[]>([]);
-    const [list, setList] = useState<IMaterial[]>([]);
-    const [searchList, setSearchList] = useState<IMaterial[]>([]);
+    const [isPoupup, setIsPoupup] = useState<boolean>(false)
+    const [isSearched, setIsSearched] = useState<boolean>(false)
+    const [keyword, setKeyword] = useState<string>('')
+    const [checkList, setCheckList] = useState<IMaterial[]>([])
+    const [list, setList] = useState<IMaterial[]>([])
+    const [searchList, setSearchList] = useState<IMaterial[]>([])
 
     const [inputData, setInputData] = useObjectInput('CHANGE', {
         name: '',
@@ -71,7 +71,7 @@ const ContractRegister = ({match}: Props) => {
             detail: '',
         },
 
-    });
+    })
 
     useEffect(() => {
         if (match.params.pk) {
@@ -84,19 +84,19 @@ const ContractRegister = ({match}: Props) => {
 
     const onClickSearch = useCallback(async (e) => {
         ////alert('keyword')
-        e.preventDefault();
-        let type = "material";
+        e.preventDefault()
+        let type = 'material'
         // //alert('keyword')
         if (isPoupup === true) {
             type = 'material'
         } else {
-            return;
+            return
         }
 
         if (keyword === '' || keyword.length < 2) {
             //alert('2글자 이상의 키워드를 입력해주세요')
 
-            return;
+            return
         }
         setIsSearched(true)
 
@@ -106,11 +106,11 @@ const ContractRegister = ({match}: Props) => {
             //TODO: 에러 처리
         } else {
             if (res.status === 200) {
-                const results = res.results;
+                const results = res.results
                 if (isPoupup === true) {
-                    setSearchList(results);
+                    setSearchList(results)
                 } else {
-                    return;
+                    return
                 }
 
 
@@ -127,23 +127,23 @@ const ContractRegister = ({match}: Props) => {
      * @returns X
      */
     const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0]);
+        console.log(event.target.files[0])
         console.log(index)
         if (event.target.files[0] === undefined) {
 
-            return;
+            return
         }
-        console.log(event.target.files[0].type);
+        console.log(event.target.files[0].type)
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
-            const tempFile = event.target.files[0];
+            const tempFile = event.target.files[0]
             console.log(tempFile)
-            const res = await uploadTempFile(event.target.files[0]);
+            const res = await uploadTempFile(event.target.files[0])
 
             if (res !== false) {
                 console.log(res)
                 const tempPatchList = paths.slice()
-                tempPatchList[index] = res;
+                tempPatchList[index] = res
                 console.log(tempPatchList)
                 setPaths(tempPatchList)
                 return
@@ -174,7 +174,7 @@ const ContractRegister = ({match}: Props) => {
             //TODO: 에러 처리
         } else {
             if (res.status === 200) {
-                const data = res.results;
+                const data = res.results
                 setInputData('location', data.address)
                 setSelectMaterial({name: data.product, pk: data.product_pk})
                 setSelectOutsource({name: data.company_name, pk: data.company_pk})
@@ -206,27 +206,28 @@ const ContractRegister = ({match}: Props) => {
     const onsubmitFormUpdate = useCallback(async () => {
 
         if (selectOutsource?.pk === '' || selectOutsource?.pk === undefined) {
-            alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
-            return;
+            alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+            return
         } else if (selectMaterial?.pk === '' || selectOutsource?.pk === undefined) {
-            alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
-            return;
+            alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+            return
         } else if (quantity === null) {
-            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (unpaid === null) {
-            alert("미납 수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (paymentCondition === '') {
-            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (selectDate === '') {
-            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
-            return;
+            alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+            return
         } else if (inputData.location.postcode === '') {
-            alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
+
 
         const data = {
             pk: match.params.pk,
@@ -238,7 +239,7 @@ const ContractRegister = ({match}: Props) => {
             address: inputData.location
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
-        };
+        }
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
 
@@ -248,12 +249,12 @@ const ContractRegister = ({match}: Props) => {
         } else {
             if (res.status === 200) {
                 //alert('성공적으로 수정 되었습니다')
-                setIsUpdate(false)
                 history.goBack()
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
         }
+
 
     }, [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
 
@@ -273,26 +274,26 @@ const ContractRegister = ({match}: Props) => {
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
         if (selectOutsource?.pk === '' || selectOutsource?.pk === undefined) {
-            alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
-            return;
+            alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+            return
         } else if (selectMaterial?.pk === '' || selectOutsource?.pk === undefined) {
-            alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
-            return;
+            alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+            return
         } else if (quantity === null) {
-            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (unpaid === null) {
-            alert("미납 수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (paymentCondition === '') {
-            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (selectDate === '') {
-            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
-            return;
+            alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+            return
         } else if (inputData.location.postcode === '') {
-            alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
         const data = {
             company: selectOutsource?.pk,
@@ -303,7 +304,7 @@ const ContractRegister = ({match}: Props) => {
             payment_condition: paymentCondition,
             address: inputData.location
 
-        };
+        }
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
 
@@ -326,17 +327,17 @@ const ContractRegister = ({match}: Props) => {
             <Header title={isUpdate ? '수주 수정' : '수주 등록'}/>
             <WhiteBoxContainer>
                 <ListHeader title="필수 항목"/>
-                <InputContainer title={"외주처 명"} width={120}>
+                <InputContainer title={'외주처 명'} width={120}>
                     <OutsourcingPickerModal select={selectOutsource}
                                             onClickEvent={(e) => {
                                                 setSelectOutsource({...selectOutsource, ...e})
-                                            }} text={"외주처 명을 검색해주세요."}/>
+                                            }} text={'외주처 명을 검색해주세요.'}/>
                 </InputContainer>
-                <InputContainer title={"품목(품목명)"} width={120}>
+                <InputContainer title={'품목(품목명)'} width={120}>
                     <ProductionPickerModal select={selectMaterial}
                                            onClickEvent={(e) => {
                                                setSelectMaterial({...selectMaterial, ...e})
-                                           }} text={"품목명을 검색해주세요."} type={1}/>
+                                           }} text={'품목명을 검색해주세요.'} type={1}/>
                 </InputContainer>
                 <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity} description={'수량을 입력하세요.'}
                                    width={120}/>
@@ -345,7 +346,7 @@ const ContractRegister = ({match}: Props) => {
                                    width={120}/>
                 <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
                              description={'대금 지불조건을 입력해 주세요.'} width={120}/>
-                <InputContainer title={"납기일"} width={120}>
+                <InputContainer title={'납기일'} width={120}>
                     <div style={{
                         display: 'flex',
                         flex: 1,
@@ -420,7 +421,7 @@ const ContractRegister = ({match}: Props) => {
                 }
             </WhiteBoxContainer>
         </div>
-    );
+    )
 }
 
 const InputText = Styled.p`

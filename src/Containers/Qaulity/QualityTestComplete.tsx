@@ -143,7 +143,7 @@ const QualityTestComplete = () => {
                 noChildren={true}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 searchBarChange={searchChange}
                 searchButtonOnClick={searchOnClick}>
                 {

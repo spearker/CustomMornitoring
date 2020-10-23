@@ -1,33 +1,33 @@
-import React, {useCallback, useEffect, useState,} from "react";
-import Styled from "styled-components";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList} from "../../Api/mes/outsourcing";
-import {useHistory} from "react-router-dom";
-import {getCustomerData} from "../../Api/mes/customer";
-import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
+import React, {useCallback, useEffect, useState,} from 'react'
+import Styled from 'styled-components'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import LineTable from '../../Components/Table/LineTable'
+import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList} from '../../Api/mes/outsourcing'
+import {useHistory} from 'react-router-dom'
+import {getCustomerData} from '../../Api/mes/customer'
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 const OrderContainer = () => {
 
-    const [list, setList] = useState<any[]>([]);
+    const [list, setList] = useState<any[]>([])
     const [detailEventList, setDetaileventList] = useState<any[]>([])
-    const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any[]>([]);
-    const [contentsList, setContentsList] = useState<any[]>(['거래처명','제품명'])
+    const [titleEventList, setTitleEventList] = useState<any[]>([])
+    const [eventList, setEventList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<any[]>([])
+    const [contentsList, setContentsList] = useState<any[]>(['거래처명', '제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [index, setIndex] = useState({ company_name: '외주처 명' });
-    const [subIndex, setSubIndex] = useState({ manager: '작성자' })
-    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMaterial, setSelectMaterial] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    const [index, setIndex] = useState({company_name: '외주처 명'})
+    const [subIndex, setSubIndex] = useState({manager: '작성자'})
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMaterial, setSelectMaterial] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
-    const history = useHistory();
+    })
+    const history = useHistory()
 
     const indexList = {
         order: {
@@ -63,65 +63,67 @@ const OrderContainer = () => {
     ]
 
     const arrayDelete = () => {
-        while(true){
+        while (true) {
             deletePk.pk.pop()
-            if(deletePk.pk.length === 0){
-                break;
+            if (deletePk.pk.length === 0) {
+                break
             }
         }
     }
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
 
-        {list.length === 0 ?
-            arrayDelete()
-            :
-            list.map((v, i) => {
+        {
+            list.length === 0 ?
+                arrayDelete()
+                :
+                list.map((v, i) => {
 
-                if(deletePk.pk.indexOf(v.pk) === -1){
-                    tmpPk.push(v.pk)
-                }
-
-                tmpPk.map((vi, index) => {
-                    if(deletePk.pk.indexOf(v.pk) === -1){
-                        deletePk.pk.push(vi)
+                    if (deletePk.pk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
                     }
+
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.pk.indexOf(v.pk) === -1) {
+                            deletePk.pk.push(vi)
+                        }
+                    })
+
+                    if (tmpPk.length < deletePk.pk.length) {
+                        deletePk.pk.shift()
+                    }
+
+                    console.log(deletePk.pk)
+
                 })
-
-                if(tmpPk.length < deletePk.pk.length){
-                    deletePk.pk.shift()
-                }
-
-                console.log(deletePk.pk)
-
-            })
         }
-    },[deletePk])
+    }, [deletePk])
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
-        {deletePk.pk.indexOf(Data.pk) !== -1 ?
-            deletePk.pk.splice(IndexPk,1)
-            :
-            deletePk.pk.push(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
-    const optionChange = useCallback(async (filter:number)=>{
+    const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
         const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [option, searchValue])
 
 
-    const searchChange = useCallback(async (search)=>{
+    const searchChange = useCallback(async (search) => {
         setSearchValue(search)
 
-    },[searchValue])
+    }, [searchValue])
 
     const searchOnClick = useCallback(async () => {
 
@@ -129,25 +131,25 @@ const OrderContainer = () => {
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[searchValue,option])
+    }, [searchValue, option])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
-            setSelectPk(null);
-            setSelectMaterial(null);
-            setSelectValue(null);
+            setSelectPk(null)
+            setSelectMaterial(null)
+            setSelectValue(null)
         } else {
-            setSelectPk(mold.pk);
-            setSelectMaterial(mold.name);
+            setSelectPk(mold.pk)
+            setSelectMaterial(mold.product)
             setSelectValue(mold)
             //TODO: api 요청
             getData(mold.pk)
         }
 
-    }, [list, selectPk]);
+    }, [list, selectPk])
 
 
     const eventdummy = [
@@ -155,7 +157,7 @@ const OrderContainer = () => {
             Name: '수정',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/outsourcing/order/register/${v.pk}`)
+            Link: (v) => history.push(`/outsourcing/order/register/${v.pk}`)
         }
     ]
 
@@ -163,11 +165,11 @@ const OrderContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/outsourcing/order/register')
+            Link: () => history.push('/outsourcing/order/register')
         },
         {
             Name: '삭제',
-            Link: ()=>postDelete()
+            Link: () => postDelete()
         }
     ]
 
@@ -179,11 +181,16 @@ const OrderContainer = () => {
     ]
 
     const postDelete = useCallback(async () => {
+        if (deletePk.pk.length <= 0) {
+            alert('삭제하실 항목을 선택해 주세요.')
+            return
+        }
         const tempUrl = `${API_URLS['order'].delete}`
         const res = await postOutsourcingDelete(tempUrl, deletePk)
 
+        arrayDelete()
         getList()
-    },[deletePk])
+    }, [deletePk])
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
@@ -201,12 +208,12 @@ const OrderContainer = () => {
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    }, [list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
     useEffect(() => {
         getList()
-        setIndex(indexList["order"])
+        setIndex(indexList['order'])
         // setList(dummy)
         // setDetailList(detaildummy)
         setEventList(eventdummy)
@@ -215,9 +222,9 @@ const OrderContainer = () => {
         setSubIndex(detailTitle['order'])
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
     return (
         <div>
@@ -235,21 +242,21 @@ const OrderContainer = () => {
                 EventList={eventList}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 checkOnClickEvent={checkOnClick}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
                         <LineTable title={`${selectMaterial} 자세히 보기`} contentTitle={subIndex} contentList={detailList}>
-                            <Line />
+                            <Line/>
                         </LineTable>
                         :
                         null
                 }
             </OvertonTable>
         </div>
-    );
+    )
 }
 
 const Line = Styled.hr`

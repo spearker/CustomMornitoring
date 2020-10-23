@@ -229,7 +229,7 @@ const ScheduleContainer = () => {
 
   useEffect(() => {
     getList()
-  }, [page.current,deletePk])
+  }, [page.current])
 
   const getDistribute = useCallback(async () => {
     //TODO: 성공시
@@ -242,18 +242,22 @@ const ScheduleContainer = () => {
   }, [sendPk])
 
   const postDelete = useCallback(async () => {
+    if (deletePk.pk.length <= 0) {
+      alert('삭제하실 항목을 선택해 주세요.')
+      return
+    }
     const tempUrl = `${API_URLS['production'].delete}`
-    console.log('@@삭제pk배열 : ',deletePk)
+    console.log('@@삭제pk배열 : ', deletePk.pk)
     const res = await postProjectDelete(tempUrl, deletePk)
     console.log(res)
-    
-    setDeletePk({...deletePk, pk:[]})
-    // getList()
+
+    arrayDelete()
+    getList()
   }, [deletePk])
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(deletePk)
-  },[deletePk.pk])
+  }, [deletePk.pk])
 
   // const resetDeletePk = useCallback(()=>{
   //   const tempDeletePk = {...deletePk,pk:[]}
@@ -289,7 +293,7 @@ const ScheduleContainer = () => {
         mainOnClickEvent={onClick}
         currentPage={page.current}
         totalPage={page.total}
-        pageOnClickEvent={(i: number) => setPage({...page, current: i})}
+        pageOnClickEvent={(event, i) => setPage({...page, current: i})}
         calendarState={true}>
         {
           selectPk !== null ?
@@ -302,16 +306,24 @@ const ScheduleContainer = () => {
                       if (detailList.process.length === i + 1) {
                         return (
                           <>
-                            <FactoryBox title={v.process_name} inputMaterial={v.input_material}
+                            <FactoryBox title={v.process_name}
+                                        inputMaterial={v.input_material}
                                         productionMaterial={v.output_material}/>
                           </>)
                       } else {
                         return (
                           <>
-                            <FactoryBox title={v.process_name} inputMaterial={v.input_material}
+                            <FactoryBox title={v.process_name}
+                                        inputMaterial={v.input_material}
                                         productionMaterial={v.output_material}/>
                             <img src={next}
-                                 style={{width: 47, height: 17, marginLeft: 20, marginTop: 135, marginRight: 20}}/>
+                                 style={{
+                                   width: 47,
+                                   height: 17,
+                                   marginLeft: 20,
+                                   marginTop: 135,
+                                   marginRight: 20
+                                 }}/>
                           </>)
                       }
                     })

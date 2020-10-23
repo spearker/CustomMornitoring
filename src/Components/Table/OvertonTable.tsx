@@ -109,25 +109,22 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                 {
                     allCheckOnClickEvent ?
                         <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-                            <input type="checkbox" id={'all'} checked={checked.length === valueList.length} onClick={(e) => {
-                                console.log("sss", checked)
+                            <input type="checkbox" id={'all'} onClick={(e) => {
                                 if (allChecked === false) {
+                                    allCheckOnClickEvent(valueList)
                                     let tmpArr: boolean[] = checked
                                     tmpArr = tmpArr.map(() => true)
-                                    allCheckOnClickEvent(valueList)
+                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                                     setChecked(tmpArr)
                                     setAllChecked(true)
-                                    
-                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                                     return true
                                 } else {
                                     let tmpArr: boolean[] = checked
                                     tmpArr = tmpArr.map(() => false)
                                     allCheckOnClickEvent([])
+                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                                     setChecked(tmpArr)
                                     setAllChecked(false)
-                                    
-                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                                     return false
                                 }
                             }}/>
