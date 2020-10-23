@@ -19,8 +19,8 @@ const StockListContainer = () => {
         machine_name: "",
         recommend: 0
     });
-    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
-    const [BOMindex, setBOMIndex] = useState({ item_name: "품목명00"});
+    const [index, setIndex] = useState({material_name: "품목(품목명)"});
+    const [BOMindex, setBOMIndex] = useState({item_name: "품목명00"});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -37,7 +37,7 @@ const StockListContainer = () => {
             current_stock: "재고량",
             location_name: "보관장소",
             safe_stock: "안전재고",
-          }
+        }
     }
 
     const dummy = [
@@ -150,7 +150,7 @@ const StockListContainer = () => {
         const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.info_list.map((v,i)=>{
+        const getStock = res.info_list.map((v, i) => {
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -158,8 +158,8 @@ const StockListContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    }, [list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
     useEffect(() => {
         getList()
@@ -169,9 +169,9 @@ const StockListContainer = () => {
         setSubIndex(detailTitle['item_detailList'])
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
     return (
         <div>
@@ -182,12 +182,12 @@ const StockListContainer = () => {
                 valueList={list}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?
-                        <LineTable title={selectStock+' 입출고 현황'} contentTitle={subIndex} contentList={detailList}>
-                            <Line />
+                        <LineTable title={selectStock + ' 입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                            <Line/>
                         </LineTable>
                         :
                         null

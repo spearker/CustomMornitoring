@@ -12,13 +12,13 @@ const FinishMaterialContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
-    const [subIndex, setSubIndex] = useState({ worker: '작업자'})
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({material_name: "품목(품목명)"});
+    const [subIndex, setSubIndex] = useState({worker: '작업자'})
     const [filter, setFilter] = useState(30)
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -49,7 +49,7 @@ const FinishMaterialContainer = () => {
             worker: '홍길동',
             total_count: '99,999',
             defective_count: '91',
-            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
+            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.', '요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.', '요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
         },
     ]
 
@@ -58,13 +58,13 @@ const FinishMaterialContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
         },
     ]
 
@@ -72,7 +72,7 @@ const FinishMaterialContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/manageStock/register')
+            Link: () => history.push('/manageStock/register')
         },
         {
             Name: '삭제',
@@ -81,19 +81,18 @@ const FinishMaterialContainer = () => {
 
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
             // getData(mold.pk)
         }
-
 
 
     }, [list, selectPk]);
@@ -107,12 +106,12 @@ const FinishMaterialContainer = () => {
     //
     // },[detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.info_list.map((v,i)=>{
+        const getStock = res.info_list.map((v, i) => {
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -120,15 +119,15 @@ const FinishMaterialContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[list,page])
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["quality"])
         // setList(dummy)
@@ -136,7 +135,7 @@ const FinishMaterialContainer = () => {
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['quality'])
-    },[])
+    }, [])
 
     return (
         <div>
@@ -147,7 +146,7 @@ const FinishMaterialContainer = () => {
                 EventList={eventList}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

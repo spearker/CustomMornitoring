@@ -12,12 +12,12 @@ const ChartOptionDetailLable = {
         min: 0,
         max: 250,
         tickAmount: 25,
-        labels:{
-            formatter:(value) => {
-                if(value===250){
+        labels: {
+            formatter: (value) => {
+                if (value === 250) {
                     return "(ton)"
-                }else{
-                    if(value%50===0){
+                } else {
+                    if (value % 50 === 0) {
                         return value
                     }
                 }
@@ -35,7 +35,7 @@ const ChartOptionDetailLable = {
                 fontSize: '12px'
             },
             formatter: (value) => {
-                if(value%10 === 0){
+                if (value % 10 === 0) {
                     return value
                 }
             }
@@ -126,12 +126,11 @@ const DefectiveContainer = () => {
     // }
 
 
-
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>([]);
-    const [index, setIndex] = useState({  process_name: '공정명'});
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [detailList, setDetailList] = useState<any>([]);
+    const [index, setIndex] = useState({process_name: '공정명'});
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [allPercent, setAllPercent] = useState<number>(0)
     const [labelDatas, setLabelDatas] = useState<string[]>([])
     const [series, setSeries] = useState<number[]>([])
@@ -143,7 +142,7 @@ const DefectiveContainer = () => {
 
     const ChartInitOption = {
         chart: {
-            events:{
+            events: {
                 dataPointSelection: (event, chartContext, config) => {
                     console.log(event, chartContext, config)
 
@@ -156,7 +155,7 @@ const DefectiveContainer = () => {
         labels: labelDatas,
         colors: [POINT_COLOR, "rgba(98, 29, 167, .7 )", '#397485', '#ff341a', 'gray'],
         title: {
-            style:{ color: 'white', fontSize: 20 },
+            style: {color: 'white', fontSize: 20},
             text: ""
         },
         dataLabels: {
@@ -188,14 +187,14 @@ const DefectiveContainer = () => {
     }
 
     const onClick = useCallback((process) => {
-        console.log('dsfewfewf',process.pk);
-        if(process.process_pk === selectPk){
+        console.log('dsfewfewf', process.pk);
+        if (process.process_pk === selectPk) {
             setSelectPk(null);
             setSelectValue(null);
             setDetailList({})
             setPieData([])
             setLabelDatas([])
-        }else{
+        } else {
             setSelectPk(process.process_pk);
             setSelectValue(process)
             //TODO: api 요청
@@ -203,17 +202,16 @@ const DefectiveContainer = () => {
         }
 
 
-
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
         const res = await getDefectiveData(tempUrl)
 
         let tmpList: number[] = []
 
-        res.pies.map((v,i)=>{
+        res.pies.map((v, i) => {
             // series.push(v.percentage)
             tmpList.push(v.percentage)
             labelDatas.push(v.material_name)
@@ -221,45 +219,45 @@ const DefectiveContainer = () => {
         })
 
         console.log(pieData)
-        tmpList.map((v,i)=>{
-            setAllPercent(allPercent => allPercent+v)
+        tmpList.map((v, i) => {
+            setAllPercent(allPercent => allPercent + v)
         })
         setSeries(tmpList)
         setDetailList(res)
 
-    },[detailList, pieData, labelDatas, series])
+    }, [detailList, pieData, labelDatas, series])
 
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
         const res = await getDefectiveData(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
-    const pieOnClick = useCallback((index)=>{
+    const pieOnClick = useCallback((index) => {
         setSelectPie(pieData[index])
-    },[selectPie, pieData])
+    }, [selectPie, pieData])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["defective"])
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
     useEffect(() => {
         console.log(pieData)
     }, [pieData])
 
-    useEffect(()=>{
+    useEffect(() => {
         setSelectPie(undefined)
-    },[selectValue])
+    }, [selectValue])
 
     return (
         <OvertonTable
@@ -269,44 +267,52 @@ const DefectiveContainer = () => {
             clickValue={selectValue}
             currentPage={page.current}
             totalPage={page.total}
-            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+            pageOnClickEvent={(event, i) => setPage({...page, current: i})}
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
                     series.length !== 0 ?
-                    <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
-                        <div style={{display:'flex',flexDirection: 'row'}}>
-                            <Chart>
-                                {allPercent === 0 ?
-                                    <div style={{width: 300, height: 160, borderRadius: 300, backgroundColor: "#ffffff",color: "#000000",textAlign: "center",paddingTop:140}}>
-                                        <p>불량률이 없습니다.</p>
-                                    </div>
-                                    :
-                                    <ReactApexChart options={chartOption} series={series} type="pie"/>
-                                }
-                            </Chart>
-                            <Detail>
-                                {selectPie && <table style={{width: "100%"}}>
-                                    <tr>
-                                        <td>제품명</td>
-                                        <td>{selectPie.material_name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>전체 생산품</td>
-                                        <td>{selectPie.production} ea</td>
-                                    </tr>
-                                    <tr>
-                                        <td>불량 개수</td>
-                                        <td>{selectPie.amount} ea</td>
-                                    </tr>
-                                    <tr>
-                                        <td>불량률</td>
-                                        <td>{selectPie.percentage}</td>
-                                    </tr>
-                                </table>}
-                            </Detail>
-                        </div>
-                    </LineTable>
+                        <LineTable title={`${selectValue.process_name} 불량 분석 정보`}>
+                            <div style={{display: 'flex', flexDirection: 'row'}}>
+                                <Chart>
+                                    {allPercent === 0 ?
+                                        <div style={{
+                                            width: 300,
+                                            height: 160,
+                                            borderRadius: 300,
+                                            backgroundColor: "#ffffff",
+                                            color: "#000000",
+                                            textAlign: "center",
+                                            paddingTop: 140
+                                        }}>
+                                            <p>불량률이 없습니다.</p>
+                                        </div>
+                                        :
+                                        <ReactApexChart options={chartOption} series={series} type="pie"/>
+                                    }
+                                </Chart>
+                                <Detail>
+                                    {selectPie && <table style={{width: "100%"}}>
+                                        <tr>
+                                            <td>제품명</td>
+                                            <td>{selectPie.material_name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>전체 생산품</td>
+                                            <td>{selectPie.production} ea</td>
+                                        </tr>
+                                        <tr>
+                                            <td>불량 개수</td>
+                                            <td>{selectPie.amount} ea</td>
+                                        </tr>
+                                        <tr>
+                                            <td>불량률</td>
+                                            <td>{selectPie.percentage}</td>
+                                        </tr>
+                                    </table>}
+                                </Detail>
+                            </div>
+                        </LineTable>
                         :
                         <NoDataCard contents={'데이터가 없습니다.'} height={150}/>
                     :

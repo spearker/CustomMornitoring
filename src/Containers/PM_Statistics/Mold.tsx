@@ -126,7 +126,7 @@ const MoldContainer = () => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
@@ -137,13 +137,15 @@ const MoldContainer = () => {
                                         <p>타수 카운팅</p>
                                     </div>
                                     <div>
-                                       <MoldArrowContainer>
-                                           <img src={icCurrentValue} style={{marginLeft: detailList.percent>=100 ? '98.8%' : detailList.percent-1.2+"%"}}>
+                                        <MoldArrowContainer>
+                                            <img src={icCurrentValue}
+                                                 style={{marginLeft: detailList.percent >= 100 ? '98.8%' : detailList.percent - 1.2 + "%"}}>
 
                                             </img>
                                         </MoldArrowContainer>
                                         <MoldMaxBar>
-                                            <div style={{width: detailList.percent>=100 ? '100%' : detailList.percent+"%" }}>
+                                            <div
+                                                style={{width: detailList.percent >= 100 ? '100%' : detailList.percent + "%"}}>
 
                                             </div>
                                         </MoldMaxBar>
