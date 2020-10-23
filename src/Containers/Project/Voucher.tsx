@@ -25,6 +25,7 @@ const VoucherContainer = ({match}: Props) => {
     const [detailList, setDetailList] = useState<any>({});
     const [index, setIndex] = useState({registerer: '등록자'});
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
+
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
@@ -170,7 +171,6 @@ const VoucherContainer = ({match}: Props) => {
                 })
         }
     }, [deletePk])
-
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)

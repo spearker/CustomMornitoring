@@ -23,6 +23,7 @@ const ScheduleManageContainer = () => {
     })
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
+
     const history = useHistory();
 
     const indexList = {
@@ -161,7 +162,7 @@ const ScheduleManageContainer = () => {
 
     const postDelete = useCallback(async () => {
         const tempUrl = `${API_URLS['production'].delete}`
-        const res = await postProjectDelete(tempUrl, deletePk)
+            const res = await postProjectDelete(tempUrl, deletePk)
         console.log(res)
         getList()
     }, [deletePk])

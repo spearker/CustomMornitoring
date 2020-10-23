@@ -18,6 +18,7 @@ const RawMaterialContainer = () => {
     const [type, setType] = useState(0)
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
+            
     // const [selectValue, setSelectValue ]= useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
