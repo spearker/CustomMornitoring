@@ -259,7 +259,6 @@ const BasicDeviceRegister = () => {
                                 value={'name'}
                                 onChangeEvent={
                                     (input) => {
-                                        console.log('@@ 공장 선택 : ',input)
                                         setFactory(input)
                                     }
                                 }
