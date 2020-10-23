@@ -230,6 +230,7 @@ const ContractRegister = ({match}: Props) => {
 
         const data = {
             pk: match.params.pk,
+            company: selectOutsource?.pk,
             product: selectMaterial?.pk,
             quantity: quantity,
             unpaid: unpaid,

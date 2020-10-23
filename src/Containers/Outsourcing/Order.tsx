@@ -143,7 +143,7 @@ const OrderContainer = () => {
             setSelectValue(null);
         } else {
             setSelectPk(mold.pk);
-            setSelectMaterial(mold.name);
+            setSelectMaterial(mold.product);
             setSelectValue(mold)
             //TODO: api 요청
             getData(mold.pk)
