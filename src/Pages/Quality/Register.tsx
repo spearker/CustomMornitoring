@@ -80,7 +80,7 @@ const RegisterInferior = () => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://61.101.55.224:18299/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://203.234.183.22:8299/api/v1/process/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -130,7 +130,7 @@ const RegisterInferior = () => {
 
         }
 
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/stock/out', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/out', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -185,7 +185,7 @@ const RegisterInferior = () => {
             description: description,
 
         }
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/barcode/product/update' + getParameter('pk'), data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/barcode/product/update' + getParameter('pk'), data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -226,7 +226,7 @@ const RegisterInferior = () => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`http://61.101.55.224:18299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
+        const res = await getRequest(`http://203.234.183.22:8299/api/v1/common/search?keyword=${keyword}&type=${type}&orderBy=1`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
