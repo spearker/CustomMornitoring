@@ -15,13 +15,13 @@ const SegmentListContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
-    const [index, setIndex] = useState({ name: "공정별 세분화 명"});
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
+    const [index, setIndex] = useState({name: "공정별 세분화 명"});
     const [subIndex, setSubIndex] = useState({order: '공정 순서'})
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const history = useHistory();
 
     const indexList = {
@@ -34,7 +34,7 @@ const SegmentListContainer = () => {
 
     const detailTitle = {
         segment: {
-            order:'공정 순서',
+            order: '공정 순서',
             type: '공정 타입',
             detail_order: '상세 공정 순',
             machine_name: '기계명',
@@ -74,21 +74,21 @@ const SegmentListContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/process/detail/register')
+            Link: () => history.push('/process/detail/register')
         },
         {
             Name: '삭제',
-            Link: ()=>postDelete()
+            Link: () => postDelete()
         }
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
@@ -99,61 +99,63 @@ const SegmentListContainer = () => {
     }, [list, selectPk]);
 
     const arrayDelete = () => {
-        while(true){
+        while (true) {
             deletePk.pk.pop()
-            if(deletePk.pk.length === 0){
+            if (deletePk.pk.length === 0) {
                 break;
             }
         }
     }
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
 
-        {list.length === 0 ?
-          arrayDelete()
-          :
-          list.map((v, i) => {
-              arrayDelete()
+        {
+            list.length === 0 ?
+                arrayDelete()
+                :
+                list.map((v, i) => {
+                    arrayDelete()
 
-              if(deletePk.pk.indexOf(v.pk) === -1){
-                  tmpPk.push(v.pk)
-              }
+                    if (deletePk.pk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
+                    }
 
-              tmpPk.map((vi, index) => {
-                  if(deletePk.pk.indexOf(v.pk) === -1){
-                      deletePk.pk.push(vi)
-                  }
-              })
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.pk.indexOf(v.pk) === -1) {
+                            deletePk.pk.push(vi)
+                        }
+                    })
 
-              if(tmpPk.length < deletePk.pk.length){
-                  deletePk.pk.shift()
-              }
+                    if (tmpPk.length < deletePk.pk.length) {
+                        deletePk.pk.shift()
+                    }
 
-              console.log('deletePk.pk', deletePk.pk)
-          })
+                    console.log('deletePk.pk', deletePk.pk)
+                })
         }
-    },[deletePk])
+    }, [deletePk])
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
-        {deletePk.pk.indexOf(Data.pk) !== -1 ?
-          deletePk.pk.splice(IndexPk,1)
-          :
-          deletePk.pk.push(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
-        const postDelete = useCallback(async () => {
-            const tempUrl = `${API_URLS['segment'].delete}`
-            const res = await postSegmentDelete(tempUrl, deletePk)
+    const postDelete = useCallback(async () => {
+        const tempUrl = `${API_URLS['segment'].delete}`
+        const res = await postSegmentDelete(tempUrl, deletePk)
 
-            getList()
-            setDeletePk({pk: []})
-        },[deletePk])
+        getList()
+        setDeletePk({pk: []})
+    }, [deletePk])
 
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['segment'].load}?pk=${pk}`
         const res = await getSegmentList(tempUrl)
@@ -166,24 +168,31 @@ const SegmentListContainer = () => {
         // process_name: "단발 공정"
         // process_pk: "v1_SIZL_process_0_null_단발 공정"
         // process_type: "0"
-        const getprocesses = res.processes.map((v,i)=>{
+        const getprocesses = res.processes.map((v, i) => {
             console.log(v.process_type)
             const processType = transferCodeToName('process', Number(v.process_type))
-            const machine_name = v.machines.map((v,i)=>{
+            const machine_name = v.machines.map((v, i) => {
                 return v.machine_name
             })
 
-            const mold_name = v.machines.map((v,i)=>{
+            const mold_name = v.machines.map((v, i) => {
                 return v.mold_name
             })
-            return {...v, order: (i+1)+'차', type: processType, detail_order: processType+' '+(i+1)+'차',machine_name: machine_name, mold_name: mold_name }
+            return {
+                ...v,
+                order: (i + 1) + '차',
+                type: processType,
+                detail_order: processType + ' ' + (i + 1) + '차',
+                machine_name: machine_name,
+                mold_name: mold_name
+            }
         })
 
         setDetailList(getprocesses)
 
-    },[detailList])
+    }, [detailList])
 
-    const getDelete = useCallback( async()=>{
+    const getDelete = useCallback(async () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['segment'].delete}`
         const res = await getSegmentList(tempUrl)
@@ -191,27 +200,27 @@ const SegmentListContainer = () => {
 
         setDetailList(res)
 
-    },[detailList])
+    }, [detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['segment'].list+'?page='}${page.current}&limit=15`
+        const tempUrl = `${API_URLS['segment'].list + '?page='}${page.current}&limit=15`
         const res = await getSegmentList(tempUrl)
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
         setList(res.info_list)
 
-    },[list,page])
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         // getList()
         setIndex(indexList["segment"])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
         // setDetailList(detaildummy)
         setSubIndex(detailTitle['segment'])
-    },[])
+    }, [])
 
     useEffect(() => {
         getList()
@@ -230,7 +239,7 @@ const SegmentListContainer = () => {
                 mainOnClickEvent={onClick}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }>
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}>
                 {
                     selectPk !== null ?
                         <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList} objectLine={true}>

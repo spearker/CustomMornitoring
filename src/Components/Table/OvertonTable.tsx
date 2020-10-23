@@ -1,65 +1,62 @@
-import React, {useCallback, useState} from 'react'
-import Styled from 'styled-components'
-import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
-import CalendarDropdown from '../Dropdown/CalendarDropdown'
-import moment from 'moment'
-import BasicDropdown from '../Dropdown/BasicDropdown'
-import {getRequest} from '../../Common/requestFunctions'
-import {getToken} from '../../Common/tokenFunctions'
-import IcSearchButton from '../../Assets/Images/ic_search.png'
-import IcDropDownButton from '../../Assets/Images/ic_dropdown_white.png'
-import {Input} from 'semantic-ui-react'
-import NumberPagenation from '../Pagenation/NumberPagenation'
+import React, {useCallback, useState} from "react";
+import Styled from "styled-components";
+import {POINT_COLOR, TOKEN_NAME} from "../../Common/configset";
+import CalendarDropdown from "../Dropdown/CalendarDropdown";
+import moment from "moment";
+import BasicDropdown from "../Dropdown/BasicDropdown";
+import {getRequest} from "../../Common/requestFunctions";
+import {getToken} from "../../Common/tokenFunctions";
+import IcSearchButton from "../../Assets/Images/ic_search.png";
+import IcDropDownButton from "../../Assets/Images/ic_dropdown_white.png"
+import {Input} from "semantic-ui-react";
+import Pagination from '@material-ui/lab/Pagination';
 
 interface Props {
-  title: string
-  selectDate?: any
-  calendarOnClick?: any
-  searchBarChange?: any
-  searchButtonOnClick?: any
-  dropDownContents?: any
-  dropDownOnClick?: any
-  dropDownOption?: any
-  selectBoxChange?: any
-  titleOnClickEvent?: any
-  indexList: any
-  valueList: any[]
-  EventList?: any[]
-  allCheckOnClickEvent?: any
-  checkOnClickEvent?: any
-  clickValue?: object
-  mainOnClickEvent?: any
-  onClickEvent?: any
-  buttonState?: boolean
-  currentPage?: number
-  totalPage?: number
-  pageOnClickEvent?: any
-  noChildren?: boolean
-  children?: any
-  calendarState?: boolean
-  startDate?: string
-  endDate?: string
+    title: string
+    selectDate?: any
+    calendarOnClick?: any
+    searchBarChange?: any
+    searchButtonOnClick?: any
+    dropDownContents?: any
+    dropDownOnClick?: any
+    dropDownOption?: any
+    selectBoxChange?: any
+    titleOnClickEvent?: any
+    indexList: any
+    valueList: any[]
+    EventList?: any[]
+    allCheckOnClickEvent?: any
+    checkOnClickEvent?: any
+    clickValue?: object
+    mainOnClickEvent?: any
+    onClickEvent?: any
+    buttonState?: boolean
+    currentPage?: number
+    totalPage?: number
+    pageOnClickEvent?: any
+    noChildren?: boolean
+    children?: any
+    calendarState?: boolean
 }
 
 const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
 
-  const [checked, setChecked] = useState<any[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+    const [checked, setChecked] = useState<any[]>([])
+    const [allChecked, setAllChecked] = useState(false)
 
 
-  React.useEffect(() => {
-    if (checkOnClickEvent) {
-      console.log('valueList', valueList)
-      let tmpArr: boolean[] = []
-      const arrData = valueList.map((v, i) => {
-        tmpArr.push(false)
-      })
-      setChecked(tmpArr)
-    } else {
-      return
-    }
-  }, [valueList])
-
+    React.useEffect(() => {
+        if (checkOnClickEvent) {
+            console.log('valueList', valueList)
+            let tmpArr: boolean[] = []
+            const arrData = valueList.map((v, i) => {
+                tmpArr.push(false)
+            })
+            setChecked(tmpArr)
+        } else {
+            return
+        }
+    }, [valueList])
 
 
     return (

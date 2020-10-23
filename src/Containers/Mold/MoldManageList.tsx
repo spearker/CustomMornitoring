@@ -11,13 +11,13 @@ const CreateContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
-    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({mold_name: '금형 이름'});
+    const [subIndex, setSubIndex] = useState({part_name: '부품명'})
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -27,9 +27,9 @@ const CreateContainer = () => {
         manage: {
             mold_name: "금형명",
             manufacturing_date: "제조일",
-            site: "창고위치" ,
-            production:"생산품목",
-            registered:"등록날짜",
+            site: "창고위치",
+            production: "생산품목",
+            registered: "등록날짜",
         }
     }
 
@@ -55,71 +55,72 @@ const CreateContainer = () => {
     const titleeventdummy = [
         {
             Name: '삭제',
-            Link: ()=> postDelete()
+            Link: () => postDelete()
         }
     ]
 
     const arrayDelete = () => {
-        while(true){
+        while (true) {
             deletePk.pk.pop()
-            if(deletePk.pk.length === 0){
+            if (deletePk.pk.length === 0) {
                 break;
             }
         }
     }
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
 
-        {list.length === 0 ?
-            arrayDelete()
-            :
-            list.map((v, i) => {
+        {
+            list.length === 0 ?
                 arrayDelete()
+                :
+                list.map((v, i) => {
+                    arrayDelete()
 
-                if(deletePk.pk.indexOf(v.pk) === -1){
-                    tmpPk.push(v.pk)
-                }
-
-                tmpPk.map((vi, index) => {
-                    if(deletePk.pk.indexOf(v.pk) === -1){
-                        deletePk.pk.push(vi)
+                    if (deletePk.pk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
                     }
+
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.pk.indexOf(v.pk) === -1) {
+                            deletePk.pk.push(vi)
+                        }
+                    })
+
+                    if (tmpPk.length < deletePk.pk.length) {
+                        deletePk.pk.shift()
+                    }
+
+                    console.log('deletePk.pk', deletePk.pk)
                 })
-
-                if(tmpPk.length < deletePk.pk.length){
-                    deletePk.pk.shift()
-                }
-
-                console.log('deletePk.pk', deletePk.pk)
-            })
         }
-    },[deletePk])
+    }, [deletePk])
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
-        {deletePk.pk.indexOf(Data.pk) !== -1 ?
-            deletePk.pk.splice(IndexPk,1)
-            :
-            deletePk.pk.push(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
             // getData(mold.pk)
         }
-
 
 
     }, [list, selectPk]);
@@ -133,34 +134,34 @@ const CreateContainer = () => {
     //
     // },[detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS["manage"].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
     const postDelete = useCallback(async () => {
         const tempUrl = `${API_URLS['manage'].delete}`
         const res = await postCustomerDelete(tempUrl, deletePk)
 
         getList()
-    },[deletePk])
+    }, [deletePk])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["manage"])
         // setList(dummy)
         // setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-    },[])
+    }, [])
 
     return (
         <div>
@@ -175,7 +176,7 @@ const CreateContainer = () => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

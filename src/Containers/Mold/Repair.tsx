@@ -10,12 +10,12 @@ const RepairContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [subIndex, setSubIndex] = useState({    manager: "작업자" })
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({mold_name: '금형 이름'});
+    const [subIndex, setSubIndex] = useState({manager: "작업자"})
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -113,12 +113,12 @@ const RepairContainer = () => {
 
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
@@ -127,10 +127,9 @@ const RepairContainer = () => {
         }
 
 
-
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         console.log(pk)
         const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
@@ -138,7 +137,7 @@ const RepairContainer = () => {
 
         console.log([res])
 
-        const Detail = [res].map((v,i)=>{
+        const Detail = [res].map((v, i) => {
             const status = v.status === 'WAIT' ? "진행중" : "완료"
 
             return {...v, status: status}
@@ -146,9 +145,9 @@ const RepairContainer = () => {
 
         setDetailList(Detail)
 
-    },[detailList, selectPk])
+    }, [detailList, selectPk])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&keyword=&type=0&limit=15`
 
@@ -156,14 +155,14 @@ const RepairContainer = () => {
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["repair"])
         // setList(dummy)
@@ -171,7 +170,7 @@ const RepairContainer = () => {
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['repair'])
-    },[])
+    }, [])
 
     return (
         <div>
@@ -182,7 +181,7 @@ const RepairContainer = () => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 mainOnClickEvent={onClick}
                 noChildren={true}
             >

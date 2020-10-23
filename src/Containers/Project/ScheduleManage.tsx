@@ -14,12 +14,16 @@ const ScheduleManageContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
-    const [index, setIndex] = useState({manager_name:'계획자명'});
-    const [selectValue, setSelectValue ]= useState<any>(null);
-    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
+    const [index, setIndex] = useState({manager_name: '계획자명'});
+    const [selectValue, setSelectValue] = useState<any>(null);
+    const [selectDate, setSelectDate] = useState({
+        start: moment().format("YYYY-MM-DD"),
+        end: moment().format("YYYY-MM-DD")
+    })
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+
     const history = useHistory();
 
     const indexList = {
@@ -83,21 +87,21 @@ const ScheduleManageContainer = () => {
     const eventdummy = [
         {
             Name: '전표 이력',
-            Link: (v)=>history.push(`/project/voucher/list/${v.pk}`)
+            Link: (v) => history.push(`/project/voucher/list/${v.pk}`)
         },
         {
             Name: '작업자 이력',
-            Link: (v)=>history.push(`/project/work/history/${v.pk}`)
+            Link: (v) => history.push(`/project/work/history/${v.pk}`)
         }
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
@@ -106,75 +110,75 @@ const ScheduleManageContainer = () => {
         }
 
 
-
     }, [list, selectPk]);
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
-        {deletePk.pk.indexOf(Data.pk) !== -1 ?
-            deletePk.pk.splice(IndexPk,1)
-            :
-            deletePk.pk.push(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
 
-    const calendarOnClick = useCallback(async (start, end)=>{
+    const calendarOnClick = useCallback(async (start, end) => {
         setSelectDate({start: start, end: end ? end : ''})
 
         const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
-        const getScheduleMange = res.info_list.map((v,i)=>{
+        const getScheduleMange = res.info_list.map((v, i) => {
 
             const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             return {...v, amount: amount, current_amount: current_amount}
         })
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
         setList(getScheduleMange)
-    },[selectDate,page])
+    }, [selectDate, page])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
 
         const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=15`
 
         const res = await getProjectList(tempUrl)
 
-        const getScheduleMange = res.info_list.map((v,i)=>{
+        const getScheduleMange = res.info_list.map((v, i) => {
 
             const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             return {...v, amount: amount, current_amount: current_amount}
         })
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
         setList(getScheduleMange)
 
-    },[list,page])
+    }, [list, page])
 
     const postDelete = useCallback(async () => {
         const tempUrl = `${API_URLS['production'].delete}`
             const res = await postProjectDelete(tempUrl, deletePk)
         console.log(res)
         getList()
-    },[deletePk])
+    }, [deletePk])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["scheduleManage"])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
-    },[])
+    }, [])
 
     return (
         <div>
@@ -190,7 +194,7 @@ const ScheduleManageContainer = () => {
                 checkOnClickEvent={checkOnClick}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
             </OvertonTable>
         </div>
