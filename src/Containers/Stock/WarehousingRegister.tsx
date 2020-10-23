@@ -186,10 +186,19 @@ const WarehousingRegisterContainer = ({match}: Props) => {
     const onsubmitForm = useCallback(async () => {
 
         if (match.params.parts) {
+
+            if(amount === undefined || String(amount) === ''){
+                alert('입고 수량은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } else if(selectType === undefined){
+                alert('입고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } 
+
             const data = {
                 parts_pk: match.params.pk,
-                amount: amount,
-                type: transferStringToCode('material', selectType),
+                amount: Number(amount),
+                type: transferStringToCode('stock', selectType),
                 date: selectDate
             };
 
@@ -207,10 +216,19 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 }
             }
         } else {
+
+            if(amount === undefined || String(amount) === ''){
+                alert('입고 수량은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            } else if(selectType === undefined){
+                alert('입고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+                return;
+            }
+
             const data = {
                 material_pk: match.params.pk,
-                amount: amount,
-                type: transferStringToCode('material', selectType),
+                amount: Number(amount),
+                type: transferStringToCode('stock', selectType),
                 date: selectDate
             };
 
@@ -221,7 +239,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 //TODO: 에러 처리
             } else {
                 if (res.status === 200) {
-                    //alert('성공적으로 등록 되었습니다')
+                    // alert('성공적으로 등록 되었습니다')
 
                     history.goBack()
                 } else {
@@ -230,11 +248,6 @@ const WarehousingRegisterContainer = ({match}: Props) => {
             }
         }
     }, [selectType, amount, selectDate])
-
-
-    useEffect(() => {
-        console.log(amount)
-    }, [amount])
 
 
     return (

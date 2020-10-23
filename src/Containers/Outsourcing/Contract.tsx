@@ -15,12 +15,12 @@ const ContractContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailEventList, setDetaileventList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any[]>([]);
-    const [contentsList, setContentsList] = useState<any[]>(['거래처명','제품명'])
+    const [contentsList, setContentsList] = useState<any[]>(['거래처명', '제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [index, setIndex] = useState({ company_name: '외주처' });
-    const [subIndex, setSubIndex] = useState({ manager: '작성자' })
-    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
+    const [index, setIndex] = useState({company_name: '외주처'});
+    const [subIndex, setSubIndex] = useState({manager: '작성자'})
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -100,9 +100,9 @@ const ContractContainer = () => {
     ]
 
     const arrayDelete = () => {
-        while(true){
+        while (true) {
             deletePk.pk.pop()
-            if(deletePk.pk.length === 0){
+            if (deletePk.pk.length === 0) {
                 break;
             }
         }
@@ -112,57 +112,59 @@ const ContractContainer = () => {
         console.log('deletePk.pk', deletePk.pk)
     })
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
 
-        {list.length === 0 ?
-          arrayDelete()
-            :
-            list.map((v, i) => {
+        {
+            list.length === 0 ?
                 arrayDelete()
+                :
+                list.map((v, i) => {
+                    arrayDelete()
 
-                if(deletePk.pk.indexOf(v.pk) === -1){
-                    tmpPk.push(v.pk)
-                }
-
-                tmpPk.map((vi, index) => {
-                    if(deletePk.pk.indexOf(v.pk) === -1){
-                        deletePk.pk.push(vi)
+                    if (deletePk.pk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
                     }
+
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.pk.indexOf(v.pk) === -1) {
+                            deletePk.pk.push(vi)
+                        }
+                    })
+
+                    if (tmpPk.length < deletePk.pk.length) {
+                        deletePk.pk.shift()
+                    }
+
+                    console.log('deletePk.pk', deletePk.pk)
                 })
-
-                if(tmpPk.length < deletePk.pk.length){
-                    deletePk.pk.shift()
-                }
-
-                console.log('deletePk.pk', deletePk.pk)
-            })
         }
-    },[deletePk])
+    }, [deletePk])
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
-        {deletePk.pk.indexOf(Data.pk) !== -1 ?
-            deletePk.pk.splice(IndexPk,1)
-            :
-            deletePk.pk.push(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
-    const optionChange = useCallback(async (filter:number)=>{
+    const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
         const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
-    },[option,searchValue,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [option, searchValue, page])
 
 
-    const searchChange = useCallback(async (search)=>{
+    const searchChange = useCallback(async (search) => {
         setSearchValue(search)
 
-    },[searchValue])
+    }, [searchValue])
 
     const searchOnClick = useCallback(async () => {
 
@@ -170,9 +172,9 @@ const ContractContainer = () => {
         const res = await getCustomerData(tempUrl)
 
         setList(res.info_list)
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[searchValue,option,page])
+    }, [searchValue, option, page])
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf', mold.pk, mold.mold_name);
@@ -195,7 +197,7 @@ const ContractContainer = () => {
             Name: '수정',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/outsourcing/contract/register/${v.pk}`)
+            Link: (v) => history.push(`/outsourcing/contract/register/${v.pk}`)
         }
     ]
 
@@ -203,11 +205,11 @@ const ContractContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/outsourcing/contract/register')
+            Link: () => history.push('/outsourcing/contract/register')
         },
         {
             Name: '삭제',
-            Link: ()=>postDelete()
+            Link: () => postDelete()
         }
     ]
 
@@ -223,7 +225,7 @@ const ContractContainer = () => {
         const res = await postOutsourcingDelete(tempUrl, deletePk)
 
         getList()
-    },[deletePk])
+    }, [deletePk])
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
@@ -243,9 +245,9 @@ const ContractContainer = () => {
 
     }, [list])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
 
     useEffect(() => {
@@ -275,14 +277,14 @@ const ContractContainer = () => {
                 EventList={eventList}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 checkOnClickEvent={checkOnClick}
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
                         <LineTable title={'자세히 보기'} contentTitle={subIndex} contentList={detailList}>
-                            <Line />
+                            <Line/>
                         </LineTable>
                         :
                         null

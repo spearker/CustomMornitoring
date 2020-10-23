@@ -21,9 +21,10 @@ const VoucherContainer = ({match}: Props) => {
     const [BOMlist, setBOMList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
+
     const [detailList, setDetailList] = useState<any>({});
     const [index, setIndex] = useState({registerer: '등록자'});
-    const [deletePk, setDeletePk] = useState<({ keys: string[] })>({keys: []});
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
@@ -159,25 +160,25 @@ const VoucherContainer = ({match}: Props) => {
         let tmpPk: string[] = []
         {
             list.length === 0 ?
-                deletePk.keys.map((v, i) => {
-                    deletePk.keys.pop()
+                deletePk.pk.map((v, i) => {
+                    deletePk.pk.pop()
                 })
                 :
                 list.map((v, i) => {
                     tmpPk.push(v.pk)
-                    deletePk.keys.push(tmpPk.toString())
+                    deletePk.pk.push(tmpPk.toString())
                 })
         }
     }, [deletePk])
 
 
     const checkOnClick = useCallback((Data) => {
-        let IndexPk = deletePk.keys.indexOf(Data.pk)
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
         {
-            deletePk.keys.indexOf(Data.pk) !== -1 ?
-                deletePk.keys.splice(IndexPk, 1)
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
                 :
-                deletePk.keys.push(Data.pk)
+                deletePk.pk.push(Data.pk)
         }
     }, [deletePk])
 
@@ -242,7 +243,7 @@ const VoucherContainer = ({match}: Props) => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

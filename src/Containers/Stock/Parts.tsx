@@ -3,7 +3,7 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {useHistory} from "react-router-dom"
-import {API_URLS,getStockList} from "../../Api/mes/manageStock";
+import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 
@@ -12,13 +12,13 @@ const PartsContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ parts_name: "부품명" });
-    const [subIndex, setSubIndex] = useState({ type: "입/반출" })
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({parts_name: "부품명"});
+    const [subIndex, setSubIndex] = useState({type: "입/반출"})
     const [filter, setFilter] = useState(-1)
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -39,18 +39,18 @@ const PartsContainer = () => {
         parts: {
             type: "입/반출",
             division: "구분",
-            amount:"입/반출 수량",
-            date:"날짜"
+            amount: "입/반출 수량",
+            date: "날짜"
         },
     }
 
     const detaildummy = [
         {
             writer: '김담당',
-            sortation:'정상 입고' ,
-            stock_quantity:'9,999,999,999',
-            before_quantity:'9,999,999,999',
-            date:'2020.08.09'
+            sortation: '정상 입고',
+            stock_quantity: '9,999,999,999',
+            before_quantity: '9,999,999,999',
+            date: '2020.08.09'
         },
     ]
 
@@ -59,13 +59,19 @@ const PartsContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.parts_name}/${true}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.parts_name}/${true}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.parts_name}/${true}`)
+            Link: (v) => {
+                if (Number(v.parts_stock) > 0) {
+                    history.push(`/stock/release/register/${v.pk}/${v.parts_name}/${true}`)
+                } else {
+                    alert('출고할 수 있는 재고가 없습니다.')
+                }
+            }
         },
     ]
 
@@ -73,7 +79,7 @@ const PartsContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/manageStock/register')
+            Link: () => history.push('/manageStock/register')
         },
         {
             Name: '삭제',
@@ -81,12 +87,12 @@ const PartsContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
@@ -95,15 +101,14 @@ const PartsContainer = () => {
         }
 
 
-
     }, [list, selectPk]);
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['parts'].detail}?pk=${pk}`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.info_list.map((v,i)=>{
+        const getStock = res.info_list.map((v, i) => {
             const division = transferCodeToName('stock', Number(v.division))
             return {...v, division: division}
         })
@@ -111,24 +116,24 @@ const PartsContainer = () => {
         console.log(getStock)
         setDetailList(getStock)
 
-    },[detailList])
+    }, [detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['parts'].list}?page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[list,page])
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["parts"])
         // setList(dummy)
@@ -136,7 +141,7 @@ const PartsContainer = () => {
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['parts'])
-    },[])
+    }, [])
 
     return (
         <div>
@@ -148,7 +153,7 @@ const PartsContainer = () => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?

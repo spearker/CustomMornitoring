@@ -152,15 +152,21 @@ const CustomerRegister = ({match}: Props) => {
     const onsubmitFormUpdate = useCallback(async (e) => {
         e.preventDefault();
         if (name === "") {
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+            alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        }else if(ceo === ""){
+            alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(no === ""){
+            alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
+            return
         }
 
         const data = {
             pk: pk,
             name: name,
             number: no,
-            type: type,
+            type: String(type),
             ceo_name: ceo,
             photo: paths[0],
             telephone: phone === '' ? null : phone,
@@ -175,11 +181,10 @@ const CustomerRegister = ({match}: Props) => {
         };
 
         const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
-
         if (res === false) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            // alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         } else {
-            //alert('성공적으로 수정 되었습니다')
+            // alert('성공적으로 수정 되었습니다')
             setIsUpdate(false)
             history.push('/customer/current/list')
         }
@@ -204,9 +209,16 @@ const CustomerRegister = ({match}: Props) => {
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
         if (name === "") {
-            //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+            alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        }else if(ceo === ""){
+            alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if(no === ""){
+            alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
+            return
         }
+
         const data = {
 
             name: name,
@@ -232,7 +244,7 @@ const CustomerRegister = ({match}: Props) => {
             //TODO: 에러 처리
         } else {
             if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
+                // alert('성공적으로 등록 되었습니다')
                 const data = res.results;
                 setName('');
                 setPk('');
@@ -251,7 +263,7 @@ const CustomerRegister = ({match}: Props) => {
                 setAddress({postcode: '', roadAddress: '', detail: ''});
                 setFax('');
 
-                history.goBack();
+                history.push('/customer/current/list')
             } else {
                 //TODO:  기타 오류
             }

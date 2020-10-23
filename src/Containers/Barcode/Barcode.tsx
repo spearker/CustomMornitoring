@@ -12,29 +12,33 @@ const BarcodeListContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<{barcode_pk : string,
-        barcode_name : string,
+    const [detailList, setDetailList] = useState<{
+        barcode_pk: string,
+        barcode_name: string,
         main_type: string,
         detail_type: string,
-        item_pk: string ,
+        item_pk: string,
         barcode_img_url: string,
-        barcode_type : string,
+        barcode_type: string,
         barcode_number: string,
         barcode_photo: string,
-        description : string | null}>({barcode_pk : '',
-        barcode_name : '',
+        description: string | null
+    }>({
+        barcode_pk: '',
+        barcode_name: '',
         main_type: '',
         detail_type: '',
-        barcode_img_url:'',
-        item_pk: '' ,
-        barcode_type : '',
+        barcode_img_url: '',
+        item_pk: '',
+        barcode_type: '',
         barcode_number: '',
         barcode_photo: '',
-        description : ''});
-    const [index, setIndex] = useState({ main_type: "품목(품목명)" });
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectBarcode, setSelectBarcode ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+        description: ''
+    });
+    const [index, setIndex] = useState({main_type: "품목(품목명)"});
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectBarcode, setSelectBarcode] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [deletePk, setDeletePk] = useState<(string[])>([]);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -45,8 +49,8 @@ const BarcodeListContainer = () => {
         barcode: {
             main_type: "항목",
             detail_type: "상세 항목",
-            barcode_number : "바코드 번호",
-            barcode_name : "바코드 명",
+            barcode_number: "바코드 번호",
+            barcode_name: "바코드 명",
             registered: "등록 날짜",
         }
     }
@@ -55,36 +59,36 @@ const BarcodeListContainer = () => {
         {
             item_name: "품목명",
             item_type: "완제품",
-            barcode_num : "1111-111-11-1234567",
-            basic_barcode : "1111-111-11",
+            barcode_num: "1111-111-11-1234567",
+            basic_barcode: "1111-111-11",
             registered: "2020.06.16",
         },
         {
             item_name: "품목명",
             item_type: "원자재",
-            barcode_num : "1111-111-11-1234567",
-            basic_barcode : "1111-111-11",
+            barcode_num: "1111-111-11-1234567",
+            basic_barcode: "1111-111-11",
             registered: "2020.06.16",
         },
         {
             item_name: "품목명",
             item_type: "원자재",
-            barcode_num : "A123456789B",
-            basic_barcode : "1111-111-11",
+            barcode_num: "A123456789B",
+            basic_barcode: "1111-111-11",
             registered: "2020.06.16",
         },
         {
             item_name: "품목명",
             item_type: "완제품",
-            barcode_num : "1111-111-11-1234567",
-            basic_barcode : "1111-111-11",
+            barcode_num: "1111-111-11-1234567",
+            basic_barcode: "1111-111-11",
             registered: "2020.06.16",
         },
         {
             item_name: "품목명",
             item_type: "완제품",
-            barcode_num : "1111-111-11-1234567",
-            basic_barcode : "1111-111-11",
+            barcode_num: "1111-111-11-1234567",
+            basic_barcode: "1111-111-11",
             registered: "2020.06.16",
         },
     ]
@@ -97,7 +101,7 @@ const BarcodeListContainer = () => {
         },
         {
             Name: '삭제',
-            Link: ()=>postDelete()
+            Link: () => postDelete()
         }
     ]
 
@@ -113,12 +117,12 @@ const BarcodeListContainer = () => {
 
 
     const onClick = useCallback((barcode) => {
-        console.log('dsfewfewf',barcode.barcode_pk,barcode.barcode_name );
-        if(barcode.barcode_pk === selectPk){
+        console.log('dsfewfewf', barcode.barcode_pk, barcode.barcode_name);
+        if (barcode.barcode_pk === selectPk) {
             setSelectPk(null);
             setSelectBarcode(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(barcode.barcode_pk);
             setSelectBarcode(barcode.barcode_name);
             setSelectValue(barcode)
@@ -128,29 +132,31 @@ const BarcodeListContainer = () => {
 
     }, [list, selectPk]);
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
-        {list.length === 0 ?
-            deletePk.map((v,i)=>{
-                deletePk.pop()
-            })
-            :
-            list.map((v, i) => {
-                tmpPk.push(v.barcode_pk)
-                deletePk.push(tmpPk.toString())
-            })
+        {
+            list.length === 0 ?
+                deletePk.map((v, i) => {
+                    deletePk.pop()
+                })
+                :
+                list.map((v, i) => {
+                    tmpPk.push(v.barcode_pk)
+                    deletePk.push(tmpPk.toString())
+                })
         }
-    },[deletePk])
+    }, [deletePk])
 
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.indexOf(Data.barcode_pk)
-        {deletePk.indexOf(Data.barcode_pk) !== -1 ?
-            deletePk.splice(IndexPk,1)
-            :
-            deletePk.push(Data.barcode_pk)
+        {
+            deletePk.indexOf(Data.barcode_pk) !== -1 ?
+                deletePk.splice(IndexPk, 1)
+                :
+                deletePk.push(Data.barcode_pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
     const postDelete = useCallback(async () => {
         const tempUrl = `${API_URLS['barcode'].delete}`
@@ -160,38 +166,38 @@ const BarcodeListContainer = () => {
         getList()
 
         setSelectPk(null)
-    },[deletePk,selectPk])
+    }, [deletePk, selectPk])
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['barcode'].detailInfo}?barcode_pk=${pk}`
         const res = await getBarcode(tempUrl)
 
         setDetailList(res)
 
-    },[detailList])
+    }, [detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}&limit=15`
         const res = await getBarcode(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["barcode"])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
-    },[])
+    }, [])
 
     return (
         <div>
@@ -206,31 +212,31 @@ const BarcodeListContainer = () => {
                 checkOnClickEvent={checkOnClick}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={selectBarcode+' 바코드 이미지'} >
-                                <BarcodeContainer>
-                                    <BarcodeImage>
-                                        {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
-                                            <p>바코드 이미지가 없습니다.</p>
-                                            :
-                                            <img src={detailList.barcode_img_url} style={{width: '100%', height: '100%'}}/>
-                                        }
-                                    </BarcodeImage>
-                                    <BarcodeNum>
-                                        <div>
-                                            <p>바코드 번호</p>
-                                            <p>{detailList.barcode_number}</p>
-                                        </div>
-                                        {/*<div>*/}
-                                        {/*    <p>기준 바코드</p>*/}
-                                        {/*    <p>A123</p>*/}
-                                        {/*</div>*/}
-                                    </BarcodeNum>
-                                    {/*<ButtonBox>바코드 이미지 다운로드</ButtonBox>*/}
-                                </BarcodeContainer>
+                        <LineTable title={selectBarcode + ' 바코드 이미지'}>
+                            <BarcodeContainer>
+                                <BarcodeImage>
+                                    {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
+                                        <p>바코드 이미지가 없습니다.</p>
+                                        :
+                                        <img src={detailList.barcode_img_url} style={{width: '100%', height: '100%'}}/>
+                                    }
+                                </BarcodeImage>
+                                <BarcodeNum>
+                                    <div>
+                                        <p>바코드 번호</p>
+                                        <p>{detailList.barcode_number}</p>
+                                    </div>
+                                    {/*<div>*/}
+                                    {/*    <p>기준 바코드</p>*/}
+                                    {/*    <p>A123</p>*/}
+                                    {/*</div>*/}
+                                </BarcodeNum>
+                                {/*<ButtonBox>바코드 이미지 다운로드</ButtonBox>*/}
+                            </BarcodeContainer>
                         </LineTable>
                         :
                         null

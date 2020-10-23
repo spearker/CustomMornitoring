@@ -104,25 +104,25 @@ const DefectiveRegisterContainer = ({match}: Props) => {
      */
     const onsubmitFormUpdate = useCallback(async () => {
 
-        if (selectHistory?.pk === '') {
+        if (selectHistory.pk === '' ||  selectHistory.pk==undefined) {
             alert("작업 이력은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMaterial?.pk === '') {
+        } else if (selectMaterial.pk === '' || selectMaterial.pk==undefined) {
             alert("품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMachine.pk === '') {
+        } else if (selectMachine.pk === ''|| selectMachine.pk==undefined) {
             alert("기계은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (name === '') {
+        } else if (name === ''|| name==undefined) {
             alert("검수자은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (amount === null) {
-            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
+        } else if (amount === null||amount==undefined) {
+            alert("불량개수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (selectDate === '') {
-            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
+        } else if (selectDate === ''|| selectDate==undefined) {
+            alert("불량 검수일은 필수 항목입니다. 반드시 선택주세요.")
             return;
-        } else if (reason === '') {
+        } else if (reason === ''|| reason==undefined) {
             alert("불량 사유는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -171,25 +171,25 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         // alert(JSON.stringify(infoList))
         // console.log(JSON.stringify(infoList))
 
-        if (selectHistory?.pk === '') {
+        if (selectHistory.pk === '' ||  selectHistory.pk==undefined) {
             alert("작업 이력은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMaterial?.pk === '') {
+        } else if (selectMaterial.pk === '' || selectMaterial.pk==undefined) {
             alert("품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMachine.pk === '') {
+        } else if (selectMachine.pk === ''|| selectMachine.pk==undefined) {
             alert("기계은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (name === '') {
+        } else if (name === ''|| name==undefined) {
             alert("검수자은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (amount === null) {
-            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
+        } else if (amount === null||amount==undefined) {
+            alert("불량개수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (selectDate === '') {
-            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
+        } else if (selectDate === ''|| selectDate==undefined) {
+            alert("불량 검수일은 필수 항목입니다. 반드시 선택주세요.")
             return;
-        } else if (reason === '') {
+        } else if (reason === ''|| reason==undefined) {
             alert("불량 사유는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }

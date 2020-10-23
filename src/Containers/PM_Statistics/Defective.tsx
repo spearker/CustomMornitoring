@@ -40,14 +40,14 @@ const chartOption = {
     xaxis: {
         tickAmount: 10
     },
-    grid:{
+    grid: {
         borderColor: "#42444b",
-        xaxis:{
+        xaxis: {
             lines: {
                 show: true
             }
         },
-        yaxis:{
+        yaxis: {
             lines: {
                 show: true
             }
@@ -57,15 +57,15 @@ const chartOption = {
         min: 0,
         max: 100,
         tickAmount: 20,
-        labels:{
+        labels: {
             show: true,
             formatter: (value) => {
-                if(value === 100) {
+                if (value === 100) {
                     return "(%)"
-                }else{
-                    if(value % 20 === 0){
+                } else {
+                    if (value % 20 === 0) {
                         return Math.floor(value)
-                    }else{
+                    } else {
                         return
                     }
                 }
@@ -76,35 +76,35 @@ const chartOption = {
         show: false
     },
     tooltip: {
-        enable:false
+        enable: false
     }
 }
 
 const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: number[] } } = {
-    pressPk:"dummyPK1",
+    pressPk: "dummyPK1",
     insert_oil_time: {
         Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
-        Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56 ],
+        Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56],
     }
 }
 
 const DefectiveContainer = () => {
     const [data, setData] = React.useState(dummyData)
     const [list, setList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any>({
+    const [detailList, setDetailList] = useState<any>({
         pk: "",
         max_count: 0,
         current_count: 0,
     });
-    const [index, setIndex] = useState({ material_name: '품목(품목명)' });
+    const [index, setIndex] = useState({material_name: '품목(품목명)'});
     const [labels, setLabels] = useState([]);
     const [series, setSeries] = useState([]);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
 
     const [selectDate, setSelectDate] = useState({
         start: moment().subtract(1, 'days').format("YYYY-MM-DD"),
@@ -128,12 +128,12 @@ const DefectiveContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
@@ -142,17 +142,16 @@ const DefectiveContainer = () => {
         }
 
 
-
     }, [list, selectPk]);
 
     useEffect(() => {
         console.log(selectValue, selectDate)
-        if(selectValue){
+        if (selectValue) {
             getData(selectValue.material_pk)
         }
     }, [selectDate, selectValue])
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['defective'].load}?pk=${pk}&from=${selectDate.start}&to=${selectDate.end}`
         const res = await getDefectiveData(tempUrl)
@@ -164,27 +163,27 @@ const DefectiveContainer = () => {
         setLabels(res.dates)
         setSeries(res.amounts)
 
-    },[detailList, selectValue, selectDate])
+    }, [detailList, selectValue, selectDate])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
         const res = await getDefectiveData(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["defective"])
         setDetailList(detaildummy)
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
     return (
         <OvertonTable
@@ -194,14 +193,14 @@ const DefectiveContainer = () => {
             clickValue={selectValue}
             currentPage={page.current}
             totalPage={page.total}
-            pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+            pageOnClickEvent={(event, i) => setPage({...page, current: i})}
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <div style={{display:"flex",flexDirection:"row"}}>
+                    <div style={{display: "flex", flexDirection: "row"}}>
                         <div>
                             <LineContainer>
-                                <div style={{display:"flex",flexDirection: "row",justifyContent:"space-between"}}>
+                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                                     <p>생산량</p>
                                     <p>{detailList.total_production}<span>ea</span></p>
                                 </div>
@@ -221,14 +220,26 @@ const DefectiveContainer = () => {
                             {
 
                                 <div>
-                                    <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginLeft: 30,marginRight:30, paddingTop: 25 }}>
-                                        <div style={{alignSelf:"center"}}>
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                        paddingTop: 25
+                                    }}>
+                                        <div style={{alignSelf: "center"}}>
                                             <p>{selectValue.material_name} 불량률</p>
                                         </div>
-                                        <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})} toDayLimit={true}></CalendarDropdown>
+                                        <CalendarDropdown type={'range'} selectRange={selectDate}
+                                                          onClickEvent={(start, end) => setSelectDate({
+                                                              start: start,
+                                                              end: end ? end : ''
+                                                          })} toDayLimit={true}></CalendarDropdown>
                                     </div>
-                                    <ReactApexChart options={{...chartOption, labels: [' ', ...labels,'(일/day)']}} type={'area'} height={444} width={630}
-                                                    series={[{name: "data", data:series}]}/>
+                                    <ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}
+                                                    type={'area'} height={444} width={630}
+                                                    series={[{name: "data", data: series}]}/>
                                 </div>
                             }
                         </GraphContainer>

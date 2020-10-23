@@ -1,31 +1,33 @@
-import React from "react";
+import React from 'react'
 import Styled from 'styled-components'
 import next from '../../Assets/Images/ic_next_process.png'
 
 interface Props {
-    title: string
-    inputMaterial?: string
-    productionMaterial?: string
-    children?: any
+  title: string
+  inputMaterial?: string
+  productionMaterial?: string
+  children?: any
 }
 
-const FactoryBox = ({title,inputMaterial,productionMaterial,children}:Props) => {
-    return(
-        <TopBlackBox>
-            <p>{title}</p>
-            <p>투입자재</p>
-            <div style={{width: "97%"}}>
-                <span style={{color:  inputMaterial !== null &&  inputMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{inputMaterial !== null && inputMaterial !== undefined ? inputMaterial : '품목 선택'}</span>
-            </div>
-            <p>생산자재</p>
-            <div style={{width: "97%"}}>
-                <span style={{color:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
-            </div>
-            <ProductionReg style={{backgroundColor:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#bbbbbb' : '#19b9df' }}>
-                <p>{productionMaterial !== undefined && productionMaterial !== null ? '품목수정' : '품목등록'}</p>
-            </ProductionReg>
-        </TopBlackBox>
-    )
+const FactoryBox = ({title, inputMaterial, productionMaterial, children}: Props) => {
+  return (
+    <TopBlackBox>
+      <p>{title}</p>
+      <p>투입자재</p>
+      <div style={{width: '97%'}}>
+        <span
+          style={{color: inputMaterial !== null && inputMaterial !== undefined ? '#ffffff' : '#babcbf'}}>{inputMaterial !== null && inputMaterial !== undefined ? inputMaterial : '품목 선택'}</span>
+      </div>
+      <p>생산자재</p>
+      <div style={{width: '97%'}}>
+        <span
+          style={{color: productionMaterial !== null && productionMaterial !== undefined ? '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
+      </div>
+      {/*<ProductionReg style={{backgroundColor:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#bbbbbb' : '#19b9df' }}>*/}
+      {/*    <p>{productionMaterial !== undefined && productionMaterial !== null ? '품목수정' : '품목등록'}</p>*/}
+      {/*</ProductionReg>*/}
+    </TopBlackBox>
+  )
 }
 
 const TopBlackBox = Styled.div`

@@ -13,72 +13,74 @@ const MoldCreateCompleteListContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ mold_name: '금형 이름' });
-    const [deletePk, setDeletePk] = useState<({pk: string[]})>({pk: []});
-    const [subIndex, setSubIndex] = useState({ part_name: '부품명' })
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({mold_name: '금형 이름'});
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
+    const [subIndex, setSubIndex] = useState({part_name: '부품명'})
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
 
 
     const arrayDelete = () => {
-        while(true){
+        while (true) {
             deletePk.pk.pop()
-            if(deletePk.pk.length === 0){
+            if (deletePk.pk.length === 0) {
                 break;
             }
         }
     }
 
-    const allCheckOnClick = useCallback((list)=>{
+    const allCheckOnClick = useCallback((list) => {
         let tmpPk: string[] = []
 
-        {list.length === 0 ?
-            arrayDelete()
-            :
-            list.map((v, i) => {
+        {
+            list.length === 0 ?
                 arrayDelete()
+                :
+                list.map((v, i) => {
+                    arrayDelete()
 
-                if(deletePk.pk.indexOf(v.pk) === -1){
-                    tmpPk.push(v.pk)
-                }
-
-                tmpPk.map((vi, index) => {
-                    if(deletePk.pk.indexOf(v.pk) === -1){
-                        deletePk.pk.push(vi)
+                    if (deletePk.pk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
                     }
+
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.pk.indexOf(v.pk) === -1) {
+                            deletePk.pk.push(vi)
+                        }
+                    })
+
+                    if (tmpPk.length < deletePk.pk.length) {
+                        deletePk.pk.shift()
+                    }
+
+                    console.log('deletePk.pk', deletePk.pk)
                 })
-
-                if(tmpPk.length < deletePk.pk.length){
-                    deletePk.pk.shift()
-                }
-
-                console.log('deletePk.pk', deletePk.pk)
-            })
         }
-    },[deletePk])
+    }, [deletePk])
 
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
-        {deletePk.pk.indexOf(Data.pk) !== -1 ?
-            deletePk.pk.splice(IndexPk,1)
-            :
-            deletePk.pk.push(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
         }
-    },[deletePk])
+    }, [deletePk])
 
 
     const indexList = {
         making: {
             mold_name: "금형 명",
-            barcode:"금형 바코드 번호",
-            manager: "제작 담당자" ,
+            barcode: "금형 바코드 번호",
+            manager: "제작 담당자",
             schedule: "제작 일정",
-            status:"제작 현황",
+            status: "제작 현황",
         }
     }
 
@@ -95,14 +97,14 @@ const MoldCreateCompleteListContainer = () => {
     const eventdummy = [
         {
             Width: 98,
-            Link: (v)=> v.status === '진행중' ?  getComplete(v.pk) : getCancel(v.pk)
+            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
         },
     ]
 
     const titleeventdummy = [
         {
             Name: '삭제',
-            Link: ()=>postDelete()
+            Link: () => postDelete()
         }
     ]
 
@@ -111,32 +113,32 @@ const MoldCreateCompleteListContainer = () => {
         const res = await postCustomerDelete(tempUrl, deletePk)
 
         getList()
-    },[deletePk])
+    }, [deletePk])
 
-    const getComplete = useCallback( async(pk)=>{
+    const getComplete = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['making'].complete}`
-        const res = await postMoldState(tempUrl,{pk:pk})
+        const res = await postMoldState(tempUrl, {pk: pk})
 
         setDetailList(res)
         getList()
-    },[detailList])
+    }, [detailList])
 
-    const getCancel = useCallback( async(pk)=>{
+    const getCancel = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['making'].cancel}`
-        const res = await postMoldState(tempUrl,{pk:pk})
+        const res = await postMoldState(tempUrl, {pk: pk})
 
         setDetailList(res)
         getList()
-    },[detailList])
+    }, [detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['making'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
         const res = await getMoldList(tempUrl)
 
-        const Detail = res.info_list.map((v,i)=>{
+        const Detail = res.info_list.map((v, i) => {
             const status = v.status === 'WAIT' ? "진행중" : "완료"
 
             return {...v, status: status}
@@ -144,33 +146,33 @@ const MoldCreateCompleteListContainer = () => {
 
         setList(Detail)
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,page])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["making"])
         // setList(dummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-    },[])
+    }, [])
 
     return (
         <div>
             <OvertonTable
                 title={'금형 제작 완료 리스트'}
-                mainOnClickEvent={(v)=>history.push(`/mold/create/register/${v.pk}`)}
+                mainOnClickEvent={(v) => history.push(`/mold/create/register/${v.pk}`)}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
                 buttonState={true}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

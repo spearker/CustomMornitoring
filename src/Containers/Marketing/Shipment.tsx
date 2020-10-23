@@ -138,7 +138,7 @@ const ShipmentContainer = () => {
                 valueList={list}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i})}
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 clickValue={selectValue}
                 EventList={eventList}
                 checkOnClickEvent={checkOnClick}

@@ -3,7 +3,7 @@ import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import {useHistory} from "react-router-dom"
-import {API_URLS,getStockList} from "../../Api/mes/manageStock";
+import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 const RawMaterialContainer = () => {
@@ -11,14 +11,14 @@ const RawMaterialContainer = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
-    const [subIndex, setSubIndex] = useState({ writer: '작성자' })
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({material_name: "품목(품목명)"});
+    const [subIndex, setSubIndex] = useState({writer: '작성자'})
     const [filter, setFilter] = useState(-1)
     const [type, setType] = useState(0)
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    // const [selectValue, setSelectValue ]= useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -27,7 +27,7 @@ const RawMaterialContainer = () => {
     const indexList = {
         rawmaterial: {
             material_name: "품목(품목명)",
-            material_type: ['자재 종류','원자재','부자재'],
+            material_type: ['자재 종류', '원자재', '부자재'],
             current_stock: "재고량",
             location_name: "보관장소",
             safe_stock: "안전재고",
@@ -38,10 +38,10 @@ const RawMaterialContainer = () => {
     const detailTitle = {
         rawmaterial: {
             writer: '작성자',
-            sortation:'구분' ,
-            stock_quantity:'수량',
-            before_quantity:'변경전 재고량',
-            date:'날짜',
+            sortation: '구분',
+            stock_quantity: '수량',
+            before_quantity: '변경전 재고량',
+            date: '날짜',
         },
     }
 
@@ -91,10 +91,10 @@ const RawMaterialContainer = () => {
     const detaildummy = [
         {
             writer: '김담당',
-            sortation:'정상 입고' ,
-            stock_quantity:'9,999,999,999',
-            before_quantity:'9,999,999,999',
-            date:'2020.08.09'
+            sortation: '정상 입고',
+            stock_quantity: '9,999,999,999',
+            before_quantity: '9,999,999,999',
+            date: '2020.08.09'
         },
     ]
 
@@ -103,13 +103,19 @@ const RawMaterialContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+            Link: (v) => {
+                if (Number(v.current_stock) <= 0) {
+                    alert('출고할 수 있는 재고가 없습니다.');
+                } else {
+                    history.push(`/stock/release/register/${v.pk}/${v.material_name}`);
+                }
+            }
         },
     ]
 
@@ -117,7 +123,7 @@ const RawMaterialContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/manageStock/register')
+            Link: () => history.push('/manageStock/register')
         },
         {
             Name: '삭제',
@@ -125,19 +131,18 @@ const RawMaterialContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
-            setSelectValue(null);
-        }else{
+            // setSelectValue(null);
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
-            setSelectValue(mold)
+            // setSelectValue(mold)
             //TODO: api 요청
             // getData(mold.pk)
         }
-
 
 
     }, [list, selectPk]);
@@ -151,24 +156,24 @@ const RawMaterialContainer = () => {
     //
     // },[detailList])
 
-    const selectBox = useCallback((value)=>{
+    const selectBox = useCallback((value) => {
         console.log(value)
-        if(value === '원자재' ){
+        if (value === '원자재') {
             setFilter(0)
-        } else if (value === '부자재'){
+        } else if (value === '부자재') {
             setFilter(1)
-        } else if (value === '자재 종류'){
+        } else if (value === '자재 종류') {
             setFilter(-1)
         }
 
-    },[filter])
+    }, [filter])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.info_list.map((v,i)=>{
+        const getStock = res.info_list.map((v, i) => {
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -176,19 +181,19 @@ const RawMaterialContainer = () => {
 
         setList(getStock)
 
-        setPage({ current: res.current_page, total: res.total_page })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[list,type,filter,page])
+    }, [list, type, filter, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[filter])
+    }, [filter])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["rawmaterial"])
         // setList(dummy)
@@ -196,7 +201,7 @@ const RawMaterialContainer = () => {
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['rawmaterial'])
-    },[])
+    }, [])
 
     return (
         <div>
@@ -205,12 +210,12 @@ const RawMaterialContainer = () => {
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                clickValue={selectValue}
+                /* clickValue={selectValue} */
                 selectBoxChange={selectBox}
                 mainOnClickEvent={onClick}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

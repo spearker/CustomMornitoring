@@ -45,7 +45,7 @@ const ContractRegisterContainer = () => {
             alert("품목(품목명) 필수 항목입니다. 반드시 선택해주세요.")
             return;
         } else if (contractData.amount === 0){
-            alert("수리 담당자는 필수 항목입니다. 반드시 입력해주세요.")
+            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (contractData.date === ""){
             alert("완료 예정일은 필수 항목입니다. 반드시 입력해주세요.")

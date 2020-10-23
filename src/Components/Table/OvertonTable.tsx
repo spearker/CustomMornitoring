@@ -52,7 +52,6 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
             const arrData = valueList.map((v, i) => {
                 tmpArr.push(false)
             })
-
             setChecked(tmpArr)
         } else {
             return
