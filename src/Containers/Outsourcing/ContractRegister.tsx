@@ -249,7 +249,6 @@ const ContractRegister = ({match}: Props) => {
         } else {
             if (res.status === 200) {
                 //alert('성공적으로 수정 되었습니다')
-                setIsUpdate(false)
                 history.goBack()
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')

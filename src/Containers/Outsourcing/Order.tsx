@@ -1,33 +1,33 @@
-import React, {useCallback, useEffect, useState,} from "react";
-import Styled from "styled-components";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList} from "../../Api/mes/outsourcing";
-import {useHistory} from "react-router-dom";
-import {getCustomerData} from "../../Api/mes/customer";
-import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
+import React, {useCallback, useEffect, useState,} from 'react'
+import Styled from 'styled-components'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import LineTable from '../../Components/Table/LineTable'
+import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList} from '../../Api/mes/outsourcing'
+import {useHistory} from 'react-router-dom'
+import {getCustomerData} from '../../Api/mes/customer'
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 
 const OrderContainer = () => {
 
-    const [list, setList] = useState<any[]>([]);
+    const [list, setList] = useState<any[]>([])
     const [detailEventList, setDetaileventList] = useState<any[]>([])
-    const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any[]>([]);
+    const [titleEventList, setTitleEventList] = useState<any[]>([])
+    const [eventList, setEventList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<any[]>([])
     const [contentsList, setContentsList] = useState<any[]>(['거래처명', '제품명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
-    const [index, setIndex] = useState({company_name: '외주처 명'});
+    const [index, setIndex] = useState({company_name: '외주처 명'})
     const [subIndex, setSubIndex] = useState({manager: '작성자'})
-    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []});
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMaterial, setSelectMaterial] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMaterial, setSelectMaterial] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
-    const history = useHistory();
+    })
+    const history = useHistory()
 
     const indexList = {
         order: {
@@ -66,7 +66,7 @@ const OrderContainer = () => {
         while (true) {
             deletePk.pk.pop()
             if (deletePk.pk.length === 0) {
-                break;
+                break
             }
         }
     }
@@ -136,20 +136,20 @@ const OrderContainer = () => {
     }, [searchValue, option])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
-            setSelectPk(null);
-            setSelectMaterial(null);
-            setSelectValue(null);
+            setSelectPk(null)
+            setSelectMaterial(null)
+            setSelectValue(null)
         } else {
-            setSelectPk(mold.pk);
-            setSelectMaterial(mold.product);
+            setSelectPk(mold.pk)
+            setSelectMaterial(mold.product)
             setSelectValue(mold)
             //TODO: api 요청
             getData(mold.pk)
         }
 
-    }, [list, selectPk]);
+    }, [list, selectPk])
 
 
     const eventdummy = [
@@ -181,9 +181,14 @@ const OrderContainer = () => {
     ]
 
     const postDelete = useCallback(async () => {
+        if (deletePk.pk.length <= 0) {
+            alert('삭제하실 항목을 선택해 주세요.')
+            return
+        }
         const tempUrl = `${API_URLS['order'].delete}`
         const res = await postOutsourcingDelete(tempUrl, deletePk)
 
+        arrayDelete()
         getList()
     }, [deletePk])
 
@@ -208,7 +213,7 @@ const OrderContainer = () => {
 
     useEffect(() => {
         getList()
-        setIndex(indexList["order"])
+        setIndex(indexList['order'])
         // setList(dummy)
         // setDetailList(detaildummy)
         setEventList(eventdummy)
@@ -251,7 +256,7 @@ const OrderContainer = () => {
                 }
             </OvertonTable>
         </div>
-    );
+    )
 }
 
 const Line = Styled.hr`

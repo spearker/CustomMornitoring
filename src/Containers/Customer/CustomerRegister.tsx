@@ -154,10 +154,10 @@ const CustomerRegister = ({match}: Props) => {
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(ceo === ""){
+        } else if (ceo === "") {
             alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(no === ""){
+        } else if (no === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return
         }
@@ -180,7 +180,7 @@ const CustomerRegister = ({match}: Props) => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
         if (res === false) {
             // alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         } else {
@@ -211,10 +211,10 @@ const CustomerRegister = ({match}: Props) => {
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(ceo === ""){
+        } else if (ceo === "") {
             alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        }else if(no === ""){
+        } else if (no === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return
         }
