@@ -99,7 +99,7 @@ const BasicListContainer = ({type}: Props) => {
     return (
         <>
             <div style={{position: 'relative'}}>
-                <Header title={`${LIST_INDEX[type].title ?? '항목 없음'} 관리 (${list.length})`}/>
+                <Header title={`${LIST_INDEX[type].title ?? '항목 없음'} 관리 `}/>
                 <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
                     <SmallButtonLink name="+ 등록하기" link={`/basic/${pageType}/register`}/>
                 </div>
