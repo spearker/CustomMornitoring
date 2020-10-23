@@ -25,7 +25,6 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
     console.log('props', stock, selected)
     // const dotList: any[] = []
     const DotOn = Styled.p`
-
     width:10;
     font-size: 17;
     display: inline-block;
@@ -33,7 +32,7 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
     margin-left: 6px;
     color: ${POINT_COLOR};
   `
-  const DotOff = Styled.p`
+    const DotOff = Styled.p`
     width:10;
     font-size: 17;
     display: inline-block;
@@ -42,30 +41,30 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
     color: white;
   `
 
-
-  useEffect(() => {
-    let tmp: any[] = []
-    for(let i = 1; i <= stock; i++) {
-      if (selected + 10 >= i && selected - 10 <= i) {
-        tmp.push(
-          <a onClick={() => {
-            onClickEvent(i)
-          }} key={i}>
-            {selected === i ?
-              <DotOn>{i}</DotOn>
-              :
-              <DotOff>{i}</DotOff>
+    useEffect(() => {
+        let tmp: any[] = []
+        for (let i = 1; i <= stock; i++) {
+            if (selected + 10 >= i && selected - 10 <= i) {
+                tmp.push(
+                    <a onClick={() => {
+                        onClickEvent(i)
+                    }} key={i}>
+                        {selected === i ?
+                            <DotOn>{i}</DotOn>
+                            :
+                            <DotOff>{i}</DotOff>
+                        }
+                    </a>
+                )
             }
-          </a>
-        )
-      }
 
-    }
-    setDoList([...tmp])
-  }, [])
+        }
+        setDoList([...tmp])
+    }, [])
 
 
-  return (
+    return (
+
         <div style={{textAlign: 'center', marginTop: 20}} id={'NumberPagination'}>
             <a onClick={() => {
                 onClickEvent(selected === 1 ? 1 : selected - 1)
@@ -80,6 +79,8 @@ const NumberPagenation = ({stock, selected, onClickEvent}: IProps) => {
             </a>
         </div>
 
+
+    )
 }
 
 
