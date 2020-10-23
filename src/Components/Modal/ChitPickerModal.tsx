@@ -40,7 +40,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
         const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
 
-        setMachineList(resultData.results)
+        setMachineList(resultData.info_list)
 
     }, [searchName])
 

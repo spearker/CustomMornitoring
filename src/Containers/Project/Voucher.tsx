@@ -214,7 +214,7 @@ const VoucherContainer = ({match}: Props) => {
         const tempUrl = `${API_URLS['chit'].delete}`
         const res = await postProjectDelete(tempUrl, deletePk)
         console.log(res)
-
+        getList()
     }, [deletePk])
 
     useEffect(() => {

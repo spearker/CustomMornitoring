@@ -65,7 +65,7 @@ const ChitRegisterContainer = () => {
         } else if (selectDate === '') {
             alert("납기일은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (chitData.goal > 0) {
+        } else if (chitData.goal < 0) {
             alert("생산 할 수량은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -84,6 +84,7 @@ const ChitRegisterContainer = () => {
 
     return (
         <div>
+            {console.log('@@ 수량 check :',chitData)}
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
                     <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>전표 등록</span>
