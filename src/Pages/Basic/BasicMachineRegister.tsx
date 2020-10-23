@@ -156,7 +156,7 @@ const BasicMachineRegister = () => {
         } else if (madeNo === "") {
             alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (volt.toString() === "") {
+        } else if (volt.toString() === "" || volt < 0) {
             alert("전압은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory[0]?.pk === "" || factory[0]?.pk === undefined) {
@@ -218,7 +218,7 @@ const BasicMachineRegister = () => {
         } else if (madeNo === "") {
             alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (volt.toString() === "") {
+        } else if (volt.toString() === "" || volt < 0) {
             alert("전압은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory[0]?.pk === "" || factory[0]?.pk === undefined) {

@@ -68,11 +68,27 @@ const ProcessRegisterContainer = () => {
 
     return true
   }
+  
+  const otherValidationCheck = () => {
+    const { name, description, processes } = processData
+
+    if (name === '') {
+      return window.alert('공정명을 입력해주세요.')
+    } else if (description === '') {
+      return window.alert('설명을 입력해주세요.')
+    } else if(processes.length <= 0){
+      return window.alert('공정을 추가해주세요.')
+    } else if (processes[0].machine_pk === '') {
+      return window.alert('1번 기계를 선택해주세요.')
+    }
+
+    return true
+  }
 
   const postContractRegisterData = useCallback(async () => {
     console.log('process', processData)
 
-    if (validationCheck()) {
+    if (processData.type === 0 || processData.type === 1 ? validationCheck() : otherValidationCheck()) {
       const tempUrl = `${API_URLS['process'].register}`
       const resultData = await postProcessRegister(tempUrl, processData);
       console.log(resultData)

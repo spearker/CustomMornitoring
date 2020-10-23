@@ -6,6 +6,8 @@ import InfoTable from '../../Components/Table/InfoTable';
 import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic';
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Pagination from "@material-ui/lab/Pagination";
+import Styled from "styled-components";
 
 interface Props {
     type: string
@@ -113,9 +115,11 @@ const BasicListContainer = ({type}: Props) => {
                     onClickRemove={onClickDelete}/>
             }
 
-            {console.log('pagination info', page)}
-            <NumberPagenation stock={page.total ? page.total : 1} selected={page.current}
-                              onClickEvent={(i: number) => setPage({...page, current: i})}/>
+            <PaginationBox>
+                <Pagination count={page.total ? page.total : 0} page={page.current}
+                            onChange={(event, i) => setPage({...page, current: i})} color={"primary"}
+                            boundaryCount={1}/>
+            </PaginationBox>
         </>
     );
 }
@@ -204,6 +208,19 @@ export const LIST_INDEX = {
         }
     },
 }
+
+
+const PaginationBox = Styled.div`
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: white;
+    }
+    .MuiPaginationItem-root{
+        color: white;
+    }
+`
 
 export default BasicListContainer;
 

@@ -64,7 +64,7 @@ const ContractModifyContainer = ({match}:Props) => {
 
         const tempUrl = `${API_URLS['contract'].update}`
         const resultData = await postContractModify(tempUrl, contractData);
-
+        console.log(contractData)
         history.goBack()
     }, [contractData])
 
@@ -90,7 +90,7 @@ const ContractModifyContainer = ({match}:Props) => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 거래처 명</td>
-                            <td><CustomerPickerModal onClickEvent={(e)=> setCustomer(e)} select={customer} text={'거래처를 선택해주세요.'}/></td>
+                            <td><CustomerPickerModal onClickEvent={(e)=> {setCustomer(e); setContractData({...contractData, customer_pk: e.pk})}} select={customer} text={'거래처를 선택해주세요.'}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
