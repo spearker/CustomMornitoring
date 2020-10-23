@@ -100,7 +100,7 @@ const ContractRegister = ({match}: Props) => {
     }
     setIsSearched(true)
 
-    const res = await getRequest(`http://203.234.183.22:8299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://61.101.55.224:18299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -168,7 +168,7 @@ const ContractRegister = ({match}: Props) => {
    */
   const getData = useCallback(async () => {
 
-    const res = await getRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/load?pk=' + match.params.pk, getToken(TOKEN_NAME))
+    const res = await getRequest('http://61.101.55.224:18299/api/v1/outsourcing/contract/load?pk=' + match.params.pk, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -230,6 +230,7 @@ const ContractRegister = ({match}: Props) => {
 
     const data = {
       pk: match.params.pk,
+      company: selectOutsource?.pk,
       product: selectMaterial?.pk,
       quantity: quantity.toString(),
       unpaid: unpaid.toString(),
@@ -238,7 +239,7 @@ const ContractRegister = ({match}: Props) => {
       address: inputData.location
       //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
     }
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:18299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -302,7 +303,7 @@ const ContractRegister = ({match}: Props) => {
 
     }
 
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://61.101.55.224:18299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
