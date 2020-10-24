@@ -44,18 +44,18 @@ const BasicMoldRegister = () => {
     const [photoName, setPhotoName] = useState<string>('');
     const [factory, setFactory] = useState<any[]>([]);
 
-    const [limit, setLimit] = useState<number>(0);
-    const [inspect, setInspect] = useState<number>(0);
-    const [current, setCurrent] = useState<number>(0);
-    const [proper, setProper] = useState(0);
+    const [limit, setLimit] = useState<number | undefined>(undefined);
+    const [inspect, setInspect] = useState<number | undefined>(undefined);
+    const [current, setCurrent] = useState<number | undefined>(undefined);
+    const [proper, setProper] = useState<number | undefined>(undefined);
     const [files, setFiles] = useState<any[3]>([null, null]);
     const [paths, setPaths] = useState<any[3]>([null, null]);
     const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
     const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
-    const [mold_spec_w, setMold_spec_w] = useState<string>('');
-    const [mold_spec_l, setMold_spec_l] = useState<string>('');
-    const [mold_spec_t, setMold_spec_t] = useState<string>('');
+    const [mold_spec_w, setMold_spec_w] = useState<number | undefined>(undefined);
+    const [mold_spec_l, setMold_spec_l] = useState<number | undefined>(undefined);
+    const [mold_spec_t, setMold_spec_t] = useState<number | undefined>(undefined);
     const [input_material, setInput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
     const [output_material, setOutput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
 
@@ -155,34 +155,34 @@ const BasicMoldRegister = () => {
 
     const onsubmitFormUpdate = useCallback(async () => {
 
-        if (name === "") {
+        if (name.trim() === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
             return
-        } else if (madeNo === "") {
+        } else if (madeNo.trim() === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (limit.toString() === "") {
+        } else if (!limit || limit <= 0) {
             alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (inspect.toString() === "") {
+        } else if (!inspect || inspect <= 0) {
             alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (proper.toString() === "") {
+        } else if (!proper || proper < 0) {
             alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
             alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_l === "") {
+        } else if (!mold_spec_l || mold_spec_l <= 0) {
             alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_w === "") {
+        } else if (!mold_spec_w || mold_spec_w <= 0) {
             alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_t === "") {
+        } else if (!mold_spec_t || mold_spec_t <= 0) {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (input_material.pk === "" || input_material.pk === undefined) {
@@ -207,7 +207,7 @@ const BasicMoldRegister = () => {
             info_list: JsonStringifyList(essential, optional),
             output_material: output_material.pk,
             input_material: input_material.pk,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             mold_spec_L: mold_spec_l,
             mold_spec_W: mold_spec_w,
@@ -242,34 +242,35 @@ const BasicMoldRegister = () => {
         //console.log(JSON.stringify(infoList))
 
         console.log(input_material, output_material)
-        if (name === "") {
+
+        if (name.trim() === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
             return
-        } else if (madeNo === "") {
+        } else if (madeNo.trim() === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (limit.toString() === "") {
+        } else if (!limit || limit <= 0) {
             alert("최대 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (inspect.toString() === "") {
+        } else if (!inspect || inspect <= 0) {
             alert("점검 타수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (proper.toString() === "") {
+        } else if (!proper || proper < 0) {
             alert("적정 톤 수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
             alert("공장/부속공장는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_l === "") {
+        } else if (!mold_spec_l || mold_spec_l <= 0) {
             alert("금형 치수 L 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_w === "") {
+        } else if (!mold_spec_w || mold_spec_w <= 0) {
             alert("금형 치수 W 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (mold_spec_t === "") {
+        } else if (!mold_spec_t || mold_spec_t <= 0) {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (input_material.pk === "" || input_material.pk === undefined) {
@@ -293,7 +294,7 @@ const BasicMoldRegister = () => {
             info_list: JsonStringifyList(essential, optional),
             output_material: output_material.pk,
             input_material: input_material.pk,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             mold_spec_L: mold_spec_l,
             mold_spec_W: mold_spec_w,
@@ -361,12 +362,12 @@ const BasicMoldRegister = () => {
                                 list={factory}
                                 searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?&'}
                             />
-                            <NormalInput title={'금형 치수 L'} value={mold_spec_l} onChangeEvent={setMold_spec_l}
-                                         description={'치수를 입력하세요.'}/>
-                            <NormalInput title={'금형 치수 W'} value={mold_spec_w} onChangeEvent={setMold_spec_w}
-                                         description={'치수를 입력하세요.'}/>
-                            <NormalInput title={'금형 치수 T'} value={mold_spec_t} onChangeEvent={setMold_spec_t}
-                                         description={'치수를 입력하세요.'}/>
+                            <NormalNumberInput title={'금형 치수 L'} description={"치수를 입력하세요."} value={mold_spec_l}
+                                               onChangeEvent={setMold_spec_l}/>
+                            <NormalNumberInput title={'금형 치수 W'} description={"치수를 입력하세요."} value={mold_spec_w}
+                                               onChangeEvent={setMold_spec_w}/>
+                            <NormalNumberInput title={'금형 치수 T'} description={"치수를 입력하세요."} value={mold_spec_t}
+                                               onChangeEvent={setMold_spec_t}/>
                             <InputContainer title={"투입 품목"}>
                                 <ProductionPickerModal select={input_material} onClickEvent={setInput_material}
                                                        text={'투입품목'}

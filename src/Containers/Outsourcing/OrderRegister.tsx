@@ -29,28 +29,28 @@ const OutsourcingRegister = ({match}: Props) => {
     const history = useHistory()
 
     const [selectDate, setSelectDate] = useState<string>('')
-    const [pk, setPk] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>();
-    const [type, setType] = useState<number>(0); //0: 법인, 1:개인
-    const [phone, setPhone] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-    const [fax, setFax] = useState<string>('');
-    const [phoneM, setPhoneM] = useState<string>('');
-    const [emailM, setEmailM] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [manager, setManager] = useState<string>('');
-    const [ceo, setCeo] = useState<string>('');
-    const [infoList, setInfoList] = useState<IInfo[]>([]);
+    const [pk, setPk] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [no, setNo] = useState<number>()
+    const [type, setType] = useState<number>(0) //0: 법인, 1:개인
+    const [phone, setPhone] = useState<string>('')
+    const [address, setAddress] = useState<string>('')
+    const [fax, setFax] = useState<string>('')
+    const [phoneM, setPhoneM] = useState<string>('')
+    const [emailM, setEmailM] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [manager, setManager] = useState<string>('')
+    const [ceo, setCeo] = useState<string>('')
+    const [infoList, setInfoList] = useState<IInfo[]>([])
 
-    const [paths, setPaths] = useState<any[1]>([null]);
-    const [oldPaths, setOldPaths] = useState<any[1]>([null]);
+    const [paths, setPaths] = useState<any[1]>([null])
+    const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
 
     const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
     const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
-    const [quantity, setQuantity] = useState<number>(0)
-    const [unpaid, setUnpaid] = useState<number>(0)
+    const [quantity, setQuantity] = useState<number>()
+    const [unpaid, setUnpaid] = useState<number>()
     const [paymentCondition, setPaymentCondition] = useState('')
     const [inputData, setInputData] = useObjectInput('CHANGE', {
         name: '',
@@ -61,9 +61,9 @@ const OutsourcingRegister = ({match}: Props) => {
             detail: '',
         },
 
-    });
+    })
 
-    const [isUpdate, setIsUpdate] = useState<boolean>(false);
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -83,23 +83,23 @@ const OutsourcingRegister = ({match}: Props) => {
      * @returns X
      */
     const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0]);
+        console.log(event.target.files[0])
         console.log(index)
         if (event.target.files[0] === undefined) {
 
-            return;
+            return
         }
-        console.log(event.target.files[0].type);
+        console.log(event.target.files[0].type)
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
-            const tempFile = event.target.files[0];
+            const tempFile = event.target.files[0]
             console.log(tempFile)
-            const res = await uploadTempFile(event.target.files[0]);
+            const res = await uploadTempFile(event.target.files[0])
 
             if (res !== false) {
                 console.log(res)
                 const tempPatchList = paths.slice()
-                tempPatchList[index] = res;
+                tempPatchList[index] = res
                 console.log(tempPatchList)
                 setPaths(tempPatchList)
                 return
@@ -130,7 +130,7 @@ const OutsourcingRegister = ({match}: Props) => {
             //TODO: 에러 처리
         } else {
             if (res.status === 200) {
-                const data = res.results;
+                const data = res.results
                 setSelectOutsource({name: data.company_name, pk: data.company_pk})
                 setSelectMaterial({name: data.product, pk: data.product_pk})
                 setInputData('location', data.address)
@@ -160,28 +160,29 @@ const OutsourcingRegister = ({match}: Props) => {
      * @returns X
      */
     const onsubmitFormUpdate = useCallback(async () => {
-        console.log('check : ',quantity)
-        if (selectOutsource?.pk === '' || selectOutsource?.pk ==undefined) {
-            alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
-            return;
-        } else if (selectMaterial?.pk === '' || selectMaterial?.pk == undefined) {
-            alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
-            return;
-        } else if (quantity === null || quantity ==0) {
-            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (unpaid === null) {
-            alert("미납 수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+        console.log(quantity)
+
+        if (selectOutsource?.pk === '') {
+            alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+            return
+        } else if (selectMaterial?.pk === '') {
+            alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+            return
+        } else if (!quantity || quantity === 0) {
+            alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (!unpaid) {
+            alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (paymentCondition === '') {
-            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (selectDate === '') {
-            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
-            return;
+            alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+            return
         } else if (inputData.location.postcode === '') {
-            alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
 
 
@@ -196,8 +197,8 @@ const OutsourcingRegister = ({match}: Props) => {
             address: inputData.location
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
-        };
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/oder/update/', data, getToken(TOKEN_NAME))
+        }
+        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/order/update/', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -229,29 +230,29 @@ const OutsourcingRegister = ({match}: Props) => {
      * @returns X
      */
     const onsubmitForm = useCallback(async () => {
+
         ////alert(JSON.stringify(infoList))
-        console.log('check : ',quantity)
-        if (selectOutsource?.pk === '' || selectOutsource?.pk ==undefined) {
-            alert("외주처는 필수 항목입니다. 반드시 선택해주세요.")
-            return;
-        } else if (selectMaterial?.pk === '' || selectMaterial?.pk == undefined) {
-            alert("품목은 필수 항목입니다. 반드시 선택해주세요.")
-            return;
-        } else if (quantity === null || quantity ==0) {
-            alert("수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (unpaid === null) {
-            alert("미납 수량은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+        if (selectOutsource?.pk === '') {
+            alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+            return
+        } else if (selectMaterial?.pk === '') {
+            alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+            return
+        } else if (!quantity || quantity === 0) {
+            alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (!unpaid) {
+            alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (paymentCondition === '') {
-            alert("대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+            return
         } else if (selectDate === '') {
-            alert("납기일은 필수 항목입니다. 반드시 선택주세요.")
-            return;
+            alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+            return
         } else if (inputData.location.postcode === '') {
-            alert("공장 주소는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+            alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
 
         const data = {
@@ -259,11 +260,11 @@ const OutsourcingRegister = ({match}: Props) => {
             product: selectMaterial?.pk,
             quantity: quantity.toString(),
             unpaid: unpaid.toString(),
-            due_date: selectDate,
+            due_date: selectDate.toString(),
             payment_condition: paymentCondition,
             address: inputData.location
 
-        };
+        }
 
         console.log(inputData.location)
 
@@ -289,25 +290,25 @@ const OutsourcingRegister = ({match}: Props) => {
             <Header title={isUpdate ? '발주 수정' : '발주 등록'}/>
             <WhiteBoxContainer>
                 <ListHeader title="필수 항목"/>
-                <InputContainer title={"외주처 명"} width={120}>
+                <InputContainer title={'외주처 명'} width={120}>
                     <OutsourcingPickerModal select={selectOutsource}
                                             onClickEvent={(e) => {
                                                 setSelectOutsource({...selectOutsource, ...e})
-                                            }} text={"외주처 명을 검색해주세요."}/>
+                                            }} text={'외주처 명을 검색해주세요.'}/>
                 </InputContainer>
-                <InputContainer title={"품목(품목명)"} width={120}>
+                <InputContainer title={'품목(품목명)'} width={120}>
                     <ProductionPickerModal select={selectMaterial}
                                            onClickEvent={(e) => {
                                                setSelectMaterial({...selectMaterial, ...e})
-                                           }} text={"품목명을 검색해주세요."} type={1}/>
+                                           }} text={'품목명을 검색해주세요.'} type={1}/>
                 </InputContainer>
-                <NormalNumberInput title={'수량'} value={Number(quantity)} onChangeEvent={setQuantity}
+                <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity}
                                    description={'수량을 입력하세요.'} width={120}/>
-                <NormalNumberInput title={'미납 수량'} value={Number(unpaid)} onChangeEvent={setUnpaid}
+                <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid}
                                    description={'미납 수량을 입력하세요.'} width={120}/>
                 <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
                              description={'대금 지불조건을 입력해 주세요.'} width={120}/>
-                <InputContainer title={"납기일"} width={120}>
+                <InputContainer title={'납기일'} width={120}>
                     <div style={{
                         display: 'flex',
                         flex: 1,
@@ -382,7 +383,7 @@ const OutsourcingRegister = ({match}: Props) => {
                 }
             </WhiteBoxContainer>
         </div>
-    );
+    )
 }
 
 const InputText = Styled.p`
