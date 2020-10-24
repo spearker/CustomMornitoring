@@ -118,7 +118,6 @@ const WorkerContainer = ({match}: Props) => {
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
-                clickValue={selectValue}
                 noChildren={true}
                 currentPage={page.current}
                 totalPage={page.total}
