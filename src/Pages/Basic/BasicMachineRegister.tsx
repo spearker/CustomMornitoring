@@ -171,7 +171,7 @@ const BasicMachineRegister = () => {
             pk: getParameter('pk'),
             machine_name: name,
             machine_type: type,
-            manufacturer: made.trim(),
+            manufacturer: !made ? made : made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
 
@@ -235,7 +235,7 @@ const BasicMachineRegister = () => {
             document_pk: document.pk,
             machine_name: name,
             machine_type: type,
-            manufacturer: made.trim(),
+            manufacturer: !made ? made : made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,

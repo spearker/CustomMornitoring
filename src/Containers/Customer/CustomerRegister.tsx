@@ -123,7 +123,7 @@ const CustomerRegister = ({match}: Props) => {
             setType(res.type);
             setPk(res.pk);
             setCeo(res.ceo_name);
-            setPaths([res.photo])
+            setOldPaths([res.photo])
             setPhone(res.telephone);
             setEmailM(res.manager_email);
             setPhoneM(res.manager_phone)
@@ -151,7 +151,7 @@ const CustomerRegister = ({match}: Props) => {
      * @returns X
      */
     const onsubmitFormUpdate = useCallback(async () => {
-        
+
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -291,7 +291,7 @@ const CustomerRegister = ({match}: Props) => {
                                  style={{width: 'calc(100% - 124px)'}}/>
                 {
                     isUpdate ?
-                        <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={['']} isImage={true}/>
+                        <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
                         :
                         null
                 }

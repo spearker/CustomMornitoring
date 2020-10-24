@@ -2,9 +2,10 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldList, postMoldState} from "../../Api/mes/manageMold";
+import {API_URLS, getMoldList, postMoldRegister, postMoldState} from "../../Api/mes/manageMold";
 import {useHistory} from "react-router-dom";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import {postOutsourcingDelete} from "../../Api/mes/outsourcing";
 
 
 const CurrentContainer = () => {
@@ -15,6 +16,7 @@ const CurrentContainer = () => {
     const [detailList, setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({mold_name: '금형 이름'});
     const [subIndex, setSubIndex] = useState({manager: "작업자"})
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -61,6 +63,7 @@ const CurrentContainer = () => {
         },
         {
             Name: '삭제',
+            Link: () => postDelete()
         }
     ]
 
@@ -71,6 +74,53 @@ const CurrentContainer = () => {
         },
     ]
 
+    const arrayDelete = () => {
+        while (true) {
+            deletePk.pk.pop()
+            if (deletePk.pk.length === 0) {
+                break
+            }
+        }
+    }
+
+    const allCheckOnClick = useCallback((list) => {
+        let tmpPk: string[] = []
+
+        {
+            list.length === 0 ?
+                arrayDelete()
+                :
+                list.map((v, i) => {
+
+                    if (deletePk.pk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
+                    }
+
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.pk.indexOf(v.pk) === -1) {
+                            deletePk.pk.push(vi)
+                        }
+                    })
+
+                    if (tmpPk.length < deletePk.pk.length) {
+                        deletePk.pk.shift()
+                    }
+
+                    console.log(deletePk.pk)
+
+                })
+        }
+    }, [deletePk])
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.pk.indexOf(Data.pk)
+        {
+            deletePk.pk.indexOf(Data.pk) !== -1 ?
+                deletePk.pk.splice(IndexPk, 1)
+                :
+                deletePk.pk.push(Data.pk)
+        }
+    }, [deletePk])
 
     const onClick = useCallback((mold) => {
         console.log('dsfewfewf', mold.pk, mold.mold_name);
@@ -140,6 +190,18 @@ const CurrentContainer = () => {
         setPage({current: res.current_page, total: res.total_page})
     }, [list])
 
+    const postDelete = useCallback(async () => {
+        if (deletePk.pk.length <= 0) {
+            alert('삭제하실 항목을 선택해 주세요.')
+            return
+        }
+        const tempUrl = `${API_URLS['repair'].delete}`
+        const res = await postMoldRegister(tempUrl, deletePk)
+
+        arrayDelete()
+        getList()
+    }, [deletePk])
+
     useEffect(() => {
         getList()
     }, [page.current])
@@ -164,6 +226,8 @@ const CurrentContainer = () => {
             <OvertonTable
                 title={'금형 수리 현황'}
                 titleOnClickEvent={titleEventList}
+                allCheckOnClickEvent={allCheckOnClick}
+                checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
