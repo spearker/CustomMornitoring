@@ -64,7 +64,6 @@ const FinishMaterialContainer = () => {
             Name: '출고',
             Width: 60,
             Color: 'white',
-<<<<<<< HEAD
             Link: (v)=>{
                 if(Number(v.current_stock) > 0){  
                     history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
@@ -72,9 +71,6 @@ const FinishMaterialContainer = () => {
                     alert('출고할 수 있는 재고가 없습니다.')
                 }
             }
-=======
-            Link: (v) => history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
->>>>>>> upstream/master
         },
     ]
 

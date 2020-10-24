@@ -185,12 +185,10 @@ const StockListContainer = () => {
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
-                    selectPk !== null ?
+                    selectPk !== null &&
                         <LineTable title={selectStock + ' 입출고 현황'} contentTitle={subIndex} contentList={detailList}>
                             <Line/>
                         </LineTable>
-                        :
-                        null
                 }
             </OvertonTable>
         </div>

@@ -308,6 +308,9 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                     //alert('성공적으로 등록 되었습니다')
 
                     history.goBack()
+                } else if(res.status === 1002){
+                    alert(`입력하신 출고 수량이 현재 재고량보다 많습니다. 확인 후 다시 등록해 주세요.`)
+                    return;
                 } else {
                     //TODO:  기타 오류
                 }
@@ -341,6 +344,9 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                     //alert('성공적으로 등록 되었습니다')
 
                     history.goBack()
+                } else if(res.status === 2000){
+                    alert(`입력하신 출고 수량이 현재 재고량보다 많습니다. 확인 후 다시 등록해 주세요.`)
+                    return;
                 } else {
                     //TODO:  기타 오류
                 }
