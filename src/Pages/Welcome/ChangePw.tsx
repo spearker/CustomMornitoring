@@ -42,7 +42,7 @@ const ChangePw = () => {
             password: pw,
             auth_code: getParameter('authcode'),
         }
-        const results = await postRequestWithNoToken('http://61.101.55.224:18299/user/password/change', data)
+        const results = await postRequestWithNoToken('http://112.168.150.239:8299/user/password/change', data)
 
         if (results === false) {
             //TODO: 에러 처리
