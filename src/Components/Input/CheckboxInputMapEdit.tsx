@@ -42,7 +42,7 @@ const CheckList = Styled.div`
         display: inline-block;
         width: 18px;
         height: 18px;
-        border: 1.5px solid #00000040;
+        border: 0/* 1.5px solid #00000040 */;
         cursor: pointer;
       }
     input[type="checkbox"]:checked + label {

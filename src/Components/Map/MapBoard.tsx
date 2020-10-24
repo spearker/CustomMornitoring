@@ -139,7 +139,7 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
 
   }, [ selectFactory, facotories ]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (mapType === 'cms' && selectFactory.pk !== '') {
       const interval = setInterval(() => {
         getMapData(selectFactory.pk);
@@ -151,7 +151,7 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
         //setTimer(null)
       };
     }
-  }, [ selectFactory ])
+  }, [ selectFactory ]) */
 
 
   useEffect(() => {
@@ -254,20 +254,20 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
         {
           mapType === 'cms' ? item
               ? <DetailBox>
-                <p style={{ fontSize: 20, textAlign: 'left' }}>{item.machine_name}</p>
-                <table style={{ width: "100%", height: 250, fontSize: 30 }}>
-                  <tr>
-                    <td>사용률</td>
-                    <td>{item.duty_cycle}%</td>
-                    <td>전류량</td>
-                    <td>{item.current}A</td>
-                  </tr>
-                  <tr>
-                    <td>전력</td>
-                    <td>{item.electric_power}KW</td>
-                    <td>누적 사용량</td>
-                    <td>{item.accumulated}KW</td>
-                  </tr>
+                  <p>{item.machine_name}</p>
+                  <table style={{ width: "100%", height: 250, fontSize: 30 }}>
+                    <tr>
+                      <td>사용률</td>
+                      <td>{item.duty_cycle}<span>&nbsp;%</span></td>
+                      <td>전류량</td>
+                      <td>{item.current}<span>&nbsp;A</span></td>
+                    </tr>
+                    <tr>
+                      <td>전력</td>
+                      <td>{item.electric_power}<span>&nbsp;KW</span></td>
+                      <td>누적 사용량</td>
+                      <td>{item.accumulated}<span>&nbsp;KW</span></td>
+                    </tr>
                 </table>
               </DetailBox>
               : <NoDataCard contents={'기계를 선택해 주세요'} height={300}/>
@@ -280,11 +280,55 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
 
 const DetailBox = Styled.div`
     width: 1080px;
-    height: 300px;
+    /* height: 300px; */
     background-color: #17181c;
     border-radius: 6px;
     margin-top: 20px;
-    padding: 10px;
+    padding: 20px 10px 40px 10px;
+    box-sizing: border-box;
+    *{
+      box-sizing: border-box;
+    }
+
+    &>p{
+      font-size: 20px;
+      text-align: left;
+      padding-bottom: 10px;
+      padding-left: 25px;
+      border-bottom: 1px solid #ffffff60;
+    }
+    &>table{
+      max-width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+
+      /* background-color: red; */
+      tr{
+        *{
+          margin-right: 47px;
+        }
+        td{
+          text-align: right;
+          &:not(:nth-child(2n)){
+            vertical-align: bottom;
+            font-size: 25px;
+            padding-bottom: 31px;
+            width: 15%;
+          }
+          &:nth-child(2n){
+            position: relative;
+            font-size: 55px;
+            width: 35%;
+            span{
+              font-size: 25px;
+            }
+
+          }
+
+        }
+
+      }
+    }
 
 `
 

@@ -50,6 +50,9 @@ const MoldManageCreate = () => {
         if(moldData === undefined || moldData.pk === undefined || moldData.pk === ''){
             alert('금형명을 입력해 주세요')
             return
+        } else if(reason === ''){
+            alert('관리 내용을 입력해주세요.')
+            return
         }
 
         const resultData = await postMoldRegister(tempUrl, {
