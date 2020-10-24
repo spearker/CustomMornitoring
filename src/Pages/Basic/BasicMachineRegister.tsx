@@ -112,7 +112,7 @@ const BasicMachineRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://61.101.55.224:18299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -147,13 +147,13 @@ const BasicMachineRegister = () => {
     const onsubmitFormUpdate = useCallback(async (e) => {
         e.preventDefault();
 
-        if (name === "") {
+        if (name.trim() === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("기계 종류는 필수 항목입니다. 반드시 입력해주세요.")
             return
-        } else if (madeNo === "") {
+        } else if (madeNo.trim() === "") {
             alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (volt.toString() === "" || volt < 0) {
@@ -171,7 +171,7 @@ const BasicMachineRegister = () => {
             pk: getParameter('pk'),
             machine_name: name,
             machine_type: type,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
 
@@ -185,7 +185,7 @@ const BasicMachineRegister = () => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -206,16 +206,18 @@ const BasicMachineRegister = () => {
      */
     const onsubmitForm = useCallback(async (e) => {
         e.preventDefault();
+
+        console.log('name trim', name.trim())
         //console.log(infoList)
         ////alert(JSON.stringify(infoList))
         //console.log(JSON.stringify(infoList))
-        if (name === "") {
+        if (name.trim() === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("기계 종류는 필수 항목입니다. 반드시 입력해주세요.")
             return
-        } else if (madeNo === "") {
+        } else if (madeNo.trim() === "") {
             alert("제조 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (volt.toString() === "" || volt < 0) {
@@ -233,7 +235,7 @@ const BasicMachineRegister = () => {
             document_pk: document.pk,
             machine_name: name,
             machine_type: type,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,
@@ -246,7 +248,7 @@ const BasicMachineRegister = () => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -299,7 +301,7 @@ const BasicMachineRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                                searchUrl={'http://61.101.55.224:18299/api/v1/factory/search?'}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -337,7 +339,7 @@ const BasicMachineRegister = () => {
                             <br/>
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/machine/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://61.101.55.224:18299/api/v1/machine/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 

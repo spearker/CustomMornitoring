@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
@@ -15,6 +15,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom'
 import {API_URLS, getCustomerData} from "../../Api/mes/customer";
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
+import Styled from "styled-components";
 
 interface Props {
     match: any;
@@ -122,7 +123,7 @@ const CustomerRegister = ({match}: Props) => {
             setType(res.type);
             setPk(res.pk);
             setCeo(res.ceo_name);
-            setPaths([res.photo])
+            setOldPaths([res.photo])
             setPhone(res.telephone);
             setEmailM(res.manager_email);
             setPhoneM(res.manager_phone)
@@ -149,8 +150,8 @@ const CustomerRegister = ({match}: Props) => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitFormUpdate = useCallback(async (e) => {
-        e.preventDefault();
+    const onsubmitFormUpdate = useCallback(async () => {
+
         if (name === "") {
             alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -203,8 +204,7 @@ const CustomerRegister = ({match}: Props) => {
      * @param {string} madeNo 제조사넘버
      * @returns X
      */
-    const onsubmitForm = useCallback(async (e) => {
-        e.preventDefault();
+    const onsubmitForm = useCallback(async () => {
         console.log(infoList)
         ////alert(JSON.stringify(infoList))
         console.log(JSON.stringify(infoList))
@@ -276,41 +276,42 @@ const CustomerRegister = ({match}: Props) => {
         <div>
             <Header title={isUpdate ? '거래처 정보수정' : '거래처 정보등록'}/>
             <WhiteBoxContainer>
-                <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
-                    <ListHeader title="필수 항목"/>
-                    <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
-                    <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
-                    <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                                contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
+                <ListHeader title="필수 항목"/>
+                <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
+                <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
+                <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
+                            contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
 
-                    {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
-                    <NormalNumberInput title={'사업자 번호'} value={Number(no) <= 0 ? undefined : Number(no)} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/>
-                    <br/>
-                    <ListHeader title="선택 항목"/>
-                    <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
-                                     onChangeEvent={(e) => addFiles(e, 0)}
-                                     description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
-                                     style={{width: 'calc(100% - 124px)'}}/>
-                    {
-                        isUpdate ?
-                            <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={['']} isImage={true}/>
-                            :
-                            null
-                    }
-                    <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
-                                 description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
-                    <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
-                    <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
-                                 description={'사업장 이메일을 입력하세요'}/>
-                    <NormalNumberInput title={'사업장 대표 FAX'} value={Number(fax) <= 0 ? undefined : Number(fax)} onChangeEvent={setFax}
+                {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
+                <NormalNumberInput title={'사업자 번호'} value={Number(no) <= 0 ? undefined : Number(no)} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/>
+                <br/>
+                <ListHeader title="선택 항목"/>
+                <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
+                                 onChangeEvent={(e) => addFiles(e, 0)}
+                                 description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
+                                 style={{width: 'calc(100% - 124px)'}}/>
+                {
+                    isUpdate ?
+                        <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
+                        :
+                        null
+                }
+                <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
+                             description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
+                <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
+                <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
+                             description={'사업장 이메일을 입력하세요'}/>
+                {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
+                             description={'사업장 팩스번호를 입력하세요'}/> */}
+                <NormalNumberInput title={'사업장 대표 FAX'} value={Number(fax) <= 0 ? undefined : Number(fax)} onChangeEvent={setFax}
                                  description={'사업장 팩스번호를 입력하세요'}/>
-                    <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
-                                 description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
-                    <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
-                                 description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
-                    <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
-                                 description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
-                    {/* 자유항목 입력 창
+                <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
+                             description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
+                <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
+                             description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
+                <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
+                             description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
+                {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();
               tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -337,12 +338,49 @@ const CustomerRegister = ({match}: Props) => {
               </FullAddInput>
 
             */}
-                    <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-                </form>
+                <div style={{marginTop: 72, marginLeft: 340}}>
+                    {isUpdate ?
+                        <ButtonWrap onClick={async () => {
+                            await onsubmitFormUpdate()
+                        }}>
+                            <div style={{
+                                width: 360,
+                                height: 46,
+                                boxSizing: 'border-box',
+                                paddingTop: '9px'
+                            }}>
+                                <p style={{fontSize: 18}}>수정하기</p>
+                            </div>
+                        </ButtonWrap>
+                        :
+                        <ButtonWrap onClick={async () => {
+                            await onsubmitForm()
+                        }}>
+                            <div style={{
+                                width: 360,
+                                height: 46,
+                                boxSizing: 'border-box',
+                                paddingTop: '9px'
+                            }}>
+                                <p style={{fontSize: 18}}>등록하기</p>
+                            </div>
+                        </ButtonWrap>
+                    }
+                </div>
             </WhiteBoxContainer>
         </div>
     );
 }
 
+
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;s
+`
 
 export default CustomerRegister;
