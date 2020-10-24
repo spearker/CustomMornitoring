@@ -173,7 +173,19 @@ const WorkHistoryRegisterContainer = () => {
                 </div>
                 <div style={{marginTop: 130}}>
                     <ButtonWrap onClick={async () => {
-                        await postChitRegisterData()
+                        if(workHistoryData.chit_pk === ""||workHistoryData.chit_pk==undefined){
+                            alert('전표를 선택해 주세요.')
+                        }else if(workHistoryData.worker_name ===""||workHistoryData.worker_name ==undefined){
+                            alert('작업자명을 작성해 주세요.')
+                        }else if(workHistoryData.material_pk ===""||workHistoryData.material_pk==undefined){
+                            alert('품목(품목명)을 선택해 주세요.')
+                        }else if(workHistoryData.process_pk ===""||workHistoryData.process_pk==undefined){
+                            alert('공정명을 선택해 주세요.')
+                        }else if(workHistoryData.amount===""||workHistoryData.amount==undefined){
+                            alert('총 수량을 입력해 주세요.')
+                        }else{
+                            await postChitRegisterData()
+                        }
                     }}>
                         <div>
                             <p style={{fontSize: 18}}>등록하기</p>
@@ -184,6 +196,7 @@ const WorkHistoryRegisterContainer = () => {
         </div>
     )
 }
+
 
 const ContainerMain = Styled.div`
     width: 1060px;

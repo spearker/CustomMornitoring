@@ -1,22 +1,22 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react';
 import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
-import Header from '../../Components/Text/Header'
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
-import NormalInput from '../../Components/Input/NormalInput'
-import RegisterButton from '../../Components/Button/RegisterButton'
-import {getToken} from '../../Common/tokenFunctions'
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
-import {uploadTempFile} from '../../Common/fileFuctuons'
-import ListHeader from '../../Components/Text/ListHeader'
+import Header from '../../Components/Text/Header';
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
+import NormalInput from '../../Components/Input/NormalInput';
+import RegisterButton from '../../Components/Button/RegisterButton';
+import {getToken} from '../../Common/tokenFunctions';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
+import {uploadTempFile} from '../../Common/fileFuctuons';
+import ListHeader from '../../Components/Text/ListHeader';
 import {useHistory} from 'react-router-dom'
-import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
-import InputContainer from '../InputContainer'
-import Styled from 'styled-components'
-import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
-import NormalAddressInput from '../../Components/Input/NormalAddressInput'
-import useObjectInput from '../../Functions/UseInput'
-import OutsourcingPickerModal from '../../Components/Modal/OutsourcingRegister'
-import NormalNumberInput from '../../Components/Input/NormalNumberInput'
+import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
+import InputContainer from "../InputContainer";
+import Styled from "styled-components";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import NormalAddressInput from "../../Components/Input/NormalAddressInput";
+import useObjectInput from "../../Functions/UseInput";
+import OutsourcingPickerModal from "../../Components/Modal/OutsourcingRegister";
+import NormalNumberInput from "../../Components/Input/NormalNumberInput";
 
 // 발주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -410,4 +410,4 @@ const ButtonWrap = Styled.button`
     }
 `
 
-export default OutsourcingRegister
+export default OutsourcingRegister;
