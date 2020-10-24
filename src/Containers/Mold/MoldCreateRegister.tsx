@@ -102,24 +102,28 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     let state = false
     parts.map((v, i) => {
       if (
-        v.name === '' ||
-        v.standard.w || v.standard.h || v.standard.l ||
-        v.standard.w === 0 ||
-        v.standard.h === 0 ||
-        v.standard.l === 0 ||
-        v.steel_grade === ''
+        Number(v.name === '') ^
+        Number(v.standard.w) ^ Number(v.standard.h) ^ Number(v.standard.l) ||
+        Number(v.standard.w === 0) ^
+        Number(v.standard.h === 0) ^
+        Number(v.standard.l === 0) ^
+        Number(v.steel_grade === '')
       ) {
         state = true
       }
       v.material.map((value, index) => {
-        if (value.material_pk === '' || value.usage === '') {
+        if (Number(value.material_pk === '') ^ Number(value.usage === '')) {
+
+        } else {
           state = true
         }
       })
     })
 
     components.map((v, i) => {
-      if (v.material_pk === '' || v.usage === '') {
+      if (Number(v.material_pk === '') ^ Number(v.usage === '')) {
+
+      } else {
         state = true
       }
     })
@@ -284,13 +288,13 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                     <p>mm</p>
                   </InputWrap>
                   <InputWrap>
-                    <InputBox type="number" value={parts[i].standard.h} onChange={(input) => {
+                    <InputBox type="number" value={parts[i].standard.l} onChange={(input) => {
                       onChangeNumberInput('l', i, input.target.value)
                     }} placeholder={'세로규격 입력'}/>
                     <p>mm</p>
                   </InputWrap>
                   <InputWrap>
-                    <InputBox type="number" value={parts[i].standard.l} onChange={(input) => {
+                    <InputBox type="number" value={parts[i].standard.h} onChange={(input) => {
                       onChangeNumberInput('h', i, input.target.value)
                     }} placeholder={'높이규격 입력'}/>
                     <p>mm</p>
@@ -422,6 +426,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                     let tmpCompo = components
                     if (tmpCompo.length === 1) {
                       console.log('삭제불가능')
+                      setComponents([initComponent])
                     } else {
                       tmpCompo.splice(i, 1)
                       setComponents([...tmpCompo])

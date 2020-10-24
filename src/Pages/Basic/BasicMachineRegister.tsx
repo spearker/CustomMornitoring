@@ -112,7 +112,7 @@ const BasicMachineRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest('http://61.101.55.224:18299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -185,7 +185,7 @@ const BasicMachineRegister = () => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -248,7 +248,7 @@ const BasicMachineRegister = () => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest('http://61.101.55.224:18299/api/v1/machine/register', data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -301,7 +301,7 @@ const BasicMachineRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                                searchUrl={'http://61.101.55.224:18299/api/v1/factory/search?'}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -339,7 +339,7 @@ const BasicMachineRegister = () => {
                             <br/>
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/machine/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://61.101.55.224:18299/api/v1/machine/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 
