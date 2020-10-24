@@ -69,7 +69,13 @@ const MoldContainer = () => {
     // ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        setDetailList({
+            max_life: 0,
+            accumulate: 0,
+            mold_life: 0,
+            yesterday_count: 0,
+            percent: 0
+        })
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
@@ -83,7 +89,7 @@ const MoldContainer = () => {
         }
 
 
-    }, [list, selectPk]);
+    }, [list, selectPk, detailList]);
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시

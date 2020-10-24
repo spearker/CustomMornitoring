@@ -136,13 +136,13 @@ const BasicDeviceRegister = () => {
     const onsubmitFormUpdate = useCallback(async (e) => {
         e.preventDefault();
 
-        if (name === "") {
+        if (name.trim() === "") {
             alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("장치 종류는 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (madeNo === '') {
+        } else if (madeNo.trim() === '') {
             alert("제조(제품)번호 는 필수 항목입니다. 반드시 선택해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
@@ -155,7 +155,7 @@ const BasicDeviceRegister = () => {
 
             device_name: name,
             device_type: type,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,
@@ -189,13 +189,13 @@ const BasicDeviceRegister = () => {
         //console.log(infoList)
         ////alert(JSON.stringify(infoList))
         //console.log(JSON.stringify(infoList))
-        if (name === "") {
+        if (name.trim() === "") {
             alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("장치 종류는 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (madeNo === '') {
+        } else if (madeNo.trim() === '') {
             alert("제조(제품)번호 는 필수 항목입니다. 반드시 선택해주세요.")
             return;
         } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
@@ -206,7 +206,7 @@ const BasicDeviceRegister = () => {
             document_pk: document.pk,
             device_name: name,
             device_type: type,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,
