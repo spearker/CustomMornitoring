@@ -19,6 +19,7 @@ const chartOption = {
         zoom: false,
         zoomin: true,
         zoomout: true,
+        pan: false
       }
     },
   },

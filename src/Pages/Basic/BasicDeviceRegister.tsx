@@ -136,6 +136,7 @@ const BasicDeviceRegister = () => {
     const onsubmitFormUpdate = useCallback(async (e) => {
         e.preventDefault();
 
+
         if (name.trim() === "") {
             alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
@@ -155,7 +156,7 @@ const BasicDeviceRegister = () => {
 
             device_name: name,
             device_type: type,
-            manufacturer: made.trim(),
+            manufacturer: !made ? made : made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,
@@ -206,7 +207,7 @@ const BasicDeviceRegister = () => {
             document_pk: document.pk,
             device_name: name,
             device_type: type,
-            manufacturer: made.trim(),
+            manufacturer: !made ? made : made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,
@@ -237,8 +238,7 @@ const BasicDeviceRegister = () => {
         <DashboardWrapContainer index={'basic'}>
 
             <InnerBodyContainer>
-                <Header title={isUpdate ? '' +
-                    '주변장치 정보수정' : '주변장치 정보등록'}/>
+                <Header title={isUpdate ? '주변장치 정보수정' : '주변장치 정보등록'}/>
                 <WhiteBoxContainer>
                     {
                         // document.id !== '' || isUpdate == true?

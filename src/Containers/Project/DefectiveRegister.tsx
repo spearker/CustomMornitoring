@@ -240,7 +240,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
                     <ProductionPickerModal select={selectMaterial}
                                            onClickEvent={(e) => {
                                                setSelectMaterial({...selectMaterial, ...e})
-                                           }} text={"품목명을 검색해주세요."} type={0} buttonWid={30}/>
+                                           }} text={"품목명을 검색해주세요."} type={1} buttonWid={30}/>
                 </InputContainer>
                 <InputContainer title={"기계"} width={120}>
                     <MachinePickerModal select={
