@@ -44,18 +44,18 @@ const BasicMoldRegister = () => {
     const [photoName, setPhotoName] = useState<string>('');
     const [factory, setFactory] = useState<any[]>([]);
 
-    const [limit, setLimit] = useState<number>();
-    const [inspect, setInspect] = useState<number>();
-    const [current, setCurrent] = useState<number>();
-    const [proper, setProper] = useState<number>();
+    const [limit, setLimit] = useState<number | undefined>(undefined);
+    const [inspect, setInspect] = useState<number | undefined>(undefined);
+    const [current, setCurrent] = useState<number | undefined>(undefined);
+    const [proper, setProper] = useState<number | undefined>(undefined);
     const [files, setFiles] = useState<any[3]>([null, null]);
     const [paths, setPaths] = useState<any[3]>([null, null]);
     const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
     const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
-    const [mold_spec_w, setMold_spec_w] = useState<number>();
-    const [mold_spec_l, setMold_spec_l] = useState<number>();
-    const [mold_spec_t, setMold_spec_t] = useState<number>();
+    const [mold_spec_w, setMold_spec_w] = useState<number | undefined>(undefined);
+    const [mold_spec_l, setMold_spec_l] = useState<number | undefined>(undefined);
+    const [mold_spec_t, setMold_spec_t] = useState<number | undefined>(undefined);
     const [input_material, setInput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
     const [output_material, setOutput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
 
@@ -155,13 +155,13 @@ const BasicMoldRegister = () => {
 
     const onsubmitFormUpdate = useCallback(async () => {
 
-        if (name === "") {
+        if (name.trim() === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
             return
-        } else if (madeNo === "") {
+        } else if (madeNo.trim() === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (!limit || limit <= 0) {
@@ -207,7 +207,7 @@ const BasicMoldRegister = () => {
             info_list: JsonStringifyList(essential, optional),
             output_material: output_material.pk,
             input_material: input_material.pk,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             mold_spec_L: mold_spec_l,
             mold_spec_W: mold_spec_w,
@@ -243,13 +243,13 @@ const BasicMoldRegister = () => {
 
         console.log(input_material, output_material)
 
-        if (name === "") {
+        if (name.trim() === "") {
             alert("금형 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (type === 0) {
             alert("금형 종류는 필수 항목입니다. 반드시 선택해주세요.")
             return
-        } else if (madeNo === "") {
+        } else if (madeNo.trim() === "") {
             alert("제품 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (!limit || limit <= 0) {
@@ -294,7 +294,7 @@ const BasicMoldRegister = () => {
             info_list: JsonStringifyList(essential, optional),
             output_material: output_material.pk,
             input_material: input_material.pk,
-            manufacturer: made,
+            manufacturer: made.trim(),
             manufacturer_code: madeNo,
             mold_spec_L: mold_spec_l,
             mold_spec_W: mold_spec_w,
