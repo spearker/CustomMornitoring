@@ -57,7 +57,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             alignItems: 'center'
           }}>
             <TitleText
-                style={{ fontSize: 72 }}>{data ? data.press_data.machine_name + `(${data.press_data.tonnage_limit})` : '-'}</TitleText>
+                style={{ fontSize: 72 }}>{data ? data.press_data.machine_name + `(${data.press_data.tonnage_limit}t)` : '-'}</TitleText>
           </div>
         </div>
     )
@@ -71,6 +71,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
           justifyContent: 'space-between',
           alignItems: 'center',
           margin: '0 auto',
+          fontWeight: 'bold',
           width: '70%',
           opacity: .8,
           marginBottom: 5,
@@ -80,6 +81,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             textAlign: 'left',
             fontSize: 48,
             fontWeight: 'bold',
+            fontFamily: 'NotoSansCJKkr',
             color: textColor ? textColor : 'white'
           }}>{key}</p>
           <TitleText
@@ -93,25 +95,34 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
     )
   }
 
+  const overTonCheck = () => {
+    if (data) {
+      return data.loadton_data.total_ton > data.press_data.tonnage_limit;
+    } else {
+      return false
+    }
+  }
+
   const standardInfo = () => {
     return (
         <div style={{
           position: 'absolute',
           top: '25%',
-          left: '20%',
-          width: 1000,
+          left: '17%',
+          width: 900,
           display: 'flex',
           flexDirection: 'column',
         }}>
-          {standardInfItem('일량', data ? data.loadton_data.press_power + ' kgf.m' : '-', { opacity: 1 }, { fontSize: 84 })}
-          {standardInfItem('Total', data ? data?.loadton_data.total_ton + ' t' : '-', { opacity: .9 }, { fontSize: 72 }, 'white')}
-          {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + ' t' : '-', {}, { fontSize: 48 }, 'white')}
-          {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + ' t' : '-', {}, { fontSize: 48 }, 'white')}
+          {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', { opacity: overTonCheck() ? 1 : .9 }, { fontSize: 72 }, overTonCheck() ? '#ed4337' : 'white')}
+          {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', { marginBottom: 20 }, { fontSize: 48 }, 'white')}
+          {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, { fontSize: 48 }, 'white')}
+          {standardInfItem('일량', data ? data.loadton_data.press_power + 'kgf.m' : '-', {
+            opacity: 1,
+            marginTop: 20
+          }, { fontSize: 84 })}
         </div>
     )
   }
-
-  console.log('data?.press_data.error_code', data?.press_data.error_code)
 
   return (
       <React.Fragment>
@@ -195,6 +206,7 @@ const ItemBox = Styled.div`
 `
 
 const TitleText = Styled.p`
+font-family: NotoSansCJKkr;
     text-align: center;
     font-weight: bold;
     font-size: 42px;

@@ -44,7 +44,7 @@ const PressMonitoring = () => {
     }
 
     console.log('-- monitoring data load -- ')
-    const res = await getRequest(`http://192.168.0.46:8299/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://183.99.194.242:8299/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
     setIsFirstLoad(true)
     if (res === false) {
       //alert('서버에서 데이터를 받아올 수 없습니다.')

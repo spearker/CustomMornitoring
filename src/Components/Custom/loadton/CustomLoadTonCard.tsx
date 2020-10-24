@@ -19,6 +19,7 @@ const basicData = [
 
 // 로드톤 모니터링
 const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
+  console.log('prop', propData)
   const colorList = [ '#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff' ]
   const [ datum, setDatum ] = useState([
     { data: propData?.capacity_point, color: 'gray', name: '능률곡선' },
@@ -63,7 +64,7 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
     },
     stroke: {
       curve: 'smooth',
-      width: 2
+      width: 1
     },
     markers: {
       size: 0
@@ -72,8 +73,8 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
       show: true,
       position: 'bottom',
       rotateAlways: true,
-      min: propData ? propData.x_axis_scope.from : 0,
-      max: propData ? propData.x_axis_scope.to : 0,
+      min: propData ? Math.floor(propData.x_axis_scope.from / 10) * 10 : 0,
+      max: propData ? Math.round(propData.x_axis_scope.to / 10) * 10 : 0,
       labels: {
         show: true,
         offsetY: 10,
@@ -86,7 +87,7 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
         }
       },
       type: 'numeric',
-      tickAmount: propData ? 10 : 1,
+      tickAmount: propData ? (Math.round(propData.x_axis_scope.to / 10) * 10 - Math.floor(propData.x_axis_scope.from / 10) * 10) / 10 : 1,
       axisBorder: {
         show: true,
       }

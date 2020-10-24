@@ -10,7 +10,7 @@ import { TOKEN_NAME } from "../../Common/configset";
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://192.168.0.46:8299';
+client.defaults.baseURL = 'http://183.99.194.242:8299';
 
 client.interceptors.response.use(function (response) {
 

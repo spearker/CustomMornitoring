@@ -4,6 +4,23 @@ export interface YOUDONG_PRESS_CUSTOM_TYPE {
   token?: string
 }
 
+export interface YOUDONG_ERROR_DASHBOARD {
+  pressName: string
+  pressNumber: string
+  errorData: YOUDONG_ERROR_CHART_ERROR_DATA[]
+}
+
+export interface YOUDONG_ERROR_CHART_ERROR_DATA {
+  error_statement: string
+  error_time: string
+}
+
+export interface DASHBOARD {
+  name: string
+  pk: string
+  url: string
+}
+
 export interface CHART_DRAW_TYPE {
   x: number
   y: number

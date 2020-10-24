@@ -106,7 +106,7 @@ const StockList = () => {
 
   const onClickDelete = useCallback(async (id) => {
 
-    const results = await postRequest('http://192.168.0.46:8299/api/v1/material/delete', { pk: id }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://183.99.194.242:8299/api/v1/material/delete', { pk: id }, getToken(TOKEN_NAME))
 
     console.log('--select id : ' + id)
     if (results === false) {

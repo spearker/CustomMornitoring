@@ -100,7 +100,7 @@ const ContractRegister = ({ match }: Props) => {
     }
     setIsSearched(true)
 
-    const res = await getRequest(`http://192.168.0.46:8299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(`http://183.99.194.242:8299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -168,7 +168,7 @@ const ContractRegister = ({ match }: Props) => {
    */
   const getData = useCallback(async () => {
 
-    const res = await getRequest('http://192.168.0.46:8299/api/v1/outsourcing/contract/load?pk=' + match.params.pk, getToken(TOKEN_NAME))
+    const res = await getRequest('http://183.99.194.242:8299/api/v1/outsourcing/contract/load?pk=' + match.params.pk, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -241,7 +241,7 @@ const ContractRegister = ({ match }: Props) => {
 
     };
 
-    const res = await postRequest('http://192.168.0.46:8299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://183.99.194.242:8299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
 
 
     if (res === false) {
@@ -308,7 +308,7 @@ const ContractRegister = ({ match }: Props) => {
 
     };
 
-    const res = await postRequest('http://192.168.0.46:8299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest('http://183.99.194.242:8299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리

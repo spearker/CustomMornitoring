@@ -156,6 +156,7 @@ import ProcessRegister from "../Pages/Process/Register";
 import CustomLoadtonChartContainer from "../Containers/Custom/dashboard/CustomLoadtonChartContainer";
 import CustomDashboardIndex from "../Containers/Custom/dashboard/CustomDashboardIndex";
 import CustomPressErrorChart from "../Containers/Custom/dashboard/CustomPressErrorChart";
+import CustomErrorLogDashBoard from "../Containers/Custom/dashboard/CustomErrorLogDashBoard";
 
 const Routers = () => {
 
@@ -396,6 +397,7 @@ const Routers = () => {
 
 
           <Route exact path="/custom/dashboard" component={CustomDashboardIndex}/>
+          <Route exact path="/custom/dashboard/errorLog" component={CustomErrorLogDashBoard}/>
           <Route exact path="/custom/error" component={CustomPressErrorChart}/>
           <Route exact path="/custom/dashboard/loadton/:press" component={CustomLoadtonChartContainer}/>
 

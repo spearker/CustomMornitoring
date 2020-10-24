@@ -4,31 +4,38 @@ import Styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { getToken } from "../../../lib/tokenFunctions";
 import { TOKEN_NAME } from "../../../Common/configset";
+import { DASHBOARD } from "../../../Common/@types/youdong";
 
-const dummy = [
+const dashboard: DASHBOARD[] = [
   {
     name: '프레스 1호기',
-    pk: '1'
+    pk: '1',
+    url: 'custom/dashboard/loadton/1',
   },
   {
     name: '프레스 2호기',
-    pk: '2'
+    pk: '2',
+    url: 'custom/dashboard/loadton/2',
   },
   {
     name: '프레스 3호기',
-    pk: '3'
+    pk: '3',
+    url: 'custom/dashboard/loadton/3',
   },
   {
     name: '프레스 4호기',
-    pk: '4'
+    pk: '4',
+    url: 'custom/dashboard/loadton/4',
   },
   {
     name: '프레스 5호기',
-    pk: '5'
+    pk: '5',
+    url: 'custom/dashboard/loadton/5',
   },
   {
-    name: '커스텀',
-    pk: '6'
+    name: '에러로그',
+    pk: 'errorLog',
+    url: 'custom/dashboard/errorLog',
   },
 ]
 
@@ -80,8 +87,8 @@ const MainSub = Styled.p`
 const CustomDashboardIndex: React.FunctionComponent = () => {
   const history = useHistory();
 
-  const goToChartPage = React.useCallback((pk: string) => {
-    history.push(`/custom/dashboard/loadton/${pk}`)
+  const goToChartPage = React.useCallback((data: DASHBOARD) => {
+    history.push(`/${data.url}`)
   }, [])
 
   const tokenCheck = () => {
@@ -107,7 +114,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
           </div>
           <PressSelector>
             {
-              dummy.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage} key={data.pk}/>)
+              dashboard.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage} key={data.pk}/>)
             }
           </PressSelector>
         </div>
