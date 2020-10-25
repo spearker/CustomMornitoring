@@ -130,7 +130,7 @@ const BasicMachineRegister = () => {
                 setInfoList(data.info_list);
                 setVolt(data.volt ?? 0);
                 setTons(data.tons ?? 0);
-                const tempList = paths.slice();
+                const tempList = oldPaths.slice();
                 tempList[0] = data.photo;
                 tempList[1] = data.qualification;
                 tempList[2] = data.capacity;
