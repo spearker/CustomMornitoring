@@ -295,8 +295,8 @@ const ContractRegister = ({match}: Props) => {
         const data = {
             company: selectOutsource?.pk,
             product: selectMaterial?.pk,
-            quantity: quantity,
-            unpaid: unpaid,
+            quantity: String(quantity),
+            unpaid: String(unpaid),
             due_date: selectDate,
             payment_condition: paymentCondition,
             address: inputData.location

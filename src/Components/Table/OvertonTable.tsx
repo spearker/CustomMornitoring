@@ -203,7 +203,6 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                         */
                         return (
                             <ValueBar key={i}
-                                      onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}
                                       style={{
                                           backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
                                           cursor: children === undefined || noChildren ? title.indexOf('제품 검사') !== -1 || title.indexOf('금형 제작') !== -1 ? 'pointer' : 'default' : 'pointer'
@@ -257,6 +256,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                                 :
                                                 <p key={`td-${i}-${mv}`}
                                                    className="p-limits"
+                                                   onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}
                                                 >
                                                     {v[mv] === '' || v[mv] === null || v[mv] === null ?
                                                         ''
@@ -277,7 +277,8 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                                         width: bv.Width,
                                                         color: v.status === '진행중' ? 'white' : 'white',
                                                         backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df'
-                                                    }}>{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
+                                                    }}
+                                                    >{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
                                                     :
                                                     <ButtonBox onClick={() => bv.Link(v)}
                                                                style={{

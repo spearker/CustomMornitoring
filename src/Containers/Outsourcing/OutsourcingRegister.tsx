@@ -24,7 +24,7 @@ const OutsourcingRegister = ({match}: any) => {
 
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>(0);
+    const [no, setNo] = useState<number>();
     const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
     const [phone, setPhone] = useState<string>('');
     const [address, setAddress] = useState<string>('');
