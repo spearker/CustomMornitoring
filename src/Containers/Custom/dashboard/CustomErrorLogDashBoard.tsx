@@ -25,7 +25,7 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
 
     const documentEvent: any = document
 
-    documentEvent.body.style.zoom = 1;
+    documentEvent.body.style.zoom = .9;
   }, [])
 
   const getData = async () => {
@@ -49,8 +49,8 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
 const DashboardWrapDiv = Styled.div`
     width: 100%;
     display: flex;
+    margin-left: 24px;
     background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
-    margin: 56px;
 `
 
 export default CustomErrorLogDashBoard

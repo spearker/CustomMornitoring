@@ -36,11 +36,13 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
         </div>
         <Content>
           <ContentTitleContainer>
-            <div style={{ width: '50%' }}>
+            <div style={{ width: '45%' }}>
               <ContentTitle>에러 상태</ContentTitle>
             </div>
-            <div style={{ width: '50%' }}>
-              <ContentTitle>에러 발생 시간</ContentTitle>
+            <div style={{ width: '55%' }}>
+              <div style={{ paddingLeft: 20 }}>
+                <ContentTitle>에러 발생 시간</ContentTitle>
+              </div>
             </div>
           </ContentTitleContainer>
           <ContentContainer>
@@ -54,11 +56,13 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
                         justifyContent: 'space-between',
                         marginBottom: 16
                       }}>
-                        <div style={{ width: '50%' }}>
+                        <div style={{ width: '45%' }}>
                           <ContentData>{data.error_statement}</ContentData>
                         </div>
-                        <div style={{ width: '50%' }}>
-                          <ContentData>{data.error_time}</ContentData>
+                        <div style={{ width: '55%' }}>
+                          <div style={{ paddingLeft: 20 }}>
+                            <ContentData>{data.error_time}</ContentData>
+                          </div>
                         </div>
                       </div>
                   )
@@ -72,8 +76,8 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
 }
 
 const Container = Styled.div`
-  width: 344px;
-  height: 100%;
+  width: 380px;
+  height: 100vh;
   padding: 10px;
   margin-right: 24px;
 }
@@ -111,6 +115,7 @@ const PressSub = Styled.span`
 
 const Content = Styled.div`
   background-color: rgba(17, 19, 25, .5);
+    height: 100%;
   border-radius: 6px;
   padding-left: 24px;
   padding-right: 24px;
@@ -129,7 +134,7 @@ const ContentData = Styled.span`
   object-fit: contain;
   opacity: 0.7;
   font-family: NotoSansCJKkr;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

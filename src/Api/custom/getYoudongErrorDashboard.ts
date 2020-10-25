@@ -7,7 +7,7 @@ const ENDPOINT = 'http://183.99.194.242:8299'
 
 export default async () => {
   try {
-    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/errorlog`, {
+    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/press/errorlog`, {
       headers: {
         authorization: getToken(TOKEN_NAME)
       }
