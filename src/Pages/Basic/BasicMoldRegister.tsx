@@ -191,6 +191,9 @@ const BasicMoldRegister = () => {
         } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (input_material.pk === output_material.pk) {
+            alert("투입 품목과 생산 품목이 같습니다. 다르게 체크해주세요.")
+            return
         }
 
 
@@ -279,6 +282,9 @@ const BasicMoldRegister = () => {
         } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (input_material.pk === output_material.pk) {
+            alert("투입 품목과 생산 품목이 같습니다. 다르게 체크해주세요.")
+            return
         }
 
         const data = {

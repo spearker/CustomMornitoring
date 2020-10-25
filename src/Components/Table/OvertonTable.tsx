@@ -202,10 +202,12 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                         },
                         */
                         return (
-                            <ValueBar key={i} style={{
-                                backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
-                                cursor: children === undefined || noChildren ? title.indexOf('제품 검사') !== -1 || title.indexOf('금형 제작') !== -1 ? 'pointer' : 'default' : 'pointer'
-                            }}>
+                            <ValueBar key={i}
+                                      onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}
+                                      style={{
+                                          backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                                          cursor: children === undefined || noChildren ? title.indexOf('제품 검사') !== -1 || title.indexOf('금형 제작') !== -1 ? 'pointer' : 'default' : 'pointer'
+                                      }}>
                                 {
                                     checkOnClickEvent ?
                                         <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
