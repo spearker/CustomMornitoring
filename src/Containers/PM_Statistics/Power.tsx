@@ -105,7 +105,7 @@ const dummySeries = [
 
 const PowerContainer = () => {
 
-  const [data, setData] = useState<{ name: string, data: number[] }[]>([])
+  const [data, setData] = useState<{ name: string, data: number[] }[]>([{name: '2020-01-01', data: [1,]}])
   const [pk, setPk] = useState()
 
   const [selectDate, setSelectDate] = useState({
@@ -138,7 +138,7 @@ const PowerContainer = () => {
 
     console.log(tempArray)
     setLabels(resultData.dates)
-    setData(tmpArr)
+    setData([...tmpArr])
 
   }, [pk, selectDate])
 
