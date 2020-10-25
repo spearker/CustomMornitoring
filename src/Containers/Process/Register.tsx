@@ -45,7 +45,7 @@ const ProcessRegisterContainer = () => {
   const [ processData, setProcessData ] = useState<IProcessRegister>({
     type: 0,
     name: '',
-    processes: [ { machine_pk: '', mold_pk: null } ], // mold_pk는 좀더 고민 필요!
+    processes: [ { machine_pk: '', mold_pk: null } ],
     description: ''
   })
 
@@ -62,8 +62,24 @@ const ProcessRegisterContainer = () => {
       return window.alert('설명을 입력해주세요.')
     } else if (processes[0].machine_pk === '') {
       return window.alert('1번 기계를 선택해주세요.')
-    } else if (processes[0].mold_pk === '') {
+    } /* else if (processes[0].mold_pk === '') {
       return window.alert('사용 금형을 선택해주세요.')
+    } */
+
+    return true
+  }
+  
+  const otherValidationCheck = () => {
+    const { name, description, processes } = processData
+
+    if (name === '') {
+      return window.alert('공정명을 입력해주세요.')
+    } else if (description === '') {
+      return window.alert('설명을 입력해주세요.')
+    } else if(processes.length <= 0){
+      return window.alert('공정을 추가해주세요.')
+    } else if (processes[0].machine_pk === '') {
+      return window.alert('1번 기계를 선택해주세요.')
     }
 
     return true
@@ -72,7 +88,7 @@ const ProcessRegisterContainer = () => {
   const postContractRegisterData = useCallback(async () => {
     console.log('process', processData)
 
-    if (validationCheck()) {
+    if (processData.type === 0 || processData.type === 1 ? validationCheck() : otherValidationCheck()) {
       const tempUrl = `${API_URLS['process'].register}`
       const resultData = await postProcessRegister(tempUrl, processData);
       console.log(resultData)
@@ -113,6 +129,7 @@ const ProcessRegisterContainer = () => {
   useEffect(() => {
     changeType(processData.type)
   }, [ processData.type ])
+
   useEffect(() => {
     console.log(processData)
   }, [ processData ])
@@ -131,7 +148,7 @@ const ProcessRegisterContainer = () => {
           <div>
             <table style={{ color: "black" }}>
               <tr>
-                <td>• 타입</td>
+                <td>• 타입*</td>
                 <td>
                   <RegisterDropdown
                       type={'number'}
@@ -143,7 +160,7 @@ const ProcessRegisterContainer = () => {
                 </td>
               </tr>
               <tr>
-                <td>• 공정명</td>
+                <td>• 공정명*</td>
                 <td><Input placeholder="공정명을 입력해 주세요."
                            onChange={(e) => setProcessData({ ...processData, name: e.target.value })}/></td>
               </tr>
@@ -153,7 +170,7 @@ const ProcessRegisterContainer = () => {
                   return (
                       <tbody>
                       <tr>
-                        <td>• {i + 1}번 기계</td>
+                        <td>• {i + 1}번 기계*</td>
                         <td><MachinePickerModal select={
                           selectMachine[i] && (selectMachine[i].name && selectMachine[i].pk) ? selectMachine[i] : undefined
                         } text={'기계명을 검색해 주세요'} onClickEvent={(e: { name?: string, pk?: string }) => {
@@ -215,7 +232,7 @@ const ProcessRegisterContainer = () => {
                 </tr>
               }
               <tr>
-                <td>• 설명</td>
+                <td>• 설명*</td>
                 <td><Input style={{ width: 917, }} placeholder="설명을 입력해 주세요."
                            onChange={(e) => setProcessData({ ...processData, description: e.target.value })}/></td>
               </tr>

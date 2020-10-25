@@ -37,6 +37,8 @@ interface Props {
     noChildren?: boolean
     children?: any
     calendarState?: boolean
+    startDate?: string
+    endDate?: string
 }
 
 const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
@@ -52,6 +54,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
             const arrData = valueList.map((v, i) => {
                 tmpArr.push(false)
             })
+
             setChecked(tmpArr)
         } else {
             return
@@ -106,25 +109,28 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                 {
                     allCheckOnClickEvent ?
                         <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-                            <input type="checkbox" id={'all'} onClick={(e) => {
-                                if (allChecked === false) {
-                                    allCheckOnClickEvent(valueList)
-                                    let tmpArr: boolean[] = checked
-                                    tmpArr = tmpArr.map(() => true)
-                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
-                                    setChecked(tmpArr)
-                                    setAllChecked(true)
-                                    return true
-                                } else {
-                                    let tmpArr: boolean[] = checked
-                                    tmpArr = tmpArr.map(() => false)
-                                    allCheckOnClickEvent([])
-                                    // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
-                                    setChecked(tmpArr)
-                                    setAllChecked(false)
-                                    return false
-                                }
-                            }}/>
+                            <input type="checkbox" id={'all'}
+                                   checked={valueList.length > 0 && valueList.length === checked.filter(f => f === true).length}
+                                   onChange={(e) => {
+                                       console.log("움직임")
+                                       if (valueList.length > 0 && valueList.length !== checked.filter(f => f === true).length) {
+                                           allCheckOnClickEvent(valueList)
+                                           let tmpArr: boolean[] = checked
+                                           tmpArr = tmpArr.map(() => true)
+                                           setChecked(tmpArr)
+                                           // setAllChecked(true)
+                                           // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                           return true
+                                       } else {
+                                           let tmpArr: boolean[] = checked
+                                           tmpArr = tmpArr.map(() => false)
+                                           allCheckOnClickEvent([])
+                                           setChecked(tmpArr)
+                                           // setAllChecked(false)
+                                           // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                           return false
+                                       }
+                                   }}/>
                             <label htmlFor='all' style={{backgroundColor: 'white'}}></label>
                         </div>
                         :
@@ -196,8 +202,10 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                         },
                         */
                         return (
-                            <ValueBar key={i} style={{backgroundColor: clickValue === v ? '#19b9df' : '#353b48'}}
-                                      onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}>
+                            <ValueBar key={i} style={{
+                                backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                                cursor: children === undefined || noChildren ? title.indexOf('제품 검사') !== -1 || title.indexOf('금형 제작') !== -1 ? 'pointer' : 'default' : 'pointer'
+                            }}>
                                 {
                                     checkOnClickEvent ?
                                         <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
@@ -230,7 +238,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                     Object.keys(indexList).map((mv, mi) => {
                                         //mv : [pk , machin_list, machine_name ... ]
                                         return (
-                                            v[mv] !== null && typeof v[mv] === 'object' ?
+                                            typeof v[mv] === 'object' ?
                                                 <select className="p-limits" style={{
                                                     backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
                                                     borderColor: clickValue === v ? '#19b9df' : '#353b48'

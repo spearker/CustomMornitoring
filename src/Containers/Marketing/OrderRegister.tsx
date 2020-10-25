@@ -74,7 +74,7 @@ const OrderRegisterContainer = () => {
                                         {
                                             orderData.material_name === ''
                                                 ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
-                                                :<InputText style={{color: '#111319'}}>{orderData.customer_name}</InputText>
+                                                :<InputText style={{color: '#111319'}}>&nbsp;{orderData.customer_name}</InputText>
                                         }
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@ const OrderRegisterContainer = () => {
                                             {
                                                 orderData.material_name === ''
                                                     ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
-                                                    :<InputText style={{color: '#111319'}}>{orderData.material_name}</InputText>
+                                                    :<InputText style={{color: '#111319'}}>&nbsp;{orderData.material_name}</InputText>
                                             }
                                         </div>
                                     </div>
