@@ -17,6 +17,7 @@ import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import useObjectInput from '../../Functions/UseInput'
 import OutsourcingPickerModal from '../../Components/Modal/OutsourcingRegister'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
+import client from "../../Api/configs/basic";
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -100,7 +101,7 @@ const ContractRegister = ({match}: Props) => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`http://203.234.183.22:8299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${client}/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -168,7 +169,7 @@ const ContractRegister = ({match}: Props) => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/load?pk=' + match.params.pk, getToken(TOKEN_NAME))
+        const res = await getRequest(`${client}/v1/outsourcing/contract/load?pk=` + match.params.pk, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -239,7 +240,7 @@ const ContractRegister = ({match}: Props) => {
             address: inputData.location
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
         }
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/outsourcing/contract/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -303,7 +304,7 @@ const ContractRegister = ({match}: Props) => {
 
         }
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/contract/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/outsourcing/contract/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리

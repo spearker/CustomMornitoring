@@ -10,27 +10,28 @@ import SubNavigation from '../../Components/Navigation/SubNavigation';
 import {ROUTER_MENU_LIST} from '../../Common/routerset';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import {getRequest, postRequest} from '../../Common/requestFunctions';
-import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+import SearchInputSmall from '../../Components/Input/SearchInputSmall';
 import InfoTable from '../../Components/Table/InfoTable';
 import {machineCodeToName} from '../../Common/codeTransferFunctions';
 
 
-const BarcodeList = () => {
+const DesignList = () => {
 
-    const [list, setList] = useState<IBarcode[]>([]);
+    const [list, setList] = useState<IMold[]>([]);
+    const [page, setPage] = useState(1);
     const [option, setOption] = useState(0);
     const [keyword, setKeyword] = useState<string>('');
+
     const optionList = [
-        "등록순", "이름순",
+        "등록순", "이름순"
     ]
     const index = {
-        name: '바코드 규칙명',
-        type: '종류',
-        code: '코드',
-
+        mold_name: '금형 이름',
+        mold_label: '금형 종류',
+        manufacturer: '제조사',
+        product_code: '제조 번호',
     }
-
 
     /**
      * getSearchList()
@@ -40,8 +41,7 @@ const BarcodeList = () => {
      */
     const getSearchList = useCallback(async (e) => {
         e.preventDefault();
-
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -55,7 +55,6 @@ const BarcodeList = () => {
         }
     }, [list, option, keyword])
 
-
     /**
      * getList()
      * 목록 불러오기
@@ -64,8 +63,7 @@ const BarcodeList = () => {
      */
     const getList = useCallback(async () => {
 
-
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -76,8 +74,7 @@ const BarcodeList = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [list, keyword, option])
-
+    }, [list, option, keyword])
 
     /**
      * onClickFilter()
@@ -89,8 +86,7 @@ const BarcodeList = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
-
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/mold/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -101,17 +97,23 @@ const BarcodeList = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [option])
+    }, [option, keyword, list])
 
     useEffect(() => {
         getList()
+
+    }, [])
+    const onClickModify = useCallback((id) => {
+
+        console.log('--select id : ' + id)
+        window.location.href = `/update/design?pk=${id}`
 
     }, [])
 
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://203.234.183.22:8299/api/v1/barcode/delete', {pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest('http://255.255.255.255:8299/api/v1/mold/delete', {pk: id}, getToken(TOKEN_NAME))
         const tg = id
         //console.log('--select id : ' + id)
         if (results === false) {
@@ -129,22 +131,14 @@ const BarcodeList = () => {
     }, [list])
 
 
-    const onClickModify = useCallback((id) => {
-
-        console.log('--select id : ' + id)
-        window.location.href = `/update/material?pk=${id}`
-
-    }, [])
-
     return (
         <DashboardWrapContainer index={0}>
             <SubNavigation list={ROUTER_MENU_LIST[0]}/>
             <InnerBodyContainer>
                 <div style={{position: 'relative'}}>
-                    <Header title={`바코드 기본 정보 (${list.length})`}/>
-
+                    <Header title={`금형 기본 정보 (${list.length})`}/>
                     <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
-                        <SmallButtonLink name="+ 등록하기" link="/register/barcode"/>
+                        <SmallButtonLink name="+ 등록하기" link="/register/design"/>
                         <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
                     </div>
                 </div>
@@ -157,9 +151,9 @@ const BarcodeList = () => {
                     onClickEvent={getSearchList}
                 />
 
-                <InfoTable indexList={index} pkKey={'pk'} type={'barcode'} typeKey={'type'}
+                <InfoTable indexList={index} type={'mold'} pkKey={'pk'} typeKey={'mold_label'}
                            typeChanger={machineCodeToName}
-                           onClickLinkUrl="/update/barcode?pk=" contents={list} onClickRemove={onClickDelete}/>
+                           onClickLinkUrl="/update/design?pk=" contents={list} onClickRemove={onClickDelete}/>
 
             </InnerBodyContainer>
         </DashboardWrapContainer>
@@ -174,4 +168,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default BarcodeList;
+export default DesignList;

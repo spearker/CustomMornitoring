@@ -8,6 +8,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import * as _ from 'lodash'
 import DateInput from '../../Components/Input/DateInput'
 import ListHeader from '../../Components/Text/ListHeader'
+import client from "../../Api/configs/basic";
 
 const dummy = [
     {title: '이름...', type: 0, data: '', pk: 'qwdefgr'},
@@ -49,7 +50,7 @@ const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOp
         if (pk === null) {
             return
         }
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/document/form/load?pk=' + pk, getToken(TOKEN_NAME))
+        const res = await getRequest(`${client}/v1/document/form/load?pk=` + pk, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리

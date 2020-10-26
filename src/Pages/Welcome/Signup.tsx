@@ -4,6 +4,7 @@ import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import {useTranslation} from 'react-i18next';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
+import client from "../../Api/configs/common";
 
 // 회원가입 정보 입력 페이지 (메일 인증 후 )
 
@@ -55,7 +56,7 @@ const Signup = () => {
             company_code: code,
             auth_code: auth,
         }
-        const results = await postRequestWithNoToken('http://203.234.183.22:8299/user/register', data)
+        const results = await postRequestWithNoToken(`${client}/user/register`, data)
 
         if (results === false) {
             //TODO: 에러 처리

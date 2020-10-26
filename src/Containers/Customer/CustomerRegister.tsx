@@ -16,6 +16,7 @@ import {useHistory} from 'react-router-dom'
 import {API_URLS, getCustomerData} from "../../Api/mes/customer";
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import Styled from "styled-components";
+import client from "../../Api/configs/basic";
 
 interface Props {
     match: any;
@@ -181,7 +182,7 @@ const CustomerRegister = ({match}: Props) => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/customer/update/`, data, getToken(TOKEN_NAME))
         if (res === false) {
             // alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         } else {
@@ -238,7 +239,7 @@ const CustomerRegister = ({match}: Props) => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/customer/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리

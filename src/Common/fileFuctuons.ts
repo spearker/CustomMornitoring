@@ -1,6 +1,7 @@
 import {postRequest} from './requestFunctions';
 import {getToken} from './tokenFunctions';
 import {TOKEN_NAME} from './configset';
+import client from "../Api/configs/basic";
 
 
 /**
@@ -13,7 +14,7 @@ export const uploadTempFile = async (data) => {
 
     const formData = new FormData()
     formData.append('file', data)
-    const res = await postRequest('http://203.234.183.22:8299/api/v1/file/upload', formData, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/file/upload`, formData, getToken(TOKEN_NAME))
 
     if (res === false) {
         return false

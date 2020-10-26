@@ -23,6 +23,7 @@ import Styled from "styled-components";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import InputContainer from '../InputContainer'
 import HistoryPickerModal from "../../Components/Modal/HistoryPickerModal";
+import client from "../../Api/configs/basic";
 
 
 interface Props {
@@ -104,25 +105,25 @@ const DefectiveRegisterContainer = ({match}: Props) => {
      */
     const onsubmitFormUpdate = useCallback(async () => {
 
-        if (selectHistory.pk === '' ||  selectHistory.pk==undefined) {
+        if (selectHistory.pk === '' || selectHistory.pk == undefined) {
             alert("작업 이력은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMaterial.pk === '' || selectMaterial.pk==undefined) {
+        } else if (selectMaterial.pk === '' || selectMaterial.pk == undefined) {
             alert("품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMachine.pk === ''|| selectMachine.pk==undefined) {
+        } else if (selectMachine.pk === '' || selectMachine.pk == undefined) {
             alert("기계은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (name === ''|| name==undefined) {
+        } else if (name === '' || name == undefined) {
             alert("검수자은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (amount === null||amount==undefined) {
+        } else if (amount === null || amount == undefined) {
             alert("불량개수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (selectDate === ''|| selectDate==undefined) {
+        } else if (selectDate === '' || selectDate == undefined) {
             alert("불량 검수일은 필수 항목입니다. 반드시 선택주세요.")
             return;
-        } else if (reason === ''|| reason==undefined) {
+        } else if (reason === '' || reason == undefined) {
             alert("불량 사유는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -142,7 +143,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
             reason: reason
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/defective/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/defective/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -171,25 +172,25 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         // alert(JSON.stringify(infoList))
         // console.log(JSON.stringify(infoList))
 
-        if (selectHistory.pk === '' ||  selectHistory.pk==undefined) {
+        if (selectHistory.pk === '' || selectHistory.pk == undefined) {
             alert("작업 이력은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMaterial.pk === '' || selectMaterial.pk==undefined) {
+        } else if (selectMaterial.pk === '' || selectMaterial.pk == undefined) {
             alert("품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (selectMachine.pk === ''|| selectMachine.pk==undefined) {
+        } else if (selectMachine.pk === '' || selectMachine.pk == undefined) {
             alert("기계은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (name === ''|| name==undefined) {
+        } else if (name === '' || name == undefined) {
             alert("검수자은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (amount === null||amount==undefined) {
+        } else if (amount === null || amount == undefined) {
             alert("불량개수는 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (selectDate === ''|| selectDate==undefined) {
+        } else if (selectDate === '' || selectDate == undefined) {
             alert("불량 검수일은 필수 항목입니다. 반드시 선택주세요.")
             return;
-        } else if (reason === ''|| reason==undefined) {
+        } else if (reason === '' || reason == undefined) {
             alert("불량 사유는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -209,7 +210,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/defective/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/defective/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리

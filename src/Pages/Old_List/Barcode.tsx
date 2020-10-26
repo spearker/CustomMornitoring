@@ -1,40 +1,36 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
-import Header from '../../Components/Text/Header'
-import {getToken} from '../../Common/tokenFunctions'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
+import Header from '../../Components/Text/Header';
+import {getToken} from '../../Common/tokenFunctions';
 import 'react-dropdown/style.css'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
-import SubNavigation from '../../Components/Navigation/SubNavigation'
-import {ROUTER_MENU_LIST} from '../../Common/routerset'
-import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import {getRequest, postRequest} from '../../Common/requestFunctions'
-import SearchInputSmall from '../../Components/Input/SearchInputSmall'
-import SmallButtonLink from '../../Components/Button/SmallButtonLink'
-import InfoTable from '../../Components/Table/InfoTable'
-import {machineCodeToName} from '../../Common/codeTransferFunctions'
+import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
+import SubNavigation from '../../Components/Navigation/SubNavigation';
+import {ROUTER_MENU_LIST} from '../../Common/routerset';
+import InnerBodyContainer from '../../Containers/InnerBodyContainer';
+import {getRequest, postRequest} from '../../Common/requestFunctions';
+import SearchInputSmall from '../../Components/Input/SearchInputSmall';
+import SmallButtonLink from '../../Components/Button/SmallButtonLink';
+import InfoTable from '../../Components/Table/InfoTable';
+import {machineCodeToName} from '../../Common/codeTransferFunctions';
 
 
-const MaterialStock = () => {
+const BarcodeList = () => {
 
-    const [list, setList] = useState<IMaterial[]>([])
-    const [option, setOption] = useState(0)
-    const [keyword, setKeyword] = useState<string>('')
+    const [list, setList] = useState<IBarcode[]>([]);
+    const [option, setOption] = useState(0);
+    const [keyword, setKeyword] = useState<string>('');
     const optionList = [
-        '등록순', '이름순', '재고순'
+        "등록순", "이름순",
     ]
     const index = {
-        material_name: '자재 이름',
-        material_code: '자재 번호',
-        distributor: '유통사',
-        stock: '수량',
+        name: '바코드 규칙명',
+        type: '종류',
+        code: '코드',
+
     }
 
-    useEffect(() => {
-        getList()
-
-    }, [])
 
     /**
      * getSearchList()
@@ -43,8 +39,10 @@ const MaterialStock = () => {
      * @returns X
      */
     const getSearchList = useCallback(async (e) => {
-        e.preventDefault()
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/material/list?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+        e.preventDefault();
+
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -66,7 +64,9 @@ const MaterialStock = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/material/list?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -78,6 +78,7 @@ const MaterialStock = () => {
         }
     }, [list, keyword, option])
 
+
     /**
      * onClickFilter()
      * 리스트 필터 변경
@@ -88,7 +89,9 @@ const MaterialStock = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/material/list?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+
+
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -98,18 +101,23 @@ const MaterialStock = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [option, list, keyword])
+    }, [option])
+
+    useEffect(() => {
+        getList()
+
+    }, [])
 
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://203.234.183.22:8299/api/v1/material/delete', {pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest('http://255.255.255.255:8299/api/v1/barcode/delete', {pk: id}, getToken(TOKEN_NAME))
         const tg = id
         //console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
-            if (results.status === 200 || results.status === '200') {
+            if (results.status === 200 || results.status === "200") {
                 //alert('해당 데이터가 성공적으로 삭제되었습니다.')
                 setList(list.filter(v => v.pk !== tg))
             } else {
@@ -121,15 +129,22 @@ const MaterialStock = () => {
     }, [list])
 
 
+    const onClickModify = useCallback((id) => {
+
+        console.log('--select id : ' + id)
+        window.location.href = `/update/material?pk=${id}`
+
+    }, [])
+
     return (
         <DashboardWrapContainer index={0}>
             <SubNavigation list={ROUTER_MENU_LIST[0]}/>
             <InnerBodyContainer>
                 <div style={{position: 'relative'}}>
-                    <Header title={`자재 기본 정보 (${list.length})`}/>
-                    <p style={{float: 'left'}}>원자재 / 반제품 / 최종생산품</p>
+                    <Header title={`바코드 기본 정보 (${list.length})`}/>
+
                     <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
-                        <SmallButtonLink name="+ 등록하기" link="/register/material"/>
+                        <SmallButtonLink name="+ 등록하기" link="/register/barcode"/>
                         <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
                     </div>
                 </div>
@@ -142,14 +157,14 @@ const MaterialStock = () => {
                     onClickEvent={getSearchList}
                 />
 
-                <InfoTable indexList={index} pkKey={'pk'} type={'material'} typeKey={'material_type'}
-                           typeChanger={machineCodeToName} onClickLinkUrl="/update/material?pk=" contents={list}
-                           onClickRemove={onClickDelete}/>
+                <InfoTable indexList={index} pkKey={'pk'} type={'barcode'} typeKey={'type'}
+                           typeChanger={machineCodeToName}
+                           onClickLinkUrl="/update/barcode?pk=" contents={list} onClickRemove={onClickDelete}/>
 
             </InnerBodyContainer>
         </DashboardWrapContainer>
 
-    )
+    );
 }
 const FullPageDiv = Styled.div`
   width: 100%;
@@ -159,4 +174,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default MaterialStock
+export default BarcodeList;

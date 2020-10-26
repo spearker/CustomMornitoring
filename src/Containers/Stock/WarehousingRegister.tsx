@@ -16,6 +16,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import moment from 'moment'
 import {transferStringToCode} from '../../Common/codeTransferFunctions'
+import client from "../../Api/configs/basic";
 
 
 const typeDummy = [
@@ -112,7 +113,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`http://203.234.183.22:8299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${client}/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -202,7 +203,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/parts/warehousing/register', data, getToken(TOKEN_NAME))
+            const res = await postRequest(`${client}/v1/stock/parts/warehousing/register`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
                 //TODO: 에러 처리
@@ -233,7 +234,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
             }
 
 
-            const res = await postRequest('http://203.234.183.22:8299/api/v1/stock/warehousing/register', data, getToken(TOKEN_NAME))
+            const res = await postRequest(`${client}/v1/stock/warehousing/register`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
                 //TODO: 에러 처리

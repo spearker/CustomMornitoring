@@ -21,6 +21,7 @@ import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
+import client from "../../Api/configs/basic";
 
 const docDummy = [
     {pk: 'qfqwf', name: '도큐먼트 1'},
@@ -112,7 +113,7 @@ const BasicMachineRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${client}/v1/machine/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -185,7 +186,7 @@ const BasicMachineRegister = () => {
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/machine/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -248,7 +249,7 @@ const BasicMachineRegister = () => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/machine/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/machine/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -301,7 +302,7 @@ const BasicMachineRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?'}
+                                searchUrl={`${client}/v1/factory/search?`}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -339,7 +340,7 @@ const BasicMachineRegister = () => {
                             <br/>
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/machine/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://255.255.255.255:8299/api/v1/machine/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 

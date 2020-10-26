@@ -8,6 +8,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer'
 import {getRequest, postRequest} from '../../Common/requestFunctions'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink'
 import InfoTable from '../../Components/Table/InfoTable'
+import client from "../../Api/configs/basic";
 
 // 표준 기준  정보 리스트
 const BasicStandardList = () => {
@@ -33,7 +34,7 @@ const BasicStandardList = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/item/list', getToken(TOKEN_NAME))
+        const results = await getRequest(`${client}/v1/item/list`, getToken(TOKEN_NAME))
 
 
         if (results === false) {
@@ -64,7 +65,7 @@ const BasicStandardList = () => {
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://203.234.183.22:8299/api/v1/item/delete', {pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest(`${client}/v1/item/delete`, {pk: id}, getToken(TOKEN_NAME))
         const tg = id
         //console.log('--select id : ' + id)
         if (results === false) {

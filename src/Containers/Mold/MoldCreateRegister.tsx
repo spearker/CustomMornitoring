@@ -91,7 +91,11 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     const tempUrl = `${API_URLS['making'].detail}?pk=${match.params.pk}`
     const resultData = await getMoldList(tempUrl)
 
-    setMoldData({name: resultData.mold_name, pk: resultData.pk})
+    setMoldData({name: resultData.mold_name, pk: resultData.mold_pk})
+    setComponents([...resultData.component])
+    setParts([...resultData.part])
+    setDrawing([...resultData.drawing])
+    setSelectDate(resultData.schedule)
 
 
   }, [])
@@ -100,49 +104,80 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     const tempUrl = `${API_URLS['making'].register}`
 
     let state = false
-    parts.map((v, i) => {
-      if (
-        Number(v.name === '') ^
-        Number(v.standard.w) ^ Number(v.standard.h) ^ Number(v.standard.l) ||
-        Number(v.standard.w === 0) ^
-        Number(v.standard.h === 0) ^
-        Number(v.standard.l === 0) ^
-        Number(v.steel_grade === '')
-      ) {
-        state = true
-      }
-      v.material.map((value, index) => {
-        if (Number(value.material_pk === '') ^ Number(value.usage === '')) {
+    let tmpParts = parts.map((v, i) => {
+      let partsState = 0
 
+      v.material.map((value, index) => {
+        if (value.material_pk === '' && value.usage === '') {
+          console.log(1)
+          partsState = 0
+          // state = true
+        } else if (value.material_pk !== '' && value.usage !== '') {
+          partsState = 2
         } else {
-          state = true
+          partsState = 1
         }
       })
+
+      if (
+        v.name === '' && partsState === 0 &&
+        (!v.standard.w || v.standard.w === 0) &&
+        (!v.standard.h || v.standard.h === 0) &&
+        (!v.standard.l || v.standard.l === 0) &&
+        v.steel_grade === ''
+      ) {
+        return null
+      } else {
+        if (
+          v.name !== '' && partsState === 2 &&
+          (v.standard.w && v.standard.w !== 0) &&
+          (v.standard.h && v.standard.h !== 0) &&
+          (v.standard.l && v.standard.l !== 0) &&
+          v.steel_grade !== ''
+        ) {
+          console.log(123123)
+          return v
+        } else {
+          state = true
+          console.log(234234)
+        }
+      }
+    }).filter((value) => {
+      return value
     })
 
-    components.map((v, i) => {
-      if (Number(v.material_pk === '') ^ Number(v.usage === '')) {
+    console.log(tmpParts)
 
+    const tmpCompo = components.map((v, i) => {
+      if (v.material_pk === '' && v.usage === '') {
+        console.log(1)
+        return null
+      } else if (v.material_pk !== '' && v.usage !== '') {
+        return v
       } else {
         state = true
+        return null
       }
+    }).filter((value) => {
+      return value
     })
 
-    drawing.map((v) => {
-      if (v === '') {
-        state = true
-      }
+    const tmpDrawing = drawing.map((v) => {
+      return null
+    }).filter((value) => {
+      return value
     })
 
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')
     } else {
+      console.log('post Complete')
       const resultData = await postMoldRegister(tempUrl, {
         mold_pk: moldData?.pk,
         schedule: selectDate,
-        part: parts,
-        component: components,
-        drawing: drawing
+        part: tmpParts,
+        component: tmpCompo,
+        drawing: tmpDrawing
       })
       if (resultData.status === 200) {
         history.push('/mold/create/list')
@@ -152,13 +187,14 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
 
   useEffect(() => {
+
     if (match.params.pk) {
-      ////alert(`수정 페이지 진입 - pk :` + param)
+      // alert(`수정 페이지 진입 - pk :` + match.params.pk)
       setIsUpdate(true)
       getManageMoldDetail()
     }
 
-  }, [])
+  }, [match.params.pk])
 
   const addFile = async (event: any, index: number): Promise<void> => {
 
@@ -200,7 +236,12 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     <div>{console.log('selectParts', selectParts)}
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-          <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>금형 제작 등록</span>
+          <span style={{
+            fontSize: 20,
+            marginRight: 18,
+            marginLeft: 3,
+            fontWeight: 'bold'
+          }}>금형 제작 {isUpdate ? '수정' : '등록'}</span>
         </div>
       </div>
       <ContainerMain>
@@ -481,7 +522,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                 <UploadBox placeholder="도면을 업로드해주세요." style={{width: 700}} value={drawing[i]} disabled/>
                 <UploadButton onClick={() => {
                 }}>
-                  <label htmlFor={'file'} style={{
+                  <label htmlFor={`file${i}`} style={{
                     textAlign: 'center',
                     fontSize: 14,
                     width: '100%',
@@ -494,7 +535,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                     cursor: 'pointer'
                   }}>파일 선택</label>
                 </UploadButton>
-                <input type={'file'} name="file" id={'file'} style={{display: 'none'}} onChange={(e) => {
+                <input type={'file'} name={`file${i}`} id={`file${i}`} style={{display: 'none'}} onChange={(e) => {
                   e.persist()
 
                   console.log('inputEvent', e)
@@ -536,7 +577,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
             await postContractRegisterData()
           }}>
             <div style={{width: 360, height: 46}}>
-              <p style={{fontSize: 18, paddingTop: 8}}>등록하기</p>
+              <p style={{fontSize: 18, paddingTop: 8}}>{isUpdate ? '수정하기' : '등록하기'}</p>
             </div>
           </ButtonWrap>
         </div>

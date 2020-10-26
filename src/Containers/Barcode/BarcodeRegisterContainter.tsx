@@ -21,6 +21,7 @@ import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput'
 import {getReadyTimeData} from '../../Api/pm/statistics'
 import {getParameter} from '../../Common/requestFunctions'
 import {useHistory} from 'react-router-dom'
+import client from "../../Api/configs/basic";
 
 
 const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트']
@@ -63,7 +64,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
         const resultData = await getBarcode(tempUrl)
         console.log(resultData)
 
-        setBarcodeImg('http://203.234.183.22:8299/api/v1/barcode/previewImg?barcode_img_name=' + resultData.barcode_photo)
+        setBarcodeImg(`${client}/v1/barcode/previewImg?barcode_img_name=` + resultData.barcode_photo)
     }, [rules, barcodeImg])
 
     const getLoad = useCallback(async () => {

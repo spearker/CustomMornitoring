@@ -4,6 +4,7 @@ import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import {useTranslation} from 'react-i18next';
+import client from "../../Api/configs/common";
 
 
 const ForgotPw = () => {
@@ -35,7 +36,7 @@ const ForgotPw = () => {
             email: email,
             base_url: subDomain
         }
-        const results = await postRequestWithNoToken('http://203.234.183.22:8299/email/password/send', data)
+        const results = await postRequestWithNoToken(`${client}/email/password/send`, data)
 
         if (results === false) {
             //TODO: 에러 처리

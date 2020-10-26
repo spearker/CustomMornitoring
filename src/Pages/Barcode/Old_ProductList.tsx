@@ -39,7 +39,7 @@ const Old_ProductList = () => {
      */
     const getSearchList = useCallback(async (e) => {
         e.preventDefault()
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/product/load?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/product/load?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -62,7 +62,7 @@ const Old_ProductList = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/product/load?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/product/load?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -86,7 +86,7 @@ const Old_ProductList = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-        const results = await getRequest('http://203.234.183.22:8299/api/v1/barcode/product/load?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/product/load?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
 
 
         if (results === false) {
@@ -108,7 +108,7 @@ const Old_ProductList = () => {
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://203.234.183.22:8299/api/v1/barcode/product/delete', {material_pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest('http://255.255.255.255:8299/api/v1/barcode/product/delete', {material_pk: id}, getToken(TOKEN_NAME))
 
         const tg = id
         //console.log('--select id : ' + id)
