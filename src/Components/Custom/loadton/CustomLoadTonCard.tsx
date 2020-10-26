@@ -90,7 +90,7 @@ const CustomLoadTon = ({ color, propData, overTonCheck, tonnage_limit, styles }:
         shadeIntensity: 0,
         opacityFrom: 0.7,
         opacityTo: 0,
-        stops: [ 0, 70, 90 ]
+        stops: [ 0, 70, 100 ]
       }
     },
     dataLabels: {

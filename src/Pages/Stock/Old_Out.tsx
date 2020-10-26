@@ -57,7 +57,7 @@ const StockOut = () => {
             </div>
           </div>
           <DatePickerBox setListEvent={setList} targetPk={getParameter('pk')}
-                         searchUrl={'http://203.234.183.22:8299/api/v1/stock/history/out?'}/>
+                         searchUrl={'http://255.255.255.255:8299/api/v1/stock/history/out?'}/>
 
           <InfoTable indexList={index} pkKey={'pk'} type={'stock'} typeKey={'reason'} typeChanger={machineCodeToName}
                      onClickLinkUrl="/stock/view?pk=" contents={list}/>
