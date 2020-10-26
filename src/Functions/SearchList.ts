@@ -4,9 +4,9 @@ import { getRequest } from "../Common/requestFunctions";
 
 export const SEARCH_TYPES = {
   'BASIC_FACTORY': 'factory',
+
+
 }
-
-
 export const onClickSearch = async (keyword: string = '', type: string = '') => {
 
 

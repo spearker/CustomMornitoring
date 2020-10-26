@@ -1,28 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react'
 import Styled from 'styled-components'
 import { BG_COLOR_SUB2, TOKEN_NAME } from '../../Common/configset'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
-import Header from '../../Components/Text/Header';
-import { getToken } from '../../Common/tokenFunctions';
-import NormalTable from '../../Components/Table/NormalTable';
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import Header from '../../Components/Text/Header'
+import { getToken } from '../../Common/tokenFunctions'
+import NormalTable from '../../Components/Table/NormalTable'
 import 'react-dropdown/style.css'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import { ROUTER_MENU_LIST } from '../../Common/routerset';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import { getRequest } from '../../Common/requestFunctions';
-import SmallButtonLink from '../../Components/Button/SmallButtonLink';
-import SearchInputSmall from '../../Components/Input/SearchInputSmall';
+import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
+import SubNavigation from '../../Components/Navigation/SubNavigation'
+import { ROUTER_MENU_LIST } from '../../Common/routerset'
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import { getRequest } from '../../Common/requestFunctions'
+import SmallButtonLink from '../../Components/Button/SmallButtonLink'
+import SearchInputSmall from '../../Components/Input/SearchInputSmall'
 
 
 const BarCodeList = () => {
 
-  const [ list, setList ] = useState<IMold[]>([]);
-  const [ option, setOption ] = useState(0);
-  const [ keyword, setKeyword ] = useState<string>('');
+  const [ list, setList ] = useState<IMold[]>([])
+  const [ option, setOption ] = useState(0)
+  const [ keyword, setKeyword ] = useState<string>('')
 
   const optionList = [
-    "등록순", "이름순"
+    '등록순', '이름순'
   ]
   const index = {
     manufacturer: '발행사',
@@ -39,7 +39,7 @@ const BarCodeList = () => {
    * @returns X
    */
   const getSearchList = useCallback(async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const results = await getRequest('http://255.255.255.255:8299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
 
@@ -136,7 +136,7 @@ const BarCodeList = () => {
         </InnerBodyContainer>
       </DashboardWrapContainer>
 
-  );
+  )
 }
 const FullPageDiv = Styled.div`
   width: 100%;
@@ -146,4 +146,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default BarCodeList;
+export default BarCodeList

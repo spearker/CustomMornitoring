@@ -20,6 +20,7 @@ import OldFileInput from '../../Components/Input/OldFileInput';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import { JsonStringifyList } from '../../Functions/JsonStringifyList';
 import { useHistory } from 'react-router-dom';
+import client from "../../Api/configs/basic";
 
 // 주변 장치 페이지
 const BasicDeviceRegister = () => {
@@ -102,7 +103,7 @@ const BasicDeviceRegister = () => {
 
   const getData = useCallback(async () => {
 
-    const res = await getRequest('http://255.255.255.255:8299/api/v1/device/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest(`${client}/v1/device/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -136,13 +137,14 @@ const BasicDeviceRegister = () => {
   const onsubmitFormUpdate = useCallback(async (e) => {
     e.preventDefault();
 
-    if (name === "") {
+
+    if (name.trim() === "") {
       alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if (type === 0) {
       alert("장치 종류는 필수 항목입니다. 반드시 선택해주세요.")
       return;
-    } else if (madeNo === '') {
+    } else if (madeNo.trim() === '') {
       alert("제조(제품)번호 는 필수 항목입니다. 반드시 선택해주세요.")
       return;
     } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
@@ -155,7 +157,7 @@ const BasicDeviceRegister = () => {
 
       device_name: name,
       device_type: type,
-      manufacturer: made,
+      manufacturer: !made ? made : made.trim(),
       manufacturer_code: madeNo,
       manufactured_at: date,
       location: factory[0].pk,
@@ -165,7 +167,7 @@ const BasicDeviceRegister = () => {
       capacity: paths[2]
     };
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/device/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/device/update/`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -189,13 +191,13 @@ const BasicDeviceRegister = () => {
     //console.log(infoList)
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
-    if (name === "") {
+    if (name.trim() === "") {
       alert("장치 이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if (type === 0) {
       alert("장치 종류는 필수 항목입니다. 반드시 선택해주세요.")
       return;
-    } else if (madeNo === '') {
+    } else if (madeNo.trim() === '') {
       alert("제조(제품)번호 는 필수 항목입니다. 반드시 선택해주세요.")
       return;
     } else if (factory === undefined || factory[0]?.pk === undefined || factory[0]?.pk === '') {
@@ -206,7 +208,7 @@ const BasicDeviceRegister = () => {
       document_pk: document.pk,
       device_name: name,
       device_type: type,
-      manufacturer: made,
+      manufacturer: !made ? made : made.trim(),
       manufacturer_code: madeNo,
       manufactured_at: date,
       location: factory[0].pk,
@@ -217,7 +219,7 @@ const BasicDeviceRegister = () => {
     };
 
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/device/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/device/register`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -237,15 +239,16 @@ const BasicDeviceRegister = () => {
       <DashboardWrapContainer index={'basic'}>
 
         <InnerBodyContainer>
-          <Header title={isUpdate ? '' +
-              '주변장치 정보수정' : '주변장치 정보등록'}/>
+          <Header title={isUpdate ? '주변장치 정보수정' : '주변장치 정보등록'}/>
           <WhiteBoxContainer>
             {
               // document.id !== '' || isUpdate == true?
               <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
                 <ListHeader title="필수 항목"/>
-                <NormalInput title={'장치 이름'} value={name} onChangeEvent={setName} description={'장치 이름을 입력하세요'}/>
-                <DropdownInput title={'장치 종류'} target={transferCodeToName('device', type)} contents={indexList}
+                <NormalInput title={'장치 이름'} value={name} onChangeEvent={setName}
+                             description={'장치 이름을 입력하세요'}/>
+                <DropdownInput title={'장치 종류'} target={transferCodeToName('device', type)}
+                               contents={indexList}
                                onChangeEvent={(v) => setType(transferStringToCode('device', indexList[v]))}/>
                 <DateInput title={'제조 연월'} description={""} value={date} onChangeEvent={setDate}/>
                 <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo}
@@ -263,11 +266,12 @@ const BasicDeviceRegister = () => {
                     option={1}
                     solo={true}
                     list={factory}
-                    searchUrl={'http://255.255.255.255:8299/api/v1/factory/search?page=1&limit=15&'}
+                    searchUrl={`${client}/v1/factory/search?page=1&limit=15&`}
                 />
                 <br/>
                 <ListHeader title="선택 항목"/>
-                <NormalInput title={'제조사'} value={made} onChangeEvent={setMade} description={' 제조사명을 입력하세요'}/>
+                <NormalInput title={'제조사'} value={made} onChangeEvent={setMade}
+                             description={' 제조사명을 입력하세요'}/>
 
                 <NormalFileInput title={'장치 사진'} name={paths[0]} thisId={'machinePhoto0'}
                                  onChangeEvent={(e) => addFiles(e, 0)}
@@ -283,7 +287,8 @@ const BasicDeviceRegister = () => {
                                  style={{ width: 'calc(100% - 124px)' }}/>
                 {
                   isUpdate ?
-                      <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={[ '장치사진', '스펙명판', '능력명판' ]}
+                      <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths}
+                                    nameList={[ '장치사진', '스펙명판', '능력명판' ]}
                                     isImage={true}/>
 
                       :

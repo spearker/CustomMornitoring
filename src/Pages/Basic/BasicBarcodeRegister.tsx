@@ -22,6 +22,7 @@ import { API_URLS, loadBasicItem } from '../../Api/mes/basic';
 import moment from "moment";
 import DateInput from "../../Components/Input/DateInput";
 import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
+import client from "../../Api/configs/basic";
 // 바코드 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 
@@ -98,7 +99,7 @@ const BasicBarcodeRegister = () => {
       description: inputData.description,
       info_list: JsonStringifyList(essential, optional)
     };
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/barcode/standard/update', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/barcode/standard/update`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -139,7 +140,7 @@ const BasicBarcodeRegister = () => {
       };
     }
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/barcode/standard/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/barcode/standard/register`, data, getToken(TOKEN_NAME))
     if (res === false) {
       ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
 
@@ -167,7 +168,8 @@ const BasicBarcodeRegister = () => {
               <>
                 <ListHeader title="필수 항목"/>
                 <NormalInput title={'바코드 명'} value={inputData.name}
-                             onChangeEvent={(input) => setInputData(`name`, input)} description={'바코드 이름을 입력해주세요.'}/>
+                             onChangeEvent={(input) => setInputData(`name`, input)}
+                             description={'바코드 이름을 입력해주세요.'}/>
                 {console.log(inputData.type)}
                 <DropdownInput title={'항목'} target={indexList[inputData.type]} contents={indexList}
                                onChangeEvent={(input) => setInputData(`type`, input)}/>
@@ -206,7 +208,8 @@ const BasicBarcodeRegister = () => {
                 </FullAddInput>
                 <DropdownInput title={'바코드 종류'} target={indexList[inputData.type]} contents={indexList}
                                onChangeEvent={(input) => setInputData(`type`, input)}/>
-                <DateInput title={'등록 날짜'} description={""} value={selectDate} onChangeEvent={setSelectDate}/>
+                <DateInput title={'등록 날짜'} description={""} value={selectDate}
+                           onChangeEvent={setSelectDate}/>
                 {/*<br/>*/}
                 {/* <ListHeader title="선택 항목"/>*/}
                 {/* <NormalInput title={'설명'}  value={inputData.description} onChangeEvent={(input)=>setInputData(`description`, input)} description={'(비고)'}/>*/}
