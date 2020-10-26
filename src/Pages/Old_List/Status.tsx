@@ -11,7 +11,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import StatusTable from '../../Components/Table/StatusTable';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import {useUser} from '../../Context/UserContext';
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 기계 및 장비 현황
 const StatusList = () => {
@@ -42,7 +42,7 @@ const StatusList = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
         //return;
-        const results = await getRequest(`${client}/v1/status/list/` + filter, getToken(TOKEN_NAME))
+        const results = await getRequest(`${SF_ENDPOINT}/api/v1/status/list/` + filter, getToken(TOKEN_NAME))
 
         if (results === false) {
             //alert('8087 포트 : 데이터를 불러 올 수 없습니다.')

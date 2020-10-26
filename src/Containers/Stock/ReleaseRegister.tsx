@@ -16,7 +16,7 @@ import Styled from 'styled-components'
 import useObjectInput from '../../Functions/UseInput'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import {transferStringToCode} from '../../Common/codeTransferFunctions'
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 
 const typeDummy = [
@@ -116,7 +116,7 @@ const ReleaseRegisterContainer = ({match}: Props) => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`${client}/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -184,7 +184,7 @@ const ReleaseRegisterContainer = ({match}: Props) => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${client}/v1/customer/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/customer/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -251,7 +251,7 @@ const ReleaseRegisterContainer = ({match}: Props) => {
 
         }
 
-        const res = await postRequest(`${client}/v1/customer/update/`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/customer/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -297,7 +297,7 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest(`${client}/v1/stock/parts/release/register`, data, getToken(TOKEN_NAME))
+            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/parts/release/register`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
                 //TODO: 에러 처리
@@ -327,7 +327,7 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest(`${client}/v1/stock/release/register`, data, getToken(TOKEN_NAME))
+            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/release/register`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
                 //TODO: 에러 처리

@@ -24,7 +24,7 @@ import BasicToggle from '../../Components/Toggle/BasicToggle';
 import ProcessTable from '../../Components/Table/ProcessTable';
 import SmallButton from '../../Components/Button/SmallButton';
 import {uploadTempFile} from '../../Common/fileFuctuons';
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 작업 지시서 등록
 const TaskRegister = () => {
@@ -142,7 +142,7 @@ const TaskRegister = () => {
         }
         const keyword = list[0].pk;
 
-        const res = await getRequest(`${client}/v1/task/recommend?pk=` + encodeURIComponent(keyword), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/task/recommend?pk=` + encodeURIComponent(keyword), getToken(TOKEN_NAME))
 
 
         if (res === false) {
@@ -220,7 +220,7 @@ const TaskRegister = () => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`${client}/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -265,7 +265,7 @@ const TaskRegister = () => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`${client}/v1/material/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -301,7 +301,7 @@ const TaskRegister = () => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`${client}/v1/material/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -449,7 +449,7 @@ const TaskRegister = () => {
             delete_file: removefileList,
         }
 
-        const res = await postRequest(`${client}/v1/task/update`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/task/update`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -525,7 +525,7 @@ const TaskRegister = () => {
         }
 
 
-        const res = await postRequest(`${client}/v1/task/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/task/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //alert('실패하였습니다. 잠시후 다시 시도해주세요.')
@@ -559,7 +559,7 @@ const TaskRegister = () => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${client}/v1/task/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/task/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
         const tempM = new Array()
         const tempOut = new Array()
         if (res === false) {
@@ -598,7 +598,7 @@ const TaskRegister = () => {
         fileList.forEach((v, i) => {
             data.append('file', v);
         });
-        const res = await postRequest(`${client}/v1/task/file`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/task/file`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //alert('현재 파일서버 문제로 파일 업로드가 불가능합니다.')

@@ -5,7 +5,7 @@ import ButtonBox from '../../Components/Button/BasicButton'
 import Axios from 'axios';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import {ROUTER_SUPER_ADMIN} from '../../Common/routerset';
-import client from "../../Api/configs/admin";
+import {SF_ENDPOINT_ADMIN} from "../../Api/SF_endpoint"
 // 회사 등록 페이지
 
 const SuperRegister = () => {
@@ -43,7 +43,7 @@ const SuperRegister = () => {
         }
 
         // 이메일 보내기
-        Axios.post(`${client}/v2/super/company/create`, {
+        Axios.post(`${SF_ENDPOINT_ADMIN}/api/v2/super/company/create`, {
             company_name: name,
             user_email: email,
             user_name: username,

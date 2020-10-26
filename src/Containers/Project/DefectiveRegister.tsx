@@ -23,8 +23,7 @@ import Styled from "styled-components";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import InputContainer from '../InputContainer'
 import HistoryPickerModal from "../../Components/Modal/HistoryPickerModal";
-import client from "../../Api/configs/basic";
-
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 interface Props {
     match: any;
@@ -143,7 +142,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
             reason: reason
         };
 
-        const res = await postRequest(`${client}/v1/defective/update/`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/defective/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -210,7 +209,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         };
 
 
-        const res = await postRequest(`${client}/v1/defective/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/defective/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
