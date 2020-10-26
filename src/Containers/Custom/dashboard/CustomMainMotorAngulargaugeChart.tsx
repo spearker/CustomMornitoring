@@ -29,7 +29,7 @@ const CustomMainMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ valu
             style={chartStyle}/>
         <p style={{
           textAlign: 'center', fontSize: 48, fontWeight: 'bold', fontFamily: 'NotoSansCJKkr',
-        }}>{value}</p>
+        }}>{value && value + ' A'} </p>
       </div>
   )
 }

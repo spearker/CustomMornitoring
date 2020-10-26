@@ -13,7 +13,7 @@ const CustomSlideMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ val
   return (
       <div>
         <div style={{ marginBottom: 20 }}>
-          <p style={{ textAlign: 'center', fontSize: 48, fontWeight: 'bold' }}>슬라이더 부하량</p>
+          <p style={{ textAlign: 'center', fontSize: 45, fontWeight: 'bold' }}>슬라이더 모터 부하량</p>
         </div>
         <GaugeChart
             id="slide-chart"

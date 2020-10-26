@@ -8,24 +8,38 @@ import Modal from "react-modal";
 
 const CustomErrorLogDashBoard: React.FunctionComponent = () => {
   const [ state, setState ] = React.useState<YOUDONG_ERROR_DASHBOARD[]>();
-  const [ isFirstLoad, setIsFirstLoad ] = React.useState(false);
+  const [ isFirstLoad, setIsFirstLoad ] = React.useState(true);
 
   useEffect(() => {
-    getData().then(() => console.log('load success'))
-
     const documentEvent: any = document
 
     documentEvent.body.style.zoom = .9;
+    getData().then(() => console.log('load success'))
   }, [])
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      getData().then(() => console.log('load success'))
+    }, 30000)
+
+    return () => {
+      console.log('-- monitoring end -- ')
+      clearTimeout(interval);
+    }
+  }, [ state ])
+
 
   const getData = async () => {
     const response = await getYoudongErrorDashboard()
 
     if (response !== null) {
+      setIsFirstLoad(false)
       setState(response)
     }
+
   }
 
+  console.log('isFirstLoad', isFirstLoad)
 
   return (
       <DashboardWrapDiv>
@@ -57,7 +71,6 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
             </div>
           </Modal>
         }
-
         {
           state && state.map((data: YOUDONG_ERROR_DASHBOARD) => <CustomErrorLogItem data={data} key={data.pressName}/>)
         }
@@ -67,6 +80,7 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
 
 const DashboardWrapDiv = Styled.div`
     width: 100%;
+    height: 100vh;
     display: flex;
     margin-left: 24px;
     background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);

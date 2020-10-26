@@ -8,6 +8,7 @@ interface IProps {
   styles?: any
   propData: YOUDONG_LOAD_MONITOR_DATA_TYPE | undefined
   tonnage_limit: number
+  overTonCheck: () => number | boolean
 }
 
 const basicData = [
@@ -18,18 +19,51 @@ const basicData = [
 ]
 
 // 로드톤 모니터링
-const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
-  console.log('prop', propData)
+const CustomLoadTon = ({ color, propData, overTonCheck, tonnage_limit, styles }: IProps) => {
+  const [ data, setData ] = useState<any>({
+    capacity: [],
+    y: {
+      min: 0,
+      max: 0
+    },
+    x: {
+      min: 0,
+      max: 0
+    }
+  });
+
+  useEffect(() => {
+    console.log('propData@@@@@@@@@@@@@@@@@@propData')
+
+    if (propData) {
+      setData({
+        ...data,
+        capacity: propData.capacity_point,
+        x: {
+          ...data.x,
+          min: Math.floor(propData.x_axis_scope.from / 10) * 10,
+          max: Math.round(propData.x_axis_scope.to / 10) * 10
+        },
+        y: {
+          ...data.y,
+          min: propData.y_axis_scope.from,
+          max: propData.y_axis_scope.to
+        }
+      })
+    }
+  }, [ tonnage_limit ])
+
+
   const colorList = [ '#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff' ]
   const [ datum, setDatum ] = useState([
-    { data: propData?.capacity_point, color: 'gray', name: '능률곡선' },
+    { data: data.capacity, color: 'gray', name: '능률곡선' },
     { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
     { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
     { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' }
   ]);
   useEffect(() => {
     setDatum([
-      { data: propData?.capacity_point, color: 'gray', name: '능률곡선' },
+      { data: data.capacity, color: 'gray', name: '능률곡선' },
       { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
       { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
       { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' }
@@ -56,15 +90,15 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
         shadeIntensity: 0,
         opacityFrom: 0.7,
         opacityTo: 0,
-        stops: [ 0, 90, 100 ]
+        stops: [ 0, 70, 90 ]
       }
     },
     dataLabels: {
       enabled: false
     },
     stroke: {
-      curve: 'smooth',
-      width: 1
+      curve: 'straight',
+      width: 2
     },
     markers: {
       size: 0
@@ -73,8 +107,8 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
       show: true,
       position: 'bottom',
       rotateAlways: true,
-      min: propData ? Math.floor(propData.x_axis_scope.from / 10) * 10 : 0,
-      max: propData ? Math.round(propData.x_axis_scope.to / 10) * 10 : 0,
+      min: data.x.min,
+      max: data.x.max,
       labels: {
         show: true,
         offsetY: 10,
@@ -87,7 +121,7 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
         }
       },
       type: 'numeric',
-      tickAmount: propData ? (Math.round(propData.x_axis_scope.to / 10) * 10 - Math.floor(propData.x_axis_scope.from / 10) * 10) / 10 : 1,
+      tickAmount: propData ? (data.x.max - data.x.min) / 10 : 1,
       axisBorder: {
         show: true,
       }
@@ -100,8 +134,8 @@ const CustomLoadTon = ({ color, propData, tonnage_limit, styles }: IProps) => {
       axisTicks: {
         show: true
       },
-      min: propData ? propData?.y_axis_scope.from : 0,
-      max: propData ? propData?.y_axis_scope.to : 0,
+      min: data.y.min,
+      max: overTonCheck() ? data.y.max + 200 : data.y.max,
       labels: {
         show: true,
         formatter: (value) => {

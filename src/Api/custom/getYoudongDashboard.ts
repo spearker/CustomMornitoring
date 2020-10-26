@@ -3,7 +3,7 @@ import { getToken } from "../../Common/tokenFunctions";
 import { TOKEN_NAME } from "../../Common/configset";
 import { setToken } from "../../lib/tokenFunctions";
 
-const ENDPOINT = 'http://203.234.183.22:8299'
+const ENDPOINT = 'http://192.168.0.46:8299'
 
 export default async (id: string | number, init: boolean) => {
   try {
@@ -25,8 +25,8 @@ export default async (id: string | number, init: boolean) => {
     } else {
       return null
     }
-
   } catch (error) {
     console.log(`${ENDPOINT}/api/v1/dashboard/press/${id} API Error`, error)
+    return null
   }
 }

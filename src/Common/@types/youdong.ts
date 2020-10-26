@@ -29,7 +29,6 @@ export interface CHART_DRAW_TYPE {
 
 export interface YOUDONG_PRESS_DATA_TYPE {
   machine_name: string
-  tonnage_limit: number
   press_state: string
   slide_motor_current: number
   error_code: {
@@ -49,6 +48,7 @@ export interface YOUDONG_LOAD_MONITOR_DATA_TYPE {
   ch2_ton_point: CHART_DRAW_TYPE[]
   total_ton_point: CHART_DRAW_TYPE[]
   capacity_point: CHART_DRAW_TYPE[]
+  tonnage_limit: number
   ch1_ton: number,
   ch2_ton: number
   loadton: number

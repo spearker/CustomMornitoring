@@ -20,6 +20,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
     api: true
   });
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>();
+  const [ tonnageLimit, setTonnageLimit ] = useState<number>();
 
   const getYoudongCustomDashboardData = async () => {
     if (id) {
@@ -28,15 +29,17 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
 
         if (response !== null) {
           setData(response)
-        }
 
-        if (isFirst.api) {
-          setIsFirst({
-            loading: false,
-            api: false
-          })
-        }
 
+          if (isFirst.api) {
+            setTonnageLimit(response.loadton_data.tonnage_limit)
+
+            setIsFirst({
+              loading: false,
+              api: false
+            })
+          }
+        }
       } catch (error) {
         console.log('catched error', error)
       }
@@ -71,7 +74,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             alignItems: 'center'
           }}>
             <TitleText
-                style={{ fontSize: 72 }}>{data ? data.press_data.machine_name + `(${data.press_data.tonnage_limit}t)` : '-'}</TitleText>
+                style={{ fontSize: 72 }}>{data ? data.press_data.machine_name + `(${tonnageLimit}t)` : '-'}</TitleText>
           </div>
         </div>
     )
@@ -110,8 +113,12 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   }
 
   const overTonCheck = () => {
-    if (data) {
-      return data.loadton_data.total_ton > data.press_data.tonnage_limit;
+    if (tonnageLimit) {
+      if (data) {
+        return data.loadton_data.total_ton > tonnageLimit ? tonnageLimit : 0;
+      } else {
+        return false
+      }
     } else {
       return false
     }
@@ -213,8 +220,9 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                 width: '70%',
               }}>
                 <CustomLoadTon color={0} propData={data ? data.loadton_data : undefined}
+                               overTonCheck={overTonCheck}
                                styles={{ width: '100%', height: '50%' }}
-                               tonnage_limit={data ? data?.press_data.tonnage_limit : 0}/>
+                               tonnage_limit={tonnageLimit ? tonnageLimit : 0}/>
                 {standardInfo()}
               </div>
               <div style={{ width: '13%', }}>
