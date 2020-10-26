@@ -8,7 +8,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import {getRequest, postRequest} from '../../Common/requestFunctions';
 import SmallButtonLink from '../../Components/Button/SmallButtonLink';
 import InfoTable from '../../Components/Table/InfoTable';
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 표준 문서 관리 리스트
 const BasicDocumentList = () => {
@@ -34,7 +34,7 @@ const BasicDocumentList = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest(`${client}/v1/document/list`, getToken(TOKEN_NAME))
+        const results = await getRequest(`${SF_ENDPOINT}/api/v1/document/list`, getToken(TOKEN_NAME))
 
 
         if (results === false) {
@@ -57,7 +57,7 @@ const BasicDocumentList = () => {
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest(`${client}/v1/document/delete`, {pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest(`${SF_ENDPOINT}/api/v1/document/delete`, {pk: id}, getToken(TOKEN_NAME))
         const tg = id;
         //console.log('--select id : ' + id)
         if (results === false) {

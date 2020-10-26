@@ -17,7 +17,7 @@ import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import useObjectInput from '../../Functions/UseInput'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -54,7 +54,7 @@ const BasicMaterialRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${client}i/v1/material/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -116,7 +116,7 @@ const BasicMaterialRegister = () => {
             material_spec: inputData.material_spec,
             info_list: JsonStringifyList(essential, optional)
         }
-        const res = await postRequest(`${client}/v1/material/update`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/update`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -163,7 +163,7 @@ const BasicMaterialRegister = () => {
             info_list: JsonStringifyList(essential, optional)
         }
 
-        const res = await postRequest(`${client}/v1/material/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
@@ -204,7 +204,7 @@ const BasicMaterialRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={inputData.location}
-                                searchUrl={`${client}/v1/factory/search?`}
+                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?`}
                             />
 
                             <NormalNumberInput title={'안전 재고'} value={inputData.safe_stock}

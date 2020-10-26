@@ -2,10 +2,15 @@ import React from 'react'
 import Styled from "styled-components";
 import CustomDashboardLoadtonChart from "../../../Components/Custom/dashboard/CustomDashboardLoadtonChart";
 
-const CustomLoadtonChartContainer: React.FunctionComponent = () => {
+interface Props {
+  match: any
+}
+
+
+const CustomLoadtonChartContainer: React.FunctionComponent<Props> = ({ match }) => {
   return (
       <DashboardWrapDiv>
-        <CustomDashboardLoadtonChart/>
+        <CustomDashboardLoadtonChart id={match.params.press}/>
       </DashboardWrapDiv>
   )
 

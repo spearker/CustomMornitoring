@@ -22,7 +22,7 @@ import {API_URLS, loadBasicItem} from '../../Api/mes/basic';
 import moment from "moment";
 import DateInput from "../../Components/Input/DateInput";
 import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 // 바코드 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 
@@ -99,7 +99,7 @@ const BasicBarcodeRegister = () => {
             description: inputData.description,
             info_list: JsonStringifyList(essential, optional)
         };
-        const res = await postRequest(`${client}/v1/barcode/standard/update`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/barcode/standard/update`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -140,7 +140,7 @@ const BasicBarcodeRegister = () => {
             };
         }
 
-        const res = await postRequest(`${client}/v1/barcode/standard/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/barcode/standard/register`, data, getToken(TOKEN_NAME))
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
 
