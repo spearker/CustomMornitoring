@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import { TOKEN_NAME } from '../../Common/configset'
+import {TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
-import { getToken } from '../../Common/tokenFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
-import { getParameter, postRequest } from '../../Common/requestFunctions';
+import {getParameter, postRequest} from '../../Common/requestFunctions';
 import FullAddInput from '../../Components/Input/FullAddInput';
-import { getBarcodeTypeList } from '../../Common/codeTransferFunctions';
+import {getBarcodeTypeList} from '../../Common/codeTransferFunctions';
 import ListHeader from '../../Components/Text/ListHeader';
 import * as _ from 'lodash';
 import useObjectInput from '../../Functions/UseInput';
-import { JsonStringifyList } from '../../Functions/JsonStringifyList';
-import { useHistory } from 'react-router-dom';
+import {JsonStringifyList} from '../../Functions/JsonStringifyList';
+import {useHistory} from 'react-router-dom';
 import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput';
-import { API_URLS, loadBasicItem } from '../../Api/mes/basic';
+import {API_URLS, loadBasicItem} from '../../Api/mes/basic';
 import moment from "moment";
 import DateInput from "../../Components/Input/DateInput";
 import CustomPickerModal from "../../Components/Modal/CustomPickerModal";
@@ -34,22 +34,22 @@ const initialData = {
   rules: [],
 }
 
-const indexList = [ '기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트' ]
-const indexType = [ 'machine', 'device', 'mold', 'material', 'voucher' ]
+const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트']
+const indexType = ['machine', 'device', 'mold', 'material', 'voucher']
 const indexBarcodeType = getBarcodeTypeList('kor');
 
 const BasicBarcodeRegister = () => {
 
   const history = useHistory();
-  const [ output_material, setOutput_material ] = useState<{ name: string, pk: string }>({ name: '', pk: '' });
-  const [ selectDate, setSelectDate ] = useState<string>(moment().format("YYYY-MM-DD"))
-  const [ document, setDocument ] = useState<any>({ id: '', value: '(선택)' });
-  const [ essential, setEssential ] = useState<any[]>([]);
-  const [ optional, setOptional ] = useState<any[]>([]);
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
-  const [ pk, setPk ] = useState<string>('');
+  const [output_material, setOutput_material] = useState<{ name: string, pk: string }>({name: '', pk: ''});
+  const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
+  const [document, setDocument] = useState<any>({id: '', value: '(선택)'});
+  const [essential, setEssential] = useState<any[]>([]);
+  const [optional, setOptional] = useState<any[]>([]);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [pk, setPk] = useState<string>('');
 
-  const [ inputData, setInputData ] = useObjectInput('CHANGE', initialData);
+  const [inputData, setInputData] = useObjectInput('CHANGE', initialData);
 
   useEffect(() => {
     if (getParameter('pk')) {
@@ -80,7 +80,7 @@ const BasicBarcodeRegister = () => {
       setInputData('type', data.type)
       setInputData('description', data.description)
     }
-  }, [ pk, optional, essential, inputData ])
+  }, [pk, optional, essential, inputData])
 
 
   const onsubmitFormUpdate = useCallback(async (e) => {
@@ -113,7 +113,7 @@ const BasicBarcodeRegister = () => {
       }
     }
 
-  }, [ pk, optional, essential, inputData ])
+  }, [pk, optional, essential, inputData])
 
   const onsubmitForm = useCallback(async (e) => {
     e.preventDefault();
@@ -153,7 +153,7 @@ const BasicBarcodeRegister = () => {
       }
     }
 
-  }, [ pk, optional, essential, inputData, document ])
+  }, [pk, optional, essential, inputData, document])
 
 
   return (

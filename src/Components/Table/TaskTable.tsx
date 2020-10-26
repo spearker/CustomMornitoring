@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import { BG_COLOR_SUB3, TOKEN_NAME } from '../../Common/configset'
+import {BG_COLOR_SUB3, TOKEN_NAME} from '../../Common/configset'
 import IC_REPLY from '../../Assets/Images/ic_reply_w.png'
 import IC_CLOSE from '../../Assets/Images/ic_task_close.png'
 import IC_DOC from '../../Assets/Images/ic_file_doc.png'
@@ -8,10 +8,10 @@ import IC_IMAGE from '../../Assets/Images/ic_file_img.png'
 
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
 import StatusDropdown from '../Dropdown/StatusDropdown'
-import { getRequest, postRequest } from '../../Common/requestFunctions'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
 
 import CommentsContainer from '../../Containers/CommentsContainer'
-import { getToken } from '../../Common/tokenFunctions'
+import {getToken} from '../../Common/tokenFunctions'
 import TinyButtonLink from '../Button/TinyButtonLink'
 import ReadOnlyInputTask from '../Input/ReadOnlyInputTask'
 import ProcessCard from '../Card/ProcessCard'
@@ -25,18 +25,18 @@ interface IProps {
 }
 
 
-const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: IProps) => {
+const TaskTable = ({indexList, contents, keyName, onClickEvent, buttonName}: IProps) => {
 
-  const [ openTarget, setOpenTarget ] = useState<string>('')
-  const [ task, setTask ] = useState<any>(null)
-  const [ replyList, setReplyList ] = useState<IReply[]>([])
-  const [ process, setProcess ] = useState<IProcess[]>([])
-  const [ oepnProcess, setOpenProcess ] = useState<string>('')
+  const [openTarget, setOpenTarget] = useState<string>('')
+  const [task, setTask] = useState<any>(null)
+  const [replyList, setReplyList] = useState<IReply[]>([])
+  const [process, setProcess] = useState<IProcess[]>([])
+  const [oepnProcess, setOpenProcess] = useState<string>('')
 
 
   useEffect(() => {
     setOpenTarget('')
-  }, [ contents ])
+  }, [contents])
 
 
   /**
@@ -74,7 +74,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
     }
 
 
-  }, [ task ])
+  }, [task])
 
   /**
    * onClickOpenTask()
@@ -109,7 +109,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
       }
     }
 
-  }, [ openTarget, task, process ])
+  }, [openTarget, task, process])
 
 
   /**
@@ -139,7 +139,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
       }
     }
 
-  }, [ openTarget, task, process ])
+  }, [openTarget, task, process])
 
 
   useEffect(() => {
@@ -165,16 +165,16 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
             contents.map((v, i) => {
               return (
                   <>
-                    <tr key={i} style={{ cursor: 'pointer', width: '100%' }}>
+                    <tr key={i} style={{cursor: 'pointer', width: '100%'}}>
                       {
                         Object.keys(indexList).map((mv, mi) => {
                           return (
                               <td className="p-limit" key={mv}
                                   onClick={mv !== 'status' ? () => onClickOpenTask(v.pk) : () => {
                                   }}>
-                                <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>
+                                <div style={{display: 'flex', whiteSpace: 'nowrap'}}>
                                   {mv === 'status' ? <StatusDropdown pk={v['pk']}
-                                                                     contents={[ 'active', 'done', 'share', 'ready', 'stop' ]}
+                                                                     contents={['active', 'done', 'share', 'ready', 'stop']}
                                                                      select={v[mv]}
                                                                      onClickEvent={onClickEvent}/> : null}
                                   {mv === 'comments' ? <div><img src={IC_REPLY} style={{
@@ -195,26 +195,26 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
                       }
 
                     </tr>
-                    <tr style={{ backgroundColor: '#f4f6fa' }}>
+                    <tr style={{backgroundColor: '#f4f6fa'}}>
                       {
                         openTarget !== v.pk || task == null ?
                             null
                             :
-                            <td colSpan={7} style={{ paddingLeft: 8, color: 'black' }}>
+                            <td colSpan={7} style={{paddingLeft: 8, color: 'black'}}>
 
                               <div className="div-no-scroll"
-                                   style={{ maxHeight: 700, overflow: 'auto' }}>
+                                   style={{maxHeight: 700, overflow: 'auto'}}>
                                 {/* 헤더 */}
-                                <div style={{ marginTop: 24 }}>
-                                  <div style={{ float: 'right', cursor: 'pointer' }}>
+                                <div style={{marginTop: 24}}>
+                                  <div style={{float: 'right', cursor: 'pointer'}}>
                                     <TinyButtonLink url={'/task/update?pk=' + v.pk}
                                                     name={'수정'}/>
                                     <img onClick={() => setOpenTarget('')} src={IC_CLOSE}
-                                         style={{ marginLeft: 9, width: 24, float: 'right' }}/>
+                                         style={{marginLeft: 9, width: 24, float: 'right'}}/>
                                   </div>
-                                  <div style={{ display: 'flex', paddingLeft: 12 }}>
+                                  <div style={{display: 'flex', paddingLeft: 12}}>
                                     <StatusDropdown pk={openTarget}
-                                                    contents={[ 'active', 'done', 'share', 'ready', 'stop' ]}
+                                                    contents={['active', 'done', 'share', 'ready', 'stop']}
                                                     select={task.status}
                                                     onClickEvent={onClickEvent}/>
                                     <p className="p-bold p-limit" style={{
@@ -226,7 +226,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
 
                                   </div>
                                   {/* 상세내용 */}
-                                  <div style={{ paddingLeft: 12, position: 'relative' }}>
+                                  <div style={{paddingLeft: 12, position: 'relative'}}>
                                     <p style={{
                                       float: 'right',
                                       position: 'absolute',
@@ -239,7 +239,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
                                   </div>
                                 </div>
                                 {/* 공정내용 */}
-                                <div style={{ paddingLeft: 12, minHeight: 200, paddingTop: 18 }}>
+                                <div style={{paddingLeft: 12, minHeight: 200, paddingTop: 18}}>
                                   <p className="p-bold">· 공정 관리 시스템</p>
                                   <ProcessWrapBox>
                                     {
@@ -258,7 +258,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
 
 
                                 {/* 댓글, 등록자, 파일 리스트 */}
-                                <div style={{ paddingLeft: 12, marginBottom: 12 }}>
+                                <div style={{paddingLeft: 12, marginBottom: 12}}>
                                   <hr style={{
                                     border: 'solid 0.5px #d3d3d3',
                                     marginBottom: 18,
@@ -270,7 +270,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
                                           float: 'left',
                                           display: 'inline-block'
                                         }}>·  첨부 파일</span>
-                                  <div style={{ marginLeft: 128, color: 'black', minHeight: 70 }}>
+                                  <div style={{marginLeft: 128, color: 'black', minHeight: 70}}>
                                     {
                                       task.files.map((f, i) => {
 
@@ -309,9 +309,9 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
                                       fontSize: 14,
                                       display: 'inline-block'
                                     }}>
-                                      <div style={{ display: 'flex' }}>
+                                      <div style={{display: 'flex'}}>
                                         <span className="p-bold"
-                                              style={{ width: 75, display: 'inline-block', }}>·  관리자</span>
+                                              style={{width: 75, display: 'inline-block',}}>·  관리자</span>
                                         <ImageBox
                                             src={task.requester_image === '' ? IMG_PROFILE : task.requester_image}/>
                                         <span className="p-limit"
@@ -328,7 +328,7 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
                                       fontSize: 14,
                                       display: 'inline-block'
                                     }}>
-                                      <div style={{ display: 'flex' }}>
+                                      <div style={{display: 'flex'}}>
                                                                     <span className="p-bold" style={{
                                                                       width: 102,
                                                                       display: 'inline-block',
@@ -353,9 +353,9 @@ const TaskTable = ({ indexList, contents, keyName, onClickEvent, buttonName }: I
                                       fontSize: 14,
                                       display: 'inline-block'
                                     }}>
-                                      <div style={{ display: 'flex' }}>
+                                      <div style={{display: 'flex'}}>
                                         <span className="p-bold"
-                                              style={{ width: 100, display: 'inline-block', }}>·  공유자</span>
+                                              style={{width: 100, display: 'inline-block',}}>·  공유자</span>
                                         <span className="p-limit"
                                               style={{
                                                 width: 500,
@@ -408,6 +408,7 @@ const ProcessWrapBox = Styled.div`
 
 const TableWrap = Styled.div`
     display: flex;
+
     table {
       table-layout: fixed;
       max-width: 100%,
@@ -446,6 +447,7 @@ const TableWrap = Styled.div`
         }
       }
     }
+
     td, th {
       text-overflow:ellipsis;
       overflow:hidden;
@@ -465,6 +467,7 @@ const TableWrap = Styled.div`
     td:last-child {
       padding-right:20px;
     }
+
     
 `
 

@@ -1,25 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, TOKEN_NAME } from '../../Common/configset'
+import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
-import { getToken } from '../../Common/tokenFunctions'
+import {getToken} from '../../Common/tokenFunctions'
 import NormalTable from '../../Components/Table/NormalTable'
 import 'react-dropdown/style.css'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
 import SubNavigation from '../../Components/Navigation/SubNavigation'
-import { ROUTER_MENU_LIST } from '../../Common/routerset'
+import {ROUTER_MENU_LIST} from '../../Common/routerset'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import { getRequest } from '../../Common/requestFunctions'
+import {getRequest} from '../../Common/requestFunctions'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink'
 import SearchInputSmall from '../../Components/Input/SearchInputSmall'
 
 
 const BarCodeList = () => {
 
-  const [ list, setList ] = useState<IMold[]>([])
-  const [ option, setOption ] = useState(0)
-  const [ keyword, setKeyword ] = useState<string>('')
+  const [list, setList] = useState<IMold[]>([])
+  const [option, setOption] = useState(0)
+  const [keyword, setKeyword] = useState<string>('')
 
   const optionList = [
     '등록순', '이름순'
@@ -53,7 +53,7 @@ const BarCodeList = () => {
         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [ list, option, keyword ])
+  }, [list, option, keyword])
 
   /**
    * getList()
@@ -74,7 +74,7 @@ const BarCodeList = () => {
         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [ list, option, keyword ])
+  }, [list, option, keyword])
 
   /**
    * onClickFilter()
@@ -97,7 +97,7 @@ const BarCodeList = () => {
         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [ option, list, keyword ])
+  }, [option, list, keyword])
 
   useEffect(() => {
     getList()
@@ -114,9 +114,9 @@ const BarCodeList = () => {
       <DashboardWrapContainer index={4}>
         <SubNavigation list={ROUTER_MENU_LIST[4]}/>
         <InnerBodyContainer>
-          <div style={{ position: 'relative' }}>
+          <div style={{position: 'relative'}}>
             <Header title={`바코드 기본 정보 / 관리 (${list.length})`}/>
-            <div style={{ position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4 }}>
+            <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
               <SmallButtonLink name="+ 등록하기" link="/register/barcode"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>
@@ -131,7 +131,7 @@ const BarCodeList = () => {
           />
 
 
-          <NormalTable widthList={[ '140px', '140px', '240px', '140px', '140px' ]} indexList={index} keyName={'pk'}
+          <NormalTable widthList={['140px', '140px', '240px', '140px', '140px']} indexList={index} keyName={'pk'}
                        buttonName='수정하기' contents={list} onClickEvent={onClickModify}/>
         </InnerBodyContainer>
       </DashboardWrapContainer>

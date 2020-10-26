@@ -1,51 +1,51 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, TOKEN_NAME } from '../../Common/configset'
+import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
+import {getToken} from '../../Common/tokenFunctions';
 import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import DropdownInput from '../../Components/Input/DropdownInput';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
-import { uploadTempFile } from '../../Common/fileFuctuons';
-import { getSubMachineTypeList, transferCodeToName, transferStringToCode } from '../../Common/codeTransferFunctions';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
+import {uploadTempFile} from '../../Common/fileFuctuons';
+import {getSubMachineTypeList, transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions';
 import DateInput from '../../Components/Input/DateInput';
 import moment from 'moment';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
-import { JsonStringifyList } from '../../Functions/JsonStringifyList';
-import { useHistory } from 'react-router-dom';
+import {JsonStringifyList} from '../../Functions/JsonStringifyList';
+import {useHistory} from 'react-router-dom';
 import client from "../../Api/configs/basic";
 
 // 주변 장치 페이지
 const BasicDeviceRegister = () => {
 
-  const [ document, setDocument ] = useState<any>({ id: '', value: '(선택)' });
-  const [ documentList, setDocumentList ] = useState<any[]>([]);
+  const [document, setDocument] = useState<any>({id: '', value: '(선택)'});
+  const [documentList, setDocumentList] = useState<any[]>([]);
 
-  const [ essential, setEssential ] = useState<any[]>([]);
-  const [ optional, setOptional ] = useState<any[]>([]);
+  const [essential, setEssential] = useState<any[]>([]);
+  const [optional, setOptional] = useState<any[]>([]);
 
-  const [ pk, setPk ] = useState<string>('');
-  const [ made, setMade ] = useState<string>('');
-  const [ info, setInfo ] = useState<string>('');
-  const [ infoList, setInfoList ] = useState<IInfo[]>([]);
-  const [ name, setName ] = useState<string>('');
-  const [ type, setType ] = useState<number>(0); //1: 프레스
-  const [ madeNo, setMadeNo ] = useState<string>('');
-  const [ photoName, setPhotoName ] = useState<string>('');
-  const [ factory, setFactory ] = useState<any[]>([]);
+  const [pk, setPk] = useState<string>('');
+  const [made, setMade] = useState<string>('');
+  const [info, setInfo] = useState<string>('');
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
+  const [name, setName] = useState<string>('');
+  const [type, setType] = useState<number>(0); //1: 프레스
+  const [madeNo, setMadeNo] = useState<string>('');
+  const [photoName, setPhotoName] = useState<string>('');
+  const [factory, setFactory] = useState<any[]>([]);
 
-  const [ files, setFiles ] = useState<any[3]>([ null, null, null ]);
-  const [ paths, setPaths ] = useState<any[3]>([ null, null, null ]);
-  const [ oldPaths, setOldPaths ] = useState<any[3]>([ null, null, null ]);
-  const [ date, setDate ] = useState<string>(moment().format('YYYY-MM-DD'));
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
+  const [files, setFiles] = useState<any[3]>([null, null, null]);
+  const [paths, setPaths] = useState<any[3]>([null, null, null]);
+  const [oldPaths, setOldPaths] = useState<any[3]>([null, null, null]);
+  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const indexList = getSubMachineTypeList('kor');
   const history = useHistory();
@@ -116,7 +116,7 @@ const BasicDeviceRegister = () => {
         setPhotoName(data.photo);
         setDate(data.manufactured_at);
         setPk(data.pk);
-        setFactory([ { pk: data.location_pk, name: data.location_name } ])
+        setFactory([{pk: data.location_pk, name: data.location_name}])
         setMadeNo(data.manufacturer_code);
         setType(Number(data.device_type));
         setInfoList(data.info_list)
@@ -131,7 +131,7 @@ const BasicDeviceRegister = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, made, madeNo, date, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory ])
+  }, [pk, made, madeNo, date, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory])
 
 
   const onsubmitFormUpdate = useCallback(async (e) => {
@@ -180,7 +180,7 @@ const BasicDeviceRegister = () => {
       }
     }
 
-  }, [ pk, made, madeNo, name, type, date, madeNo, infoList, paths, essential, optional, factory ])
+  }, [pk, made, madeNo, name, type, date, madeNo, infoList, paths, essential, optional, factory])
 
   /**
    * onsubmitForm()
@@ -232,7 +232,7 @@ const BasicDeviceRegister = () => {
       }
     }
 
-  }, [ pk, made, madeNo, document, date, name, type, madeNo, infoList, paths, essential, optional, factory ])
+  }, [pk, made, madeNo, document, date, name, type, madeNo, infoList, paths, essential, optional, factory])
 
 
   return (
@@ -276,19 +276,19 @@ const BasicDeviceRegister = () => {
                 <NormalFileInput title={'장치 사진'} name={paths[0]} thisId={'machinePhoto0'}
                                  onChangeEvent={(e) => addFiles(e, 0)}
                                  description={isUpdate ? oldPaths[0] : '장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'}
-                                 style={{ width: 'calc(100% - 124px)' }}/>
+                                 style={{width: 'calc(100% - 124px)'}}/>
                 <NormalFileInput title={'스펙명판 사진'} name={paths[1]} thisId={'machinePhoto1'}
                                  onChangeEvent={(e) => addFiles(e, 1)}
                                  description={isUpdate ? oldPaths[1] : '장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'}
-                                 style={{ width: 'calc(100% - 124px)' }}/>
+                                 style={{width: 'calc(100% - 124px)'}}/>
                 <NormalFileInput title={'능력명판 사진'} name={paths[2]} thisId={'machinePhoto2'}
                                  onChangeEvent={(e) => addFiles(e, 2)}
                                  description={isUpdate ? oldPaths[2] : '장치 측면에 붙어있는 명판(혹은 스티커)을 사진으로 찍어 등록해주세요'}
-                                 style={{ width: 'calc(100% - 124px)' }}/>
+                                 style={{width: 'calc(100% - 124px)'}}/>
                 {
                   isUpdate ?
                       <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths}
-                                    nameList={[ '장치사진', '스펙명판', '능력명판' ]}
+                                    nameList={['장치사진', '스펙명판', '능력명판']}
                                     isImage={true}/>
 
                       :

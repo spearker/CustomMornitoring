@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
-import { BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME } from '../Common/configset'
+import {BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME} from '../Common/configset'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
-import { getToken } from '../Common/tokenFunctions'
-import { useUserDispatch, useUser } from '../Context/UserContext'
-import { getRequest } from '../Common/requestFunctions'
+import {getToken} from '../Common/tokenFunctions'
+import {useUserDispatch, useUser} from '../Context/UserContext'
+import {getRequest} from '../Common/requestFunctions'
 import client from "../Api/configs/basic";
 
 //대시보드를 감싸는 wrap 박스  (풀사이즈)
 
-const FullSizeContainer = ({ children }: any) => {
+const FullSizeContainer = ({children}: any) => {
 
   const dispatch = useUserDispatch()
   const User = useUser()
@@ -50,17 +50,17 @@ const FullSizeContainer = ({ children }: any) => {
 
     loadUserInfo()
 
-  }, [ loadUserInfo ])
+  }, [loadUserInfo])
 
 
   return (
 
       <DashboardWrapDiv>
         <DashboardNavigation folding={true}/>
-        <div style={{ width: '100%', marginBottom: 88, textAlign: 'center' }}>
+        <div style={{width: '100%', marginBottom: 88, textAlign: 'center'}}>
           <SearchBarWrapDiv>
           </SearchBarWrapDiv>
-          <div style={{ minWidth: 1100 }}>
+          <div style={{minWidth: 1100}}>
             {children}
           </div>
         </div>

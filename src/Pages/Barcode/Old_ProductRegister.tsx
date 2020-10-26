@@ -1,22 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { TOKEN_NAME } from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react'
+import {TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
 import RegisterButton from '../../Components/Button/RegisterButton'
 import NormalFileInput from '../../Components/Input/NormalFileInput'
-import { getToken } from '../../Common/tokenFunctions'
+import {getToken} from '../../Common/tokenFunctions'
 import SubNavigation from '../../Components/Navigation/SubNavigation'
-import { ROUTER_MENU_LIST } from '../../Common/routerset'
+import {ROUTER_MENU_LIST} from '../../Common/routerset'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
 import AddInput from '../../Components/Input/AddInput'
 import TextList from '../../Components/List/TextList'
 import SearchModalContainer from '../../Containers/SearchModalContainer'
 import SearchInput from '../../Components/Input/SearchInput'
 import SearchedList from '../../Components/List/SearchedList'
-import { uploadTempFile } from '../../Common/fileFuctuons'
+import {uploadTempFile} from '../../Common/fileFuctuons'
 import OldFileInput from '../../Components/Input/OldFileInput'
 
 interface IInfo {
@@ -28,25 +28,25 @@ interface IInfo {
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const Old_ProductRegister = () => {
 
-  const [ pk, setPk ] = useState<string>('')
-  const [ name, setName ] = useState<string>('')
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
-  const [ code, setCode ] = useState<string>('')
+  const [pk, setPk] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [code, setCode] = useState<string>('')
   //검색관련
-  const [ isPoupup, setIsPoupup ] = useState<boolean>(false)
-  const [ isSearched, setIsSearched ] = useState<boolean>(false)
-  const [ keyword, setKeyword ] = useState<string>('')
-  const [ list, setList ] = useState<ISearchedList[]>([])
-  const [ checkList, setCheckList ] = useState<ISearchedList[]>([])
-  const [ searchList, setSearchList ] = useState<ISearchedList[]>([])
+  const [isPoupup, setIsPoupup] = useState<boolean>(false)
+  const [isSearched, setIsSearched] = useState<boolean>(false)
+  const [keyword, setKeyword] = useState<string>('')
+  const [list, setList] = useState<ISearchedList[]>([])
+  const [checkList, setCheckList] = useState<ISearchedList[]>([])
+  const [searchList, setSearchList] = useState<ISearchedList[]>([])
 
-  const [ isPoupup2, setIsPoupup2 ] = useState<boolean>(false)
-  const [ list2, setList2 ] = useState<ISearchedList[]>([])
-  const [ checkList2, setCheckList2 ] = useState<ISearchedList[]>([])
-  const [ searchList2, setSearchList2 ] = useState<ISearchedList[]>([])
+  const [isPoupup2, setIsPoupup2] = useState<boolean>(false)
+  const [list2, setList2] = useState<ISearchedList[]>([])
+  const [checkList2, setCheckList2] = useState<ISearchedList[]>([])
+  const [searchList2, setSearchList2] = useState<ISearchedList[]>([])
 
-  const [ paths, setPaths ] = useState<any[1]>([ null ])
-  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ])
+  const [paths, setPaths] = useState<any[1]>([null])
+  const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const Old_ProductRegister = () => {
         setList(new Array(data.material))
         setList2(new Array(data.basic_barcode))
         setCode(data.code)
-        setOldPaths([ data.photo ])
+        setOldPaths([data.photo])
 
       } else if (res.status === 1001 || res.data.status === 1002) {
         //TODO:  아이디 존재 확인
@@ -95,7 +95,7 @@ const Old_ProductRegister = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, list, list2, code, oldPaths ])
+  }, [pk, list, list2, code, oldPaths])
 
   /**
    * onsubmitForm()
@@ -152,7 +152,7 @@ const Old_ProductRegister = () => {
       }
     }
 
-  }, [ pk, list, list2, paths, code ])
+  }, [pk, list, list2, paths, code])
 
 
   /**
@@ -204,7 +204,7 @@ const Old_ProductRegister = () => {
       }
     }
 
-  }, [ pk, name, list, list2, paths, code ])
+  }, [pk, name, list, list2, paths, code])
 
   /**
    * onClickSearch()
@@ -251,7 +251,7 @@ const Old_ProductRegister = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ keyword ])
+  }, [keyword])
 
 
   /**
@@ -360,7 +360,7 @@ const Old_ProductRegister = () => {
                                description={isUpdate ? oldPaths[0] : '해당 상품의 바코드 이미지를 등록해주세요'}/>
               {
                 isUpdate ?
-                    <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={[ '' ]} isImage={true}/>
+                    <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
 
                     :
                     null
@@ -388,14 +388,14 @@ const Old_ProductRegister = () => {
             <SearchInput description={'키워드를 검색해주세요'} value={keyword}
                          onChangeEvent={(e) => setKeyword(e.target.value)}
                          onClickEvent={onClickSearch}/>
-            <div style={{ width: '100%', marginTop: 20 }}>
+            <div style={{width: '100%', marginTop: 20}}>
               {
                 isSearched ?
                     searchList.map((v: ISearchedList, i) => {
                       return (
 
-                          <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                        contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                          <SearchedList key={i} pk={v.pk} widths={['52%', '52%']}
+                                        contents={[v.name, v.code !== undefined ? v.code : '']}
                                         isIconDimmed={false}
                                         isSelected={checkList.find((k) => k.pk === v.pk) ? true : false}
                                         onClickEvent={() => {
@@ -431,13 +431,13 @@ const Old_ProductRegister = () => {
             <SearchInput description={'키워드를 검색해주세요'} value={keyword}
                          onChangeEvent={(e) => setKeyword(e.target.value)}
                          onClickEvent={onClickSearch}/>
-            <div style={{ width: '100%', marginTop: 20 }}>
+            <div style={{width: '100%', marginTop: 20}}>
               {
                 isSearched ?
                     searchList2.map((v: ISearchedList, i) => {
                       return (
-                          <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                        contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                          <SearchedList key={i} pk={v.pk} widths={['52%', '52%']}
+                                        contents={[v.name, v.code !== undefined ? v.code : '']}
                                         isIconDimmed={false}
                                         isSelected={checkList2.find((k) => k.pk === v.pk) ? true : false}
                                         onClickEvent={() => {

@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, TOKEN_NAME } from '../../Common/configset'
+import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
 import RegisterButton from '../../Components/Button/RegisterButton'
-import { getToken } from '../../Common/tokenFunctions'
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
+import {getToken} from '../../Common/tokenFunctions'
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
 import CustomIndexInput from '../../Components/Input/CustomIndexInput'
 import AddInput from '../../Components/Input/AddInput'
 import FullAddInput from '../../Components/Input/FullAddInput'
@@ -29,33 +29,33 @@ interface ITempInfo {
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const MaintenanceRegisterContainer = () => {
 
-  const [ pk, setPk ] = useState<string>('')
-  const [ name, setName ] = useState<string>('')
-  const [ term, setTerm ] = useState<number>(30)
-  const [ infoList, setInfoList ] = useState<IInfo[]>([])
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
-  const [ type, setType ] = useState<string>('machine')
-  const [ targetPk, setTargetPk ] = useState<string>('')
+  const [pk, setPk] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [term, setTerm] = useState<number>(30)
+  const [infoList, setInfoList] = useState<IInfo[]>([])
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [type, setType] = useState<string>('machine')
+  const [targetPk, setTargetPk] = useState<string>('')
   //검색관련
-  const [ isPoupup, setIsPoupup ] = useState<boolean>(false)
-  const [ isSearched, setIsSearched ] = useState<boolean>(false)
-  const [ keyword, setKeyword ] = useState<string>('')
+  const [isPoupup, setIsPoupup] = useState<boolean>(false)
+  const [isSearched, setIsSearched] = useState<boolean>(false)
+  const [keyword, setKeyword] = useState<string>('')
 
-  const [ list, setList ] = useState<ISearchedList[]>([])
-  const [ checkList, setCheckList ] = useState<ISearchedList[]>([])
-  const [ searchList, setSearchList ] = useState<ISearchedList[]>([])
+  const [list, setList] = useState<ISearchedList[]>([])
+  const [checkList, setCheckList] = useState<ISearchedList[]>([])
+  const [searchList, setSearchList] = useState<ISearchedList[]>([])
 
-  const [ isPoupup2, setIsPoupup2 ] = useState<boolean>(false)
-  const [ list2, setList2 ] = useState<ISearchedList []>([])
-  const [ checkList2, setCheckList2 ] = useState<ISearchedList []>([])
-  const [ searchList2, setSearchList2 ] = useState<ISearchedList[]>([])
+  const [isPoupup2, setIsPoupup2] = useState<boolean>(false)
+  const [list2, setList2] = useState<ISearchedList []>([])
+  const [checkList2, setCheckList2] = useState<ISearchedList []>([])
+  const [searchList2, setSearchList2] = useState<ISearchedList[]>([])
 
-  const [ isPoupup3, setIsPoupup3 ] = useState<boolean>(false)
-  const [ list3, setList3 ] = useState<ISearchedList []>([])
-  const [ checkList3, setCheckList3 ] = useState<ISearchedList[]>([])
-  const [ searchList3, setSearchList3 ] = useState<ISearchedList[]>([])
+  const [isPoupup3, setIsPoupup3] = useState<boolean>(false)
+  const [list3, setList3] = useState<ISearchedList []>([])
+  const [checkList3, setCheckList3] = useState<ISearchedList[]>([])
+  const [searchList3, setSearchList3] = useState<ISearchedList[]>([])
 
-  const [ tempInfo, setTempInfo ] = useState<ITempInfo>()
+  const [tempInfo, setTempInfo] = useState<ITempInfo>()
 
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const MaintenanceRegisterContainer = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, name, list, list2, list3, term, type, infoList, targetPk ])
+  }, [pk, name, list, list2, list3, term, type, infoList, targetPk])
 
   /**
    * onsubmitForm()
@@ -162,7 +162,7 @@ const MaintenanceRegisterContainer = () => {
       }
     }
 
-  }, [ pk, name, list, list2, list3, type, infoList ])
+  }, [pk, name, list, list2, list3, type, infoList])
 
 
   /**
@@ -202,7 +202,7 @@ const MaintenanceRegisterContainer = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, name, list, list2, list3, type, term, infoList, tempInfo ])
+  }, [pk, name, list, list2, list3, type, term, infoList, tempInfo])
   /**
    * onClickSearch()
    *  키워드 검색
@@ -254,7 +254,7 @@ const MaintenanceRegisterContainer = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ keyword ])
+  }, [keyword])
 
   return (
       <div>
@@ -268,8 +268,8 @@ const MaintenanceRegisterContainer = () => {
                                description={''}/>
                   :
                   <>
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: 12, marginBottom: 24 }}>
-                      <div style={{ paddingLeft: 1, paddingTop: 5 }}>
+                    <div style={{display: 'flex', alignItems: 'center', marginTop: 12, marginBottom: 24}}>
+                      <div style={{paddingLeft: 1, paddingTop: 5}}>
                         <input type="radio" id="cb" name="type"
                                checked={type === 'machine' ? true : false}
                                onClick={(e) => {
@@ -278,9 +278,9 @@ const MaintenanceRegisterContainer = () => {
                         <label htmlFor="cb"></label>
                       </div>
                       <div>
-                        <span style={{ paddingLeft: 4, fontSize: 14, marginRight: 20 }}>기계</span>
+                        <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20}}>기계</span>
                       </div>
-                      <div style={{ paddingLeft: 1, paddingTop: 5 }}>
+                      <div style={{paddingLeft: 1, paddingTop: 5}}>
                         <input type="radio" id="cb2" name="type"
                                checked={type === 'peripheral' ? true : false}
                                onClick={(e) => {
@@ -289,9 +289,9 @@ const MaintenanceRegisterContainer = () => {
                         <label htmlFor="cb2"></label>
                       </div>
                       <div>
-                        <span style={{ paddingLeft: 4, fontSize: 14, marginRight: 20 }}>주변장치</span>
+                        <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20}}>주변장치</span>
                       </div>
-                      <div style={{ paddingLeft: 1, paddingTop: 5 }}>
+                      <div style={{paddingLeft: 1, paddingTop: 5}}>
                         <input type="radio" id="cb3" name="type"
                                checked={type === 'mold' ? true : false}
                                onClick={(e) => {
@@ -300,7 +300,7 @@ const MaintenanceRegisterContainer = () => {
                         <label htmlFor="cb3"></label>
                       </div>
                       <div>
-                        <span style={{ paddingLeft: 4, fontSize: 14, marginRight: 20 }}>금형</span>
+                        <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20}}>금형</span>
                       </div>
                     </div>
                     {/* 팝업 여는 버튼 + 보전 주변장치 추가 */}
@@ -406,7 +406,7 @@ const MaintenanceRegisterContainer = () => {
             {/* 자유항목 입력 창 */}
             <FullAddInput title={'보전 기준'} onChangeEvent={() => {
               const tempInfo = infoList.slice()
-              tempInfo.push({ title: `보전 기준 항목 ${infoList.length + 1}`, value: '' })
+              tempInfo.push({title: `보전 기준 항목 ${infoList.length + 1}`, value: ''})
               setInfoList(tempInfo)
             }}>
               {
@@ -453,13 +453,13 @@ const MaintenanceRegisterContainer = () => {
           <SearchInput description={'키워드를 검색해주세요'} value={keyword}
                        onChangeEvent={(e) => setKeyword(e.target.value)}
                        onClickEvent={onClickSearch}/>
-          <div style={{ width: '100%', marginTop: 20 }}>
+          <div style={{width: '100%', marginTop: 20}}>
             {
               isSearched ?
                   searchList.map((v: ISearchedList, i) => {
                     return (
-                        <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                        <SearchedList key={i} pk={v.pk} widths={['52%', '52%']}
+                                      contents={[v.name, v.code !== undefined ? v.code : '']}
                                       isIconDimmed={false}
                                       isSelected={checkList.find((k) => k.pk === v.pk) ? true : false}
                                       onClickEvent={() => {
@@ -496,13 +496,13 @@ const MaintenanceRegisterContainer = () => {
           <SearchInput description={'키워드를 검색해주세요'} value={keyword}
                        onChangeEvent={(e) => setKeyword(e.target.value)}
                        onClickEvent={onClickSearch}/>
-          <div style={{ width: '100%', marginTop: 20 }}>
+          <div style={{width: '100%', marginTop: 20}}>
             {
               isSearched ?
                   searchList2.map((v: ISearchedList, i) => {
                     return (
-                        <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                        <SearchedList key={i} pk={v.pk} widths={['52%', '52%']}
+                                      contents={[v.name, v.code !== undefined ? v.code : '']}
                                       isIconDimmed={false}
                                       isSelected={checkList2.find((k) => k.pk === v.pk) ? true : false}
                                       onClickEvent={() => {
@@ -539,13 +539,13 @@ const MaintenanceRegisterContainer = () => {
           <SearchInput description={'키워드를 검색해주세요'} value={keyword}
                        onChangeEvent={(e) => setKeyword(e.target.value)}
                        onClickEvent={onClickSearch}/>
-          <div style={{ width: '100%', marginTop: 20 }}>
+          <div style={{width: '100%', marginTop: 20}}>
             {
               isSearched ?
                   searchList3.map((v: ISearchedList, i) => {
                     return (
-                        <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                        <SearchedList key={i} pk={v.pk} widths={['52%', '52%']}
+                                      contents={[v.name, v.code !== undefined ? v.code : '']}
                                       isIconDimmed={false}
                                       isSelected={checkList3.find((k) => k.pk === v.pk) ? true : false}
                                       onClickEvent={() => {

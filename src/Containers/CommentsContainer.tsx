@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Styled from 'styled-components'
-import { POINT_COLOR, TOKEN_NAME } from '../Common/configset'
+import {POINT_COLOR, TOKEN_NAME} from '../Common/configset'
 import IC_UP from '../Assets/Images/ic_reply_up.png'
 import IC_DOWN from '../Assets/Images/ic_reply_down.png'
-import { getRequest, postRequest } from '../Common/requestFunctions'
+import {getRequest, postRequest} from '../Common/requestFunctions'
 import CommentList from '../Components/List/CommentList'
-import { getToken } from '../Common/tokenFunctions'
-import { uploadTempFile } from '../Common/fileFuctuons'
+import {getToken} from '../Common/tokenFunctions'
+import {uploadTempFile} from '../Common/fileFuctuons'
 import client from "../Api/configs/basic";
 
 interface Props {
@@ -14,15 +14,15 @@ interface Props {
   pk: string,
 }
 
-const CommentsContainer = ({ children, pk }: Props) => {
+const CommentsContainer = ({children, pk}: Props) => {
 
-  const [ isOpen, setIsOpen ] = useState<boolean>(false)
-  const [ text, setText ] = useState<string>('')
-  const [ file, setFile ] = useState<any>(null)
-  const [ replyList, setReplyList ] = useState<IReply[]>([])
-  const [ path, setPath ] = useState<string | null>(null)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
+  const [file, setFile] = useState<any>(null)
+  const [replyList, setReplyList] = useState<IReply[]>([])
+  const [path, setPath] = useState<string | null>(null)
   const textBoxRef = useRef(null)
-  const [ isCreated, setIsCreated ] = useState<boolean>(false)
+  const [isCreated, setIsCreated] = useState<boolean>(false)
   useEffect(() => {
 
   }, [])
@@ -61,7 +61,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
       return
     }
 
-  }, [ file, path ])
+  }, [file, path])
 
   /**
    * onClickOpenComment()
@@ -120,7 +120,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
       }
     }
 
-  }, [ pk ])
+  }, [pk])
 
 
   /**
@@ -161,31 +161,31 @@ const CommentsContainer = ({ children, pk }: Props) => {
       }
     }
 
-  }, [ text, file, pk, path, textBoxRef, isCreated ])
+  }, [text, file, pk, path, textBoxRef, isCreated])
 
   return (
 
       <WhiteWrapDiv>
-        <hr style={{ border: 'solid 0.5px #d3d3d3', marginBottom: 14, marginTop: 20 }}/>
-        <p className="p-bold" style={{ fontSize: 14, marginBottom: 8, display: 'inline-block', marginRight: 12 }}>·
+        <hr style={{border: 'solid 0.5px #d3d3d3', marginBottom: 14, marginTop: 20}}/>
+        <p className="p-bold" style={{fontSize: 14, marginBottom: 8, display: 'inline-block', marginRight: 12}}>·
           댓글</p>
-        <img src={isOpen ? IC_UP : IC_DOWN} style={{ float: 'right', width: 19 }} onClick={() => {
+        <img src={isOpen ? IC_UP : IC_DOWN} style={{float: 'right', width: 19}} onClick={() => {
           setIsOpen(!isOpen)
           onClickOpenComment(pk)
         }}/>
 
         {
           isOpen ?
-              <div style={{ marginTop: 12 }}>
-                <div style={{ width: '100%', textAlign: 'left', color: '#252525', marginBottom: 14 }}>
+              <div style={{marginTop: 12}}>
+                <div style={{width: '100%', textAlign: 'left', color: '#252525', marginBottom: 14}}>
                   {replyList.map((v, i) => {
                     return (
                         <CommentList contents={v} onClickEvent={onClickDeleteComment}/>
                     )
                   })}
                 </div>
-                <hr style={{ border: 'solid 0.5px #d3d3d3', marginBottom: 14, marginTop: 14 }}/>
-                <div style={{ width: '100%' }}>
+                <hr style={{border: 'solid 0.5px #d3d3d3', marginBottom: 14, marginTop: 14}}/>
+                <div style={{width: '100%'}}>
                   {
                     isCreated ?
                         <div style={{
@@ -210,15 +210,15 @@ const CommentsContainer = ({ children, pk }: Props) => {
                       </textarea>
                   }
 
-                  <div style={{ textAlign: 'right', marginTop: 12, marginBottom: 12 }}>
-                    <span style={{ marginRight: 10, fontSize: 14 }}>{file !== null ? file.name : ''}</span>
-                    <LabelBox htmlFor={'file'} style={{ cursor: 'pointer' }}>파일 선택</LabelBox>
+                  <div style={{textAlign: 'right', marginTop: 12, marginBottom: 12}}>
+                    <span style={{marginRight: 10, fontSize: 14}}>{file !== null ? file.name : ''}</span>
+                    <LabelBox htmlFor={'file'} style={{cursor: 'pointer'}}>파일 선택</LabelBox>
                     <ButtonBox onClick={(e) => {
                       addComment(e, pk)
                     }}>댓글등록</ButtonBox>
                   </div>
                 </div>
-                <input type="file" name="file" id={'file'} style={{ display: 'none' }} onChange={addFile}/>
+                <input type="file" name="file" id={'file'} style={{display: 'none'}} onChange={addFile}/>
               </div>
               :
               null}

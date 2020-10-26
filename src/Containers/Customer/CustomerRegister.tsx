@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, postRequest } from '../../Common/requestFunctions';
-import { uploadTempFile } from '../../Common/fileFuctuons';
+import {getToken} from '../../Common/tokenFunctions';
+import {getParameter, postRequest} from '../../Common/requestFunctions';
+import {uploadTempFile} from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 import RadioInput from '../../Components/Input/RadioInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
-import { useHistory } from 'react-router-dom'
-import { API_URLS, getCustomerData } from "../../Api/mes/customer";
+import {useHistory} from 'react-router-dom'
+import {API_URLS, getCustomerData} from "../../Api/mes/customer";
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import Styled from "styled-components";
 import client from "../../Api/configs/basic";
@@ -26,32 +26,32 @@ interface Props {
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const CustomerRegister = ({ match }: Props) => {
+const CustomerRegister = ({match}: Props) => {
 
   console.log(match)
 
   const history = useHistory()
 
-  const [ pk, setPk ] = useState<string>('');
-  const [ name, setName ] = useState<string>('');
-  const [ no, setNo ] = useState<number>();
-  const [ type, setType ] = useState<string>('0'); //0: 법인, 1:개인
-  const [ phone, setPhone ] = useState<string>('');
-  const [ address, setAddress ] = useState<{ postcode: string, roadAddress: string, detail: string }>(
-      { postcode: '', roadAddress: '', detail: '' }
+  const [pk, setPk] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [no, setNo] = useState<number>();
+  const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<{ postcode: string, roadAddress: string, detail: string }>(
+      {postcode: '', roadAddress: '', detail: ''}
   );
-  const [ fax, setFax ] = useState<number>();
-  const [ phoneM, setPhoneM ] = useState<string>('');
-  const [ emailM, setEmailM ] = useState<string>('');
-  const [ email, setEmail ] = useState<string>('');
-  const [ manager, setManager ] = useState<string>('');
-  const [ ceo, setCeo ] = useState<string>('');
-  const [ infoList, setInfoList ] = useState<IInfo[]>([]);
+  const [fax, setFax] = useState<number>();
+  const [phoneM, setPhoneM] = useState<string>('');
+  const [emailM, setEmailM] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [manager, setManager] = useState<string>('');
+  const [ceo, setCeo] = useState<string>('');
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
 
-  const [ paths, setPaths ] = useState<any[1]>([ null ]);
-  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ]);
+  const [paths, setPaths] = useState<any[1]>([null]);
+  const [oldPaths, setOldPaths] = useState<any[1]>([null]);
 
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const CustomerRegister = ({ match }: Props) => {
       setType(res.type);
       setPk(res.pk);
       setCeo(res.ceo_name);
-      setOldPaths([ res.photo ])
+      setOldPaths([res.photo])
       setPhone(res.telephone);
       setEmailM(res.manager_email);
       setPhoneM(res.manager_phone)
@@ -132,10 +132,10 @@ const CustomerRegister = ({ match }: Props) => {
       setEmail(res.ceo_email)
 
       setInfoList(res.info_list)
-      setAddress(res.address ? res.address : { roadAddress: '', detail: '', postcode: '' });
+      setAddress(res.address ? res.address : {roadAddress: '', detail: '', postcode: ''});
       setFax(res.fax);
     }
-  }, [ pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax ])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax])
 
   /**
    * onsubmitFormUpdate()
@@ -191,7 +191,7 @@ const CustomerRegister = ({ match }: Props) => {
       history.push('/customer/current/list')
     }
 
-  }, [ pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager ])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
 
   /**
    * onsubmitForm()
@@ -254,7 +254,7 @@ const CustomerRegister = ({ match }: Props) => {
       }
     }
 
-  }, [ pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager ])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
 
 
   return (
@@ -265,7 +265,7 @@ const CustomerRegister = ({ match }: Props) => {
           <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
           <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
           <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                      contents={[ { value: 0, title: '법인' }, { value: 1, title: '개인' } ]}/>
+                      contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
 
           {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
           <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
@@ -275,10 +275,10 @@ const CustomerRegister = ({ match }: Props) => {
           <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
                            onChangeEvent={(e) => addFiles(e, 0)}
                            description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
-                           style={{ width: 'calc(100% - 124px)' }}/>
+                           style={{width: 'calc(100% - 124px)'}}/>
           {
             isUpdate ?
-                <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={[ '' ]} isImage={true}/>
+                <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
                 :
                 null
           }
@@ -325,7 +325,7 @@ const CustomerRegister = ({ match }: Props) => {
               </FullAddInput>
 
             */}
-          <div style={{ marginTop: 72, marginLeft: 340 }}>
+          <div style={{marginTop: 72, marginLeft: 340}}>
             {isUpdate ?
                 <ButtonWrap onClick={async () => {
                   await onsubmitFormUpdate()
@@ -336,7 +336,7 @@ const CustomerRegister = ({ match }: Props) => {
                     boxSizing: 'border-box',
                     paddingTop: '9px'
                   }}>
-                    <p style={{ fontSize: 18 }}>수정하기</p>
+                    <p style={{fontSize: 18}}>수정하기</p>
                   </div>
                 </ButtonWrap>
                 :
@@ -349,7 +349,7 @@ const CustomerRegister = ({ match }: Props) => {
                     boxSizing: 'border-box',
                     paddingTop: '9px'
                   }}>
-                    <p style={{ fontSize: 18 }}>등록하기</p>
+                    <p style={{fontSize: 18}}>등록하기</p>
                   </div>
                 </ButtonWrap>
             }

@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react';
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
 import RegisterButton from '../../Components/Button/RegisterButton';
 import NormalFileInput from '../../Components/Input/NormalFileInput';
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
-import { uploadTempFile } from '../../Common/fileFuctuons';
+import {getToken} from '../../Common/tokenFunctions';
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
+import {uploadTempFile} from '../../Common/fileFuctuons';
 import ListHeader from '../../Components/Text/ListHeader';
 import OldFileInput from '../../Components/Input/OldFileInput';
 import RadioInput from '../../Components/Input/RadioInput';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import NormalAddressInput from "../../Components/Input/NormalAddressInput";
 import useObjectInput from "../../Functions/UseInput";
 import Styled from "styled-components";
@@ -20,29 +20,29 @@ import client from "../../Api/configs/basic";
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const OutsourcingRegister = ({ match }: any) => {
+const OutsourcingRegister = ({match}: any) => {
   const history = useHistory()
 
-  const [ pk, setPk ] = useState<string>('');
-  const [ name, setName ] = useState<string>('');
-  const [ no, setNo ] = useState<number>();
-  const [ type, setType ] = useState<string>('0'); //0: 법인, 1:개인
-  const [ phone, setPhone ] = useState<string>('');
-  const [ address, setAddress ] = useState<string>('');
-  const [ fax, setFax ] = useState<string>('');
-  const [ phoneM, setPhoneM ] = useState<string>('');
-  const [ emailM, setEmailM ] = useState<string>('');
-  const [ email, setEmail ] = useState<string>('');
-  const [ manager, setManager ] = useState<string>('');
-  const [ ceo, setCeo ] = useState<string>('');
-  const [ infoList, setInfoList ] = useState<IInfo[]>([]);
+  const [pk, setPk] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [no, setNo] = useState<number>();
+  const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [fax, setFax] = useState<string>('');
+  const [phoneM, setPhoneM] = useState<string>('');
+  const [emailM, setEmailM] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [manager, setManager] = useState<string>('');
+  const [ceo, setCeo] = useState<string>('');
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
 
-  const [ paths, setPaths ] = useState<any[1]>([ null ]);
-  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ]);
+  const [paths, setPaths] = useState<any[1]>([null]);
+  const [oldPaths, setOldPaths] = useState<any[1]>([null]);
 
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
-  const [ inputData, setInputData ] = useObjectInput('CHANGE', {
+  const [inputData, setInputData] = useObjectInput('CHANGE', {
     name: '',
     description: '',
     location: {
@@ -112,7 +112,7 @@ const OutsourcingRegister = ({ match }: any) => {
    */
   const getData = useCallback(async () => {
 
-    const res = await postRequest(`${client}/v1/outsourcing/load`, { pk: match.params.pk }, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -125,7 +125,7 @@ const OutsourcingRegister = ({ match }: any) => {
         setType(data.type);
         setPk(data.pk);
         setCeo(data.ceo_name);
-        setPaths([ data.photo_url === '-' ? null : data.photo_url ])
+        setPaths([data.photo_url === '-' ? null : data.photo_url])
         setPhone(data.telephone);
         setEmailM(data.manager_email);
         setPhoneM(data.manager_phone)
@@ -140,7 +140,7 @@ const OutsourcingRegister = ({ match }: any) => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, inputData ])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, inputData])
 
   /**
    * onsubmitFormUpdate()
@@ -201,7 +201,7 @@ const OutsourcingRegister = ({ match }: any) => {
       }
     }
 
-  }, [ pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData ])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData])
 
   /**
    * onsubmitForm()
@@ -262,7 +262,7 @@ const OutsourcingRegister = ({ match }: any) => {
       }
     }
 
-  }, [ pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData ])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData])
 
 
   return (
@@ -273,7 +273,7 @@ const OutsourcingRegister = ({ match }: any) => {
           <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
           <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
           <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                      contents={[ { value: 0, title: '법인' }, { value: 1, title: '개인' } ]}/>
+                      contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
           <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
                              description={'사업자 번호를 입력하세요 (-제외)'}/>
           <br/>
@@ -283,7 +283,7 @@ const OutsourcingRegister = ({ match }: any) => {
                            description={isUpdate ? paths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}/>
           {
             isUpdate ?
-                <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={[ '' ]} isImage={true}/>
+                <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={['']} isImage={true}/>
                 :
                 null
           }
@@ -329,22 +329,22 @@ const OutsourcingRegister = ({ match }: any) => {
 
             */}
           {isUpdate ?
-              <div style={{ marginTop: 40, marginLeft: 340 }}>
+              <div style={{marginTop: 40, marginLeft: 340}}>
                 <ButtonWrap onClick={async () => {
                   await onsubmitFormUpdate()
                 }}>
-                  <div style={{ width: 360, height: 40 }}>
-                    <p style={{ fontSize: 18, marginTop: 15 }}>수정하기</p>
+                  <div style={{width: 360, height: 40}}>
+                    <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
                   </div>
                 </ButtonWrap>
               </div>
               :
-              <div style={{ marginTop: 40, marginLeft: 340 }}>
+              <div style={{marginTop: 40, marginLeft: 340}}>
                 <ButtonWrap onClick={async () => {
                   await onsubmitForm()
                 }}>
-                  <div style={{ width: 360, height: 40 }}>
-                    <p style={{ fontSize: 18, marginTop: 15 }}>등록하기</p>
+                  <div style={{width: 360, height: 40}}>
+                    <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
                   </div>
                 </ButtonWrap>
               </div>

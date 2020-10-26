@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import { getToken } from '../../Common/tokenFunctions'
-import { getRequest } from '../../Common/requestFunctions'
-import { useHistory } from 'react-router-dom'
-import { TOKEN_NAME } from '../../Common/configset'
+import {getToken} from '../../Common/tokenFunctions'
+import {getRequest} from '../../Common/requestFunctions'
+import {useHistory} from 'react-router-dom'
+import {TOKEN_NAME} from '../../Common/configset'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import * as _ from 'lodash'
 import DateInput from '../../Components/Input/DateInput'
@@ -11,11 +11,11 @@ import ListHeader from '../../Components/Text/ListHeader'
 import client from "../../Api/configs/basic";
 
 const dummy = [
-  { title: '이름...', type: 0, data: '', pk: 'qwdefgr' },
-  { title: '이름...', type: 1, data: '', pk: 'wdqefgrt' },
-  { title: '이름...', type: 1, data: '', pk: 'wqdefrgtr' },
-  { title: '이름...', type: 0, data: '', pk: 'qdwefgr' },
-  { title: '이름...', type: 0, data: '', pk: 'qdwefgr' },
+  {title: '이름...', type: 0, data: '', pk: 'qwdefgr'},
+  {title: '이름...', type: 1, data: '', pk: 'wdqefgrt'},
+  {title: '이름...', type: 1, data: '', pk: 'wqdefrgtr'},
+  {title: '이름...', type: 0, data: '', pk: 'qdwefgr'},
+  {title: '이름...', type: 0, data: '', pk: 'qdwefgr'},
 ]
 
 interface Props {
@@ -25,10 +25,10 @@ interface Props {
   onChangeOptional: any,
 }
 
-const DocumentFormatInputList = ({ pk, loadDataUrl, onChangeEssential, onChangeOptional }: Props) => {
+const DocumentFormatInputList = ({pk, loadDataUrl, onChangeEssential, onChangeOptional}: Props) => {
 
-  const [ essential, setEssential ] = useState<any[]>([])
-  const [ optional, setOptional ] = useState<any[]>([])
+  const [essential, setEssential] = useState<any[]>([])
+  const [optional, setOptional] = useState<any[]>([])
 
   const history = useHistory()
 
@@ -58,23 +58,23 @@ const DocumentFormatInputList = ({ pk, loadDataUrl, onChangeEssential, onChangeO
     } else {
       if (res.status === 200 || res.status === '200') {
         setEssential(res.results.essential.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: '', title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: '', title: v.item_name})
         }))
         setOptional(res.results.optional.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: '', title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: '', title: v.item_name})
         }))
         onChangeEssential(res.results.essential.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: '', title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: '', title: v.item_name})
         }))
         onChangeOptional(res.results.optional.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: '', title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: '', title: v.item_name})
         }))
       } else {
         //TODO:  기타 오류
         //alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
       }
     }
-  }, [ essential, optional ])
+  }, [essential, optional])
 
   const getUpdateData = useCallback(async () => {
     ////alert(pk)
@@ -87,23 +87,23 @@ const DocumentFormatInputList = ({ pk, loadDataUrl, onChangeEssential, onChangeO
     } else {
       if (res.status === 200 || res.status === '200') {
         setEssential(res.results.essential.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: v.value, title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})
         }))
         setOptional(res.results.optional.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: v.value, title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})
         }))
         onChangeEssential(res.results.essential.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: v.value, title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})
         }))
         onChangeOptional(res.results.optional.map((v) => {
-          return ({ id: v.pk, type: v.validation1, data: v.value, title: v.item_name })
+          return ({id: v.pk, type: v.validation1, data: v.value, title: v.item_name})
         }))
       } else {
         //TODO:  기타 오류
         //alert('[STATUS EEROR] 문서 항목 조회가 불가능합니다.')
       }
     }
-  }, [ essential, optional ])
+  }, [essential, optional])
 
 
   return (

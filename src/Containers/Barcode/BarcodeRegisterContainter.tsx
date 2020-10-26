@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
-import { POINT_COLOR } from '../../Common/configset'
-import { API_URLS, getBarcode, postBarcode } from '../../Api/mes/barcode'
+import {Input} from 'semantic-ui-react'
+import {POINT_COLOR} from '../../Common/configset'
+import {API_URLS, getBarcode, postBarcode} from '../../Api/mes/barcode'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import Old_BasicBarcodePickerModal from '../../Components/Modal/Old_BasicBarcodePickerModal'
 import ListHeader from '../../Components/Text/ListHeader'
@@ -15,23 +15,23 @@ import WhiteBoxContainer from '../WhiteBoxContainer'
 import InnerBodyContainer from '../InnerBodyContainer'
 import InputContainer from '../InputContainer'
 import DropdownInput from '../../Components/Input/DropdownInput'
-import { getBarcodeTypeList } from '../../Common/codeTransferFunctions'
+import {getBarcodeTypeList} from '../../Common/codeTransferFunctions'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput'
-import { getReadyTimeData } from '../../Api/pm/statistics'
-import { getParameter } from '../../Common/requestFunctions'
-import { useHistory } from 'react-router-dom'
+import {getReadyTimeData} from '../../Api/pm/statistics'
+import {getParameter} from '../../Common/requestFunctions'
+import {useHistory} from 'react-router-dom'
 import client from "../../Api/configs/basic";
 
 
-const indexList = [ '기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트' ]
-const indexType = [ 'machine', 'device', 'mold', 'material', 'voucher' ]
+const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트']
+const indexType = ['machine', 'device', 'mold', 'material', 'voucher']
 const indexBarcodeType = getBarcodeTypeList('kor')
-const BarcodeType = [ 'barcode' ]
+const BarcodeType = ['barcode']
 
 const initialData = {
   barcode_name: '',
-  item_type: { main_type: '', detail_type: '' },
+  item_type: {main_type: '', detail_type: ''},
   item_pk: '',
   barcode_type: 'barcode',
   barcode_number: 0,
@@ -43,21 +43,21 @@ interface Props {
   match: any
 }
 
-const BarcodeRegisterContainer = ({ match }: Props) => {
+const BarcodeRegisterContainer = ({match}: Props) => {
 
   const history = useHistory()
 
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
-  const [ reason, setReason ] = useState('')
-  const [ barcodeImg, setBarcodeImg ] = useState('')
-  const [ type, setType ] = useState<number>(-1)
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [reason, setReason] = useState('')
+  const [barcodeImg, setBarcodeImg] = useState('')
+  const [type, setType] = useState<number>(-1)
   const textBoxRef = useRef(null)
 
 
-  const [ rules, setRules ] = useState<string[]>([ '' ])
-  const [ inputData, setInputData ] = useObjectInput('CHANGE', initialData)
+  const [rules, setRules] = useState<string[]>([''])
+  const [inputData, setInputData] = useObjectInput('CHANGE', initialData)
 
-  const [ selectMachine, setSelectMachine ] = useState<{ name?: string, pk?: string }>()
+  const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
 
   const getBarcodeImg = useCallback(async () => {
     const tempUrl = `${API_URLS['barcode'].upload}?barcode_number=${rules.toString()}&barcode_type=${BarcodeType[0]}`
@@ -65,7 +65,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
     console.log(resultData)
 
     setBarcodeImg(`${client}/v1/barcode/previewImg?barcode_img_name=` + resultData.barcode_photo)
-  }, [ rules, barcodeImg ])
+  }, [rules, barcodeImg])
 
   const getLoad = useCallback(async () => {
     const tempUrl = `${API_URLS['barcode'].detailInfo}?barcode_pk=${match.params.barcode_pk}`
@@ -73,19 +73,19 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
 
     setType(indexList.indexOf(resultData.main_type))
     setInputData('barcode_name', resultData.barcode_name)
-    setSelectMachine({ name: resultData.detail_type, pk: resultData.item_pk })
+    setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
     setRules(resultData.barcode_number.split(','))
     setBarcodeImg(resultData.barcode_img_url)
     setReason(resultData.description)
 
-  }, [ inputData, rules, barcodeImg, reason, type, selectMachine ])
+  }, [inputData, rules, barcodeImg, reason, type, selectMachine])
 
   const postBarcodeUpdate = useCallback(async () => {
 
     const data = {
       barcode_pk: match.params.barcode_pk,
       barcode_name: inputData.barcode_name,
-      item_type: { main_type: indexList[type], detail_type: selectMachine?.name },
+      item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
       item_pk: selectMachine?.pk,
       barcode_type: 'barcode',
       barcode_number: rules.toString(),
@@ -97,7 +97,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
     const resultData = await postBarcode(tempUrl, data)
 
     history.goBack()
-  }, [ inputData, selectMachine, rules, barcodeImg, reason, type ])
+  }, [inputData, selectMachine, rules, barcodeImg, reason, type])
 
   const postBarcodeRegister = useCallback(async () => {
 
@@ -119,7 +119,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
 
     const data = {
       barcode_name: inputData.barcode_name,
-      item_type: { main_type: indexList[type], detail_type: selectMachine?.name },
+      item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
       item_pk: selectMachine?.pk,
       barcode_type: 'barcode',
       barcode_number: rules.toString(),
@@ -136,7 +136,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
       alert('바코드 등록에 실패하였습니다.')
     }
 
-  }, [ inputData, selectMachine, rules, barcodeImg, reason, type ])
+  }, [inputData, selectMachine, rules, barcodeImg, reason, type])
 
   const ruleLength = rules.toString().replace(',', '').length
 
@@ -152,7 +152,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
 
   useEffect(() => {
     console.log(selectMachine)
-  }, [ selectMachine ])
+  }, [selectMachine])
 
   return (
       <div>
@@ -224,7 +224,7 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
                     paddingLeft: 8,
                     fontSize: 14
                   }}/>
-                  <SearchButton style={{ flex: 15 }}
+                  <SearchButton style={{flex: 15}}
                                 onClick={() => (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? getBarcodeImg() : null}>
                     <p>바코드 번호 생성</p>
                   </SearchButton>
@@ -240,20 +240,20 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
               border: '1px solid #707070'
             }}>
               {barcodeImg === '' ?
-                  <p style={{ fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: 'center' }}>바코드 이미지가
+                  <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: 'center'}}>바코드 이미지가
                     없습니다.</p>
                   :
-                  <img src={`${barcodeImg}`} style={{ width: '100%', height: '100%', float: 'right' }}/>
+                  <img src={`${barcodeImg}`} style={{width: '100%', height: '100%', float: 'right'}}/>
               }
             </div>
             <ListHeader title="선택 항목"/>
             <InputContainer title={'바코드 설명'} width={180}>
               <textarea maxLength={120} ref={textBoxRef} onChange={(e) => setReason(e.target.value)} value={reason}
-                        style={{ border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)' }}
+                        style={{border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)'}}
                         placeholder="내용을 입력해주세요 (80자 미만)"/>
             </InputContainer>
           </div>
-          <div style={{ marginTop: 72, marginLeft: 330 }}>
+          <div style={{marginTop: 72, marginLeft: 330}}>
             {isUpdate ?
                 <ButtonWrap onClick={async () => {
                   try {
@@ -262,16 +262,16 @@ const BarcodeRegisterContainer = ({ match }: Props) => {
                     alert('새로운 바코드 규칙을 변경해주시고 바코드 번호를 생성해주세요.')
                   }
                 }}>
-                  <div style={{ width: 360, height: 46 }}>
-                    <p style={{ fontSize: 18, marginTop: 8 }}>수정하기</p>
+                  <div style={{width: 360, height: 46}}>
+                    <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
                   </div>
                 </ButtonWrap>
                 :
                 <ButtonWrap onClick={async () => {
                   await postBarcodeRegister()
                 }}>
-                  <div style={{ width: 360, height: 46 }}>
-                    <p style={{ fontSize: 18, marginTop: 8 }}>등록하기</p>
+                  <div style={{width: 360, height: 46}}>
+                    <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
                   </div>
                 </ButtonWrap>
             }

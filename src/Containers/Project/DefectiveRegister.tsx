@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { uploadTempFile } from "../../Common/fileFuctuons";
-import { API_URLS, getProjectList } from "../../Api/mes/production";
-import { getParameter, postRequest } from "../../Common/requestFunctions";
-import { getToken } from "../../Common/tokenFunctions";
-import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import {useHistory} from "react-router-dom";
+import {uploadTempFile} from "../../Common/fileFuctuons";
+import {API_URLS, getProjectList} from "../../Api/mes/production";
+import {getParameter, postRequest} from "../../Common/requestFunctions";
+import {getToken} from "../../Common/tokenFunctions";
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from "../../Components/Text/Header";
 import WhiteBoxContainer from "../WhiteBoxContainer";
 import ListHeader from "../../Components/Text/ListHeader";
@@ -32,22 +32,22 @@ interface Props {
 }
 
 
-const DefectiveRegisterContainer = ({ match }: Props) => {
+const DefectiveRegisterContainer = ({match}: Props) => {
 
   const history = useHistory()
-  const [ open, setOpen ] = useState<boolean>(false)
-  const [ selectHistory, setSelectHistory ] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
-  const [ selectMaterial, setSelectMaterial ] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
-  const [ selectMachine, setSelectMachine ] = useState<{ name?: string, pk?: string }>({ name: '', pk: '' })
-  const [ pk, setPk ] = useState<string>('');
-  const [ name, setName ] = useState<string>('');
-  const [ amount, setAmount ] = useState<number>();
-  const [ selectDate, setSelectDate ] = useState<string>(moment().format("YYYY-MM-DD"));
-  const [ reason, setReason ] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false)
+  const [selectHistory, setSelectHistory] = useState<{ name?: string, pk?: string }>({name: '', pk: ''})
+  const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>({name: '', pk: ''})
+  const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>({name: '', pk: ''})
+  const [pk, setPk] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [amount, setAmount] = useState<number>();
+  const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"));
+  const [reason, setReason] = useState<string>('');
   const textBoxRef = useRef(null);
-  const [ infoList, setInfoList ] = useState<IInfo[]>([]);
-  const [ paths, setPaths ] = useState<any[1]>([ null ]);
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
+  const [infoList, setInfoList] = useState<IInfo[]>([]);
+  const [paths, setPaths] = useState<any[1]>([null]);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -77,9 +77,9 @@ const DefectiveRegisterContainer = ({ match }: Props) => {
       //console.log('resresres------->', res)
 
       setPk(res.pk);
-      setSelectHistory({ name: res.history_name, pk: res.history_pk });
-      setSelectMachine({ name: res.machine_name, pk: res.machine_pk });
-      setSelectMaterial({ name: res.material_name, pk: res.material_pk });
+      setSelectHistory({name: res.history_name, pk: res.history_pk});
+      setSelectMachine({name: res.machine_name, pk: res.machine_pk});
+      setSelectMaterial({name: res.material_name, pk: res.material_pk});
       setName(res.checker);
       setAmount(res.amount);
       setSelectDate(res.date);
@@ -87,7 +87,7 @@ const DefectiveRegisterContainer = ({ match }: Props) => {
 
 
     }
-  }, [ pk, name, amount, paths ])
+  }, [pk, name, amount, paths])
 
   /**
    * onsubmitFormUpdate()
@@ -153,7 +153,7 @@ const DefectiveRegisterContainer = ({ match }: Props) => {
       history.goBack()
     }
 
-  }, [ pk, name, amount, paths, selectHistory, selectMaterial, selectMachine, selectDate, reason ])
+  }, [pk, name, amount, paths, selectHistory, selectMaterial, selectMachine, selectDate, reason])
 
   /**
    * onsubmitForm()
@@ -224,7 +224,7 @@ const DefectiveRegisterContainer = ({ match }: Props) => {
       }
     }
 
-  }, [ selectHistory, selectMaterial, selectMachine, name, amount, selectDate, reason ])
+  }, [selectHistory, selectMaterial, selectMachine, name, amount, selectDate, reason])
 
 
   return (
@@ -234,20 +234,20 @@ const DefectiveRegisterContainer = ({ match }: Props) => {
           <ListHeader title="필수 항목"/>
           <InputContainer title={"작업 이력"} width={120}>
             <HistoryPickerModal select={selectHistory}
-                                onClickEvent={(e) => setSelectHistory({ ...selectHistory, ...e })}
+                                onClickEvent={(e) => setSelectHistory({...selectHistory, ...e})}
                                 text={'작업자명을 검색해주세요.'} buttonWid={30}/>
           </InputContainer>
           <InputContainer title={"품목(품목명)"} width={120}>
             <ProductionPickerModal select={selectMaterial}
                                    onClickEvent={(e) => {
-                                     setSelectMaterial({ ...selectMaterial, ...e })
+                                     setSelectMaterial({...selectMaterial, ...e})
                                    }} text={"품목명을 검색해주세요."} type={1} buttonWid={30}/>
           </InputContainer>
           <InputContainer title={"기계"} width={120}>
             <MachinePickerModal select={
               selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
             } text={'기계명을 검색해 주세요'} onClickEvent={(e: { name?: string, pk?: string }) => {
-              setSelectMachine({ ...selectMachine, name: e.name, pk: e.pk })
+              setSelectMachine({...selectMachine, name: e.name, pk: e.pk})
             }} buttonWid={30}/>
           </InputContainer>
           <NormalInput title={'검수자'} value={name} onChangeEvent={setName} description={'검수자'} width={120}/>
@@ -263,31 +263,31 @@ const DefectiveRegisterContainer = ({ match }: Props) => {
               border: '0.5px solid #b3b3b3',
               height: 32
             }}>
-              <div style={{ width: '100%', display: 'table-cell' }}>
-                <div style={{ marginTop: 5 }}>
+              <div style={{width: '100%', display: 'table-cell'}}>
+                <div style={{marginTop: 5}}>
                   {
                     selectDate === ''
                         ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                        : <InputText style={{ color: '#111319' }}>&nbsp; {selectDate}</InputText>
+                        : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                   }
                 </div>
               </div>
               <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                 setSelectDate(select)
-              }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0 }}/>
+              }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
             </div>
           </InputContainer>
           <InputContainer title={"불량 사유"} width={120}>
             <textarea maxLength={160} ref={textBoxRef} onChange={(e) => setReason(e.target.value)}
-                      style={{ border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)' }}
+                      style={{border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)'}}
                       placeholder="내용을 입력해주세요 (80자 미만)" value={reason}/>
           </InputContainer>
-          <div style={{ marginTop: 40, display: 'flex', justifyContent: 'center' }}>
+          <div style={{marginTop: 40, display: 'flex', justifyContent: 'center'}}>
             <ButtonWrap onClick={async () => {
               await isUpdate ? onsubmitFormUpdate() : onsubmitForm()
             }}>
-              <div style={{ width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px' }}>
-                <p style={{ fontSize: 18 }}>{isUpdate ? '수정하기' : '등록하기'}</p>
+              <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                <p style={{fontSize: 18}}>{isUpdate ? '수정하기' : '등록하기'}</p>
               </div>
             </ButtonWrap>
           </div>

@@ -1,26 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import { BG_COLOR_SUB2, TOKEN_NAME } from '../../Common/configset'
+import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
-import { getToken } from '../../Common/tokenFunctions'
+import {getToken} from '../../Common/tokenFunctions'
 import 'react-dropdown/style.css'
 import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
 import SubNavigation from '../../Components/Navigation/SubNavigation'
-import { ROUTER_MENU_LIST } from '../../Common/routerset'
+import {ROUTER_MENU_LIST} from '../../Common/routerset'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import { getRequest, postRequest } from '../../Common/requestFunctions'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
 import SearchInputSmall from '../../Components/Input/SearchInputSmall'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink'
 import InfoTable from '../../Components/Table/InfoTable'
-import { machineCodeToName } from '../../Common/codeTransferFunctions'
+import {machineCodeToName} from '../../Common/codeTransferFunctions'
 
 
 const Old_ProductList = () => {
 
-  const [ list, setList ] = useState<IBarcode[]>([])
-  const [ option, setOption ] = useState(0)
-  const [ keyword, setKeyword ] = useState<string>('')
+  const [list, setList] = useState<IBarcode[]>([])
+  const [option, setOption] = useState(0)
+  const [keyword, setKeyword] = useState<string>('')
   const optionList = [
     '등록순', '이름순',
   ]
@@ -51,7 +51,7 @@ const Old_ProductList = () => {
         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [ list, option, keyword ])
+  }, [list, option, keyword])
 
 
   /**
@@ -73,7 +73,7 @@ const Old_ProductList = () => {
         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [ list, keyword, option ])
+  }, [list, keyword, option])
 
 
   /**
@@ -98,7 +98,7 @@ const Old_ProductList = () => {
         ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
       }
     }
-  }, [ option ])
+  }, [option])
 
   useEffect(() => {
     getList()
@@ -108,7 +108,7 @@ const Old_ProductList = () => {
 
   const onClickDelete = useCallback(async (id) => {
 
-    const results = await postRequest('http://255.255.255.255:8299/api/v1/barcode/product/delete', { material_pk: id }, getToken(TOKEN_NAME))
+    const results = await postRequest('http://255.255.255.255:8299/api/v1/barcode/product/delete', {material_pk: id}, getToken(TOKEN_NAME))
 
     const tg = id
     //console.log('--select id : ' + id)
@@ -124,7 +124,7 @@ const Old_ProductList = () => {
     }
 
 
-  }, [ list ])
+  }, [list])
 
 
   const onClickModify = useCallback((id) => {
@@ -138,10 +138,10 @@ const Old_ProductList = () => {
       <DashboardWrapContainer index={4}>
         <SubNavigation list={ROUTER_MENU_LIST[4]}/>
         <InnerBodyContainer>
-          <div style={{ position: 'relative' }}>
+          <div style={{position: 'relative'}}>
             <Header title={`상품 바코드 리스트 (${list.length})`}/>
 
-            <div style={{ position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4 }}>
+            <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
               <SmallButtonLink name="+ 등록하기" link="/connect/barcode"/>
               <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
             </div>

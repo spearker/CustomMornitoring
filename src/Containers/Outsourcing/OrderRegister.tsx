@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
 import RegisterButton from '../../Components/Button/RegisterButton'
-import { getToken } from '../../Common/tokenFunctions'
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
-import { uploadTempFile } from '../../Common/fileFuctuons'
+import {getToken} from '../../Common/tokenFunctions'
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
+import {uploadTempFile} from '../../Common/fileFuctuons'
 import ListHeader from '../../Components/Text/ListHeader'
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
 import InputContainer from '../InputContainer'
 import Styled from 'styled-components'
@@ -26,34 +26,34 @@ interface Props {
   // chilren: string;
 }
 
-const OutsourcingRegister = ({ match }: Props) => {
+const OutsourcingRegister = ({match}: Props) => {
   const history = useHistory()
 
-  const [ selectDate, setSelectDate ] = useState<string>('')
-  const [ pk, setPk ] = useState<string>('')
-  const [ name, setName ] = useState<string>('')
-  const [ no, setNo ] = useState<number>()
-  const [ type, setType ] = useState<number>(0) //0: 법인, 1:개인
-  const [ phone, setPhone ] = useState<string>('')
-  const [ address, setAddress ] = useState<string>('')
-  const [ fax, setFax ] = useState<string>('')
-  const [ phoneM, setPhoneM ] = useState<string>('')
-  const [ emailM, setEmailM ] = useState<string>('')
-  const [ email, setEmail ] = useState<string>('')
-  const [ manager, setManager ] = useState<string>('')
-  const [ ceo, setCeo ] = useState<string>('')
-  const [ infoList, setInfoList ] = useState<IInfo[]>([])
+  const [selectDate, setSelectDate] = useState<string>('')
+  const [pk, setPk] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [no, setNo] = useState<number>()
+  const [type, setType] = useState<number>(0) //0: 법인, 1:개인
+  const [phone, setPhone] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [fax, setFax] = useState<string>('')
+  const [phoneM, setPhoneM] = useState<string>('')
+  const [emailM, setEmailM] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [manager, setManager] = useState<string>('')
+  const [ceo, setCeo] = useState<string>('')
+  const [infoList, setInfoList] = useState<IInfo[]>([])
 
-  const [ paths, setPaths ] = useState<any[1]>([ null ])
-  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ])
+  const [paths, setPaths] = useState<any[1]>([null])
+  const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
 
-  const [ selectMaterial, setSelectMaterial ] = useState<{ name?: string, pk?: string }>()
-  const [ selectOutsource, setSelectOutsource ] = useState<{ name?: string, pk?: string }>()
-  const [ quantity, setQuantity ] = useState<number>()
-  const [ unpaid, setUnpaid ] = useState<number>()
-  const [ paymentCondition, setPaymentCondition ] = useState('')
-  const [ inputData, setInputData ] = useObjectInput('CHANGE', {
+  const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
+  const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
+  const [quantity, setQuantity] = useState<number>()
+  const [unpaid, setUnpaid] = useState<number>()
+  const [paymentCondition, setPaymentCondition] = useState('')
+  const [inputData, setInputData] = useObjectInput('CHANGE', {
     name: '',
     description: '',
     location: {
@@ -64,7 +64,7 @@ const OutsourcingRegister = ({ match }: Props) => {
 
   })
 
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -132,8 +132,8 @@ const OutsourcingRegister = ({ match }: Props) => {
     } else {
       if (res.status === 200) {
         const data = res.results
-        setSelectOutsource({ name: data.company_name, pk: data.company_pk })
-        setSelectMaterial({ name: data.product, pk: data.product_pk })
+        setSelectOutsource({name: data.company_name, pk: data.company_pk})
+        setSelectMaterial({name: data.product, pk: data.product_pk})
         setInputData('location', data.address)
         setQuantity(data.quantity)
         setUnpaid(data.unpaid)
@@ -144,7 +144,7 @@ const OutsourcingRegister = ({ match }: Props) => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData ])
+  }, [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
 
   /**
    * onsubmitFormUpdate()
@@ -213,11 +213,11 @@ const OutsourcingRegister = ({ match }: Props) => {
       }
     }
 
-  }, [ pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData ])
+  }, [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
 
   useEffect(() => {
     console.log(selectMaterial)
-  }, [ selectMaterial ])
+  }, [selectMaterial])
   /**
    * onsubmitForm()
    * 기계 정보 등록
@@ -282,7 +282,7 @@ const OutsourcingRegister = ({ match }: Props) => {
       }
     }
 
-  }, [ selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData ])
+  }, [selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
 
 
   return (
@@ -293,13 +293,13 @@ const OutsourcingRegister = ({ match }: Props) => {
           <InputContainer title={'외주처 명'} width={120}>
             <OutsourcingPickerModal select={selectOutsource}
                                     onClickEvent={(e) => {
-                                      setSelectOutsource({ ...selectOutsource, ...e })
+                                      setSelectOutsource({...selectOutsource, ...e})
                                     }} text={'외주처 명을 검색해주세요.'}/>
           </InputContainer>
           <InputContainer title={'품목(품목명)'} width={120}>
             <ProductionPickerModal select={selectMaterial}
                                    onClickEvent={(e) => {
-                                     setSelectMaterial({ ...selectMaterial, ...e })
+                                     setSelectMaterial({...selectMaterial, ...e})
                                    }} text={'품목명을 검색해주세요.'} type={1}/>
           </InputContainer>
           <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity}
@@ -317,18 +317,18 @@ const OutsourcingRegister = ({ match }: Props) => {
               border: '0.5px solid #b3b3b3',
               height: 32
             }}>
-              <div style={{ width: 817, display: 'table-cell' }}>
-                <div style={{ marginTop: 5 }}>
+              <div style={{width: 817, display: 'table-cell'}}>
+                <div style={{marginTop: 5}}>
                   {
                     selectDate === ''
                         ? <InputText>&nbsp; 납기일을 선택해 주세요.</InputText>
-                        : <InputText style={{ color: '#111319' }}>&nbsp; {selectDate}</InputText>
+                        : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                   }
                 </div>
               </div>
               <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                 setSelectDate(select)
-              }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0 }}/>
+              }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
             </div>
           </InputContainer>
           <NormalAddressInput title={'공장 주소'} value={inputData.location}
@@ -361,22 +361,22 @@ const OutsourcingRegister = ({ match }: Props) => {
 
             */}
           {isUpdate ?
-              <div style={{ marginTop: 40, marginLeft: 340 }}>
+              <div style={{marginTop: 40, marginLeft: 340}}>
                 <ButtonWrap onClick={async () => {
                   await onsubmitFormUpdate()
                 }}>
-                  <div style={{ width: 360, height: 40 }}>
-                    <p style={{ fontSize: 18, marginTop: 15 }}>수정하기</p>
+                  <div style={{width: 360, height: 40}}>
+                    <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
                   </div>
                 </ButtonWrap>
               </div>
               :
-              <div style={{ marginTop: 40, marginLeft: 340 }}>
+              <div style={{marginTop: 40, marginLeft: 340}}>
                 <ButtonWrap onClick={async () => {
                   await onsubmitForm()
                 }}>
-                  <div style={{ width: 360, height: 40 }}>
-                    <p style={{ fontSize: 18, marginTop: 15 }}>등록하기</p>
+                  <div style={{width: 360, height: 40}}>
+                    <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
                   </div>
                 </ButtonWrap>
               </div>

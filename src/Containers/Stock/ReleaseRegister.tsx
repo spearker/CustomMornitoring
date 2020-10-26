@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
+import React, {useCallback, useEffect, useState} from 'react'
+import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import RegisterButton from '../../Components/Button/RegisterButton'
-import { getToken } from '../../Common/tokenFunctions'
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
-import { uploadTempFile } from '../../Common/fileFuctuons'
+import {getToken} from '../../Common/tokenFunctions'
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
+import {uploadTempFile} from '../../Common/fileFuctuons'
 import ListHeader from '../../Components/Text/ListHeader'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
 import moment from 'moment'
 import InputContainer from '../InputContainer'
 import Styled from 'styled-components'
 import useObjectInput from '../../Functions/UseInput'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
-import { transferStringToCode } from '../../Common/codeTransferFunctions'
+import {transferStringToCode} from '../../Common/codeTransferFunctions'
 import client from "../../Api/configs/basic";
 
 
@@ -41,43 +41,43 @@ interface Props {
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const ReleaseRegisterContainer = ({ match }: Props) => {
+const ReleaseRegisterContainer = ({match}: Props) => {
   const history = useHistory()
 
-  const [ selectDate, setSelectDate ] = useState<string>(moment().format('YYYY-MM-DD'))
-  const [ pk, setPk ] = useState<string>('')
-  const [ name, setName ] = useState<string>('')
-  const [ no, setNo ] = useState<number>()
-  const [ phone, setPhone ] = useState<string>('')
-  const [ address, setAddress ] = useState<string>('')
-  const [ fax, setFax ] = useState<string>('')
-  const [ phoneM, setPhoneM ] = useState<string>('')
-  const [ emailM, setEmailM ] = useState<string>('')
-  const [ email, setEmail ] = useState<string>('')
-  const [ manager, setManager ] = useState<string>('')
-  const [ ceo, setCeo ] = useState<string>('')
-  const [ infoList, setInfoList ] = useState<IInfo[]>([])
-  const [ typeList, setTypelist ] = useState<string[]>(typeDummy)
-  const [ stockList, setStockList ] = useState<string[]>(StockDummy)
-  const [ selectType, setSelectType ] = useState<string>()
-  const [ amount, setAmount ] = useState<number>()
+  const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
+  const [pk, setPk] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [no, setNo] = useState<number>()
+  const [phone, setPhone] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [fax, setFax] = useState<string>('')
+  const [phoneM, setPhoneM] = useState<string>('')
+  const [emailM, setEmailM] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [manager, setManager] = useState<string>('')
+  const [ceo, setCeo] = useState<string>('')
+  const [infoList, setInfoList] = useState<IInfo[]>([])
+  const [typeList, setTypelist] = useState<string[]>(typeDummy)
+  const [stockList, setStockList] = useState<string[]>(StockDummy)
+  const [selectType, setSelectType] = useState<string>()
+  const [amount, setAmount] = useState<number>()
 
-  const [ paths, setPaths ] = useState<any[1]>([ null ])
-  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ])
+  const [paths, setPaths] = useState<any[1]>([null])
+  const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
-  const [ selectMaterial, setSelectMaterial ] = useState<{ name?: string, pk?: string }>()
+  const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
 
   //생산품 검색
-  const [ isPoupup, setIsPoupup ] = useState<boolean>(false)
-  const [ isSearched, setIsSearched ] = useState<boolean>(false)
-  const [ keyword, setKeyword ] = useState<string>('')
-  const [ checkList, setCheckList ] = useState<IMaterial[]>([])
-  const [ list, setList ] = useState<IMaterial[]>([])
-  const [ searchList, setSearchList ] = useState<IMaterial[]>([])
+  const [isPoupup, setIsPoupup] = useState<boolean>(false)
+  const [isSearched, setIsSearched] = useState<boolean>(false)
+  const [keyword, setKeyword] = useState<string>('')
+  const [checkList, setCheckList] = useState<IMaterial[]>([])
+  const [list, setList] = useState<IMaterial[]>([])
+  const [searchList, setSearchList] = useState<IMaterial[]>([])
 
-  const [ inputData, setInputData ] = useObjectInput('CHANGE', {
+  const [inputData, setInputData] = useObjectInput('CHANGE', {
     name: '',
     description: '',
     location: {
@@ -134,7 +134,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
         //TODO:  기타 오류
       }
     }
-  }, [ keyword ])
+  }, [keyword])
 
   /**
    * addFiles()
@@ -196,7 +196,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
         setNo(Number(data.number))
         setPk(data.pk)
         setCeo(data.ceo)
-        setOldPaths([ data.photo ])
+        setOldPaths([data.photo])
         setPhone(data.telephone)
         setEmailM(data.manager_email)
         setPhoneM(data.manager_phone)
@@ -211,7 +211,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax ])
+  }, [pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax])
 
   /**
    * onsubmitFormUpdate()
@@ -265,7 +265,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
       }
     }
 
-  }, [ pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager ])
+  }, [pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
 
   /**
    * onsubmitForm()
@@ -341,7 +341,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
         }
       }
     }
-  }, [ selectType, amount, selectDate ])
+  }, [selectType, amount, selectDate])
 
 
   return (
@@ -356,7 +356,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
             paddingBottom: 17,
             verticalAlign: 'top'
           }}>
-            <p style={{ fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block' }}>· 출고
+            <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>· 출고
               구분</p>
             <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType}
                               contents={match.params.parts ? stockList : typeList} text={'출고 구분을 선택해 주세요'}
@@ -374,18 +374,18 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
               border: '0.5px solid #b3b3b3',
               height: 32
             }}>
-              <div style={{ width: 'calc(100% - 100px)', display: 'table-cell' }}>
-                <div style={{ marginTop: 5 }}>
+              <div style={{width: 'calc(100% - 100px)', display: 'table-cell'}}>
+                <div style={{marginTop: 5}}>
                   {
                     selectDate === ''
                         ? <InputText>&nbsp; 출고 날짜를 선택해 주세요.</InputText>
-                        : <InputText style={{ color: '#111319' }}>&nbsp; {selectDate}</InputText>
+                        : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                   }
                 </div>
               </div>
               <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                 setSelectDate(select)
-              }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0 }}/>
+              }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
             </div>
           </InputContainer>
           {/* 자유항목 입력 창
@@ -415,12 +415,12 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
               </FullAddInput>
 
             */}
-          <div style={{ marginTop: 40, marginLeft: 320 }}>
+          <div style={{marginTop: 40, marginLeft: 320}}>
             <ButtonWrap onClick={async () => {
               await onsubmitForm()
             }}>
-              <div style={{ width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px' }}>
-                <p style={{ fontSize: 18 }}>등록하기</p>
+              <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                <p style={{fontSize: 18}}>등록하기</p>
               </div>
             </ButtonWrap>
           </div>
