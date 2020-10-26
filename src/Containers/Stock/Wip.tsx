@@ -6,21 +6,21 @@ import {useHistory} from "react-router-dom"
 import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
-const SelectType = [0,10,30]
+const SelectType = [0, 10, 30]
 
 const WipContainer = () => {
 
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({ material_name: "품목(품목명)" });
-    const [subIndex, setSubIndex] = useState({ writer: '작성자' })
-    const [filter, setFilter] = useState(10)
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({material_name: "품목(품목명)"});
+    const [subIndex, setSubIndex] = useState({writer: '작성자'})
+    const [filter, setFilter] = useState(-1)
     const [type, setType] = useState(10)
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -29,7 +29,7 @@ const WipContainer = () => {
     const indexList = {
         wip: {
             material_name: "품목(품목명)",
-            material_type: ['자재 종류','반제품','완제품'],
+            material_type: ['자재 종류', '반제품', '공정품'],
             current_stock: "재고량",
             location_name: "보관장소",
             safe_stock: "안전재고",
@@ -40,10 +40,10 @@ const WipContainer = () => {
     const detailTitle = {
         wip: {
             writer: '작성자',
-            sortation:'구분' ,
-            stock_quantity:'수량',
-            before_quantity:'변경전 재고량',
-            date:'날짜',
+            sortation: '구분',
+            stock_quantity: '수량',
+            before_quantity: '변경전 재고량',
+            date: '날짜',
         },
     }
 
@@ -93,27 +93,26 @@ const WipContainer = () => {
     const detaildummy = [
         {
             writer: '김담당',
-            sortation:'정상 입고' ,
-            stock_quantity:'9,999,999,999',
-            before_quantity:'9,999,999,999',
-            date:'2020.08.09',
+            sortation: '정상 입고',
+            stock_quantity: '9,999,999,999',
+            before_quantity: '9,999,999,999',
+            date: '2020.08.09',
         },
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf',mold.pk,mold.mold_name);
-        if(mold.pk === selectPk){
+        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
             setSelectValue(null);
-        }else{
+        } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
             getData(mold.pk)
         }
-
 
 
     }, [list, selectPk]);
@@ -123,13 +122,19 @@ const WipContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+            Link: (v) => {
+                if(Number(v.current_stock) > 0){  
+                    history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+                } else {
+                    alert('출고할 수 있는 재고가 없습니다.')
+                }
+            }
         },
     ]
 
@@ -137,40 +142,40 @@ const WipContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/manageStock/register')
+            Link: () => history.push('/manageStock/register')
         },
         {
             Name: '삭제',
         }
     ]
 
-    const selectBox = useCallback((value)=>{
+    const selectBox = useCallback((value) => {
         console.log(value)
-        if(value === '반제품'){
+        if (value === '반제품') {
             setFilter(10)
-        } else if (value === '완제품'){
+        } else if (value === '공정품') {
             setFilter(15)
-        } else if (value === '자재 종류'){
+        } else if (value === '자재 종류') {
             setFilter(-1)
         }
 
-    },[filter])
+    }, [filter])
 
-    const getData = useCallback( async(pk)=>{
+    const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}`
         const res = await getStockList(tempUrl)
 
         setDetailList(res.logs)
 
-    },[detailList])
+    }, [detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
-        const getStock = res.info_list.map((v,i)=>{
+        const getStock = res.info_list.map((v, i) => {
             const material_type = transferCodeToName('material', v.material_type)
 
             return {...v, material_type: material_type}
@@ -179,18 +184,18 @@ const WipContainer = () => {
         setList(getStock)
 
 
-        setPage({ current: res.current_page, total: res.total_page })
-    },[list,type,filter])
+        setPage({current: res.current_page, total: res.total_page})
+    }, [list, type, filter])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[filter])
+    }, [filter])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["wip"])
         // setList(dummy)
@@ -198,7 +203,7 @@ const WipContainer = () => {
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['wip'])
-    },[])
+    }, [])
 
     return (
         <div>
@@ -211,7 +216,7 @@ const WipContainer = () => {
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

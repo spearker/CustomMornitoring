@@ -11,63 +11,63 @@ import client from "../Api/configs/basic";
 
 const FullSizeContainer = ({children}: any) => {
 
-  const dispatch = useUserDispatch()
-  const User = useUser()
-  /**
-   * loadUserInfo()
-   * : 유저 정보 로드 후 user info dispatch
-   * @returns X
-   */
-  const loadUserInfo = async () => {
+    const dispatch = useUserDispatch()
+    const User = useUser()
+    /**
+     * loadUserInfo()
+     * : 유저 정보 로드 후 user info dispatch
+     * @returns X
+     */
+    const loadUserInfo = async () => {
 
-    const results = await getRequest(`${client}/v1/user/load`, getToken(TOKEN_NAME))
+        const results = await getRequest(`${client}/v1/user/load`, getToken(TOKEN_NAME))
 
-    if (results === false) {
-      //TODO: 에러 처리
-    } else {
-      if (results.status === 200) {
-        dispatch({
-          type: 'SET_USER',
-          data: {
-            pk: results.results.pk,
-            email: results.results.email,
-            is_admin: results.results.is_admin,
-            appointment: results.results.appointment,
-            name: results.results.name,
-            profile_img: results.results.profile_img,
-            is_login: true,
-            company_name: results.results.company_name,
-          }
-        })
-      } else {
-        //TODO : 지울것
-        //alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
-      }
+        if (results === false) {
+            //TODO: 에러 처리
+        } else {
+            if (results.status === 200) {
+                dispatch({
+                    type: 'SET_USER',
+                    data: {
+                        pk: results.results.pk,
+                        email: results.results.email,
+                        is_admin: results.results.is_admin,
+                        appointment: results.results.appointment,
+                        name: results.results.name,
+                        profile_img: results.results.profile_img,
+                        is_login: true,
+                        company_name: results.results.company_name,
+                    }
+                })
+            } else {
+                //TODO : 지울것
+                //alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
+            }
+        }
     }
-  }
 
-  useEffect(() => {
+    useEffect(() => {
 
-    loadUserInfo()
+        loadUserInfo()
 
-  }, [loadUserInfo])
-
-
-  return (
-
-      <DashboardWrapDiv>
-        <DashboardNavigation folding={true}/>
-        <div style={{width: '100%', marginBottom: 88, textAlign: 'center'}}>
-          <SearchBarWrapDiv>
-          </SearchBarWrapDiv>
-          <div style={{minWidth: 1100}}>
-            {children}
-          </div>
-        </div>
-      </DashboardWrapDiv>
+    }, [loadUserInfo])
 
 
-  )
+    return (
+
+        <DashboardWrapDiv>
+            <DashboardNavigation folding={true}/>
+            <div style={{width: '100%', marginBottom: 88, textAlign: 'center'}}>
+                <SearchBarWrapDiv>
+                </SearchBarWrapDiv>
+                <div style={{minWidth: 1100}}>
+                    {children}
+                </div>
+            </div>
+        </DashboardWrapDiv>
+
+
+    )
 }
 
 const SearchBarWrapDiv = Styled.div`

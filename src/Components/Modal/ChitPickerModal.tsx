@@ -10,8 +10,8 @@ import {API_URLS, getSearchMachine} from "../../Api/mes/process";
 
 //드롭다운 컴포넌트
 
-interface IProps{
-    select?: { name?:string, pk?: string },
+interface IProps {
+    select?: { name?: string, pk?: string },
     onClickEvent: any
     text: string
     buttonWid?: string | number
@@ -40,34 +40,47 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
         const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
 
-        setMachineList(resultData.results)
+        setMachineList(resultData.info_list)
 
     }, [searchName])
 
     useEffect(() => {
         getList()
-    },[])
+    }, [])
 
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
+    useEffect(() => {
         console.log(select)
-    },[select])
+    }, [select])
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+                <BoxWrap onClick={() => {
+                    setIsOpen(true)
+                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                    <div style={{display: 'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {processName}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                            select && select.name ? <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5}}>&nbsp; {processName}</p>
+                                : <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
-                        <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
+                    <div style={{
+                        display: 'inline-block',
+                        backgroundColor: POINT_COLOR,
+                        width: buttonWid ? buttonWid : 32,
+                        height: buttonWid ? buttonWid : 32
+                    }}>
+                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
+                            setIsOpen(true)
+                        }}/>
                     </div>
 
                 </BoxWrap>
@@ -75,31 +88,32 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
             <Modal
                 isOpen={isOpen}
                 style={{
-                   content : {
-                       top                   : '50%',
-                       left                  : '50%',
-                       right                 : 'auto',
-                       bottom                : 'auto',
-                       marginRight           : '-50%',
-                       transform             : 'translate(-50%, -50%)',
-                       padding: 0
-                   },
-                   overlay:{
-                       background: 'rgba(0,0,0,.6)',
-                       zIndex: 5
-                   }
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        padding: 0
+                    },
+                    overlay: {
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
+                    }
                 }}
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 전표 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}}
+                                       onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY:"scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -109,31 +123,36 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        machineList !== undefined && machineList.length === 0 ?
+                                        machineList === undefined || machineList.length === 0 ?
                                             <tr>
-                                                <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                                <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                             </tr>
                                             :
-                                        machineList.map((v,i) => {
-                                            return(
-                                                <tr style={{height: 32}}>
-                                                    <td><span>{v.registerer}</span></td>
-                                                    <td><span>{v.supplier_name}</span></td>
-                                                    <td><span>{v.material_name}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setProcessName(v.registerer)
-                                                                return onClickEvent({name:v.registerer, pk: v.pk})
-                                                            }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
+                                            machineList.map((v, i) => {
+                                                return (
+                                                    <tr style={{height: 32}}>
+                                                        <td><span>{v.registerer}</span></td>
+                                                        <td><span>{v.supplier_name}</span></td>
+                                                        <td><span>{v.material_name}</span></td>
+                                                        <td>
+                                                            <button
+                                                                onClick={() => {
+                                                                    setProcessName(v.registerer)
+                                                                    return onClickEvent({name: v.registerer, pk: v.pk})
+                                                                }}
+                                                                style={{
+                                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                                                    width: 32,
+                                                                    height: 32,
+                                                                    margin: 0
+                                                                }}
+                                                            >
+                                                                <img src={ic_check} style={{width: 20, height: 20}}/>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
@@ -148,7 +167,9 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
                                 <span style={{color: '#666d79'}}>취소</span>
                             </div>
                         </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
                             <div>
                                 <span style={{color: 'black'}}>확인</span>
                             </div>

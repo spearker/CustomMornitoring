@@ -397,9 +397,19 @@ interface IProcessRegister {
   name: string
   processes: {
     machine_pk: string
-    mold_pk?: string
+    mold_pk?: string | null
   }[]
   description: string
+}
+
+interface OutsourcingName {
+  current_page:number
+  info_list: {
+    name: string
+    pk: string
+  }[]
+  total_number: number
+  total_page: number
 }
 
 interface ICustomerRegister {
@@ -426,17 +436,3 @@ interface PaginationInfo {
   current: number,
   total?: number,
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

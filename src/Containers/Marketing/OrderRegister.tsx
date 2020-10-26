@@ -74,7 +74,7 @@ const OrderRegisterContainer = () => {
                                         {
                                             orderData.material_name === ''
                                                 ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
-                                                :<InputText style={{color: '#111319'}}>{orderData.customer_name}</InputText>
+                                                :<InputText style={{color: '#111319'}}>&nbsp;{orderData.customer_name}</InputText>
                                         }
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@ const OrderRegisterContainer = () => {
                                             {
                                                 orderData.material_name === ''
                                                     ?<InputText>&nbsp; 수주 리스트가 입력되면 자동 입력됩니다.</InputText>
-                                                    :<InputText style={{color: '#111319'}}>{orderData.material_name}</InputText>
+                                                    :<InputText style={{color: '#111319'}}>&nbsp;{orderData.material_name}</InputText>
                                             }
                                         </div>
                                     </div>
@@ -153,7 +153,11 @@ const OrderRegisterContainer = () => {
                 </div>
                 <div style={{marginTop: 40}}>
                     <ButtonWrap onClick={async () => {
-                        await postContractRegisterData()
+                        if(orderData.pk === ""){
+                            alert("필수항목입니다. 필수항목을 추가해주세요.")
+                        }else{
+                            await postContractRegisterData()
+                        }
                     }}>
                         <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
                             <p style={{fontSize: 18}}>등록하기</p>

@@ -57,13 +57,13 @@ const AppBodyContainer = Styled.div`
     display: inline-block;
     width: 18px;
     height: 18px;
-    border: 1.5px solid #00000040;
+    border: 0/* 1.5px solid #00000040 */;
     border-radius: 4px;
     cursor: pointer;
   }
   input[type="checkbox"]:checked + label {
     background: url(${Check}) left/18px no-repeat; 
-    border: 1.5px solid orange;
+    border: 0/* 1.5px solid orange */;
   }
   input[type="checkbox"] {
     display: none;

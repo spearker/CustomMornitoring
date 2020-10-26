@@ -5,7 +5,7 @@ import ProcessRegisterContainer from "../../Containers/Process/Register";
 
 const ProcessRegister = () => {
     return (
-        <DashboardWrapContainer index={'statistics'}>
+        <DashboardWrapContainer index={'process'}>
 
             <InnerBodyContainer>
                 <ProcessRegisterContainer/>

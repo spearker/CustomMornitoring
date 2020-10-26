@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useState,} from "react";
-import Styled from "styled-components";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
+import React, {useCallback, useEffect, useState,} from 'react'
+import Styled from 'styled-components'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import LineTable from '../../Components/Table/LineTable'
+import {API_URLS, getMoldData,} from '../../Api/pm/preservation'
 
 //금형 보전 관리
 
@@ -10,20 +10,20 @@ import {API_URLS, getMoldData,} from "../../Api/pm/preservation";
 //사용법 : https://www.npmjs.com/package/react-calendar
 const MoldMaintenanceContainer = () => {
 
-  const [list, setList] = useState<any[]>([]);
-  const [detailList,setDetailList] = useState<any>({
+  const [list, setList] = useState<any[]>([])
+  const [detailList, setDetailList] = useState<any>({
     max_count: 0,
     current_count: 0,
     percent: 0,
-    pk: ""
-  });
-  const [index, setIndex] = useState({mold_name: '금형 명'});
+    pk: ''
+  })
+  const [index, setIndex] = useState({mold_name: '금형 명'})
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
-  });
-  const [selectPk, setSelectPk ]= useState<any>(null);
-  const [selectMold, setSelectMold ]= useState<any>(null);
-  const [selectValue, setSelectValue ]= useState<any>(null);
+  })
+  const [selectPk, setSelectPk] = useState<any>(null)
+  const [selectMold, setSelectMold] = useState<any>(null)
+  const [selectValue, setSelectValue] = useState<any>(null)
 
   const indexList = {
     mold: {
@@ -33,96 +33,104 @@ const MoldMaintenanceContainer = () => {
     }
   }
 
-  const getData = useCallback( async(pk)=>{
+  const getData = useCallback(async (pk) => {
     //TODO: 성공시
     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
     const res = await getMoldData(tempUrl)
 
-    setDetailList(res)
+    setDetailList({
+      max_count: res.max_count ? res.max_count : 0,
+      current_count: res.current_count ? res.current_count : 0,
+      percent: res.percent !== 'NaN' ? res.percent : 0,
+      pk: res.pk ? res.pk : ''
+    })
 
-  },[])
+  }, [])
 
   const onClick = useCallback((mold) => {
-    console.log('dsfewfewf',mold.pk,mold.mold_name);
-    if(mold.pk === selectPk){
-      setSelectPk(null);
-      setSelectMold(null);
-      setSelectValue(null);
-    }else{
-      setSelectPk(mold.pk);
-      setSelectMold(mold.mold_name);
+    console.log('dsfewfewf', mold.pk, mold.mold_name)
+    if (mold.pk === selectPk) {
+      setSelectPk(null)
+      setSelectMold(null)
+      setSelectValue(null)
+    } else {
+      setSelectPk(mold.pk)
+      setSelectMold(mold.mold_name)
       setSelectValue(mold)
       //TODO: api 요청
-      getData(mold.pk);
+      getData(mold.pk)
     }
-  }, [selectPk, getData]);
+  }, [selectPk, getData])
 
 
-  const getList = useCallback(async ()=>{ // useCallback
+  const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
     const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=15`
     const res = await getMoldData(tempUrl)
 
     setList(res.info_list)
 
-    setPage({ current: res.current_page, total: res.total_page })
-  },[list,page])
+    setPage({current: res.current_page, total: res.total_page})
+  }, [list, page])
 
-  useEffect(()=>{
+  useEffect(() => {
     getList()
-    setIndex(indexList["mold"])
-  },[])
+    setIndex(indexList['mold'])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     getList()
-  },[page.current])
+  }, [page.current])
 
   return (
-      <OvertonTable
-          title={'금형 수명 주기'}
-          indexList={index}
-          valueList={list}
-          clickValue={selectValue}
-          currentPage={page.current}
-          totalPage={page.total}
-          pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
-          mainOnClickEvent={onClick}>
-        {
-          selectPk !== null ?
-              <LineTable title={selectMold+' 수명 주기'}>
-                {
-                  <CountingContainer>
-                    <div>
-                      <p>타수 카운팅</p>
-                      <p style={{width: '180%'}}>{(detailList.max_count-detailList.current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}회 남음</p>
-                    </div>
-                    <div>
-                      <MoldMaxBar>
-                        <div style={{width: (100 <detailList.percent ? 100 : detailList.percent)+"%" }}>
+    <OvertonTable
+      title={'금형 수명 주기'}
+      indexList={index}
+      valueList={list}
+      clickValue={selectValue}
+      currentPage={page.current}
+      totalPage={page.total}
+      pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+      mainOnClickEvent={onClick}>
+      {
+        selectPk !== null ?
+          <LineTable title={selectMold + ' 수명 주기'}>
+            {
+              <CountingContainer>
+                <div>
+                  <p>타수 카운팅</p>
+                  <p
+                    style={{width: '180%'}}>{(detailList.max_count - detailList.current_count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}회
+                    남음</p>
+                </div>
+                <div>
+                  <MoldMaxBar>
+                    <div
+                      style={{width: (100 < detailList.percent ? 100 : detailList.percent) + '%'}}>
 
-                        </div>
-                      </MoldMaxBar>
-                      <CountingNum>
-                        {[0,1,2,3,4,5].map((v, i)=>{
-
-                          const value = v*=(detailList.max_count/5)
-                          return(
-                              <span>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
-                          )
-                        })}
-                      </CountingNum>
-                      <div style={{display: "flex",justifyContent:"flex-end"}}>
-                        <span>(회)</span>
-                      </div>
                     </div>
-                  </CountingContainer>
-                }
-              </LineTable>
-              :
-              null
-        }
-      </OvertonTable>
-  );
+                  </MoldMaxBar>
+                  <CountingNum>
+                    {[0, 1, 2, 3, 4, 5].map((v, i) => {
+
+                      const value = v *= (detailList.max_count / 5)
+                      return (
+                        <span>{value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                      )
+                    })}
+                  </CountingNum>
+                  <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <span>(회)</span>
+                  </div>
+                </div>
+              </CountingContainer>
+            }
+          </LineTable>
+          :
+          null
+      }
+    </OvertonTable>
+  )
 }
 
 const CountingContainer = Styled.div`
@@ -163,4 +171,4 @@ const CountingNum = Styled.p`
    }
 `
 
-export default MoldMaintenanceContainer;
+export default MoldMaintenanceContainer

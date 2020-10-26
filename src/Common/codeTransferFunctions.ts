@@ -1,31 +1,31 @@
-export const getMachineTypeList = (lang) =>{
-    switch(lang) {
+export const getMachineTypeList = (lang) => {
+    switch (lang) {
         case 'kor':
             return ['(선택없음)', '프레스', '로봇', '용접기', '밀링', '선반', '탭핑기']
         default:
             return ['(선택없음)', '프레스', '로봇', '용접기', '밀링', '선반', '탭핑기']
-      }
+    }
 }
 
-export const getSubMachineTypeList = (lang) =>{
-    switch(lang) {
+export const getSubMachineTypeList = (lang) => {
+    switch (lang) {
         case 'kor':
             return ['(선택없음)', '미스피드', '하사점 검출장치', '로드모니터', '앵글시퀀서', '엔코더', '통과센서']
         default:
             return ['(선택없음)', '미스피드', '하사점 검출장치', '로드모니터', '앵글시퀀서', '엔코더', '통과센서']
-      }
+    }
 }
 
-export const getMaterialTypeList = (lang) =>{
-    switch(lang) {
+export const getMaterialTypeList = (lang) => {
+    switch (lang) {
         case 'kor':
-            return ['원자재', '부자재', '중간자재', '완제품']
+            return ['원자재', '부자재', '반제품', '완제품']
         default:
-            return ['원자재', '부자재', '중간자재', '완제품']
-      }
+            return ['원자재', '부자재', '반제품', '완제품']
+    }
 }
 
-export  const getPartsTypeList = (lang) => {
+export const getPartsTypeList = (lang) => {
     switch (lang) {
         case 'kor':
             return ['']
@@ -33,8 +33,6 @@ export  const getPartsTypeList = (lang) => {
             return ['']
     }
 }
-
-
 
 
 export const subMachineCodes = [
@@ -78,8 +76,8 @@ export const materialCodes = [
     {code: 1, name: '부자재'},
     {code: 4, name: 'LOT 자재'},
     {code: 10, name: '반제품'},
-    {code: 15, name: '완제품'},
-    {code: 30, name: '최종 생산품'},
+    {code: 15, name: '공정품'},
+    {code: 30, name: '완제품'},
 
 ]
 
@@ -105,24 +103,23 @@ export const keycamcodes = [
     {code: 3, name: '연속'},
 ]
 
-export const getMoldTypeList = (lang) =>{
-    switch(lang) {
+export const getMoldTypeList = (lang) => {
+    switch (lang) {
         case 'kor':
             return ['(선택없음)', '프레스 금형', '사출 금형', '단조 금형', '다이캐스팅', '고무 금형', '유리 금형', '분말야금', '요업 금형', '주조금형']
         default:
             return ['(선택없음)', '프레스 금형', '사출 금형', '단조 금형', '다이캐스팅', '고무 금형', '유리 금형', '분말야금', '요업 금형', '주조금형']
-      }
+    }
 }
 
-export const getBarcodeTypeList = (lang) =>{
-    switch(lang) {
+export const getBarcodeTypeList = (lang) => {
+    switch (lang) {
         case 'kor':
             return ['바코드 (기본)']
         default:
             return ['바코드 (기본)']
-      }
+    }
 }
-
 
 
 export const machineCodes = [
@@ -137,7 +134,7 @@ export const machineCodes = [
 
 
 export const unitCodes = [
-    {code: 0, name:''},
+    {code: 0, name: ''},
     {code: 1, name: '개'},
     {code: 2, name: '회'},
     {code: 3, name: '℃'},
@@ -151,96 +148,96 @@ export const unitCodes = [
 
 export const statusCodes = [
 
-    {code: 901, name:'가동시간', unit:0},
-    {code: 902, name:'비가동시간', unit:0},
-    {code: 903, name:'에러', unit:0},
-    {code: 904, name:'온도', unit:3},
-    {code: 905, name:'운전준비상태', unit:0},
-    {code: 906, name:'운전OK상태', unit:0},
-    {code: 101, name:'기계측정값', unit:0},
-    {code: 102, name:'spm', unit:0},
-    {code: 103, name:'키캠상태', unit:0},
-    {code: 104, name:'모터상태', unit:0},
-    {code: 105, name:'메인전류', unit:6},
-    {code: 106, name:'슬라이스전류', unit:6},
-    {code: 107, name:'VS(INVERTER)', unit:0},
-    {code: 108, name:'로드톤', unit:5},
-    {code: 109, name:'전체카운터', unit:0},
-    {code: 110, name:'종합카운터', unit:0},
-    {code: 111, name:'프리셋카운터', unit:0},
-    {code: 112, name:'Angle', unit:0},
-    {code: 113, name:'운전모드', unit:0},
-    {code: 114, name:'최고 측정값', unit:0},
-    {code: 115, name:'평균 측정값', unit:0},
+    {code: 901, name: '가동시간', unit: 0},
+    {code: 902, name: '비가동시간', unit: 0},
+    {code: 903, name: '에러', unit: 0},
+    {code: 904, name: '온도', unit: 3},
+    {code: 905, name: '운전준비상태', unit: 0},
+    {code: 906, name: '운전OK상태', unit: 0},
+    {code: 101, name: '기계측정값', unit: 0},
+    {code: 102, name: 'spm', unit: 0},
+    {code: 103, name: '키캠상태', unit: 0},
+    {code: 104, name: '모터상태', unit: 0},
+    {code: 105, name: '메인전류', unit: 6},
+    {code: 106, name: '슬라이스전류', unit: 6},
+    {code: 107, name: 'VS(INVERTER)', unit: 0},
+    {code: 108, name: '로드톤', unit: 5},
+    {code: 109, name: '전체카운터', unit: 0},
+    {code: 110, name: '종합카운터', unit: 0},
+    {code: 111, name: '프리셋카운터', unit: 0},
+    {code: 112, name: 'Angle', unit: 0},
+    {code: 113, name: '운전모드', unit: 0},
+    {code: 114, name: '최고 측정값', unit: 0},
+    {code: 115, name: '평균 측정값', unit: 0},
 
 ]
 
-export const transferCodeToName = (type, value) =>{
+export const transferCodeToName = (type, value) => {
 
     let str: string | undefined = '';
 
-    if(type === 'machine'){
-        machineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    if (type === 'machine') {
+        machineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type==='device'){
-        subMachineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'device') {
+        subMachineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type==='mold'){
-        moldCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'mold') {
+        moldCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'material'){
-        materialCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'material') {
+        materialCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'unit'){
-        statusCodes.forEach((v: {code: number, name: string, unit: number},i)=>{
-            if (v.code === value){
+    } else if (type === 'unit') {
+        statusCodes.forEach((v: { code: number, name: string, unit: number }, i) => {
+            if (v.code === value) {
                 const num = v.unit
-                unitCodes.forEach((v2: {code: number, name: string},i)=>{
-                    if (v2.code === num){
+                unitCodes.forEach((v2: { code: number, name: string }, i) => {
+                    if (v2.code === num) {
                         str = v2.name
                     }
                 })
             }
         })
-    }else if(type === 'title'){
-        statusCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'title') {
+        statusCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'barcode'){
-        barcodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'barcode') {
+        barcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'stock'){
-        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'stock') {
+        stockReasonCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'process'){
-        processcodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'process') {
+        processcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'keycam'){
-        keycamcodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'keycam') {
+        keycamcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
@@ -250,49 +247,49 @@ export const transferCodeToName = (type, value) =>{
 }
 
 
-
-export const transferStringToCode = (type, value) =>{
+export const transferStringToCode = (type, value) => {
 
     let num: number | undefined = 0;
 
-    if(type === 'machine'){
-        machineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    if (type === 'machine') {
+        machineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'device'){
-        subMachineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'device') {
+        subMachineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'mold'){
-        moldCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'mold') {
+        moldCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'material'){
+    } else if (type === 'material') {
 
-        materialCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+        materialCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'barcode'){
-        barcodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'barcode') {
+        barcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
-            }})
+            }
+        })
 
-    }else if(type === 'stock') {
+    } else if (type === 'stock') {
         stockReasonCodes.forEach((v: { code: number, name: string }, i) => {
             if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'process'){
+    } else if (type === 'process') {
         processcodes.forEach((v: { code: number, name: string }, i) => {
             if (v.name === value) {
                 num = v.code
@@ -304,47 +301,47 @@ export const transferStringToCode = (type, value) =>{
 }
 
 
-export const machineCodeToName = (type, value, leng) =>{
+export const machineCodeToName = (type, value, leng) => {
     let str: string | undefined = '';
-    if(type === 'machine'){
-        machineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    if (type === 'machine') {
+        machineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type==='submachine'){
-        subMachineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'submachine') {
+        subMachineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type==='mould'){
-        moldCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'mould') {
+        moldCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'material'){
-        materialCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'material') {
+        materialCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'barcode'){
-        barcodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'barcode') {
+        barcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === 'stock'){
-        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === 'stock') {
+        stockReasonCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
-    }else if(type === ''){
-        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.code === value){
+    } else if (type === '') {
+        stockReasonCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.code === value) {
                 str = v.name
             }
         })
@@ -354,47 +351,48 @@ export const machineCodeToName = (type, value, leng) =>{
 }
 
 
-
-export const machineStringToCode = (type, value, leng) =>{
+export const machineStringToCode = (type, value, leng) => {
 
     let num: number | undefined = 0;
 
-    if(type === 'machine'){
-        machineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    if (type === 'machine') {
+        machineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'submachine'){
-        subMachineCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'submachine') {
+        subMachineCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'mould'){
-        moldCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'mould') {
+        moldCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'material'){
+    } else if (type === 'material') {
 
-        materialCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+        materialCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
             }
         })
-    }else if(type === 'barcode'){
-        barcodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'barcode') {
+        barcodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
-            }})
+            }
+        })
 
-    }else if(type === 'stock'){
-        stockReasonCodes.forEach((v: {code: number, name: string},i)=>{
-            if (v.name === value){
+    } else if (type === 'stock') {
+        stockReasonCodes.forEach((v: { code: number, name: string }, i) => {
+            if (v.name === value) {
                 num = v.code
-            }})
+            }
+        })
 
     }
 

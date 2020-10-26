@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {API_URLS, getQualityList,postQualityRegister} from "../../Api/mes/quality";
+import {API_URLS, getQualityList, postQualityRegister} from "../../Api/mes/quality";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
@@ -11,13 +11,13 @@ const QualityTestList = () => {
     const [list, setList] = useState<any[]>([]);
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList,setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({  processName: "공정명" });
-    const [subIndex, setSubIndex] = useState({ worker: '작업자'})
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({process_name: "공정명"});
+    const [subIndex, setSubIndex] = useState({worker: '작업자'})
     const [filter, setFilter] = useState(-1)
-    const [selectPk, setSelectPk ]= useState<any>(null);
-    const [selectMold, setSelectMold ]= useState<any>(null);
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -25,9 +25,9 @@ const QualityTestList = () => {
 
     const indexList = {
         request: {
-            processName: "공정명",
-            machineName: "기계명",
-            materialName: "품목(품목명)",
+            process_name: "공정명",
+            machine_name: "기계명",
+            material_name: "품목(품목명)",
             time: "요청 시간",
             statement: "상태"
         }
@@ -48,7 +48,7 @@ const QualityTestList = () => {
             worker: '홍길동',
             total_count: '99,999',
             defective_count: '91',
-            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.','요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
+            description: ['요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.', '요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.', '요청 내용이 입력되어 있습니다. 요청 내용이 입력되어 있습니다.']
         },
     ]
 
@@ -57,13 +57,13 @@ const QualityTestList = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
         },
         {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
         },
     ]
 
@@ -71,7 +71,7 @@ const QualityTestList = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push('/manageStock/register')
+            Link: () => history.push('/manageStock/register')
         },
         {
             Name: '삭제',
@@ -79,7 +79,7 @@ const QualityTestList = () => {
     ]
 
     const onClick = useCallback((obj) => {
-        history.push(`/quality/test/detail/inspection/${obj.requestPk}`)
+        history.push(`/quality/test/detail/inspection/${obj.request_pk}`)
     }, []);
 
 
@@ -92,29 +92,29 @@ const QualityTestList = () => {
     //
     // },[detailList])
 
-    const getList = useCallback(async ()=>{ // useCallback
+    const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['response'].requestList}?currentPage=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['response'].requestList}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
 
-        setPage({ current: res.currentPage, total: res.totalPage })
+        setPage({current: res.current_page, total: res.total_page})
 
-    },[list,page])
+    }, [list, page])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
         setIndex(indexList["request"])
         // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
     return (
         <div>
@@ -125,7 +125,7 @@ const QualityTestList = () => {
                 mainOnClickEvent={onClick}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(i: number) => setPage({...page, current: i}) }
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
                 {
                     selectPk !== null ?

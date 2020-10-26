@@ -1,25 +1,44 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import 'react-dropdown/style.css'
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import LoadTonCard from '../../Components/Card/LoadTonCard';
-import { API_URLS, getLoadTonList } from "../../Api/pm/monitoring";
-import { API_URLS as URLS_MAP, getMonitoringMapData } from "../../Api/pm/map";
-import FactorySelector from "../../Components/Map/FactorySelector";
-import NoDataCard from "../../Components/Card/NoDataCard";
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import LoadTonCard from '../../Components/Card/LoadTonCard'
+import {API_URLS, getLoadTonList, postLoadTonList} from '../../Api/pm/monitoring'
+import {API_URLS as URLS_MAP, getMonitoringMapData} from '../../Api/pm/map'
+import FactorySelector from '../../Components/Map/FactorySelector'
+import NoDataCard from '../../Components/Card/NoDataCard'
+
+interface PressInitData {
+  machines: {
+    pk: string,
+    machine_name: string,
+    limited_ton: string,
+    capacity: number[],
+  }[]
+  degree: string[]
+  factories: string[]
+  current_factory: string
+}
+
+const initStartArray = new Array(150).fill(0)
+const initEndArray = new Array(40).fill(0)
 
 // 로드톤 모니터링
 const LoadtonMonitoring = () => {
 
-  const [ arrayType, setArrayType ] = useState<number>(0); //['공장 모니터링' , '기계별 모니터링']
-  const [ list, setList ] = useState<IPressLoadTonMonitoring>(); //['공장 모니터링' , '기계별 모니터링']
+  const [arrayType, setArrayType] = useState<number>(0) //['공장 모니터링' , '기계별 모니터링']
+  const [list, setList] = useState<IPressLoadTonMonitoring>() //['공장 모니터링' , '기계별 모니터링']
 
-  const [ selectComponent, setSelectComponent ] = useState<string>('4EP99L_factory0');
+  const [initData, setInitData] = useState<PressInitData>()
 
-  const [ selectFactory, setSelectFactory ] = useState<Factory>({ pk: '', name: '' });
+  const [selectComponent, setSelectComponent] = useState<string>('4EP99L_factory0')
 
-  const [ facotories, setFactories ] = useState<Factory[]>([]);
+  const [selectFactory, setSelectFactory] = useState<Factory>({pk: '', name: ''})
+
+  const [machineCount, setMachineCount] = useState<string[]>([])
+
+  const [facotories, setFactories] = useState<Factory[]>([])
 
   const getFactoryData = useCallback(async () => {
 
@@ -29,18 +48,18 @@ const LoadtonMonitoring = () => {
     //setMapData(dummy_map_data);
     //setSelectFactory({pk: '2', name: '공장 2'});
     //setFactories(dummy_factory)
-    const results = await getMonitoringMapData(URLS_MAP.factory.list);
+    const results = await getMonitoringMapData(URLS_MAP.factory.list)
     console.log(results)
-    setFactories(results);
+    setFactories(results)
 
     if (results.length <= 0) {
       // //alert('조회 가능한 공장 데이터가 없습니다.')
-      return;
+      return
     } else {
-      setSelectFactory({ pk: results[0].pk, name: results[0].name });
+      setSelectFactory({pk: results[0].pk, name: results[0].name})
     }
 
-  }, [ selectFactory, facotories ]);
+  }, [selectFactory, facotories])
 
   useEffect(() => {
     getFactoryData()
@@ -51,64 +70,97 @@ const LoadtonMonitoring = () => {
    * getList()
    * 클러치 정보 불러오기
    */
-  const getData = useCallback(async () => {
-    const tempUrl = `${API_URLS['loadTon'].list}?factory=${selectFactory.pk}`
-    const resultData = await getLoadTonList(tempUrl);
+  const getDataInit = async () => {
+    const tempUrl = `${API_URLS['loadTon'].predata}?factory=${selectFactory.pk}`
+    const resultData = await getLoadTonList(tempUrl)
     console.log(resultData)
-    setList(resultData);
+    setInitData(resultData)
+    const count = resultData.machines.map((value, index) => {
+      return value.pk
+    })
+    console.log(count)
+    setMachineCount([...count])
+  }
 
-  }, [ list, selectFactory ])
+  const getData = async () => {
+    console.log(machineCount)
+    const tempUrl = `${API_URLS['loadTon'].list}`
+    const resultData = await postLoadTonList(tempUrl, {pk: machineCount})
+
+    const machines = resultData.machines.map((value, index) => {
+      return {
+        ...initData?.machines[index],
+        ...value,
+        ch1_ton: [...initStartArray, ...value.ch1_ton, ...initEndArray],
+        ch2_ton: [...initStartArray, ...value.ch2_ton, ...initEndArray],
+        total_ton: [...initStartArray, ...value.total_ton, ...initEndArray]
+      }
+    })
+
+    setList({
+      ...initData,
+      current_factory: 0, degree: [], factories: [],
+      machines: machines
+    })
+  }
 
   useEffect(() => {
     if (selectFactory.pk) {
-      getData();
-      const interval = setInterval(() => {
-        getData();
-      }, 3000)
-      return () => {
-        console.log('-- monitoring end -- ')
-        clearTimeout(interval);
-        //setTimer(null)
-      };
+      if (machineCount.length !== 0) {
+        const interval = setInterval(() => {
+          getData()
+        }, 3000)
+        return () => {
+          console.log('-- monitoring end -- ')
+          clearTimeout(interval)
+          //setTimer(null)
+        }
+      }
     }
-  }, [ selectFactory ])
+  }, [machineCount])
+
+  useEffect(() => {
+    if (selectFactory.pk) {
+      getDataInit()
+    }
+  }, [selectFactory])
 
   return (
-      <DashboardWrapContainer index={'monitoring'}>
+    <DashboardWrapContainer index={'monitoring'}>
 
-        <InnerBodyContainer>
-          <div style={{ position: 'relative', marginBottom: 20 }}>
-            <WrapBox>
-              <span className="p-bold" style={{ fontSize: 20, marginRight: 18, marginLeft: 3 }}>장비별 로드모니터</span>
-            </WrapBox>
-          </div>
-          <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory}/>
-          {
-            selectFactory.pk !== ''
-                ? list
-                ? list.machines.length !== 0
-                    ? <ItemBox>
-                      <div style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                      }}>
-                        {
-                          list && list.machines.map((item, index) => {
-                            return (<LoadTonCard color={index} propData={item}/>)
-                          })
-                        }
-                      </div>
-                    </ItemBox>
-                    : <NoDataCard contents={"기계 정보가 없습니다."} height={886}/>
-                : <NoDataCard contents={"데이터를 불러오는 중입니다."} height={886}/>
-                : <NoDataCard contents={'데이터가 없습니다.'} height={886}/>
-          }
+      <InnerBodyContainer>
+        <div style={{position: 'relative', marginBottom: 20}}>
+          <WrapBox>
+            <span className="p-bold" style={{fontSize: 20, marginRight: 18, marginLeft: 3}}>장비별 로드모니터</span>
+          </WrapBox>
+        </div>
+        <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory}/>
+        {
+          selectFactory.pk !== ''
+            ? list
+            ? list.machines.length !== 0
+              ? <ItemBox>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                }}>
+                  {
+                    list && list.machines.map((item, index) => {
+                      return (<LoadTonCard color={index} propData={item}/>)
+                    })
+                  }
+                </div>
+              </ItemBox>
+              : <NoDataCard contents={'기계 정보가 없습니다.'} height={886}/>
+            : <NoDataCard contents={'데이터를 불러오는 중입니다.'} height={886}/>
+            : <NoDataCard contents={'데이터가 없습니다.'} height={886}/>
+        }
 
-        </InnerBodyContainer>
+      </InnerBodyContainer>
 
-      </DashboardWrapContainer>
+    </DashboardWrapContainer>
 
-  );
+  )
 }
 
 const WrapBox = Styled.div`
@@ -130,4 +182,4 @@ const ItemBox = Styled.div`
     padding:10px;
 `
 
-export default LoadtonMonitoring;
+export default LoadtonMonitoring
