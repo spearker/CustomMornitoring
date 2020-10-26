@@ -41,7 +41,7 @@ const MyPage = () => {
   const loadUserInfo = async () => {
 
 
-    const results = await getRequest('http://183.99.194.242:8299/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/user/load', getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
@@ -97,7 +97,7 @@ const MyPage = () => {
       profile_img: path
 
     }
-    const results = await postRequest('http://183.99.194.242:8299/api/v1/member/profile', data, getToken(TOKEN_NAME))
+    const results = await postRequest('http://203.234.183.22:8299/api/v1/member/profile', data, getToken(TOKEN_NAME))
 
     if (results === false) {
       //alert('실패하였습니다. 잠시 후 다시 시도해주세요.')
@@ -124,7 +124,7 @@ const MyPage = () => {
   const getTarget = useCallback(async () => {
 
     console.log(User.email)
-    const results = await getRequest('http://183.99.194.242:8299/api/v1/member/view?pk=' + encodeURIComponent(User.email), getToken(TOKEN_NAME))
+    const results = await getRequest('http://203.234.183.22:8299/api/v1/member/view?pk=' + encodeURIComponent(User.email), getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
