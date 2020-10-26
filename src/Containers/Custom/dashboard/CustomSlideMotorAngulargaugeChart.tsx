@@ -19,11 +19,12 @@ const CustomSlideMotorAngulargaugeChart: React.FunctionComponent<Props> = ({ val
             id="slide-chart"
             colors={[ 'rgba(255, 255, 255, .7)' ]}
             nrOfLevels={25}
-            formatTextValue={(value) => value}
+            formatTextValue={() => ''}
             percent={value ? value : 0}
             needleColor={'rgba(255, 255, 255, 1)'}
             needleBaseColor={'rgba(255, 255, 255, 1)'}
             style={chartStyle}/>
+        <p style={{ textAlign: 'center', fontSize: 48, fontWeight: 'bold' }}>{value}</p>
       </div>
   )
 }

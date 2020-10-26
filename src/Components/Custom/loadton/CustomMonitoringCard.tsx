@@ -19,7 +19,7 @@ const CustomMonitoringCard = ({ contents, isOpen, onClickEvent }: Props) => {
   const Item = (title: string, value: string) => {
     return (
         <div style={{
-          marginBottom: 60,
+          marginBottom: 150,
           wordBreak: 'break-all'
         }}>
           <div style={{ textAlign: 'center', marginBottom: 20 }}>

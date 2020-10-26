@@ -5,9 +5,9 @@ import { setToken } from "../../lib/tokenFunctions";
 
 const ENDPOINT = 'http://203.234.183.22:8299'
 
-export default async (id: string | number) => {
+export default async (id: string | number, init: boolean) => {
   try {
-    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/press/${id}`, {
+    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/press/${id}?init=${init}`, {
       headers: {
         authorization: getToken(TOKEN_NAME)
       }

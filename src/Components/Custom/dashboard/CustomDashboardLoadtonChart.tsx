@@ -7,22 +7,36 @@ import CustomSlideMotorAngulargaugeChart from "../../../Containers/Custom/dashbo
 import getYoudongDashboard from "../../../Api/custom/getYoudongDashboard";
 import { YOUDONG_PRESS_CUSTOM_TYPE } from "../../../Common/@types/youdong";
 import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
+import Modal from "react-modal";
+import { RotateSpinner } from "react-spinners-kit";
 
 interface Props {
   id: string
 }
 
 const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => {
+  const [ isFirst, setIsFirst ] = React.useState({
+    loading: true,
+    api: true
+  });
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>();
 
   const getYoudongCustomDashboardData = async () => {
     if (id) {
       try {
-        const response = await getYoudongDashboard(id)
+        const response = await getYoudongDashboard(id, isFirst.api)
 
         if (response !== null) {
           setData(response)
         }
+
+        if (isFirst.api) {
+          setIsFirst({
+            loading: false,
+            api: false
+          })
+        }
+
       } catch (error) {
         console.log('catched error', error)
       }
@@ -39,7 +53,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   useEffect(() => {
     const interval = setInterval(() => {
       getYoudongCustomDashboardData().then(() => console.log('loaded data'))
-    }, 2000)
+    }, 1000)
     return () => {
       console.log('-- monitoring end -- ')
       clearTimeout(interval);
@@ -126,6 +140,34 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
 
   return (
       <React.Fragment>
+        {
+          isFirst.loading && <Modal
+              isOpen={isFirst.loading}
+              style={{
+                content: {
+                  backgroundColor: 'rgba(255, 255, 255, 0)',
+                  border: 'none',
+                  top: '45%',
+                  left: '50%',
+                  right: 'auto',
+                  width: 300,
+                  height: 300,
+                  bottom: 'auto',
+                  marginRight: '-50%',
+                  transform: 'translate(-50%, -50%)',
+                  padding: 100
+                },
+                overlay: {
+                  background: 'rgba(0,0,0,.6)',
+                  zIndex: 5
+                }
+              }}
+          >
+            <div>
+              <RotateSpinner size={208} color={'rgba(255, 255, 255, .8)'} loading={isFirst.loading}/>
+            </div>
+          </Modal>
+        }
         <InnerBodyContainer styles={{
           width: '100%',
           height: '100%',
@@ -142,7 +184,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                 flexDirection: 'column',
               }}>
                 <div style={{
-                  marginBottom: 60,
+                  marginBottom: 110,
                   wordBreak: 'break-all'
                 }}>
                   <div style={{ textAlign: 'center', marginBottom: 20 }}>
@@ -158,7 +200,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                     justifyContent: 'center',
                     height: 300,
                     marginTop: 50,
-                    marginBottom: 100
+                    marginBottom: 110
                   }}>
                     <CustomMainMotorAngulargaugeChart value={data?.press_data.main_motor_current}/>
                   </div>
@@ -181,6 +223,8 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             </div>
           </ItemBox>
         </InnerBodyContainer>
+        }
+
       </React.Fragment>
   )
 }
