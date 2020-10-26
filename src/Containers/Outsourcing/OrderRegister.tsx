@@ -358,6 +358,7 @@ const OutsourcingRegister = ({ match }: Props) => {
                 })
               }
               </FullAddInput>
+
             */}
           {isUpdate ?
               <div style={{ marginTop: 40, marginLeft: 340 }}>

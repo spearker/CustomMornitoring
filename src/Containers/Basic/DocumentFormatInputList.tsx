@@ -50,8 +50,8 @@ const DocumentFormatInputList = ({ pk, loadDataUrl, onChangeEssential, onChangeO
     if (pk === null) {
       return
     }
-
     const res = await getRequest(`${client}/v1/document/form/load?pk=` + pk, getToken(TOKEN_NAME))
+
     if (res === false) {
       //TODO: 에러 처리
       // //alert('[SERVER EEROR] 문서 항목 조회가 불가능합니다. 1')

@@ -323,6 +323,7 @@ const CustomerRegister = ({ match }: Props) => {
                 })
               }
               </FullAddInput>
+
             */}
           <div style={{ marginTop: 72, marginLeft: 340 }}>
             {isUpdate ?

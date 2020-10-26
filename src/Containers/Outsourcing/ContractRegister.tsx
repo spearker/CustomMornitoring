@@ -394,6 +394,7 @@ const ContractRegister = ({ match }: Props) => {
                 })
               }
               </FullAddInput>
+
             */}
           {isUpdate ?
               <div style={{ marginTop: 72, marginLeft: 340 }}>

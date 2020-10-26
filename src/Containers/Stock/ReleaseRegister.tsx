@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react'
 import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
-import Header from '../../Components/Text/Header';
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import RegisterButton from '../../Components/Button/RegisterButton';
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
-import { uploadTempFile } from '../../Common/fileFuctuons';
-import ListHeader from '../../Components/Text/ListHeader';
-import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import Header from '../../Components/Text/Header'
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
+import RegisterButton from '../../Components/Button/RegisterButton'
+import { getToken } from '../../Common/tokenFunctions'
+import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
+import { uploadTempFile } from '../../Common/fileFuctuons'
+import ListHeader from '../../Components/Text/ListHeader'
+import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import { useHistory } from 'react-router-dom'
-import ColorCalendarDropdown from "../../Components/Dropdown/ColorCalendarDropdown";
-import moment from "moment";
-import InputContainer from "../InputContainer";
-import Styled from "styled-components";
-import useObjectInput from "../../Functions/UseInput";
-import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
-import { transferStringToCode } from "../../Common/codeTransferFunctions";
+import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
+import moment from 'moment'
+import InputContainer from '../InputContainer'
+import Styled from 'styled-components'
+import useObjectInput from '../../Functions/UseInput'
+import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
+import { transferStringToCode } from '../../Common/codeTransferFunctions'
+import client from "../../Api/configs/basic";
 
 
 const typeDummy = [
@@ -44,37 +45,37 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
   const history = useHistory()
 
   const [ selectDate, setSelectDate ] = useState<string>(moment().format('YYYY-MM-DD'))
-  const [ pk, setPk ] = useState<string>('');
-  const [ name, setName ] = useState<string>('');
-  const [ no, setNo ] = useState<number>();
-  const [ phone, setPhone ] = useState<string>('');
-  const [ address, setAddress ] = useState<string>('');
-  const [ fax, setFax ] = useState<string>('');
-  const [ phoneM, setPhoneM ] = useState<string>('');
-  const [ emailM, setEmailM ] = useState<string>('');
-  const [ email, setEmail ] = useState<string>('');
-  const [ manager, setManager ] = useState<string>('');
-  const [ ceo, setCeo ] = useState<string>('');
-  const [ infoList, setInfoList ] = useState<IInfo[]>([]);
+  const [ pk, setPk ] = useState<string>('')
+  const [ name, setName ] = useState<string>('')
+  const [ no, setNo ] = useState<number>()
+  const [ phone, setPhone ] = useState<string>('')
+  const [ address, setAddress ] = useState<string>('')
+  const [ fax, setFax ] = useState<string>('')
+  const [ phoneM, setPhoneM ] = useState<string>('')
+  const [ emailM, setEmailM ] = useState<string>('')
+  const [ email, setEmail ] = useState<string>('')
+  const [ manager, setManager ] = useState<string>('')
+  const [ ceo, setCeo ] = useState<string>('')
+  const [ infoList, setInfoList ] = useState<IInfo[]>([])
   const [ typeList, setTypelist ] = useState<string[]>(typeDummy)
   const [ stockList, setStockList ] = useState<string[]>(StockDummy)
   const [ selectType, setSelectType ] = useState<string>()
   const [ amount, setAmount ] = useState<number>()
 
-  const [ paths, setPaths ] = useState<any[1]>([ null ]);
-  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ]);
+  const [ paths, setPaths ] = useState<any[1]>([ null ])
+  const [ oldPaths, setOldPaths ] = useState<any[1]>([ null ])
 
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
+  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
 
   const [ selectMaterial, setSelectMaterial ] = useState<{ name?: string, pk?: string }>()
 
   //생산품 검색
-  const [ isPoupup, setIsPoupup ] = useState<boolean>(false);
-  const [ isSearched, setIsSearched ] = useState<boolean>(false);
-  const [ keyword, setKeyword ] = useState<string>('');
-  const [ checkList, setCheckList ] = useState<IMaterial[]>([]);
-  const [ list, setList ] = useState<IMaterial[]>([]);
-  const [ searchList, setSearchList ] = useState<IMaterial[]>([]);
+  const [ isPoupup, setIsPoupup ] = useState<boolean>(false)
+  const [ isSearched, setIsSearched ] = useState<boolean>(false)
+  const [ keyword, setKeyword ] = useState<string>('')
+  const [ checkList, setCheckList ] = useState<IMaterial[]>([])
+  const [ list, setList ] = useState<IMaterial[]>([])
+  const [ searchList, setSearchList ] = useState<IMaterial[]>([])
 
   const [ inputData, setInputData ] = useObjectInput('CHANGE', {
     name: '',
@@ -85,10 +86,10 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
       detail: '',
     },
 
-  });
+  })
 
   useEffect(() => {
-    if (getParameter('pk') !== "") {
+    if (getParameter('pk') !== '') {
       setPk(getParameter('pk'))
       ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
@@ -99,33 +100,33 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
 
   const onClickSearch = useCallback(async (e) => {
     ////alert('keyword')
-    e.preventDefault();
-    let type = "material";
+    e.preventDefault()
+    let type = 'material'
     // //alert('keyword')
     if (isPoupup === true) {
       type = 'material'
     } else {
-      return;
+      return
     }
 
     if (keyword === '' || keyword.length < 2) {
       //alert('2글자 이상의 키워드를 입력해주세요')
 
-      return;
+      return
     }
     setIsSearched(true)
 
-    const res = await getRequest(`http://255.255.255.255:8299/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+    const res = await getRequest(`${client}/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
     } else {
       if (res.status === 200) {
-        const results = res.results;
+        const results = res.results
         if (isPoupup === true) {
-          setSearchList(results);
+          setSearchList(results)
         } else {
-          return;
+          return
         }
 
 
@@ -142,23 +143,23 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
    * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
-    console.log(event.target.files[0]);
+    console.log(event.target.files[0])
     console.log(index)
     if (event.target.files[0] === undefined) {
 
-      return;
+      return
     }
-    console.log(event.target.files[0].type);
+    console.log(event.target.files[0].type)
     if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
-      const tempFile = event.target.files[0];
+      const tempFile = event.target.files[0]
       console.log(tempFile)
-      const res = await uploadTempFile(event.target.files[0]);
+      const res = await uploadTempFile(event.target.files[0])
 
       if (res !== false) {
         console.log(res)
         const tempPatchList = paths.slice()
-        tempPatchList[index] = res;
+        tempPatchList[index] = res
         console.log(tempPatchList)
         setPaths(tempPatchList)
         return
@@ -183,28 +184,28 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
    */
   const getData = useCallback(async () => {
 
-    const res = await getRequest('http://255.255.255.255:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await getRequest(`${client}/v1/customer/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
     } else {
       if (res.status === 200) {
-        const data = res.results;
-        setName(data.name);
-        setPk(data.pk);
-        setNo(Number(data.number));
-        setPk(data.pk);
-        setCeo(data.ceo);
+        const data = res.results
+        setName(data.name)
+        setPk(data.pk)
+        setNo(Number(data.number))
+        setPk(data.pk)
+        setCeo(data.ceo)
         setOldPaths([ data.photo ])
-        setPhone(data.telephone);
-        setEmailM(data.manager_email);
+        setPhone(data.telephone)
+        setEmailM(data.manager_email)
         setPhoneM(data.manager_phone)
         setManager(data.manager)
         setEmail(data.ceo_email)
 
         setInfoList(data.info_list)
-        setAddress(data.address);
-        setFax(data.fax);
+        setAddress(data.address)
+        setFax(data.fax)
 
       } else {
         //TODO:  기타 오류
@@ -227,10 +228,10 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
    * @returns X
    */
   const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault();
-    if (name === "") {
+    e.preventDefault()
+    if (name === '') {
       //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-      return;
+      return
     }
 
     const data = {
@@ -248,9 +249,9 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
       fax: fax,
       //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
-    };
+    }
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/customer/update/`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -280,14 +281,23 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
    */
   const onsubmitForm = useCallback(async () => {
     if (match.params.parts) {
+
+      if (amount === undefined || String(amount) === '') {
+        alert('출고 수량은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      } else if (selectType === undefined) {
+        alert('출고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      }
+
       const data = {
         parts_pk: match.params.pk,
-        amount: amount,
-        type: transferStringToCode('material', selectType),
+        amount: Number(amount),
+        type: transferStringToCode('stock', selectType),
         date: selectDate
-      };
+      }
 
-      const res = await postRequest('http://255.255.255.255:8299/api/v1/stock/parts/release/register', data, getToken(TOKEN_NAME))
+      const res = await postRequest(`${client}/v1/stock/parts/release/register`, data, getToken(TOKEN_NAME))
 
       if (res === false) {
         //TODO: 에러 처리
@@ -301,15 +311,23 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
         }
       }
     } else {
+
+      if (amount === undefined || String(amount) === '') {
+        alert('출고 수량은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      } else if (selectType === undefined) {
+        alert('출고 구분은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      }
+
       const data = {
         material_pk: match.params.pk,
-        amount: amount,
-        type: transferStringToCode('material', selectType),
+        amount: Number(amount),
+        type: transferStringToCode('stock', selectType),
         date: selectDate
-      };
+      }
 
-
-      const res = await postRequest('http://255.255.255.255:8299/api/v1/stock/release/register', data, getToken(TOKEN_NAME))
+      const res = await postRequest(`${client}/v1/stock/release/register`, data, getToken(TOKEN_NAME))
 
       if (res === false) {
         //TODO: 에러 처리
@@ -328,7 +346,7 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
 
   return (
       <div>
-        <Header title={isUpdate ? '출고 수정' : "출고 등록"}/>
+        <Header title={isUpdate ? '출고 수정' : '출고 등록'}/>
         <WhiteBoxContainer>
           <ListHeader title={match.params.name}/>
           <div style={{
@@ -338,14 +356,16 @@ const ReleaseRegisterContainer = ({ match }: Props) => {
             paddingBottom: 17,
             verticalAlign: 'top'
           }}>
-            <p style={{ fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block' }}>· 출고 구분</p>
+            <p style={{ fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block' }}>· 출고
+              구분</p>
             <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType}
                               contents={match.params.parts ? stockList : typeList} text={'출고 구분을 선택해 주세요'}
                               buttonWid={30}/>
           </div>
-          <NormalNumberInput title={'출고 수량'} width={120} value={amount} onChangeEvent={(input) => setAmount(input)}
+          <NormalNumberInput title={'출고 수량'} width={120} value={amount}
+                             onChangeEvent={(input) => setAmount(input)}
                              description={'출고 수량을 입력해주세요'}/>
-          <InputContainer title={"출고 날짜"} width={120}>
+          <InputContainer title={'출고 날짜'} width={120}>
             <div style={{
               display: 'flex',
               flex: 1,

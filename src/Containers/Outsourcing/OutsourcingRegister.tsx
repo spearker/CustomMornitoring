@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { TOKEN_NAME } from '../../Common/configset'
+import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
@@ -15,6 +15,8 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import { useHistory } from 'react-router-dom'
 import NormalAddressInput from "../../Components/Input/NormalAddressInput";
 import useObjectInput from "../../Functions/UseInput";
+import Styled from "styled-components";
+import client from "../../Api/configs/basic";
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -23,7 +25,7 @@ const OutsourcingRegister = ({ match }: any) => {
 
   const [ pk, setPk ] = useState<string>('');
   const [ name, setName ] = useState<string>('');
-  const [ no, setNo ] = useState<number>(0);
+  const [ no, setNo ] = useState<number>();
   const [ type, setType ] = useState<string>('0'); //0: 법인, 1:개인
   const [ phone, setPhone ] = useState<string>('');
   const [ address, setAddress ] = useState<string>('');
@@ -110,7 +112,7 @@ const OutsourcingRegister = ({ match }: any) => {
    */
   const getData = useCallback(async () => {
 
-    const res = await getRequest('http://255.255.255.255:8299/api/v1/customer/view?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/outsourcing/load`, { pk: match.params.pk }, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -154,8 +156,7 @@ const OutsourcingRegister = ({ match }: any) => {
    * @param {string} madeNo 제조사넘버
    * @returns X
    */
-  const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault();
+  const onsubmitFormUpdate = useCallback(async () => {
 
     if (name === "") {
       alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
@@ -163,7 +164,7 @@ const OutsourcingRegister = ({ match }: any) => {
     } else if (ceo === "") {
       alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    } else if (no === null) {
+    } else if (no === null || no === undefined || no === 0 || no.toString() === "") {
       alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
@@ -180,13 +181,13 @@ const OutsourcingRegister = ({ match }: any) => {
       manager: manager === '' ? null : manager,
       manager_phone: phoneM === '' ? null : phoneM,
       manager_email: emailM === '' ? null : emailM,
-      address: inputData.location === '' ? null : inputData.location,
+      address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
       fax: fax === '' ? null : fax,
       //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -214,19 +215,16 @@ const OutsourcingRegister = ({ match }: any) => {
    * @param {string} madeNo 제조사넘버
    * @returns X
    */
-  const onsubmitForm = useCallback(async (e) => {
-    e.preventDefault();
-    console.log(infoList)
-    ////alert(JSON.stringify(infoList))
-    console.log(JSON.stringify(infoList))
+  const onsubmitForm = useCallback(async () => {
 
+    console.log(no)
     if (name === "") {
       alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
       return;
     } else if (ceo === "") {
       alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
       return;
-    } else if (no === null) {
+    } else if (no === null || no === undefined || no === 0 || no.toString() === "") {
       alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
       return;
     }
@@ -243,14 +241,14 @@ const OutsourcingRegister = ({ match }: any) => {
       manager: manager === '' ? null : manager,
       manager_phone: phoneM === '' ? null : phoneM,
       manager_email: emailM === '' ? null : emailM,
-      address: inputData.location === '' ? null : inputData.location,
+      address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
       fax: fax === '' ? null : fax,
       // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
 
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -271,36 +269,39 @@ const OutsourcingRegister = ({ match }: any) => {
       <div>
         <Header title={isUpdate ? '외주처 정보수정' : '외주처 정보등록'}/>
         <WhiteBoxContainer>
-          <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
-            <ListHeader title="필수 항목"/>
-            <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
-            <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
-            <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                        contents={[ { value: 0, title: '법인' }, { value: 1, title: '개인' } ]}/>
-            <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/>
-            <br/>
-            <ListHeader title="선택 항목"/>
-            <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'} onChangeEvent={(e) => addFiles(e, 0)}
-                             description={isUpdate ? paths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}/>
-            {
-              isUpdate ?
-                  <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={[ '' ]} isImage={true}/>
-                  :
-                  null
-            }
-            <NormalAddressInput title={'사업장 주소'} value={inputData.location}
-                                onChangeEvent={(input) => setInputData(`location`, input)}/>
-            <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
-                         description={'사업자 등록증에 기재되어있는 연락처를 입력하세요'}/>
-            <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail} description={'사업장 이메일을 입력하세요'}/>
-            <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax} description={'사업장 팩스번호를 입력하세요'}/>
-            <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
-                         description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
-            <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
-                         description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
-            <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
-                         description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
-            {/* 자유항목 입력 창
+          <ListHeader title="필수 항목"/>
+          <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
+          <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
+          <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
+                      contents={[ { value: 0, title: '법인' }, { value: 1, title: '개인' } ]}/>
+          <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
+                             description={'사업자 번호를 입력하세요 (-제외)'}/>
+          <br/>
+          <ListHeader title="선택 항목"/>
+          <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
+                           onChangeEvent={(e) => addFiles(e, 0)}
+                           description={isUpdate ? paths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}/>
+          {
+            isUpdate ?
+                <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={[ '' ]} isImage={true}/>
+                :
+                null
+          }
+          <NormalAddressInput title={'사업장 주소'} value={inputData.location}
+                              onChangeEvent={(input) => setInputData(`location`, input)}/>
+          <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
+                       description={'사업자 등록증에 기재되어있는 연락처를 입력하세요'}/>
+          <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
+                       description={'사업장 이메일을 입력하세요'}/>
+          <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
+                       description={'사업장 팩스번호를 입력하세요'}/>
+          <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
+                       description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
+          <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
+                       description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
+          <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
+                       description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
+          {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();
               tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -327,12 +328,46 @@ const OutsourcingRegister = ({ match }: any) => {
               </FullAddInput>
 
             */}
-            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-          </form>
+          {isUpdate ?
+              <div style={{ marginTop: 40, marginLeft: 340 }}>
+                <ButtonWrap onClick={async () => {
+                  await onsubmitFormUpdate()
+                }}>
+                  <div style={{ width: 360, height: 40 }}>
+                    <p style={{ fontSize: 18, marginTop: 15 }}>수정하기</p>
+                  </div>
+                </ButtonWrap>
+              </div>
+              :
+              <div style={{ marginTop: 40, marginLeft: 340 }}>
+                <ButtonWrap onClick={async () => {
+                  await onsubmitForm()
+                }}>
+                  <div style={{ width: 360, height: 40 }}>
+                    <p style={{ fontSize: 18, marginTop: 15 }}>등록하기</p>
+                  </div>
+                </ButtonWrap>
+              </div>
+          }
         </WhiteBoxContainer>
       </div>
   );
 }
 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+`
 
 export default OutsourcingRegister;
