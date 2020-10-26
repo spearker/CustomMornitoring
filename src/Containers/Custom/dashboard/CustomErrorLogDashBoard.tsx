@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Styled from "styled-components";
 import CustomErrorLogItem from "../../../Components/Custom/dashboard/CustomErrorLogItem";
 import getYoudongErrorDashboard from "../../../Api/custom/getYoudongErrorDashboard";
-import { YOUDONG_ERROR_CHART_ERROR_DATA, YOUDONG_ERROR_DASHBOARD } from "../../../Common/@types/youdong";
+import { YOUDONG_ERROR_DASHBOARD } from "../../../Common/@types/youdong";
 import { RotateSpinner } from "react-spinners-kit";
 import Modal from "react-modal";
 
