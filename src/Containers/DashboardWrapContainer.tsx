@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import Styled from 'styled-components'
 import {
   BG_COLOR,
@@ -12,28 +12,29 @@ import {
   TOKEN_NAME
 } from '../Common/configset'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
-import ProfileBar from '../Components/Navigation/ProfileBar';
-import { getToken, setToken, loadXHR } from '../Common/tokenFunctions';
-import { useUserDispatch, useUser } from '../Context/UserContext';
-import { getRequest } from '../Common/requestFunctions';
-import { PM_MENU_LIST } from '../Common/routerset';
+import ProfileBar from '../Components/Navigation/ProfileBar'
+import { getToken, setToken, loadXHR } from '../Common/tokenFunctions'
+import { useUserDispatch, useUser } from '../Context/UserContext'
+import { getRequest } from '../Common/requestFunctions'
+import { PM_MENU_LIST } from '../Common/routerset'
+import client from "../Api/configs/basic";
 
 //대시보드를 감싸는 wrap 박스
 
 const DashboardWrapContainer = ({ children, index }: any) => {
 
-  const dispatch = useUserDispatch();
-  const User = useUser();
+  const dispatch = useUserDispatch()
+  const User = useUser()
   /**
    * loadUserInfo()
    * : 유저 정보 로드 후 user info dispatch
    * @returns X
    */
   const loadUserInfo = async () => {
-    if (User.pk !== "") {
-      return;
+    if (User.pk !== '') {
+      return
     }
-    const results = await getRequest('http://255.255.255.255:8299/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest(`${client}/v1/user/load`, getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
@@ -51,7 +52,7 @@ const DashboardWrapContainer = ({ children, index }: any) => {
             is_login: true,
             company_name: results.results.company_name,
           }
-        });
+        })
 
         loadXHR(results.results.profile_img).then(function (blob) {
           setToken('sizl_photo', blob)
@@ -65,7 +66,7 @@ const DashboardWrapContainer = ({ children, index }: any) => {
 
   useEffect(() => {
 
-    loadUserInfo();
+    loadUserInfo()
 
   }, [])
 
@@ -83,7 +84,7 @@ const DashboardWrapContainer = ({ children, index }: any) => {
         </DashboardWrapDiv>
       </>
 
-  );
+  )
 }
 
 const DashboardWrapDiv = Styled.div`
@@ -96,4 +97,4 @@ const DashboardWrapDiv = Styled.div`
     position: relative;
 `
 
-export default DashboardWrapContainer;
+export default DashboardWrapContainer

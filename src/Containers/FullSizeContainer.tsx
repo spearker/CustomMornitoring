@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import Styled from 'styled-components'
 import { BG_COLOR_SUB, BG_COLOR_SUB2, TOKEN_NAME } from '../Common/configset'
 import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
-import { getToken } from '../Common/tokenFunctions';
-import { useUserDispatch, useUser } from '../Context/UserContext';
-import { getRequest } from '../Common/requestFunctions';
+import { getToken } from '../Common/tokenFunctions'
+import { useUserDispatch, useUser } from '../Context/UserContext'
+import { getRequest } from '../Common/requestFunctions'
+import client from "../Api/configs/basic";
 
 //대시보드를 감싸는 wrap 박스  (풀사이즈)
 
 const FullSizeContainer = ({ children }: any) => {
 
-  const dispatch = useUserDispatch();
-  const User = useUser();
+  const dispatch = useUserDispatch()
+  const User = useUser()
   /**
    * loadUserInfo()
    * : 유저 정보 로드 후 user info dispatch
@@ -19,7 +20,7 @@ const FullSizeContainer = ({ children }: any) => {
    */
   const loadUserInfo = async () => {
 
-    const results = await getRequest('http://255.255.255.255:8299/api/v1/user/load', getToken(TOKEN_NAME))
+    const results = await getRequest(`${client}/v1/user/load`, getToken(TOKEN_NAME))
 
     if (results === false) {
       //TODO: 에러 처리
@@ -37,7 +38,7 @@ const FullSizeContainer = ({ children }: any) => {
             is_login: true,
             company_name: results.results.company_name,
           }
-        });
+        })
       } else {
         //TODO : 지울것
         //alert('세션 체크 실패 : 테스트 기간동안은 임시로 비로그인 접속 허용')
@@ -47,7 +48,7 @@ const FullSizeContainer = ({ children }: any) => {
 
   useEffect(() => {
 
-    loadUserInfo();
+    loadUserInfo()
 
   }, [ loadUserInfo ])
 
@@ -66,7 +67,7 @@ const FullSizeContainer = ({ children }: any) => {
       </DashboardWrapDiv>
 
 
-  );
+  )
 }
 
 const SearchBarWrapDiv = Styled.div`
@@ -85,4 +86,4 @@ const DashboardWrapDiv = Styled.div`
     background-color: ${BG_COLOR_SUB2};
 `
 
-export default FullSizeContainer;
+export default FullSizeContainer

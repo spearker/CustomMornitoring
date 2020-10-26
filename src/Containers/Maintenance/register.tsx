@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react'
 import Styled from 'styled-components'
 import { BG_COLOR_SUB2, TOKEN_NAME } from '../../Common/configset'
-import Header from '../../Components/Text/Header';
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import NormalInput from '../../Components/Input/NormalInput';
-import RegisterButton from '../../Components/Button/RegisterButton';
-import { getToken } from '../../Common/tokenFunctions';
-import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions';
-import CustomIndexInput from '../../Components/Input/CustomIndexInput';
-import AddInput from '../../Components/Input/AddInput';
-import FullAddInput from '../../Components/Input/FullAddInput';
-import TextList from '../../Components/List/TextList';
-import SearchModalContainer from '../../Containers/SearchModalContainer';
-import SearchInput from '../../Components/Input/SearchInput';
-import SearchedList from '../../Components/List/SearchedList';
+import Header from '../../Components/Text/Header'
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
+import NormalInput from '../../Components/Input/NormalInput'
+import RegisterButton from '../../Components/Button/RegisterButton'
+import { getToken } from '../../Common/tokenFunctions'
+import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
+import CustomIndexInput from '../../Components/Input/CustomIndexInput'
+import AddInput from '../../Components/Input/AddInput'
+import FullAddInput from '../../Components/Input/FullAddInput'
+import TextList from '../../Components/List/TextList'
+import SearchModalContainer from '../../Containers/SearchModalContainer'
+import SearchInput from '../../Components/Input/SearchInput'
+import SearchedList from '../../Components/List/SearchedList'
 
 interface IInfo {
   title: string,
@@ -29,33 +29,33 @@ interface ITempInfo {
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const MaintenanceRegisterContainer = () => {
 
-  const [ pk, setPk ] = useState<string>('');
-  const [ name, setName ] = useState<string>('');
-  const [ term, setTerm ] = useState<number>(30);
-  const [ infoList, setInfoList ] = useState<IInfo[]>([]);
-  const [ isUpdate, setIsUpdate ] = useState<boolean>(false);
+  const [ pk, setPk ] = useState<string>('')
+  const [ name, setName ] = useState<string>('')
+  const [ term, setTerm ] = useState<number>(30)
+  const [ infoList, setInfoList ] = useState<IInfo[]>([])
+  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
   const [ type, setType ] = useState<string>('machine')
-  const [ targetPk, setTargetPk ] = useState<string>('');
+  const [ targetPk, setTargetPk ] = useState<string>('')
   //검색관련
-  const [ isPoupup, setIsPoupup ] = useState<boolean>(false);
-  const [ isSearched, setIsSearched ] = useState<boolean>(false);
-  const [ keyword, setKeyword ] = useState<string>('');
+  const [ isPoupup, setIsPoupup ] = useState<boolean>(false)
+  const [ isSearched, setIsSearched ] = useState<boolean>(false)
+  const [ keyword, setKeyword ] = useState<string>('')
 
-  const [ list, setList ] = useState<ISearchedList[]>([]);
-  const [ checkList, setCheckList ] = useState<ISearchedList[]>([]);
-  const [ searchList, setSearchList ] = useState<ISearchedList[]>([]);
+  const [ list, setList ] = useState<ISearchedList[]>([])
+  const [ checkList, setCheckList ] = useState<ISearchedList[]>([])
+  const [ searchList, setSearchList ] = useState<ISearchedList[]>([])
 
-  const [ isPoupup2, setIsPoupup2 ] = useState<boolean>(false);
-  const [ list2, setList2 ] = useState<ISearchedList []>([]);
-  const [ checkList2, setCheckList2 ] = useState<ISearchedList []>([]);
-  const [ searchList2, setSearchList2 ] = useState<ISearchedList[]>([]);
+  const [ isPoupup2, setIsPoupup2 ] = useState<boolean>(false)
+  const [ list2, setList2 ] = useState<ISearchedList []>([])
+  const [ checkList2, setCheckList2 ] = useState<ISearchedList []>([])
+  const [ searchList2, setSearchList2 ] = useState<ISearchedList[]>([])
 
-  const [ isPoupup3, setIsPoupup3 ] = useState<boolean>(false);
-  const [ list3, setList3 ] = useState<ISearchedList []>([]);
-  const [ checkList3, setCheckList3 ] = useState<ISearchedList[]>([]);
-  const [ searchList3, setSearchList3 ] = useState<ISearchedList[]>([]);
+  const [ isPoupup3, setIsPoupup3 ] = useState<boolean>(false)
+  const [ list3, setList3 ] = useState<ISearchedList []>([])
+  const [ checkList3, setCheckList3 ] = useState<ISearchedList[]>([])
+  const [ searchList3, setSearchList3 ] = useState<ISearchedList[]>([])
 
-  const [ tempInfo, setTempInfo ] = useState<ITempInfo>();
+  const [ tempInfo, setTempInfo ] = useState<ITempInfo>()
 
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const MaintenanceRegisterContainer = () => {
     //setSearchList(dataSet.materialList);
     //setSearchList3(dataSet.machineList);
 
-    if (getParameter('pk') !== "") {
+    if (getParameter('pk') !== '') {
       setPk(getParameter('pk'))
       ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
@@ -89,8 +89,8 @@ const MaintenanceRegisterContainer = () => {
     } else {
 
       if (res.status === 200) {
-        setPk(getParameter('pk'));
-        const data = res.results;
+        setPk(getParameter('pk'))
+        const data = res.results
         setTempInfo(data.target)
         setInfoList(data.info_list)
         setType(data.type)
@@ -101,7 +101,7 @@ const MaintenanceRegisterContainer = () => {
         //TODO:  기타 오류
       }
     }
-  }, [ pk, name, list, list2, list3, term, type, infoList, targetPk ]);
+  }, [ pk, name, list, list2, list3, term, type, infoList, targetPk ])
 
   /**
    * onsubmitForm()
@@ -115,13 +115,13 @@ const MaintenanceRegisterContainer = () => {
    * @returns X
    */
   const onsubmitForm = useCallback(async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     //TODO: 지울것
 
 
     ////alert('테스트 : 전송 - ' + amount + code + name + info + made + spec + info );
     //return;
-    let tPk = '';
+    let tPk = ''
     if (type === 'machine' && list3 !== []) {
       tPk = list3[0].pk
     } else if (type === 'mold' && list2 !== []) {
@@ -150,9 +150,9 @@ const MaintenanceRegisterContainer = () => {
 
         setType('machine')
 
-        setList([]);
-        setList2([]);
-        setList3([]);
+        setList([])
+        setList2([])
+        setList3([])
         setInfoList([])
         setTerm(30)
 
@@ -178,7 +178,7 @@ const MaintenanceRegisterContainer = () => {
    * @returns X
    */
   const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const data = {
       pk: getParameter('pk'),
@@ -212,8 +212,8 @@ const MaintenanceRegisterContainer = () => {
    */
   const onClickSearch = useCallback(async (e) => {
 
-    e.preventDefault();
-    let type = "material";
+    e.preventDefault()
+    let type = 'material'
 
     if (isPoupup === true) {
       type = 'peripheral'
@@ -222,13 +222,13 @@ const MaintenanceRegisterContainer = () => {
     } else if (isPoupup3 === true) {
       type = 'machine'
     } else {
-      return;
+      return
     }
 
     if (keyword === '' || keyword.length < 2) {
       //alert('2글자 이상의 키워드를 입력해주세요')
 
-      return;
+      return
     }
     setIsSearched(true)
 
@@ -238,15 +238,15 @@ const MaintenanceRegisterContainer = () => {
       //TODO: 에러 처리
     } else {
       if (res.status === 200) {
-        const results = res.results;
+        const results = res.results
         if (isPoupup === true) {
-          setSearchList(results);
+          setSearchList(results)
         } else if (isPoupup2 === true) {
-          setSearchList2(results);
+          setSearchList2(results)
         } else if (isPoupup3 === true) {
-          setSearchList3(results);
+          setSearchList3(results)
         } else {
-          return;
+          return
         }
 
 
@@ -264,12 +264,14 @@ const MaintenanceRegisterContainer = () => {
           <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
             {
               isUpdate ?
-                  <NormalInput title={'이름'} value={tempInfo !== undefined ? tempInfo.name : ''} description={''}/>
+                  <NormalInput title={'이름'} value={tempInfo !== undefined ? tempInfo.name : ''}
+                               description={''}/>
                   :
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: 12, marginBottom: 24 }}>
                       <div style={{ paddingLeft: 1, paddingTop: 5 }}>
-                        <input type="radio" id="cb" name="type" checked={type === 'machine' ? true : false}
+                        <input type="radio" id="cb" name="type"
+                               checked={type === 'machine' ? true : false}
                                onClick={(e) => {
                                  setType('machine')
                                }}/>
@@ -279,7 +281,8 @@ const MaintenanceRegisterContainer = () => {
                         <span style={{ paddingLeft: 4, fontSize: 14, marginRight: 20 }}>기계</span>
                       </div>
                       <div style={{ paddingLeft: 1, paddingTop: 5 }}>
-                        <input type="radio" id="cb2" name="type" checked={type === 'peripheral' ? true : false}
+                        <input type="radio" id="cb2" name="type"
+                               checked={type === 'peripheral' ? true : false}
                                onClick={(e) => {
                                  setType('peripheral')
                                }}/>
@@ -289,7 +292,8 @@ const MaintenanceRegisterContainer = () => {
                         <span style={{ paddingLeft: 4, fontSize: 14, marginRight: 20 }}>주변장치</span>
                       </div>
                       <div style={{ paddingLeft: 1, paddingTop: 5 }}>
-                        <input type="radio" id="cb3" name="type" checked={type === 'mold' ? true : false}
+                        <input type="radio" id="cb3" name="type"
+                               checked={type === 'mold' ? true : false}
                                onClick={(e) => {
                                  setType('mold')
                                }}/>
@@ -303,10 +307,11 @@ const MaintenanceRegisterContainer = () => {
                     {
                       type === 'peripheral' ?
 
-                          <AddInput title={'보전 주변장치'} icType="solo" onlyOne={list.length > 0 ? true : false}
+                          <AddInput title={'보전 주변장치'} icType="solo"
+                                    onlyOne={list.length > 0 ? true : false}
                                     onChangeEvent={() => {
-                                      setIsPoupup(true);
-                                      setCheckList(list);
+                                      setIsPoupup(true)
+                                      setCheckList(list)
                                       setKeyword('')
                                       setList([])
                                     }
@@ -316,14 +321,15 @@ const MaintenanceRegisterContainer = () => {
                                 return (
                                     <TextList key={i}
                                               onClickSearch={() => {
-                                                setIsPoupup(true);
-                                                setKeyword('');
-                                                setIsSearched(false);
+                                                setIsPoupup(true)
+                                                setKeyword('')
+                                                setIsSearched(false)
                                               }}
                                               onClickEvent={() => {
                                                 setList([])
                                               }}
-                                              title={v.name !== undefined ? v.name : ""} name={v.code}/>
+                                              title={v.name !== undefined ? v.name : ''}
+                                              name={v.code}/>
                                 )
                               })
                             }
@@ -333,10 +339,11 @@ const MaintenanceRegisterContainer = () => {
                     {/* 팝업 여는 버튼 + 사용금형 추가 */}
                     {
                       type === 'mold' ?
-                          <AddInput title={'보전 금형'} icType="solo" onlyOne={list2.length > 0 ? true : false}
+                          <AddInput title={'보전 금형'} icType="solo"
+                                    onlyOne={list2.length > 0 ? true : false}
                                     onChangeEvent={() => {
-                                      setIsPoupup2(true);
-                                      setCheckList2(list);
+                                      setIsPoupup2(true)
+                                      setCheckList2(list)
                                       setKeyword('')
                                       setList2([])
                                     }
@@ -346,14 +353,15 @@ const MaintenanceRegisterContainer = () => {
                                 return (
                                     <TextList key={i}
                                               onClickSearch={() => {
-                                                setIsPoupup2(true);
-                                                setKeyword('');
-                                                setIsSearched(false);
+                                                setIsPoupup2(true)
+                                                setKeyword('')
+                                                setIsSearched(false)
                                               }}
                                               onClickEvent={() => {
                                                 setList2([])
                                               }}
-                                              title={v.name !== undefined ? v.name : ""} name={v.code}/>
+                                              title={v.name !== undefined ? v.name : ''}
+                                              name={v.code}/>
                                 )
                               })
                             }
@@ -363,10 +371,11 @@ const MaintenanceRegisterContainer = () => {
                     {/* 팝업 여는 버튼 + 기계 정보 추가 */}
                     {
                       type === 'machine' ?
-                          <AddInput title={'보전 기계'} icType="solo" onlyOne={list3.length > 0 ? true : false}
+                          <AddInput title={'보전 기계'} icType="solo"
+                                    onlyOne={list3.length > 0 ? true : false}
                                     onChangeEvent={() => {
-                                      setIsPoupup3(true);
-                                      setCheckList3(list3);
+                                      setIsPoupup3(true)
+                                      setCheckList3(list3)
                                       setKeyword('')
                                       setList3([])
                                     }
@@ -376,14 +385,15 @@ const MaintenanceRegisterContainer = () => {
                                 return (
                                     <TextList key={i}
                                               onClickSearch={() => {
-                                                setIsPoupup3(true);
-                                                setKeyword('');
-                                                setIsSearched(false);
+                                                setIsPoupup3(true)
+                                                setKeyword('')
+                                                setIsSearched(false)
                                               }}
                                               onClickEvent={() => {
                                                 setList3([])
                                               }}
-                                              title={v.name !== undefined ? v.name : ""} name={v.code}/>
+                                              title={v.name !== undefined ? v.name : ''}
+                                              name={v.code}/>
                                 )
                               })
                             }
@@ -395,8 +405,8 @@ const MaintenanceRegisterContainer = () => {
 
             {/* 자유항목 입력 창 */}
             <FullAddInput title={'보전 기준'} onChangeEvent={() => {
-              const tempInfo = infoList.slice();
-              tempInfo.push({ title: `보전 기준 항목 ${infoList.length + 1}`, value: "" });
+              const tempInfo = infoList.slice()
+              tempInfo.push({ title: `보전 기준 항목 ${infoList.length + 1}`, value: '' })
               setInfoList(tempInfo)
             }}>
               {
@@ -404,12 +414,12 @@ const MaintenanceRegisterContainer = () => {
                   return (
                       <CustomIndexInput index={i} value={v}
                                         onRemoveEvent={() => {
-                                          const tempInfo = infoList.slice();
+                                          const tempInfo = infoList.slice()
                                           tempInfo.splice(i, 1)
                                           setInfoList(tempInfo)
                                         }}
                                         onChangeEvent={(obj: IInfo) => {
-                                          const tempInfo = infoList.slice();
+                                          const tempInfo = infoList.slice()
                                           tempInfo.splice(i, 1, obj)
                                           setInfoList(tempInfo)
                                         }}
@@ -429,18 +439,19 @@ const MaintenanceRegisterContainer = () => {
         <SearchModalContainer
             onClickEvent={ //닫혔을 때 이벤트
               () => {
-                setIsPoupup(false);
-                setList(checkList);
+                setIsPoupup(false)
+                setList(checkList)
                 setKeyword('')
               }
             }
             isVisible={isPoupup} onClickClose={() => {
-          setIsPoupup(false);
-          setKeyword('');
-          setIsSearched(false);
-          setSearchList([]);
+          setIsPoupup(false)
+          setKeyword('')
+          setIsSearched(false)
+          setSearchList([])
         }} title={'기준 검색'}>
-          <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e) => setKeyword(e.target.value)}
+          <SearchInput description={'키워드를 검색해주세요'} value={keyword}
+                       onChangeEvent={(e) => setKeyword(e.target.value)}
                        onClickEvent={onClickSearch}/>
           <div style={{ width: '100%', marginTop: 20 }}>
             {
@@ -448,7 +459,8 @@ const MaintenanceRegisterContainer = () => {
                   searchList.map((v: ISearchedList, i) => {
                     return (
                         <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]} isIconDimmed={false}
+                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                                      isIconDimmed={false}
                                       isSelected={checkList.find((k) => k.pk === v.pk) ? true : false}
                                       onClickEvent={() => {
 
@@ -470,18 +482,19 @@ const MaintenanceRegisterContainer = () => {
         <SearchModalContainer
             onClickEvent={ //닫혔을 때 이벤트
               () => {
-                setIsPoupup2(false);
-                setList2(checkList2);
+                setIsPoupup2(false)
+                setList2(checkList2)
                 setKeyword('')
               }
             }
             isVisible={isPoupup2} onClickClose={() => {
-          setIsPoupup2(false);
-          setKeyword('');
-          setIsSearched(false);
-          setSearchList2([]);
+          setIsPoupup2(false)
+          setKeyword('')
+          setIsSearched(false)
+          setSearchList2([])
         }} title={'검색'}>
-          <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e) => setKeyword(e.target.value)}
+          <SearchInput description={'키워드를 검색해주세요'} value={keyword}
+                       onChangeEvent={(e) => setKeyword(e.target.value)}
                        onClickEvent={onClickSearch}/>
           <div style={{ width: '100%', marginTop: 20 }}>
             {
@@ -489,7 +502,8 @@ const MaintenanceRegisterContainer = () => {
                   searchList2.map((v: ISearchedList, i) => {
                     return (
                         <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]} isIconDimmed={false}
+                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                                      isIconDimmed={false}
                                       isSelected={checkList2.find((k) => k.pk === v.pk) ? true : false}
                                       onClickEvent={() => {
 
@@ -511,18 +525,19 @@ const MaintenanceRegisterContainer = () => {
         <SearchModalContainer
             onClickEvent={ //닫혔을 때 이벤트
               () => {
-                setIsPoupup3(false);
-                setList3(checkList3);
+                setIsPoupup3(false)
+                setList3(checkList3)
                 setKeyword('')
               }
             }
             isVisible={isPoupup3} onClickClose={() => {
-          setIsPoupup3(false);
-          setKeyword('');
-          setIsSearched(false);
-          setSearchList3([]);
+          setIsPoupup3(false)
+          setKeyword('')
+          setIsSearched(false)
+          setSearchList3([])
         }} title={'검색'}>
-          <SearchInput description={'키워드를 검색해주세요'} value={keyword} onChangeEvent={(e) => setKeyword(e.target.value)}
+          <SearchInput description={'키워드를 검색해주세요'} value={keyword}
+                       onChangeEvent={(e) => setKeyword(e.target.value)}
                        onClickEvent={onClickSearch}/>
           <div style={{ width: '100%', marginTop: 20 }}>
             {
@@ -530,7 +545,8 @@ const MaintenanceRegisterContainer = () => {
                   searchList3.map((v: ISearchedList, i) => {
                     return (
                         <SearchedList key={i} pk={v.pk} widths={[ '52%', '52%' ]}
-                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]} isIconDimmed={false}
+                                      contents={[ v.name, v.code !== undefined ? v.code : '' ]}
+                                      isIconDimmed={false}
                                       isSelected={checkList3.find((k) => k.pk === v.pk) ? true : false}
                                       onClickEvent={() => {
 
@@ -550,7 +566,7 @@ const MaintenanceRegisterContainer = () => {
 
       </div>
 
-  );
+  )
 }
 const FullPageDiv = Styled.div`
   width: 100%;
@@ -560,4 +576,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default MaintenanceRegisterContainer;
+export default MaintenanceRegisterContainer

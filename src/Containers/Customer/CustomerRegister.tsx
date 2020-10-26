@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { TOKEN_NAME } from '../../Common/configset'
+import { POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
 import Header from '../../Components/Text/Header';
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
 import NormalInput from '../../Components/Input/NormalInput';
@@ -15,6 +15,8 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import { useHistory } from 'react-router-dom'
 import { API_URLS, getCustomerData } from "../../Api/mes/customer";
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
+import Styled from "styled-components";
+import client from "../../Api/configs/basic";
 
 interface Props {
   match: any;
@@ -32,13 +34,13 @@ const CustomerRegister = ({ match }: Props) => {
 
   const [ pk, setPk ] = useState<string>('');
   const [ name, setName ] = useState<string>('');
-  const [ no, setNo ] = useState<string>('');
+  const [ no, setNo ] = useState<number>();
   const [ type, setType ] = useState<string>('0'); //0: 법인, 1:개인
   const [ phone, setPhone ] = useState<string>('');
   const [ address, setAddress ] = useState<{ postcode: string, roadAddress: string, detail: string }>(
       { postcode: '', roadAddress: '', detail: '' }
   );
-  const [ fax, setFax ] = useState<string>('');
+  const [ fax, setFax ] = useState<number>();
   const [ phoneM, setPhoneM ] = useState<string>('');
   const [ emailM, setEmailM ] = useState<string>('');
   const [ email, setEmail ] = useState<string>('');
@@ -122,7 +124,7 @@ const CustomerRegister = ({ match }: Props) => {
       setType(res.type);
       setPk(res.pk);
       setCeo(res.ceo_name);
-      setPaths([ res.photo ])
+      setOldPaths([ res.photo ])
       setPhone(res.telephone);
       setEmailM(res.manager_email);
       setPhoneM(res.manager_phone)
@@ -149,18 +151,24 @@ const CustomerRegister = ({ match }: Props) => {
    * @param {string} madeNo 제조사넘버
    * @returns X
    */
-  const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault();
+  const onsubmitFormUpdate = useCallback(async () => {
+
     if (name === "") {
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
+    } else if (ceo === "") {
+      alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (String(no) === "") {
+      alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return
     }
 
     const data = {
       pk: pk,
       name: name,
       number: no,
-      type: type,
+      type: String(type),
       ceo_name: ceo,
       photo: paths[0],
       telephone: phone === '' ? null : phone,
@@ -169,17 +177,16 @@ const CustomerRegister = ({ match }: Props) => {
       manager_phone: phoneM === '' ? null : phoneM,
       manager_email: emailM === '' ? null : emailM,
       address: address ? address : null,
-      fax: fax === '' ? null : fax,
+      fax: String(fax) === '' ? null : fax,
       //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
-
+    const res = await postRequest(`${client}/v1/customer/update/`, data, getToken(TOKEN_NAME))
     if (res === false) {
-      ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+      // alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
     } else {
-      //alert('성공적으로 수정 되었습니다')
+      // alert('성공적으로 수정 되었습니다')
       setIsUpdate(false)
       history.push('/customer/current/list')
     }
@@ -198,15 +205,21 @@ const CustomerRegister = ({ match }: Props) => {
    * @param {string} madeNo 제조사넘버
    * @returns X
    */
-  const onsubmitForm = useCallback(async (e) => {
-    e.preventDefault();
+  const onsubmitForm = useCallback(async () => {
     console.log(infoList)
     ////alert(JSON.stringify(infoList))
     console.log(JSON.stringify(infoList))
     if (name === "") {
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
+      alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
       return;
+    } else if (ceo === "") {
+      alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
+      return;
+    } else if (String(no) === "") {
+      alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
+      return
     }
+
     const data = {
 
       name: name,
@@ -220,38 +233,22 @@ const CustomerRegister = ({ match }: Props) => {
       manager_phone: phoneM === '' ? null : phoneM,
       manager_email: emailM === '' ? null : emailM,
       address: address ? address : null,
-      fax: fax === '' ? null : fax,
+      fax: String(fax) === '' ? null : fax,
       // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     };
 
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/customer/register', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/customer/register`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
     } else {
       if (res.status === 200) {
-        //alert('성공적으로 등록 되었습니다')
-        const data = res.results;
-        setName('');
-        setPk('');
-        setNo('');
-        setType('0');
+        // alert('성공적으로 등록 되었습니다')
 
-        setCeo('');
-        setPaths([ null ])
-        setOldPaths([ null ])
-        setPhone('');
-        setEmailM('');
-        setPhoneM('')
-        setEmail('')
 
-        setInfoList([])
-        setAddress({ postcode: '', roadAddress: '', detail: '' });
-        setFax('');
-
-        history.goBack();
+        history.push('/customer/current/list')
       } else {
         //TODO:  기타 오류
       }
@@ -264,37 +261,44 @@ const CustomerRegister = ({ match }: Props) => {
       <div>
         <Header title={isUpdate ? '거래처 정보수정' : '거래처 정보등록'}/>
         <WhiteBoxContainer>
-          <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
-            <ListHeader title="필수 항목"/>
-            <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
-            <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
-            <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                        contents={[ { value: 0, title: '법인' }, { value: 1, title: '개인' } ]}/>
+          <ListHeader title="필수 항목"/>
+          <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
+          <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
+          <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
+                      contents={[ { value: 0, title: '법인' }, { value: 1, title: '개인' } ]}/>
 
-            <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/>
-            <br/>
-            <ListHeader title="선택 항목"/>
-            <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'} onChangeEvent={(e) => addFiles(e, 0)}
-                             description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
-                             style={{ width: 'calc(100% - 124px)' }}/>
-            {
-              isUpdate ?
-                  <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={[ '' ]} isImage={true}/>
-                  :
-                  null
-            }
-            <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
-                         description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
-            <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
-            <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail} description={'사업장 이메일을 입력하세요'}/>
-            <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax} description={'사업장 팩스번호를 입력하세요'}/>
-            <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
-                         description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
-            <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
-                         description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
-            <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
-                         description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
-            {/* 자유항목 입력 창
+          {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
+          <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
+                             description={'사업자 번호를 입력하세요 (-제외)'}/>
+          <br/>
+          <ListHeader title="선택 항목"/>
+          <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
+                           onChangeEvent={(e) => addFiles(e, 0)}
+                           description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
+                           style={{ width: 'calc(100% - 124px)' }}/>
+          {
+            isUpdate ?
+                <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={[ '' ]} isImage={true}/>
+                :
+                null
+          }
+          <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
+                       description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
+          <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
+          <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
+                       description={'사업장 이메일을 입력하세요'}/>
+          {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
+                             description={'사업장 팩스번호를 입력하세요'}/> */}
+          <NormalNumberInput title={'사업장 대표 FAX'} value={fax}
+                             onChangeEvent={setFax}
+                             description={'사업장 팩스번호를 입력하세요'}/>
+          <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
+                       description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
+          <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
+                       description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
+          <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
+                       description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
+          {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();
               tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -319,14 +323,50 @@ const CustomerRegister = ({ match }: Props) => {
                 })
               }
               </FullAddInput>
-
             */}
-            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-          </form>
+          <div style={{ marginTop: 72, marginLeft: 340 }}>
+            {isUpdate ?
+                <ButtonWrap onClick={async () => {
+                  await onsubmitFormUpdate()
+                }}>
+                  <div style={{
+                    width: 360,
+                    height: 46,
+                    boxSizing: 'border-box',
+                    paddingTop: '9px'
+                  }}>
+                    <p style={{ fontSize: 18 }}>수정하기</p>
+                  </div>
+                </ButtonWrap>
+                :
+                <ButtonWrap onClick={async () => {
+                  await onsubmitForm()
+                }}>
+                  <div style={{
+                    width: 360,
+                    height: 46,
+                    boxSizing: 'border-box',
+                    paddingTop: '9px'
+                  }}>
+                    <p style={{ fontSize: 18 }}>등록하기</p>
+                  </div>
+                </ButtonWrap>
+            }
+          </div>
         </WhiteBoxContainer>
       </div>
   );
 }
 
+
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;s
+`
 
 export default CustomerRegister;

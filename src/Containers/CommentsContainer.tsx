@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Styled from 'styled-components'
 import { POINT_COLOR, TOKEN_NAME } from '../Common/configset'
 import IC_UP from '../Assets/Images/ic_reply_up.png'
 import IC_DOWN from '../Assets/Images/ic_reply_down.png'
-import { getRequest, postRequest } from '../Common/requestFunctions';
-import CommentList from '../Components/List/CommentList';
-import { getToken } from '../Common/tokenFunctions';
-import { uploadTempFile } from '../Common/fileFuctuons';
+import { getRequest, postRequest } from '../Common/requestFunctions'
+import CommentList from '../Components/List/CommentList'
+import { getToken } from '../Common/tokenFunctions'
+import { uploadTempFile } from '../Common/fileFuctuons'
+import client from "../Api/configs/basic";
 
 interface Props {
   children?: any,
@@ -18,9 +19,9 @@ const CommentsContainer = ({ children, pk }: Props) => {
   const [ isOpen, setIsOpen ] = useState<boolean>(false)
   const [ text, setText ] = useState<string>('')
   const [ file, setFile ] = useState<any>(null)
-  const [ replyList, setReplyList ] = useState<IReply[]>([]);
+  const [ replyList, setReplyList ] = useState<IReply[]>([])
   const [ path, setPath ] = useState<string | null>(null)
-  const textBoxRef = useRef(null);
+  const textBoxRef = useRef(null)
   const [ isCreated, setIsCreated ] = useState<boolean>(false)
   useEffect(() => {
 
@@ -32,16 +33,16 @@ const CommentsContainer = ({ children, pk }: Props) => {
    * @returns X
    */
   const addFile = useCallback(async (event: any): Promise<void> => {
-    console.log(event.target.files[0]);
+    console.log(event.target.files[0])
 
     if (event.target.files[0] === undefined) {
       setFile(null)
 
-      return;
+      return
     }
     if (event.target.files[0].size < 10485760) { //파일 크기 10MB 이하
-      setFile(event.target.files[0]);
-      const temp = await uploadTempFile(event.target.files[0]);
+      setFile(event.target.files[0])
+      const temp = await uploadTempFile(event.target.files[0])
       if (temp === false) {
         console.log(temp)
 
@@ -57,7 +58,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
     } else {
       ////alert('10MB 이하의 파일만 업로드 가능합니다.')
       setFile(null)
-      return;
+      return
     }
 
   }, [ file, path ])
@@ -69,11 +70,11 @@ const CommentsContainer = ({ children, pk }: Props) => {
    * @returns X
    */
   const onClickOpenComment = useCallback(async (pk: string) => {
-    if (pk === undefined || pk === "") {
-      return;
+    if (pk === undefined || pk === '') {
+      return
     }
 
-    const results = await getRequest('http://255.255.255.255:8299/api/v1/task/comment/list?pk=' + pk, getToken(TOKEN_NAME))
+    const results = await getRequest(`${client}/v1/task/comment/list?pk=` + pk, getToken(TOKEN_NAME))
 
     if (results === false) {
       //alert('데이터를 불러올 수 없습니다.')
@@ -88,7 +89,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
       }
     }
 
-  }, []);
+  }, [])
 
   /**
    * onClickDeleteComment()
@@ -106,7 +107,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
       comment_pk: id,
 
     }
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/task/comment/blind', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/task/comment/blind`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -130,7 +131,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
    */
   const addComment = useCallback(async (e, pk: string) => {
 
-    e.preventDefault();
+    e.preventDefault()
 
     const data = {
       pk: pk,
@@ -138,7 +139,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
       file: path
     }
 
-    const res = await postRequest('http://255.255.255.255:8299/api/v1/task/comment/put', data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${client}/v1/task/comment/put`, data, getToken(TOKEN_NAME))
     setIsCreated(true)
     if (res === false) {
       setIsCreated(false)
@@ -146,10 +147,10 @@ const CommentsContainer = ({ children, pk }: Props) => {
     } else {
       if (res.status === 200) {
         //alert('성공적으로 등록 되었습니다')
-        setText('');
+        setText('')
         onClickOpenComment(pk)
         setIsCreated(false)
-        setFile(null);
+        setFile(null)
         setPath(null)
         //setIsCreated(false)
         //textBoxRef.current !== null ? textBoxRef.current!.text(null) :  setText('');
@@ -169,7 +170,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
         <p className="p-bold" style={{ fontSize: 14, marginBottom: 8, display: 'inline-block', marginRight: 12 }}>·
           댓글</p>
         <img src={isOpen ? IC_UP : IC_DOWN} style={{ float: 'right', width: 19 }} onClick={() => {
-          setIsOpen(!isOpen);
+          setIsOpen(!isOpen)
           onClickOpenComment(pk)
         }}/>
 
@@ -197,13 +198,14 @@ const CommentsContainer = ({ children, pk }: Props) => {
                         </div>
 
                         :
-                        <textarea maxLength={160} ref={textBoxRef} onChange={(e) => setText(e.target.value)} style={{
-                          border: 0,
-                          fontSize: 14,
-                          padding: 12,
-                          height: '70px',
-                          width: 'calc(100% - 24px)'
-                        }} placeholder="내용을 입력해주세요 (80자 미만)">
+                        <textarea maxLength={160} ref={textBoxRef} onChange={(e) => setText(e.target.value)}
+                                  style={{
+                                    border: 0,
+                                    fontSize: 14,
+                                    padding: 12,
+                                    height: '70px',
+                                    width: 'calc(100% - 24px)'
+                                  }} placeholder="내용을 입력해주세요 (80자 미만)">
                       {text}
                       </textarea>
                   }
@@ -223,7 +225,7 @@ const CommentsContainer = ({ children, pk }: Props) => {
       </WhiteWrapDiv>
 
 
-  );
+  )
 }
 
 const WhiteWrapDiv = Styled.div`
@@ -255,4 +257,4 @@ const ButtonBox = Styled.button`
     font-size: 14px;
     font-weight: bold;
 `
-export default CommentsContainer;
+export default CommentsContainer
