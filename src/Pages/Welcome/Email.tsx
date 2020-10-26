@@ -4,6 +4,7 @@ import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
 import {useTranslation} from 'react-i18next';
+import client from "../../Api/configs/common";
 
 // 회원가입을 위한 이메일 입력 페이지
 
@@ -39,7 +40,7 @@ const Email = () => {
             base_url: subDomain
         }
 
-        const results = await postRequestWithNoToken('http://61.101.55.224:18299/email/send', data)
+        const results = await postRequestWithNoToken(`${client}/email/send`, data)
         console.log(results)
         if (results === false) {
             //TODO: 에러 처리

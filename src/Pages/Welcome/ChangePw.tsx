@@ -4,6 +4,7 @@ import WelcomeContainer from '../../Containers/WelcomeContainer';
 import WelcomeInput from '../../Components/Input/WelcomeInput';
 import {useTranslation} from 'react-i18next';
 import BasicColorButton from '../../Components/Button/BasicColorButton';
+import client from "../../Api/configs/common";
 
 
 const ChangePw = () => {
@@ -42,7 +43,7 @@ const ChangePw = () => {
             password: pw,
             auth_code: getParameter('authcode'),
         }
-        const results = await postRequestWithNoToken('http://61.101.55.224:18299/user/password/change', data)
+        const results = await postRequestWithNoToken(`${client}/user/password/change`, data)
 
         if (results === false) {
             //TODO: 에러 처리

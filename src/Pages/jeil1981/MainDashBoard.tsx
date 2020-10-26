@@ -19,6 +19,7 @@ import jeilpress2 from "../../Assets/Images/jeilpress2.jpeg"
 import jeilpress3 from "../../Assets/Images/jeilpress3.jpeg"
 import jeilpress4 from "../../Assets/Images/jeilpress4.jpeg"
 import jeilpress5 from "../../Assets/Images/jeilpress5.jpeg"
+import client from "../../Api/configs/basic";
 
 
 interface IWeekInfo {
@@ -129,7 +130,7 @@ const MainDashboard = () => {
      * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
      */
     const getStatus = useCallback(async (index: number) => {
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/dashboard/machine/' + index, getToken(TOKEN_NAME))
+        const results = await getRequest(`${client}/v1/dashboard/machine/` + index, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
@@ -150,7 +151,7 @@ const MainDashboard = () => {
      * @returns X 리턴데이터, 요청실패(false) 이벤트 처리
      */
     const getTasks = useCallback(async (index: number) => {
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/task/list/' + filter, getToken(TOKEN_NAME))
+        const results = await getRequest(`${client}/v1/task/list/` + filter, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('8087포트 : 서버에서 데이터를 불러 올 수없습니다.')
@@ -201,7 +202,7 @@ const MainDashboard = () => {
             pk: pk,
             status: value
         }
-        const results = await postRequest('http://61.101.55.224:18299/api/v1/task/status', data, getToken(TOKEN_NAME))
+        const results = await postRequest(`${client}/v1/task/status`, data, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')

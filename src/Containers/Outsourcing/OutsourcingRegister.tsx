@@ -16,6 +16,7 @@ import {useHistory} from 'react-router-dom'
 import NormalAddressInput from "../../Components/Input/NormalAddressInput";
 import useObjectInput from "../../Functions/UseInput";
 import Styled from "styled-components";
+import client from "../../Api/configs/basic";
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -24,7 +25,7 @@ const OutsourcingRegister = ({match}: any) => {
 
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>(0);
+    const [no, setNo] = useState<number>();
     const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
     const [phone, setPhone] = useState<string>('');
     const [address, setAddress] = useState<string>('');
@@ -111,7 +112,7 @@ const OutsourcingRegister = ({match}: any) => {
      */
     const getData = useCallback(async () => {
 
-        const res = await postRequest(`http://203.234.183.22:8299/api/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -180,13 +181,13 @@ const OutsourcingRegister = ({match}: any) => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: inputData.location === '' ? null : inputData.location,
+            address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -240,14 +241,14 @@ const OutsourcingRegister = ({match}: any) => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: inputData.location === '' ? null : inputData.location,
+            address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
             fax: fax === '' ? null : fax,
             // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/outsourcing/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리

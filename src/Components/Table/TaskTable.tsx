@@ -17,375 +17,375 @@ import ReadOnlyInputTask from '../Input/ReadOnlyInputTask'
 import ProcessCard from '../Card/ProcessCard'
 
 interface IProps {
-  indexList: any,
-  contents: ITask[],
-  keyName: string,
-  onClickEvent?: any,
-  buttonName?: string,
+    indexList: any,
+    contents: ITask[],
+    keyName: string,
+    onClickEvent?: any,
+    buttonName?: string,
 }
 
 
 const TaskTable = ({indexList, contents, keyName, onClickEvent, buttonName}: IProps) => {
 
-  const [openTarget, setOpenTarget] = useState<string>('')
-  const [task, setTask] = useState<any>(null)
-  const [replyList, setReplyList] = useState<IReply[]>([])
-  const [process, setProcess] = useState<IProcess[]>([])
-  const [oepnProcess, setOpenProcess] = useState<string>('')
+    const [openTarget, setOpenTarget] = useState<string>('')
+    const [task, setTask] = useState<any>(null)
+    const [replyList, setReplyList] = useState<IReply[]>([])
+    const [process, setProcess] = useState<IProcess[]>([])
+    const [oepnProcess, setOpenProcess] = useState<string>('')
 
 
-  useEffect(() => {
-    setOpenTarget('')
-  }, [contents])
+    useEffect(() => {
+        setOpenTarget('')
+    }, [contents])
 
 
-  /**
-   * onChangeStock()
-   * 생산자재 수량 변경
-   * @param {string} pk id
-   * @param {string} amount 수량
-   * @returns X
-   */
-  const onChangeStock = useCallback(async (pk, amount) => {
+    /**
+     * onChangeStock()
+     * 생산자재 수량 변경
+     * @param {string} pk id
+     * @param {string} amount 수량
+     * @returns X
+     */
+    const onChangeStock = useCallback(async (pk, amount) => {
 
-    if (task == null || task.pk == undefined) {
-      return
-    }
-    if (amount < 0) {
-      return
-    }
-    const data = {
-      pk: task.pk,
-      product_pk: pk,
-      amount: amount
+        if (task == null || task.pk == undefined) {
+            return
+        }
+        if (amount < 0) {
+            return
+        }
+        const data = {
+            pk: task.pk,
+            product_pk: pk,
+            amount: amount
 
-    }
-    const res = await postRequest('http://61.101.55.224:18299/api/v1/task/amount', data, getToken(TOKEN_NAME))
+        }
+        const res = await postRequest('http://255.255.255.255:8299/api/v1/task/amount', data, getToken(TOKEN_NAME))
 
-    if (res === false) {
-      ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 변경 되었습니다')
+        if (res === false) {
+            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        } else {
+            if (res.status === 200) {
+                //alert('성공적으로 변경 되었습니다')
 
-      } else {
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
-    }
-
-
-  }, [task])
-
-  /**
-   * onClickOpenTask()
-   * 작업지시서 열기
-   * @param {string} pk 작업지시서 pk
-   * @returns X
-   */
-  const onClickOpenTask = useCallback(async (pk: string) => {
-    if (pk === undefined || pk === '') {
-      return
-    }
-
-    ////alert(pk)
-
-    const results = await getRequest('http://61.101.55.224:18299/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
-
-    if (results === false) {
-      //alert(' 데이터를 불러올 수 없습니다.')
-      setTask(null)
-
-    } else {
-      if (results.status === 200) {
-        setTask(results.results)
-        onClickGetProcess(pk)
-        setOpenTarget(pk)
-        //setProcess(results.results.process)
-        //setReplyList(results.results.replyList)
-      } else {
-        //TODO : 지울것
-        //alert('데이터를 불러올 수 없습니다.')
-        setTask(null)
-      }
-    }
-
-  }, [openTarget, task, process])
-
-
-  /**
-   * onClickGetProcess()
-   * 공정 열기
-   * @param {string} pk 작업지시서 pk
-   * @returns X
-   */
-  const onClickGetProcess = useCallback(async (pk: string) => {
-    if (pk === undefined || pk === '') {
-      return
-    }
-
-    const results = await getRequest('http://61.101.55.224:18299/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
-
-    if (results === false) {
-      //alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
-    } else {
-      if (results.status === 200) {
-        //setTask(results.results)
-
-        setProcess(results.results)
-        //setReplyList(results.results.replyList)
-      } else {
-        //TODO : 지울것
-        //alert('데이터를 불러올 수 없습니다.')
-      }
-    }
-
-  }, [openTarget, task, process])
-
-
-  useEffect(() => {
-    console.log(Object.keys(indexList))
-  }, [])
-
-  return (
-    <TableWrap>
-      <table>
-        <tbody>
-        <tr>
-          <td>작업상태</td>
-          <td>제목</td>
-          <td>제품명</td>
-          <td>생산목표량</td>
-          <td>공정</td>
-          <td>작업자</td>
-          {/*<td>댓글</td>*/}
-
-        </tr>
-        {/* 테이블 바디 */}
-        {
-          contents.map((v, i) => {
-            return (
-              <>
-                <tr key={i} style={{cursor: 'pointer', width: '100%'}}>
-                  {
-                    Object.keys(indexList).map((mv, mi) => {
-                      return (
-                        <td className="p-limit" key={mv}
-                            onClick={mv !== 'status' ? () => onClickOpenTask(v.pk) : () => {
-                            }}>
-                          <div style={{display: 'flex', whiteSpace: 'nowrap'}}>
-                            {mv === 'status' ? <StatusDropdown pk={v['pk']}
-                                                               contents={['active', 'done', 'share', 'ready', 'stop']}
-                                                               select={v[mv]}
-                                                               onClickEvent={onClickEvent}/> : null}
-                            {mv === 'comments' ? <div><img src={IC_REPLY} style={{
-                              marginLeft: 4,
-                              width: 14,
-                              height: 14,
-                              marginRight: 4
-                            }}/></div> : null}
-                            {mv === 'worker' ? <div><ImageBox
-                              src={v['worker'].photo === '' ? IMG_PROFILE : v['worker'].photo}/>{v['worker'].name + ' ' + v['worker'].appointment}
-                            </div> : null}
-                            {mv === 'amount' ? v[mv] + ' 개' : null}
-                            {mv !== 'status' && mv !== 'worker' && mv !== 'amount' ? v[mv] : null}
-                          </div>
-                        </td>
-                      )
-                    })
-                  }
-
-                </tr>
-                <tr style={{backgroundColor: '#f4f6fa'}}>
-                  {
-                    openTarget !== v.pk || task == null ?
-                      null
-                      :
-                      <td colSpan={7} style={{paddingLeft: 8, color: 'black'}}>
-
-                        <div className="div-no-scroll"
-                             style={{maxHeight: 700, overflow: 'auto'}}>
-                          {/* 헤더 */}
-                          <div style={{marginTop: 24}}>
-                            <div style={{float: 'right', cursor: 'pointer'}}>
-                              <TinyButtonLink url={'/task/update?pk=' + v.pk}
-                                              name={'수정'}/>
-                              <img onClick={() => setOpenTarget('')} src={IC_CLOSE}
-                                   style={{marginLeft: 9, width: 24, float: 'right'}}/>
-                            </div>
-                            <div style={{display: 'flex', paddingLeft: 12}}>
-                              <StatusDropdown pk={openTarget}
-                                              contents={['active', 'done', 'share', 'ready', 'stop']}
-                                              select={task.status}
-                                              onClickEvent={onClickEvent}/>
-                              <p className="p-bold p-limit" style={{
-                                marginLeft: 30,
-                                fontSize: 28,
-                                width: 700,
-                                marginTop: 4
-                              }}>{task.title}</p>
-
-                            </div>
-                            {/* 상세내용 */}
-                            <div style={{paddingLeft: 12, position: 'relative'}}>
-                              <p style={{
-                                float: 'right',
-                                position: 'absolute',
-                                right: 0,
-                                top: 21
-                              }}>작성일
-                                : {task.created}</p>
-                              <ReadOnlyInputTask title={'상세 업무내용'}
-                                                 value={task.description}/>
-                            </div>
-                          </div>
-                          {/* 공정내용 */}
-                          <div style={{paddingLeft: 12, minHeight: 200, paddingTop: 18}}>
-                            <p className="p-bold">· 공정 관리 시스템</p>
-                            <ProcessWrapBox>
-                              {
-                                process.map((v: IProcess, i: number) => {
-                                  return (
-                                    <ProcessCard contents={v}
-                                                 onClickModify={onChangeStock}
-                                                 onClickEvent={setOpenProcess}
-                                                 openTarget={oepnProcess}/>
-                                  )
-                                })
-                              }
-                            </ProcessWrapBox>
-
-                          </div>
-
-
-                          {/* 댓글, 등록자, 파일 리스트 */}
-                          <div style={{paddingLeft: 12, marginBottom: 12}}>
-                            <hr style={{
-                              border: 'solid 0.5px #d3d3d3',
-                              marginBottom: 18,
-                              marginTop: 18,
-                            }}/>
-                            <span className="p-bold"
-                                  style={{
-                                    width: 128,
-                                    float: 'left',
-                                    display: 'inline-block'
-                                  }}>·  첨부 파일</span>
-                            <div style={{marginLeft: 128, color: 'black', minHeight: 70}}>
-                              {
-                                task.files.map((f, i) => {
-
-                                  return (
-                                    <a key={'file-' + i} href={f.url} style={{
-                                      textAlign: 'center',
-                                      display: 'inline-block',
-                                      marginRight: 11
-                                    }}>
-                                      <img
-                                        src={f.type === 'image' ? IC_IMAGE : IC_DOC}
-                                        style={{
-                                          width: 100,
-                                          height: 70,
-                                          objectFit: 'cover'
-                                        }}/>
-                                      <p className="p-limit" style={{
-                                        width: 95,
-                                        fontSize: 13
-                                      }}>{f.name}</p>
-                                    </a>
-                                  )
-                                })
-                              }
-                            </div>
-                            <hr style={{
-                              border: 'solid 0.5px #d3d3d3',
-                              marginBottom: 18,
-                              marginTop: 18,
-                            }}/>
-
-                            <div>
-                              {/* 관리자 */}
-                              <div style={{
-                                width: 210,
-                                fontSize: 14,
-                                display: 'inline-block'
-                              }}>
-                                <div style={{display: 'flex'}}>
-                                        <span className="p-bold"
-                                              style={{width: 75, display: 'inline-block',}}>·  관리자</span>
-                                  <ImageBox
-                                    src={task.requester_image === '' ? IMG_PROFILE : task.requester_image}/>
-                                  <span className="p-limit"
-                                        style={{
-                                          width: 90,
-                                          display: 'inline-block'
-                                        }}>{task.requester}</span>
-                                </div>
-                              </div>
-
-                              {/* 작업 책임자 */}
-                              <div style={{
-                                width: 225,
-                                fontSize: 14,
-                                display: 'inline-block'
-                              }}>
-                                <div style={{display: 'flex'}}>
-                                                                    <span className="p-bold" style={{
-                                                                      width: 102,
-                                                                      display: 'inline-block',
-                                                                    }}>·  작업 책임자</span>
-                                  <ImageBox
-                                    src={task.worker_image === '' ? IMG_PROFILE : task.worker_image}/>
-                                  <span className="p-limit"
-                                        style={{
-                                          width: 102,
-                                          display: 'inline-block'
-                                        }}>{task.worker}</span>
-                                </div>
-                              </div>
-                              <hr style={{
-                                border: 'solid 0.5px #d3d3d3',
-                                marginBottom: 18,
-                                marginTop: 18,
-                              }}/>
-                              {/* 참조자 */}
-                              <div style={{
-                                width: '100%',
-                                fontSize: 14,
-                                display: 'inline-block'
-                              }}>
-                                <div style={{display: 'flex'}}>
-                                        <span className="p-bold"
-                                              style={{width: 100, display: 'inline-block',}}>·  공유자</span>
-                                  <span className="p-limit"
-                                        style={{
-                                          width: 500,
-                                          display: 'inline-block'
-                                        }}>{task.referencers}</span>
-                                </div>
-                              </div>
-
-                            </div>
-                            <CommentsContainer pk={openTarget}>
-
-                            </CommentsContainer>
-                          </div>
-
-
-                        </div>
-
-                      </td>
-                  }
-                </tr>
-              </>
-            )
-          })
+            } else {
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
         }
 
-        </tbody>
-      </table>
-    </TableWrap>
 
-  )
+    }, [task])
+
+    /**
+     * onClickOpenTask()
+     * 작업지시서 열기
+     * @param {string} pk 작업지시서 pk
+     * @returns X
+     */
+    const onClickOpenTask = useCallback(async (pk: string) => {
+        if (pk === undefined || pk === '') {
+            return
+        }
+
+        ////alert(pk)
+
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/task/detail?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
+
+        if (results === false) {
+            //alert(' 데이터를 불러올 수 없습니다.')
+            setTask(null)
+
+        } else {
+            if (results.status === 200) {
+                setTask(results.results)
+                onClickGetProcess(pk)
+                setOpenTarget(pk)
+                //setProcess(results.results.process)
+                //setReplyList(results.results.replyList)
+            } else {
+                //TODO : 지울것
+                //alert('데이터를 불러올 수 없습니다.')
+                setTask(null)
+            }
+        }
+
+    }, [openTarget, task, process])
+
+
+    /**
+     * onClickGetProcess()
+     * 공정 열기
+     * @param {string} pk 작업지시서 pk
+     * @returns X
+     */
+    const onClickGetProcess = useCallback(async (pk: string) => {
+        if (pk === undefined || pk === '') {
+            return
+        }
+
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/task/process?pk=' + encodeURIComponent(pk), getToken(TOKEN_NAME))
+
+        if (results === false) {
+            //alert('8087 : 서버오류 데이터를 불러올 수 없습니다.')
+        } else {
+            if (results.status === 200) {
+                //setTask(results.results)
+
+                setProcess(results.results)
+                //setReplyList(results.results.replyList)
+            } else {
+                //TODO : 지울것
+                //alert('데이터를 불러올 수 없습니다.')
+            }
+        }
+
+    }, [openTarget, task, process])
+
+
+    useEffect(() => {
+        console.log(Object.keys(indexList))
+    }, [])
+
+    return (
+        <TableWrap>
+            <table>
+                <tbody>
+                <tr>
+                    <td>작업상태</td>
+                    <td>제목</td>
+                    <td>제품명</td>
+                    <td>생산목표량</td>
+                    <td>공정</td>
+                    <td>작업자</td>
+                    {/*<td>댓글</td>*/}
+
+                </tr>
+                {/* 테이블 바디 */}
+                {
+                    contents.map((v, i) => {
+                        return (
+                            <>
+                                <tr key={i} style={{cursor: 'pointer', width: '100%'}}>
+                                    {
+                                        Object.keys(indexList).map((mv, mi) => {
+                                            return (
+                                                <td className="p-limit" key={mv}
+                                                    onClick={mv !== 'status' ? () => onClickOpenTask(v.pk) : () => {
+                                                    }}>
+                                                    <div style={{display: 'flex', whiteSpace: 'nowrap'}}>
+                                                        {mv === 'status' ? <StatusDropdown pk={v['pk']}
+                                                                                           contents={['active', 'done', 'share', 'ready', 'stop']}
+                                                                                           select={v[mv]}
+                                                                                           onClickEvent={onClickEvent}/> : null}
+                                                        {mv === 'comments' ? <div><img src={IC_REPLY} style={{
+                                                            marginLeft: 4,
+                                                            width: 14,
+                                                            height: 14,
+                                                            marginRight: 4
+                                                        }}/></div> : null}
+                                                        {mv === 'worker' ? <div><ImageBox
+                                                            src={v['worker'].photo === '' ? IMG_PROFILE : v['worker'].photo}/>{v['worker'].name + ' ' + v['worker'].appointment}
+                                                        </div> : null}
+                                                        {mv === 'amount' ? v[mv] + ' 개' : null}
+                                                        {mv !== 'status' && mv !== 'worker' && mv !== 'amount' ? v[mv] : null}
+                                                    </div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+
+                                </tr>
+                                <tr style={{backgroundColor: '#f4f6fa'}}>
+                                    {
+                                        openTarget !== v.pk || task == null ?
+                                            null
+                                            :
+                                            <td colSpan={7} style={{paddingLeft: 8, color: 'black'}}>
+
+                                                <div className="div-no-scroll"
+                                                     style={{maxHeight: 700, overflow: 'auto'}}>
+                                                    {/* 헤더 */}
+                                                    <div style={{marginTop: 24}}>
+                                                        <div style={{float: 'right', cursor: 'pointer'}}>
+                                                            <TinyButtonLink url={'/task/update?pk=' + v.pk}
+                                                                            name={'수정'}/>
+                                                            <img onClick={() => setOpenTarget('')} src={IC_CLOSE}
+                                                                 style={{marginLeft: 9, width: 24, float: 'right'}}/>
+                                                        </div>
+                                                        <div style={{display: 'flex', paddingLeft: 12}}>
+                                                            <StatusDropdown pk={openTarget}
+                                                                            contents={['active', 'done', 'share', 'ready', 'stop']}
+                                                                            select={task.status}
+                                                                            onClickEvent={onClickEvent}/>
+                                                            <p className="p-bold p-limit" style={{
+                                                                marginLeft: 30,
+                                                                fontSize: 28,
+                                                                width: 700,
+                                                                marginTop: 4
+                                                            }}>{task.title}</p>
+
+                                                        </div>
+                                                        {/* 상세내용 */}
+                                                        <div style={{paddingLeft: 12, position: 'relative'}}>
+                                                            <p style={{
+                                                                float: 'right',
+                                                                position: 'absolute',
+                                                                right: 0,
+                                                                top: 21
+                                                            }}>작성일
+                                                                : {task.created}</p>
+                                                            <ReadOnlyInputTask title={'상세 업무내용'}
+                                                                               value={task.description}/>
+                                                        </div>
+                                                    </div>
+                                                    {/* 공정내용 */}
+                                                    <div style={{paddingLeft: 12, minHeight: 200, paddingTop: 18}}>
+                                                        <p className="p-bold">· 공정 관리 시스템</p>
+                                                        <ProcessWrapBox>
+                                                            {
+                                                                process.map((v: IProcess, i: number) => {
+                                                                    return (
+                                                                        <ProcessCard contents={v}
+                                                                                     onClickModify={onChangeStock}
+                                                                                     onClickEvent={setOpenProcess}
+                                                                                     openTarget={oepnProcess}/>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </ProcessWrapBox>
+
+                                                    </div>
+
+
+                                                    {/* 댓글, 등록자, 파일 리스트 */}
+                                                    <div style={{paddingLeft: 12, marginBottom: 12}}>
+                                                        <hr style={{
+                                                            border: 'solid 0.5px #d3d3d3',
+                                                            marginBottom: 18,
+                                                            marginTop: 18,
+                                                        }}/>
+                                                        <span className="p-bold"
+                                                              style={{
+                                                                  width: 128,
+                                                                  float: 'left',
+                                                                  display: 'inline-block'
+                                                              }}>·  첨부 파일</span>
+                                                        <div style={{marginLeft: 128, color: 'black', minHeight: 70}}>
+                                                            {
+                                                                task.files.map((f, i) => {
+
+                                                                    return (
+                                                                        <a key={'file-' + i} href={f.url} style={{
+                                                                            textAlign: 'center',
+                                                                            display: 'inline-block',
+                                                                            marginRight: 11
+                                                                        }}>
+                                                                            <img
+                                                                                src={f.type === 'image' ? IC_IMAGE : IC_DOC}
+                                                                                style={{
+                                                                                    width: 100,
+                                                                                    height: 70,
+                                                                                    objectFit: 'cover'
+                                                                                }}/>
+                                                                            <p className="p-limit" style={{
+                                                                                width: 95,
+                                                                                fontSize: 13
+                                                                            }}>{f.name}</p>
+                                                                        </a>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
+                                                        <hr style={{
+                                                            border: 'solid 0.5px #d3d3d3',
+                                                            marginBottom: 18,
+                                                            marginTop: 18,
+                                                        }}/>
+
+                                                        <div>
+                                                            {/* 관리자 */}
+                                                            <div style={{
+                                                                width: 210,
+                                                                fontSize: 14,
+                                                                display: 'inline-block'
+                                                            }}>
+                                                                <div style={{display: 'flex'}}>
+                                        <span className="p-bold"
+                                              style={{width: 75, display: 'inline-block',}}>·  관리자</span>
+                                                                    <ImageBox
+                                                                        src={task.requester_image === '' ? IMG_PROFILE : task.requester_image}/>
+                                                                    <span className="p-limit"
+                                                                          style={{
+                                                                              width: 90,
+                                                                              display: 'inline-block'
+                                                                          }}>{task.requester}</span>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* 작업 책임자 */}
+                                                            <div style={{
+                                                                width: 225,
+                                                                fontSize: 14,
+                                                                display: 'inline-block'
+                                                            }}>
+                                                                <div style={{display: 'flex'}}>
+                                                                    <span className="p-bold" style={{
+                                                                        width: 102,
+                                                                        display: 'inline-block',
+                                                                    }}>·  작업 책임자</span>
+                                                                    <ImageBox
+                                                                        src={task.worker_image === '' ? IMG_PROFILE : task.worker_image}/>
+                                                                    <span className="p-limit"
+                                                                          style={{
+                                                                              width: 102,
+                                                                              display: 'inline-block'
+                                                                          }}>{task.worker}</span>
+                                                                </div>
+                                                            </div>
+                                                            <hr style={{
+                                                                border: 'solid 0.5px #d3d3d3',
+                                                                marginBottom: 18,
+                                                                marginTop: 18,
+                                                            }}/>
+                                                            {/* 참조자 */}
+                                                            <div style={{
+                                                                width: '100%',
+                                                                fontSize: 14,
+                                                                display: 'inline-block'
+                                                            }}>
+                                                                <div style={{display: 'flex'}}>
+                                        <span className="p-bold"
+                                              style={{width: 100, display: 'inline-block',}}>·  공유자</span>
+                                                                    <span className="p-limit"
+                                                                          style={{
+                                                                              width: 500,
+                                                                              display: 'inline-block'
+                                                                          }}>{task.referencers}</span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <CommentsContainer pk={openTarget}>
+
+                                                        </CommentsContainer>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </td>
+                                    }
+                                </tr>
+                            </>
+                        )
+                    })
+                }
+
+                </tbody>
+            </table>
+        </TableWrap>
+
+    )
 }
 const ImageBox = Styled.img`
   border-radius: 10px;

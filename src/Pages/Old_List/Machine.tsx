@@ -1,35 +1,38 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
-import Header from '../../Components/Text/Header';
-import {getToken} from '../../Common/tokenFunctions';
+import React, {useCallback, useEffect, useState} from 'react'
+import {TOKEN_NAME} from '../../Common/configset'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import Header from '../../Components/Text/Header'
+import {getToken} from '../../Common/tokenFunctions'
 import 'react-dropdown/style.css'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_MENU_LIST} from '../../Common/routerset';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {getRequest, postRequest} from '../../Common/requestFunctions';
-import SmallButtonLink from '../../Components/Button/SmallButtonLink';
-import SearchInputSmall from '../../Components/Input/SearchInputSmall';
-import InfoTable from '../../Components/Table/InfoTable';
+import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
+import SubNavigation from '../../Components/Navigation/SubNavigation'
+import {ROUTER_MENU_LIST} from '../../Common/routerset'
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
+import SmallButtonLink from '../../Components/Button/SmallButtonLink'
+import SearchInputSmall from '../../Components/Input/SearchInputSmall'
+import InfoTable from '../../Components/Table/InfoTable'
+import {machineCodeToName} from '../../Common/codeTransferFunctions'
 
+// 기계 리스트
+const MachineList = () => {
 
-const MoldMaintenance = () => {
-
-    const [list, setList] = useState<IMaintenance[]>([]);
-    const [option, setOption] = useState(0);
-    const [keyword, setKeyword] = useState<string>('');
-    const type = "mold"
-
+    const [list, setList] = useState<IMachine[]>([])
+    const [option, setOption] = useState(0)
+    const [page, setPage] = useState(0)
+    const [keyword, setKeyword] = useState<string>('')
+    const [type, setType] = useState(0)
 
     const optionList = [
-        "등록순", "이름순"
+        '등록순', '기계이름 순', '기계종류 순', '기계번호 순', '제조사 순'
     ]
     const index = {
-        name: '이름',
-        term: '권장 점검 주기(일)'
+        machine_name: '기계 이름',
+        machine_label: '기계 종류',
+        manufacturer: '제조사',
+        manufacturer_code: '제조 번호',
     }
+
 
     /**
      * getSearchList()
@@ -38,8 +41,9 @@ const MoldMaintenance = () => {
      * @returns X
      */
     const getSearchList = useCallback(async (e) => {
-        e.preventDefault();
-        const results = await getRequest('http://255.255.255.255:8299/api/v1/preserve/list?keyword=' + keyword + '&orderBy=' + option + '&type=' + type, getToken(TOKEN_NAME))
+        e.preventDefault()
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/machine/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
+
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -50,7 +54,8 @@ const MoldMaintenance = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [list, option, keyword, type])
+    }, [list, option, keyword])
+
 
     /**
      * getList()
@@ -60,7 +65,9 @@ const MoldMaintenance = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest('http://255.255.255.255:8299/api/v1/preserve/list?keyword=' + keyword + '&orderBy=' + option + '&type=' + type, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/machine/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
+
+
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -70,7 +77,8 @@ const MoldMaintenance = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [option, keyword, list])
+    }, [list, keyword, option])
+
 
     /**
      * onClickFilter()
@@ -82,7 +90,8 @@ const MoldMaintenance = () => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
-        const results = await getRequest('http://255.255.255.255:8299/api/v1/preserve/list?keyword=' + keyword + '&orderBy=' + option + '&type=' + type, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/machine/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
+
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -92,29 +101,31 @@ const MoldMaintenance = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [option, keyword, list])
+    }, [option, list, keyword])
 
     useEffect(() => {
         getList()
 
-        //setList(dataSet.maintenanceList)
     }, [])
+
+
     const onClickModify = useCallback((id) => {
 
         console.log('--select id : ' + id)
-        window.location.href = `/update/design?pk=${id}`
+        window.location.href = `/update/machine?pk=${id}`
 
     }, [])
+
+
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://255.255.255.255:8299/api/v1/preserve/delete', {pk: id}, getToken(TOKEN_NAME))
-
+        const results = await postRequest('http://255.255.255.255:8299/api/v1/machine/delete', {pk: id}, getToken(TOKEN_NAME))
         const tg = id
-        //console.log('--select id : ' + id)
+        console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
-            if (results.status === 200 || results.status === "200") {
+            if (results.status === 200 || results.status === '200') {
                 //alert('해당 데이터가 성공적으로 삭제되었습니다.')
                 setList(list.filter(v => v.pk !== tg))
             } else {
@@ -122,16 +133,17 @@ const MoldMaintenance = () => {
             }
         }
 
+
     }, [list])
 
     return (
-        <DashboardWrapContainer index={5}>
-            <SubNavigation list={ROUTER_MENU_LIST[5]}/>
+        <DashboardWrapContainer index={0}>
+            <SubNavigation list={ROUTER_MENU_LIST[0]}/>
             <InnerBodyContainer>
                 <div style={{position: 'relative'}}>
-                    <Header title={`금형 보전리스트 (${list.length})`}/>
+                    <Header title={`기계 기본정보 (${list.length})`}/>
                     <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
-                        <SmallButtonLink name="+ 등록하기" link="/maintenance/register"/>
+                        <SmallButtonLink name="+ 등록하기" link="/register/machine"/>
                         <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
                     </div>
                 </div>
@@ -139,27 +151,20 @@ const MoldMaintenance = () => {
                     description={'검색어 입력'}
                     value={keyword}
                     onChangeEvent={(e) => {
+                        console.log('load...')
                         setKeyword(e.target.value)
                     }}
                     onClickEvent={getSearchList}
                 />
-
-                <InfoTable indexList={index} type={'maintenance'} pkKey={'pk'}
-                           onClickLinkUrl="/maintenance/update?type=mold&pk=" contents={list}
+                <InfoTable indexList={index} type={'machine'} pkKey={'pk'} typeKey={'machine_label'}
+                           typeChanger={machineCodeToName} onClickLinkUrl="/update/machine?pk=" contents={list}
                            onClickRemove={onClickDelete}/>
-
-
             </InnerBodyContainer>
         </DashboardWrapContainer>
 
-    );
+    )
 }
-const FullPageDiv = Styled.div`
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: ${BG_COLOR_SUB2}
-`
 
 
-export default MoldMaintenance;
+export default MachineList
+

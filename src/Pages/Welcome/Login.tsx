@@ -10,6 +10,7 @@ import BasicColorButton from '../../Components/Button/BasicColorButton';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import {usePopupDispatch} from '../../Context/PopupContext';
 import {API_URLS, getServerStatus} from '../../Api/mes/common';
+import client from "../../Api/configs/common";
 
 // 로그인 페이지
 const Login = () => {
@@ -33,7 +34,7 @@ const Login = () => {
             email: email,
             password: password,
         }
-        const results = await postRequestWithNoToken('http://61.101.55.224:18299/user/login', data)
+        const results = await postRequestWithNoToken(`${client}/user/login`, data)
 
         if (results === false) {
             //TODO: 에러 처리

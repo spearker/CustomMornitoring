@@ -14,189 +14,190 @@ import * as _ from 'lodash'
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
 import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import {useHistory} from 'react-router-dom'
+import client from "../../Api/configs/basic";
 
 // 공장 세분화 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const BasicSubdividedRegister = () => {
-  const history = useHistory()
+    const history = useHistory()
 
-  const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
+    const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
 
-  const [essential, setEssential] = useState<any[]>([])
-  const [optional, setOptional] = useState<any[]>([])
+    const [essential, setEssential] = useState<any[]>([])
+    const [optional, setOptional] = useState<any[]>([])
 
-  const [isUpdate, setIsUpdate] = useState<boolean>(false)
-  const [pk, setPk] = useState<string>('')
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const [pk, setPk] = useState<string>('')
 
-  const [inputData, setInputData] = useState<any>({
-    name: '',
-    factory: [],
-    description: '',
-    address: '',
-  })
+    const [inputData, setInputData] = useState<any>({
+        name: '',
+        factory: [],
+        description: '',
+        address: '',
+    })
 
-  useEffect(() => {
+    useEffect(() => {
 
-    if (getParameter('pk') !== '') {
-      setPk(getParameter('pk'))
-      setIsUpdate(true)
-      getData()
-    }
-
-  }, [])
-
-  const getData = useCallback(async () => {
-
-    const res = await getRequest('http://61.101.55.224:18299/api/v1/subdivided/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
-
-    if (res === false) {
-      //TODO: 에러 처리
-    } else {
-      if (res.status === 200 || res.status === '200') {
-        const data = res.results
-        const form = {
-          pk: data.pk,
-          factory: [{pk: data.factory, name: data.factory_name}],
-          name: data.subdivided_name,
-          description: data.description,
-
+        if (getParameter('pk') !== '') {
+            setPk(getParameter('pk'))
+            setIsUpdate(true)
+            getData()
         }
 
-        setInputData(form)
+    }, [])
 
-      } else {
-        //TODO:  기타 오류
-      }
-    }
-  }, [pk, optional, essential, inputData])
+    const getData = useCallback(async () => {
 
+        const res = await getRequest(`${client}/v1/subdivided/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
-  const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault()
+        if (res === false) {
+            //TODO: 에러 처리
+        } else {
+            if (res.status === 200 || res.status === '200') {
+                const data = res.results
+                const form = {
+                    pk: data.pk,
+                    factory: [{pk: data.factory, name: data.factory_name}],
+                    name: data.subdivided_name,
+                    description: data.description,
 
-    if (inputData.factory === undefined || inputData.factory[0]?.pk === undefined || inputData.factory[0]?.pk === '') {
-      alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (inputData.name === '') {
-      alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
-
-    const data = {
-      pk: getParameter('pk'),
-      factory: inputData.factory[0].pk,
-      name: inputData.name,
-      description: inputData.description,
-      info_list: JsonStringifyList(essential, optional)
-    }
-    const res = await postRequest('http://61.101.55.224:18299/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
-
-    if (res === false) {
-      // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 등록 되었습니다')
-        history.push('/basic/list/subdivided')
-      } else {
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
-    }
-
-  }, [pk, optional, essential, inputData])
-
-  const onsubmitForm = useCallback(async (e) => {
-    e.preventDefault()
-
-    if (inputData.factory === undefined || inputData.factory[0]?.pk === undefined || inputData.factory[0]?.pk === '') {
-      alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (inputData.name === '') {
-      alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
-
-    const data = {
-      document_pk: document.pk,
-      factory: inputData.factory[0].pk,
-      name: inputData.name,
-      description: inputData.description,
-      info_list: JsonStringifyList(essential, optional)
-    }
-
-    const res = await postRequest('http://61.101.55.224:18299/api/v1/subdivided/register', data, getToken(TOKEN_NAME))
-
-    if (res === false) {
-      // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 등록 되었습니다')
-        history.push('/basic/list/subdivided')
-      } else {
-        //TODO:  기타 오류
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
-    }
-
-  }, [pk, optional, essential, inputData, document])
-
-
-  return (
-    <DashboardWrapContainer index={'basic'}>
-
-      <InnerBodyContainer>
-        <Header title={isUpdate ? '공장 세분화 정보수정' : '공장 세분화 정보등록'}/>
-        <WhiteBoxContainer>
-          {
-            // document.id !== '' || isUpdate == true?
-            <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
-              <ListHeader title="필수 항목"/>
-              <BasicSearchContainer
-                title={'공장'}
-                key={'pk'}
-                value={'name'}
-                option={0}
-                onChangeEvent={
-                  (input) => {
-                    let temp = _.cloneDeep(inputData)
-                    temp.factory = input
-                    setInputData(temp)
-                  }
                 }
-                solo={true}
-                list={inputData.factory}
-                searchUrl={'http://61.101.55.224:18299/api/v1/factory/search?'}
-              />
 
-              <NormalInput title={'세분화 이름'} value={inputData.name} description={''}
-                           onChangeEvent={(input) => {
-                             let temp = _.cloneDeep(inputData)
-                             temp.name = input
-                             setInputData(temp)
-                           }}/>
+                setInputData(form)
 
-              <br/>
-              <ListHeader title="선택 항목"/>
-              <NormalInput title={'설명'} value={inputData.description} description={''}
-                           onChangeEvent={(input) => {
-                             let temp = _.cloneDeep(inputData)
-                             temp.description = input
-                             setInputData(temp)
-                           }}/>
-              <br/>
+            } else {
+                //TODO:  기타 오류
+            }
+        }
+    }, [pk, optional, essential, inputData])
 
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-            </form>
-            // :
-            //
-            // <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
-          }
-        </WhiteBoxContainer>
 
-      </InnerBodyContainer>
+    const onsubmitFormUpdate = useCallback(async (e) => {
+        e.preventDefault()
 
-    </DashboardWrapContainer>
+        if (inputData.factory === undefined || inputData.factory[0]?.pk === undefined || inputData.factory[0]?.pk === '') {
+            alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (inputData.name === '') {
+            alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        }
 
-  )
+        const data = {
+            pk: getParameter('pk'),
+            factory: inputData.factory[0].pk,
+            name: inputData.name,
+            description: inputData.description,
+            info_list: JsonStringifyList(essential, optional)
+        }
+        const res = await postRequest(`${client}/v1/subdivided/update/`, data, getToken(TOKEN_NAME))
+
+        if (res === false) {
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        } else {
+            if (res.status === 200) {
+                //alert('성공적으로 등록 되었습니다')
+                history.push('/basic/list/subdivided')
+            } else {
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    }, [pk, optional, essential, inputData])
+
+    const onsubmitForm = useCallback(async (e) => {
+        e.preventDefault()
+
+        if (inputData.factory === undefined || inputData.factory[0]?.pk === undefined || inputData.factory[0]?.pk === '') {
+            alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (inputData.name === '') {
+            alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        }
+
+        const data = {
+            document_pk: document.pk,
+            factory: inputData.factory[0].pk,
+            name: inputData.name,
+            description: inputData.description,
+            info_list: JsonStringifyList(essential, optional)
+        }
+
+        const res = await postRequest(`${client}/v1/subdivided/register`, data, getToken(TOKEN_NAME))
+
+        if (res === false) {
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        } else {
+            if (res.status === 200) {
+                //alert('성공적으로 등록 되었습니다')
+                history.push('/basic/list/subdivided')
+            } else {
+                //TODO:  기타 오류
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    }, [pk, optional, essential, inputData, document])
+
+
+    return (
+        <DashboardWrapContainer index={'basic'}>
+
+            <InnerBodyContainer>
+                <Header title={isUpdate ? '공장 세분화 정보수정' : '공장 세분화 정보등록'}/>
+                <WhiteBoxContainer>
+                    {
+                        // document.id !== '' || isUpdate == true?
+                        <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
+                            <ListHeader title="필수 항목"/>
+                            <BasicSearchContainer
+                                title={'공장'}
+                                key={'pk'}
+                                value={'name'}
+                                option={0}
+                                onChangeEvent={
+                                    (input) => {
+                                        let temp = _.cloneDeep(inputData)
+                                        temp.factory = input
+                                        setInputData(temp)
+                                    }
+                                }
+                                solo={true}
+                                list={inputData.factory}
+                                searchUrl={`${client}/v1/factory/search?`}
+                            />
+
+                            <NormalInput title={'세분화 이름'} value={inputData.name} description={''}
+                                         onChangeEvent={(input) => {
+                                             let temp = _.cloneDeep(inputData)
+                                             temp.name = input
+                                             setInputData(temp)
+                                         }}/>
+
+                            <br/>
+                            <ListHeader title="선택 항목"/>
+                            <NormalInput title={'설명'} value={inputData.description} description={''}
+                                         onChangeEvent={(input) => {
+                                             let temp = _.cloneDeep(inputData)
+                                             temp.description = input
+                                             setInputData(temp)
+                                         }}/>
+                            <br/>
+
+                            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
+                        </form>
+                        // :
+                        //
+                        // <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
+                    }
+                </WhiteBoxContainer>
+
+            </InnerBodyContainer>
+
+        </DashboardWrapContainer>
+
+    )
 }
 const FullPageDiv = Styled.div`
   width: 100%;

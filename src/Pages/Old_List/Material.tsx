@@ -1,37 +1,40 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
-import Header from '../../Components/Text/Header';
-import {getToken} from '../../Common/tokenFunctions';
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import Header from '../../Components/Text/Header'
+import {getToken} from '../../Common/tokenFunctions'
 import 'react-dropdown/style.css'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_MENU_LIST} from '../../Common/routerset';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {getRequest, postRequest} from '../../Common/requestFunctions';
-import SearchInputSmall from '../../Components/Input/SearchInputSmall';
-import SmallButtonLink from '../../Components/Button/SmallButtonLink';
-import InfoTable from '../../Components/Table/InfoTable';
+import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
+import SubNavigation from '../../Components/Navigation/SubNavigation'
+import {ROUTER_MENU_LIST} from '../../Common/routerset'
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
+import SearchInputSmall from '../../Components/Input/SearchInputSmall'
+import SmallButtonLink from '../../Components/Button/SmallButtonLink'
+import InfoTable from '../../Components/Table/InfoTable'
+import {machineCodeToName} from '../../Common/codeTransferFunctions'
 
-import {useHistory} from 'react-router-dom'
 
-const StockList = () => {
-    const history = useHistory();
+const MaterialStock = () => {
 
-    const [list, setList] = useState<IMaterial[]>([]);
-    const [option, setOption] = useState(0);
-    const [keyword, setKeyword] = useState<string>('');
+    const [list, setList] = useState<IMaterial[]>([])
+    const [option, setOption] = useState(0)
+    const [keyword, setKeyword] = useState<string>('')
     const optionList = [
-        "등록순", "이름순", "재고순"
+        '등록순', '이름순', '재고순'
     ]
     const index = {
         material_name: '자재 이름',
         material_code: '자재 번호',
         distributor: '유통사',
-        stock: '재고',
+        stock: '수량',
     }
 
+    useEffect(() => {
+        getList()
+
+    }, [])
 
     /**
      * getSearchList()
@@ -40,7 +43,7 @@ const StockList = () => {
      * @returns X
      */
     const getSearchList = useCallback(async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const results = await getRequest('http://255.255.255.255:8299/api/v1/material/list?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -86,7 +89,6 @@ const StockList = () => {
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
 
         const results = await getRequest('http://255.255.255.255:8299/api/v1/material/list?keyword=' + keyword + '&orderBy=' + option, getToken(TOKEN_NAME))
-
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
         } else {
@@ -98,51 +100,36 @@ const StockList = () => {
         }
     }, [option, list, keyword])
 
-    useEffect(() => {
-        getList()
-
-    }, [])
-
 
     const onClickDelete = useCallback(async (id) => {
 
         const results = await postRequest('http://255.255.255.255:8299/api/v1/material/delete', {pk: id}, getToken(TOKEN_NAME))
-
-        console.log('--select id : ' + id)
+        const tg = id
+        //console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
-            if (results.status === 200) {
-                getList()
+            if (results.status === 200 || results.status === '200') {
+                //alert('해당 데이터가 성공적으로 삭제되었습니다.')
+                setList(list.filter(v => v.pk !== tg))
             } else {
                 //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
             }
         }
 
 
-    }, [])
+    }, [list])
 
 
-    const onClickList = useCallback((id) => {
-        history.push(`/stock/change/in?pk=${id}`)
-
-
-    }, [])
-    const onClickList2 = useCallback((id) => {
-        history.push(`/stock/change/out?pk=${id}`)
-
-
-    }, [])
     return (
-        <DashboardWrapContainer index={8}>
-            <SubNavigation list={ROUTER_MENU_LIST[8]}/>
+        <DashboardWrapContainer index={0}>
+            <SubNavigation list={ROUTER_MENU_LIST[0]}/>
             <InnerBodyContainer>
                 <div style={{position: 'relative'}}>
-                    <Header title={`재고 현황 (${list.length})`}/>
-                    <p style={{float: 'left', color: '#ffffff90'}}>각 항목을 클릭하면, 해당 재고의 최근 변동 이력을 확인 할 수 있습니다.</p>
+                    <Header title={`자재 기본 정보 (${list.length})`}/>
+                    <p style={{float: 'left'}}>원자재 / 반제품 / 최종생산품</p>
                     <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
-                        <SmallButtonLink name="+ 입고 등록" link="/stock/change/in"/>
-                        <SmallButtonLink name="+ 출고 등록" link="/stock/change/out"/>
+                        <SmallButtonLink name="+ 등록하기" link="/register/material"/>
                         <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
                     </div>
                 </div>
@@ -155,15 +142,14 @@ const StockList = () => {
                     onClickEvent={getSearchList}
                 />
 
-                <InfoTable indexList={index} pkKey={'pk'} type={'material'} onClickEvent={onClickList}
-                           onClickEventName={'입고'}
-                           onClickEvent2={onClickList2} onClickEventName2={'출고'} onClickLinkUrl="/stock/history?pk="
-                           contents={list}/>
+                <InfoTable indexList={index} pkKey={'pk'} type={'material'} typeKey={'material_type'}
+                           typeChanger={machineCodeToName} onClickLinkUrl="/update/material?pk=" contents={list}
+                           onClickRemove={onClickDelete}/>
 
             </InnerBodyContainer>
         </DashboardWrapContainer>
 
-    );
+    )
 }
 const FullPageDiv = Styled.div`
   width: 100%;
@@ -173,4 +159,4 @@ const FullPageDiv = Styled.div`
 `
 
 
-export default StockList;
+export default MaterialStock

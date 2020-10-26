@@ -7,159 +7,170 @@ import {transferCodeToName} from '../../Common/codeTransferFunctions';
 import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunctions';
 
 
-interface IProps{
+interface IProps {
     contents: IMonitoringList[],
     filterList?: number[],
     operation: number
 }
 
 
-const MonitoringVerticalTable = ({ contents, filterList, operation}: IProps) => {
+const MonitoringVerticalTable = ({contents, filterList, operation}: IProps) => {
 
-  const [list, setList] = useState(contents);
-  const indexList: any[] = [];
+    const [list, setList] = useState(contents);
+    const indexList: any[] = [];
 
-  useEffect(()=>{
-    if(operation !== 1000){
-      console.log('change')
-      setList(contents.filter(v => v.operation === operation))
-    }else{
-      setList(contents)
-    }
-  },[operation])
-
-
-  useEffect(()=>{
+    useEffect(() => {
+        if (operation !== 1000) {
+            console.log('change')
+            setList(contents.filter(v => v.operation === operation))
+        } else {
+            setList(contents)
+        }
+    }, [operation])
 
 
-  },[])
+    useEffect(() => {
 
 
-  return (
-    <WrapDiv>
-      {
-        list.length > 0 ?
+    }, [])
 
-      <TableWrapDiv>
-          <tbody>
-            <tr>
-              <th>
-                기계명
-              </th>
-              {
-                list.map((v)=>{
-                  return (<th>{v.name}</th>)
-                })
-              }
-            </tr>
 
-            <tr>
-              <td>
-                기계번호
-              </td>
-              {
-                list.map((v)=>{
-                  return (<td>{v.code}</td>)
-                })
-              }
-            </tr>
-            <tr>
-              <td>
-                장비상태
-              </td>
-              {
-                list.map((v)=>{
-                  return (<td><StatusDiv style={{backgroundColor:changeStatusToColor(v.operation)}}>{changeStatusToString(v.operation)}</StatusDiv></td>)
-                })
-              }
-            </tr>
-            <tr>
-              <td>
-                설명서
-              </td>
-              {
-                list.map((v)=>{
-                  return (<td>{v.file !== undefined &&  <DownloadButton href={v.file} target="_blank">다운로드</DownloadButton>}</td>)
-                })
-              }
-            </tr>
-            <tr>
-              <td>
-                연결상태
-              </td>
-              {
-                list.map((v)=>{
-                  return (
-                  <td>
-                  <img src={!v.is_connect ? icCloudOff : icCloudOn} style={{width:21}} />
-                  </td>
-                  )
-                  }
-                )
-                }
-
-            </tr>
-            <tr>
-              <td>
-                가동율
-              </td>
-              {
-                list.map((v)=>{
-                  return (<td>{v.percent !== undefined && v.percent}</td>)
-                })
-              }
-            </tr>
-            <tr>
-              <td>
-                가동시간
-              </td>
-              {
-                list.map((v)=>{
-                  return (<td>{v.running_time !== undefined && v.running_time}</td>)
-                })
-              }
-            </tr>
-            <tr>
-              <td>
-                비가동시간
-              </td>
-              {
-                list.map((v)=>{
-                  return (<td>{v.ready_time !== undefined && v.ready_time}</td>)
-                })
-              }
-            </tr>
+    return (
+        <WrapDiv>
             {
-                list.length > 0 && list[0].info_list.filter(v => filterList!.indexOf( Number(v.title)) !== -1 ).map((m, i)=>{
-                  return (
-                    <tr key={'i'+ i}>
-                      <td> {transferCodeToName('title', m['title'])}</td>
-                      {
-                        list.map((c)=>{
-                          return (
-                            c.info_list.map((ci, i)=>{
+                list.length > 0 ?
 
-                              if(ci['title'] == m['title']){
-                                return(<td>{ci['value']}</td>)
-                              }
+                    <TableWrapDiv>
+                        <tbody>
+                        <tr>
+                            <th>
+                                기계명
+                            </th>
+                            {
+                                list.map((v) => {
+                                    return (<th>{v.name}</th>)
+                                })
+                            }
+                        </tr>
 
+                        <tr>
+                            <td>
+                                기계번호
+                            </td>
+                            {
+                                list.map((v) => {
+                                    return (<td>{v.code}</td>)
+                                })
+                            }
+                        </tr>
+                        <tr>
+                            <td>
+                                장비상태
+                            </td>
+                            {
+                                list.map((v) => {
+                                    return (<td><StatusDiv
+                                        style={{backgroundColor: changeStatusToColor(v.operation)}}>{changeStatusToString(v.operation)}</StatusDiv>
+                                    </td>)
+                                })
+                            }
+                        </tr>
+                        <tr>
+                            <td>
+                                설명서
+                            </td>
+                            {
+                                list.map((v) => {
+                                    return (<td>{v.file !== undefined &&
+                                    <DownloadButton href={v.file} target="_blank">다운로드</DownloadButton>}</td>)
+                                })
+                            }
+                        </tr>
+                        <tr>
+                            <td>
+                                연결상태
+                            </td>
+                            {
+                                list.map((v) => {
+                                        return (
+                                            <td>
+                                                <img src={!v.is_connect ? icCloudOff : icCloudOn} style={{width: 21}}/>
+                                            </td>
+                                        )
+                                    }
+                                )
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>
+                                가동율
+                            </td>
+                            {
+                                list.map((v) => {
+                                    return (<td>{v.percent !== undefined && v.percent}</td>)
+                                })
+                            }
+                        </tr>
+                        <tr>
+                            <td>
+                                가동시간
+                            </td>
+                            {
+                                list.map((v) => {
+                                    return (<td>{v.running_time !== undefined && v.running_time}</td>)
+                                })
+                            }
+                        </tr>
+                        <tr>
+                            <td>
+                                비가동시간
+                            </td>
+                            {
+                                list.map((v) => {
+                                    return (<td>{v.ready_time !== undefined && v.ready_time}</td>)
+                                })
+                            }
+                        </tr>
+                        {
+                            list.length > 0 && list[0].info_list.filter(v => filterList!.indexOf(Number(v.title)) !== -1).map((m, i) => {
+                                return (
+                                    <tr key={'i' + i}>
+                                        <td> {transferCodeToName('title', m['title'])}</td>
+                                        {
+                                            list.map((c) => {
+                                                return (
+                                                    c.info_list.map((ci, i) => {
+
+                                                        if (ci['title'] == m['title']) {
+                                                            return (
+                                                                ci['title'] === 113 ?
+                                                                    <td>{transferCodeToName('keycam', ci['value'])}</td>
+                                                                    :
+                                                                    ci['title'] === 904 ?
+                                                                        <td>{ci['value'] + ' ºC'}</td>
+                                                                        :
+                                                                        <td>{ci['value']}</td>
+                                                            )
+                                                        }
+
+                                                    })
+                                                )
+                                            })
+                                        }
+                                    </tr>
+                                )
                             })
-                          )
-                        })
-                      }
-                    </tr>
-                    )
-                })
-              }
+                        }
 
-          </tbody>
-      </TableWrapDiv>
-        :
-        <p style={{margin:100}}>모니터링 데이터가 없습니다</p>
+                        </tbody>
+                    </TableWrapDiv>
+                    :
+                    <p style={{margin: 100}}>모니터링 데이터가 없습니다</p>
             }
-    </WrapDiv>
+        </WrapDiv>
 
-  );
+    );
 }
 const DownloadButton = Styled.a`
   background-color: #717c90;
@@ -260,7 +271,7 @@ const WrapDiv = Styled.div`
    
 `
 
-const TableWrapDiv  = Styled.table`
+const TableWrapDiv = Styled.table`
 
   
    

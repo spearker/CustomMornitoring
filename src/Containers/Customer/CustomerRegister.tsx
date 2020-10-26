@@ -16,6 +16,7 @@ import {useHistory} from 'react-router-dom'
 import {API_URLS, getCustomerData} from "../../Api/mes/customer";
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import Styled from "styled-components";
+import client from "../../Api/configs/basic";
 
 interface Props {
     match: any;
@@ -33,13 +34,13 @@ const CustomerRegister = ({match}: Props) => {
 
     const [pk, setPk] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<string | number>('');
+    const [no, setNo] = useState<number>();
     const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
     const [phone, setPhone] = useState<string>('');
     const [address, setAddress] = useState<{ postcode: string, roadAddress: string, detail: string }>(
         {postcode: '', roadAddress: '', detail: ''}
     );
-    const [fax, setFax] = useState<string>('');
+    const [fax, setFax] = useState<number>();
     const [phoneM, setPhoneM] = useState<string>('');
     const [emailM, setEmailM] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -158,7 +159,7 @@ const CustomerRegister = ({match}: Props) => {
         } else if (ceo === "") {
             alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (no === "") {
+        } else if (String(no) === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return
         }
@@ -176,12 +177,12 @@ const CustomerRegister = ({match}: Props) => {
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
             address: address ? address : null,
-            fax: fax === '' ? null : fax,
+            fax: String(fax) === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/customer/update/`, data, getToken(TOKEN_NAME))
         if (res === false) {
             // alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         } else {
@@ -214,7 +215,7 @@ const CustomerRegister = ({match}: Props) => {
         } else if (ceo === "") {
             alert("대표자 이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (no === "") {
+        } else if (String(no) === "") {
             alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
             return
         }
@@ -232,36 +233,20 @@ const CustomerRegister = ({match}: Props) => {
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
             address: address ? address : null,
-            fax: fax === '' ? null : fax,
+            fax: String(fax) === '' ? null : fax,
             // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/customer/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${client}/v1/customer/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
         } else {
             if (res.status === 200) {
                 // alert('성공적으로 등록 되었습니다')
-                const data = res.results;
-                setName('');
-                setPk('');
-                setNo('');
-                setType('0');
 
-                setCeo('');
-                setPaths([null])
-                setOldPaths([null])
-                setPhone('');
-                setEmailM('');
-                setPhoneM('')
-                setEmail('')
-
-                setInfoList([])
-                setAddress({postcode: '', roadAddress: '', detail: ''});
-                setFax('');
 
                 history.push('/customer/current/list')
             } else {
@@ -283,7 +268,8 @@ const CustomerRegister = ({match}: Props) => {
                             contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
 
                 {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
-                <NormalNumberInput title={'사업자 번호'} value={Number(no) <= 0 ? undefined : Number(no)} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/>
+                <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
+                                   description={'사업자 번호를 입력하세요 (-제외)'}/>
                 <br/>
                 <ListHeader title="선택 항목"/>
                 <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
@@ -303,8 +289,9 @@ const CustomerRegister = ({match}: Props) => {
                              description={'사업장 이메일을 입력하세요'}/>
                 {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
                              description={'사업장 팩스번호를 입력하세요'}/> */}
-                <NormalNumberInput title={'사업장 대표 FAX'} value={Number(fax) <= 0 ? undefined : Number(fax)} onChangeEvent={setFax}
-                                 description={'사업장 팩스번호를 입력하세요'}/>
+                <NormalNumberInput title={'사업장 대표 FAX'} value={fax}
+                                   onChangeEvent={setFax}
+                                   description={'사업장 팩스번호를 입력하세요'}/>
                 <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
                              description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
                 <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
