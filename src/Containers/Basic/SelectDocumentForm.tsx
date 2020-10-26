@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react'
 import Styled from 'styled-components'
-import { getToken } from '../../Common/tokenFunctions';
-import { getRequest } from '../../Common/requestFunctions';
+import { getToken } from '../../Common/tokenFunctions'
+import { getRequest } from '../../Common/requestFunctions'
 import { useHistory } from 'react-router-dom'
-import DropdownCode from '../../Components/Input/DropdownCode';
-import { TOKEN_NAME } from '../../Common/configset';
+import DropdownCode from '../../Components/Input/DropdownCode'
+import { TOKEN_NAME } from '../../Common/configset'
+import client from "../../Api/configs/basic";
 
 const docDummy = [
   { pk: null, name: '선택 안함' },
@@ -22,25 +23,25 @@ interface Props {
 
 const SelectDocumentForm = ({ category, onChangeEvent }: Props) => {
 
-  const [ document, setDocument ] = useState<any>({ pk: '', value: '(선택)' });
-  const [ documentList, setDocumentList ] = useState<any[]>([]);
-  const history = useHistory();
+  const [ document, setDocument ] = useState<any>({ pk: '', value: '(선택)' })
+  const [ documentList, setDocumentList ] = useState<any[]>([])
+  const history = useHistory()
 
   useEffect(() => {
     setDocumentList(docDummy.map((v) => {
       return ({ pk: v.pk, value: v.name })
     }))
-    getDocumentData();
+    getDocumentData()
   }, [])
 
   const getDocumentData = useCallback(async () => {
 
-    const res = await getRequest('http://255.255.255.255:8299/api/v1/document/form/list?category=' + category, getToken(TOKEN_NAME))
+    const res = await getRequest(`${client}/v1/document/form/list?category=` + category, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
     } else {
-      if (res.status === 200 || res.status === "200") {
+      if (res.status === 200 || res.status === '200') {
         setDocumentList([ { pk: null, value: '선택 안함' }, ...res.results.map((v) => {
           return ({ pk: v.pk, value: v.name })
         }) ])
@@ -66,7 +67,7 @@ const SelectDocumentForm = ({ category, onChangeEvent }: Props) => {
       </form>
 
 
-  );
+  )
 }
 const TextNotice = Styled.p`
   font-size: 14px;
@@ -79,4 +80,4 @@ const TextNotice = Styled.p`
 `
 
 
-export default SelectDocumentForm;
+export default SelectDocumentForm
