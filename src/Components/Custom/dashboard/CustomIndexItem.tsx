@@ -1,13 +1,11 @@
 import React from 'react'
 import Styled from "styled-components";
+import { DASHBOARD } from "../../../Common/@types/youdong";
 
 
 interface Props {
-  info: {
-    name: string
-    pk: string
-  }
-  goToChartPage: (pk: string) => void
+  info: DASHBOARD
+  goToChartPage: (data: DASHBOARD) => void
 }
 
 const Container = Styled.div`
@@ -41,7 +39,7 @@ const Title = Styled.h2`
 
 const CustomIndexItem: React.FunctionComponent<Props> = ({ info, goToChartPage }) => {
   return (
-      <Container onClick={() => goToChartPage(info.pk)}>
+      <Container onClick={() => goToChartPage(info)}>
         <Title>{info.name}</Title>
       </Container>
   )

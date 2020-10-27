@@ -16,8 +16,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import moment from 'moment'
 import {transferStringToCode} from '../../Common/codeTransferFunctions'
-import client from "../../Api/configs/basic";
-
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 const typeDummy = [
     '정상 입고',
@@ -113,7 +112,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
         }
         setIsSearched(true)
 
-        const res = await getRequest(`${client}/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/${type}/search?keyword=` + keyword, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -203,7 +202,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest(`${client}/v1/stock/parts/warehousing/register`, data, getToken(TOKEN_NAME))
+            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/parts/warehousing/register`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
                 //TODO: 에러 처리
@@ -234,7 +233,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
             }
 
 
-            const res = await postRequest(`${client}/v1/stock/warehousing/register`, data, getToken(TOKEN_NAME))
+            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/warehousing/register`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
                 //TODO: 에러 처리

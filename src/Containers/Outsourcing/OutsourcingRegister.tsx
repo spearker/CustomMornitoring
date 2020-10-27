@@ -16,7 +16,7 @@ import {useHistory} from 'react-router-dom'
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import useObjectInput from '../../Functions/UseInput'
 import Styled from 'styled-components'
-import client from '../../Api/configs/basic'
+import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -112,7 +112,7 @@ const OutsourcingRegister = ({match}: any) => {
    */
   const getData = useCallback(async () => {
 
-    const res = await postRequest(`${client}/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
+    const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -187,7 +187,7 @@ const OutsourcingRegister = ({match}: any) => {
 
     }
 
-    const res = await postRequest(`${client}/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -248,7 +248,7 @@ const OutsourcingRegister = ({match}: any) => {
     }
 
 
-    const res = await postRequest(`${client}/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
+    const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
 
     if (res === false) {
       //TODO: 에러 처리
@@ -326,7 +326,6 @@ const OutsourcingRegister = ({match}: any) => {
                 })
               }
               </FullAddInput>
-
             */}
         {isUpdate ?
           <div style={{marginTop: 40, marginLeft: 340}}>

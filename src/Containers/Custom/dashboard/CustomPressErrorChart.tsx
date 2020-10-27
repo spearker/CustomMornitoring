@@ -1,19 +1,12 @@
 import React from 'react'
 import Styled from "styled-components";
-import CustomDashboardLoadtonChart from "../../../Components/Custom/dashboard/CustomDashboardLoadtonChart";
 
-interface Props {
-  match: any
-}
-
-
-const CustomLoadtonChartContainer: React.FunctionComponent<Props> = ({ match }) => {
+const CustomPressErrorChart: React.FunctionComponent = () => {
   return (
       <DashboardWrapDiv>
-        <CustomDashboardLoadtonChart id={match.params.press}/>
+        hi
       </DashboardWrapDiv>
   )
-
 }
 
 const DashboardWrapDiv = Styled.div`
@@ -25,5 +18,4 @@ const DashboardWrapDiv = Styled.div`
     position: relative;
 `
 
-
-export default CustomLoadtonChartContainer
+export default CustomPressErrorChart
