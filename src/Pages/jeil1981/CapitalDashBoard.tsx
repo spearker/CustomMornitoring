@@ -185,7 +185,7 @@ const CapitalDashBoard = () => {
                     pressList.map((v, i) => {
                         console.log(series[0])
                         if(selectMachine === v.pk){
-                            return(<ChartBorderMiniBox>
+                            return(<ChartBorderMiniBox style={{cursor: 'pointer'}}>
                                 <div style={{width: 114, height: 100, marginLeft: 8, display: "inline-block", float: "left" , paddingTop: 10}}>
                                     <img src={v.machine_img ? v.machine_img : tempImage} style={{width: 114, height: 104, objectFit: 'cover'}}/>
                                 </div>

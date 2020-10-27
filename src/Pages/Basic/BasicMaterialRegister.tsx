@@ -87,19 +87,19 @@ const BasicMaterialRegister = () => {
     const onsubmitFormUpdate = useCallback(async (e) => {
         e.preventDefault()
 
-        if (inputData.material_name === '') {
+        if (inputData.material_name.replace(/(\s*)/g, "") === '') {
             alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.material_type === '') {
+        } else if (inputData.material_type.replace(/(\s*)/g, "") === '') {
             alert('품목 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk === '') {
+        } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk.replace(/(\s*)/g, "") === '') {
             alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (inputData.safe_stock === '') {
+        } else if (inputData.safe_stock.replace(/(\s*)/g, "") === '') {
             alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.cost === '') {
+        } else if (inputData.cost.replace(/(\s*)/g, "") === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -134,19 +134,19 @@ const BasicMaterialRegister = () => {
     const onsubmitForm = useCallback(async (e) => {
         e.preventDefault()
 
-        if (inputData.material_name === '') {
+        if (inputData.material_name.replace(/(\s*)/g, "") === '') {
             alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.material_type === '') {
+        } else if (inputData.material_type.replace(/(\s*)/g, "") === '') {
             alert('품목 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk === '') {
+        } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk.replace(/(\s*)/g, "") === '') {
             alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (inputData.safe_stock === '') {
+        } else if (inputData.safe_stock.replace(/(\s*)/g, "") === '') {
             alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.cost === '') {
+        } else if (inputData.cost.replace(/(\s*)/g, "") === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }

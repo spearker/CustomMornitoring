@@ -76,6 +76,9 @@ const BasicFactoryRegister = () => {
         } else if (inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === "") {
             alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        }else if (inputData.name.replace(/(\s*)/g, "") === "" || inputData.location.detail.replace(/(\s*)/g, "") === "" || inputData.location.postcode.replace(/(\s*)/g, "") === "" || inputData.location.roadAddress.replace(/(\s*)/g, "") === "") {
+            alert("텍스트가 공백입니다. 내용을 채워주세요")
+            return;
         }
 
         const data = {
@@ -108,6 +111,9 @@ const BasicFactoryRegister = () => {
             return;
         } else if (inputData.name === "" || inputData.location.detail === "" || inputData.location.postcode === "" || inputData.location.roadAddress === "") {
             alert("공장은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        }else if (inputData.name.replace(/(\s*)/g, "") === "" || inputData.location.detail.replace(/(\s*)/g, "") === "" || inputData.location.postcode.replace(/(\s*)/g, "") === "" || inputData.location.roadAddress.replace(/(\s*)/g, "") === "") {
+            alert("텍스트가 공백입니다. 내용을 채워주세요")
             return;
         }
 
