@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Styled from "styled-components";
 import CustomErrorLogItem from "../../../Components/Custom/dashboard/CustomErrorLogItem";
-import getYoudongErrorDashboard from "../../../Api/custom/getYoudongErrorDashboard";
+import getYoodongErrorDashboard from "../../../Api/custom/getYoodongErrorDashboard";
 import { YOUDONG_ERROR_DASHBOARD } from "../../../Common/@types/youdong";
 import { RotateSpinner } from "react-spinners-kit";
 import Modal from "react-modal";
@@ -33,7 +33,7 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
 
   const getData = async () => {
     try {
-      const response = await getYoudongErrorDashboard()
+      const response = await getYoodongErrorDashboard()
 
       if (response !== null && response) {
         if (response.status === 401) {
@@ -81,7 +81,8 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
           </Modal>
         }
         {
-          state && state.map((data: YOUDONG_ERROR_DASHBOARD) => <CustomErrorLogItem data={data} key={data.pressName}/>)
+          state && state.map((data: YOUDONG_ERROR_DASHBOARD) => <CustomErrorLogItem data={data}
+                                                                                    key={data.press_code}/>)
         }
       </DashboardWrapDiv>
   )

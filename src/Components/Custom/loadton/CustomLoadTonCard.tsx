@@ -130,7 +130,7 @@ const CustomLoadTon = ({ color, propData, overTonCheck, tonnage_limit, styles }:
       show: true,
       opposite: true,
       type: 'numeric',
-      tickAmount: tonnage_limit / 100,
+      tickAmount: overTonCheck() ? (tonnage_limit + 200) / 100 : tonnage_limit / 100,
       axisTicks: {
         show: true
       },

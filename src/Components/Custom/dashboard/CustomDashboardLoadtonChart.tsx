@@ -4,7 +4,7 @@ import Styled from "styled-components";
 import CustomLoadTon from "../loadton/CustomLoadTonCard";
 import CustomMainMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart";
 import CustomSlideMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart";
-import getYoudongDashboard from "../../../Api/custom/getYoudongDashboard";
+import getYoodongDashboard from "../../../Api/custom/getYoodongDashboard";
 import { YOUDONG_PRESS_CUSTOM_TYPE } from "../../../Common/@types/youdong";
 import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
 import Modal from "react-modal";
@@ -28,9 +28,10 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   const getYoudongCustomDashboardData = async () => {
     if (id) {
       try {
-        const response = await getYoudongDashboard(id, isFirst.api)
+        const response = await getYoodongDashboard(id, isFirst.api)
 
         if (response !== null) {
+          console.log('response.status', response.status)
           if (response.status === 401) {
             return history.push('/login?type=back')
           } else if (response.status === 200) {
