@@ -172,7 +172,7 @@ const QualityDetailListContainer = ({match}) => {
                             <td>• 적격 여부</td>
                             <td><RegisterDropdown type={'string'}
                                                   onClickEvent={(e: string) => false && setInputData('whether', e)}
-                                                  select={inputData.whether} contents={['적격', '부적격']}
+                                                  select={inputData.whether} contents={[]}
                                                   text={'적격 여부를 선택해 주세요.'}/></td>
                         </tr>
                     </table>

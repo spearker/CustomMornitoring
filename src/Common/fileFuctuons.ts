@@ -14,7 +14,7 @@ export const uploadTempFile = async (data) => {
 
     const formData = new FormData()
     formData.append('file', data)
-    const res = await postRequest(`${SF_ENDPOINT}/v1/file/upload`, formData, getToken(TOKEN_NAME))
+    const res = await postRequest(`${SF_ENDPOINT}/api/v1/file/upload`, formData, getToken(TOKEN_NAME))
 
     if (res === false) {
         return false
