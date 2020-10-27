@@ -8,27 +8,27 @@ import { DASHBOARD } from "../../../Common/@types/youdong";
 
 const dashboard: DASHBOARD[] = [
   {
-    name: '프레스 1호기',
+    name: '대형 1번 프레스',
     pk: '1',
     url: 'custom/dashboard/loadton/1',
   },
   {
-    name: '프레스 2호기',
+    name: '대형 2번 프레스',
     pk: '2',
     url: 'custom/dashboard/loadton/2',
   },
   {
-    name: '프레스 3호기',
+    name: '대형 3번 프레스',
     pk: '3',
     url: 'custom/dashboard/loadton/3',
   },
   {
-    name: '프레스 4호기',
+    name: '대형 4번 프레스',
     pk: '4',
     url: 'custom/dashboard/loadton/4',
   },
   {
-    name: '프레스 5호기',
+    name: '대형 BL프레스',
     pk: '5',
     url: 'custom/dashboard/loadton/5',
   },

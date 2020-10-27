@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
+import {SF_ENDPOINT} from "../SF_endpoint";
 
 /**
  *
@@ -10,7 +11,7 @@ import {TOKEN_NAME} from "../../Common/configset";
  */
 const client = axios.create();
 
-client.defaults.baseURL = 'http://61.101.55.224:9912';
+client.defaults.baseURL = SF_ENDPOINT;
 
 client.interceptors.response.use(function (response) {
 

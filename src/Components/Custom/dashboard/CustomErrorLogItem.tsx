@@ -11,7 +11,7 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
       <Container>
         <div>
           <div>
-            <PressTitle>{data.pressName}</PressTitle>
+            <PressTitle>{data.machine_name}</PressTitle>
           </div>
           <PressSubContainer>
             <div>
@@ -20,7 +20,7 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
                   <PressSub>기계 번호</PressSub>
                 </div>
                 <div>
-                  <PressSub>{data.pressNumber}</PressSub>
+                  <PressSub>{data.press_code}</PressSub>
                 </div>
               </div>
             </div>
@@ -48,7 +48,8 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
           <ContentContainer>
             <div style={{ width: '100%' }}>
               {
-                data.errorData.map((data: YOUDONG_ERROR_CHART_ERROR_DATA) => {
+                // data.error_log.map((data: YOUDONG_ERROR_CHART_ERROR_DATA) => {
+                data.error_log.map((data: any) => {
                   return (
                       <div style={{
                         width: '100%',
@@ -57,11 +58,11 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
                         marginBottom: 16
                       }}>
                         <div style={{ width: '45%' }}>
-                          <ContentData>{data.error_statement}</ContentData>
+                          <ContentData>{data.type}</ContentData>
                         </div>
                         <div style={{ width: '55%' }}>
                           <div style={{ paddingLeft: 20 }}>
-                            <ContentData>{data.error_time}</ContentData>
+                            <ContentData>{data.created}</ContentData>
                           </div>
                         </div>
                       </div>
