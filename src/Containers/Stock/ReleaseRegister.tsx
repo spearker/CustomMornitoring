@@ -22,7 +22,6 @@ import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 const typeDummy = [
     '정상 출고',
     '생산 소진',
-    '생산',
     '오류 정정',
 ]
 
