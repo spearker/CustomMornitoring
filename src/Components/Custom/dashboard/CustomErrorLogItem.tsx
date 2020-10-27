@@ -16,19 +16,19 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
           <PressSubContainer>
             <div>
               <div>
-                <div>
+                <div style={{ marginBottom: 10 }}>
                   <PressSub>기계 번호</PressSub>
                 </div>
-                <div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <PressSub>{data.press_code}</PressSub>
                 </div>
               </div>
             </div>
             <div>
-              <div>
+              <div style={{ marginBottom: 10 }}>
                 <PressSub>기계 등록 날짜</PressSub>
               </div>
-              <div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <PressSub>-</PressSub>
               </div>
             </div>
@@ -36,11 +36,11 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
         </div>
         <Content>
           <ContentTitleContainer>
-            <div style={{ width: '45%' }}>
+            <div style={{ width: '53%' }}>
               <ContentTitle>에러 상태</ContentTitle>
             </div>
-            <div style={{ width: '55%' }}>
-              <div style={{ paddingLeft: 20 }}>
+            <div style={{ width: '45%', marginLeft: 10 }}>
+              <div>
                 <ContentTitle>에러 발생 시간</ContentTitle>
               </div>
             </div>
@@ -48,20 +48,19 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
           <ContentContainer>
             <div style={{ width: '100%' }}>
               {
-                // data.error_log.map((data: YOUDONG_ERROR_CHART_ERROR_DATA) => {
-                data.error_log.map((data: any) => {
+                data.error_log.map((data: YOUDONG_ERROR_CHART_ERROR_DATA) => {
                   return (
                       <div style={{
                         width: '100%',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        marginBottom: 16
+                        marginBottom: 28
                       }}>
-                        <div style={{ width: '45%' }}>
+                        <div style={{ width: '53%' }}>
                           <ContentData>{data.type}</ContentData>
                         </div>
-                        <div style={{ width: '55%' }}>
-                          <div style={{ paddingLeft: 20 }}>
+                        <div style={{ width: '45%' }}>
+                          <div>
                             <ContentData>{data.created}</ContentData>
                           </div>
                         </div>
@@ -77,8 +76,8 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
 }
 
 const Container = Styled.div`
-  width: 380px;
-  height: 100vh;
+  width: 600px;
+  height: 1650px;
   padding: 10px;
   margin-right: 24px;
 }
@@ -86,7 +85,7 @@ const Container = Styled.div`
 
 const PressTitle = Styled.span`
   font-family: NotoSansCJKkr;
-  font-size: 22px;
+  font-size: 48px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
@@ -103,13 +102,12 @@ const PressSubContainer = Styled.div`
 
 const PressSub = Styled.span`
   font-family: NotoSansCJKkr;
-  font-size: 18px;
+  font-size: 30px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: 0.93;
   letter-spacing: normal;
-  text-align: left;
   color: #d7e2f5;
 `
 
@@ -133,9 +131,9 @@ const ContentContainer = Styled.div`
 
 const ContentData = Styled.span`
   object-fit: contain;
-  opacity: 0.7;
+  opacity: 0.8;
   font-family: NotoSansCJKkr;
-  font-size: 17px;
+  font-size: 30px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -156,7 +154,7 @@ const ContentTitleContainer = Styled.div`
 
 const ContentTitle = Styled.span`
   font-family: NotoSansCJKkr;
-  font-size: 16px;
+  font-size: 35px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;

@@ -76,6 +76,9 @@ const CustomLoadTon = ({ color, propData, overTonCheck, tonnage_limit, styles }:
     grid: {
       show: false
     },
+    tooltip: {
+      enabled: false
+    },
     chart: {
       type: 'area',
       offsetY: 30,
@@ -89,7 +92,7 @@ const CustomLoadTon = ({ color, propData, overTonCheck, tonnage_limit, styles }:
       gradient: {
         shadeIntensity: 0,
         opacityFrom: 0.7,
-        opacityTo: 0,
+        opacityTo: 0.15,
         stops: [ 0, 70, 100 ]
       }
     },
@@ -97,11 +100,13 @@ const CustomLoadTon = ({ color, propData, overTonCheck, tonnage_limit, styles }:
       enabled: false
     },
     stroke: {
-      curve: 'straight',
-      width: 2
+      curve: 'smooth',
     },
     markers: {
-      size: 0
+      size: 0,
+      hover: {
+        size: undefined
+      }
     },
     xaxis: {
       show: true,
