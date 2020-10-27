@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Styled from 'styled-components'
-import { BrowserRouter, Route, Switch, Link, useHistory } from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Link, useHistory} from 'react-router-dom';
 import {
-  BG_COLOR,
-  BG_COLOR_SUB,
-  SYSTEM_NAME,
-  BG_COLOR_SUB2,
-  COMPANY_LOGO,
-  POINT_COLOR,
-  MAX_WIDTH,
-  SERVICE_TITLE,
-  BG_COLOR_SUB3
+    BG_COLOR,
+    BG_COLOR_SUB,
+    SYSTEM_NAME,
+    BG_COLOR_SUB2,
+    COMPANY_LOGO,
+    POINT_COLOR,
+    MAX_WIDTH,
+    SERVICE_TITLE,
+    BG_COLOR_SUB3
 } from '../../Common/configset'
 import Logo from '../../Assets/Images/img_logo_temp_2.png'
 import Icon from '../../Assets/Images/btn_menu_2.png'
@@ -18,238 +18,235 @@ import NAV_HOME from '../../Assets/Images/btn_nav_home.svg'
 import NAV_MES from '../../Assets/Images/btn_nav_setting.svg'
 import NAV_PRESS from '../../Assets/Images/btn_nav_press.svg'
 import NavList from './NavList'
-import { useUserDispatch, useUser } from '../../Context/UserContext';
+import {useUserDispatch, useUser} from '../../Context/UserContext';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import NavGroupList from '../List/NavGroupList';
-import { ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST } from '../../Common/routerset';
-import { usePopup, usePopupDispatch } from '../../Context/PopupContext';
+import {ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset';
+import {usePopup, usePopupDispatch} from '../../Context/PopupContext';
 
 //대시보드 네비게이션
 interface Props {
-  select?: any,
-  folding?: boolean,
+    select?: any,
+    folding?: boolean,
 }
 
 
-const DashboardNavigation = ({ select, folding }: Props) => {
-  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const dispatch = useUserDispatch();
-  const [ isOpen, setIsOpen ] = useState<boolean>(false);
-  const [ mode, setMode ] = useState<string>('')
-  const [ isSelected, setIsSelected ] = useState<number>(999);
-  const dispatchp = usePopupDispatch();
+const DashboardNavigation = ({select, folding}: Props) => {
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const dispatch = useUserDispatch();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [mode, setMode] = useState<string>('')
+    const [isSelected, setIsSelected] = useState<number>(999);
+    const dispatchp = usePopupDispatch();
 
-  const me = useUser();
-  const nav = usePopup();
+    const me = useUser();
+    const nav = usePopup();
 
-  const history = useHistory();
+    const history = useHistory();
 
-  const ref = useOnclickOutside(() => {
-    setIsOpen(false);
-  });
+    const ref = useOnclickOutside(() => {
+        setIsOpen(false);
+    });
 
-  useEffect(() => {
+    useEffect(() => {
 
-  }, [])
-
-
-  const PmNavGroup =
-
-      Object.keys(PM_MENU_LIST).map((v, i) => {
-        return (
-            <NavGroupList
-                key={`nav-${i}`}
-                onClickEvent={() => {
-
-                  if (isSelected === i) {
-                    setIsSelected(999);
-                  } else {
-                    setIsSelected(i);
-
-                  }
-                }}
-                onClickMode={() => dispatchp({
-                  type: 'CHANGE_MODE',
-                  data: {
-                    mode: 'pm',
-
-                  }
-                })}
-                selected={isSelected === i || select == v ? true : false} contents={PM_MENU_LIST[v]}/>
-        )
-      });
+    }, [])
 
 
-  const MesNavGroup =
+    const PmNavGroup =
 
-      Object.keys(MES_MENU_LIST).map((v, i) => {
-        return (
-            <NavGroupList
-                key={`nav-${i}`}
-                onClickEvent={() => {
+        Object.keys(PM_MENU_LIST).map((v, i) => {
+            return (
+                <NavGroupList
+                    key={`nav-${i}`}
+                    onClickEvent={() => {
 
-                  if (isSelected === i) {
-                    setIsSelected(999);
-                  } else {
-                    setIsSelected(i);
+                        if (isSelected === i) {
+                            setIsSelected(999);
+                        } else {
+                            setIsSelected(i);
 
-                  }
-                }}
-                onClickMode={() => dispatchp({
-                  type: 'CHANGE_MODE',
-                  data: {
-                    mode: 'mes',
+                        }
+                    }}
+                    onClickMode={() => dispatchp({
+                        type: 'CHANGE_MODE',
+                        data: {
+                            mode: 'pm',
 
-                  }
-                })}
-                selected={isSelected === i || select == v ? true : false} contents={MES_MENU_LIST[v]}/>
-        )
-      });
-
-
-  const MesNavGroup2 =
-
-      ROUTER_MENU_LIST.map((v, i) => {
-        return (
-            <NavGroupList
-                key={`nav-${i}`}
-                onClickEvent={() => {
-
-                  if (isSelected === i) {
-                    setIsSelected(999)
-                  } else {
-                    setIsSelected(i)
-                  }
-                }}
-                onClickMode={() => dispatchp({
-                  type: 'CHANGE_MODE',
-                  data: {
-                    mode: 'mes'
-                  }
-                })}
-                selected={isSelected === i ? true : false} contents={v}/>
-        )
-      });
+                        }
+                    })}
+                    selected={isSelected === i || select == v ? true : false} contents={PM_MENU_LIST[v]}/>
+            )
+        });
 
 
-  return (
-      <>
+    const MesNavGroup =
 
-        <NavDivLeft>
-          <div onClick={() => {
-            dispatchp({
-              type: 'CHANGE_MODE',
-              data: {
-                mode: 'home'
-              }
-            })
-            history.push('/dashboard')
-          }}>
-            <img src={NAV_HOME}/>
-            <p>Home</p>
-          </div>
-          <div onClick={() => {
-            dispatchp({
-              type: 'CHANGE_MODE',
-              data: {
-                mode: 'custom_dashboard'
-              }
-            })
-            history.push('/custom/dashboard')
-          }}>
-            <img src={NAV_HOME}/>
-            <p>DASBOARD</p>
-          </div>
-          <div onClick={() => {
-            if (nav.mode !== 'pm') {
-              dispatchp({
-                type: 'CHANGE_MODE',
-                data: {
-                  mode: 'pm'
+        Object.keys(MES_MENU_LIST).map((v, i) => {
+            return (
+                <NavGroupList
+                    key={`nav-${i}`}
+                    onClickEvent={() => {
+
+                        if (isSelected === i) {
+                            setIsSelected(999);
+                        } else {
+                            setIsSelected(i);
+
+                        }
+                    }}
+                    onClickMode={() => dispatchp({
+                        type: 'CHANGE_MODE',
+                        data: {
+                            mode: 'mes',
+
+                        }
+                    })}
+                    selected={isSelected === i || select == v ? true : false} contents={MES_MENU_LIST[v]}/>
+            )
+        });
+
+
+    const MesNavGroup2 =
+
+        ROUTER_MENU_LIST.map((v, i) => {
+            return (
+                <NavGroupList
+                    key={`nav-${i}`}
+                    onClickEvent={() => {
+
+                        if (isSelected === i) {
+                            setIsSelected(999)
+                        } else {
+                            setIsSelected(i)
+                        }
+                    }}
+                    onClickMode={() => dispatchp({
+                        type: 'CHANGE_MODE',
+                        data: {
+                            mode: 'mes'
+                        }
+                    })}
+                    selected={isSelected === i ? true : false} contents={v}/>
+            )
+        });
+
+
+    return (
+        <>
+
+            <NavDivLeft>
+                <div onClick={() => {
+                    dispatchp({
+                        type: 'CHANGE_MODE',
+                        data: {
+                            mode: 'home'
+                        }
+                    })
+                    history.push('/dashboard')
+                }}>
+                    <img src={NAV_HOME}/>
+                    <p>Home</p>
+                </div>
+                <div onClick={() => {
+                    dispatchp({
+                        type: 'CHANGE_MODE',
+                        data: {
+                            mode: 'custom_dashboard'
+                        }
+                    })
+                    history.push('/custom/dashboard')
+                }}>
+                    <img src={NAV_HOME}/>
+                    <p>DASBOARD</p>
+                </div>
+                <div onClick={() => {
+                    if (nav.mode !== 'pm') {
+                        dispatchp({
+                            type: 'CHANGE_MODE',
+                            data: {
+                                mode: 'pm'
+                            }
+                        })
+                    } else {
+                        dispatchp({
+                            type: 'CHANGE_MODE',
+                            data: {
+                                mode: 'home'
+                            }
+                        })
+                    }
+                }} style={nav.mode == 'pm' ? {backgroundColor: POINT_COLOR} : {}}>
+                    <img src={NAV_PRESS}/>
+                    <p>PM</p>
+                </div>
+                <div onClick={() => {
+                    if (nav.mode !== 'mes') {
+                        dispatchp({
+                            type: 'CHANGE_MODE',
+                            data: {
+                                mode: 'mes'
+                            }
+                        })
+                    } else {
+                        dispatchp({
+                            type: 'CHANGE_MODE',
+                            data: {
+                                mode: 'home'
+                            }
+                        })
+                    }
+                }} style={nav.mode == 'mes' ? {backgroundColor: POINT_COLOR} : {}}>
+                    <img src={NAV_MES}/>
+                    <p>MES</p>
+                </div>
+                <div onClick={() => history.push('/admin/map/list')}>
+                    <img src={NAV_MES}/>
+                    <p>ADMIN</p>
+                </div>
+
+                {/*<div onClick={() => history.push('/pm2/dashboard')} >*/}
+                {/*  <img src={NAV_PRESS} />*/}
+                {/*  <p>PM2</p>*/}
+                {/*</div>*/}
+
+
+            </NavDivLeft>
+            {nav.mode !== 'home' &&
+            <NavDiv>
+                {
+                    nav.mode == 'home' &&
+                    <div style={{textAlign: 'center', width: '100%', marginBottom: 44, backgroundColor: "red"}}>
+                        <a href="/dashboard"><img src={Logo} style={{width: 134, marginBottom: 8}}/></a><br/>
+                        <p className="p-bold" style={{
+                            minWidth: 100,
+                            display: 'inline-block',
+                            fontSize: 18,
+                            textAlign: 'center',
+                            color: `${POINT_COLOR}`
+                        }}>{me.company_name === undefined ? SERVICE_TITLE : me.company_name}</p>
+                    </div>
                 }
-              })
-            } else {
-              dispatchp({
-                type: 'CHANGE_MODE',
-                data: {
-                  mode: 'home'
-                }
-              })
+
+
+                <div>
+                    {nav.mode === 'pm' && PmNavGroup}
+                    {nav.mode === 'mes' && MesNavGroup}
+
+
+                    <p style={{fontSize: 12, paddingLeft: 27, color: 'gray', paddingBottom: 120, paddingTop: 30}}>
+                        Copyright© 2020 Zestech <br/>
+                        All Rights Reserved.
+                    </p>
+                </div>
+
+            </NavDiv>
             }
-          }} style={nav.mode == 'pm' ? { backgroundColor: POINT_COLOR } : {}}>
-            <img src={NAV_PRESS}/>
-            <p>PM</p>
-          </div>
-          <div onClick={() => {
-            if (nav.mode !== 'mes') {
-              dispatchp({
-                type: 'CHANGE_MODE',
-                data: {
-                  mode: 'mes'
-                }
-              })
-            } else {
-              dispatchp({
-                type: 'CHANGE_MODE',
-                data: {
-                  mode: 'home'
-                }
-              })
-            }
-          }} style={nav.mode == 'mes' ? { backgroundColor: POINT_COLOR } : {}}>
-            <img src={NAV_MES}/>
-            <p>MES</p>
-          </div>
-          {me.is_admin &&
-          <div onClick={() => history.push('/admin/map/list')}>
-            <img src={NAV_MES}/>
-            <p>ADMIN</p>
-          </div>
-
-          }
-
-          {/*<div onClick={() => history.push('/pm2/dashboard')} >*/}
-          {/*  <img src={NAV_PRESS} />*/}
-          {/*  <p>PM2</p>*/}
-          {/*</div>*/}
 
 
-        </NavDivLeft>
-        {nav.mode !== 'home' &&
-        <NavDiv>
-          {
-            nav.mode == 'home' &&
-            <div style={{ textAlign: 'center', width: '100%', marginBottom: 44, backgroundColor: "red" }}>
-              <a href="/dashboard"><img src={Logo} style={{ width: 134, marginBottom: 8 }}/></a><br/>
-              <p className="p-bold" style={{
-                minWidth: 100,
-                display: 'inline-block',
-                fontSize: 18,
-                textAlign: 'center',
-                color: `${POINT_COLOR}`
-              }}>{me.company_name === undefined ? SERVICE_TITLE : me.company_name}</p>
-            </div>
-          }
+        </>
 
-
-          <div>
-            {nav.mode === 'pm' && PmNavGroup}
-            {nav.mode === 'mes' && MesNavGroup}
-
-
-            <p style={{ fontSize: 12, paddingLeft: 27, color: 'gray', paddingBottom: 120, paddingTop: 30 }}>
-              Copyright© 2020 Zestech <br/>
-              All Rights Reserved.
-            </p>
-          </div>
-
-        </NavDiv>
-        }
-
-
-      </>
-
-  );
+    );
 }
 
 const TwoDepthDiv = Styled.div`

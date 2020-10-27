@@ -8,8 +8,12 @@ import client from '../configs/basic';
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 정민
  */
-export const getProjectList = async( url: string) =>{
+export const getProjectList = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
@@ -21,8 +25,12 @@ export const getProjectList = async( url: string) =>{
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 정민
  */
-export const getHistorySearch = async( url: string) =>{
+export const getHistorySearch = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
@@ -35,8 +43,12 @@ export const getHistorySearch = async( url: string) =>{
  * @author 정민
  */
 
-export const postProjectDelete = async( url: string, object: object) =>{
+export const postProjectDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
@@ -49,8 +61,12 @@ export const postProjectDelete = async( url: string, object: object) =>{
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 준희
  */
-export const postChitRegister = async( url: string, bodyData: object) =>{
+export const postChitRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp
 }
 
@@ -62,8 +78,9 @@ export const postChitRegister = async( url: string, bodyData: object) =>{
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 준희
  */
-export const postProductionRegister = async( url: string, bodyData: object) =>{
+export const postProductionRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
+
     return temp
 }
 
@@ -75,14 +92,18 @@ export const postProductionRegister = async( url: string, bodyData: object) =>{
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 준희
  */
-export const getProductionSearch = async( url: string ) =>{
+export const getProductionSearch = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
 export const API_URLS = {
     chit: {
-        register:`/v1/chit/register`,
+        register: `/v1/chit/register`,
         list: `/v1/chit/list`,
         load: `/v1/chit/load`,
         delete: `/v1/chit/delete`,
@@ -100,7 +121,7 @@ export const API_URLS = {
         distribute: `/v1/project/distribute`,
         search2: `/v1/project/history/search`
     },
-    defective:{
+    defective: {
         list: '/v1/defective/list',
         load: '/v1/defective/load',
         delete: '/v1/defective/delete',

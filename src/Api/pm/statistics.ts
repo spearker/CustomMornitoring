@@ -8,9 +8,13 @@ import client from '../configs/basic';
  * @author 준희
  * @version 0.1
  */
-export const getPowerList = async( url: string) =>{
+export const getPowerList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -22,9 +26,13 @@ export const getPowerList = async( url: string) =>{
  * @author 준희
  * @version 0.1
  */
-export const getAbilityList = async( url: string) =>{
+export const getAbilityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -36,9 +44,13 @@ export const getAbilityList = async( url: string) =>{
  * @author 준희
  * @version 0.1
  */
-export const getOilSupplyData = async( url: string) =>{
+export const getOilSupplyData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -50,9 +62,13 @@ export const getOilSupplyData = async( url: string) =>{
  * @author 준희
  * @version 0.1
  */
-export const getReadyTimeData = async( url: string) =>{
+export const getReadyTimeData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -64,9 +80,13 @@ export const getReadyTimeData = async( url: string) =>{
  * @author 준희
  * @version 0.1
  */
-export const getLoadTonData = async( url: string) =>{
+export const getLoadTonData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -79,9 +99,13 @@ export const getLoadTonData = async( url: string) =>{
  * @version 0.1
  */
 
-export const getErrorData = async( url: string) =>{
+export const getErrorData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -94,9 +118,13 @@ export const getErrorData = async( url: string) =>{
  * @version 0.1
  */
 
-export const getDefectiveData = async( url: string) =>{
+export const getDefectiveData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -109,9 +137,13 @@ export const getDefectiveData = async( url: string) =>{
  * @version 0.1
  */
 
-export const getProductData = async( url: string) =>{
+export const getProductData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -124,14 +156,18 @@ export const getProductData = async( url: string) =>{
  * @version 0.1
  */
 
-export const getMoldData = async( url: string) =>{
+export const getMoldData = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
 export const API_URLS = {
     power: {
-        list:`/v1/statistics/press/electric`
+        list: `/v1/statistics/press/electric`
     },
     error: {
         list: `/v1/statistics/press/error/list`,

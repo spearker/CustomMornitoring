@@ -7,17 +7,18 @@ import client from '../configs/common';
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 수민
  */
-export const getServerStatus = async( url: string) =>{
+export const getServerStatus = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    
     return true
 }
 
 
 export const API_URLS = {
     status: {
-        check:`/server/state`,
+        check: `/server/state`,
     },
 
-  }
+}
 
 
