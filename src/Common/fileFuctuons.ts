@@ -1,7 +1,7 @@
 import {postRequest} from './requestFunctions';
 import {getToken} from './tokenFunctions';
 import {TOKEN_NAME} from './configset';
-import client from "../Api/configs/basic";
+import {SF_ENDPOINT} from "../Api/SF_endpoint";
 
 
 /**
@@ -14,7 +14,7 @@ export const uploadTempFile = async (data) => {
 
     const formData = new FormData()
     formData.append('file', data)
-    const res = await postRequest(`${client}/v1/file/upload`, formData, getToken(TOKEN_NAME))
+    const res = await postRequest(`${SF_ENDPOINT}/v1/file/upload`, formData, getToken(TOKEN_NAME))
 
     if (res === false) {
         return false
