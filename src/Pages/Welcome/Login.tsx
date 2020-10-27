@@ -10,6 +10,8 @@ import BasicColorButton from '../../Components/Button/BasicColorButton';
 import WelcomeContainer from '../../Containers/WelcomeContainer';
 import {usePopupDispatch} from '../../Context/PopupContext';
 import {API_URLS, getServerStatus} from '../../Api/mes/common';
+import {useHistory} from 'react-router-dom'
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 로그인 페이지
 const Login = () => {
@@ -20,6 +22,8 @@ const Login = () => {
     const [error, setError] = useState<string>('');
     const {t} = useTranslation();
     const dispatchp = usePopupDispatch();
+    const history = useHistory()
+
     /**
      * onsubmitForm()
      * : 로그인
@@ -33,14 +37,34 @@ const Login = () => {
             email: email,
             password: password,
         }
-        const results = await postRequestWithNoToken('http://61.101.55.224:18299/user/login', data)
+        const results = await postRequestWithNoToken(`${SF_ENDPOINT}/user/login`, data)
 
         if (results === false) {
             //TODO: 에러 처리
         } else {
             if (results.status === 200) {
                 setToken(TOKEN_NAME, results.results.token)
-                window.location.href = "/dashboard"
+
+                try {
+                    if (window.location.search) {
+                        const type = window.location.search.split('type=')
+
+                        console.log('type1', type[1])
+
+                        if (type[1] === 'dashboard') {
+                            window.location.href = "/custom/dashboard"
+                        } else if (type[1] === 'back') {
+                            history.goBack()
+                        }
+                    } else {
+                        window.location.href = "/dashboard"
+                    }
+
+
+                } catch (error) {
+                    alert('에러가 발생했습니다. 관리자에게 문의하세요.')
+                }
+
             } else if (results.status === 1001 || results.status === 1002) {
                 alert('아이디와 패스워드를 확인하세요.')
             } else if (results.status === 1003) {

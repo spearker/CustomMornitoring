@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import PressStatusMarker from './Marker/PressStatusMarker';
-import PressNameMarker from './Marker/PressNameMarker';
-import FactorySelector from './FactorySelector';
-import { API_URLS, getMonitoringMapData } from '../../Api/pm/map';
-import PressCMSMarker from "./Marker/PressCMSMarker";
-import NoDataCard from "../Card/NoDataCard";
+import PressStatusMarker from './Marker/PressStatusMarker'
+import PressNameMarker from './Marker/PressNameMarker'
+import FactorySelector from './FactorySelector'
+import {API_URLS, getMonitoringMapData} from '../../Api/pm/map'
+import PressCMSMarker from './Marker/PressCMSMarker'
+import NoDataCard from '../Card/NoDataCard'
 
 interface Props {
   url: string, //api 요청 url,
@@ -58,15 +58,15 @@ const dummy_map_data = {
   ]
 }
 const dummy_factory = [
-  { pk: '1', name: '공장 1' },
-  { pk: '2', name: '공장 2' },
-  { pk: '3', name: '공장 3' },
+  {pk: '1', name: '공장 1'},
+  {pk: '2', name: '공장 2'},
+  {pk: '3', name: '공장 3'},
 ]
 
 const dummy_factory2 = [
-  { pk: '1', name: '공장 1' },
-  { pk: '2', name: '공장 2' },
-  { pk: '3', name: '공장 3' },
+  {pk: '1', name: '공장 1'},
+  {pk: '2', name: '공장 2'},
+  {pk: '3', name: '공장 3'},
 ]
 
 const initialData = {
@@ -76,42 +76,42 @@ const initialData = {
 
 }
 
-const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, select, item, onChangeComponent }: Props) => {
+const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, select, item, onChangeComponent}: Props) => {
 
-  const [ selectFactory, setSelectFactory ] = useState<Factory>({ pk: '', name: '' });
+  const [selectFactory, setSelectFactory] = useState<Factory>({pk: '', name: ''})
 
-  const [ facotories, setFactories ] = useState<Factory[]>([]);
+  const [facotories, setFactories] = useState<Factory[]>([])
 
-  const [ components, setComponents ] = useState<any[]>([]);
+  const [components, setComponents] = useState<any[]>([])
 
-  const [ mapData, setMapData ] = useState<any>(dummy_map_data);
+  const [mapData, setMapData] = useState<any>(dummy_map_data)
 
-  const [ intervalId, setIntervalId ] = useState<any>(null);
+  const [intervalId, setIntervalId] = useState<any>(null)
 
   /*
   * getMapData()
   * 지도 데이터 가져오기
   */
   const getMapData = useCallback(async (facPk) => {
-    console.log('getMapData()');
+    console.log('getMapData()')
     //지도 데이터 초기화
     //setComponents(dummy_map_data.components);
     //setMapData(dummy_map_data);
 
-    const resultObj = await getMonitoringMapData(url + `?factory=${facPk}` + `&type=${type}`);
+    const resultObj = await getMonitoringMapData(url + `?factory=${facPk}` + `&type=${type}`)
 
     if (resultObj) {
       //console.log('지도 들어가기')
-      setMapData(resultObj);
+      setMapData(resultObj)
 
       setComponents(resultObj.components)
     } else {
       ////alert('[데이터 없음] 공장 도면이 등록되어야 사용 할 수 있는 기능힙니다. 공장 도면을 등록해주세요!')
     }
 
-    console.log(resultObj);
+    console.log(resultObj)
 
-  }, [ components, mapData, selectFactory, type ]);
+  }, [components, mapData, selectFactory, type])
 
   /*
  * getFactoryData()
@@ -125,19 +125,19 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
     //setMapData(dummy_map_data);
     //setSelectFactory({pk: '2', name: '공장 2'});
     //setFactories(dummy_factory)
-    const results = await getMonitoringMapData(API_URLS.factory.list);
+    const results = await getMonitoringMapData(API_URLS.factory.list)
 
     console.log('results =>', results)
-    setFactories(results);
+    setFactories(results)
 
     if (results.length <= 0) {
       // //alert('조회 가능한 공장 데이터가 없습니다.')
-      return;
+      return
     } else {
-      setSelectFactory({ pk: results[0].pk, name: results[0].name });
+      setSelectFactory({pk: results[0].pk, name: results[0].name})
     }
 
-  }, [ selectFactory, facotories ]);
+  }, [selectFactory, facotories])
 
   /* useEffect(() => {
     if (mapType === 'cms' && selectFactory.pk !== '') {
@@ -165,16 +165,16 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
       getFactoryData()
     }
 
-  }, []);
+  }, [])
 
   useEffect(() => {
 
     if (selectFactory.pk !== '') {
-      getMapData(selectFactory.pk);
+      getMapData(selectFactory.pk)
 
     }
 
-  }, [ selectFactory.pk ]);
+  }, [selectFactory.pk])
 
   useEffect(() => {
     /*
@@ -196,84 +196,84 @@ const MapBoard = ({ autoRendering, type, mapType = 'basic', url, onChangeEvent, 
     };
 */
     console.log(item)
-  }, [ item ]);
+  }, [item])
 
 
   return (
-      <>
-        <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory}/>
-        <MapBoardWrapper
-            style={{ width: Number(mapData.map_width) + 'pk', height: mapData.map_img == null ? '340px' : 'auto' }}>
-          <InnerWrapper>
-            {
-              components.length === 0 &&
-              <div style={{
-                width: "100%",
-                height: "100%",
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-                <div style={{ flex: 1 }}><p style={{ textAlign: 'center' }}>데이터가 없습니다.</p></div>
-              </div>
-            }
-            {
-              components.map((v, i) => {
-                if (item) {
-                  if (v.machine_name === item.machine_name) {
-                    onChangeComponent(v)
-                  }
+    <>
+      <FactorySelector select={selectFactory} list={facotories} onChangeEvent={setSelectFactory}/>
+      <MapBoardWrapper
+        style={{width: Number(mapData.map_width) + 'pk', height: mapData.map_img == null ? '340px' : 'auto'}}>
+        <InnerWrapper>
+          {
+            components.length === 0 &&
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+                <div style={{flex: 1}}><p style={{textAlign: 'center'}}>데이터가 없습니다.</p></div>
+            </div>
+          }
+          {
+            components.map((v, i) => {
+              if (item) {
+                if (v.machine_name === item.machine_name) {
+                  onChangeComponent(v)
                 }
+              }
 
-                if (mapData.component_size == 'PRESS') {
-                  return (
-                      <PressStatusMarker key={i} component={v}/>
-                  )
-                } else if (mapData.component_size == 'BRAKE') {
-                  return (
-                      <PressStatusMarker key={i} component={v}/>
-                  )
-                } else if (mapType === "cms") {
-                  return (
-                      <PressCMSMarker key={i} component={v} select={select} onChangeEvent={onChangeEvent} item={item}
-                                      onChangeComponent={onChangeComponent}/>
-                  )
-                } else {
-                  return (
+              if (mapData.component_size == 'PRESS') {
+                return (
+                  <PressStatusMarker key={i} component={v}/>
+                )
+              } else if (mapData.component_size == 'BRAKE') {
+                return (
+                  <PressStatusMarker key={i} component={v}/>
+                )
+              } else if (mapType === 'cms') {
+                return (
+                  <PressCMSMarker key={i} component={v} select={select} onChangeEvent={onChangeEvent} item={item}
+                                  onChangeComponent={onChangeComponent}/>
+                )
+              } else {
+                return (
 
-                      <PressNameMarker key={i} component={v} select={select} onChangeEvent={onChangeEvent}/>
-                  )
-                }
-              })}
-            {
-              mapData.map_img !== null &&
-              <img src={mapData.map_img} style={{ width: Number(mapData.map_width) }}/>
-            }
-          </InnerWrapper>
-        </MapBoardWrapper>
-        {
-          mapType === 'cms' ? item
-              ? <DetailBox>
-                  <p>{item.machine_name}</p>
-                  <table style={{ width: "100%", height: 250, fontSize: 30 }}>
-                    <tr>
-                      <td>사용률</td>
-                      <td>{item.duty_cycle}<span>&nbsp;%</span></td>
-                      <td>전류량</td>
-                      <td>{item.current}<span>&nbsp;A</span></td>
-                    </tr>
-                    <tr>
-                      <td>전력</td>
-                      <td>{item.electric_power}<span>&nbsp;KW</span></td>
-                      <td>누적 사용량</td>
-                      <td>{item.accumulated}<span>&nbsp;KW</span></td>
-                    </tr>
-                </table>
-              </DetailBox>
-              : <NoDataCard contents={'기계를 선택해 주세요'} height={300}/>
-              : null
-        }
-      </>
+                  <PressNameMarker key={i} component={v} select={select} onChangeEvent={onChangeEvent}/>
+                )
+              }
+            })}
+          {
+            mapData.map_img !== null &&
+            <img src={mapData.map_img} style={{width: Number(mapData.map_width)}}/>
+          }
+        </InnerWrapper>
+      </MapBoardWrapper>
+      {
+        mapType === 'cms' ? item
+          ? <DetailBox>
+            <p>{item.machine_name}</p>
+            <table style={{width: '100%', height: 250, fontSize: 30}}>
+              <tr>
+                <td>사용률</td>
+                <td>{item.duty_cycle.toFixed(2)}<span>&nbsp;%</span></td>
+                <td>전류량</td>
+                <td>{item.current.toFixed(2)}<span>&nbsp;A</span></td>
+              </tr>
+              <tr>
+                <td>전력</td>
+                <td>{item.electric_power.toFixed(2)}<span>&nbsp;KW</span></td>
+                <td>누적 사용량</td>
+                <td>{item.accumulated.toFixed(2)}<span>&nbsp;KW</span></td>
+              </tr>
+            </table>
+          </DetailBox>
+          : <NoDataCard contents={'기계를 선택해 주세요'} height={300}/>
+          : null
+      }
+    </>
 
   )
 }
@@ -356,4 +356,4 @@ const InnerWrapper = Styled.div`
 
 `
 
-export default MapBoard;
+export default MapBoard

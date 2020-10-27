@@ -20,6 +20,7 @@ import OldFileInput from '../../Components/Input/OldFileInput';
 import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 주변 장치 페이지
 const BasicDeviceRegister = () => {
@@ -102,7 +103,7 @@ const BasicDeviceRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://203.234.183.22:8299/api/v1/device/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/device/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -166,7 +167,7 @@ const BasicDeviceRegister = () => {
             capacity: paths[2]
         };
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/device/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/device/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -218,7 +219,7 @@ const BasicDeviceRegister = () => {
         };
 
 
-        const res = await postRequest('http://203.234.183.22:8299/api/v1/device/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/device/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -265,7 +266,7 @@ const BasicDeviceRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://203.234.183.22:8299/api/v1/factory/search?page=1&limit=15&'}
+                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?page=1&limit=15&`}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -297,7 +298,7 @@ const BasicDeviceRegister = () => {
                             {/*<DocumentFormatInputList*/}
 
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://203.234.183.22:8299/api/v1/device/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://255.255.255.255:8299/api/v1/device/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 

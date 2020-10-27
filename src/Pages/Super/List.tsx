@@ -5,6 +5,7 @@ import Axios from 'axios';
 import NormalTable from '../../Components/Table/NormalTable';
 import SubNavigation from '../../Components/Navigation/SubNavigation';
 import {ROUTER_SUPER_ADMIN} from '../../Common/routerset';
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 회사 조회 페이지
 
@@ -36,7 +37,7 @@ const SuperList = () => {
     useEffect(() => {
 
         // 리슽트 받기
-        Axios.get('http://61.101.55.224:18299/api/v2/super/company/load')
+        Axios.get(`${SF_ENDPOINT}/api/v2/super/company/load`)
             .then(function (res: IServerResponse) {
                 console.log(res);
                 if (res.data.status === 200) {

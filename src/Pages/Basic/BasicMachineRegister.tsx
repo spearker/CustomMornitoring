@@ -21,6 +21,7 @@ import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer';
 import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 const docDummy = [
     {pk: 'qfqwf', name: '도큐먼트 1'},
@@ -112,7 +113,7 @@ const BasicMachineRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://61.101.55.224:18299/api/v1/machine/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/machine/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -130,7 +131,7 @@ const BasicMachineRegister = () => {
                 setInfoList(data.info_list);
                 setVolt(data.volt ?? 0);
                 setTons(data.tons ?? 0);
-                const tempList = paths.slice();
+                const tempList = oldPaths.slice();
                 tempList[0] = data.photo;
                 tempList[1] = data.qualification;
                 tempList[2] = data.capacity;
@@ -171,7 +172,7 @@ const BasicMachineRegister = () => {
             pk: getParameter('pk'),
             machine_name: name,
             machine_type: type,
-            manufacturer: made.trim(),
+            manufacturer: !made ? made : made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
 
@@ -185,7 +186,7 @@ const BasicMachineRegister = () => {
 
         };
 
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/machine/update/', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/machine/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -235,7 +236,7 @@ const BasicMachineRegister = () => {
             document_pk: document.pk,
             machine_name: name,
             machine_type: type,
-            manufacturer: made.trim(),
+            manufacturer: !made ? made : made.trim(),
             manufacturer_code: madeNo,
             manufactured_at: date,
             location: factory[0].pk,
@@ -248,7 +249,7 @@ const BasicMachineRegister = () => {
         };
 
 
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/machine/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/machine/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -301,7 +302,7 @@ const BasicMachineRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://61.101.55.224:18299/api/v1/factory/search?'}
+                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?`}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
@@ -339,7 +340,7 @@ const BasicMachineRegister = () => {
                             <br/>
                             {/*<DocumentFormatInputList*/}
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://61.101.55.224:18299/api/v1/machine/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `http://255.255.255.255:8299/api/v1/machine/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 

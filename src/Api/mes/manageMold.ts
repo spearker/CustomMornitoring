@@ -9,7 +9,7 @@ import client from '../configs/basic';
  * @author 정민
  */
 
-export const postMoldRegister = async( url: string, bodyData: object) =>{
+export const postMoldRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
     return temp
 }
@@ -23,7 +23,7 @@ export const postMoldRegister = async( url: string, bodyData: object) =>{
  * @author 정민
  */
 
-export const postMoldState = async( url: string, bodyData: object) =>{
+export const postMoldState = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
     return temp.results
 }
@@ -36,23 +36,23 @@ export const postMoldState = async( url: string, bodyData: object) =>{
  * @author 정민
  */
 
-export const getMoldList = async( url: string) =>{
+export const getMoldList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     return temp.results
 }
 
 export const API_URLS = {
-    repair:{
+    repair: {
         register: `/v1/manageMold/repair/register`,
         update: `/v1/manageMold/repair/update`,
-        delete: `/v1/mananaMold/repair/delete`,
+        delete: `/v1/manageMold/repair/delete`,
         list: `/v1/manageMold/repair/list`,
         detail: `/v1/manageMold/repair/detail`,
         complete: `/v1/manageMold/repair/complete`,
         cancel: `/v1/manageMold/repair/cancel`,
         completeList: `/v1/manageMold/repair/completeList`
     },
-    manage:{
+    manage: {
         register: `/v1/manageMold/manage/register`,
         update: `/v1/manageMold/manage/update`,
         delete: `/v1/manageMold/manage/delete`,
@@ -62,7 +62,7 @@ export const API_URLS = {
         cancel: `/v1/manageMold/manage/cancel`,
         selectInfo: `/v1/manageMold/manage/selectInfo`
     },
-    making:{
+    making: {
         register: `/v1/manageMold/making/register`,
         update: `/v1/manageMold/making/update`,
         delete: `/v1/manageMold/making/delete`,

@@ -14,6 +14,7 @@ import useObjectInput from '../../Functions/UseInput';
 import NormalAddressInput from '../../Components/Input/NormalAddressInput';
 import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 공장 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -49,7 +50,7 @@ const BasicFactoryRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`http://61.101.55.224:18299/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -87,7 +88,7 @@ const BasicFactoryRegister = () => {
             description: inputData.description,
             info_list: JsonStringifyList(essential, optional)
         };
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/factory/update', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/factory/update`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
@@ -124,7 +125,7 @@ const BasicFactoryRegister = () => {
             info_list: JsonStringifyList(essential, optional)
         };
 
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/factory/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/factory/register`, data, getToken(TOKEN_NAME))
 
 
         if (res === false) {
@@ -162,7 +163,7 @@ const BasicFactoryRegister = () => {
                     {/*<br/>*/}
                     {/*<DocumentFormatInputList*/}
                     {/*    pk={!isUpdate ? document.pk : undefined}*/}
-                    {/*    loadDataUrl={isUpdate? `http://61.101.55.224:18299/api/v1/factory/load?pk=${pk}` :''}*/}
+                    {/*    loadDataUrl={isUpdate? `http://255.255.255.255:8299/api/v1/factory/load?pk=${pk}` :''}*/}
                     {/*    onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                     {/*/>*/}
                     <div style={{marginTop: 32, marginLeft: "31%"}}>

@@ -1,36 +1,36 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
-import Header from '../../Components/Text/Header';
-import {getToken} from '../../Common/tokenFunctions';
+import React, {useCallback, useEffect, useState} from 'react'
+import {TOKEN_NAME} from '../../Common/configset'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import Header from '../../Components/Text/Header'
+import {getToken} from '../../Common/tokenFunctions'
 import 'react-dropdown/style.css'
-import BasicDropdown from '../../Components/Dropdown/BasicDropdown';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_MENU_LIST} from '../../Common/routerset';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import {getRequest, postRequest} from '../../Common/requestFunctions';
-import SearchInputSmall from '../../Components/Input/SearchInputSmall';
-import SmallButtonLink from '../../Components/Button/SmallButtonLink';
-import InfoTable from '../../Components/Table/InfoTable';
-import {machineCodeToName} from '../../Common/codeTransferFunctions';
+import BasicDropdown from '../../Components/Dropdown/BasicDropdown'
+import SubNavigation from '../../Components/Navigation/SubNavigation'
+import {ROUTER_MENU_LIST} from '../../Common/routerset'
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
+import SmallButtonLink from '../../Components/Button/SmallButtonLink'
+import SearchInputSmall from '../../Components/Input/SearchInputSmall'
+import InfoTable from '../../Components/Table/InfoTable'
+import {machineCodeToName} from '../../Common/codeTransferFunctions'
 
+// 주변장치 리스트
+const SubMachineList = () => {
 
-const BarcodeList = () => {
+    const [list, setList] = useState<ISubMachine[]>([])
+    const [page, setPage] = useState(0)
+    const [option, setOption] = useState(0)
+    const [keyword, setKeyword] = useState<string>('')
 
-    const [list, setList] = useState<IBarcode[]>([]);
-    const [option, setOption] = useState(0);
-    const [keyword, setKeyword] = useState<string>('');
     const optionList = [
-        "등록순", "이름순",
+        '등록순', '이름순', '종류순', '번호순', '제조사 순'
     ]
     const index = {
-        name: '바코드 규칙명',
-        type: '종류',
-        code: '코드',
-
+        device_name: '기계 이름',
+        device_label: '기계 종류',
+        manufacturer: '제조사',
+        manufacturer_code: '제조 번호',
     }
-
 
     /**
      * getSearchList()
@@ -39,9 +39,8 @@ const BarcodeList = () => {
      * @returns X
      */
     const getSearchList = useCallback(async (e) => {
-        e.preventDefault();
-
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+        e.preventDefault()
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/peripheral/list/search?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -64,8 +63,7 @@ const BarcodeList = () => {
      */
     const getList = useCallback(async () => {
 
-
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/peripheral/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -78,7 +76,6 @@ const BarcodeList = () => {
         }
     }, [list, keyword, option])
 
-
     /**
      * onClickFilter()
      * 리스트 필터 변경
@@ -88,8 +85,7 @@ const BarcodeList = () => {
     const onClickFilter = useCallback(async (filter: number) => {
         setOption(filter)
         ////alert(`선택 테스트 : 필터선택 - filter : ${filter}` )
-
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/barcode/list?orderBy=' + option + '&keyword=' + keyword, getToken(TOKEN_NAME))
+        const results = await getRequest('http://255.255.255.255:8299/api/v1/peripheral/list?page=' + page + '&keyword=' + keyword + '&type=' + option, getToken(TOKEN_NAME))
 
 
         if (results === false) {
@@ -101,7 +97,7 @@ const BarcodeList = () => {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
             }
         }
-    }, [option])
+    }, [option, list, keyword])
 
     useEffect(() => {
         getList()
@@ -111,13 +107,13 @@ const BarcodeList = () => {
 
     const onClickDelete = useCallback(async (id) => {
 
-        const results = await postRequest('http://61.101.55.224:18299/api/v1/barcode/delete', {pk: id}, getToken(TOKEN_NAME))
+        const results = await postRequest('http://255.255.255.255:8299/api/v1/peripheral/delete', {pk: id}, getToken(TOKEN_NAME))
         const tg = id
-        //console.log('--select id : ' + id)
+        console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
-            if (results.status === 200 || results.status === "200") {
+            if (results.status === 200 || results.status === '200') {
                 //alert('해당 데이터가 성공적으로 삭제되었습니다.')
                 setList(list.filter(v => v.pk !== tg))
             } else {
@@ -129,22 +125,14 @@ const BarcodeList = () => {
     }, [list])
 
 
-    const onClickModify = useCallback((id) => {
-
-        console.log('--select id : ' + id)
-        window.location.href = `/update/material?pk=${id}`
-
-    }, [])
-
     return (
         <DashboardWrapContainer index={0}>
             <SubNavigation list={ROUTER_MENU_LIST[0]}/>
             <InnerBodyContainer>
                 <div style={{position: 'relative'}}>
-                    <Header title={`바코드 기본 정보 (${list.length})`}/>
-
+                    <Header title={`주변장치 기본 정보 (${list.length})`}/>
                     <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
-                        <SmallButtonLink name="+ 등록하기" link="/register/barcode"/>
+                        <SmallButtonLink name="+ 등록하기" link="/register/submachine"/>
                         <BasicDropdown select={optionList[option]} contents={optionList} onClickEvent={onClickFilter}/>
                     </div>
                 </div>
@@ -157,21 +145,15 @@ const BarcodeList = () => {
                     onClickEvent={getSearchList}
                 />
 
-                <InfoTable indexList={index} pkKey={'pk'} type={'barcode'} typeKey={'type'}
-                           typeChanger={machineCodeToName}
-                           onClickLinkUrl="/update/barcode?pk=" contents={list} onClickRemove={onClickDelete}/>
+                <InfoTable indexList={index} pkKey={'pk'} type={'submachine'} typeKey={'device_label'}
+                           typeChanger={machineCodeToName} onClickLinkUrl="/update/submachine?pk=" contents={list}
+                           onClickRemove={onClickDelete}/>
 
             </InnerBodyContainer>
         </DashboardWrapContainer>
 
-    );
+    )
 }
-const FullPageDiv = Styled.div`
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: ${BG_COLOR_SUB2}
-`
 
 
-export default BarcodeList;
+export default SubMachineList

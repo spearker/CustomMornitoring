@@ -9,6 +9,7 @@ import NoDataCard from '../../Components/Card/NoDataCard'
 import {getRequest} from '../../Common/requestFunctions'
 import {getToken} from '../../Common/tokenFunctions'
 import {TOKEN_NAME} from '../../Common/configset'
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 로드톤 모니터링
 const LoadtonDashBoard = () => {
@@ -151,7 +152,7 @@ const LoadtonDashBoard = () => {
         //return;
 
 
-        const results = await getRequest('http://61.101.55.224:18299/api/v1/monitoring/loadton/detail?factory=8PP29J_factory0', getToken(TOKEN_NAME))
+        const results = await getRequest(`${SF_ENDPOINT}/api/v1/monitoring/loadton/detail?factory=8PP29J_factory0`, getToken(TOKEN_NAME))
 
         if (results === false) {
             ////alert('요청을 처리 할 수 없습니다 잠시후 다시 시도해주세요.')

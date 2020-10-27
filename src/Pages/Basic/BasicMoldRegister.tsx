@@ -23,6 +23,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import InputContainer from "../../Containers/InputContainer";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 금형 등록, 업데이트
 const BasicMoldRegister = () => {
@@ -114,7 +115,7 @@ const BasicMoldRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest('http://61.101.55.224:18299/api/v1/mold/load?pk=' + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/mold/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -191,6 +192,9 @@ const BasicMoldRegister = () => {
         } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (input_material.pk === output_material.pk) {
+            alert("투입 품목과 생산 품목이 같습니다. 다르게 체크해주세요.")
+            return
         }
 
 
@@ -217,7 +221,7 @@ const BasicMoldRegister = () => {
 
         };
 
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/mold/update', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/update`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -279,6 +283,9 @@ const BasicMoldRegister = () => {
         } else if (output_material.pk === "" || output_material.pk === undefined) {
             alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
             return;
+        } else if (input_material.pk === output_material.pk) {
+            alert("투입 품목과 생산 품목이 같습니다. 다르게 체크해주세요.")
+            return
         }
 
         const data = {
@@ -304,7 +311,7 @@ const BasicMoldRegister = () => {
         };
 
 
-        const res = await postRequest('http://61.101.55.224:18299/api/v1/mold/register', data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -360,7 +367,7 @@ const BasicMoldRegister = () => {
                                 }
                                 solo={true}
                                 list={factory}
-                                searchUrl={'http://61.101.55.224:18299/api/v1/factory/search?&'}
+                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?&`}
                             />
                             <NormalNumberInput title={'금형 치수 L'} description={"치수를 입력하세요."} value={mold_spec_l}
                                                onChangeEvent={setMold_spec_l}/>
@@ -407,7 +414,7 @@ const BasicMoldRegister = () => {
                             {/*<DocumentFormatInputList*/}
 
                             {/*  pk={!isUpdate ? document.pk : undefined}*/}
-                            {/*  loadDataUrl={isUpdate? `http://61.101.55.224:18299/api/v1/mold/load?pk=${pk}` :''}*/}
+                            {/*  loadDataUrl={isUpdate? `${client}/v1/mold/load?pk=${pk}` :''}*/}
                             {/*  onChangeEssential={setEssential} onChangeOptional={setOptional}*/}
                             {/*  />*/}
 
