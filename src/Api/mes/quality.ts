@@ -9,8 +9,9 @@ import client from '../configs/basic';
  * @author 예지
  */
 
-export const postQualityRequestDetail = async( url: string, bodyData: object) =>{
+export const postQualityRequestDetail = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
+
     return temp
 }
 
@@ -23,8 +24,9 @@ export const postQualityRequestDetail = async( url: string, bodyData: object) =>
  * @author 정민
  */
 
-export const postQualityRegister = async( url: string, bodyData: object) =>{
+export const postQualityRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
+
     return temp
 }
 
@@ -36,13 +38,17 @@ export const postQualityRegister = async( url: string, bodyData: object) =>{
  * @author 정민
  */
 
-export const getQualityList = async( url: string) =>{
+export const getQualityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
 export const API_URLS = {
-    request:{
+    request: {
         register: `/v1/quality/request/register`,
         list: `/v1/quality/request/list`,
         search: `/v1/quality/request/search`,
@@ -51,7 +57,7 @@ export const API_URLS = {
         completeList: `/v1/quality/request/complete/list`,
         completeDetail: `/v1/quality/request/complete/detail`
     },
-    response:{
+    response: {
         requestList: `/v1/quality/response/request/list`,
         requestDetail: `/v1/quality/response/request/detail`,
         update: `/v1/quality/response/update`,
@@ -60,7 +66,7 @@ export const API_URLS = {
         detail: `/v1/quality/response/detail`,
         register: `/v1/quality/response/register`
     },
-    status:{
+    status: {
         list: `/v1/quality/status/list`,
         search: `/v1/quality/status/search`,
         detail: `/v1/quality/status/detail`

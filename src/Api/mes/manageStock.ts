@@ -6,10 +6,14 @@ import client from '../configs/basic';
  * @param {string} url 링크 주소
  * @param {string} item_name 품목명
  * @returns {Array} 품목 리스트
-* @author 준희
-*/
-export const getItemSearch = async( url: string) =>{
+ * @author 준희
+ */
+export const getItemSearch = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp
 }
 
@@ -20,8 +24,12 @@ export const getItemSearch = async( url: string) =>{
  * @returns {Array} 품목 리스트
  * @author 정민
  */
-export const getStockList = async( url: string) =>{
+export const getStockList = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
@@ -34,13 +42,13 @@ export const API_URLS = {
         warehousingRegister: `/v1/stock/warehousing/register`,
         releaseRegister: `/v1/stock/release/register`,
     },
-    parts:{
+    parts: {
         list: `/v1/stock/parts/list`,
         detail: `/v1/stock/parts/detail`,
         warehousingRegister: `/v1/stock/parts/warehousing/register`,
         releaseRegister: `/v1/stock/parts/release/register`,
     },
-    searchItem:{
+    searchItem: {
         list: `/manageStock/searchItem`,
     },
 }

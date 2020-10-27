@@ -7,8 +7,12 @@ import client from '../configs/map';
  * @returns {Object} 데이터
  * @author 수민
  */
-export const getMonitoringMapData = async( url: string) =>{
+export const getMonitoringMapData = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     console.log(temp.results);
     return temp.results!;
 }
@@ -20,8 +24,12 @@ export const getMonitoringMapData = async( url: string) =>{
  * @returns {Array} 데이터
  * @author 수민
  */
-export const getMapListData = async( url: string) =>{
+export const getMapListData = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     console.log(temp.results);
     return temp.results!;
 }
@@ -29,7 +37,7 @@ export const getMapListData = async( url: string) =>{
 
 export const API_URLS = {
     press: {
-        monitoring:`/v1/monitoring/press/map`,
+        monitoring: `/v1/monitoring/press/map`,
         statics: `/v1/map/load`,
     },
     factory: {
