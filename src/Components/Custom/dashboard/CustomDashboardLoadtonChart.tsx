@@ -9,6 +9,7 @@ import { YOUDONG_PRESS_CUSTOM_TYPE } from "../../../Common/@types/youdong";
 import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
 import Modal from "react-modal";
 import { RotateSpinner } from "react-spinners-kit";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   id: string
@@ -22,22 +23,30 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>();
   const [ tonnageLimit, setTonnageLimit ] = useState<number>();
 
+  const history = useHistory()
+
   const getYoudongCustomDashboardData = async () => {
     if (id) {
       try {
         const response = await getYoudongDashboard(id, isFirst.api)
 
         if (response !== null) {
-          setData(response)
+          if (response.status === 401) {
+            return history.push('/login?type=back')
+          } else if (response.status === 200) {
+            setData(response.data)
+
+            console.log('response.status,response.status', response.status)
 
 
-          if (isFirst.api) {
-            setTonnageLimit(response.loadton_data.tonnage_limit)
+            if (isFirst.api) {
+              setTonnageLimit(response.data.loadton_data.tonnage_limit)
 
-            setIsFirst({
-              loading: false,
-              api: false
-            })
+              setIsFirst({
+                loading: false,
+                api: false
+              })
+            }
           }
         }
       } catch (error) {
