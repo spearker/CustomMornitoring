@@ -80,13 +80,19 @@ const BasicSubdividedRegister = () => {
     } else if (inputData.name === '') {
       alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
+    } else if (inputData.factory[0]?.pk.replace(/(\s*)/g, "") === '') {
+      alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (inputData.name.replace(/(\s*)/g, "") === '') {
+      alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
+      return
     }
 
     const data = {
       pk: getParameter('pk'),
       factory: inputData.factory[0].pk,
-      name: inputData.name,
-      description: inputData.description,
+      name: inputData.name.replace(/(^\s*)|(\s*$)/g, ""),
+      description: inputData.description.replace(/(^\s*)|(\s*$)/g, ""),
       info_list: JsonStringifyList(essential, optional)
     }
     const res = await postRequest('http://61.101.55.224:18299/api/v1/subdivided/update/', data, getToken(TOKEN_NAME))
@@ -113,13 +119,19 @@ const BasicSubdividedRegister = () => {
     } else if (inputData.name === '') {
       alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
+    } else if (inputData.factory[0]?.pk.replace(/(\s*)/g, "") === '') {
+      alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (inputData.name.replace(/(\s*)/g, "") === '') {
+      alert('세분화 이름은 필수 항목입니다. 반드시 입력해주세요.')
+      return
     }
 
     const data = {
       document_pk: document.pk,
       factory: inputData.factory[0].pk,
-      name: inputData.name,
-      description: inputData.description,
+      name: inputData.name.replace(/(^\s*)|(\s*$)/g, ""),
+      description: inputData.description.replace(/(^\s*)|(\s*$)/g, ""),
       info_list: JsonStringifyList(essential, optional)
     }
 

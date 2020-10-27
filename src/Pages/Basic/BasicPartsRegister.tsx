@@ -113,16 +113,16 @@ const BasicPartsRegister = () => {
     const onsubmitFormUpdate = useCallback(async () => {
         console.log(type)
 
-        if (name === '') {
+        if (name.replace(/(\s*)/g, "") === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type] === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].replace(/(\s*)/g, "") === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
+        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk.replace(/(\s*)/g, "") === '') {
             alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost) === '' || cost === 0) {
+        } else if (cost === null || cost === undefined || String(cost).replace(/(\s*)/g, "") === '' || cost === 0) {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -151,16 +151,16 @@ const BasicPartsRegister = () => {
     }, [pk, location, name, type, cost, partsPkList])
 
     const onsubmitForm = useCallback(async () => {
-        if (name === '') {
+        if (name.replace(/(\s*)/g, "") === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type] === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].replace(/(\s*)/g, "") === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
+        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk.replace(/(\s*)/g, "") === '') {
             alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost) === '') {
+        } else if (cost === null || cost === undefined || String(cost).replace(/(\s*)/g, "") === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }

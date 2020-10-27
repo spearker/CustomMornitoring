@@ -147,6 +147,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({ title, selectDate, calen
                             typeof indexList[v] === 'object' ?
                                 <select className="p-limits"
                                     style={{
+                                        cursor: 'pointer',
                                         backgroundColor: '#111319',
                                         borderColor: '#111319',
                                         color: 'white',
@@ -162,7 +163,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({ title, selectDate, calen
                                             return (
                                                 <>
                                                     <option value={indexList[v][m]}
-                                                        style={{ backgroundColor: '#111319' }}>{indexList[v][m]}</option>
+                                                        style={{ backgroundColor: '#111319', cursor: 'pointer' }}>{indexList[v][m]}</option>
 
                                                 </>
                                             )
