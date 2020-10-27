@@ -138,7 +138,7 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                         },
                         */
                         return (
-                            <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
+                            <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48', cursor: 'pointer'}}>
                                 {
                                     checkBox !== undefined || false ?
                                         <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
