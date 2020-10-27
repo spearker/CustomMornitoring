@@ -17,8 +17,7 @@ import {getToken, setToken, loadXHR} from '../Common/tokenFunctions'
 import {useUserDispatch, useUser} from '../Context/UserContext'
 import {getRequest} from '../Common/requestFunctions'
 import {PM_MENU_LIST} from '../Common/routerset'
-import client from "../Api/configs/basic";
-
+import {SF_ENDPOINT} from "../Api/SF_endpoint";
 //대시보드를 감싸는 wrap 박스
 
 const DashboardWrapContainer = ({children, index}: any) => {
@@ -34,7 +33,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
         if (User.pk !== '') {
             return
         }
-        const results = await getRequest(`${client}/v1/user/load`, getToken(TOKEN_NAME))
+        const results = await getRequest(`${SF_ENDPOINT}/api/v1/user/load`, getToken(TOKEN_NAME))
 
         if (results === false) {
             //TODO: 에러 처리

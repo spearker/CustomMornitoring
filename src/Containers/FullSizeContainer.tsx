@@ -5,7 +5,7 @@ import DashboardNavigation from '../Components/Navigation/DashboardNavigation'
 import {getToken} from '../Common/tokenFunctions'
 import {useUserDispatch, useUser} from '../Context/UserContext'
 import {getRequest} from '../Common/requestFunctions'
-import client from "../Api/configs/basic";
+import {SF_ENDPOINT} from "../Api/SF_endpoint";
 
 //대시보드를 감싸는 wrap 박스  (풀사이즈)
 
@@ -20,7 +20,7 @@ const FullSizeContainer = ({children}: any) => {
      */
     const loadUserInfo = async () => {
 
-        const results = await getRequest(`${client}/v1/user/load`, getToken(TOKEN_NAME))
+        const results = await getRequest(`${SF_ENDPOINT}/v1/user/load`, getToken(TOKEN_NAME))
 
         if (results === false) {
             //TODO: 에러 처리

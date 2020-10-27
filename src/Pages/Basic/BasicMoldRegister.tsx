@@ -23,7 +23,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput';
 import {useHistory} from 'react-router-dom';
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import InputContainer from "../../Containers/InputContainer";
-import client from "../../Api/configs/basic";
+import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 
 // 금형 등록, 업데이트
 const BasicMoldRegister = () => {
@@ -115,7 +115,7 @@ const BasicMoldRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${client}/v1/mold/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/mold/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -221,7 +221,7 @@ const BasicMoldRegister = () => {
 
         };
 
-        const res = await postRequest(`${client}/v1/mold/update`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/update`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -311,7 +311,7 @@ const BasicMoldRegister = () => {
         };
 
 
-        const res = await postRequest(`${client}/v1/mold/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -367,7 +367,7 @@ const BasicMoldRegister = () => {
                                 }
                                 solo={true}
                                 list={factory}
-                                searchUrl={`${client}/v1/factory/search?&`}
+                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?&`}
                             />
                             <NormalNumberInput title={'금형 치수 L'} description={"치수를 입력하세요."} value={mold_spec_l}
                                                onChangeEvent={setMold_spec_l}/>
