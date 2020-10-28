@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import InnerBodyContainer from "../../../Containers/InnerBodyContainer";
-import Styled from "styled-components";
-import CustomLoadTon from "../loadton/CustomLoadTonCard";
-import CustomMainMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart";
-import CustomSlideMotorAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart";
-import getYoodongDashboard from "../../../Api/custom/getYoodongDashboard";
-import { YOUDONG_PRESS_CUSTOM_TYPE } from "../../../Common/@types/youdong";
-import CustomMonitoringCard from "../loadton/CustomMonitoringCard";
-import Modal from "react-modal";
-import { RotateSpinner } from "react-spinners-kit";
-import { useHistory } from "react-router-dom";
+import InnerBodyContainer from '../../../Containers/InnerBodyContainer'
+import Styled from 'styled-components'
+import CustomLoadTon from '../loadton/CustomLoadTonCard'
+import CustomMainMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart'
+import CustomSlideMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart'
+import getYoodongDashboard from '../../../Api/custom/getYoodongDashboard'
+import { YOUDONG_PRESS_CUSTOM_TYPE } from '../../../Common/@types/youdong'
+import CustomMonitoringCard from '../loadton/CustomMonitoringCard'
+import Modal from 'react-modal'
+import { RotateSpinner } from 'react-spinners-kit'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   id: string
@@ -19,9 +19,9 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   const [ isFirst, setIsFirst ] = React.useState({
     loading: true,
     api: true
-  });
-  const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>();
-  const [ tonnageLimit, setTonnageLimit ] = useState<number>();
+  })
+  const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
+  const [ tonnageLimit, setTonnageLimit ] = useState<number>()
 
   const history = useHistory()
 
@@ -31,14 +31,10 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
         const response = await getYoodongDashboard(id, isFirst.api)
 
         if (response !== null) {
-          console.log('response.status', response.status)
           if (response.status === 401) {
             return history.push('/login?type=back')
           } else if (response.status === 200) {
             setData(response.data)
-
-            console.log('response.status,response.status', response.status)
-
 
             if (isFirst.api) {
               setTonnageLimit(response.data.loadton_data.tonnage_limit)
@@ -59,7 +55,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   useEffect(() => {
     const documentEvent: any = document
 
-    documentEvent.body.style.zoom = .7;
+    documentEvent.body.style.zoom = .7
   }, [])
 
 
@@ -133,7 +129,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
   const overTonCheck = () => {
     if (tonnageLimit) {
       if (data) {
-        return data.loadton_data.total_ton > tonnageLimit ? tonnageLimit : 0;
+        return data.loadton_data.total_ton > tonnageLimit ? tonnageLimit : 0
       } else {
         return false
       }
@@ -161,6 +157,23 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
           }, { fontSize: 84 })}
         </div>
     )
+  }
+
+  const errorCodeFilter = () => {
+    let style: { color: string, opacity: string } = {
+      color: 'white',
+      opacity: '.7'
+    }
+
+    if (data) {
+      if (data.press_data.error_code.code !== '0')
+        style = {
+          color: '#ed4337',
+          opacity: '1'
+        }
+    }
+
+    return style
   }
 
   return (
@@ -205,6 +218,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
               <div style={{
                 width: '13%',
                 paddingTop: 60,
+                paddingLeft: 20,
                 display: 'flex',
                 flexDirection: 'column',
               }}>
@@ -216,7 +230,8 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                     <Title>에러코드</Title>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <SubTitle>{data ? data.press_data.error_code.code === '0' ? '-' : data?.press_data.error_code.type : '-'}</SubTitle>
+                    <SubTitle
+                        style={errorCodeFilter()}>{data ? data.press_data.error_code.code === '0' ? '-' : data?.press_data.error_code.type : '-'}</SubTitle>
                   </div>
                 </div>
                 <div>
