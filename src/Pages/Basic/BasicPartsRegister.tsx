@@ -115,16 +115,16 @@ const BasicPartsRegister = () => {
     const onsubmitFormUpdate = useCallback(async () => {
         console.log(type)
 
-        if (name.replace(/(\s*)/g, "") === '') {
+        if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type].replace(/(\s*)/g, "") === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk.replace(/(\s*)/g, "") === '') {
+        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
             alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost).replace(/(\s*)/g, "") === '' || cost === 0) {
+        } else if (cost === null || cost === undefined || String(cost).trim() === '' || cost === 0) {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -153,16 +153,16 @@ const BasicPartsRegister = () => {
     }, [pk, location, name, type, cost, partsPkList])
 
     const onsubmitForm = useCallback(async () => {
-        if (name.replace(/(\s*)/g, "") === '') {
+        if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type].replace(/(\s*)/g, "") === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk.replace(/(\s*)/g, "") === '') {
+        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
             alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost).replace(/(\s*)/g, "") === '') {
+        } else if (cost === null || cost === undefined || String(cost).trim() === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -191,7 +191,7 @@ const BasicPartsRegister = () => {
 
 
     const partsRegister = useCallback(async () => {
-        if (partsName === '' || partsName === null || partsName === undefined) {
+        if (partsName.trim() === '' || partsName === null || partsName === undefined) {
             alert('파츠 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -239,10 +239,10 @@ const BasicPartsRegister = () => {
 
     const partsUpdate = useCallback(async () => {
 
-        if (partsName === '' || partsName === null || partsName === undefined) {
+        if (partsName.trim() === '' || partsName === null || partsName === undefined) {
             alert('파츠 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type] === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
         }
