@@ -14,7 +14,7 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
   useEffect(() => {
     const documentEvent: any = document
 
-    documentEvent.body.style.zoom = .9;
+    documentEvent.body.style.zoom = .6;
     getData().then(() => console.log('load success'))
   }, [])
 
@@ -89,7 +89,7 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
 }
 
 const DashboardWrapDiv = Styled.div`
-    width: 100%;
+    width: 99%;
     height: 100vh;
     display: flex;
     margin-left: 24px;
