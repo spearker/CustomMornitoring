@@ -169,6 +169,8 @@ const OutsourcingRegister = ({match}: any) => {
             return;
         }
 
+        console.log(inputData.location.postcode, inputData.location.roadAddress, inputData.location.detail)
+
         const data = {
             pk: match.params.pk,
             name: name,
@@ -181,7 +183,7 @@ const OutsourcingRegister = ({match}: any) => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
+            address: inputData.location.postcode === undefined && inputData.location.roadAddress === undefined && inputData.location.detail === undefined ? null : inputData.location,
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 

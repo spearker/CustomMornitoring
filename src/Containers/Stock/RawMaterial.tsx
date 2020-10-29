@@ -13,16 +13,19 @@ const RawMaterialContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({material_name: "품목(품목명)"});
-    const [subIndex, setSubIndex] = useState({writer: '작성자'})
+    const [subIndex, setSubIndex] = useState({registerer: '작성자',})
     const [filter, setFilter] = useState(-1)
     const [type, setType] = useState(0)
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
-            
-    // const [selectValue, setSelectValue ]= useState<any>(null);
+
+    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1
+    })
     const history = useHistory()
 
     const indexList = {
@@ -38,10 +41,10 @@ const RawMaterialContainer = () => {
 
     const detailTitle = {
         rawmaterial: {
-            writer: '작성자',
-            sortation: '구분',
-            stock_quantity: '수량',
-            before_quantity: '변경전 재고량',
+            registerer: '작성자',
+            type: '구분',
+            amount: '수량',
+            before_amount: '변경전 재고량',
             date: '날짜',
         },
     }
@@ -136,26 +139,28 @@ const RawMaterialContainer = () => {
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
-            // setSelectValue(null);
+            setSelectValue(null);
         } else {
             setSelectPk(mold.pk);
             setSelectMold(mold.mold_name);
-            // setSelectValue(mold)
+            setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
     }, [list, selectPk]);
-    //
-    // const getData = useCallback( async(pk)=>{
-    //     //TODO: 성공시
-    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    //     const res = await getMoldData(tempUrl)
-    //
-    //     setDetailList(res)
-    //
-    // },[detailList])
+
+    const getData = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
+        const res = await getStockList(tempUrl)
+
+        setDetailList(res.info_list)
+
+        setDetailPage({current: res.current_page, total: res.total_page})
+
+    }, [detailList, detailPage])
 
     const selectBox = useCallback((value) => {
         console.log(value)
@@ -171,7 +176,7 @@ const RawMaterialContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
 
         const getStock = res.info_list.map((v, i) => {
@@ -195,6 +200,10 @@ const RawMaterialContainer = () => {
     }, [page.current])
 
     useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
+
+    useEffect(() => {
         getList()
         setIndex(indexList["rawmaterial"])
         // setList(dummy)
@@ -211,16 +220,19 @@ const RawMaterialContainer = () => {
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                /* clickValue={selectValue} */
+                clickValue={selectValue}
                 selectBoxChange={selectBox}
                 mainOnClickEvent={onClick}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-                noChildren={true}>
+            >
                 {
                     selectPk !== null ?
-                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}
+                                   currentPage={detailPage.current}
+                                   totalPage={detailPage.total}
+                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
                             <Line/>
                         </LineTable>
                         :
