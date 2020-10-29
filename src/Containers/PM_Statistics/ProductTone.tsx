@@ -115,10 +115,9 @@ const ProductToneContainer = () => {
     const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}&page=${tonPage.current}&limit=15`
     const res = await getProductData(tempUrl)
 
-    setDetailList([res])
+    setDetailList((res.low === undefined || res.low === null) ? [] : [res])
 
-    setDetailTonList(res.dataList)
-
+    setDetailTonList(res.info_list)
   }, [machinePk, selectDate])
 
   const getList = useCallback(async (pk) => { // useCallback
