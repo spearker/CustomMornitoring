@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react'
 import Styled from 'styled-components'
-import {BrowserRouter, Route, Switch, Link, useHistory} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Link, useHistory} from 'react-router-dom'
 import {
     BG_COLOR,
     BG_COLOR_SUB,
@@ -18,11 +18,11 @@ import NAV_HOME from '../../Assets/Images/btn_nav_home.svg'
 import NAV_MES from '../../Assets/Images/btn_nav_setting.svg'
 import NAV_PRESS from '../../Assets/Images/btn_nav_press.svg'
 import NavList from './NavList'
-import {useUserDispatch, useUser} from '../../Context/UserContext';
-import useOnclickOutside from 'react-cool-onclickoutside';
-import NavGroupList from '../List/NavGroupList';
-import {ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset';
-import {usePopup, usePopupDispatch} from '../../Context/PopupContext';
+import {useUserDispatch, useUser} from '../../Context/UserContext'
+import useOnclickOutside from 'react-cool-onclickoutside'
+import NavGroupList from '../List/NavGroupList'
+import {ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset'
+import {usePopup, usePopupDispatch} from '../../Context/PopupContext'
 
 //대시보드 네비게이션
 interface Props {
@@ -30,23 +30,24 @@ interface Props {
     folding?: boolean,
 }
 
-
 const DashboardNavigation = ({select, folding}: Props) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const dispatch = useUserDispatch();
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const dispatch = useUserDispatch()
+    const [isOpen, setIsOpen] = useState<boolean>(false)
     const [mode, setMode] = useState<string>('')
-    const [isSelected, setIsSelected] = useState<number>(999);
-    const dispatchp = usePopupDispatch();
+    const [isSelected, setIsSelected] = useState<number>(999)
+    const dispatchp = usePopupDispatch()
+    const [currentYear] = React.useState(new Date().getFullYear())
 
-    const me = useUser();
-    const nav = usePopup();
 
-    const history = useHistory();
+    const me = useUser()
+    const nav = usePopup()
+
+    const history = useHistory()
 
     const ref = useOnclickOutside(() => {
-        setIsOpen(false);
-    });
+        setIsOpen(false)
+    })
 
     useEffect(() => {
 
@@ -62,9 +63,9 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     onClickEvent={() => {
 
                         if (isSelected === i) {
-                            setIsSelected(999);
+                            setIsSelected(999)
                         } else {
-                            setIsSelected(i);
+                            setIsSelected(i)
 
                         }
                     }}
@@ -77,7 +78,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     })}
                     selected={isSelected === i || select == v ? true : false} contents={PM_MENU_LIST[v]}/>
             )
-        });
+        })
 
 
     const MesNavGroup =
@@ -89,9 +90,9 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     onClickEvent={() => {
 
                         if (isSelected === i) {
-                            setIsSelected(999);
+                            setIsSelected(999)
                         } else {
-                            setIsSelected(i);
+                            setIsSelected(i)
 
                         }
                     }}
@@ -104,7 +105,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     })}
                     selected={isSelected === i || select == v ? true : false} contents={MES_MENU_LIST[v]}/>
             )
-        });
+        })
 
 
     const MesNavGroup2 =
@@ -129,7 +130,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     })}
                     selected={isSelected === i ? true : false} contents={v}/>
             )
-        });
+        })
 
 
     return (
@@ -149,16 +150,16 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     <p>Home</p>
                 </div>
                 {/*<div onClick={() => {*/}
-                {/*    dispatchp({*/}
-                {/*        type: 'CHANGE_MODE',*/}
-                {/*        data: {*/}
-                {/*            mode: 'custom_dashboard'*/}
-                {/*        }*/}
-                {/*    })*/}
-                {/*    history.push('/custom/dashboard')*/}
+                {/*  dispatchp({*/}
+                {/*    type: 'CHANGE_MODE',*/}
+                {/*    data: {*/}
+                {/*      mode: 'custom_dashboard'*/}
+                {/*    }*/}
+                {/*  })*/}
+                {/*  history.push('/custom/dashboard')*/}
                 {/*}}>*/}
-                {/*    <img src={NAV_HOME}/>*/}
-                {/*    <p>DASHBOARD</p>*/}
+                {/*  <img src={NAV_HOME}/>*/}
+                {/*  <p>DASHBOARD</p>*/}
                 {/*</div>*/}
                 <div onClick={() => {
                     if (nav.mode !== 'pm') {
@@ -216,7 +217,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
             <NavDiv>
                 {
                     nav.mode == 'home' &&
-                    <div style={{textAlign: 'center', width: '100%', marginBottom: 44, backgroundColor: "red"}}>
+                    <div style={{textAlign: 'center', width: '100%', marginBottom: 44, backgroundColor: 'red'}}>
                         <a href="/dashboard"><img src={Logo} style={{width: 134, marginBottom: 8}}/></a><br/>
                         <p className="p-bold" style={{
                             minWidth: 100,
@@ -235,7 +236,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
 
 
                     <p style={{fontSize: 12, paddingLeft: 27, color: 'gray', paddingBottom: 120, paddingTop: 30}}>
-                        Copyright© 2020 Zestech <br/>
+                        Copyright {currentYear}. SIZL Corp <br/>
                         All Rights Reserved.
                     </p>
                 </div>
@@ -246,7 +247,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
 
         </>
 
-    );
+    )
 }
 
 const TwoDepthDiv = Styled.div`
@@ -366,4 +367,4 @@ const ListDiv = Styled.div`
   }
 `
 
-export default DashboardNavigation;
+export default DashboardNavigation
