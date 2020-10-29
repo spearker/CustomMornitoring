@@ -5,6 +5,7 @@ import getYoudongErrorDashboard from "../../../Api/custom/getYoudongErrorDashboa
 import { YOUDONG_ERROR_DASHBOARD } from "../../../Common/@types/youdong";
 import { RotateSpinner } from "react-spinners-kit";
 import Modal from "react-modal";
+import { useHistory } from "react-router-dom";
 
 const CustomErrorLogDashBoard: React.FunctionComponent = () => {
   const [ state, setState ] = React.useState<YOUDONG_ERROR_DASHBOARD[]>();
@@ -28,15 +29,23 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
     }
   }, [ state ])
 
+  const history = useHistory()
 
   const getData = async () => {
-    const response = await getYoudongErrorDashboard()
+    try {
+      const response = await getYoudongErrorDashboard()
 
-    if (response !== null) {
-      setIsFirstLoad(false)
-      setState(response)
+      if (response !== null && response) {
+        if (response.status === 401) {
+          return history.push('/login?type=back')
+        } else if (response.status === 200) {
+          setIsFirstLoad(false)
+          setState(response.data)
+        }
+      }
+    } catch (error) {
+      console.log('catched error', error)
     }
-
   }
 
   console.log('isFirstLoad', isFirstLoad)

@@ -21,9 +21,14 @@ export default async () => {
         setToken(TOKEN_NAME, response.data.token)
       }
 
-      return response.data.results
+      return {
+        data: response.data.results,
+        status: response.data.status
+      }
     } else {
-      return null
+      return {
+        status: response.data.status
+      }
     }
 
   } catch (error) {
