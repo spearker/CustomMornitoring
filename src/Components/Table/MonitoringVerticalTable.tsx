@@ -166,7 +166,7 @@ const MonitoringVerticalTable = ({contents, filterList, operation}: IProps) => {
                         </tbody>
                     </TableWrapDiv>
                     :
-                    <p style={{margin: 100}}>모니터링 데이터가 없습니다</p>
+                    <p style={{margin: 100}}>데이터가 없습니다</p>
             }
         </WrapDiv>
 
