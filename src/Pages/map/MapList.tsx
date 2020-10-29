@@ -7,25 +7,25 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 
 
 const dummy = [
-  {
-    pk: '1ghjkio',
-    factory_pk : '45fghjk7',
-    factory_name: '공장 1',
-    type: 0,
-    company_name: '(주)시즐'
-  },
-  {
-    pk: '134bnm,fg',
-    factory_pk : '345678cvbnm6',
-    factory_name: '공장 1',
-    type: 2,
-    company_name: '(주)시즐'
-  },
+    {
+        pk: '1ghjkio',
+        factory_pk: '45fghjk7',
+        factory_name: '공장 1',
+        type: 0,
+        company_name: '(주)시즐'
+    },
+    {
+        pk: '134bnm,fg',
+        factory_pk: '345678cvbnm6',
+        factory_name: '공장 1',
+        type: 2,
+        company_name: '(주)시즐'
+    },
 ]
 
 
-interface Props{
-  match: any
+interface Props {
+    match: any
 }
 
 const MapList = () => {
@@ -33,21 +33,21 @@ const MapList = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [eventList, setEventList] = useState<any[]>([]);
     const [pk, setPk] = useState<any>('');
-    const [companyPk,setCompanyPk] = useState<string>('');
-    const [mapPk, setMapPk] =useState<any>('')
-    const [index, setIndex] = useState({ factory_pk: "3BF51I_factory0" });
+    const [companyPk, setCompanyPk] = useState<string>('');
+    const [mapPk, setMapPk] = useState<any>('')
+    const [index, setIndex] = useState({factory_pk: "3BF51I_factory0"});
     const [list, setList] = useState<any[]>([]);
     const [type, setType] = useState<null | number>(null);
     const history = useHistory();
-    const [selectValue, setSelectValue ]= useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
 
-    useEffect(()=>{
-      // getList();
+    useEffect(() => {
+        // getList();
         setIndex(indexList["map"])
         getData();
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
-    },[pk])
+    }, [pk])
 
     /**
      * getList()
@@ -62,28 +62,28 @@ const MapList = () => {
         }
     }
 
-    const getData = useCallback(async ()=>{
+    const getData = useCallback(async () => {
 
         const resultList = await getAdminData(API_URLSADMIN[`company`].load);
         console.log(resultList.results[0])
         setPk(resultList.results[0].pk)
 
-    },[pk])
+    }, [pk])
 
-    const getMapData = useCallback(async ()=>{
+    const getMapData = useCallback(async () => {
 
         console.log(pk)
-        const resultList = await getAdminData(API_URLSADMIN[`map`].list+'?pk='+pk);
+        const resultList = await getAdminData(API_URLSADMIN[`map`].list + '?pk=' + pk);
         console.log(resultList.results)
         setList(resultList.results)
 
-    },[pk])
+    }, [pk])
 
-    const getMapDelete = useCallback(async ()=>{
+    const getMapDelete = useCallback(async () => {
         console.log(mapPk)
-        const resultList = await postMapDeleteData(API_URLSADMIN[`map`].delete+'?pk='+mapPk);
+        const resultList = await postMapDeleteData(API_URLSADMIN[`map`].delete + '?pk=' + mapPk);
 
-    },[mapPk])
+    }, [mapPk])
 
     // const getList = useCallback(async ()=>{
     //
@@ -98,19 +98,19 @@ const MapList = () => {
     //     }
     // },[])
 
-    const onGoUpdatePage = useCallback((data)=>{
-      const factoryId = data.factory_pk;
-      const typeId = data.type;
-      const companyId = data.pk;
-      history.push(`/map/update/${companyId}/${factoryId}/${typeId}`)
-    },[pk])
+    const onGoUpdatePage = useCallback((data) => {
+        const factoryId = data.factory_pk;
+        const typeId = data.type;
+        const companyId = data.pk;
+        history.push(`/map/update/${companyId}/${factoryId}/${typeId}`)
+    }, [pk])
 
     const eventdummy = [
         {
             Name: '수정',
             Width: 60,
             Color: 'white',
-            Link: ()=>history.push(`/admin/map/${companyPk}/${index.factory_pk}/`)
+            Link: () => history.push(`/admin/map/${companyPk}/${index.factory_pk}/`)
         },
         {
             Name: '삭제',
@@ -124,22 +124,22 @@ const MapList = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: ()=>history.push(`/admin/map/${pk}`)
+            Link: () => history.push(`/admin/map/${pk}`)
         },
     ]
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         getMapData()
         console.log(pk, list)
-    },[pk])
+    }, [pk])
 
     const onClick = useCallback(map => {
         console.log(map);
-        if(map.pressPk === pk){
+        if (map.pressPk === pk) {
             setPk(null);
             setSelectValue(null);
             setMapPk(null)
-        }else{
+        } else {
             setPk(map.pk);
             setMapPk(map.map_pk)
             setSelectValue(map)
@@ -148,9 +148,9 @@ const MapList = () => {
 
     }, []);
 
-    return(
+    return (
         <MapListWrapper>
-            <button onClick={()=>history.push(`/map/edit/${pk}`)}>신규 도면 등록하기</button>
+            <button onClick={() => history.push(`/map/edit/${pk}`)}>신규 도면 등록하기</button>
             {/*<h2>공장 목록</h2>*/}
             {/*<CommonTable*/}
             {/*  contents={list}*/}
@@ -172,7 +172,9 @@ const MapList = () => {
             {/*  ]}*/}
 
             {/*  />*/}
-            <OvertonTable title={'공장 목록'} titleOnClickEvent={titleEventList}  mainOnClickEvent={onClick} indexList={index} clickValue={selectValue} valueList={list} EventList={eventList} noChildren={true}/>
+            <OvertonTable title={'공장 목록'} titleOnClickEvent={titleEventList} mainOnClickEvent={onClick}
+                          indexList={index} clickValue={selectValue} valueList={list} EventList={eventList}
+                          noChildren={true}/>
         </MapListWrapper>
     )
 }

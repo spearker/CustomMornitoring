@@ -14,12 +14,15 @@ const FinishMaterialContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({material_name: "품목(품목명)"});
-    const [subIndex, setSubIndex] = useState({worker: '작업자'})
+    const [subIndex, setSubIndex] = useState({registerer: '작성자'})
     const [filter, setFilter] = useState(30)
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
         current: 1,
     });
     const history = useHistory()
@@ -37,10 +40,11 @@ const FinishMaterialContainer = () => {
 
     const detailTitle = {
         quality: {
-            worker: '작업자',
-            total_count: '총 완료 개수',
-            defective_count: '불량 개수',
-            description: '요청 내용'
+            registerer: '작성자',
+            type: '구분',
+            amount: '수량',
+            before_amount: '변경전 재고량',
+            date: '날짜',
         },
     }
 
@@ -64,8 +68,8 @@ const FinishMaterialContainer = () => {
             Name: '출고',
             Width: 60,
             Color: 'white',
-            Link: (v)=>{
-                if(Number(v.current_stock) > 0){  
+            Link: (v) => {
+                if (Number(v.current_stock) > 0) {
                     history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
                 } else {
                     alert('출고할 수 있는 재고가 없습니다.')
@@ -97,24 +101,26 @@ const FinishMaterialContainer = () => {
             setSelectMold(mold.mold_name);
             setSelectValue(mold)
             //TODO: api 요청
-            // getData(mold.pk)
+            getData(mold.pk)
         }
 
 
     }, [list, selectPk]);
 
-    // const getData = useCallback( async(pk)=>{
-    //     //TODO: 성공시
-    //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
-    //     const res = await getMoldData(tempUrl)
-    //
-    //     setDetailList(res)
-    //
-    // },[detailList])
+    const getData = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
+        const res = await getStockList(tempUrl)
+
+        setDetailList(res.info_list)
+
+        setDetailPage({current: res.current_page, total: res.total_page})
+
+    }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
 
         const getStock = res.info_list.map((v, i) => {
@@ -132,6 +138,10 @@ const FinishMaterialContainer = () => {
     useEffect(() => {
         getList()
     }, [page.current])
+
+    useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
 
     useEffect(() => {
         getList()
@@ -152,11 +162,15 @@ const FinishMaterialContainer = () => {
                 EventList={eventList}
                 currentPage={page.current}
                 totalPage={page.total}
+                mainOnClickEvent={onClick}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-                noChildren={true}>
+            >
                 {
                     selectPk !== null ?
-                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}
+                                   currentPage={detailPage.current}
+                                   totalPage={detailPage.total}
+                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
                             <Line/>
                         </LineTable>
                         :

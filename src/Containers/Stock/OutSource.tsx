@@ -21,6 +21,9 @@ const OutSourceContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1
+    })
 
     const history = useHistory()
 
@@ -99,16 +102,18 @@ const OutSourceContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}`
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
 
-        setDetailList(res.logs)
+        setDetailList(res.info_list)
 
-    }, [detailList])
+        setDetailPage({current: res.current_page, total: res.total_page})
+
+    }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
 
         const getStock = res.info_list.map((v, i) => {
@@ -128,6 +133,10 @@ const OutSourceContainer = () => {
         getList()
     }, [page.current])
 
+
+    useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
 
     useEffect(() => {
         getList()
@@ -151,7 +160,10 @@ const OutSourceContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}
+                                   currentPage={detailPage.current}
+                                   totalPage={detailPage.total}
+                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
                             <Line/>
                         </LineTable>
                         :

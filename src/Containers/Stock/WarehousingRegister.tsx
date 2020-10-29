@@ -28,7 +28,6 @@ const StockDummy = [
     '정상 입고',
     '생산',
     '오류 정정',
-    '금형 제작'
 ]
 
 interface Props {
