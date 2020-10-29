@@ -1,8 +1,9 @@
-import React, {useState} from "react";
-import Styled from "styled-components";
-import CalendarDropdown from "../Dropdown/CalendarDropdown";
-import moment from "moment";
-import NumberPagenation from "../Pagenation/NumberPagenation";
+import React, {useState} from 'react'
+import Styled from 'styled-components'
+import CalendarDropdown from '../Dropdown/CalendarDropdown'
+import moment from 'moment'
+import NumberPagenation from '../Pagenation/NumberPagenation'
+import Pagination from "@material-ui/lab/Pagination";
 
 interface Props {
     title?: string
@@ -17,22 +18,25 @@ interface Props {
     clickValue?: object
     mainOnClickEvent?: any
     onClickEvent?: any
-    currentPage?:number
+    currentPage?: number
     totalPage?: number
     pageOnClickEvent?: any
     noChildren?: boolean
     children?: any
 }
 
-const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEvent,indexList,valueList,EventList,allCheckbox,checkBox,clickValue,mainOnClickEvent,currentPage,totalPage,pageOnClickEvent,noChildren,children}:Props) => {
+const HalfTalbe: React.FunctionComponent<Props> = ({title, calendar, titleOnClickEvent, indexList, valueList, EventList, allCheckbox, checkBox, clickValue, mainOnClickEvent, currentPage, totalPage, pageOnClickEvent, noChildren, children}: Props) => {
 
-    const [selectDate, setSelectDate] = useState({start: moment().format("YYYY-MM-DD"), end: moment().format("YYYY-MM-DD")})
+    const [selectDate, setSelectDate] = useState({
+        start: moment().format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD')
+    })
     const [checked, setChecked] = useState<any[]>([])
     const [allChecked, setAllChecked] = useState(false)
 
 
     React.useEffect(() => {
-        if(checkBox === true) {
+        if (checkBox === true) {
             console.log('valueList', valueList)
             let tmpArr: boolean[] = []
             const arrData = valueList.map((v, i) => {
@@ -46,27 +50,32 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
     }, [valueList])
 
 
-    return(
+    return (
         <div>
             <Title>
                 {title !== undefined ?
                     <p className="p-bold" style={{fontSize: 20}}>{title}</p>
                     :
-                    <p className="p-bold" style={{marginTop:28}}/>
+                    <p className="p-bold" style={{marginTop: 28}}/>
                 }
                 <div>
                     {calendar !== undefined || false ?
                         <div>
-                            <CalendarDropdown type={'range'} selectRange={selectDate} onClickEvent={(start, end) => setSelectDate({start: start, end: end ? end : ''})}></CalendarDropdown>
+                            <CalendarDropdown type={'range'} selectRange={selectDate}
+                                              onClickEvent={(start, end) => setSelectDate({
+                                                  start: start,
+                                                  end: end ? end : ''
+                                              })}></CalendarDropdown>
                         </div>
                         :
                         null
                     }
                     {
-                        titleOnClickEvent && titleOnClickEvent.map((bv,bi)=>{
-                            return(
+                        titleOnClickEvent && titleOnClickEvent.map((bv, bi) => {
+                            return (
                                 <div>
-                                    <TitleButtonBox onClick={bv.Link} style={{width: bv.Width}} >{bv.Name}</TitleButtonBox>
+                                    <TitleButtonBox onClick={bv.Link}
+                                                    style={{width: bv.Width}}>{bv.Name}</TitleButtonBox>
                                 </div>
                             )
                         })
@@ -76,9 +85,9 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
             <TitleBar>
                 {
                     allCheckbox !== undefined || false ?
-                        <div style={{paddingRight:10, paddingLeft: 10, paddingTop:5}}>
+                        <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
                             <input type="checkbox" id={'all'} onClick={(e) => {
-                                if(allChecked === false) {
+                                if (allChecked === false) {
                                     let tmpArr: boolean[] = checked
                                     tmpArr = tmpArr.map(() => true)
                                     // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
@@ -94,14 +103,14 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                                     setAllChecked(false)
                                     return false
                                 }
-                            }} />
-                            <label htmlFor='all' style={{backgroundColor: "white"}}></label>
+                            }}/>
+                            <label htmlFor='all' style={{backgroundColor: 'white'}}></label>
                         </div>
                         :
                         (
                             checkBox !== undefined || false ?
-                                <div style={{paddingRight:10, paddingLeft: 10}}>
-                                    <p> </p>
+                                <div style={{paddingRight: 10, paddingLeft: 10}}>
+                                    <p></p>
                                 </div>
                                 :
                                 null
@@ -115,17 +124,20 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                     })
                 }
                 {
-                    EventList && EventList.map((bv,bi)=> {
+                    EventList && EventList.map((bv, bi) => {
                         return (
-                            <p className="p-limits" > </p>
+                            <p className="p-limits"></p>
                         )
                     })
                 }
                 {console.log(valueList)}
             </TitleBar>
             {
-                valueList !==  null &&  valueList.length  === 0
-                    ? (<ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가 없습니다.</p></ValueBar>)
+                valueList && valueList.length === 0
+                    ? (
+                        <ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
+                            없습니다.</p>
+                        </ValueBar>)
                     : valueList?.map((v, i) => {
                         /*
                         v:  {
@@ -138,24 +150,28 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                         },
                         */
                         return (
-                            <ValueBar key={i} style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48', cursor: 'pointer'}}>
+                            <ValueBar key={i} style={{
+                                backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                                cursor: 'pointer'
+                            }}>
                                 {
                                     checkBox !== undefined || false ?
                                         <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-                                            <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]} onClick={(e) => {
-                                                let tmpArr: boolean[] = checked
-                                                tmpArr = tmpArr.map((vm,vi)=>{
-                                                    if(vi===i){
-                                                        return !vm
-                                                    } else {
-                                                        return  vm
-                                                    }
-                                                })
-                                                // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
-                                                setChecked(tmpArr)
-                                                return false
-                                            }}/>
-                                            <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
+                                            <input type="checkbox" id={`check-${i}-${v}`} checked={checked[i]}
+                                                   onClick={(e) => {
+                                                       let tmpArr: boolean[] = checked
+                                                       tmpArr = tmpArr.map((vm, vi) => {
+                                                           if (vi === i) {
+                                                               return !vm
+                                                           } else {
+                                                               return vm
+                                                           }
+                                                       })
+                                                       // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
+                                                       setChecked(tmpArr)
+                                                       return false
+                                                   }}/>
+                                            <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: 'white'}}></label>
                                         </div>
                                         :
                                         null
@@ -165,11 +181,14 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                                         //mv : [pk , machin_list, machine_name ... ]
                                         return (
                                             typeof v[mv] === 'object' ?
-                                                <select className="p-limits" style={{backgroundColor: clickValue=== v ? '#19b9df' : '#353b48',borderColor: clickValue=== v ? '#19b9df' : '#353b48'}}>
+                                                <select className="p-limits" style={{
+                                                    backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                                                    borderColor: clickValue === v ? '#19b9df' : '#353b48'
+                                                }}>
                                                     <option value={''}>선택</option>
                                                     {
                                                         Object.keys(v[mv]).map(m => {
-                                                            return(
+                                                            return (
                                                                 <option value={v[mv][m]}>{v[mv][m]}</option>
                                                             )
                                                         })
@@ -178,7 +197,7 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                                                 :
                                                 <p key={`td-${i}-${mv}`}
                                                    className="p-limits"
-                                                   onClick={()=> (mainOnClickEvent(v))}>
+                                                   onClick={() => (mainOnClickEvent && mainOnClickEvent(v))}>
                                                     {
                                                         v[mv]
                                                     }
@@ -188,10 +207,11 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                                     })
                                 }
                                 {
-                                    EventList && EventList.map((bv,bi)=>{
-                                        return(
+                                    EventList && EventList.map((bv, bi) => {
+                                        return (
                                             <div className="p-limits">
-                                                <ButtonBox onClick={bv.Link} style={{width: bv.Width, color: bv.Color }} >{bv.Name}</ButtonBox>
+                                                <ButtonBox onClick={bv.Link}
+                                                           style={{width: bv.Width, color: bv.Color}}>{bv.Name}</ButtonBox>
                                             </div>
                                         )
                                     })
@@ -204,8 +224,10 @@ const HalfTalbe:React.FunctionComponent<Props> = ({title,calendar,titleOnClickEv
                     })
             }
             {currentPage && totalPage ?
-                <NumberPagenation stock={totalPage ? totalPage : 0} selected={currentPage}
-                                  onClickEvent={pageOnClickEvent}/>
+                <PaginationBox>
+                    <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
+                                boundaryCount={1} color={"primary"}/>
+                </PaginationBox>
                 :
                 null
             }
@@ -308,6 +330,17 @@ const ButtonBox = Styled.button`
     font-weight: bold;
     width: 112px;
     height: 30px;
+`
+const PaginationBox = Styled.div`
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: white;
+    }
+    .MuiPaginationItem-root{
+        color: white;
+    }
 `
 
 export default HalfTalbe

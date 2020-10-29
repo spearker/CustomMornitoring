@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import {
   BG_COLOR,
@@ -14,7 +14,7 @@ import Logo from '../../Assets/Images/img_logo.png'
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 
 const Footer = () => {
-  const [ currentYear ] = React.useState(new Date().getFullYear())
+  const [currentYear] = React.useState(new Date().getFullYear())
 
   useEffect(() => {
 
@@ -22,22 +22,21 @@ const Footer = () => {
 
   return (
 
-      <FullWidthDiv>
-        <InnerDiv>
-          <img src={Logo} style={{ width: 74 }}/>
-          <div style={{ marginTop: 48 }}>
-            <p style={{ display: 'inline-block' }}>
-              +82 032 209 8080 <br/>
-              sizl@sizl.co.kr <br/>
-              www.sizl.co.kr
-            </p>
-            <p style={{ float: 'right', display: 'inline-block' }}>
-              <br/><br/>
-              Copyright {currentYear}. SIZL Corp. All Right Reserved
-            </p>
-          </div>
-        </InnerDiv>
-      </FullWidthDiv>
+    <FullWidthDiv>
+      <InnerDiv>
+        <img src={Logo} style={{width: 74}}/>
+        <div style={{marginTop: 48}}>
+          <p style={{display: 'inline-block'}}>
+            +82 032 209 8080 <br/>
+            sizl@sizl.co.kr <br/>
+            www.sizl.co.kr
+          </p>
+          <p style={{float: 'right', display: 'inline-block'}}>
+            Copyright {currentYear}. SIZL Corp. All Right Reserved
+          </p>
+        </div>
+      </InnerDiv>
+    </FullWidthDiv>
 
   )
 }

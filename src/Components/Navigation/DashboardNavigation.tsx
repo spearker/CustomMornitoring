@@ -229,10 +229,16 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     </div>
                 }
 
-
-                <div>
-                    {nav.mode === 'pm' && PmNavGroup}
-                    {nav.mode === 'mes' && MesNavGroup}
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '100vh'
+                }}>
+                    <div>
+                        {nav.mode === 'pm' && PmNavGroup}
+                        {nav.mode === 'mes' && MesNavGroup}
+                    </div>
 
 
                     <p style={{fontSize: 12, paddingLeft: 27, color: 'gray', paddingBottom: 120, paddingTop: 30}}>
