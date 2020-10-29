@@ -158,7 +158,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                 {/*    history.push('/custom/dashboard')*/}
                 {/*}}>*/}
                 {/*    <img src={NAV_HOME}/>*/}
-                {/*    <p>DASBOARD</p>*/}
+                {/*    <p>DASHBOARD</p>*/}
                 {/*</div>*/}
                 <div onClick={() => {
                     if (nav.mode !== 'pm') {

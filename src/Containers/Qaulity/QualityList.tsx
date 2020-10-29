@@ -26,8 +26,6 @@ const QualityListContainer = () => {
     const [workerIndex, setWorkerIndex] = useState({worker: '작업자'});
     const [workerDetail, setWorkerDetail] = useState<any[]>([]);
     const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMold, setSelectMold] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });

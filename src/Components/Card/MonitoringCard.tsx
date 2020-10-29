@@ -9,7 +9,7 @@ import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunc
 import {transferCodeToName} from '../../Common/codeTransferFunctions';
 
 
-interface Props{
+interface Props {
     contents: IMonitoringList,
     isOpen: boolean,
     optionList?: number[],
@@ -17,17 +17,15 @@ interface Props{
 }
 
 
-
 // 모니터링 기본 카드
-const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) => {
+const MonitoringCard = ({contents, isOpen, optionList, onClickEvent}: Props) => {
 
 
+    useEffect(() => {
 
-  useEffect(()=>{
+    }, [])
 
-  },[])
-
-  const StatusDiv = Styled.p`
+    const StatusDiv = Styled.p`
     height: 100%;
     color: white;
     padding: 6px 11px 6px 11px;
@@ -39,7 +37,7 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
     font-weight: bold;
     background-color: ${changeStatusToColor(contents.operation)};
   `
-  const NavDiv = Styled.div`
+    const NavDiv = Styled.div`
     background-color: ${contents.operation === 0 ? '#5E1114' : 'black;'};
     border-radius: 6px;
     margin-top: 12px;
@@ -52,68 +50,91 @@ const MonitoringCard = ({ contents , isOpen, optionList, onClickEvent}: Props) =
       padding-top: 4px;
     }
 `
-  return (
-    <WrapDiv>
-      <NavDiv>
-      <StatusDiv>{changeStatusToString(contents.operation)}</StatusDiv>
-       <span style={{width:190}} className="p-limits">{contents.line!== undefined && ' (' + contents.line + ') '}{contents.name} </span>
-        <p style={{width:190}} className="p-limits">{contents.code} </p>
-        {
-          contents.running_time!== undefined &&
-          <>
-          <p style={{width:190}} className="p-limits">가동시간
-          {' ' + contents.running_time}
-          </p>
-          <p style={{width:200}} className="p-limits">비가동시간
-          {' ' + contents.ready_time}
-          </p>
-          <p style={{width:200}} className="p-limits">가동율
-          {' ' + contents.percent + '%'}
-          </p>
-          </>
-        }
+    return (
+        <WrapDiv>
+            <NavDiv>
+                <StatusDiv>{changeStatusToString(contents.operation)}</StatusDiv>
+                <span style={{width: 190}}
+                      className="p-limits">{contents.line !== undefined && ' (' + contents.line + ') '}{contents.name} </span>
+                <p style={{width: 190}} className="p-limits">{contents.code} </p>
+                {
+                    contents.running_time !== undefined &&
+                    <>
+                        <p style={{width: 190}} className="p-limits">가동시간
+                            {' ' + contents.running_time}
+                        </p>
+                        <p style={{width: 200}} className="p-limits">비가동시간
+                            {' ' + contents.ready_time}
+                        </p>
+                        <p style={{width: 200}} className="p-limits">가동율
+                            {' ' + contents.percent + '%'}
+                        </p>
+                    </>
+                }
 
 
-         <img src={!isOpen ? IC_DOWN : IC_UP} onClick={onClickEvent} style={{width:20, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
-         <img src={!contents.is_connect ? icCloudOff : icCloudOn} style={{width:21, cursor:'pointer', float: 'right', paddingTop: 7, marginRight: 11}} />
-      </NavDiv>
-      <DownloadButton href={contents.file !== undefined ? contents.file : ''} target="_blank">설명서다운로드</DownloadButton>
-      <ErrorText>{contents.operation === 0 && contents.error!== undefined ?  contents.error : <span style={{color:'#717c90'}}>에러 정보가 없습니다.</span>} </ErrorText>
-      <BodyDiv>
-        {
-          optionList !== undefined &&
-          contents.info_list.filter(f => optionList.indexOf(Number(f.title)) !== -1).map((v,i)=>{
+                <img src={!isOpen ? IC_DOWN : IC_UP} onClick={onClickEvent}
+                     style={{width: 20, cursor: 'pointer', float: 'right', paddingTop: 7, marginRight: 11}}/>
+                <img src={!contents.is_connect ? icCloudOff : icCloudOn}
+                     style={{width: 21, cursor: 'pointer', float: 'right', paddingTop: 7, marginRight: 11}}/>
+            </NavDiv>
+            <DownloadButton href={contents.file !== undefined ? contents.file : ''}
+                            target="_blank">설명서다운로드</DownloadButton>
+            <ErrorText>{contents.operation !== 0 && !contents.error ?
+                <span style={{color: '#717c90'}}>에러 정보가 없습니다.</span> : contents.error} </ErrorText>
+            <BodyDiv>
+                {
+                    optionList !== undefined &&
+                    contents.info_list.filter(f => optionList.indexOf(Number(f.title)) !== -1).map((v, i) => {
 
 
-            if(!isOpen ){
-              if(i < 10){
-                return(
-                  <>
-                  <CardDiv>
-                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
-                    <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value }</ValueText>
-                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
-                  </CardDiv>
-                  </>
-                )
-              }
-            }else{
-              return(
-                <>
-                  <CardDiv>
-                    <p className="p-limits" style={{fontSize:15, marginBottom:6, marginTop:4}}>{transferCodeToName('title', v.title)}</p>
-                    <ValueText className="p-limits" style={String(v.value).length > 3 ? {fontSize:22} :{fontSize:27} }>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value }</ValueText>
-                    <p style={{fontSize:12, marginBottom:6, marginTop:6}}>{transferCodeToName('unit', v.title)}&nbsp;</p>
-                  </CardDiv>
-                  </>
-              )
-            }
-          })
-        }
+                        if (!isOpen) {
+                            if (i < 10) {
+                                return (
+                                    <>
+                                        <CardDiv>
+                                            <p className="p-limits" style={{
+                                                fontSize: 15,
+                                                marginBottom: 6,
+                                                marginTop: 4
+                                            }}>{transferCodeToName('title', v.title)}</p>
+                                            <ValueText className="p-limits"
+                                                       style={String(v.value).length > 3 ? {fontSize: 22} : {fontSize: 27}}>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value}</ValueText>
+                                            <p style={{
+                                                fontSize: 12,
+                                                marginBottom: 6,
+                                                marginTop: 6
+                                            }}>{transferCodeToName('unit', v.title)}&nbsp;</p>
+                                        </CardDiv>
+                                    </>
+                                )
+                            }
+                        } else {
+                            return (
+                                <>
+                                    <CardDiv>
+                                        <p className="p-limits" style={{
+                                            fontSize: 15,
+                                            marginBottom: 6,
+                                            marginTop: 4
+                                        }}>{transferCodeToName('title', v.title)}</p>
+                                        <ValueText className="p-limits"
+                                                   style={String(v.value).length > 3 ? {fontSize: 22} : {fontSize: 27}}>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value}</ValueText>
+                                        <p style={{
+                                            fontSize: 12,
+                                            marginBottom: 6,
+                                            marginTop: 6
+                                        }}>{transferCodeToName('unit', v.title)}&nbsp;</p>
+                                    </CardDiv>
+                                </>
+                            )
+                        }
+                    })
+                }
 
-      </BodyDiv>
-    </WrapDiv>
-  );
+            </BodyDiv>
+        </WrapDiv>
+    );
 }
 
 
@@ -159,7 +180,7 @@ const ErrorText = Styled.p`
   text-align: left;
 `
 
-const ValueText =  Styled.p`
+const ValueText = Styled.p`
   height: 37px;
 `
 

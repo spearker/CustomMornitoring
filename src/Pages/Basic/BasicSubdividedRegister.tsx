@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
@@ -72,8 +72,7 @@ const BasicSubdividedRegister = () => {
     }, [pk, optional, essential, inputData])
 
 
-    const onsubmitFormUpdate = useCallback(async (e) => {
-        e.preventDefault()
+    const onsubmitFormUpdate = useCallback(async () => {
 
         if (inputData.factory === undefined || inputData.factory[0]?.pk === undefined || inputData.factory[0]?.pk === '') {
             alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
@@ -105,8 +104,7 @@ const BasicSubdividedRegister = () => {
 
     }, [pk, optional, essential, inputData])
 
-    const onsubmitForm = useCallback(async (e) => {
-        e.preventDefault()
+    const onsubmitForm = useCallback(async () => {
 
         if (inputData.factory === undefined || inputData.factory[0]?.pk === undefined || inputData.factory[0]?.pk === '') {
             alert('공장은 필수 항목입니다. 반드시 입력해주세요.')
@@ -149,7 +147,7 @@ const BasicSubdividedRegister = () => {
                 <WhiteBoxContainer>
                     {
                         // document.id !== '' || isUpdate == true?
-                        <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
+                        <div>
                             <ListHeader title="필수 항목"/>
                             <BasicSearchContainer
                                 title={'공장'}
@@ -167,7 +165,6 @@ const BasicSubdividedRegister = () => {
                                 list={inputData.factory}
                                 searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?`}
                             />
-
                             <NormalInput title={'세분화 이름'} value={inputData.name} description={''}
                                          onChangeEvent={(input) => {
                                              let temp = _.cloneDeep(inputData)
@@ -185,8 +182,28 @@ const BasicSubdividedRegister = () => {
                                          }}/>
                             <br/>
 
-                            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-                        </form>
+                            {isUpdate ?
+                                <div style={{marginTop: 40, marginLeft: 340}}>
+                                    <ButtonWrap onClick={async () => {
+                                        await onsubmitFormUpdate()
+                                    }}>
+                                        <div style={{width: 360, height: 40}}>
+                                            <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
+                                        </div>
+                                    </ButtonWrap>
+                                </div>
+                                :
+                                <div style={{marginTop: 40, marginLeft: 340}}>
+                                    <ButtonWrap onClick={async () => {
+                                        await onsubmitForm()
+                                    }}>
+                                        <div style={{width: 360, height: 40}}>
+                                            <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
+                                        </div>
+                                    </ButtonWrap>
+                                </div>
+                            }
+                        </div>
                         // :
                         //
                         // <SelectDocumentForm category={8} onChangeEvent={setDocument}/>
@@ -207,4 +224,18 @@ const FullPageDiv = Styled.div`
 `
 
 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+`
 export default BasicSubdividedRegister

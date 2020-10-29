@@ -191,7 +191,7 @@ const BasicPartsRegister = () => {
 
 
     const partsRegister = useCallback(async () => {
-        if (partsName.trim() === '' || partsName === null || partsName === undefined) {
+        if (partsName === '' || partsName === null || partsName === undefined || partsName.trim() === '') {
             alert('파츠 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -239,7 +239,7 @@ const BasicPartsRegister = () => {
 
     const partsUpdate = useCallback(async () => {
 
-        if (partsName.trim() === '' || partsName === null || partsName === undefined) {
+        if (partsName === '' || partsName === null || partsName === undefined || partsName.trim() === '') {
             alert('파츠 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
         } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
