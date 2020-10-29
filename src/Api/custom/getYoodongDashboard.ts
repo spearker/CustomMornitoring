@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { getToken } from "../../Common/tokenFunctions";
-import { TOKEN_NAME } from "../../Common/configset";
-import { setToken } from "../../lib/tokenFunctions";
-import { SF_ENDPOINT } from "../SF_endpoint";
+import {getToken} from '../../Common/tokenFunctions'
+import {TOKEN_NAME} from '../../Common/configset'
+import {setToken} from '../../lib/tokenFunctions'
+import {SF_ENDPOINT} from '../SF_endpoint'
 
 export default async (id: string | number, init: boolean) => {
 
