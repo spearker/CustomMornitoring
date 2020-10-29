@@ -2,18 +2,17 @@ import axios from 'axios'
 import { getToken } from "../../Common/tokenFunctions";
 import { TOKEN_NAME } from "../../Common/configset";
 import { setToken } from "../../lib/tokenFunctions";
-
-const ENDPOINT = 'http://192.168.0.46:8299'
+import { SF_ENDPOINT } from "../SF_endpoint";
 
 export default async () => {
   try {
-    const response = await axios.get(`${ENDPOINT}/api/v1/dashboard/press/errorlog`, {
+    const response = await axios.get(`${SF_ENDPOINT}/api/v1/dashboard/press/errorlog`, {
       headers: {
         authorization: getToken(TOKEN_NAME)
       }
     })
 
-    console.log('response', response.data)
+    console.log('response!!!!!!!!!!!!!!!', response.data)
 
 
     if (response.data.status === 200) {
@@ -32,6 +31,6 @@ export default async () => {
     }
 
   } catch (error) {
-    console.log(`${ENDPOINT}/api/v1/dashboard/errorlog API Error`, error)
+    console.log(`${SF_ENDPOINT}/api/v1/dashboard/errorlog API Error`, error)
   }
 }

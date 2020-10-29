@@ -7,9 +7,13 @@ import client from '../Api/configs/admin';
  * @returns {Array} list
  * @author 수민
  */
-export const getCommonList = async( url: string) =>{
+export const getCommonList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -21,12 +25,16 @@ export const getCommonList = async( url: string) =>{
  * @returns {Boolean} true/false 여부
  * @author 수민
  */
-export const saveCommonData = async( url: string, data: any) =>{
+export const saveCommonData = async (url: string, data: any) => {
     console.log(`save Data Request`)
     const temp: IServerData = await client.post(url, data);
-    if(temp){
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
+    if (temp) {
         return true
-    }else{
+    } else {
         return false
     }
 }
@@ -38,33 +46,36 @@ export const saveCommonData = async( url: string, data: any) =>{
  * @returns {Object} 데이터 객체
  * @author 수민
  */
-export const getCommonData = async( url: string ) =>{
+export const getCommonData = async (url: string) => {
     console.log(`get Data Request`)
-    const temp: IServerData = await client.get(url );
+    const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     console.log(temp.results);
     return temp.results!;
 }
 
 
-
 export const API_URLS = {
     company: {
-        list:`/v2/super/map/company/load`,
+        list: `/v2/super/map/company/load`,
     },
     map: {
-        delete:`/v1/device/delete`,
-        create:`/v2/super/map/create`,
-        update:`/v2/super/map/update`,
-        list:`/v2/super/map/list`,
-        load:`/v2/super/map/load`,
+        delete: `/v1/device/delete`,
+        create: `/v2/super/map/create`,
+        update: `/v2/super/map/update`,
+        list: `/v2/super/map/list`,
+        load: `/v2/super/map/load`,
     },
-    factory:{
-        list:`/v2/super/map/factory/list`,
+    factory: {
+        list: `/v2/super/map/factory/list`,
     },
-    machine:{
-        list:`/v2/super/map/company/machine/load`,
+    machine: {
+        list: `/v2/super/map/company/machine/load`,
     }
 
-  }
+}
 
 

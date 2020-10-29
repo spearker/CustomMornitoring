@@ -8,22 +8,26 @@ import client from './configs/file';
  * @return {string} TempPath 임시 패스
  * @author 수민
  */
-export const uploadTempFile = async(data: Blob)=>{
+export const uploadTempFile = async (data: Blob) => {
 
     const formData = new FormData()
-    formData.append('file',data)
+    formData.append('file', data)
     const temp: IServerData = await client.post(API_URLS.file.upload, formData);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     console.log(temp.results);
     return temp.results;
-  }
+}
 
 
 export const API_URLS = {
 
-    file:{
-        upload:`/user/file/upload`
+    file: {
+        upload: `/user/file/upload`
     }
 
-  }
+}
 
 

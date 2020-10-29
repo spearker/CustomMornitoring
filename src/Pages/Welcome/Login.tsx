@@ -10,7 +10,7 @@ import BasicColorButton from '../../Components/Button/BasicColorButton'
 import WelcomeContainer from '../../Containers/WelcomeContainer'
 import {usePopupDispatch} from '../../Context/PopupContext'
 import {API_URLS, getServerStatus} from '../../Api/mes/common'
-import client from '../../Api/configs/common'
+import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 
 // 로그인 페이지
@@ -22,6 +22,8 @@ const Login = () => {
   const [error, setError] = useState<string>('')
   const {t} = useTranslation()
   const dispatchp = usePopupDispatch()
+  const history = useHistory()
+
   /**
    * onsubmitForm()
    * : 로그인
@@ -49,10 +51,11 @@ const Login = () => {
 
             console.log('type1', type[1])
 
+
             if (type[1] === 'dashboard') {
               window.location.href = '/custom/dashboard'
             } else if (type[1] === 'back') {
-              window.history.back()
+              history.goBack()
             }
           } else {
             window.location.href = '/dashboard'

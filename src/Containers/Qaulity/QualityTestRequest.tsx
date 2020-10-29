@@ -15,264 +15,264 @@ import {getProjectList} from '../../Api/mes/production'
 const nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
 
 interface Props {
-  match: any;
-  // chilren: string;
+    match: any;
+    // chilren: string;
 }
 
 const QualityTestRequest = ({match}: Props) => {
-  const history = useHistory()
-  const [processData, setProcessData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
-  const [machineData, setMachineData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
-  const [productionData, setProductionData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
-  const [total_count, setTotal_count] = useState<string>('')
-  const [reason, setReason] = useState<string>('')
-  const [worker, setWorker] = useState<string>('')
-  const [statement, setStatement] = useState<string>('')
-  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const history = useHistory()
+    const [processData, setProcessData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
+    const [machineData, setMachineData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
+    const [productionData, setProductionData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
+    const [total_count, setTotal_count] = useState<string>('')
+    const [reason, setReason] = useState<string>('')
+    const [worker, setWorker] = useState<string>('')
+    const [statement, setStatement] = useState<string>('')
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
-  useEffect(() => {
-    console.log(match.params.pk)
-    if (match.params.pk) {
-      // alert(`수정 페이지 진입 - pk :` + match.params.pk)
-      setIsUpdate(true)
-      getData()
-    }
+    useEffect(() => {
+        console.log(match.params.pk)
+        if (match.params.pk) {
+            // alert(`수정 페이지 진입 - pk :` + match.params.pk)
+            setIsUpdate(true)
+            getData()
+        }
 
-  }, [])
+    }, [])
 
-  const getData = useCallback(async () => {
-    const tempUrl = match.params.type !== 'status' ? `${API_URLS['request'].detail}` : `${API_URLS['status'].detail}`
-    const res = await postQualityRequestDetail(tempUrl, {
-      request_pk: match.params.pk
-    })
+    const getData = useCallback(async () => {
+        const tempUrl = match.params.type !== 'status' ? `${API_URLS['request'].detail}` : `${API_URLS['status'].detail}`
+        const res = await postQualityRequestDetail(tempUrl, {
+            request_pk: match.params.pk
+        })
 
-    if (res.status === 200) {
-      setProcessData({pk: res.results.process_pk, name: res.results.process_name})
-      setMachineData({pk: res.results.machine_pk, name: res.results.machine_name})
-      setProductionData({pk: res.results.material_pk, name: res.results.material_name})
-      setTotal_count(res.results.amount)
-      if (match.params.type !== 'status') {
-        setReason(res.results.description)
-      } else {
-        setReason(res.results.request_description)
-      }
-      setWorker(res.results.worker)
-      setStatement(res.results.statement)
-    }
+        if (res.status === 200) {
+            setProcessData({pk: res.results.process_pk, name: res.results.process_name})
+            setMachineData({pk: res.results.machine_pk, name: res.results.machine_name})
+            setProductionData({pk: res.results.material_pk, name: res.results.material_name})
+            setTotal_count(res.results.amount)
+            if (match.params.type !== 'status') {
+                setReason(res.results.description)
+            } else {
+                setReason(res.results.request_description)
+            }
+            setWorker(res.results.worker)
+            setStatement(res.results.statement)
+        }
 
-  }, [processData, machineData, productionData, total_count, reason, worker])
+    }, [processData, machineData, productionData, total_count, reason, worker])
 
-  useEffect(() => {
-    console.log(processData)
-    console.log(machineData)
-  }, [processData])
+    useEffect(() => {
+        console.log(processData)
+        console.log(machineData)
+    }, [processData])
 
-  const postQualityRegisterData = useCallback(async () => {
+    const postQualityRegisterData = useCallback(async () => {
 
-    if (processData.pk === '' || processData.pk === undefined) {
-      alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (machineData.pk === '' || machineData.pk === undefined) {
-      alert('기계명은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (productionData.pk === '' || processData.pk === undefined) {
-      alert('품목(품목명)은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (total_count === '') {
-      alert('총 완료 개수는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (reason === '') {
-      alert('요청 내용은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (worker === '') {
-      alert('작업자는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
+        if (processData.pk === '' || processData.pk === undefined) {
+            alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (machineData.pk === '' || machineData.pk === undefined) {
+            alert('기계명은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (productionData.pk === '' || productionData.pk === undefined) {
+            alert('품목(품목명)은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (total_count === '') {
+            alert('총 완료 개수는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (reason === '') {
+            alert('요청 내용은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (worker === '') {
+            alert('작업자는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        }
 
-    const tempUrl = `${API_URLS['request'].register}`
-    const resultData = await postQualityRegister(tempUrl, {
-      process_pk: processData.pk,
-      machine_pk: machineData.pk,
-      material_pk: productionData.pk,
-      amount: Number(total_count),
-      description: reason,
-      worker: worker
-    })
+        const tempUrl = `${API_URLS['request'].register}`
+        const resultData = await postQualityRegister(tempUrl, {
+            process_pk: processData.pk,
+            machine_pk: machineData.pk,
+            material_pk: productionData.pk,
+            amount: Number(total_count),
+            description: reason,
+            worker: worker
+        })
 
-    if (resultData.status === 200) {
-      alert('성공적으로 등록되었습니다!')
-      history.push('/quality/test/list/worker')
-    }
-  }, [processData, machineData, productionData, total_count, reason, worker])
+        if (resultData.status === 200) {
+            alert('성공적으로 등록되었습니다!')
+            history.push('/quality/test/list/worker')
+        }
+    }, [processData, machineData, productionData, total_count, reason, worker])
 
-  const onClickModify = useCallback(async () => {
-    if (processData.pk === '' || processData.pk === undefined) {
-      alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (machineData.pk === '' || machineData.pk === undefined) {
-      alert('기계명은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (productionData.pk === '' || processData.pk === undefined) {
-      alert('품목(품목명)은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (total_count === '') {
-      alert('총 완료 개수는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (reason === '') {
-      alert('요청 내용은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (worker === '') {
-      alert('작업자는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
+    const onClickModify = useCallback(async () => {
+        if (processData.pk === '' || processData.pk === undefined) {
+            alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (machineData.pk === '' || machineData.pk === undefined) {
+            alert('기계명은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (productionData.pk === '' || productionData.pk === undefined) {
+            alert('품목(품목명)은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (total_count === '') {
+            alert('총 완료 개수는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (reason === '') {
+            alert('요청 내용은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (worker === '') {
+            alert('작업자는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        }
 
 
-    const tempUrl = `${API_URLS['request'].update}`
-    const res = await postQualityRegister(tempUrl, {
-      request_pk: match.params.pk,
-      statement: statement,
-      amount: Number(total_count),
-      description: reason,
-      worker: worker
-    })
-    if (res.status === 200) {
-      alert('성공적으로 수정하였습니다!')
-      history.push('/quality/test/list/worker')
-    } else if (res.status === 1001) {
-      alert('이미 검사를 완료한 제품 검사요청입니다.')
-      history.push('/quality/test/complete/worker')
-    }
+        const tempUrl = `${API_URLS['request'].update}`
+        const res = await postQualityRegister(tempUrl, {
+            request_pk: match.params.pk,
+            statement: statement,
+            amount: Number(total_count),
+            description: reason,
+            worker: worker
+        })
+        if (res.status === 200) {
+            alert('성공적으로 수정하였습니다!')
+            history.push('/quality/test/list/worker')
+        } else if (res.status === 1001) {
+            alert('이미 검사를 완료한 제품 검사요청입니다.')
+            history.push('/quality/test/complete/worker')
+        }
 
-  }, [match.params.pk, statement, total_count, reason, worker])
+    }, [match.params.pk, statement, total_count, reason, worker])
 
-  return (
-    <div>
-      <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
-        <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-          <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>제품 검사 요청 정보</span>
-        </div>
-      </div>
-      <ContainerMain>
+    return (
         <div>
-          <p className={'title'}>필수 항목</p>
-        </div>
-        <div>
-          <table style={{color: 'black'}}>
-            <tr>
-              <td>• 공정명</td>
-              <td>
-                {
-                  isUpdate ?
-                    <input value={processData.name}
-                           style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
-                           disabled/>
-                    :
-                    <ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)}
-                                        text={'공정명을 입력해주세요.'} buttonWid={30}/>
-                }
-              </td>
-            </tr>
-            <tr>
-              <td>• 기계명</td>
-              <td>
-                {
-                  isUpdate ?
-                    <input value={machineData.name}
-                           style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
-                           disabled/>
-                    :
-                    <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)}
-                                        text={'기계명을 입력해주세요.'} buttonWid={30}/>
-                }
-              </td>
-            </tr>
-            <tr>
-              <td>• 품목(품목명)</td>
-              <td>
-                {
-                  isUpdate ?
-                    <input value={productionData.name}
-                           style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
-                           disabled/>
-                    : <ProductionPickerModal select={productionData}
-                                             onClickEvent={(e) => setProductionData(e)}
-                                             text={'품목을 입력해주세요.'} buttonWid={30}/>
-                }
-              </td>
-            </tr>
-            <tr>
-              <td>• 총 완료 개수</td>
-              <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={total_count}
-                         onChange={(e) => setTotal_count(e.target.value)}
-                         disabled={match.params.type !== 'status' ? false : true}/></td>
-            </tr>
-            <tr>
-              <td>• 요청 내용</td>
-              <td>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
+                <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>제품 검사 요청 정보</span>
+                </div>
+            </div>
+            <ContainerMain>
+                <div>
+                    <p className={'title'}>필수 항목</p>
+                </div>
+                <div>
+                    <table style={{color: 'black'}}>
+                        <tr>
+                            <td>• 공정명</td>
+                            <td>
+                                {
+                                    isUpdate ?
+                                        <input value={processData.name}
+                                               style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
+                                               disabled/>
+                                        :
+                                        <ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)}
+                                                            text={'공정명을 입력해주세요.'} buttonWid={30}/>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 기계명</td>
+                            <td>
+                                {
+                                    isUpdate ?
+                                        <input value={machineData.name}
+                                               style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
+                                               disabled/>
+                                        :
+                                        <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)}
+                                                            text={'기계명을 입력해주세요.'} buttonWid={30}/>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 품목(품목명)</td>
+                            <td>
+                                {
+                                    isUpdate ?
+                                        <input value={productionData.name}
+                                               style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
+                                               disabled/>
+                                        : <ProductionPickerModal select={productionData}
+                                                                 onClickEvent={(e) => setProductionData(e)}
+                                                                 text={'품목을 입력해주세요.'} buttonWid={30}/>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 총 완료 개수</td>
+                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={total_count}
+                                       onChange={(e) => setTotal_count(e.target.value)}
+                                       disabled={match.params.type !== 'status' ? false : true}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 요청 내용</td>
+                            <td>
                                 <textarea maxLength={120} value={reason} onChange={(e) => setReason(e.target.value)}
                                           style={{
-                                            border: '1px solid #b3b3b3',
-                                            fontSize: 14,
-                                            padding: 12,
-                                            height: '70px',
-                                            width: '97%',
-                                            resize: 'none'
+                                              border: '1px solid #b3b3b3',
+                                              fontSize: 14,
+                                              padding: 12,
+                                              height: '70px',
+                                              width: '97%',
+                                              resize: 'none'
                                           }} placeholder="내용을 입력해주세요 (80자 미만)"
                                           disabled={match.params.type !== 'status' ? false : true}
 
                                 >
                                     {reason}
                                 </textarea>
-              </td>
-            </tr>
-            <tr>
-              <td>• 작업자</td>
-              <td><Input value={worker} onChange={(e) => setWorker(e.target.value)}
-                         disabled={match.params.type !== 'status' ? false : true}/></td>
-            </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 작업자</td>
+                            <td><Input value={worker} onChange={(e) => setWorker(e.target.value)}
+                                       disabled={match.params.type !== 'status' ? false : true}/></td>
+                        </tr>
 
-          </table>
-        </div>
-        {
-          isUpdate ?
-            match.params.type !== 'status' ?
-              <div style={{marginTop: 42, paddingBottom: 42}}>
-                <TestButton onClick={() => onClickModify()}>
-                  <div>
-                    <p style={{fontSize: 18}}>수정하기</p>
-                  </div>
-                </TestButton>
-
-                <ButtonWrap onClick={() => history.goBack()}>
-                  <div>
-                    <p style={{fontSize: 18}}>리스트 보기</p>
-                  </div>
-                </ButtonWrap>
-              </div>
-              :
-              <div style={{marginTop: 42, paddingBottom: 42}}>
-                <ButtonWrap onClick={() => history.goBack()}>
-                  <div>
-                    <p style={{fontSize: 18}}>리스트 보기</p>
-                  </div>
-                </ButtonWrap>
-              </div>
-            :
-            <div style={{marginTop: 10, paddingBottom: 20,}}>
-              <ButtonWrap onClick={postQualityRegisterData}>
+                    </table>
+                </div>
                 {
-                  <div style={{width: 360, height: 46}}>
-                    <p style={{fontSize: 18, marginTop: 8, paddingRight: 150,}}>검사 요청</p>
-                  </div>
+                    isUpdate ?
+                        match.params.type !== 'status' ?
+                            <div style={{marginTop: 42, paddingBottom: 42}}>
+                                <TestButton onClick={() => onClickModify()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>수정하기</p>
+                                    </div>
+                                </TestButton>
+
+                                <ButtonWrap onClick={() => history.goBack()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>리스트 보기</p>
+                                    </div>
+                                </ButtonWrap>
+                            </div>
+                            :
+                            <div style={{marginTop: 42, paddingBottom: 42}}>
+                                <ButtonWrap onClick={() => history.goBack()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>리스트 보기</p>
+                                    </div>
+                                </ButtonWrap>
+                            </div>
+                        :
+                        <div style={{marginTop: 10, paddingBottom: 20,}}>
+                            <ButtonWrap onClick={postQualityRegisterData}>
+                                {
+                                    <div style={{width: 360, height: 46}}>
+                                        <p style={{fontSize: 18, marginTop: 8, paddingRight: 150,}}>검사 요청</p>
+                                    </div>
+                                }
+                            </ButtonWrap>
+                        </div>
                 }
-              </ButtonWrap>
-            </div>
-        }
 
-      </ContainerMain>
+            </ContainerMain>
 
-    </div>
-  )
+        </div>
+    )
 }
 
 const ContainerMain = Styled.div`

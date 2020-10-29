@@ -5,14 +5,14 @@ export interface YOUDONG_PRESS_CUSTOM_TYPE {
 }
 
 export interface YOUDONG_ERROR_DASHBOARD {
-  pressName: string
-  pressNumber: string
-  errorData: YOUDONG_ERROR_CHART_ERROR_DATA[]
+  machine_name: string
+  press_code: string
+  error_log: YOUDONG_ERROR_CHART_ERROR_DATA[]
 }
 
 export interface YOUDONG_ERROR_CHART_ERROR_DATA {
-  error_statement: string
-  error_time: string
+  type: string
+  created: string
 }
 
 export interface DASHBOARD {

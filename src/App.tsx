@@ -16,6 +16,7 @@ import '../src/Assets/Css/reset.css'
 import { PopupContextProvider } from './Context/PopupContext';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './Common/i18n';
+import ProcessSelectModal from './Components/Modal/ProcessSelectModal';
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
           <PopupContextProvider>
             <BrowserRouter>
                 <AppBodyContainer>
+                  <ProcessSelectModal />
                   <AlertPopup/>
                   <Routers /> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
                   <JunheeRouters/>

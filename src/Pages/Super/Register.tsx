@@ -43,7 +43,7 @@ const SuperRegister = () => {
     }
 
     // 이메일 보내기
-    Axios.post(`${SF_ENDPOINT_ADMIN}/api/v2/super/company/create`, {
+    Axios.post(`${SF_ENDPOINT_ADMIN}/v2/super/company/create`, {
       company_name: name,
       user_email: email,
       user_name: username,
