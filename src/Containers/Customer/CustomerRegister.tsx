@@ -153,23 +153,24 @@ const CustomerRegister = ({match}: Props) => {
    */
   const onsubmitFormUpdate = useCallback(async () => {
 
-    if (name === '') {
+
+    if (name.trim() === '') {
       alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (ceo === '') {
+    } else if (ceo.trim() === '') {
       alert('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (String(no) === '') {
+    } else if (!no) {
       alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
       return
     }
 
     const data = {
       pk: pk,
-      name: name,
+      name: name.trim(),
       number: no,
       type: String(type),
-      ceo_name: ceo,
+      ceo_name: ceo.trim(),
       photo: paths[0],
       telephone: phone === '' ? null : phone,
       ceo_email: email === '' ? null : email,
@@ -209,23 +210,23 @@ const CustomerRegister = ({match}: Props) => {
     console.log(infoList)
     ////alert(JSON.stringify(infoList))
     console.log(JSON.stringify(infoList))
-    if (name === '') {
+    if (name.trim() === '') {
       alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (ceo === '') {
+    } else if (ceo.trim() === '') {
       alert('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (String(no) === '') {
+    } else if (!no) {
       alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
       return
     }
 
     const data = {
 
-      name: name,
+      name: name.trim(),
       number: no,
       type: type,
-      ceo_name: ceo,
+      ceo_name: ceo.trim(),
       photo: paths[0],
       telephone: phone === '' ? null : phone,
       ceo_email: email === '' ? null : email,
