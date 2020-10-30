@@ -36,12 +36,16 @@ const initParts = {
   },
   material: [{
     material_pk: '',
+    name: '',
+    current: '',
     usage: ''
   }]
 }
 
 const initComponent = {
   material_pk: '',
+  name: '',
+  current: '',
   usage: ''
 }
 
@@ -66,12 +70,14 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     }]
   })
 
-  const [components, setComponents] = useState<{ material_pk: string, usage: string }[]>([{
+  const [components, setComponents] = useState<{ name: string, current: string, material_pk: string, usage: string }[]>([{
+    name: '',
+    current: '',
     material_pk: '',
     usage: '',
   }])
 
-  const [parts, setParts] = React.useState<{ name: string, steel_grade: string, standard: { w: number | undefined, h: number | undefined, l: number | undefined }, material: { material_pk: string, usage: string }[] }[]>(
+  const [parts, setParts] = React.useState<{ name: string, steel_grade: string, standard: { w: number | undefined, h: number | undefined, l: number | undefined }, material: { name: string, current: string, material_pk: string, usage: string }[] }[]>(
     [{
       name: '',
       steel_grade: '',
@@ -80,6 +86,8 @@ const MoldCreateRegisterContainer = ({match}: any) => {
       },
       material: [{
         material_pk: '',
+        current: '',
+        name: '',
         usage: ''
       }]
     }]
@@ -99,6 +107,9 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
 
   }, [])
+
+  useEffect(() => {
+  }, [components])
 
   const postContractRegisterData = useCallback(async () => {
     const tempUrl = `${API_URLS['making'].register}`
@@ -135,11 +146,11 @@ const MoldCreateRegisterContainer = ({match}: any) => {
           (v.standard.l && v.standard.l !== 0) &&
           v.steel_grade !== ''
         ) {
-          console.log(123123)
+          console.log(123123, v)
           return v
         } else {
           state = true
-          console.log(234234)
+          console.log(234234, v)
         }
       }
     }).filter((value) => {
@@ -185,6 +196,91 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     }
   }, [parts, drawing, components, moldData, selectDate])
 
+  const postContractModifyData = useCallback(async () => {
+    const tempUrl = `${API_URLS['making'].update}`
+
+    let state = false
+    let tmpParts = parts.map((v, i) => {
+      let partsState = 0
+
+      v.material.map((value, index) => {
+        if (value.material_pk === '' && value.usage === '') {
+          console.log(1)
+          partsState = 0
+          // state = true
+        } else if (value.material_pk !== '' && value.usage !== '') {
+          partsState = 2
+        } else {
+          partsState = 1
+        }
+      })
+
+      if (
+        v.name === '' && partsState === 0 &&
+        (!v.standard.w || v.standard.w === 0) &&
+        (!v.standard.h || v.standard.h === 0) &&
+        (!v.standard.l || v.standard.l === 0) &&
+        v.steel_grade === ''
+      ) {
+        return null
+      } else {
+        if (
+          v.name !== '' && partsState === 2 &&
+          (v.standard.w && v.standard.w !== 0) &&
+          (v.standard.h && v.standard.h !== 0) &&
+          (v.standard.l && v.standard.l !== 0) &&
+          v.steel_grade !== ''
+        ) {
+          console.log(123123, v)
+          return v
+        } else {
+          state = true
+          console.log(234234, v)
+        }
+      }
+    }).filter((value) => {
+      return value
+    })
+
+    console.log(tmpParts)
+
+    const tmpCompo = components.map((v, i) => {
+      if (v.material_pk === '' && v.usage === '') {
+        console.log(1)
+        return null
+      } else if (v.material_pk !== '' && v.usage !== '') {
+        return v
+      } else {
+        state = true
+        return null
+      }
+    }).filter((value) => {
+      return value
+    })
+
+    const tmpDrawing = drawing.map((v) => {
+      return null
+    }).filter((value) => {
+      return value
+    })
+
+    if (!moldData?.pk || !selectDate || state) {
+      alert('모든 칸을 입력해주세요.')
+    } else {
+      console.log('post Complete')
+      const resultData = await postMoldRegister(tempUrl, {
+        pk: match.params.pk,
+        mold_pk: moldData?.pk,
+        schedule: selectDate,
+        part: tmpParts,
+        component: tmpCompo,
+        drawing: tmpDrawing
+      })
+      if (resultData.status === 200) {
+        history.push('/mold/create/list')
+      }
+    }
+  }, [parts, drawing, components, moldData, selectDate])
 
   useEffect(() => {
 
@@ -359,7 +455,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                         let tmp = selectParts
                         console.log(e)
                         tmp.part[i][index] = e
-                        tmpArr[i].material[index] = {...tmpArr[i].material[index], material_pk: e.pk}
+                        tmpArr[i].material[index] = {...tmpArr[i].material[index], ...e, material_pk: e.pk}
 
                         setParts([...tmpArr])
                         setSelectParts({...tmp})
@@ -449,7 +545,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                     let tmpArr = components
                     let tmp = selectParts
                     tmp.parts[i] = e
-                    tmpArr[i] = {...tmpArr[i], material_pk: e.pk}
+                    tmpArr[i] = {...tmpArr[i], ...e, material_pk: e.pk}
 
                     setComponents([...tmpArr])
                     setSelectParts({...tmp})
@@ -574,7 +670,9 @@ const MoldCreateRegisterContainer = ({match}: any) => {
         </MoldPartDropdown>
         <div style={{marginTop: 72}}>
           <ButtonWrap onClick={async () => {
-            await postContractRegisterData()
+            isUpdate
+              ? await postContractModifyData()
+              : await postContractRegisterData()
           }}>
             <div style={{width: 360, height: 46}}>
               <p style={{fontSize: 18, paddingTop: 8}}>{isUpdate ? '수정하기' : '등록하기'}</p>
