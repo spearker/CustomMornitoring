@@ -36,7 +36,7 @@ const CustomerRegister = ({match}: Props) => {
     const [name, setName] = useState<string>('')
     const [no, setNo] = useState<number>()
     const [type, setType] = useState<string>('0') //0: 법인, 1:개인
-    const [phone, setPhone] = useState<string>('')
+    const [phone, setPhone] = useState<number>()
     const [address, setAddress] = useState<{ postcode: string, roadAddress: string, detail: string }>(
         {postcode: '', roadAddress: '', detail: ''}
     )
@@ -171,7 +171,7 @@ const CustomerRegister = ({match}: Props) => {
             type: String(type),
             ceo_name: ceo,
             photo: paths[0],
-            telephone: phone === '' ? null : phone,
+            telephone: phone === undefined ? null : phone,
             ceo_email: email === '' ? null : email,
             manager: manager === '' ? null : manager,
             manager_phone: String(phoneM) === '' ? null : String(phoneM),
@@ -227,7 +227,7 @@ const CustomerRegister = ({match}: Props) => {
             type: type,
             ceo_name: ceo,
             photo: paths[0],
-            telephone: phone === '' ? null : phone,
+            telephone: phone === undefined ? null : phone,
             ceo_email: email === '' ? null : email,
             manager: manager === '' ? null : manager,
             manager_phone: String(phoneM) === '' ? null : String(phoneM),
@@ -282,8 +282,8 @@ const CustomerRegister = ({match}: Props) => {
                         :
                         null
                 }
-                <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
-                             description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
+                <NormalNumberInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
+                                   description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
                 <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
                 <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
                              description={'사업장 이메일을 입력하세요'}/>
