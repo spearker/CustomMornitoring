@@ -1,11 +1,11 @@
 import React from 'react'
-import Styled from "styled-components";
-import { DASHBOARD } from "../../../Common/@types/youdong";
+import Styled from 'styled-components'
+import { DASHBOARD } from '../../../Common/@types/youdong'
 
 
 interface Props {
-  info: DASHBOARD
-  goToChartPage: (data: DASHBOARD) => void
+    info: DASHBOARD
+    goToChartPage: (data: DASHBOARD) => void
 }
 
 const Container = Styled.div`
@@ -38,11 +38,11 @@ const Title = Styled.h2`
 `
 
 const CustomIndexItem: React.FunctionComponent<Props> = ({ info, goToChartPage }) => {
-  return (
-      <Container onClick={() => goToChartPage(info)}>
-        <Title>{info.name}</Title>
-      </Container>
-  )
+    return (
+        <Container onClick={() => goToChartPage(info)}>
+            <Title>{info.press_name}</Title>
+        </Container>
+    )
 }
 
 export default CustomIndexItem

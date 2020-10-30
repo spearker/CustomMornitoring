@@ -1,44 +1,11 @@
-import React from 'react'
-import CustomIndexItem from "../../../Components/Custom/dashboard/CustomIndexItem";
-import Styled from "styled-components";
-import { useHistory } from "react-router-dom";
-import { getToken } from "../../../lib/tokenFunctions";
-import { TOKEN_NAME } from "../../../Common/configset";
-import { DASHBOARD } from "../../../Common/@types/youdong";
-
-const dashboard: DASHBOARD[] = [
-  {
-    name: '대형 1번 프레스',
-    pk: '1',
-    url: 'custom/dashboard/loadton/1',
-  },
-  {
-    name: '대형 2번 프레스',
-    pk: '2',
-    url: 'custom/dashboard/loadton/2',
-  },
-  {
-    name: '대형 3번 프레스',
-    pk: '3',
-    url: 'custom/dashboard/loadton/3',
-  },
-  {
-    name: '대형 4번 프레스',
-    pk: '4',
-    url: 'custom/dashboard/loadton/4',
-  },
-  {
-    name: '대형 BL프레스',
-    pk: '5',
-    url: 'custom/dashboard/loadton/5',
-  },
-  {
-    name: '에러로그',
-    pk: 'errorLog',
-    url: 'custom/dashboard/errorLog',
-  },
-]
-
+import React, { useState } from 'react'
+import CustomIndexItem from '../../../Components/Custom/dashboard/CustomIndexItem'
+import Styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
+import { getToken } from '../../../lib/tokenFunctions'
+import { TOKEN_NAME } from '../../../Common/configset'
+import { DASHBOARD } from '../../../Common/@types/youdong'
+import getYoodongPressList from '../../../Api/custom/getYoodongPressList'
 
 const Container = Styled.div`
   display: flex;
@@ -85,41 +52,64 @@ const MainSub = Styled.p`
 `
 
 const CustomDashboardIndex: React.FunctionComponent = () => {
-  const history = useHistory();
+    const [state, setState] = React.useState<DASHBOARD[]>()
+    const history = useHistory()
 
-  const goToChartPage = React.useCallback((data: DASHBOARD) => {
-    history.push(`/${data.url}`)
-  }, [])
+    const goToChartPage = React.useCallback((data: DASHBOARD) => {
+        try {
+            const id = data.machine_code.slice(-1)
+            history.push(`/custom/dashboard/loadton/${id}`)
+        } catch (error) {
+            console.log('error', error)
+            alert('response error')
+        }
+    }, [])
 
-  const tokenCheck = () => {
-    const token = getToken(TOKEN_NAME)
+    const tokenCheck = () => {
+        const token = getToken(TOKEN_NAME)
 
-    if (token === null) {
-      history.push('/login?type=dashboard')
+        if(token === null) {
+            history.push('/login?type=dashboard')
+        }
     }
 
-  }
 
+    const getPressList = async () => {
+        const response = await getYoodongPressList()
 
-  React.useEffect(() => {
-    tokenCheck()
-  }, [])
+        if(response !== null && response) {
+            if(response.status === 401) {
+                return history.push('/login?type=back')
+            } else if(response.status === 200) {
+                console.log('response', response)
 
-  return (
-      <Container>
-        <div>
-          <div>
-            <MainTitle>안녕하세요.<br/><span style={{ fontWeight: 'bold' }}>SMART FACTORY SYSTEM</span>입니다.</MainTitle>
-            <MainSub>프레스를 선택해 주세요.</MainSub>
-          </div>
-          <PressSelector>
-            {
-              dashboard.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage} key={data.pk}/>)
+                setState(response.data)
             }
-          </PressSelector>
-        </div>
-      </Container>
-  )
+        }
+    }
+
+    React.useEffect(() => {
+        tokenCheck()
+        getPressList().then(() => console.log('successful load'))
+    }, [])
+
+    return (
+        <Container>
+            <div>
+                <div>
+                    <MainTitle>안녕하세요.<br/><span
+                        style={{ fontWeight: 'bold' }}>SMART FACTORY SYSTEM</span>입니다.</MainTitle>
+                    <MainSub>프레스를 선택해 주세요.</MainSub>
+                </div>
+                <PressSelector>
+                    {
+                        state && state.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage}
+                                                                      key={data.machine_code}/>)
+                    }
+                </PressSelector>
+            </div>
+        </Container>
+    )
 }
 
 export default CustomDashboardIndex
