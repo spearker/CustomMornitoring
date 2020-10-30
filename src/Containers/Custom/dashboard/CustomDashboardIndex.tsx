@@ -51,6 +51,12 @@ const MainSub = Styled.p`
   color: #717c90;
 `
 
+const errorLog: DASHBOARD = {
+    press_code: '',
+    press_name: '에러로그',
+    machine_keycode: ''
+}
+
 const CustomDashboardIndex: React.FunctionComponent = () => {
     const [state, setState] = React.useState<DASHBOARD[]>()
     const history = useHistory()
@@ -106,6 +112,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
                         state && state.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage}
                                                                       key={data.machine_keycode}/>)
                     }
+                    <CustomIndexItem info={errorLog} goToChartPage={() => history.push('/custom/dashboard/errorLog')}/>
                 </PressSelector>
             </div>
         </Container>
