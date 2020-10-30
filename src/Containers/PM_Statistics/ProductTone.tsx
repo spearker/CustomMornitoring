@@ -1,58 +1,58 @@
-import React, {useCallback, useEffect, useState,} from "react";
-import Styled from "styled-components";
-import {API_URLS, getProductData} from "../../Api/pm/statistics";
-import HalfTalbe from "../../Components/Table/HalfTable";
-import {API_URLS as MACHINE_URLS, getSearchMachine} from "../../Api/mes/process";
-import moment from "moment";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import React, {useCallback, useEffect, useState,} from 'react'
+import Styled from 'styled-components'
+import {API_URLS, getProductData} from '../../Api/pm/statistics'
+import HalfTalbe from '../../Components/Table/HalfTable'
+import {API_URLS as MACHINE_URLS, getSearchMachine} from '../../Api/mes/process'
+import moment from 'moment'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 
 const DummyMachine = [
     {
-        pk: "",
-        machine_name: "",
-        machine_type: "",
-        manufacturer: "",
+        pk: '',
+        machine_name: '',
+        machine_type: '',
+        manufacturer: '',
         manufacturer_code: ''
     }
 ]
 
 const ProductToneContainer = () => {
 
-    const [list, setList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any[]>([]);
-    const [detailTonList, setDetailTonList] = useState<any[]>([]);
-    const [index, setIndex] = useState({product_name: '품목'});
-    const [subIndex, setSubIndex] = useState({low: '최저'});
-    const [sub2Index, setSub2Index] = useState({ton: "톤"});
-    const [machinePk, setMachinePk] = useState<string>('all');
+    const [list, setList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<any[]>([])
+    const [detailTonList, setDetailTonList] = useState<any[]>([])
+    const [index, setIndex] = useState({product_name: '품목'})
+    const [subIndex, setSubIndex] = useState({low: '최저'})
+    const [sub2Index, setSub2Index] = useState({ton: '톤'})
+    const [machinePk, setMachinePk] = useState<string>('all')
     const [materialPage, setMaterialPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
     const [minPage, setMinPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
     const [tonPage, setTonPage] = useState<PaginationInfo>({
         current: 1,
-    });
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMold, setSelectMold] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    })
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMold, setSelectMold] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
 
     const [machineList, setMachineList] = useState(DummyMachine)
     const [searchName, setSearchName] = useState<string>('')
 
-    const [selectDate, setSelectDate] = useState(moment().subtract(1, 'days').format("YYYY-MM-DD"))
+    const [selectDate, setSelectDate] = useState(moment().subtract(1, 'days').format('YYYY-MM-DD'))
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getMachineList = useCallback(async () => {
         const tempUrl = `${MACHINE_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
-        const resultData = await getSearchMachine(tempUrl);
+        const resultData = await getSearchMachine(tempUrl)
         setMachineList(resultData.info_list)
     }, [searchName])
 
@@ -78,8 +78,8 @@ const ProductToneContainer = () => {
 
     const sub2IndexList = {
         productTone: {
-            ton: "톤",
-            date: "날짜"
+            ton: '톤',
+            date: '날짜'
         }
     }
     //
@@ -96,29 +96,28 @@ const ProductToneContainer = () => {
     const onClick = useCallback((product) => {
         // console.log('dsfewfewf',product.pk,product.mold_name);
         if (product.pk === selectPk) {
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
+            setSelectPk(null)
+            setSelectMold(null)
+            setSelectValue(null)
         } else {
-            setSelectPk(product.pk);
-            setSelectMold(product.mold_name);
+            setSelectPk(product.pk)
+            setSelectMold(product.mold_name)
             setSelectValue(product)
             //TODO: api 요청
             getData(product.mold_pk, product.process_pk, product.product_pk)
         }
 
 
-    }, [list, selectPk]);
+    }, [list, selectPk])
 
     const getData = useCallback(async (mold, process, product) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}`
+        const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}&page=${tonPage.current}&limit=15`
         const res = await getProductData(tempUrl)
 
-        setDetailList(res.length === undefined ? [] : [res])
-
-        setDetailTonList(res.dataList)
-
+        setDetailList((res.low === undefined || res.low === null) ? [] : [res])
+        setTonPage({current: res.current_page, total: res.total_page})
+        setDetailTonList(res.info_list)
     }, [machinePk, selectDate])
 
     const getList = useCallback(async (pk) => { // useCallback
@@ -133,9 +132,9 @@ const ProductToneContainer = () => {
 
     useEffect(() => {
         // getList()
-        setIndex(indexList["productTone"])
-        setSubIndex(subIndexList["productTone"])
-        setSub2Index(sub2IndexList["productTone"])
+        setIndex(indexList['productTone'])
+        setSubIndex(subIndexList['productTone'])
+        setSub2Index(sub2IndexList['productTone'])
         // setList(dummy)
         // setDetailList(detaildummy)
     }, [])
@@ -151,16 +150,16 @@ const ProductToneContainer = () => {
 
     return (
         <div>
-            <div style={{width: "1107px", height: 30, marginTop: 41, borderRadius: 10, display: "flex"}}>
-                <div style={{marginLeft: "65%"}}>
+            <div style={{width: '1107px', height: 30, marginTop: 41, borderRadius: 10, display: 'flex'}}>
+                <div style={{marginLeft: '65%'}}>
                     <CalendarDropdown type={'single'} select={selectDate}
                                       onClickEvent={(i) => setSelectDate(i)}/>
                 </div>
-                <div style={{display: "flex", marginLeft: 20}}>
+                <div style={{display: 'flex', marginLeft: 20}}>
                     <p style={{marginRight: 10, marginBottom: 2}}>기계 :</p>
                     <select style={{
-                        width: "130px",
-                        height: "98%",
+                        width: '130px',
+                        height: '98%',
                         borderRadius: 5,
                         backgroundColor: '#353b48',
                         color: '#ffffff',
@@ -176,7 +175,7 @@ const ProductToneContainer = () => {
                     </select>
                 </div>
             </div>
-            <div style={{display: "flex", flexDirection: "row"}}>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{marginRight: 40}}>
                     <HalfTalbe
                         title={'제품 별 톤'}
@@ -210,7 +209,7 @@ const ProductToneContainer = () => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 const ChartDiv = Styled.div`
@@ -225,4 +224,4 @@ const ChartDiv = Styled.div`
     }
 `
 
-export default ProductToneContainer;
+export default ProductToneContainer

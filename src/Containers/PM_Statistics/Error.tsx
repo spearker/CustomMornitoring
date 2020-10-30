@@ -57,6 +57,9 @@ const ErrorContainer = () => {
             setSelectMachine(machine.pressName);
             setSelectValue(machine)
             //TODO: api 요청
+            if (machine.pressPk === null) {
+                return
+            }
             getData(machine.pressPk);
             setDetailPage({...detailPage, current: 1})
         }

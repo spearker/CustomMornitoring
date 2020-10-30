@@ -141,7 +141,7 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
                                         seg
                                             ? segList !== undefined && segList.length === 0 ?
                                             <tr>
-                                                <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                                <td colSpan={3} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                             </tr>
                                             :
                                             segList.map((v, i) => {

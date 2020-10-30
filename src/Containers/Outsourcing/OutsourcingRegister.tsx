@@ -1,46 +1,46 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
-import Header from '../../Components/Text/Header';
-import WhiteBoxContainer from '../../Containers/WhiteBoxContainer';
-import NormalInput from '../../Components/Input/NormalInput';
-import RegisterButton from '../../Components/Button/RegisterButton';
-import NormalFileInput from '../../Components/Input/NormalFileInput';
-import {getToken} from '../../Common/tokenFunctions';
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
-import {uploadTempFile} from '../../Common/fileFuctuons';
-import ListHeader from '../../Components/Text/ListHeader';
-import OldFileInput from '../../Components/Input/OldFileInput';
-import RadioInput from '../../Components/Input/RadioInput';
-import NormalNumberInput from '../../Components/Input/NormalNumberInput';
+import Header from '../../Components/Text/Header'
+import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
+import NormalInput from '../../Components/Input/NormalInput'
+import RegisterButton from '../../Components/Button/RegisterButton'
+import NormalFileInput from '../../Components/Input/NormalFileInput'
+import {getToken} from '../../Common/tokenFunctions'
+import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
+import {uploadTempFile} from '../../Common/fileFuctuons'
+import ListHeader from '../../Components/Text/ListHeader'
+import OldFileInput from '../../Components/Input/OldFileInput'
+import RadioInput from '../../Components/Input/RadioInput'
+import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
-import NormalAddressInput from "../../Components/Input/NormalAddressInput";
-import useObjectInput from "../../Functions/UseInput";
-import Styled from "styled-components";
-import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import NormalAddressInput from '../../Components/Input/NormalAddressInput'
+import useObjectInput from '../../Functions/UseInput'
+import Styled from 'styled-components'
+import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const OutsourcingRegister = ({match}: any) => {
     const history = useHistory()
 
-    const [pk, setPk] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [no, setNo] = useState<number>();
-    const [type, setType] = useState<string>('0'); //0: 법인, 1:개인
-    const [phone, setPhone] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-    const [fax, setFax] = useState<string>('');
-    const [phoneM, setPhoneM] = useState<string>('');
-    const [emailM, setEmailM] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [manager, setManager] = useState<string>('');
-    const [ceo, setCeo] = useState<string>('');
-    const [infoList, setInfoList] = useState<IInfo[]>([]);
+    const [pk, setPk] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [no, setNo] = useState<number>()
+    const [type, setType] = useState<string>('0') //0: 법인, 1:개인
+    const [phone, setPhone] = useState<string>('')
+    const [address, setAddress] = useState<string>('')
+    const [fax, setFax] = useState<string>('')
+    const [phoneM, setPhoneM] = useState<string>('')
+    const [emailM, setEmailM] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [manager, setManager] = useState<string>('')
+    const [ceo, setCeo] = useState<string>('')
+    const [infoList, setInfoList] = useState<IInfo[]>([])
 
-    const [paths, setPaths] = useState<any[1]>([null]);
-    const [oldPaths, setOldPaths] = useState<any[1]>([null]);
+    const [paths, setPaths] = useState<any[1]>([null])
+    const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
-    const [isUpdate, setIsUpdate] = useState<boolean>(false);
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
     const [inputData, setInputData] = useObjectInput('CHANGE', {
         name: '',
@@ -51,7 +51,7 @@ const OutsourcingRegister = ({match}: any) => {
             detail: '',
         },
 
-    });
+    })
 
 
     useEffect(() => {
@@ -71,23 +71,23 @@ const OutsourcingRegister = ({match}: any) => {
      * @returns X
      */
     const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0]);
+        console.log(event.target.files[0])
         console.log(index)
         if (event.target.files[0] === undefined) {
 
-            return;
+            return
         }
-        console.log(event.target.files[0].type);
+        console.log(event.target.files[0].type)
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
-            const tempFile = event.target.files[0];
+            const tempFile = event.target.files[0]
             console.log(tempFile)
-            const res = await uploadTempFile(event.target.files[0]);
+            const res = await uploadTempFile(event.target.files[0])
 
             if (res !== false) {
                 console.log(res)
                 const tempPatchList = paths.slice()
-                tempPatchList[index] = res;
+                tempPatchList[index] = res
                 console.log(tempPatchList)
                 setPaths(tempPatchList)
                 return
@@ -112,29 +112,29 @@ const OutsourcingRegister = ({match}: any) => {
      */
     const getData = useCallback(async () => {
 
-        const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
         } else {
             if (res.status === 200) {
-                const data = res.results;
-                setName(data.name);
-                setPk(data.pk);
-                setNo(data.number);
-                setType(data.type);
-                setPk(data.pk);
-                setCeo(data.ceo_name);
+                const data = res.results
+                setName(data.name)
+                setPk(data.pk)
+                setNo(data.number)
+                setType(data.type)
+                setPk(data.pk)
+                setCeo(data.ceo_name)
                 setPaths([data.photo_url === '-' ? null : data.photo_url])
-                setPhone(data.telephone);
-                setEmailM(data.manager_email);
+                setPhone(data.telephone)
+                setEmailM(data.manager_email)
                 setPhoneM(data.manager_phone)
                 setManager(data.manager)
                 setEmail(data.ceo_email)
 
                 setInfoList(data.info_list)
-                setInputData('location', data.address);
-                setFax(data.fax);
+                setInputData('location', data.address)
+                setFax(data.fax)
 
             } else {
                 //TODO:  기타 오류
@@ -158,16 +158,19 @@ const OutsourcingRegister = ({match}: any) => {
      */
     const onsubmitFormUpdate = useCallback(async () => {
 
-        if (name === "") {
-            alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (ceo === "") {
-            alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (no === null || no === undefined || no === 0 || no.toString() === "") {
-            alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+        if (name === '') {
+            alert('사업장은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (ceo === '') {
+            alert('대표자는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (no === null || no === undefined || no === 0 || no.toString() === '') {
+            alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
+
+
+        console.log(inputData.location.postcode, inputData.location.roadAddress, inputData.location.detail)
 
         const data = {
             pk: match.params.pk,
@@ -181,13 +184,13 @@ const OutsourcingRegister = ({match}: any) => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
+            address: inputData.location.postcode === undefined && inputData.location.roadAddress === undefined && inputData.location.detail === undefined ? null : inputData.location,
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         };
 
-        const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -200,6 +203,7 @@ const OutsourcingRegister = ({match}: any) => {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
         }
+
 
     }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData])
 
@@ -218,15 +222,15 @@ const OutsourcingRegister = ({match}: any) => {
     const onsubmitForm = useCallback(async () => {
 
         console.log(no)
-        if (name === "") {
-            alert("사업장은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (ceo === "") {
-            alert("대표자는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (no === null || no === undefined || no === 0 || no.toString() === "") {
-            alert("사업자 번호는 필수 항목입니다. 반드시 입력해주세요.")
-            return;
+        if (name === '') {
+            alert('사업장은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (ceo === '') {
+            alert('대표자는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (no === null || no === undefined || no === 0 || no.toString() === '') {
+            alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
 
         const data = {
@@ -245,10 +249,10 @@ const OutsourcingRegister = ({match}: any) => {
             fax: fax === '' ? null : fax,
             // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
-        };
+        }
 
 
-        const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -326,7 +330,6 @@ const OutsourcingRegister = ({match}: any) => {
                 })
               }
               </FullAddInput>
-
             */}
                 {isUpdate ?
                     <div style={{marginTop: 40, marginLeft: 340}}>
@@ -351,7 +354,7 @@ const OutsourcingRegister = ({match}: any) => {
                 }
             </WhiteBoxContainer>
         </div>
-    );
+    )
 }
 
 const ButtonWrap = Styled.button`
@@ -370,4 +373,4 @@ const ButtonWrap = Styled.button`
     }
 `
 
-export default OutsourcingRegister;
+export default OutsourcingRegister

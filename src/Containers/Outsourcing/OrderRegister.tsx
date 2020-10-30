@@ -17,7 +17,7 @@ import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import useObjectInput from '../../Functions/UseInput'
 import OutsourcingPickerModal from '../../Components/Modal/OutsourcingRegister'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
-import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 
 // 발주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -73,47 +73,7 @@ const OutsourcingRegister = ({match}: Props) => {
             setIsUpdate(true)
             getData()
         }
-
-    }, [])
-
-
-    /**
-     * addFiles()
-     * 사진 등록
-     * @param {object(file)} event.target.files[0] 파일
-     * @returns X
-     */
-    const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0])
-        console.log(index)
-        if (event.target.files[0] === undefined) {
-
-            return
-        }
-        console.log(event.target.files[0].type)
-        if (event.target.files[0].type.includes('image')) { //이미지인지 판별
-
-            const tempFile = event.target.files[0]
-            console.log(tempFile)
-            const res = await uploadTempFile(event.target.files[0])
-
-            if (res !== false) {
-                console.log(res)
-                const tempPatchList = paths.slice()
-                tempPatchList[index] = res
-                console.log(tempPatchList)
-                setPaths(tempPatchList)
-                return
-            } else {
-                return
-            }
-
-        } else {
-
-            //alert('이미지 형식만 업로드 가능합니다.')
-        }
-
-    }
+    })
 
 
     /**
@@ -125,7 +85,7 @@ const OutsourcingRegister = ({match}: Props) => {
      */
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/v1/outsourcing/order/load?pk=` + match.params.pk, getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/load?pk=` + match.params.pk, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -161,59 +121,56 @@ const OutsourcingRegister = ({match}: Props) => {
      * @returns X
      */
     const onsubmitFormUpdate = useCallback(async () => {
-        console.log(quantity)
+            console.log(quantity)
 
-        if (selectOutsource?.pk === '') {
-            alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (selectMaterial?.pk === '') {
-            alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (!quantity || quantity === 0) {
-            alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (!unpaid) {
-            alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (paymentCondition === '') {
-            alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (selectDate === '') {
-            alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
-            return
-        } else if (inputData.location.postcode === '') {
-            alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        }
+            if (selectOutsource?.pk === '') {
+                alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+                return
+            } else if (selectMaterial?.pk === '') {
+                alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+                return
+            } else if (!quantity || quantity === 0) {
+                alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (!unpaid) {
+                alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (paymentCondition === '') {
+                alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (selectDate === '') {
+                alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+                return
+            } else if (inputData.location.postcode === '') {
+                alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
 
 
-        const data = {
-            pk: match.params.pk,
-            company: selectOutsource?.pk,
-            product: selectMaterial?.pk,
-            quantity: quantity.toString(),
-            unpaid: unpaid.toString(),
-            due_date: selectDate,
-            payment_condition: paymentCondition,
-            address: inputData.location
-            //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+            const data = {
+                pk: match.params.pk,
+                company: selectOutsource?.pk,
+                product: selectMaterial?.pk,
+                quantity: quantity.toString(),
+                unpaid: unpaid.toString(),
+                due_date: selectDate,
+                payment_condition: paymentCondition,
+                address: inputData.location
+                //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
-        }
-        const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/order/update/`, data, getToken(TOKEN_NAME))
+            }
+            const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/update/`, data, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 수정 되었습니다')
-                setIsUpdate(false)
-                history.goBack()
+            if (res === false) {
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
         }
 
-    }, [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
+        ,
+        [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData]
+    )
 
     useEffect(() => {
         console.log(selectMaterial)
@@ -265,10 +222,9 @@ const OutsourcingRegister = ({match}: Props) => {
             payment_condition: paymentCondition,
             address: inputData.location
         }
-
         console.log(inputData.location)
 
-        const res = await postRequest(`${SF_ENDPOINT}/v1/outsourcing/order/register`, data, getToken(TOKEN_NAME))
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/register`, data, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -286,8 +242,11 @@ const OutsourcingRegister = ({match}: Props) => {
 
 
     return (
-        <div>
-            <Header title={isUpdate ? '발주 수정' : '발주 등록'}/>
+        <
+            div>
+            < Header
+                title={isUpdate ? '발주 수정' : '발주 등록'}
+            />
             <WhiteBoxContainer>
                 <ListHeader title="필수 항목"/>
                 <InputContainer title={'외주처 명'} width={120}>
@@ -392,7 +351,7 @@ const InputText = Styled.p`
     text-align: left;
     vertical-align: middle;
     font-weight: regular;
-`
+    `
 
 const ButtonWrap = Styled.button`
     padding: 4px 12px 4px 12px;
@@ -404,10 +363,10 @@ const ButtonWrap = Styled.button`
     font-weight: bold;
     font-size: 13px;
     img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
+    margin-right: 7px;
+    width: 14px;
+    height: 14px;
     }
-`
+    `
 
 export default OutsourcingRegister
