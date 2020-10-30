@@ -4,14 +4,16 @@ import { TOKEN_NAME } from '../../Common/configset'
 import { setToken } from '../../lib/tokenFunctions'
 import { SF_ENDPOINT } from '../SF_endpoint'
 
-export default async (id: string | number, init: boolean) => {
-
+export default async () => {
     try {
-        const response = await axios.get(`${SF_ENDPOINT}/api/v1/dashboard/press/${id}?init=${init}`, {
+        const response = await axios.get(`${SF_ENDPOINT}/api/v1/dashboard/press/list`, {
             headers: {
                 authorization: getToken(TOKEN_NAME)
             }
         })
+
+        console.log('response', response.data)
+
 
         if(response.data.status === 200) {
             if(response.data.token) {
@@ -19,7 +21,7 @@ export default async (id: string | number, init: boolean) => {
             }
 
             return {
-                data: response.data.results,
+                data: response.data.results.press_list,
                 status: response.data.status
             }
         } else {
@@ -28,7 +30,7 @@ export default async (id: string | number, init: boolean) => {
             }
         }
     } catch (error) {
-        console.log(`${SF_ENDPOINT}/api/v1/dashboard/press/${id} API Error`, error)
+        console.log(`${SF_ENDPOINT}/api/v1/dashboard/press/ API Error`, error)
         return null
     }
 }

@@ -137,6 +137,10 @@ const PartsContainer = () => {
     }, [page.current])
 
     useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
+
+    useEffect(() => {
         getList()
         setIndex(indexList["parts"])
         // setList(dummy)

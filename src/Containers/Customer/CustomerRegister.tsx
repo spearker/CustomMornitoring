@@ -36,12 +36,12 @@ const CustomerRegister = ({match}: Props) => {
   const [name, setName] = useState<string>('')
   const [no, setNo] = useState<number>()
   const [type, setType] = useState<string>('0') //0: 법인, 1:개인
-  const [phone, setPhone] = useState<string>('')
+  const [phone, setPhone] = useState<number>()
   const [address, setAddress] = useState<{ postcode: string, roadAddress: string, detail: string }>(
     {postcode: '', roadAddress: '', detail: ''}
   )
   const [fax, setFax] = useState<number>()
-  const [phoneM, setPhoneM] = useState<string>('')
+  const [phoneM, setPhoneM] = useState<number>()
   const [emailM, setEmailM] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [manager, setManager] = useState<string>('')
@@ -153,14 +153,13 @@ const CustomerRegister = ({match}: Props) => {
    */
   const onsubmitFormUpdate = useCallback(async () => {
 
-
-    if (name.trim() === '') {
+    if (name === '') {
       alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (ceo.trim() === '') {
+    } else if (ceo === '') {
       alert('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (!no) {
+    } else if (String(no) === '') {
       alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
       return
     }
@@ -172,11 +171,11 @@ const CustomerRegister = ({match}: Props) => {
       type: String(type),
       ceo_name: ceo.trim(),
       photo: paths[0],
-      telephone: phone === '' ? null : phone,
-      ceo_email: email === '' ? null : email,
-      manager: manager === '' ? null : manager,
-      manager_phone: phoneM === '' ? null : phoneM,
-      manager_email: emailM === '' ? null : emailM,
+      telephone: phone === undefined ? null : phone,
+      ceo_email: (email === '' || !email) ? null : email.trim(),
+      manager: (manager === '' || !manager) ? null : manager.trim(),
+      manager_phone: String(phoneM) === '' ? null : String(phoneM),
+      manager_email: (emailM === '' || !emailM) ? null : emailM.trim(),
       address: address ? address : null,
       fax: String(fax) === '' ? null : fax,
       //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
@@ -210,29 +209,29 @@ const CustomerRegister = ({match}: Props) => {
     console.log(infoList)
     ////alert(JSON.stringify(infoList))
     console.log(JSON.stringify(infoList))
-    if (name.trim() === '') {
+    if (name === '') {
       alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (ceo.trim() === '') {
+    } else if (ceo === '') {
       alert('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (!no) {
+    } else if (String(no) === '') {
       alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
       return
     }
 
     const data = {
 
-      name: name.trim(),
+      name: name,
       number: no,
       type: type,
-      ceo_name: ceo.trim(),
+      ceo_name: ceo,
       photo: paths[0],
-      telephone: phone === '' ? null : phone,
-      ceo_email: email === '' ? null : email,
-      manager: manager === '' ? null : manager,
-      manager_phone: phoneM === '' ? null : phoneM,
-      manager_email: emailM === '' ? null : emailM,
+      telephone: phone === undefined ? null : phone,
+      ceo_email: (email === '' || !email) ? null : email.trim(),
+      manager: (manager === '' || !manager) ? null : manager.trim(),
+      manager_phone: String(phoneM) === '' ? null : String(phoneM),
+      manager_email: (emailM === '' || !emailM) ? null : emailM.trim(),
       address: address ? address : null,
       fax: String(fax) === '' ? null : fax,
       // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
@@ -283,8 +282,8 @@ const CustomerRegister = ({match}: Props) => {
             :
             null
         }
-        <NormalInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
-                     description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
+        <NormalNumberInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
+                           description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
         <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
         <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
                      description={'사업장 이메일을 입력하세요'}/>
@@ -295,8 +294,8 @@ const CustomerRegister = ({match}: Props) => {
                            description={'사업장 팩스번호를 입력하세요'}/>
         <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
                      description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
-        <NormalInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
-                     description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
+        <NormalNumberInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
+                           description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
         <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
                      description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
         {/* 자유항목 입력 창
