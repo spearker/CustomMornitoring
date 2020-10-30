@@ -57,7 +57,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
 
     const goToChartPage = React.useCallback((data: DASHBOARD) => {
         try {
-            const id = data.machine_code.slice(-1)
+            const id = data.machine_keycode.slice(-1)
             history.push(`/custom/dashboard/loadton/${id}`)
         } catch (error) {
             console.log('error', error)
@@ -104,7 +104,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
                 <PressSelector>
                     {
                         state && state.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage}
-                                                                      key={data.machine_code}/>)
+                                                                      key={data.machine_keycode}/>)
                     }
                 </PressSelector>
             </div>
