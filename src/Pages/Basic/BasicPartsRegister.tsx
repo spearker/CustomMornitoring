@@ -122,7 +122,7 @@ const BasicPartsRegister = () => {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
-            alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
+            alert('공장 정보는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (cost === null || cost === undefined || String(cost).trim() === '' || cost === 0) {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
@@ -160,7 +160,7 @@ const BasicPartsRegister = () => {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
-            alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
+            alert('공장 정보는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (cost === null || cost === undefined || String(cost).trim() === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
@@ -278,7 +278,6 @@ const BasicPartsRegister = () => {
     }, [type])
 
     useEffect(() => {
-        console.log('1111111111', type)
         if (partsList[type] !== '부품 등록하기' || partsList[type] === undefined) {
             // setType(partsList.indexOf(partsName))
         } else {

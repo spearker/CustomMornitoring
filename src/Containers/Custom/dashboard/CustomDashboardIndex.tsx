@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import CustomIndexItem from '../../../Components/Custom/dashboard/CustomIndexItem'
 import Styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
-import { getToken } from '../../../lib/tokenFunctions'
-import { TOKEN_NAME } from '../../../Common/configset'
-import { DASHBOARD } from '../../../Common/@types/youdong'
+import {useHistory} from 'react-router-dom'
+import {getToken} from '../../../lib/tokenFunctions'
+import {TOKEN_NAME} from '../../../Common/configset'
+import {DASHBOARD} from '../../../Common/@types/youdong'
 import getYoodongPressList from '../../../Api/custom/getYoodongPressList'
 
 const Container = Styled.div`
@@ -74,7 +74,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
     const tokenCheck = () => {
         const token = getToken(TOKEN_NAME)
 
-        if(token === null) {
+        if (token === null) {
             history.push('/login?type=dashboard')
         }
     }
@@ -83,10 +83,10 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
     const getPressList = async () => {
         const response = await getYoodongPressList()
 
-        if(response !== null && response) {
-            if(response.status === 401) {
+        if (response !== null && response) {
+            if (response.status === 401) {
                 return history.push('/login?type=back')
-            } else if(response.status === 200) {
+            } else if (response.status === 200) {
                 console.log('response', response)
 
                 setState(response.data)
@@ -97,6 +97,8 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
     React.useEffect(() => {
         tokenCheck()
         getPressList().then(() => console.log('successful load'))
+        const documentEvent: any = document
+        documentEvent.body.style.zoom = 1.0;
     }, [])
 
     return (
@@ -104,7 +106,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
             <div>
                 <div>
                     <MainTitle>안녕하세요.<br/><span
-                        style={{ fontWeight: 'bold' }}>SMART FACTORY SYSTEM</span>입니다.</MainTitle>
+                        style={{fontWeight: 'bold'}}>SMART FACTORY SYSTEM</span>입니다.</MainTitle>
                     <MainSub>프레스를 선택해 주세요.</MainSub>
                 </div>
                 <PressSelector>
