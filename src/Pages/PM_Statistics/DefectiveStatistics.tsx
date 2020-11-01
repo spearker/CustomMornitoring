@@ -4,9 +4,9 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import Container from '../../Containers/PM_Statistics/Defective';
 
 
-const DefectiveStatistics = ({match}:any) => {
+const DefectiveStatistics = ({match}: any) => {
 
-    const { id } = match.params;
+    const {id} = match.params;
 
     return (
         <DashboardWrapContainer index={'statistics'}>
@@ -15,12 +15,10 @@ const DefectiveStatistics = ({match}:any) => {
                 <Container/>
 
 
-
             </InnerBodyContainer>
         </DashboardWrapContainer>
     );
 }
-
 
 
 export default DefectiveStatistics;

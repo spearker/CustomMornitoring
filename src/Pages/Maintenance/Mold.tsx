@@ -4,23 +4,21 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import Container from '../../Containers/Maintenance/Mold';
 
 
-const MoldMaintenance = ({match}:any) => {
+const MoldMaintenance = ({match}: any) => {
 
-    const { id } = match.params;
+    const {id} = match.params;
 
     return (
         <DashboardWrapContainer index={'maintenance'}>
 
             <InnerBodyContainer>
-                <Container />
-
+                <Container/>
 
 
             </InnerBodyContainer>
         </DashboardWrapContainer>
     );
 }
-
 
 
 export default MoldMaintenance;

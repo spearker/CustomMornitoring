@@ -10,7 +10,7 @@ import {TOKEN_NAME} from '../../Common/configset'
  */
 const client = axios.create()
 
-client.defaults.baseURL = 'http://61.55.101.224:9912/api'
+client.defaults.baseURL = 'http://115.93.129.149:8299/api'
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME)
 

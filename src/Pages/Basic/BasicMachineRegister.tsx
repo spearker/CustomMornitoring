@@ -233,7 +233,6 @@ const BasicMachineRegister = () => {
         }
 
         const data = {
-            document_pk: document.pk,
             machine_name: name,
             machine_type: type,
             manufacturer: !made ? made : made.trim(),

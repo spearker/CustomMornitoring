@@ -1,2 +1,2 @@
-export const SF_ENDPOINT = 'http://61.55.101.224:9912'
-export const SF_ENDPOINT_ADMIN = 'http://61.55.101.224:8286/api'
+export const SF_ENDPOINT = 'http://115.93.129.149:8299'
+export const SF_ENDPOINT_ADMIN = 'http://115.93.129.149:8286/api'
