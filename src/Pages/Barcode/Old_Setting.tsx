@@ -11,27 +11,27 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 
 const BarCodeSetting = () => {
 
-  const [list, setList] = useState<IMold[]>([]);
-  const [option, setOption] = useState(0);
-  const [keyword, setKeyword] = useState<string>('');
+    const [list, setList] = useState<IMold[]>([]);
+    const [option, setOption] = useState(0);
+    const [keyword, setKeyword] = useState<string>('');
 
-  useEffect(()=>{
-
-
-  },[])
+    useEffect(() => {
 
 
-  return (
-      <DashboardWrapContainer index={0}>
-        <SubNavigation list={ROUTER_MENU_LIST[0]}/>
-        <InnerBodyContainer>
-        <div style={{position:'relative'}}>
-            <Header title={`바코드 기본 규칙 등록`}/>
-        </div>
-        </InnerBodyContainer>
-      </DashboardWrapContainer>
+    }, [])
 
-  );
+
+    return (
+        <DashboardWrapContainer index={0}>
+            <SubNavigation list={ROUTER_MENU_LIST[0]}/>
+            <InnerBodyContainer>
+                <div style={{position: 'relative'}}>
+                    <Header title={`바코드 기본 규칙 등록`}/>
+                </div>
+            </InnerBodyContainer>
+        </DashboardWrapContainer>
+
+    );
 }
 const FullPageDiv = Styled.div`
   width: 100%;

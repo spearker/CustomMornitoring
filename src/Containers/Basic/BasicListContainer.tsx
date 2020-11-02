@@ -202,9 +202,11 @@ export const LIST_INDEX = {
     barcode: {
         title: '바코드 표준',
         index: {
-            name: '이름',
-            type: '타입(코드)',
-            rules: '규칙',
+            barcode_name: '이름',
+            main_type: '품목(품목명)',
+            detail_type: '상세 품목',
+            barcode_number: '바코드 번호',
+            registered: '등록 날짜'
         }
     },
 }

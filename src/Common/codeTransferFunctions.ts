@@ -101,6 +101,7 @@ export const keycamcodes = [
     {code: 1, name: '촌동'},
     {code: 2, name: '안전1행정'},
     {code: 3, name: '연속'},
+    {code: 4, name: '슬라이드'}
 ]
 
 export const getMoldTypeList = (lang) => {

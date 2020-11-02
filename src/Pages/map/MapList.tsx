@@ -150,28 +150,6 @@ const MapList = () => {
 
     return (
         <MapListWrapper>
-            <button onClick={() => history.push(`/map/edit/${pk}`)}>신규 도면 등록하기</button>
-            {/*<h2>공장 목록</h2>*/}
-            {/*<CommonTable*/}
-            {/*  contents={list}*/}
-            {/*  indexList={{*/}
-            {/*    factory_pk: '고유키',*/}
-            {/*    factory_name: '공장명',*/}
-            {/*    type: '맵디자인 유형',*/}
-            {/*  }}*/}
-            {/*  idKey={'factory_pk'}*/}
-            {/*  onClickEvents={[*/}
-            {/*    {*/}
-            {/*      name: '수정 하기',*/}
-            {/*      event: onGoUpdatePage,*/}
-            {/*    },*/}
-            {/*    {*/}
-            {/*      name: '삭제',*/}
-            {/*      event: ()=>{},*/}
-            {/*    },*/}
-            {/*  ]}*/}
-
-            {/*  />*/}
             <OvertonTable title={'공장 목록'} titleOnClickEvent={titleEventList} mainOnClickEvent={onClick}
                           indexList={index} clickValue={selectValue} valueList={list} EventList={eventList}
                           noChildren={true}/>

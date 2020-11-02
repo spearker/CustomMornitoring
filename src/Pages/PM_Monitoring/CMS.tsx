@@ -12,11 +12,11 @@ const CmsMonitoring: React.FunctionComponent = () => {
     const [selectMachine, setSelectMachine] = useState<string>();
     const [selectComponent, setSelectComponent] = useState();
 
-    return(
+    return (
         <DashboardWrapContainer index={'monitoring'}>
 
             <InnerBodyContainer>
-                <div style={{position:'relative'}}>
+                <div style={{position: 'relative'}}>
                     <HeaderLive title={'전력 모니터링'} isTurn={false}/>
 
                 </div>
@@ -34,7 +34,7 @@ const CmsMonitoring: React.FunctionComponent = () => {
                             onChangeEvent={(e) => setSelectMachine(e)}
                         />)
                         // ? (<CmsPower />)
-                        : (<CmsStatistics />)
+                        : (<CmsStatistics/>)
                 }
             </InnerBodyContainer>
         </DashboardWrapContainer>

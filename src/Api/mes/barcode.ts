@@ -65,6 +65,7 @@ export const API_URLS = {
         imgDownload: `/v1/imgDownload`,
         previewImg: `/v1/previewImg`,
         detailInfo: `/v1/barcode/detailInfo`,
-        upload: `/v1/file/barcode/upload`
+        getBarcodeInfo: `/v1/barcode/getBarcodeInfo`,
+        upload: `/v1/file/barcode/upload`,
     },
 }

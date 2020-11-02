@@ -6,7 +6,6 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import HeaderLive from '../../Components/Text/HeaderLive';
 import MonitoringToggle from '../../Components/Toggle/MonitoringToggle';
 import MonitoringTabs from '../../Components/Tabs/MonitoringTabs';
-import MonitoringOptionButton from '../../Components/Button/MonitoringOptionButton';
 import MonitoringCard from '../../Components/Card/MonitoringCard';
 import SearchModalContainer from '../../Containers/SearchModalContainer';
 import SearchedList from '../../Components/List/SearchedList';

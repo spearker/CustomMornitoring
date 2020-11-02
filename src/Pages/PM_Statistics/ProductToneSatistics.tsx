@@ -4,9 +4,9 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import Container from '../../Containers/PM_Statistics/ProductTone';
 
 
-const ProductToneStatistics = ({match}:any) => {
+const ProductToneStatistics = ({match}: any) => {
 
-    const { id } = match.params;
+    const {id} = match.params;
 
     return (
         <DashboardWrapContainer index={'statistics'}>
@@ -15,12 +15,10 @@ const ProductToneStatistics = ({match}:any) => {
                 <Container/>
 
 
-
             </InnerBodyContainer>
         </DashboardWrapContainer>
     );
 }
-
 
 
 export default ProductToneStatistics;
