@@ -52,9 +52,9 @@ const MainSub = Styled.p`
 `
 
 const errorLog: DASHBOARD = {
-    press_code: '',
-    press_name: '에러로그',
-    machine_code: ''
+    iotProtocolKey: '',
+    name: '에러로그',
+    pk: ''
 }
 
 const CustomDashboardIndex: React.FunctionComponent = () => {
@@ -63,7 +63,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
 
     const goToChartPage = React.useCallback((data: DASHBOARD) => {
         try {
-            const id = data.machine_code.slice(-1)
+            const id = data.pk.slice(-1)
             history.push(`/custom/dashboard/loadton/${id}`)
         } catch (error) {
             console.log('error', error)
@@ -112,7 +112,7 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
                 <PressSelector>
                     {
                         state && state.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage}
-                                                                      key={data.machine_code}/>)
+                                                                      key={data.pk}/>)
                     }
                     <CustomIndexItem info={errorLog} goToChartPage={() => history.push('/custom/dashboard/errorLog')}/>
                 </PressSelector>

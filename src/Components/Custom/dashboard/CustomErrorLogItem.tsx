@@ -1,78 +1,78 @@
 import React from 'react'
 import Styled from "styled-components";
-import { YOUDONG_ERROR_CHART_ERROR_DATA, YOUDONG_ERROR_DASHBOARD } from "../../../Common/@types/youdong";
+import {YOUDONG_ERROR_CHART_ERROR_DATA, YOUDONG_ERROR_DASHBOARD} from "../../../Common/@types/youdong";
 
 interface Props {
-  data: YOUDONG_ERROR_DASHBOARD
+    data: YOUDONG_ERROR_DASHBOARD
 }
 
-const CustomErrorLogItem: React.FunctionComponent<Props> = ({ data }) => {
-  return (
-      <Container>
-        <div>
-          <div>
-            <PressTitle>{data.machine_name}</PressTitle>
-          </div>
-          <PressSubContainer>
+const CustomErrorLogItem: React.FunctionComponent<Props> = ({data}) => {
+    return (
+        <Container>
             <div>
-              <div>
-                <div style={{ marginBottom: 10 }}>
-                  <PressSub>기계 번호</PressSub>
+                <div>
+                    <PressTitle>{data.name}</PressTitle>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <PressSub>{data.press_code}</PressSub>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div style={{ marginBottom: 10 }}>
-                <PressSub>기계 등록 날짜</PressSub>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <PressSub>-</PressSub>
-              </div>
-            </div>
-          </PressSubContainer>
-        </div>
-        <Content>
-          <ContentTitleContainer>
-            <div style={{ width: '53%' }}>
-              <ContentTitle>에러 상태</ContentTitle>
-            </div>
-            <div style={{ width: '45%', marginLeft: 10 }}>
-              <div>
-                <ContentTitle>에러 발생 시간</ContentTitle>
-              </div>
-            </div>
-          </ContentTitleContainer>
-          <ContentContainer>
-            <div style={{ width: '100%' }}>
-              {
-                data.error_log.map((data: YOUDONG_ERROR_CHART_ERROR_DATA) => {
-                  return (
-                      <div style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        marginBottom: 28
-                      }}>
-                        <div style={{ width: '53%' }}>
-                          <ContentData>{data.type}</ContentData>
+                <PressSubContainer>
+                    <div>
+                        <div>
+                            <div style={{marginBottom: 10}}>
+                                <PressSub>기계 번호</PressSub>
+                            </div>
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <PressSub>{data.iotProtocolKey}</PressSub>
+                            </div>
                         </div>
-                        <div style={{ width: '45%' }}>
-                          <div>
-                            <ContentData>{data.created}</ContentData>
-                          </div>
+                    </div>
+                    <div>
+                        <div style={{marginBottom: 10}}>
+                            <PressSub>기계 등록 날짜</PressSub>
                         </div>
-                      </div>
-                  )
-                })
-              }
+                        <div style={{display: 'flex', justifyContent: 'center'}}>
+                            <PressSub>-</PressSub>
+                        </div>
+                    </div>
+                </PressSubContainer>
             </div>
-          </ContentContainer>
-        </Content>
-      </Container>
-  )
+            <Content>
+                <ContentTitleContainer>
+                    <div style={{width: '53%'}}>
+                        <ContentTitle>에러 상태</ContentTitle>
+                    </div>
+                    <div style={{width: '45%', marginLeft: 10}}>
+                        <div>
+                            <ContentTitle>에러 발생 시간</ContentTitle>
+                        </div>
+                    </div>
+                </ContentTitleContainer>
+                <ContentContainer>
+                    <div style={{width: '100%'}}>
+                        {
+                            data.error_log.map((data: YOUDONG_ERROR_CHART_ERROR_DATA) => {
+                                return (
+                                    <div style={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        marginBottom: 28
+                                    }}>
+                                        <div style={{width: '53%'}}>
+                                            <ContentData>{data.type}</ContentData>
+                                        </div>
+                                        <div style={{width: '45%'}}>
+                                            <div>
+                                                <ContentData>{data.created}</ContentData>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </ContentContainer>
+            </Content>
+        </Container>
+    )
 }
 
 const Container = Styled.div`

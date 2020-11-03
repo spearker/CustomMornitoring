@@ -131,7 +131,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                            return false
                                        }
                                    }}/>
-                            <label htmlFor='all' style={{backgroundColor: 'white'}}></label>
+                            <label htmlFor='all' style={{backgroundColor: 'white'}}/>
                         </div>
                         :
                         (
@@ -165,7 +165,10 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                             return (
                                                 <>
                                                     <option value={indexList[v][m]}
-                                                            style={{backgroundColor: '#111319', cursor: 'pointer'}}>{indexList[v][m]}</option>
+                                                            style={{
+                                                                backgroundColor: '#111319',
+                                                                cursor: 'pointer'
+                                                            }}>{indexList[v][m]}</option>
 
                                                 </>
                                             )
@@ -259,7 +262,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                                    className="p-limits"
                                                    onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v) : () => console.log()}
                                                 >
-                                                    {v[mv] === '' || v[mv] === null || v[mv] === null ?
+                                                    {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
                                                         ''
                                                         :
                                                         v[mv]

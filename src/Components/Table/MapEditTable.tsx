@@ -12,11 +12,7 @@ interface indexList {
 }
 
 const MapEditTable = ({indexList, valueList}: Props) => {
-
-    useEffect(() => {
-        console.log(indexList)
-    }, [])
-
+    
     return (
         <div>
             <Title>
@@ -66,9 +62,9 @@ const MapEditTable = ({indexList, valueList}: Props) => {
                                             typeof v[mv] === 'object' ?
                                                 <select className="p-limits" style={{
                                                     backgroundColor: '#353b48',
-                                                    borderColor: '#353b48'
+                                                    borderColor: '#353b48',
+                                                    marginLeft: 10
                                                 }}>
-                                                    <option value={''}>선택</option>
                                                     {
                                                         Object.keys(v[mv]).map(m => {
                                                             return (
@@ -78,15 +74,14 @@ const MapEditTable = ({indexList, valueList}: Props) => {
                                                     }
                                                 </select>
                                                 :
-                                                <p key={`td-${i}-${mv}`}
-                                                   className="p-limits"
-                                                >
-                                                    {v[mv] === '' || v[mv] === null || v[mv] === null ?
-                                                        ''
-                                                        :
-                                                        v[mv]
-                                                    }
-                                                </p>
+                                                <input key={`td-${i}-${mv}`}
+                                                       className="p-limits"
+                                                       value={v[mv] === '' || v[mv] === undefined || v[mv] === null ?
+                                                           ''
+                                                           :
+                                                           v[mv]
+                                                       }
+                                                />
 
                                         )
                                     })

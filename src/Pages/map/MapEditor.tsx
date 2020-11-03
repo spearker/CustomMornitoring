@@ -58,9 +58,11 @@ const MapEditorContiner = ({match}: Props) => {
      */
     const getFactoryList = useCallback(async () => {
 
-        const resultList = await getCommonList(API_URLS[`factory`].list + `?pk=${companyPk}`);
-        console.log(resultList);
-        setFactoryList(resultList);
+        // const resultList = await getCommonList(API_URLS[`factory`].list + `?pk=${companyPk}`);
+        // console.log('ㄷㅈㄹㄷㅈㄹㄷㅈㄹㅈㄷㄹ', resultList);
+        // const factoryList = resultList.map((fatorylist))
+        //
+        // setFactoryList(resultList);
 
     }, [factoryList, companyPk])
 
@@ -133,7 +135,7 @@ const MapEditorContiner = ({match}: Props) => {
     }, [inputData, tempMapUrl])
 
     useEffect(() => {
-        // getFactoryList();
+        getFactoryList();
         setIndex(indexList['map'])
     }, [])
 
@@ -207,7 +209,12 @@ const MapEditorContiner = ({match}: Props) => {
 
     return (
         <div>
-            <MapEditTable indexList={index} valueList={[]}/>
+            <MapEditTable indexList={index} valueList={[{
+                mapType: ['프레스 모니터링', '프레스 통계분석(넓음)', '프레스 통계분석(좁음)'],
+                factory: ['', ''],
+                component_size: '컴포넌트 사이즈 설정',
+                width_setting: '도면 너비 설정'
+            }]}/>
         </div>
         // <MapEditorWrapper>
         //     <h2>지도 이미지 에디터</h2>
