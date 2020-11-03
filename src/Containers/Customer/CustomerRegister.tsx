@@ -247,7 +247,6 @@ const CustomerRegister = ({match}: Props) => {
       if (res.status === 200) {
         // alert('성공적으로 등록 되었습니다')
 
-
         history.push('/customer/current/list')
       } else {
         //TODO:  기타 오류
@@ -269,7 +268,7 @@ const CustomerRegister = ({match}: Props) => {
 
         {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
         <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
-                           description={'사업자 번호를 입력하세요 (-제외)'} returnType={'string'}/>
+                           description={'사업자 번호를 입력하세요 (-제외)'}/>
         <br/>
         <ListHeader title="선택 항목"/>
         <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
@@ -289,12 +288,12 @@ const CustomerRegister = ({match}: Props) => {
                      description={'사업장 이메일을 입력하세요'}/>
         {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
                              description={'사업장 팩스번호를 입력하세요'}/> */}
-        <NormalNumberInput title={'사업장 대표 FAX'} value={fax} returnType={'string'}
+        <NormalNumberInput title={'사업장 대표 FAX'} value={fax}
                            onChangeEvent={setFax}
                            description={'사업장 팩스번호를 입력하세요'}/>
         <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
                      description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
-        <NormalNumberInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} returnType={'string'}
+        <NormalNumberInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
                            description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
         <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
                      description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>

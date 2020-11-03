@@ -159,7 +159,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     history.push('/custom/dashboard')
                 }}>
                     <img src={NAV_HOME}/>
-                    <p>DASHBOARD</p>
+                    <p style={{fontSize: "5pt"}}>DASHBOARD</p>
                 </div>
                 <div onClick={() => {
                     if (nav.mode !== 'pm') {
@@ -201,10 +201,10 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     <img src={NAV_MES}/>
                     <p>MES</p>
                 </div>
-                <div onClick={() => history.push('/admin/map/list')}>
-                    <img src={NAV_MES}/>
-                    <p>ADMIN</p>
-                </div>
+                {/*<div onClick={() => history.push('/admin/map/list')}>*/}
+                {/*    <img src={NAV_MES}/>*/}
+                {/*    <p>ADMIN</p>*/}
+                {/*</div>*/}
 
                 {/*<div onClick={() => history.push('/pm2/dashboard')} >*/}
                 {/*  <img src={NAV_PRESS} />*/}

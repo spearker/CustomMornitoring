@@ -264,7 +264,6 @@ const BasicMachineRegister = () => {
         // //alert('요청을 처리 할 수 없습니다.')
       }
     }
-
   }, [pk, made, madeNo, volt, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory])
 
 

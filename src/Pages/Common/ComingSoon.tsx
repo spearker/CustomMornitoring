@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import 'react-dropdown/style.css'
 import styled from 'styled-components'
-import { POINT_COLOR } from '../../Common/configset'
+import {POINT_COLOR} from '../../Common/configset'
 
 
 const ComingSoon = () => {

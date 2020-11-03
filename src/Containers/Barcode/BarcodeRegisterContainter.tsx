@@ -22,6 +22,7 @@ import {getReadyTimeData} from '../../Api/pm/statistics'
 import {getParameter} from '../../Common/requestFunctions'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import BarcodePickerModal from "../../Components/Modal/BarcodePickerModal";
 
 
 const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트']
@@ -56,7 +57,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
 
     const [rules, setRules] = useState<string[]>([''])
     const [inputData, setInputData] = useObjectInput('CHANGE', initialData)
-
+    const [selectBarcode, setSelectBarcode] = useState<{ name?: string, pk?: string }>()
     const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
 
     const getBarcodeImg = useCallback(async () => {
@@ -67,15 +68,29 @@ const BarcodeRegisterContainer = ({match}: Props) => {
         setBarcodeImg(`${SF_ENDPOINT}/api/v1/barcode/previewImg?barcode_img_name=` + resultData.barcode_photo)
     }, [rules, barcodeImg])
 
-    const getLoad = useCallback(async () => {
-        const tempUrl = `${API_URLS['barcode'].detailInfo}?barcode_pk=${match.params.barcode_pk}`
+    const getLoad = useCallback(async (barcode_pk) => {
+        const tempUrl = `${API_URLS['barcode'].getBarcodeInfo}?pk=${barcode_pk}`
         const resultData = await getBarcode(tempUrl)
 
         setType(indexList.indexOf(resultData.main_type))
         setInputData('barcode_name', resultData.barcode_name)
         setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
         setRules(resultData.barcode_number.split(','))
+        setReason(resultData.description)
+
+    }, [inputData, rules, barcodeImg, reason, type, selectMachine])
+
+
+    const getData = useCallback(async () => {
+        const tempUrl = `${API_URLS['barcode'].detailInfo}?pk=${match.params.barcode_pk}`
+        const resultData = await getBarcode(tempUrl)
+
+        setType(indexList.indexOf(resultData.main_type))
+        setInputData('barcode_name', resultData.barcode_name)
         setBarcodeImg(resultData.barcode_img_url)
+        setSelectBarcode({name: resultData.barcode_name, pk: resultData.pk})
+        setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
+        setRules(resultData.barcode_number.split(','))
         setReason(resultData.description)
 
     }, [inputData, rules, barcodeImg, reason, type, selectMachine])
@@ -83,14 +98,10 @@ const BarcodeRegisterContainer = ({match}: Props) => {
     const postBarcodeUpdate = useCallback(async () => {
 
         const data = {
-            barcode_pk: match.params.barcode_pk,
-            barcode_name: inputData.barcode_name,
-            item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
-            item_pk: selectMachine?.pk,
+            pk: match.params.barcode_pk,
             barcode_type: 'barcode',
             barcode_number: rules.toString(),
             barcode_img_name: barcodeImg.split('=')[1],
-            description: reason
         }
 
         const tempUrl = `${API_URLS['barcode'].update}`
@@ -118,13 +129,10 @@ const BarcodeRegisterContainer = ({match}: Props) => {
         }
 
         const data = {
-            barcode_name: inputData.barcode_name,
-            item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
-            item_pk: selectMachine?.pk,
+            pk: selectBarcode?.pk,
             barcode_type: 'barcode',
             barcode_number: rules.toString(),
             barcode_img_name: barcodeImg.split('=')[1],
-            description: reason === '' ? null : reason
         }
         const tempUrl = `${API_URLS['barcode'].register}`
         const resultData = await postBarcode(tempUrl, data)
@@ -145,23 +153,26 @@ const BarcodeRegisterContainer = ({match}: Props) => {
         if (match.params.barcode_pk) {
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
-            getLoad()
+            getData()
         }
 
     }, [])
 
     useEffect(() => {
-        console.log(selectMachine)
-    }, [selectMachine])
+        if (selectBarcode?.pk !== undefined) {
+            getLoad(selectBarcode?.pk)
+        }
+    }, [selectBarcode])
 
     return (
         <div>
             <Header title={isUpdate ? '바코드 수정' : '바코드 등록'}/>
             <WhiteBoxContainer>
                 <div>
-                    <NormalInput title={'바코드 명'} value={inputData.barcode_name}
-                                 onChangeEvent={(e) => setInputData('barcode_name', e)}
-                                 description={'바코드 이름을 입력해주세요.'}/>
+                    <InputContainer title={'표준 바코드'}>
+                        <BarcodePickerModal select={selectBarcode} onClickEvent={(e) => setSelectBarcode(e)}
+                                            text={'바코드를 선택해주세요'}/>
+                    </InputContainer>
                     <DropdownInput title={'바코드 종류'} target={indexBarcodeType[0]} contents={indexBarcodeType}
                                    onChangeEvent={(input) => setInputData(`barcode_type`, BarcodeType[0])}/>
                     <DropdownInput title={'항목'} target={indexList[type]} contents={indexList}
@@ -169,43 +180,6 @@ const BarcodeRegisterContainer = ({match}: Props) => {
                     <CustomPickerModal select={selectMachine} onClickEvent={(e) => setSelectMachine(e)}
                                        text={'세부 항목을 검색해주세요.'}
                                        type={indexType[type]}/>
-                    {
-                        rules.length > 0 && rules[0] !== null &&
-                        <>
-                            <BarcodeText><br/><span>현재 규칙</span><br/>{rules.map(v => {
-                                if (v !== null) return v + `-`
-                            }).join().replace(/,/g, '')}</BarcodeText>
-                            <p style={{
-                                textAlign: 'center',
-                                color: (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? 'black' : 'red'
-                            }}>{(Number(ruleLength) > 11 && Number(ruleLength) < 31) ? '사용 할 수 있는 바코드 규칙입니다.' : '자리수는 12자 이상 30자 이하로 가능합니다.'}</p>
-                        </>
-                    }
-                    <FullAddInput title={'바코드 규칙'} onChangeEvent={() => {
-                        let temp = _.cloneDeep(rules)
-                        temp.push('')
-                        setRules(temp)
-                    }}>
-
-                        {
-                            rules.map((v, i) => {
-                                return (
-                                    <BarcodeRulesInput title={`· 바코드 규칙 ${i + 1}`} value={v}
-                                                       onRemoveEvent={() => {
-                                                           let temp = _.cloneDeep(rules)
-                                                           temp.splice(i, 1)
-                                                           setRules(temp)
-                                                       }}
-                                                       onChangeEvent={(input) => {
-                                                           let temp = _.cloneDeep(rules)
-                                                           temp.splice(i, 1, input)
-                                                           setRules(temp)
-                                                       }}
-                                    />
-                                )
-                            })
-                        }
-                    </FullAddInput>
                     <InputContainer title={'바코드 번호'}>
                         <BodyDiv>
                             <InputWrapBox>
@@ -248,19 +222,24 @@ const BarcodeRegisterContainer = ({match}: Props) => {
                     </div>
                     <ListHeader title="선택 항목"/>
                     <InputContainer title={'바코드 설명'} width={180}>
-              <textarea maxLength={120} ref={textBoxRef} onChange={(e) => setReason(e.target.value)} value={reason}
-                        style={{border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)'}}
-                        placeholder="내용을 입력해주세요 (80자 미만)"/>
+                      <textarea maxLength={120} ref={textBoxRef}
+                                disabled={true}
+                                value={reason}
+                                style={{
+                                    backgroundColor: "white",
+                                    border: 0,
+                                    fontSize: 14,
+                                    padding: 12,
+                                    height: '70px',
+                                    width: 'calc(100% - 124px)'
+                                }}
+                                placeholder="바코드 설명"/>
                     </InputContainer>
                 </div>
                 <div style={{marginTop: 72, marginLeft: 330}}>
                     {isUpdate ?
                         <ButtonWrap onClick={async () => {
-                            try {
-                                await postBarcodeUpdate()
-                            } catch (error) {
-                                alert('새로운 바코드 규칙을 변경해주시고 바코드 번호를 생성해주세요.')
-                            }
+                            await postBarcodeUpdate()
                         }}>
                             <div style={{width: 360, height: 46}}>
                                 <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
@@ -282,104 +261,104 @@ const BarcodeRegisterContainer = ({match}: Props) => {
 }
 
 const ContainerMain = Styled.div`
-    width: 1060px;
-    height: 827px;
-    border-radius: 6px;
-    background-color: white;
-    padding: 35px 20px 0 20px;
-    .title {
-        font-size: 18px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        color: #19b8df;
-        text-align: left;
-    }
-    table{
-        width: 100%;
-        height: 100%;
-        margin-top: 35px;
-    }
-    td{
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        font-size: 15px;
-        input{
-            padding-left: 8px;
-            font-family: NotoSansCJKkr;
-            height: 28px;
-            border: 0.5px solid #b3b3b3;
-            width: calc( 100% - 8px );
-            background-color: #f4f6fa;
-            font-size: 15px;
-            &::placeholder:{
-                color: #b3b3b3;
-            };
-        }
-        &:first-child{
-            width: 133px;
-            text-align: left;
-        }
-    }
-    tr{
-        height: 65px;
-    }
+width: 1060px;
+height: 827px;
+border-radius: 6px;
+background-color: white;
+padding: 35px 20px 0 20px;
+.title {
+font-size: 18px;
+font-family: NotoSansCJKkr;
+font-weight: bold;
+color: #19b8df;
+text-align: left;
+}
+table{
+width: 100%;
+height: 100%;
+margin-top: 35px;
+}
+td{
+font-family: NotoSansCJKkr;
+font-weight: bold;
+font-size: 15px;
+input{
+padding-left: 8px;
+font-family: NotoSansCJKkr;
+height: 28px;
+border: 0.5px solid #b3b3b3;
+width: calc( 100% - 8px );
+background-color: #f4f6fa;
+font-size: 15px;
+&::placeholder:{
+color: #b3b3b3;
+};
+}
+&:first-child{
+width: 133px;
+text-align: left;
+}
+}
+tr{
+height: 65px;
+}
 `
 
 const SearchButton = Styled.button`
-    width: 32px;
-    height: 32px;
-    background-color: ${POINT_COLOR};
-    border: 1px solid #b3b3b3;
+width: 32px;
+height: 32px;
+background-color: ${POINT_COLOR};
+border: 1px solid #b3b3b3;
 `
 
 const ButtonWrap = Styled.button`
-    padding: 4px 12px 4px 12px;
-    border-radius: 5px;
-    color: black;
-    background-color: ${POINT_COLOR};
-    border: none;
-    font-weight: bold;
-    font-size: 13px;
-    img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
-    }
+padding: 4px 12px 4px 12px;
+border-radius: 5px;
+color: black;
+background-color: ${POINT_COLOR};
+border: none;
+font-weight: bold;
+font-size: 13px;
+img {
+margin-right: 7px;
+width: 14px;
+height: 14px;
+}
 `
 
 const ProcessAddButton = Styled.button`
 `
 
 const InputText = Styled.p`
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
+color: #b3b3b3;
+font-size: 15px;
+text-align: left;
+vertical-align: middle;
+font-weight: regular;
 `
 
 const BodyDiv = Styled.div`
-    font-size: 14px;
-    width: calc(100% - 190px);
-    padding: 0px;
+font-size: 14px;
+width: calc(100% - 190px);
+padding: 0px;
 `
 const InputWrapBox = Styled.div`
-    font-size: 14px;
-    width: 100%;
-    display: flex;
-    background-color: #f4f6fa;
+font-size: 14px;
+width: 100%;
+display: flex;
+background-color: #f4f6fa;
 `
 
 const BarcodeText = Styled.p`
-  text-align: center;
-  color: #555555;
-  font-size: 16px;
-  span{
-    font-weight: bold;
-    font-size: 13px;
-    padding-top: 14px;
-    color: #252525;
-  }
+text-align: center;
+color: #555555;
+font-size: 16px;
+span{
+font-weight: bold;
+font-size: 13px;
+padding-top: 14px;
+color: #252525;
+}
 `
 
 

@@ -167,6 +167,9 @@ const WipContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
+        if (pk === null) {
+            return
+        }
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
 

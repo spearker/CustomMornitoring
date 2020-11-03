@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import 'react-dropdown/style.css'
 import IMG from '../../Assets/Images/lion.png'

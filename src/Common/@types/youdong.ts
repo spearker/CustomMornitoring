@@ -18,7 +18,7 @@ export interface YOUDONG_ERROR_CHART_ERROR_DATA {
 export interface DASHBOARD {
     press_code: string
     press_name: string
-    machine_keycode: string
+    machine_code: string
 }
 
 export interface CHART_DRAW_TYPE {
