@@ -208,24 +208,24 @@ const CustomerRegister = ({match}: Props) => {
   const onsubmitForm = useCallback(async () => {
     console.log(infoList)
     ////alert(JSON.stringify(infoList))
-    console.log(JSON.stringify(infoList))
-    if (name === '') {
+    console.log(JSON.stringify(infoList), no)
+    if (name.trim() === '') {
       alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (ceo === '') {
+    } else if (ceo.trim() === '') {
       alert('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (String(no) === '') {
+    } else if (no === undefined && String(no) === '') {
       alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
       return
     }
 
     const data = {
 
-      name: name,
+      name: name.trim(),
       number: no,
       type: type,
-      ceo_name: ceo,
+      ceo_name: ceo.trim(),
       photo: paths[0],
       telephone: phone === undefined ? null : phone,
       ceo_email: (email === '' || !email) ? null : email.trim(),
@@ -267,7 +267,7 @@ const CustomerRegister = ({match}: Props) => {
                     contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
 
         {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
-        <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
+        <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} returnType={'string'}
                            description={'사업자 번호를 입력하세요 (-제외)'}/>
         <br/>
         <ListHeader title="선택 항목"/>
@@ -281,19 +281,19 @@ const CustomerRegister = ({match}: Props) => {
             :
             null
         }
-        <NormalNumberInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone}
+        <NormalNumberInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} returnType={'string'}
                            description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
         <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
         <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
                      description={'사업장 이메일을 입력하세요'}/>
         {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
                              description={'사업장 팩스번호를 입력하세요'}/> */}
-        <NormalNumberInput title={'사업장 대표 FAX'} value={fax}
+        <NormalNumberInput title={'사업장 대표 FAX'} value={fax} returnType={'string'}
                            onChangeEvent={setFax}
                            description={'사업장 팩스번호를 입력하세요'}/>
         <NormalInput title={'담당자 이름'} value={manager} onChangeEvent={setManager}
                      description={'사업장 담당자(관리자) 이름을 입력하세요'}/>
-        <NormalNumberInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM}
+        <NormalNumberInput title={'담당자 연락처'} value={phoneM} onChangeEvent={setPhoneM} returnType={'string'}
                            description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
         <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
                      description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
