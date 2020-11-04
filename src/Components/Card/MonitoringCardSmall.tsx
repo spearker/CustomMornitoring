@@ -54,8 +54,6 @@ const MonitoringCardSmall = ({contents, isOpen, optionList, onClickEvent}: Props
 
   return (
     <WrapDiv>
-            
-
       <BgDiv>
         <NavDiv>
           <StatusDiv>{changeStatusToString(contents.operation)}</StatusDiv>
@@ -68,8 +66,10 @@ const MonitoringCardSmall = ({contents, isOpen, optionList, onClickEvent}: Props
           <img src={!contents.is_connected ? icCloudOff : icCloudOn}
                style={{width: 21, cursor: 'pointer', float: 'right', paddingTop: 7, marginRight: 11}}/>
         </NavDiv>
-        <DownloadButton href={contents.file !== undefined ? contents.file : ''}
-                        target="_blank">설명서다운로드</DownloadButton>
+        {/*
+          <DownloadButton href={contents.file !== undefined ? contents.file : ''}
+                      target="_blank">설명서다운로드</DownloadButton>
+        */}
         <ErrorText>{contents.operation === 0 ? contents.info_list.find(v => v.title === 903)?.value : ''}&nbsp;</ErrorText>
         <TimeDiv>
           {contents.running_time !== undefined &&
