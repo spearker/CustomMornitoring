@@ -125,7 +125,7 @@ const OutsourcingRegister = ({match}: any) => {
                 setType(data.type)
                 setPk(data.pk)
                 setCeo(data.ceo_name)
-                setOldPaths([data.photo_url])
+                setPaths([data.photo_url === '-' ? null : data.photo_url])
                 setPhone(data.telephone)
                 setEmailM(data.manager_email)
                 setPhoneM(data.manager_phone)
@@ -188,7 +188,7 @@ const OutsourcingRegister = ({match}: any) => {
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
-        };
+        }
 
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
 
@@ -287,7 +287,7 @@ const OutsourcingRegister = ({match}: any) => {
                                  description={isUpdate ? paths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}/>
                 {
                     isUpdate ?
-                        <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
+                        <OldFileInput title={'기존 첨부 파일'} urlList={paths} nameList={['']} isImage={true}/>
                         :
                         null
                 }

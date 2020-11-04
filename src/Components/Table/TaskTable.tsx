@@ -151,11 +151,11 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent, buttonName}: IPr
             <table>
                 <tbody>
                 <tr>
-                    <td>작업상태</td>
+                    <td>작업 현황</td>
                     <td>제목</td>
-                    <td>제품명</td>
-                    <td>생산목표량</td>
-                    <td>공정</td>
+                    <td>품목(품목명)</td>
+                    <td>생산 목표량</td>
+                    <td>공정명</td>
                     <td>작업자</td>
                     {/*<td>댓글</td>*/}
 

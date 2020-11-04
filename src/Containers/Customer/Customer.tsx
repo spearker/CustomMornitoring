@@ -44,7 +44,7 @@ const ClientContainer = () => {
   }
 
   const allCheckOnClick = useCallback((list) => {
-    let tmpPk: string[] = []
+    let mySet: Set<string> = new Set<string>()
 
     {
       list.length === 0 ?
@@ -54,16 +54,16 @@ const ClientContainer = () => {
           arrayDelete()
 
           if (deletePk.pk.indexOf(v.pk) === -1) {
-            tmpPk.push(v.pk)
+            mySet.add(v.pk)
           }
 
-          tmpPk.map((vi, index) => {
+          mySet.forEach((vi) => {
             if (deletePk.pk.indexOf(v.pk) === -1) {
               deletePk.pk.push(vi)
             }
           })
 
-          if (tmpPk.length < deletePk.pk.length) {
+          if (mySet.size < deletePk.pk.length) {
             deletePk.pk.shift()
           }
 

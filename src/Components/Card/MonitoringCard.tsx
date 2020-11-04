@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB} from '../../Common/configset'
 import icCloudOn from '../../Assets/Images/ic_cloud.png'
 import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
 import IC_UP from '../../Assets/Images/ic_monitoring_close.png'
 import IC_DOWN from '../../Assets/Images/ic_monitoring_open.png'
-import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunctions';
-import {transferCodeToName} from '../../Common/codeTransferFunctions';
+import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunctions'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
 
 
 interface Props {
@@ -27,7 +27,7 @@ const MonitoringCard = ({contents, isOpen, optionList, onClickEvent}: Props) => 
 
     const StatusDiv = Styled.p`
     height: 100%;
-    color: white;
+    color: black;
     padding: 6px 11px 6px 11px;
     display: inline-block;
     border-radius: 5px;
@@ -75,11 +75,15 @@ const MonitoringCard = ({contents, isOpen, optionList, onClickEvent}: Props) => 
 
                 <img src={!isOpen ? IC_DOWN : IC_UP} onClick={onClickEvent}
                      style={{width: 20, cursor: 'pointer', float: 'right', paddingTop: 7, marginRight: 11}}/>
-                <img src={!contents.is_connect ? icCloudOff : icCloudOn}
-                     style={{width: 21, cursor: 'pointer', float: 'right', paddingTop: 7, marginRight: 11}}/>
+                <img src={!contents.is_connected ? icCloudOff : icCloudOn}
+                     style={{width: 21, float: 'right', paddingTop: 7, marginRight: 11}}/>
             </NavDiv>
-            <DownloadButton href={contents.file !== undefined ? contents.file : ''}
-                            target="_blank">설명서다운로드</DownloadButton>
+            {contents.file !== undefined ?
+                <DownloadButton href={contents.file}
+                                target="_blank">설명서다운로드</DownloadButton>
+                :
+                <DownloadButton target="_blank">설명서다운로드</DownloadButton>
+            }
             <ErrorText>{contents.operation !== 0 && !contents.error ?
                 <span style={{color: '#717c90'}}>에러 정보가 없습니다.</span> : contents.error} </ErrorText>
             <BodyDiv>
@@ -119,7 +123,10 @@ const MonitoringCard = ({contents, isOpen, optionList, onClickEvent}: Props) => 
                                             marginTop: 4
                                         }}>{transferCodeToName('title', v.title)}</p>
                                         <ValueText className="p-limits"
-                                                   style={String(v.value).length > 3 ? {fontSize: 22} : {fontSize: 27}}>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value}</ValueText>
+                                                   style={String(v.value).length > 3 ? {fontSize: 22} : v.value === 2 ? {
+                                                       fontSize: 15,
+                                                       marginTop: 20
+                                                   } : {fontSize: 27}}>{v.value === '' ? '-' : v.title === 113 ? transferCodeToName('keycam', v.value) : v.value}</ValueText>
                                         <p style={{
                                             fontSize: 12,
                                             marginBottom: 6,
@@ -134,7 +141,7 @@ const MonitoringCard = ({contents, isOpen, optionList, onClickEvent}: Props) => 
 
             </BodyDiv>
         </WrapDiv>
-    );
+    )
 }
 
 
@@ -208,4 +215,4 @@ const DownloadButton = Styled.a`
   margin-right: 11px;
 `
 
-export default MonitoringCard;
+export default MonitoringCard

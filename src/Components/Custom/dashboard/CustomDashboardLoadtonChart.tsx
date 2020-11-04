@@ -45,7 +45,9 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                             })
                         }
                     } else {
-                        getYoudongCustomDashboardData()
+                        setTimeout(() => {
+                            getYoudongCustomDashboardData()
+                        }, 1000)
                     }
                 }
             } catch (error) {
