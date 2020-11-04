@@ -139,19 +139,19 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
 
   }, [selectFactory, facotories])
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (mapType === 'cms' && selectFactory.pk !== '') {
       const interval = setInterval(() => {
-        getMapData(selectFactory.pk);
-        console.log("반복중....", selectFactory.pk)
+        getMapData(selectFactory.pk)
+        console.log('반복중....', selectFactory.pk)
       }, 3000)
       return () => {
         console.log('-- monitoring end -- ')
-        clearTimeout(interval);
+        clearTimeout(interval)
         //setTimer(null)
-      };
+      }
     }
-  }, [ selectFactory ]) */
+  }, [selectFactory])
 
 
   useEffect(() => {
