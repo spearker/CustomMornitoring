@@ -1,6 +1,6 @@
 import React from 'react'
 import Styled from 'styled-components'
-import { DASHBOARD } from '../../../Common/@types/youdong'
+import {DASHBOARD} from '../../../Common/@types/youdong'
 
 
 interface Props {
@@ -37,10 +37,10 @@ const Title = Styled.h2`
   color: #ffffff;
 `
 
-const CustomIndexItem: React.FunctionComponent<Props> = ({ info, goToChartPage }) => {
+const CustomIndexItem: React.FunctionComponent<Props> = ({info, goToChartPage}) => {
     return (
         <Container onClick={() => goToChartPage(info)}>
-            <Title>{info.press_name}</Title>
+            <Title>{info.name}</Title>
         </Container>
     )
 }

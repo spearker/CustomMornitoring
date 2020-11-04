@@ -1,43 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import InnerBodyContainer from '../../../Containers/InnerBodyContainer'
 import Styled from 'styled-components'
 import CustomLoadTon from '../loadton/CustomLoadTonCard'
 import CustomMainMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart'
 import CustomSlideMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart'
 import getYoodongDashboard from '../../../Api/custom/getYoodongDashboard'
-import { YOUDONG_PRESS_CUSTOM_TYPE } from '../../../Common/@types/youdong'
+import {YOUDONG_PRESS_CUSTOM_TYPE} from '../../../Common/@types/youdong'
 import CustomMonitoringCard from '../loadton/CustomMonitoringCard'
 import Modal from 'react-modal'
-import { RotateSpinner } from 'react-spinners-kit'
-import { useHistory } from 'react-router-dom'
+import {RotateSpinner} from 'react-spinners-kit'
+import {useHistory} from 'react-router-dom'
 
 interface Props {
     id: string
 }
 
-const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => {
+const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
     const [isFirst, setIsFirst] = React.useState({
         loading: true,
         api: true
     })
     const [data, setData] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
-    const [tonnageLimit, setTonnageLimit] = React.useState<number>()
-    const [currentLocation, setCurrentLocation] = React.useState<string | number>()
+    const [tonnageLimit, setTonnageLimit] = useState<number>()
 
     const history = useHistory()
 
     const getYoudongCustomDashboardData = async () => {
-        if(id) {
+        if (id) {
             try {
                 const response = await getYoodongDashboard(id, isFirst.api)
 
-                if(response !== null) {
-                    if(response.status === 401) {
+                if (response !== null) {
+                    if (response.status === 401) {
                         return history.push('/login?type=back')
-                    } else if(response.status === 200) {
+                    } else if (response.status === 200) {
                         setData(response.data)
 
-                        if(isFirst.api) {
+                        if (isFirst.api) {
                             setTonnageLimit(response.data.loadton_data.tonnage_limit)
 
                             setIsFirst({
@@ -45,6 +44,10 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                                 api: false
                             })
                         }
+                    } else {
+                        setTimeout(() => {
+                            getYoudongCustomDashboardData()
+                        }, 1000)
                     }
                 }
             } catch (error) {
@@ -54,40 +57,21 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
     }
 
     useEffect(() => {
-        const url = window.location.href
         const documentEvent: any = document
-
-        setCurrentLocation(url.split('loadton/')[1])
 
         documentEvent.body.style.zoom = .7
     }, [])
 
 
     useEffect(() => {
-        const url = window.location.href
-
-        if(url.split('loadton/')[1] === currentLocation || !data) {
-            const interval = () => getYoudongCustomDashboardData().then((res: any) => {
-                if(res.status === 200) {
-                    interval()
-                } else {
-                    setTimeout(() => {
-                        interval()
-                    }, 3000)
-                }
-            }).catch(err => {
-                setTimeout(() => {
-                    interval()
-                }, 2000)
-            })
-
-            interval()
-        }
+        setTimeout(() => {
+            getYoudongCustomDashboardData()
+        }, 1000)
     }, [data])
 
     const Header = () => {
         return (
-            <div style={{ paddingTop: 50, paddingLeft: 10, marginBottom: 20 }}>
+            <div style={{paddingTop: 50, paddingLeft: 10, marginBottom: 20}}>
                 <div style={{
                     width: '100%',
                     height: '100%',
@@ -96,7 +80,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                     alignItems: 'center'
                 }}>
                     <TitleText
-                        style={{ fontSize: 72 }}>{data ? data.press_data.machine_name + `(${tonnageLimit}t)` : '-'}</TitleText>
+                        style={{fontSize: 72}}>{data ? data.press_data.name + `(${tonnageLimit}t)` : '-'}</TitleText>
                 </div>
             </div>
         )
@@ -114,7 +98,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                 width: '70%',
                 opacity: .8,
                 marginBottom: 5,
-                ...containerStyle
+                ...containerStyle,
             }}>
                 <p style={{
                     textAlign: 'left',
@@ -135,8 +119,8 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
     }
 
     const overTonCheck = () => {
-        if(tonnageLimit) {
-            if(data) {
+        if (tonnageLimit) {
+            if (data) {
                 return data.loadton_data.total_ton > tonnageLimit ? tonnageLimit : 0
             } else {
                 return false
@@ -154,15 +138,15 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                 left: '17%',
                 width: 900,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
             }}>
-                {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', { opacity: overTonCheck() ? 1 : .9 }, { fontSize: 72 }, overTonCheck() ? '#ed4337' : 'white')}
-                {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', { marginBottom: 20 }, { fontSize: 48 }, 'white')}
-                {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, { fontSize: 48 }, 'white')}
+                {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', {opacity: overTonCheck() ? 1 : .9}, {fontSize: 72}, overTonCheck() ? '#ed4337' : 'white')}
+                {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', {marginBottom: 20}, {fontSize: 48}, 'white')}
+                {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, {fontSize: 48}, 'white')}
                 {standardInfItem('일량', data ? data.loadton_data.press_power + 'kgf.m' : '-', {
                     opacity: 1,
                     marginTop: 20
-                }, { fontSize: 84 })}
+                }, {fontSize: 84})}
             </div>
         )
     }
@@ -173,8 +157,8 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             opacity: '.7'
         }
 
-        if(data) {
-            if(data.press_data.error_code.code !== '0')
+        if (data) {
+            if (data.press_data.error_code.code !== '0')
                 style = {
                     color: '#ed4337',
                     opacity: '1'
@@ -222,22 +206,22 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
             }}>
                 {Header()}
                 <ItemBox>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{display: 'flex'}}>
                         <div style={{
                             width: '13%',
                             paddingTop: 60,
                             paddingLeft: 20,
                             display: 'flex',
-                            flexDirection: 'column'
+                            flexDirection: 'column',
                         }}>
                             <div style={{
                                 marginBottom: 110,
                                 wordBreak: 'break-all'
                             }}>
-                                <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                                <div style={{textAlign: 'center', marginBottom: 20}}>
                                     <Title>에러코드</Title>
                                 </div>
-                                <div style={{ textAlign: 'center' }}>
+                                <div style={{textAlign: 'center'}}>
                                     <SubTitle
                                         style={errorCodeFilter()}>{data ? data.press_data.error_code.code === '0' ? '-' : data?.press_data.error_code.type : '-'}</SubTitle>
                                 </div>
@@ -252,21 +236,21 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({ id }) => 
                                 }}>
                                     <CustomMainMotorAngulargaugeChart value={data?.press_data.main_motor_current}/>
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'center', height: 300 }}>
+                                <div style={{display: 'flex', justifyContent: 'center', height: 300,}}>
                                     <CustomSlideMotorAngulargaugeChart value={data?.press_data.slide_motor_current}/>
                                 </div>
                             </div>
                         </div>
                         <div style={{
-                            width: '70%'
+                            width: '70%',
                         }}>
                             <CustomLoadTon color={0} propData={data ? data.loadton_data : undefined}
                                            overTonCheck={overTonCheck}
-                                           styles={{ width: '100%', height: '50%' }}
+                                           styles={{width: '100%', height: '50%'}}
                                            tonnage_limit={tonnageLimit ? tonnageLimit : 0}/>
                             {standardInfo()}
                         </div>
-                        <div style={{ width: '13%' }}>
+                        <div style={{width: '13%',}}>
                             <CustomMonitoringCard contents={data && data.press_data}/>
                         </div>
                     </div>

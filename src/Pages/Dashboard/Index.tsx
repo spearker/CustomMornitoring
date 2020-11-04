@@ -14,7 +14,7 @@ import {getRequest, postRequest} from '../../Common/requestFunctions'
 import {getToken} from '../../Common/tokenFunctions'
 import TaskTable from '../../Components/Table/TaskTable'
 import StatusCard2 from '../../Components/Card/StatusCard2'
-import {changeStatusToColor} from '../../Common/statusFunctions'
+import {changeDashboardStatusToColor, changeStatusToColor} from '../../Common/statusFunctions'
 
 interface IWeekInfo {
     date: string,
@@ -301,15 +301,8 @@ const Dashboard = () => {
                 </div>
                 {/* 작업내역  */}
                 <div style={{width: '100%', marginTop: 44, textAlign: 'left', marginBottom: 10}}>
-                    <SubHeader title={'작업지시서 내역 '}/>
+                    <SubHeader title={'생산 계획 내역'}/>
                     <span> </span>
-                    <FilterButton onClick={() => setTaskFilter(1000)}
-                                  style={{backgroundColor: changeStatusToColor(1000)}}>전체</FilterButton>
-                    <FilterButton onClick={() => setTaskFilter(11)}
-                                  style={{backgroundColor: changeStatusToColor(11)}}>진행</FilterButton>
-                    <FilterButton onClick={() => setTaskFilter(10)}
-                                  style={{backgroundColor: changeStatusToColor(10)}}>완료</FilterButton>
-                    {/*<FilterButton onClick={()=>setTaskFilter('share')} style={{backgroundColor: changeStatusToColor('share')}}>공유</FilterButton>*/}
                     {/*<FilterButton onClick={()=>setTaskFilter('ready')} style={{backgroundColor: changeStatusToColor('ready')}}>대기</FilterButton>*/}
 
                     <div style={{display: 'inline-block', float: 'right',}}>
@@ -319,6 +312,14 @@ const Dashboard = () => {
                         {/*</div>*/}
                     </div>
                     <div style={{marginTop: 12}}>
+                        <FilterButton onClick={() => setTaskFilter(1000)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(1000)}}>전체</FilterButton>
+                        <FilterButton onClick={() => setTaskFilter(11)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(11)}}>진행</FilterButton>
+                        <FilterButton onClick={() => setTaskFilter(10)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(10)}}>완료</FilterButton>
+                        <FilterButton onClick={() => setTaskFilter(16)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(16)}}>공유</FilterButton>
                         <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기'
                                    contents={taskFilter === 1000 ? taskList : taskList.filter(f => f.status === taskFilter)}
                                    onClickEvent={onClickTaskStatus}/>
@@ -350,14 +351,13 @@ const NullBox = Styled.div`
 `
 
 const FilterButton = Styled.div`
-  padding: 7px 18px;
+  padding: 4px 20px;
   font-size: 15px;
   font-weight: bold;
-
+  color: black;
   display: inline-block;
-  border-radius: 4px;
-  margin-left: 10px;
-
-
+  border-radius: 6px;
+  margin-right: 10px;
+  margin-bottom: 12px;
 `
 export default Dashboard

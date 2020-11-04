@@ -5,8 +5,8 @@ export interface YOUDONG_PRESS_CUSTOM_TYPE {
 }
 
 export interface YOUDONG_ERROR_DASHBOARD {
-    machine_name: string
-    press_code: string
+    name: string
+    iotProtocolKey: string
     error_log: YOUDONG_ERROR_CHART_ERROR_DATA[]
 }
 
@@ -16,9 +16,9 @@ export interface YOUDONG_ERROR_CHART_ERROR_DATA {
 }
 
 export interface DASHBOARD {
-    press_code: string
-    press_name: string
-    machine_code: string
+    iotProtocolKey: string
+    name: string
+    pk: string
 }
 
 export interface CHART_DRAW_TYPE {
@@ -28,7 +28,7 @@ export interface CHART_DRAW_TYPE {
 
 
 export interface YOUDONG_PRESS_DATA_TYPE {
-    machine_name: string
+    name: string
     press_state: string
     slide_motor_current: number
     error_code: {
@@ -37,7 +37,7 @@ export interface YOUDONG_PRESS_DATA_TYPE {
     }
     main_motor_current: number,
     preset_count: string
-    press_code: string
+    iotProtocolKey: string
     press_spm: string
     UPH: string
     electric_power: string
