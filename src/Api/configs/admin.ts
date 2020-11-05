@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {getToken} from '../../Common/tokenFunctions'
 import {TOKEN_NAME} from '../../Common/configset'
+import {SF_ENDPOINT_ADMIN} from '../SF_endpoint'
 
 /**
  *
@@ -10,7 +11,7 @@ import {TOKEN_NAME} from '../../Common/configset'
  */
 const client = axios.create()
 
-client.defaults.baseURL = 'http://112.168.150.239:8286/api'
+client.defaults.baseURL = SF_ENDPOINT_ADMIN
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME)
 
