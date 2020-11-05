@@ -76,7 +76,7 @@ const chartOption = {
 const PowerContainer = () => {
   const dispatchp = usePopupDispatch()
 
-  const [data, setData] = useState<{ name: string, data: number[] }[]>([{name: '1', data: [1]}])
+  const [data, setData] = useState<{ name: string, data: number[] }[]>()
   const [pk, setPk] = useState()
 
   const [selectDate, setSelectDate] = useState({
@@ -84,7 +84,7 @@ const PowerContainer = () => {
     end: moment().subtract(1, 'days').format('YYYY-MM-DD')
   })
   const [selectType, setSelectType] = useState([true])
-  const [labels, setLabels] = useState([123123])
+  const [labels, setLabels] = useState()
 
   // let chart = new ApexCharts(el,)
 
