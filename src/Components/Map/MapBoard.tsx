@@ -139,19 +139,19 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
 
   }, [selectFactory, facotories])
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (mapType === 'cms' && selectFactory.pk !== '') {
       const interval = setInterval(() => {
-        getMapData(selectFactory.pk);
-        console.log("반복중....", selectFactory.pk)
+        getMapData(selectFactory.pk)
+        console.log('반복중....', selectFactory.pk)
       }, 3000)
       return () => {
         console.log('-- monitoring end -- ')
-        clearTimeout(interval);
+        clearTimeout(interval)
         //setTimer(null)
-      };
+      }
     }
-  }, [ selectFactory ]) */
+  }, [selectFactory])
 
 
   useEffect(() => {
@@ -255,18 +255,18 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
         mapType === 'cms' ? item
           ? <DetailBox>
             <p>{item.machine_name}</p>
-            <table style={{width: '100%', height: 250, fontSize: 30}}>
-              <tr>
-                <td>사용률</td>
-                <td>{item.duty_cycle.toFixed(2)}<span>&nbsp;%</span></td>
-                <td>전류량</td>
+            <table style={{width: '100%', fontSize: 30}}>
+              <tr style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
+                {/*<td>사용률</td>*/}
+                {/*<td>{item.duty_cycle.toFixed(2)}<span>&nbsp;%</span></td>*/}
+                <td><p style={{width: '100%', marginTop: 35}}>전류량</p></td>
                 <td>{item.current.toFixed(2)}<span>&nbsp;A</span></td>
-              </tr>
-              <tr>
-                <td>전력</td>
+                {/*</tr>*/}
+                {/*<tr>*/}
+                <td><p style={{width: '100%', marginTop: 35}}>전력</p></td>
                 <td>{item.electric_power.toFixed(2)}<span>&nbsp;KW</span></td>
-                <td>누적 사용량</td>
-                <td>{item.accumulated.toFixed(2)}<span>&nbsp;KW</span></td>
+                {/*<td>누적 사용량</td>*/}
+                {/*<td>{item.accumulated.toFixed(2)}<span>&nbsp;KW</span></td>*/}
               </tr>
             </table>
           </DetailBox>
