@@ -170,7 +170,7 @@ const PowerContainer = () => {
                                 start: start,
                                 end: end ? end : ''
                               })}/>
-            <NoDataCard contents={'데이터가 없습니다.'} height={740}/>
+            <NoDataCard contents={'데이터를 불러오는 중입니다..'} height={740}/>
           </div>
       }
     </div>

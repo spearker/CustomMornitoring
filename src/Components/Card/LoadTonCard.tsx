@@ -124,7 +124,7 @@ const LoadTonCard = ({color, propData}: IProps) => {
       }}>
         <div style={{paddingTop: 11, paddingLeft: 10}}>
           <TitleText style={{fontSize: 25}}>{propData?.machine_name}</TitleText>
-          <TitleText style={{fontSize: 20}}>{Number(propData?.limited_ton).toFixed(2)}ton</TitleText>
+          <TitleText style={{fontSize: 20}}>{Number(propData?.limited_ton).toFixed(0)} ton</TitleText>
         </div>
       </div>
       <div style={{width: '100%', height: 220, paddingLeft: 2, paddingRight: 3}}>
