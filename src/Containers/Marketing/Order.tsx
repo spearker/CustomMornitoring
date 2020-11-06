@@ -8,6 +8,7 @@ import IcCheck from '../../Assets/Images/ic_alert_check.png'
 import IcX from '../../Assets/Images/ic_alert_x.png'
 import BasicColorButton from '../../Components/Button/BasicColorButton'
 import Styled from 'styled-components'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
 
 
 const OrderContainer = () => {
@@ -141,7 +142,12 @@ const OrderContainer = () => {
     const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=15`
     const res = await getMarketing(tempUrl)
 
-    setList(res.info_list)
+    const orderList = res.info_list.map((v) => {
+      const finished = v.finished === true ? '완료' : '진행중'
+
+      return {...v, finished: finished}
+    })
+    setList(orderList)
 
     setPage({current: res.current_page, total: res.total_page})
   }, [list, page])
@@ -198,12 +204,10 @@ const OrderContainer = () => {
                         <BasicColorButton color={'#e7e9eb'} width={'45%'} name={'취소'}
                                           onClickEvent={() => setIsOpen(false)}/>
                         <div style={{width: 12}}></div>
-                        <BasicColorButton width={'45%'} name={'확인'} onClickEvent={
-                          () => {
-                            getFinish(selectPk)
-                            setIsOpen(false)
-                          }
-                        }/>
+                        <BasicColorButton width={'45%'} name={'확인'} onClickEvent={() => {
+                          getFinish(selectPk)
+                          setIsOpen(false)
+                        }}/>
                     </div>
                 </div>
             </InnerBox>
