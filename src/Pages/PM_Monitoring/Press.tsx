@@ -130,7 +130,7 @@ const PressMonitoring = () => {
             <>
               <WrapBox>
                 <MonitoringTabs contents={
-                  [{title: '전체', value: -1}, {title: '대기', value: 10}, {
+                  [{title: '꺼짐', value: -1}, {title: '대기', value: 10}, {
                     title: '진행',
                     value: 11
                   }, {title: '완료', value: -2}, {title: '에러', value: 0}]

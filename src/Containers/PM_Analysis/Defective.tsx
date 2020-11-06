@@ -141,18 +141,6 @@ const DefectiveContainer = () => {
   })
 
   const ChartInitOption = {
-    chart: {
-      events: {
-        dataPointSelection: (event, chartContext, config) => {
-          console.log(event, chartContext, config)
-
-          pieOnClick(config.dataPointIndex)
-        }
-      },
-      width: '40%',
-      type: 'pie',
-    },
-    labels: labelDatas,
     colors: [POINT_COLOR, 'rgba(98, 29, 167, .7 )', '#397485', '#ff341a', 'gray'],
     title: {
       style: {color: 'white', fontSize: 20},
@@ -204,35 +192,41 @@ const DefectiveContainer = () => {
 
   }, [list, selectPk])
 
-  const getData = useCallback(async (pk) => {
+  const getData = async (pk) => {
+    setAllPercent(0)
     //TODO: 성공시
     const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
     const res = await getDefectiveData(tempUrl)
 
     let tmpList: number[] = []
+    let tmpLabelDatas: string[] = []
+    let tmpPieDatas: any[] = []
 
     res.pies.map((v, i) => {
       // series.push(v.percentage)
       tmpList.push(v.percentage)
-      labelDatas.push(v.material_name)
-      pieData.push(v)
+      tmpLabelDatas.push(v.material_name)
+      tmpPieDatas.push(v)
     })
+
+    setPieData([...tmpPieDatas])
+    setLabelDatas([...tmpLabelDatas])
 
     console.log(pieData)
     let tmp = 0
     tmpList.map((v, i) => {
       tmp += v
     })
+
     setAllPercent(tmp)
     setSeries([...tmpList])
     setDetailList(res)
-
-  }, [detailList, pieData, labelDatas, series])
+  }
 
 
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
-    const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
+    const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=5`
     const res = await getDefectiveData(tempUrl)
 
     setList(res.info_list)
@@ -291,7 +285,20 @@ const DefectiveContainer = () => {
                       <p>불량률이 없습니다.</p>
                     </div>
                     :
-                    <ReactApexChart options={chartOption} series={series} type="pie"/>
+                    <ReactApexChart options={{
+                      ...chartOption,
+                      labels: labelDatas,
+                      chart: {
+                        events: {
+                          dataPointSelection: (event, chartContext, config) => {
+                            console.log(event, chartContext, config)
+                            pieOnClick(config.dataPointIndex)
+                          }
+                        },
+                        width: '40%',
+                        type: 'pie',
+                      },
+                    }} series={series} type="pie"/>
                   }
                 </Chart>
                 <Detail>
@@ -310,7 +317,7 @@ const DefectiveContainer = () => {
                       </tr>
                       <tr>
                           <td>불량률</td>
-                          <td>{selectPie.percentage}</td>
+                          <td>{selectPie.percentage} %</td>
                       </tr>
                   </table>}
                 </Detail>
