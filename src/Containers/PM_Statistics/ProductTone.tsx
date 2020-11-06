@@ -93,14 +93,14 @@ const ProductToneContainer = () => {
   // ]
 
 
-  const onClick = useCallback((product) => {
+  const onClick = useCallback((product, index) => {
     // console.log('dsfewfewf',product.pk,product.mold_name);
-    if (product.pk === selectPk) {
+    if (selectPk === index) {
       setSelectPk(null)
       setSelectMold(null)
       setSelectValue(null)
     } else {
-      setSelectPk(product.pk)
+      setSelectPk(index)
       setSelectMold(product.mold_name)
       setSelectValue(product)
       //TODO: api 요청
