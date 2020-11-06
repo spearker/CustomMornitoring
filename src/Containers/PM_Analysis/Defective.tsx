@@ -224,7 +224,7 @@ const DefectiveContainer = () => {
       tmp += v
     })
     setAllPercent(tmp)
-    setSeries(tmpList)
+    setSeries([...tmpList])
     setDetailList(res)
 
   }, [detailList, pieData, labelDatas, series])
@@ -319,7 +319,7 @@ const DefectiveContainer = () => {
             :
             <NoDataCard contents={'데이터가 없습니다.'} height={150}/>
           :
-          null
+          <NoDataCard contents={'데이터를 선택해 주세요.'} height={150}/>
       }
     </OvertonTable>
   )
