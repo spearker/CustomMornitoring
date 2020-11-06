@@ -6,6 +6,7 @@ import {API_URLS as MACHINE_URLS, getSearchMachine} from '../../Api/mes/process'
 import moment from 'moment'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 const DummyMachine = [
     {
@@ -93,21 +94,19 @@ const ProductToneContainer = () => {
     // ]
 
 
-    const onClick = useCallback((product) => {
-        console.log('dsfewfewf', product.machine_pk, selectPk);
-
-        if (product.machine_pk === selectPk) {
+    const onClick = useCallback((product, index) => {
+        // console.log('dsfewfewf',product.pk,product.mold_name);
+        if (selectPk === index) {
             setSelectPk(null)
             setSelectMold(null)
             setSelectValue(null)
         } else {
-            setSelectPk(product.machine_pk)
+            setSelectPk(index)
             setSelectMold(product.mold_name)
             setSelectValue(product)
             //TODO: api 요청
             getData(product.mold_pk, product.process_pk, product.product_pk)
         }
-
 
     }, [list, selectPk])
 
@@ -116,10 +115,44 @@ const ProductToneContainer = () => {
         const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}&page=${tonPage.current}&limit=15`
         const res = await getProductData(tempUrl)
 
-        setDetailList((res.low === undefined || res.low === null) ? [] : [res])
+
+        const getTonDetail = {
+            avg: res.avg.toFixed(1),
+            current_page: res.current_page,
+            high: res.high,
+            info_list: res.info_list,
+            low: res.low,
+            total_number: res.total_number,
+            total_page: res.total_page,
+        }
+
+        setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
         setTonPage({current: res.current_page, total: res.total_page})
         setDetailTonList(res.info_list)
-    }, [machinePk, selectDate])
+    }, [machinePk, selectDate, tonPage])
+
+    const getDataPaginatoin = useCallback(async () => {
+        //TODO: 성공시
+        if (selectValue !== null && selectValue.mold_pk !== null && selectValue.product_pk !== null && selectValue.process_pk !== null) {
+            const tempUrl = `${API_URLS['product'].load}?mold_pk=${selectValue.mold_pk}&product_pk=${selectValue.product_pk}&process_pk=${selectValue.process_pk}&date=${selectDate}&page=${tonPage.current}&limit=15`
+            const res = await getProductData(tempUrl)
+
+            const getTonDetail = {
+                avg: res.avg.toFixed(1),
+                current_page: res.current_page,
+                high: res.high,
+                info_list: res.info_list,
+                low: res.low,
+                total_number: res.total_number,
+                total_page: res.total_page,
+            }
+
+
+            setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
+            setTonPage({current: res.current_page, total: res.total_page})
+            setDetailTonList(res.info_list)
+        }
+    }, [selectValue, tonPage])
 
     const getList = useCallback(async (pk) => { // useCallback
         //TODO: 성공시
@@ -143,7 +176,12 @@ const ProductToneContainer = () => {
     useEffect(() => {
         getList(machinePk)
     }, [machinePk, materialPage.current])
-    
+
+    useEffect(() => {
+        if (selectValue !== null && selectValue !== undefined) {
+            getDataPaginatoin()
+        }
+    }, [tonPage.current])
 
     useEffect(() => {
         setDetailList([])

@@ -112,12 +112,14 @@ const AbilityContainer = () => {
   })
   const [pressName, setPressName] = React.useState('')
   const [series, setSeries] = React.useState([{type: 'line', data: [[0, 0]]}])
+  const [loading, setLoading] = React.useState<boolean>(false)
 
   const [selectComponent, setSelectComponent] = useState<string>('')
 
-  const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'))
+  const [selectDate, setSelectDate] = useState(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
   const getData = useCallback(async () => {
+    setLoading(true)
 
     console.log('ap')
 
