@@ -147,6 +147,7 @@ const AbilityContainer = () => {
     setSeries([{type: 'line', data: dummylineList}, {type: 'area', data: dummyroundList}])
     setPressName(resultData.pressName)
 
+    setLoading(false)
     // setSeries()
 
   }, [data, selectComponent, selectDate])
@@ -183,22 +184,25 @@ const AbilityContainer = () => {
         onChangeEvent={setSelectComponent}
       />
       {
-        selectComponent ? series
-          ? <BlackContainer>
-            <div>
-              <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
-                <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>{pressName}</p>
+        selectComponent
+          ? !loading
+          ? series
+            ? <BlackContainer>
+              <div>
+                <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
+                  <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>{pressName}</p>
+                </div>
+                <div style={{marginRight: 30, paddingTop: 25,}}>
+                  <CalendarDropdown type={'single'} select={selectDate}
+                                    onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                </div>
               </div>
-              <div style={{marginRight: 30, paddingTop: 25,}}>
-                <CalendarDropdown type={'single'} select={selectDate}
-                                  onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+              <div style={{marginTop: 30}}>
+                <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
               </div>
-            </div>
-            <div style={{marginTop: 30}}>
-              <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
-            </div>
-          </BlackContainer>
-          : <NoDataCard contents={'데이터를 불러오지 못했습니다.'} height={504}/>
+            </BlackContainer>
+            : <NoDataCard contents={'데이터를 불러오지 못했습니다.'} height={504}/>
+          : <NoDataCard contents={'데이터를 불러오는 중입니다.'} height={504}/>
           : <NoDataCard contents={'프레스를 선택해주세요'} height={504}/>
       }
 
