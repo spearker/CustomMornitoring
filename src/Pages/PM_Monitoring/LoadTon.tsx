@@ -138,7 +138,7 @@ const LoadtonMonitoring = () => {
         {
           selectFactory.pk !== ''
             ? list
-            ? list.machines.length !== 0
+            ? machineCount.length !== 0
               ? <ItemBox>
                 <div style={{
                   display: 'flex',
