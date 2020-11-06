@@ -78,12 +78,12 @@ const MonitoringCard = ({contents, isOpen, optionList, onClickEvent}: Props) => 
         <img src={!contents.is_connected ? icCloudOff : icCloudOn}
              style={{width: 21, float: 'right', paddingTop: 7, marginRight: 11}}/>
       </NavDiv>
-      {contents.file !== undefined ?
-        <DownloadButton href={contents.file}
-                        target="_blank">설명서다운로드</DownloadButton>
-        :
-        <DownloadButton target="_blank">설명서다운로드</DownloadButton>
-      }
+      {/*{contents.file !== undefined ?*/}
+      {/*  <DownloadButton href={contents.file}*/}
+      {/*                  target="_blank">설명서다운로드</DownloadButton>*/}
+      {/*  :*/}
+      {/*  <DownloadButton target="_blank">설명서다운로드</DownloadButton>*/}
+      {/*}*/}
       <ErrorText>{contents.operation !== 0 && !contents.error ?
         <span style={{color: '#717c90'}}>에러 정보가 없습니다.</span> : contents.error} </ErrorText>
       <BodyDiv>
