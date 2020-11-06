@@ -94,13 +94,14 @@ const ProductToneContainer = () => {
 
 
     const onClick = useCallback((product) => {
-        // console.log('dsfewfewf',product.pk,product.mold_name);
-        if (product.pk === selectPk) {
+        console.log('dsfewfewf', product.machine_pk, selectPk);
+
+        if (product.machine_pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
             setSelectValue(null)
         } else {
-            setSelectPk(product.pk)
+            setSelectPk(product.machine_pk)
             setSelectMold(product.mold_name)
             setSelectValue(product)
             //TODO: api 요청
@@ -142,6 +143,7 @@ const ProductToneContainer = () => {
     useEffect(() => {
         getList(machinePk)
     }, [machinePk, materialPage.current])
+    
 
     useEffect(() => {
         setDetailList([])
@@ -185,7 +187,7 @@ const ProductToneContainer = () => {
                         mainOnClickEvent={onClick}
                         currentPage={materialPage.current}
                         totalPage={materialPage.total}
-                        pageOnClickEvent={(i: number) => setMaterialPage({...materialPage, current: i})}
+                        pageOnClickEvent={(event, i: number) => setMaterialPage({...materialPage, current: i})}
                         noChildren={true}>
                     </HalfTalbe>
                 </div>
@@ -195,7 +197,7 @@ const ProductToneContainer = () => {
                         valueList={detailList}
                         currentPage={minPage.current}
                         totalPage={minPage.total}
-                        pageOnClickEvent={(i: number) => setMinPage({...minPage, current: i})}
+                        pageOnClickEvent={(event, i: number) => setMinPage({...minPage, current: i})}
                         noChildren={true}>
                     </HalfTalbe>
                     <HalfTalbe
@@ -203,7 +205,7 @@ const ProductToneContainer = () => {
                         valueList={detailTonList}
                         currentPage={tonPage.current}
                         totalPage={tonPage.total}
-                        pageOnClickEvent={(i: number) => setTonPage({...tonPage, current: i})}
+                        pageOnClickEvent={(event, i: number) => setTonPage({...tonPage, current: i})}
                         noChildren={true}>
                     </HalfTalbe>
                 </div>
