@@ -200,6 +200,7 @@ const ScheduleManageContainer = () => {
         currentPage={page.current}
         totalPage={page.total}
         pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+        calendarState={true}
         noChildren={true}>
       </OvertonTable>
     </div>

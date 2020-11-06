@@ -150,12 +150,12 @@ const DashboardNavigation = ({select, folding}: Props) => {
           <p>Home</p>
         </div>
         <div onClick={() => {
-          dispatchp({
-            type: 'CHANGE_MODE',
-            data: {
-              mode: 'custom_dashboard'
-            }
-          })
+          // dispatchp({
+          //   type: 'CHANGE_MODE',
+          //   data: {
+          //     mode: 'custom_dashboard'
+          //   }
+          // })
           history.push('/custom/dashboard')
         }}>
           <img src={NAV_HOME}/>
