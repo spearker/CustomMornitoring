@@ -1,37 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
-import {changeStatusToColor} from '../../Common/statusFunctions';
+import {changeStatusToColor} from '../../Common/statusFunctions'
 
 
 interface IProps {
-    contents: { title: string, value: number }[],
-    onClickEvent: any,
+  contents: { title: string, value: number }[],
+  onClickEvent: any,
 }
 
 const MonitoringTabs = ({contents, onClickEvent}: IProps) => {
 
-    useEffect(() => {
+  useEffect(() => {
 
-    }, [])
+  }, [])
 
-    return (
-        <div style={{display: 'inline-block'}}>
-            {
-                contents.map((v, i) => {
-                    return (
-                        <ButtonBox
-                            className="p-bold"
-                            onClick={() => onClickEvent(v.value)}
-                            style={{backgroundColor: changeStatusToColor(v.value)}}>
-                            {v.title}
-                        </ButtonBox>
-                    )
-                })
+  return (
+    <div style={{display: 'inline-block'}}>
+      {
+        contents.map((v, i) => {
+          console.log('vvvvv', v)
+          return (
+            <ButtonBox
+              className="p-bold"
+              onClick={() => onClickEvent(v.value)}
+              style={{backgroundColor: changeStatusToColor(v.value)}}>
+              {v.title}
+            </ButtonBox>
+          )
+        })
 
-            }
-        </div>
-
-    );
+      }
+    </div>
+  )
 }
 
 
@@ -45,4 +45,4 @@ const ButtonBox = Styled.button`
 `
 
 
-export default MonitoringTabs;
+export default MonitoringTabs
