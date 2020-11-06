@@ -30,7 +30,8 @@ const OrderContainer = () => {
       customer_name: '거래처 명',
       material_name: '(품목)품목명',
       amount: '수량',
-      date: '수주 날짜'
+      date: '수주 날짜',
+      finished: '진행 상태',
     }
   }
 
@@ -83,7 +84,7 @@ const OrderContainer = () => {
   }, [deletePk])
 
   const getFinish = async (pk) => {
-    const tempUrl = `${API_URLS['contract'].finish}`
+    const tempUrl = `${API_URLS['shipment'].finish}`
     const res = await postMarketing(tempUrl, {
       key: pk
     })
