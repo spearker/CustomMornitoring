@@ -53,9 +53,9 @@ const chartOption = {
   },
   xaxis: {
     type: 'numeric',
-    tickAmount: 24,
-    max: 270,
-    min: 90,
+    tickAmount: 18,
+    max: 210,
+    min: 120,
     // labels:{
     //     formatter: (value, timestamp, index) => {
     //
