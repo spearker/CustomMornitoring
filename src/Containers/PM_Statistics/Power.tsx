@@ -7,6 +7,9 @@ import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 import {API_URLS, getPowerList} from '../../Api/pm/statistics'
 import NoDataCard from '../../Components/Card/NoDataCard'
 import {usePopupDispatch} from '../../Context/PopupContext'
+import BasicButton from '../../Components/Button/BasicButton'
+import BasicGrayButtonLink from '../../Components/Button/BasicGrayButtonLink'
+import AlertModal from '../../Components/Modal/AlertModal'
 
 const chartOption = {
   chart: {
@@ -40,7 +43,7 @@ const chartOption = {
     labels: {
       formatter: (value, index) => {
         if (index === 25) {
-          return '(KW)'
+          return '(kW/h)'
         } else {
           return Math.round(value)
         }
@@ -78,11 +81,14 @@ const PowerContainer = () => {
 
   const [data, setData] = useState<{ name: string, data: number[] }[]>([])
   const [pk, setPk] = useState()
+  const [visible, setVisible] = useState<boolean>(false)
 
   const [selectDate, setSelectDate] = useState({
-    start: moment().subtract(8, 'days').format('YYYY-MM-DD'),
+    start: moment().subtract(3, 'days').format('YYYY-MM-DD'),
     end: moment().subtract(1, 'days').format('YYYY-MM-DD')
   })
+
+
   const [selectType, setSelectType] = useState([true])
   const [labels, setLabels] = useState([])
 
@@ -99,6 +105,7 @@ const PowerContainer = () => {
   }, [])
 
   const getData = async () => {
+    setVisible(false)
 
     const tempUrl = `${API_URLS['power'].list}?startDate=${selectDate.start}&endDate=${selectDate.end}`
     const resultData = await getPowerList(tempUrl)
@@ -126,7 +133,11 @@ const PowerContainer = () => {
 
   useEffect(() => {
     getData()
-  }, [selectDate])
+  }, [])
+
+  useEffect(() => {
+    console.log(visible)
+  }, [visible])
 
   return (
     <div>
@@ -144,11 +155,12 @@ const PowerContainer = () => {
                 <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
                   <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>기간별 프레스 전력 비교</p>
                 </div>
-                <div style={{marginRight: 30, paddingTop: 25,}}>
-                  <CalendarDropdown type={'range'} selectRange={selectDate}
-                                    onClickEvent={(start, end) => setSelectDate({
-                                      start: start,
-                                      end: end ? end : ''
+                <div style={{marginRight: 30, paddingTop: 25, width: 600, float: 'right'}}>
+
+                  <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
+                                    onClickEvent={(date) => setSelectDate({
+                                      start: moment(date).subtract(3, 'days').format('YYYY-MM-DD'),
+                                      end: date
                                     })}/>
                   <ListRadioButton nameList={['일']} data={selectType} onClickEvent={(i) => {
                     if (i === 0) {
@@ -157,6 +169,8 @@ const PowerContainer = () => {
                       setSelectType([false, true])
                     }
                   }}/>
+                  <BasicGrayButtonLink width={'80px'} name={'검색'}
+                                       onClick={() => setVisible(true)}></BasicGrayButtonLink>
                 </div>
               </div>
             </div>
@@ -165,13 +179,20 @@ const PowerContainer = () => {
           </BlackContainer>
           :
           <div>
-            <CalendarDropdown type={'range'} selectRange={selectDate}
-                              onClickEvent={(start, end) => setSelectDate({
-                                start: start,
-                                end: end ? end : ''
-                              })}/>
+            <div style={{display: 'flex', flexDirection: 'row', height: 30, float: 'right', marginBottom: 20}}>
+              <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
+                                onClickEvent={(date) => setSelectDate({
+                                  start: moment(date).subtract(3, 'days').format('YYYY-MM-DD'),
+                                  end: date
+                                })}/>
+              <BasicGrayButtonLink width={'80px'} name={'검색'} onClick={() => setVisible(true)}></BasicGrayButtonLink>
+            </div>
             <NoDataCard contents={'데이터를 불러오는 중입니다..'} height={740}/>
           </div>
+      }
+      {
+        visible && <AlertModal onClickClose={() => setVisible(false)} type={'normal'} contents={'해당 기간의 데이터를 검색하시겠습니까?'}
+                               okFunc={() => getData()}></AlertModal>
       }
     </div>
   )
