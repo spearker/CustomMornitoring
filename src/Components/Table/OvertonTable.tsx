@@ -284,11 +284,11 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                           }}
                           >{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
                           :
-                          <ButtonBox disabled={(v.finished && bv.Name !== '수정')} onClick={() => bv.Link(v)}
+                          <ButtonBox disabled={(v.finished === '완료' && bv.Name !== '수정')} onClick={() => bv.Link(v)}
                                      style={{
                                        width: bv.Width,
                                        color: bv.Color,
-                                       backgroundColor: (v.finished && bv.Name !== '수정') ? '#19b9df' : '#717c90'
+                                       backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
                                      }}>{bv.Name}</ButtonBox>
                         }
                       </div>
