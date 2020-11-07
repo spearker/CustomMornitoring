@@ -82,6 +82,7 @@ const PowerContainer = () => {
   const [data, setData] = useState<{ name: string, data: number[] }[]>([])
   const [pk, setPk] = useState()
   const [visible, setVisible] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [selectDate, setSelectDate] = useState({
     start: moment().subtract(3, 'days').format('YYYY-MM-DD'),
@@ -106,6 +107,7 @@ const PowerContainer = () => {
 
   const getData = async () => {
     setVisible(false)
+    setLoading(true)
 
     const tempUrl = `${API_URLS['power'].list}?startDate=${selectDate.start}&endDate=${selectDate.end}`
     const resultData = await getPowerList(tempUrl)
@@ -128,6 +130,7 @@ const PowerContainer = () => {
     })
 
     setData([...tmpArr])
+    setLoading(false)
 
   }
 
@@ -148,7 +151,9 @@ const PowerContainer = () => {
         </div>
       </div>
       {
-        data.length !== 0 ?
+        loading
+          ? <NoDataCard contents={'데이터를 불러오는 중입니다..'} height={740}/>
+          : data.length !== 0 ?
           <BlackContainer>
             <div style={{marginTop: 25, height: 80}}>
               <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
