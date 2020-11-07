@@ -77,8 +77,8 @@ const chartOption = {
   },
   xaxis: {
     type: 'numeric',
-    tickAmount: 24,
-    max: 300,
+    tickAmount: 18,
+    max: 270,
     min: 90,
     tooltip: {
       enable: false

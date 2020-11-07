@@ -151,17 +151,11 @@ const PowerContainer = () => {
         data.length !== 0 ?
           <BlackContainer>
             <div style={{marginTop: 25, height: 80}}>
-              <div>
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                 <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
                   <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>기간별 프레스 전력 비교</p>
                 </div>
-                <div style={{marginRight: 30, paddingTop: 25, width: 600, float: 'right'}}>
-
-                  <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
-                                    onClickEvent={(date) => setSelectDate({
-                                      start: moment(date).subtract(3, 'days').format('YYYY-MM-DD'),
-                                      end: date
-                                    })}/>
+                <div style={{marginRight: 30, width: 620, display: 'flex', flexDirection: 'row', marginTop: 30}}>
                   <ListRadioButton nameList={['일']} data={selectType} onClickEvent={(i) => {
                     if (i === 0) {
                       setSelectType([true, false])
@@ -169,8 +163,15 @@ const PowerContainer = () => {
                       setSelectType([false, true])
                     }
                   }}/>
-                  <BasicGrayButtonLink width={'80px'} name={'검색'}
-                                       onClick={() => setVisible(true)}></BasicGrayButtonLink>
+                  <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
+                                    onClickEvent={(date) => setSelectDate({
+                                      start: moment(date).subtract(3, 'days').format('YYYY-MM-DD'),
+                                      end: date
+                                    })}/>
+                  <div style={{marginLeft: 20, height: 20}}>
+                    <BasicGrayButtonLink width={'80px'} name={'검색'}
+                                         onClick={() => setVisible(true)}></BasicGrayButtonLink>
+                  </div>
                 </div>
               </div>
             </div>
