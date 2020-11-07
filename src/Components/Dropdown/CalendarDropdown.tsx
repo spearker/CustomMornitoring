@@ -71,7 +71,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit, toD
               기간 선택 {
               selectRange
                 ?
-                moment(selectRange.end).subtract(3, 'days').format('YYYY-MM-DD')
+                moment(selectRange.end).subtract(2, 'days').format('YYYY-MM-DD')
                 + ' ~ ' +
                 (selectRange.end === '' ? moment().format('YYYY-MM-DD') : selectRange.end)
                 :
