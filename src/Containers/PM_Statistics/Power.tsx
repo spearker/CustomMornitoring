@@ -170,7 +170,7 @@ const PowerContainer = () => {
                   }}/>
                   <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
                                     onClickEvent={(date) => setSelectDate({
-                                      start: moment(date).subtract(3, 'days').format('YYYY-MM-DD'),
+                                      start: moment(date).subtract(2, 'days').format('YYYY-MM-DD'),
                                       end: date
                                     })}/>
                   <div style={{marginLeft: 20, height: 20}}>
@@ -188,7 +188,7 @@ const PowerContainer = () => {
             <div style={{display: 'flex', flexDirection: 'row', height: 30, float: 'right', marginBottom: 20}}>
               <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
                                 onClickEvent={(date) => setSelectDate({
-                                  start: moment(date).subtract(3, 'days').format('YYYY-MM-DD'),
+                                  start: moment(date).subtract(2, 'days').format('YYYY-MM-DD'),
                                   end: date
                                 })}/>
               <BasicGrayButtonLink width={'80px'} name={'검색'} onClick={() => setVisible(true)}></BasicGrayButtonLink>
