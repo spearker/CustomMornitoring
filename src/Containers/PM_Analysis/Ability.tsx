@@ -78,8 +78,9 @@ const chartOption = {
   xaxis: {
     type: 'numeric',
     tickAmount: 18,
-    max: 270,
-    min: 90,
+    max: 210,
+    min: 120,
+    formatter: (value) => value.toFixed(0),
     tooltip: {
       enable: false
     }
@@ -123,10 +124,11 @@ const AbilityContainer = () => {
 
   const [selectComponent, setSelectComponent] = useState<string>('')
 
-  const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({
-    start: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-    end: moment().subtract(1, 'days').format('YYYY-MM-DD')
-  })
+  // const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({
+  //   start: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+  //   end: moment().subtract(1, 'days').format('YYYY-MM-DD')
+  // })
+  const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
   const getData = useCallback(async () => {
 
@@ -134,7 +136,7 @@ const AbilityContainer = () => {
 
     console.log('ap')
 
-    const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&fromDate=${selectDateRange.start}&toDate=${selectDateRange.end}`
+    const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&fromDate=${selectDate}&toDate=${selectDate}`
     const resultData = await getAbilityList(tempUrl)
 
     console.log(resultData)
@@ -176,13 +178,13 @@ const AbilityContainer = () => {
 
     // setSeries()
 
-  }, [data, selectComponent, selectDateRange])
+  }, [data, selectComponent, setSelectDate])
 
   useEffect(() => {
     if (selectComponent) {
       getData()
     }
-  }, [selectComponent, selectDateRange])
+  }, [selectComponent, setSelectDate])
 
   // useEffect(() => {
   //     const {Yaxis} = data.basic_ability;
@@ -220,9 +222,7 @@ const AbilityContainer = () => {
                     : {data.excess_count ? data.excess_count : 0}회</p>
                 </div>
                 <div style={{marginRight: 30, paddingTop: 25,}}>
-                  <CalendarDropdown selectRange={selectDateRange} onClickEvent={(start, end) => {
-                    setSelectDateRange({start, end: !end ? selectDateRange.end : end})
-                  }} type={'range'}/>
+                  <CalendarDropdown select={selectDate} onClickEvent={(date) => setSelectDate(date)} type={'range'}/>
                 </div>
               </div>
               <div style={{marginTop: 60}}>
