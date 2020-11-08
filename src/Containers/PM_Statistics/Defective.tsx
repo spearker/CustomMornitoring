@@ -131,10 +131,10 @@ const DefectiveContainer = () => {
   const onClick = useCallback((mold, index) => {
     console.log('dsfewfewf', index, selectIndex)
     if (index === selectIndex) {
-      setSelectPk(null)
-      setSelectMold(null)
-      setSelectValue(null)
-      setSelectIndex(null)
+      // setSelectPk(null)
+      // setSelectMold(null)
+      // setSelectValue(null)
+      // setSelectIndex(null)
     } else {
       setSelectPk(mold.pk)
       setSelectMold(mold.mold_name)
@@ -163,10 +163,22 @@ const DefectiveContainer = () => {
 
     setDetailList(res)
 
+    let tmpArray = res.amounts.map((v) => {
+      console.log(v)
+      let value = 0
+      if (v !== 0 && res.total_production !== 0) {
+        value = Math.round(v / res.total_production * 10000) / 100
+      }
+
+      return value
+    })
+
+    console.log(tmpArray)
+
     //@ts-ignore
     setLabels([...res.dates])
     //@ts-ignore
-    setSeries([...res.amounts])
+    setSeries([...tmpArray])
 
   }, [detailList, selectValue, selectDate])
 
@@ -205,7 +217,7 @@ const DefectiveContainer = () => {
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <div>
               <LineContainer>
-                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10}}>
                   <p>생산량</p>
                   <p>{detailList.total_production}<span>ea</span></p>
                 </div>
@@ -314,6 +326,9 @@ const GraphContainer = Styled.div`
             font-size: 15px;
             }
   }
+  .apexcharts-tooltip{
+        color: black;
+    }
 `
 
 export default DefectiveContainer
