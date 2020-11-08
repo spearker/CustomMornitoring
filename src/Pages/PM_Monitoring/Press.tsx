@@ -25,7 +25,7 @@ const PressMonitoring = () => {
   const history = useHistory()
   const [title, setTitile] = useState<string>('')
   const [arrayType, setArrayType] = useState<number>(0) //['카드형' , '리스트형']
-  const [statusFilter, setStatusFilter] = useState<number>(-1)
+  const [statusFilter, setStatusFilter] = useState<number>(-10)
   const [openList, setOpenList] = useState<string[]>([])
   const [selectedList, setSelectedList] = useState<number[]>([])
   const [checkList, setCheckList] = useState<number[]>([])
@@ -130,7 +130,7 @@ const PressMonitoring = () => {
             <>
               <WrapBox>
                 <MonitoringTabs contents={
-                  [{title: '꺼짐', value: -1}, {title: '대기', value: 10}, {
+                  [{title: '전체', value: -10}, {title: '꺼짐', value: -1}, {title: '대기', value: 10}, {
                     title: '진행',
                     value: 11
                   }, {title: '완료', value: -2}, {title: '에러', value: 0}]
@@ -162,7 +162,7 @@ const PressMonitoring = () => {
                 list && arrayType === 0 ?
                   list.length !== 0 ? (
                       list.map((v: IMonitoringList, i) => {
-                        if (statusFilter === -1) {
+                        if (statusFilter === -10) {
                           return (
                             <>
                               <MonitoringCard key={'m-' + i} contents={v}

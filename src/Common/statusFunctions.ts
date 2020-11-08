@@ -41,6 +41,8 @@ export const changeStatusToColor = ((status: number | undefined) => {
         return '#717c90'
     }*/ else if (status === -1) {
     return '#b3b3b3'
+  } else if (status === -10) {
+    return '#b3b3b3'
   } else {
     return '#ff461a'
   }

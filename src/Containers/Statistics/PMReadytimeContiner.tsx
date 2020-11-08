@@ -90,7 +90,12 @@ const PMReadyTimeContainer = () => {
       return
     }
 
-    console.log(resultData.analyze.downtime.qdc)
+    console.log(resultData.analyze.downtime.total)
+
+    console.log((resultData.analyze.downtime.qdc + resultData.analyze.downtime.error))
+    console.log(resultData.analyze.downtime.qdc, resultData.analyze.downtime.error)
+
+    console.log(resultData.analyze.downtime.total - (resultData.analyze.downtime.qdc + resultData.analyze.downtime.error))
 
     setSeries([
       resultData.analyze.runtime,
@@ -130,9 +135,11 @@ const PMReadyTimeContainer = () => {
               <div style={{width: '49%'}}>
                 <p style={{paddingLeft: 20}}>{machineData.machine_name}</p>
               </div>
-              <div style={{width: '49%', marginRight: 10}}>
+              <div style={{width: '50%', marginRight: 10, flexDirection: 'row', display: 'flex'}}>
+                <p style={{marginLeft: 20, width: '60%', fontSize: 12, textAlign: 'right', verticalAlign: 'center'}}>오차범위
+                  ±0.03%</p>
                 <CalendarDropdown type={'single'} select={selectDate}
-                                  onClickEvent={(date) => setSelectDate(date)}></CalendarDropdown>
+                                  onClickEvent={(date) => setSelectDate(date)}/>
               </div>
             </div>
             <div style={{flex: 1, width: '40%', marginLeft: 20, float: 'left'}}>
