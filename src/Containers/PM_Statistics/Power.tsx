@@ -168,11 +168,14 @@ const PowerContainer = () => {
                       setSelectType([false, true])
                     }
                   }}/>
-                  <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
-                                    onClickEvent={(date) => setSelectDate({
-                                      start: moment(date).subtract(2, 'days').format('YYYY-MM-DD'),
-                                      end: date
-                                    })}/>
+                  <div>
+                    <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
+                                      onClickEvent={(date) => setSelectDate({
+                                        start: moment(date).subtract(2, 'days').format('YYYY-MM-DD'),
+                                        end: date
+                                      })}/>
+                    <p style={{fontSize: 13}}>기간 선택 후 검색버튼을 눌러주세요</p>
+                  </div>
                   <div style={{marginLeft: 20, height: 20}}>
                     <BasicGrayButtonLink width={'80px'} name={'검색'}
                                          onClick={() => setVisible(true)}></BasicGrayButtonLink>
