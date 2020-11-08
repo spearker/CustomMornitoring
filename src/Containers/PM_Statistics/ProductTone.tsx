@@ -104,13 +104,13 @@ const ProductToneContainer = () => {
       setSelectPk(index)
       setSelectMold(product.mold_name)
       setSelectValue(product)
-      //TODO: api 요청
-      getData(product.mold_pk, product.process_pk, product.product_pk)
+      // TODO: api 요청
+      // getData(product.mold_pk, product.process_pk, product.product_pk)
     }
 
   }, [list, selectPk])
 
-  const getData = useCallback(async (mold, process, product) => {
+  const getData = async (mold, process, product) => {
     //TODO: 성공시
     const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}&page=${tonPage.current}&limit=15`
     const res = await getProductData(tempUrl)
@@ -129,16 +129,16 @@ const ProductToneContainer = () => {
     setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
     setTonPage({current: res.current_page, total: res.total_page})
     setDetailTonList(res.info_list)
-  }, [machinePk, selectDate, tonPage])
+  }
 
-  const getDataPaginatoin = useCallback(async () => {
+  const getDataPaginatoin = async () => {
     //TODO: 성공시
     if (selectValue !== null && selectValue.mold_pk !== null && selectValue.product_pk !== null && selectValue.process_pk !== null) {
       const tempUrl = `${API_URLS['product'].load}?mold_pk=${selectValue.mold_pk}&product_pk=${selectValue.product_pk}&process_pk=${selectValue.process_pk}&date=${selectDate}&page=${tonPage.current}&limit=15`
       const res = await getProductData(tempUrl)
 
       const getTonDetail = {
-        avg: res.avg.toFixed(1),
+        avg: res.avg ? res.avg.toFixed(1) : 0,
         current_page: res.current_page,
         high: res.high,
         info_list: res.info_list,
@@ -152,7 +152,7 @@ const ProductToneContainer = () => {
       setTonPage({current: res.current_page, total: res.total_page})
       setDetailTonList(res.info_list)
     }
-  }, [selectValue, tonPage])
+  }
 
   const getList = useCallback(async (pk) => { // useCallback
     //TODO: 성공시
@@ -181,7 +181,7 @@ const ProductToneContainer = () => {
     if (selectValue !== null && selectValue !== undefined) {
       getDataPaginatoin()
     }
-  }, [tonPage.current])
+  }, [tonPage.current, selectDate, selectValue])
 
   useEffect(() => {
     setDetailList([])
