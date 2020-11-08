@@ -31,7 +31,7 @@ const ErrorContainer = () => {
       pressName: '기계명',
       pressNumber: '기계 번호',
       statement: '상태(에러명)',
-      pressRegisterDate: '기계 등록 시간'
+      pressRegisterDate: '에러 발생일'
     }
   }
 

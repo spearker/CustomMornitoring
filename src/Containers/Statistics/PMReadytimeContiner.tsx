@@ -97,7 +97,7 @@ const PMReadyTimeContainer = () => {
       resultData.analyze.power_off,
       resultData.analyze.downtime.qdc,
       resultData.analyze.downtime.error,
-      resultData.analyze.downtime.total
+      resultData.analyze.downtime.total - (resultData.analyze.downtime.qdc + resultData.analyze.downtime.error)
     ])
     // resultData.analyze.downtime.total - (resultData.analyze.downtime.qdc + resultData.analyze.downtime.error)])
     setMachineData(resultData)
