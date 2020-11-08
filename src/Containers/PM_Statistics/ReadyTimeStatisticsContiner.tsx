@@ -119,18 +119,20 @@ const ReadyTimeStatisticsContainer = () => {
                   </div>
                 </div>
                 <div className={'division'}>
-                  <div className={'quarter'}>
+                  <div className={'quarter'} style={{width: '35%'}}>
                     <p style={{fontSize: 20, textAlign: 'left', marginLeft: 15}}>전일 대비 증감률</p>
                   </div>
-                  <div className={'quarter'}>
-                    <RightText
-                      style={{fontSize: 70, color: data.runtime.kinds === 'up' ? UP_COLOR : DOWN_COLOR}}>
-                      {
-                        data.runtime.diff !== 'NaN'
-                          ? data.runtime.diff.toFixed(1)
-                          : '0'
-                      }<span style={{fontSize: 40}}> %</span>
-                    </RightText>
+                  <div className={'quarter'} style={{display: 'flex', alignItems: 'flex-end', width: '64.9%'}}>
+                    <div style={{width: '100%'}}>
+                      <RightText
+                        style={{fontSize: 70, color: data.runtime.kinds === 'up' ? UP_COLOR : DOWN_COLOR}}>
+                        {
+                          data.runtime.diff !== 'NaN'
+                            ? data.runtime.diff.toFixed(1)
+                            : '0'
+                        }<span style={{fontSize: 40}}> %</span>
+                      </RightText>
+                    </div>
                   </div>
                 </div>
               </ItemBox>

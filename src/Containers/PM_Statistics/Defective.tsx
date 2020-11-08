@@ -103,6 +103,7 @@ const DefectiveContainer = () => {
     current: 1,
   })
   const [selectPk, setSelectPk] = useState<any>(null)
+  const [selectIndex, setSelectIndex] = useState<number | null>(null)
   const [selectMold, setSelectMold] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
 
@@ -127,22 +128,24 @@ const DefectiveContainer = () => {
     }
   ]
 
-  const onClick = useCallback((mold) => {
-    console.log('dsfewfewf', mold)
-    if (mold.pk === selectPk) {
+  const onClick = useCallback((mold, index) => {
+    console.log('dsfewfewf', index, selectIndex)
+    if (index === selectIndex) {
       setSelectPk(null)
       setSelectMold(null)
       setSelectValue(null)
+      setSelectIndex(null)
     } else {
       setSelectPk(mold.pk)
       setSelectMold(mold.mold_name)
       setSelectValue(mold)
+      setSelectIndex(index)
       //TODO: api 요청
 
     }
 
 
-  }, [list, selectPk])
+  }, [list, selectPk, selectIndex])
 
   useEffect(() => {
     console.log(selectValue, selectDate)
@@ -230,7 +233,7 @@ const DefectiveContainer = () => {
                     marginRight: 30,
                     paddingTop: 25
                   }}>
-                    <div style={{alignSelf: 'center'}}>
+                    <div style={{alignSelf: 'center', width: '40%'}}>
                       <p>{selectValue.material_name} 불량률</p>
                     </div>
                     <CalendarDropdown type={'range'} selectRange={selectDate}
