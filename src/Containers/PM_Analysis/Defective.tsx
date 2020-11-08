@@ -317,7 +317,7 @@ const DefectiveContainer = () => {
                       </tr>
                       <tr>
                           <td>불량률</td>
-                          <td>{selectPie.percentage} %</td>
+                          <td>{Math.round(Number(selectPie.amount) / Number(selectPie.production) * 10000) / 100} %</td>
                       </tr>
                   </table>}
                 </Detail>
