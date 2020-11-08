@@ -293,7 +293,7 @@ const LoadtoneContiner = () => {
             }}/>
           </div>
           <div>
-            <p>그래프 값은 시간당 평균값입니다.</p>
+            <p style={{textAlign: 'left', color: 'rgba(255, 255, 255, .4)'}}>그래프 값은 시간당 평균값입니다.</p>
           </div>
         </div>
         {overTon.pressPk === '' ?
