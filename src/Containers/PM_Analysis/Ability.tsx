@@ -178,13 +178,14 @@ const AbilityContainer = () => {
 
     // setSeries()
 
-  }, [data, selectComponent, setSelectDate])
+  }, [data, selectComponent, selectDate])
 
   useEffect(() => {
+    console.log('selectDate', selectDate)
     if (selectComponent) {
       getData()
     }
-  }, [selectComponent, setSelectDate])
+  }, [selectComponent, selectDate])
 
   // useEffect(() => {
   //     const {Yaxis} = data.basic_ability;
@@ -222,7 +223,7 @@ const AbilityContainer = () => {
                     : {data.excess_count ? data.excess_count : 0}회</p>
                 </div>
                 <div style={{marginRight: 30, paddingTop: 25,}}>
-                  <CalendarDropdown select={selectDate} onClickEvent={(date) => setSelectDate(date)} type={'range'}/>
+                  <CalendarDropdown select={selectDate} onClickEvent={(date) => setSelectDate(date)} type={'single'}/>
                 </div>
               </div>
               <div style={{marginTop: 60}}>
