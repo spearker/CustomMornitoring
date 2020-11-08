@@ -125,7 +125,9 @@ const OilSupplyContainer = () => {
 
 
   useEffect(() => {
-    getData()
+    if (selectComponent && date) {
+      getData()
+    }
   }, [selectComponent, date])
 
   return (
