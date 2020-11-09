@@ -6,22 +6,22 @@ import ReactShadowScroll from 'react-shadow-scroll';
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS as PRODUCTION_URLS, getProjectList } from "../../Api/mes/production";
-import {API_URLS as BASIC_URLS, getBasicList } from "../../Api/mes/basic";
+import {API_URLS as PRODUCTION_URLS, getProjectList} from "../../Api/mes/production";
+import {API_URLS as BASIC_URLS, getBasicList} from "../../Api/mes/basic";
 
 
-
-interface IProps{
-    select?: { name?:string, pk?: string },
+interface IProps {
+    select?: { name?: string, pk?: string },
     onClickEvent: any
     text: string
     type: string
+    noOnClick?: boolean
 }
 
 const DummyMachine = {
     machine: {
-        machine_name:'기계명',
-        machine_type:'기계종류(코드)',
+        machine_name: '기계명',
+        machine_type: '기계종류(코드)',
         manufacturer_code: '제조번호',
         location_name: "공장명"
     },
@@ -54,8 +54,7 @@ const DummyMachine = {
 }
 
 
-
-const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
+const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -94,30 +93,33 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
             const resultData = await getProjectList(tempUrl);
             setCustomList(resultData.info_list)
         }
-    }, [searchName,type,customList])
+    }, [searchName, type, customList])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[type])
+    }, [type])
 
     return (
         <div style={{borderBottom: 'solid 0.5px #d3d3d3'}}>
-            <div style={{position:'relative', zIndex:0, width: 1040,}}>
-                <div style={{ display:'flex', paddingTop:17, paddingBottom:17, verticalAlign: 'top'}}>
-                    <p style={{fontSize: 14, marginTop:5, fontWeight: 700, width: 210}}>{'· 세부 항목'}</p>
-                    <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                        <div style={{display:'inline-block', height: 32, width: 832}}>
-                            {console.log(select)}
+            <div style={{position: 'relative', zIndex: 0, width: 1040,}}>
+                <div style={{display: 'flex', paddingTop: 17, paddingBottom: 17, verticalAlign: 'top'}}>
+                    <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 210}}>{'· 세부 항목'}</p>
+                    <BoxWrap onClick={() => noOnClick ? null : setIsOpen(true)}
+                             style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                        <div style={{display: 'inline-block', height: 32, width: 832}}>
                             {
-                                select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                                    : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                                select && select.name ? <p onClick={() => noOnClick ? null : setIsOpen(true)}
+                                                           style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                                    : <p onClick={() => noOnClick ? null : setIsOpen(true)}
+                                         style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                             }
                         </div>
-                        <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                            <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
+                        <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                            <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}
+                                 onClick={() => noOnClick ? null : setIsOpen(true)}/>
                         </div>
                     </BoxWrap>
                 </div>
@@ -125,16 +127,16 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
             <Modal
                 isOpen={isOpen}
                 style={{
-                    content : {
-                        top                   : '50%',
-                        left                  : '50%',
-                        right                 : 'auto',
-                        bottom                : 'auto',
-                        marginRight           : '-50%',
-                        transform             : 'translate(-50%, -50%)',
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
                         padding: 0
                     },
-                    overlay:{
+                    overlay: {
                         background: 'rgba(0,0,0,.6)',
                         zIndex: 5
                     }
@@ -144,34 +146,37 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 세부 항목 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="항목명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="항목명을 입력해주세요." style={{flex: 96}}
+                                       onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
-                                    {Object.keys(customName).map((v)=>{
-                                        return(
-                                        v === type ?
-                                            Object.keys(customName[v]).map(m => {
-                                                return(
-                                                <td>{customName[v][m]}</td>
-                                                )})
-                                            :
-                                            null
-                                        )
-                                    })}
+                                        {Object.keys(customName).map((v) => {
+                                            return (
+                                                v === type ?
+                                                    Object.keys(customName[v]).map(m => {
+                                                        return (
+                                                            <td>{customName[v][m]}</td>
+                                                        )
+                                                    })
+                                                    :
+                                                    null
+                                            )
+                                        })}
                                         <td></td>
                                     </tr>
                                     {customList !== undefined && customList.length === 0 ?
                                         <tr>
-                                            {Object.keys(customName).map((v)=>{
-                                                return(
+                                            {Object.keys(customName).map((v) => {
+                                                return (
                                                     v === type ?
-                                                        <td  colSpan={Object.keys(customName[v]).length} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                                        <td colSpan={Object.keys(customName[v]).length}
+                                                            style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                                         :
                                                         null
                                                 )
@@ -179,9 +184,9 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                         </tr>
                                         :
                                         <>
-                                            {customList?.map((v,i) => {
-                                                return Object.keys(customName).map((vi)=>{
-                                                    return(
+                                            {customList?.map((v, i) => {
+                                                return Object.keys(customName).map((vi) => {
+                                                    return (
                                                         <tr>
                                                             {vi === type ?
                                                                 Object.keys(customName[vi]).map(m => {
@@ -193,25 +198,38 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                                                 null
                                                             }
                                                             {
-                                                            vi === type ?
-                                                            Object.keys(customName[vi]).map((m,index) => {
-                                                            return(
-                                                            <td>
-                                                            {index === 0 ?
-                                                                <button onClick={() => {setMachineName(v[m])
-                                                                    return onClickEvent({name: v[m], pk: v.pk})}}
-                                                                        style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
-                                                                >
-                                                                    <img src={ic_check}
-                                                                         style={{width: 20, height: 20}}/>
-                                                                </button> :
-                                                                null
-                                                            }
-                                                            </td>
-                                                            )
-                                                        })
-                                                            :
-                                                            null
+                                                                vi === type ?
+                                                                    Object.keys(customName[vi]).map((m, index) => {
+                                                                        return (
+                                                                            <td>
+                                                                                {index === 0 ?
+                                                                                    <button onClick={() => {
+                                                                                        setMachineName(v[m])
+                                                                                        return onClickEvent({
+                                                                                            name: v[m],
+                                                                                            pk: v.pk
+                                                                                        })
+                                                                                    }}
+                                                                                            style={{
+                                                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                                                                                width: 32,
+                                                                                                height: 32,
+                                                                                                margin: 0
+                                                                                            }}
+                                                                                    >
+                                                                                        <img src={ic_check}
+                                                                                             style={{
+                                                                                                 width: 20,
+                                                                                                 height: 20
+                                                                                             }}/>
+                                                                                    </button> :
+                                                                                    null
+                                                                                }
+                                                                            </td>
+                                                                        )
+                                                                    })
+                                                                    :
+                                                                    null
                                                             }
                                                         </tr>
                                                     )
@@ -232,7 +250,9 @@ const CustomPickerModal = ({select, onClickEvent, text, type}: IProps) => {
                                 <span style={{color: '#666d79'}}>취소</span>
                             </div>
                         </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
                             <div>
                                 <span style={{color: 'black'}}>확인</span>
                             </div>
