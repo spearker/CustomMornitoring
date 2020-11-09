@@ -75,7 +75,7 @@ const BasicBarcodeRegister = ({match}: Props) => {
             barcode_name: inputData.barcode_name,
             item_type: {main_type: indexList[type], detail_type: selectMachine?.name},
             item_pk: selectMachine?.pk,
-            barcode_number: rules.toString(),
+            barcode_number: rules.toString().replace(/,/g, '-'),
             description: reason
         }
 
