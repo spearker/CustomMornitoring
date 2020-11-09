@@ -243,7 +243,8 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
                                     fontSize: 14,
                                     padding: 12,
                                     height: '70px',
-                                    width: '95%'
+                                    width: '95%',
+                                    resize: 'none'
                                 }} placeholder="내용을 입력해주세요 (80자 미만)" disabled>
                                     {inputData.request_reason}
                                 </textarea>
@@ -298,7 +299,8 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
                                         fontSize: 14,
                                         padding: 12,
                                         height: '70px',
-                                        width: '96%'
+                                        width: '96%',
+                                        resize: 'none'
                                     }} placeholder="내용을 입력해주세요 (80자 미만)" disabled={isDetail === 'Worker'}/>
                                 </div>
                             </td>

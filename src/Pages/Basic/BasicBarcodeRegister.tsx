@@ -211,7 +211,10 @@ const BasicBarcodeRegister = ({match}: Props) => {
                         <ListHeader title="선택 항목"/>
                         <InputContainer title={'바코드 설명'} width={180}>
               <textarea maxLength={120} ref={textBoxRef} onChange={(e) => setReason(e.target.value)} value={reason}
-                        style={{border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)'}}
+                        style={{
+                            border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)',
+                            resize: 'none'
+                        }}
                         placeholder="내용을 입력해주세요 (80자 미만)"/>
                         </InputContainer>
                     </div>
