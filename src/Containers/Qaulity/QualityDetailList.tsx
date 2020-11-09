@@ -119,7 +119,8 @@ const QualityDetailListContainer = ({match}) => {
                                         fontSize: 14,
                                         padding: 12,
                                         height: '70px',
-                                        width: '96%'
+                                        width: '96%',
+                                        resize: 'none'
                                     }} placeholder="내용을 입력해주세요 (80자 미만)" disabled/>
                                 </div>
                             </td>
@@ -146,7 +147,8 @@ const QualityDetailListContainer = ({match}) => {
                                         fontSize: 14,
                                         padding: 12,
                                         height: '70px',
-                                        width: '96%'
+                                        width: '96%',
+                                        resize: 'none'
                                     }} placeholder="내용을 입력해주세요 (80자 미만)" disabled/>
                                 </div>
 

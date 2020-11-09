@@ -231,7 +231,8 @@ const BarcodeRegisterContainer = ({match}: Props) => {
                                     fontSize: 14,
                                     padding: 12,
                                     height: '70px',
-                                    width: 'calc(100% - 124px)'
+                                    width: 'calc(100% - 124px)',
+                                    resize: 'none'
                                 }}
                                 placeholder="바코드 설명"/>
                     </InputContainer>
