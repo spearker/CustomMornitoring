@@ -175,11 +175,11 @@ const BarcodeRegisterContainer = ({match}: Props) => {
                     </InputContainer>
                     <DropdownInput title={'바코드 종류'} target={indexBarcodeType[0]} contents={indexBarcodeType}
                                    onChangeEvent={(input) => setInputData(`barcode_type`, BarcodeType[0])}/>
-                    <DropdownInput title={'항목'} target={indexList[type]} contents={indexList}
-                                   onChangeEvent={(input) => setType(input)}/>
+                    <DropdownInput title={'항목'} target={indexList[type]} contents={[]}
+                                   onChangeEvent={() => null}/>
                     <CustomPickerModal select={selectMachine} onClickEvent={(e) => setSelectMachine(e)}
                                        text={'세부 항목을 검색해주세요.'}
-                                       type={indexType[type]}/>
+                                       type={indexType[type]} noOnClick={true}/>
                     <InputContainer title={'바코드 번호'}>
                         <BodyDiv>
                             <InputWrapBox>
