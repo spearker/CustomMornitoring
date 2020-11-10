@@ -119,6 +119,7 @@ const Content = Styled.div`
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 16px;
+  margin-bottom: 70px;
 `
 
 const ContentContainer = Styled.div`
