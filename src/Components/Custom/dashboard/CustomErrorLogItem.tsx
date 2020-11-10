@@ -83,15 +83,15 @@ const Container = Styled.div`
 }
 `
 
-const PressTitle = Styled.span`
+const PressTitle = Styled.p`
   font-family: NotoSansCJKkr;
-  font-size: 48px;
+  font-size: 38px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 4.55;
   letter-spacing: 0.44px;
-  text-align: left;
+  text-align: center;
   color: #ffffff;
 `
 
