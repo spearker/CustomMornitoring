@@ -19,6 +19,7 @@ const optionList = [
     "등록순",
 ]
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 // 리스트 부분 컨테이너
 const BasicListContainer = ({type}: Props) => {
@@ -43,12 +44,18 @@ const BasicListContainer = ({type}: Props) => {
 
     }, [pageType])
 
+    useEffect(() => {
+        setPage({...page, current: 1})
+    }, [type])
+
 
     /**
      * getList()
      * 목록 불러오기
      */
     const getList = useCallback(async (pageType) => {
+        Notiflix.Loading.Circle();
+
         const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}&limit=15`
         const resultList = await getBasicList(tempUrl);
 
@@ -62,7 +69,7 @@ const BasicListContainer = ({type}: Props) => {
         setList(getBasic);
 
         setPage({current: resultList.current_page, total: resultList.total_page})
-
+        Notiflix.Loading.Remove()
     }, [list, keyword, option, pageType, page])
 
     useEffect(() => {

@@ -11,6 +11,9 @@ import {postSegmentDelete} from '../../Api/mes/process'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import moment from 'moment'
 import next from '../../Assets/Images/ic_next_process.png'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const ScheduleContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
@@ -215,6 +218,7 @@ const ScheduleContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=5`
         const res = await getProjectList(tempUrl)
         const getprocesses = res.info_list.map((v, i) => {
@@ -227,7 +231,7 @@ const ScheduleContainer = () => {
 
         setPage({current: res.current_page, total: res.total_page})
         setList([...getprocesses])
-
+        Notiflix.Loading.Remove()
     }, [list, page, deletePk])
 
     useEffect(() => {
