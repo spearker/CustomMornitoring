@@ -17,6 +17,7 @@ import Icon from '../../Assets/Images/btn_menu_2.png'
 import NAV_HOME from '../../Assets/Images/btn_nav_home.svg'
 import NAV_MES from '../../Assets/Images/btn_nav_setting.svg'
 import NAV_PRESS from '../../Assets/Images/btn_nav_press.svg'
+import NAV_DASHBOARD from '../../Assets/Images/ic_dashboard.png'
 import NavList from './NavList'
 import {useUserDispatch, useUser} from '../../Context/UserContext'
 import useOnclickOutside from 'react-cool-onclickoutside'
@@ -158,7 +159,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     // })
                     history.push('/custom/dashboard')
                 }}>
-                    <img src={NAV_HOME}/>
+                    <img src={NAV_DASHBOARD}/>
                     <p style={{fontSize: '5pt'}}>DASHBOARD</p>
                 </div>
                 <div onClick={() => {
