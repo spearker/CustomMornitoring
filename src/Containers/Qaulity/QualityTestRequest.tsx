@@ -195,6 +195,7 @@ const QualityTestRequest = ({match}: Props) => {
                                                style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
                                                disabled/>
                                         : <ProductionPickerModal select={productionData}
+                                                                 type={-1}
                                                                  onClickEvent={(e) => setProductionData(e)}
                                                                  text={'품목을 입력해주세요.'} buttonWid={30}/>
                                 }

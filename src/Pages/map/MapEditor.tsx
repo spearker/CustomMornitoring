@@ -25,6 +25,7 @@ const MapEditorContiner = ({match}: Props) => {
     console.log(match)
 
     const [index, setIndex] = useState({mapType: '지도 타입 선택 (사용처)'})
+    const [subIndex, setSubIndex] = useState({name: '공장 내 기계 목록'})
     const companyPk = match.params.company;
     const factoryPk = match.params.factory;
     const mapType = match.params.type;
@@ -52,17 +53,25 @@ const MapEditorContiner = ({match}: Props) => {
         }
     }
 
+    const subIndexList = {
+        machine: {
+            name: '공장 내 기계 목록',
+            Coordinates: '기계 좌표 설정'
+        }
+    }
+
     /**
      * getFactoryList()
      * 공장 목록 불러오기
      */
     const getFactoryList = useCallback(async () => {
 
-        // const resultList = await getCommonList(API_URLS[`factory`].list + `?pk=${companyPk}`);
-        // console.log('ㄷㅈㄹㄷㅈㄹㄷㅈㄹㅈㄷㄹ', resultList);
-        // const factoryList = resultList.map((fatorylist))
-        //
-        // setFactoryList(resultList);
+        const resultList = await getCommonList(API_URLS[`factory`].list + `?pk=${companyPk}`);
+        const factoryList = resultList.map((fatorylist) => {
+            return fatorylist.name
+        })
+
+        setFactoryList(factoryList);
 
     }, [factoryList, companyPk])
 
@@ -137,6 +146,7 @@ const MapEditorContiner = ({match}: Props) => {
     useEffect(() => {
         getFactoryList();
         setIndex(indexList['map'])
+        setSubIndex(subIndexList['machine'])
     }, [])
 
     useEffect(() => {
@@ -208,164 +218,177 @@ const MapEditorContiner = ({match}: Props) => {
 
 
     return (
-        <div>
-            <MapEditTable indexList={index} valueList={[{
-                mapType: ['프레스 모니터링', '프레스 통계분석(넓음)', '프레스 통계분석(좁음)'],
-                factory: ['', ''],
-                component_size: '컴포넌트 사이즈 설정',
-                width_setting: '도면 너비 설정'
-            }]}/>
-        </div>
-        // <MapEditorWrapper>
-        //     <h2>지도 이미지 에디터</h2>
-        //     <div style={{flexDirection: 'row', display: 'flex'}}>
-        //         <div>
-        //             {
-        //                 inputData.factory !== null &&
-        //                 <MapBoard
-        //                     xyList={componentList}
-        //                     bg={tempMapUrl}
-        //                     statusList={machineList}
-        //                     width={inputData.map_width}
-        //                     size={inputData.component_size}/>
-        //             }
-        //         </div>
-        //         <div style={{display: "flex", flexDirection: "row"}}>
-        //             {
-        //                 componentList.map((v, i) =>
-        //                     <Slider value={v.bottom}
-        //                             orientation="vertical"
-        //                             onChange={(e: any, v: any) => {
-        //                                 console.log(v)
-        //                                 const temp = [...componentList];
-        //                                 temp[i].bottom = v;
-        //                                 setComponentList(temp)
-        //                             }}/>
-        //                 )
-        //             }
-        //         </div>
-        //     </div>
-        //     <>
-        //         {
-        //             componentList.map((v, i) => {
-        //                 return (
-        //                     <div key={`compo-${i}`} style={{width: inputData.map_width, marginLeft: 18}}>
-        //                         <p>{v.pk}</p>
-        //                         <Slider value={v.left}
-        //                                 onChange={(e: any, v: any) => {
-        //                                     console.log(v)
-        //                                     const temp = [...componentList];
-        //                                     temp[i].left = v;
-        //                                     setComponentList(temp)
-        //                                 }}/>
-        //                     </div>
-        //                 )
-        //             })
-        //         }
-        //         <button onClick={() => createMap()}>도면 저장</button>
-        //     </>
-        //     <MapEditInputWrapper>
-        //         <div>
-        //             <p>지도 타입 선택 (사용처)</p>
-        //             <CommonDropdown
-        //                 contents={MAP_TYPES}
-        //                 select={inputData.type}
-        //                 onClickEvent={(input: any) => setInputData("type", input)}
-        //             />
-        //             <p>공장 선택</p>
-        //             <ArrayDataDropdown
-        //                 contents={factoryList}
-        //                 textKey={"name"}
-        //                 select={inputData.factory}
-        //                 onClickEvent={(input: any) => {
-        //                     setInputData("factory", input);
-        //                     setInputData("factory_pk", input.pk);
-        //                 }}
-        //             />
-        //             <p>컴포넌트 사이즈 설정</p>
-        //             <CommonDropdown
-        //                 contents={COMPONENT_TYPES}
-        //                 select={inputData.component_size}
-        //                 onClickEvent={(input: any) => setInputData("component_size", input)}
-        //             />
-        //             <p>도면 등록</p>
-        //             <label htmlFor={"map"}>[ 업로드 ]</label>
-        //             <input type="file" name={'TEMP NAME'} id={"map"} style={{display: 'none'}} onChange={addFile}/>
-        //
-        //             <p>도면 너비 설정</p>
-        //             <input type="number"
-        //                    value={inputData.map_width}
-        //                    onChange={(e) => setInputData(`map_width`, e.target.value)}
-        //             />
-        //         </div>
-        //         {
-        //             inputData.factory !== null && (
-        //                 <>
-        //                     <div>
-        //                         <p>공장 내 기계 목록</p>
-        //                         {
-        //                             machineList
-        //                                 .map((v, i) => {
-        //                                     return (
-        //                                         <CheckboxInput
-        //                                             key={`chech-${i}`}
-        //                                             nameKeys={[`name`, `code`]}
-        //                                             pkKey={'pk'}
-        //                                             checked={componentList.find(f => f.pk == v.pk) ? true : false}
-        //                                             contents={v}
-        //                                             onChangeEvent={(id: any) => { //@param : machine info
-        //                                                 console.log(id)
-        //                                                 if (componentList.find(f => f.pk == id)) {
-        //                                                     const tempObj = componentList.find(f => f.pk == id);
-        //                                                     let temp = [...componentList].filter(f => f.pk !== tempObj.pk);
-        //                                                     setComponentList(temp);
-        //                                                 } else {
-        //                                                     const tempObj = {pk: id, bottom: 0, left: 0}
-        //                                                     console.log(tempObj)
-        //                                                     let temp = [...componentList, tempObj];
-        //                                                     setComponentList(temp);
-        //                                                 }
-        //
-        //                                             }}
-        //                                         />
-        //                                     );
-        //                                 })}
-        //                     </div>
-        //                     <div>
-        //                         <p>선택 기계 좌표 설정</p>
-        //                         <>
-        //                             {
-        //                                 componentList.map((v, i) => {
-        //                                     return (
-        //                                         <div key={`compo-${i}`}>
-        //                                             <p>{v.pk}</p>
-        //                                             <span>X</span>
-        //                                             <input type="number"
-        //                                                    value={v.left}
-        //                                                    onChange={(e) => {
-        //                                                        const temp = [...componentList];
-        //                                                        temp[i].left = e.target.value;
-        //                                                        setComponentList(temp)
-        //                                                    }}/>
-        //                                             <span>Y</span>
-        //                                             <input type="number"
-        //                                                    value={v.bottom}
-        //                                                    onChange={(e) => {
-        //                                                        const temp = [...componentList];
-        //                                                        temp[i].bottom = e.target.value;
-        //                                                        setComponentList(temp)
-        //                                                    }}/>
-        //                                         </div>
-        //                                     )
-        //                                 })
-        //                             }
-        //                             <button onClick={() => createMap()}>도면 저장</button>
-        //                         </>
-        //                     </div>
-        //                 </>
-        //             )}
-        //     </MapEditInputWrapper>
-        // </MapEditorWrapper>
+        <>
+            <div>
+                <MapEditTable indexList={index} valueList={[{
+                    mapType: ['지도 타입을 선택해주세요', '프레스 모니터링', '프레스 통계분석(넓음)', '프레스 통계분석(좁음)'],
+                    factory: ['공장을 선택해주세요', factoryList[0]],
+                    component_size: ['사이즈를 선택해주세요', "프레스 모니터링", "프레스 모니터링 (브레이커 포함)", "이름만 포함"],
+                    width_setting: 1100
+                }]}/>
+                <MapBoard
+                    xyList={componentList}
+                    bg={tempMapUrl}
+                    statusList={machineList}
+                    width={inputData.map_width}
+                    size={inputData.component_size}
+                    mapUpload={addFile}/>
+                {/*<MapEditTable indexList={subIndex} valueList={[{*/}
+                {/*    name: [],*/}
+                {/*    Coordinates: '기계 좌표 설정'*/}
+                {/*}]}/>*/}
+            </div>
+            <MapEditorWrapper>
+                <h2>지도 이미지 에디터</h2>
+                <div style={{flexDirection: 'row', display: 'flex'}}>
+                    <div>
+                        {
+                            inputData.factory !== null &&
+                            <MapBoard
+                                xyList={componentList}
+                                bg={tempMapUrl}
+                                statusList={machineList}
+                                width={inputData.map_width}
+                                size={inputData.component_size}/>
+                        }
+                    </div>
+                    <div style={{display: "flex", flexDirection: "row"}}>
+                        {
+                            componentList.map((v, i) =>
+                                <Slider value={v.bottom}
+                                        orientation="vertical"
+                                        onChange={(e: any, v: any) => {
+                                            console.log(v)
+                                            const temp = [...componentList];
+                                            temp[i].bottom = v;
+                                            setComponentList(temp)
+                                        }}/>
+                            )
+                        }
+                    </div>
+                </div>
+                <>
+                    {
+                        componentList.map((v, i) => {
+                            return (
+                                <div key={`compo-${i}`} style={{width: inputData.map_width, marginLeft: 18}}>
+                                    <p>{v.pk}</p>
+                                    <Slider value={v.left}
+                                            onChange={(e: any, v: any) => {
+                                                console.log(v)
+                                                const temp = [...componentList];
+                                                temp[i].left = v;
+                                                setComponentList(temp)
+                                            }}/>
+                                </div>
+                            )
+                        })
+                    }
+                    <button onClick={() => createMap()}>도면 저장</button>
+                </>
+                <MapEditInputWrapper>
+                    <div>
+                        <p>지도 타입 선택 (사용처)</p>
+                        <CommonDropdown
+                            contents={MAP_TYPES}
+                            select={inputData.type}
+                            onClickEvent={(input: any) => setInputData("type", input)}
+                        />
+                        <p>공장 선택</p>
+                        <ArrayDataDropdown
+                            contents={factoryList}
+                            textKey={"name"}
+                            select={inputData.factory}
+                            onClickEvent={(input: any) => {
+                                setInputData("factory", input);
+                                setInputData("factory_pk", input.pk);
+                            }}
+                        />
+                        <p>컴포넌트 사이즈 설정</p>
+                        <CommonDropdown
+                            contents={COMPONENT_TYPES}
+                            select={inputData.component_size}
+                            onClickEvent={(input: any) => setInputData("component_size", input)}
+                        />
+                        <p>도면 등록</p>
+                        <label htmlFor={"map"}>[도면 업로드]</label>
+                        <input type="file" name={'TEMP NAME'} id={"map"} style={{display: 'none'}}
+                               onChange={addFile}/>
+                        <p>도면 너비 설정</p>
+                        <input type="number"
+                               value={inputData.map_width}
+                               onChange={(e) => setInputData(`map_width`, e.target.value)}
+                        />
+                    </div>
+                    {
+                        inputData.factory !== null && (
+                            <>
+                                <div>
+                                    <p>공장 내 기계 목록</p>
+                                    {
+                                        machineList
+                                            .map((v, i) => {
+                                                return (
+                                                    <CheckboxInput
+                                                        key={`chech-${i}`}
+                                                        nameKeys={[`name`, `code`]}
+                                                        pkKey={'pk'}
+                                                        checked={componentList.find(f => f.pk == v.pk) ? true : false}
+                                                        contents={v}
+                                                        onChangeEvent={(id: any) => { //@param : machine info
+                                                            console.log(id)
+                                                            if (componentList.find(f => f.pk == id)) {
+                                                                const tempObj = componentList.find(f => f.pk == id);
+                                                                let temp = [...componentList].filter(f => f.pk !== tempObj.pk);
+                                                                setComponentList(temp);
+                                                            } else {
+                                                                const tempObj = {pk: id, bottom: 0, left: 0}
+                                                                console.log(tempObj)
+                                                                let temp = [...componentList, tempObj];
+                                                                setComponentList(temp);
+                                                            }
+
+                                                        }}
+                                                    />
+                                                );
+                                            })}
+                                </div>
+                                <div>
+                                    <p>선택 기계 좌표 설정</p>
+                                    <>
+                                        {
+                                            componentList.map((v, i) => {
+                                                return (
+                                                    <div key={`compo-${i}`}>
+                                                        <p>{v.pk}</p>
+                                                        <span>X</span>
+                                                        <input type="number"
+                                                               value={v.left}
+                                                               onChange={(e) => {
+                                                                   const temp = [...componentList];
+                                                                   temp[i].left = e.target.value;
+                                                                   setComponentList(temp)
+                                                               }}/>
+                                                        <span>Y</span>
+                                                        <input type="number"
+                                                               value={v.bottom}
+                                                               onChange={(e) => {
+                                                                   const temp = [...componentList];
+                                                                   temp[i].bottom = e.target.value;
+                                                                   setComponentList(temp)
+                                                               }}/>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                        <button onClick={() => createMap()}>도면 저장</button>
+                                    </>
+                                </div>
+                            </>
+                        )}
+                </MapEditInputWrapper>
+            </MapEditorWrapper>
+        </>
     );
 };
 

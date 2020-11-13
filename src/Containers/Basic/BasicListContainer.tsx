@@ -8,6 +8,8 @@ import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import Pagination from "@material-ui/lab/Pagination";
 import Styled from "styled-components";
+import Notiflix from "notiflix";
+
 
 interface Props {
     type: string
