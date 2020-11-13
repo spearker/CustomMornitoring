@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import moment from 'moment'
-import ReactApexChart from 'react-apexcharts'
-import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
-import {API_URLS, getCapacityTimeData} from '../../Api/pm/analysis'
+import moment from "moment";
+import ReactApexChart from "react-apexcharts";
+import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
+import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
 
-import tempImage from '../../Assets/Images/temp_machine.png'
-import NoDataCard from '../../Components/Card/NoDataCard'
+import tempImage from "../../Assets/Images/temp_machine.png"
+import NoDataCard from "../../Components/Card/NoDataCard";
 
 const ChartInitOptions = {
     chart: {
@@ -45,9 +45,9 @@ const ChartInitOptions = {
         },
     },
     fill: {
-        type: 'gradient',
+        type: "gradient",
         gradient: {
-            type: 'vertical',
+            type: "vertical",
             shadeIntensity: 0,
             opacityFrom: 1,
             opacityTo: .20,
@@ -67,13 +67,13 @@ const ChartInitOptions = {
         },
         y: {
             formatter: (i) => {
-                return i.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '개'
+                return i.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "개"
             }
         }
     },
     xaxis: {
         categories: [
-            '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
         ],
         labels: {
             style: {
@@ -89,15 +89,15 @@ const MachineInitData: IPressCapacity = {
     machine_name: '',
     machine_ton: '',
     analyze: {
-        times: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
+        times: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"],
         productions: []
     }
 }
 
 const PMCapacityStaticsContiner = () => {
-    const times: string[] = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
+    const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
     const [series, setSeries] = useState<{ name: string, data: number[], max: number }[]>([{
-        name: 'value1',
+        name: "value1",
         data: MachineInitData.analyze.productions,
         max: 0
     }])
@@ -105,9 +105,9 @@ const PMCapacityStaticsContiner = () => {
 
     const [selectMachine, setSelectMachine] = useState<string>('')
 
-    const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData)
+    const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
-    const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
+    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
 
     const [max, setMax] = useState<number>(20000)
 
@@ -119,31 +119,29 @@ const PMCapacityStaticsContiner = () => {
      * @returns X
      */
     const getData = useCallback(async () => {
-        if (selectMachine !== '') {
-            const tempUrl = `${API_URLS['capacity'].load}?pk=${selectMachine}&date=${selectDate}`
-            const resultData = await getCapacityTimeData(tempUrl)
-            setMachineData(resultData)
+        const tempUrl = `${API_URLS['capacity'].load}?pk=${selectMachine}&date=${selectDate}`
+        const resultData = await getCapacityTimeData(tempUrl);
+        setMachineData(resultData)
 
-            let tmp: number[] = []
-            times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmp.push(resultData.analyze.productions[listIndex])
-                } else {
-                    tmp.push(0)
-                }
-            })
-            console.log(tmp)
+        let tmp: number[] = []
+        times.map((v, i) => {
+            let listIndex = resultData.analyze.times.indexOf(v)
+            if (listIndex !== -1) {
+                tmp.push(resultData.analyze.productions[listIndex])
+            } else {
+                tmp.push(0)
+            }
+        })
+        console.log(tmp)
 
-            let tmpMax = maxData(Math.max.apply(null, tmp))
+        let tmpMax = maxData(Math.max.apply(null, tmp))
 
-            setSeries([{name: '생산량', data: tmp, max: tmpMax}])
-        }
-    }, [selectMachine, machineData, series, selectDate])
+        setSeries([{name: '생산량', data: tmp, max: tmpMax}])
+    }, [selectMachine, machineData, series, selectDate]);
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
-        const resultData = await getCapacityTimeData(tempUrl)
+        const resultData = await getCapacityTimeData(tempUrl);
         console.log(resultData)
         setPressList(resultData)
 
@@ -165,11 +163,11 @@ const PMCapacityStaticsContiner = () => {
     return (
         <div>
             <div style={{marginTop: 42, marginBottom: 19}}>
-                <p style={{fontSize: 22, fontWeight: 'bold', textAlign: 'left'}}>프레스 생산량</p>
+                <p style={{fontSize: 22, fontWeight: "bold", textAlign: "left"}}>프레스 생산량</p>
             </div>
             <ChartListBox>
                 <div style={{marginTop: 25, marginBottom: 23}}>
-                    <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
+                    <p style={{textAlign: "left", fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
                 </div>
                 {pressList !== undefined && pressList.length === 0 ? (
                         <p style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
@@ -183,8 +181,8 @@ const PMCapacityStaticsContiner = () => {
                                     width: 114,
                                     height: 100,
                                     marginLeft: 8,
-                                    display: 'inline-block',
-                                    float: 'left',
+                                    display: "inline-block",
+                                    float: "left",
                                     paddingTop: 10
                                 }}>
                                     <img src={v.machine_img ? v.machine_img : tempImage}
@@ -194,15 +192,15 @@ const PMCapacityStaticsContiner = () => {
                                     width: 150,
                                     height: 100,
                                     float: 'left',
-                                    display: 'inline-block',
+                                    display: "inline-block",
                                     marginTop: 10,
                                     marginLeft: 21
                                 }}>
                                     <p style={{
                                         fontWeight: 'bold',
-                                        textAlign: 'left'
-                                    }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
-                                    <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
+                                        textAlign: "left"
+                                    }}>{v.machine_name + "(" + v.machine_ton + "t)"}</p>
+                                    <p style={{textAlign: "left"}}>{v.manufacturer_code}</p>
                                 </div>
                             </ChartBorderMiniBox>)
                         } else {
@@ -213,8 +211,8 @@ const PMCapacityStaticsContiner = () => {
                                     width: 114,
                                     height: 100,
                                     marginLeft: 8,
-                                    display: 'inline-block',
-                                    float: 'left',
+                                    display: "inline-block",
+                                    float: "left",
                                     paddingTop: 10
                                 }}>
                                     <img src={v.machine_img ? v.machine_img : tempImage}
@@ -224,15 +222,15 @@ const PMCapacityStaticsContiner = () => {
                                     width: 150,
                                     height: 100,
                                     float: 'left',
-                                    display: 'inline-block',
+                                    display: "inline-block",
                                     marginTop: 10,
                                     marginLeft: 21
                                 }}>
                                     <p style={{
                                         fontWeight: 'bold',
-                                        textAlign: 'left'
-                                    }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
-                                    <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
+                                        textAlign: "left"
+                                    }}>{v.machine_name + "(" + v.machine_ton + "t)"}</p>
+                                    <p style={{textAlign: "left"}}>{v.manufacturer_code}</p>
                                 </div>
                             </ChartMiniBox>)
                         }
@@ -247,12 +245,12 @@ const PMCapacityStaticsContiner = () => {
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
-                        {console.log('datafladkjlkajsdlkfjlkadsjfljskljdslfjlk')}
+                        {console.log("datafladkjlkajsdlkfjlkadsjfljskljdslfjlk")}
                         <div style={{marginTop: 25, paddingBottom: 23}}>
                             <div>
-                                <div style={{float: 'left', display: 'inline-block'}}>
+                                <div style={{float: "left", display: "inline-block"}}>
                                     <p style={{
-                                        textAlign: 'left',
+                                        textAlign: "left",
                                         fontSize: 20,
                                         fontWeight: 'bold'
                                     }}>{machineData.machine_name}</p>
@@ -279,10 +277,10 @@ const PMCapacityStaticsContiner = () => {
                                     labels: {
                                         formatter: (value, index) => {
                                             if (Math.round(value) === Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100) {
-                                                return '(생산량)'
+                                                return "(생산량)"
                                             } else {
                                                 if (index % 5 === 0) {
-                                                    return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                    return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                                 } else {
                                                     return
                                                 }
@@ -291,7 +289,7 @@ const PMCapacityStaticsContiner = () => {
                                         }
                                     }
                                 }
-                            }} series={series} type={'bar'} height={'98%'}></ReactApexChart>
+                            }} series={series} type={'bar'} height={"98%"}></ReactApexChart>
                         </div>
                     </ChartDetailBox>
                     : <ChartDetailBox>
@@ -299,7 +297,7 @@ const PMCapacityStaticsContiner = () => {
                     </ChartDetailBox>
             }
         </div>
-    )
+    );
 }
 
 const ChartListBox = Styled.div`
@@ -347,4 +345,4 @@ const ChartBorderMiniBox = Styled.div`
     margin-bottom: 20px; 
 `
 
-export default PMCapacityStaticsContiner
+export default PMCapacityStaticsContiner;

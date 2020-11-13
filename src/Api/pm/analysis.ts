@@ -77,9 +77,9 @@ export const API_URLS = {
         load: `/v1/analysis/press/downtime`
     },
     capacity: {
-        load: `/v1/analysis/press/production`
+        load: `/v1/analysis/press/production`,
+        load2: `/v1/analysis/press/productions`
     },
-
     pressList: {
         list: '/v1/analysis/press/list'
     },

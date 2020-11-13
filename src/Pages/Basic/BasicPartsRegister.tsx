@@ -16,6 +16,7 @@ import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import SmallButton from '../../Components/Button/SmallButton'
 import Styled from 'styled-components'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {setInterval} from "timers";
 
 
 const BasicPartsRegister = () => {
@@ -78,7 +79,6 @@ const BasicPartsRegister = () => {
 
                 setPartsPkList(pk)
                 setPartsList(list)
-
 
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
@@ -258,7 +258,10 @@ const BasicPartsRegister = () => {
         } else {
             if (res.status === 200) {
                 //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
+                console.log('partsList[type]', partsList[partsList.length - 2], partsList)
+                // setPartsName(partsList[partsList.length - 2])
+                await partsListLoad()
+                setType(partsList.length - 2)
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -278,16 +281,13 @@ const BasicPartsRegister = () => {
     }, [type])
 
     useEffect(() => {
-        if (partsList[type] !== '부품 등록하기' || partsList[type] === undefined) {
-            // setType(partsList.indexOf(partsName))
+        if (partsList[type] !== '부품 등록하기' && partsList[type] === undefined) {
+            setType(partsList.indexOf(partsName))
         } else {
             return
         }
     }, [partsList, partsName])
 
-    useEffect(() => {
-        console.log(type)
-    }, [type])
 
     return (
         <DashboardWrapContainer index={'basic'}>
@@ -304,11 +304,9 @@ const BasicPartsRegister = () => {
                                     <DropdownInput title={'부품 종류'} target={partsList[type]} contents={partsList}
                                                    onChangeEvent={(input) => setType(input)}/>
                                 </div>
-                                {console.log(partsList[type])}
                                 <NormalInput title={'부품 이름'}
                                              width={partsList[type] === '부품 등록하기' || partsList[type] === undefined ? 140 : 80}
                                              value={partsName} onChangeEvent={(input) => {
-                                    console.log(input)
                                     setPartsName(input)
                                 }} description={'부품명을 입력하세요'}/>
                                 <div

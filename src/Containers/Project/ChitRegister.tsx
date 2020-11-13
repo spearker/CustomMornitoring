@@ -80,7 +80,7 @@ const ChitRegisterContainer = () => {
         });
 
         history.goBack()
-    }, [chitData])
+    }, [chitData, modalSelect, selectDate])
 
     return (
         <div>

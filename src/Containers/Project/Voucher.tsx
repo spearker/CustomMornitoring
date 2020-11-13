@@ -270,7 +270,7 @@ const VoucherContainer = ({match}: Props) => {
                 checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
+                // EventList={eventList}
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
