@@ -6,7 +6,9 @@ import {API_URLS, getSegmentList, postSegmentDelete} from '../../Api/mes/process
 import {useHistory} from 'react-router-dom'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const SegmentListContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
@@ -208,13 +210,14 @@ const SegmentListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['segment'].list + '?page='}${page.current}&limit=15`
         const res = await getSegmentList(tempUrl)
 
         setPage({current: res.current_page, total: res.total_page})
 
         setList(res.info_list)
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

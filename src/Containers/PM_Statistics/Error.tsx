@@ -3,7 +3,9 @@ import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getErrorData} from '../../Api/pm/statistics'
 import Styled from 'styled-components'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const ErrorContainer = () => {
 
@@ -73,22 +75,26 @@ const ErrorContainer = () => {
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
         if (pk !== undefined && pk !== null) {
+            Notiflix.Loading.Circle()
             const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=7`
             const res = await getErrorData(tempUrl)
 
             setDetailList(res.errorList)
 
             setDetailPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
         }
     }, [detailList, detailPage])
 
 
     const getList = useCallback(async () => { // useCallback
+        Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['error'].list}?page=${page.current}&limit=5`
         const res = await getErrorData(tempUrl)
 
         setList(res.info_list)
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

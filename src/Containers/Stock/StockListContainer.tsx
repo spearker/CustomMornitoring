@@ -6,7 +6,9 @@ import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {useHistory} from "react-router-dom"
 import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const StockListContainer = () => {
 
@@ -147,6 +149,7 @@ const StockListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
 
@@ -159,6 +162,7 @@ const StockListContainer = () => {
         setList(getStock)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {
@@ -186,9 +190,9 @@ const StockListContainer = () => {
                 noChildren={true}>
                 {
                     selectPk !== null &&
-                        <LineTable title={selectStock + ' 입출고 현황'} contentTitle={subIndex} contentList={detailList}>
-                            <Line/>
-                        </LineTable>
+                    <LineTable title={selectStock + ' 입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                        <Line/>
+                    </LineTable>
                 }
             </OvertonTable>
         </div>

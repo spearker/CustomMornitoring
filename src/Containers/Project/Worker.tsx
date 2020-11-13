@@ -4,6 +4,9 @@ import {API_URLS, getProjectList,} from "../../Api/mes/production";
 import {useHistory} from "react-router-dom";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import moment from "moment";
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 interface Props {
     match: any;
@@ -81,7 +84,7 @@ const WorkerContainer = ({match}: Props) => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
@@ -94,7 +97,7 @@ const WorkerContainer = ({match}: Props) => {
 
         setPage({current: res.current_page, total: res.total_page})
         setList(getWorker)
-
+        Notiflix.Loading.Remove()
     }, [list])
 
     useEffect(() => {

@@ -6,7 +6,9 @@ import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList
 import {useHistory} from 'react-router-dom'
 import {getCustomerData} from '../../Api/mes/customer'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const OrderContainer = () => {
 
@@ -198,17 +200,18 @@ const OrderContainer = () => {
         const res = await getOutsourcingList(tempUrl)
 
         setDetailList([res])
-
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove();
     }, [list, page])
 
     useEffect(() => {

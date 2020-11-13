@@ -8,6 +8,9 @@ import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import {postCustomerDelete} from '../../Api/mes/customer'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import {keys} from '@material-ui/core/styles/createBreakpoints'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const ProcessListContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
@@ -150,6 +153,7 @@ const ProcessListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['process'].list + '?page='}${page.current}&limit=15`
         const res = await getProcessList(tempUrl)
 
@@ -160,7 +164,7 @@ const ProcessListContainer = () => {
 
         setPage({current: res.current_page, total: res.total_page})
         setList(getprocesses)
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

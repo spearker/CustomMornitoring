@@ -3,11 +3,10 @@ import Styled from 'styled-components'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getMoldData,} from '../../Api/pm/preservation'
+import Notiflix from "notiflix";
 
-//금형 보전 관리
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
-//캘린더 api 는 react-calendar
-//사용법 : https://www.npmjs.com/package/react-calendar
 const MoldMaintenanceContainer = () => {
 
     const [list, setList] = useState<any[]>([])
@@ -65,12 +64,14 @@ const MoldMaintenanceContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=5`
         const res = await getMoldData(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

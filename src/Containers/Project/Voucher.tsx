@@ -6,6 +6,9 @@ import {API_URLS, getProjectList, postProjectDelete} from '../../Api/mes/product
 import VoucherDropdown from '../../Components/Dropdown/VoucherDropdown'
 import {useHistory} from 'react-router-dom'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 interface Props {
     match: any;
@@ -216,6 +219,7 @@ const VoucherContainer = ({match}: Props) => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = match.params.pk !== undefined ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${page.current}&limit=55` : `${API_URLS['chit'].list}?pk=&page=${page.current}&limit=5`
         const res = await getProjectList(tempUrl)
 
@@ -228,7 +232,7 @@ const VoucherContainer = ({match}: Props) => {
 
         setPage({current: res.current_page, total: res.total_page})
         setList(getVoucher)
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

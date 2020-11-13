@@ -6,6 +6,10 @@ import {API_URLS, getDefectiveData,} from '../../Api/pm/analysis'
 import ReactApexChart from 'react-apexcharts'
 import NoDataCard from '../../Components/Card/NoDataCard'
 import {POINT_COLOR} from '../../Common/configset'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
+
 
 const ChartOptionDetailLable = {
     yaxis: {
@@ -226,12 +230,14 @@ const DefectiveContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=5`
         const res = await getDefectiveData(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     const pieOnClick = useCallback((index) => {

@@ -5,7 +5,9 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {useHistory} from "react-router-dom"
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const OutSourceContainer = () => {
 
@@ -117,6 +119,7 @@ const OutSourceContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
 
@@ -129,7 +132,7 @@ const OutSourceContainer = () => {
         setList(getStock)
 
         setPage({current: res.current_page, total: res.total_page})
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
 

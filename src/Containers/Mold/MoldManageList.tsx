@@ -4,7 +4,9 @@ import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getMoldList} from '../../Api/mes/manageMold'
 import {postCustomerDelete} from '../../Api/mes/customer'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const CreateContainer = () => {
 
@@ -132,12 +134,14 @@ const CreateContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['manage'].list}?page=${page.current}&keyword=&type=0&limit=5`
         const res = await getMoldList(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     const postDelete = useCallback(async () => {

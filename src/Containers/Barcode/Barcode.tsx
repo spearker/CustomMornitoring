@@ -5,7 +5,9 @@ import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getBarcode, postBarcode} from '../../Api/mes/barcode'
 import {useHistory} from 'react-router-dom'
 import {postProjectDelete} from '../../Api/mes/production'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const BarcodeListContainer = () => {
 
@@ -206,12 +208,14 @@ const BarcodeListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=15`
         const res = await getBarcode(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {
