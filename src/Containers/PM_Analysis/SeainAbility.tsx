@@ -7,6 +7,10 @@ import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
 
 import tempImage from "../../Assets/Images/temp_machine.png"
 import NoDataCard from "../../Components/Card/NoDataCard";
+import OvertonTable from "../../Components/Table/OvertonTable";
+import DateTable from "../../Components/Table/DateTable";
+import {getProjectList} from "../../Api/mes/production";
+import {POINT_COLOR} from "../../Common/configset";
 
 const ChartInitOptions = {
     chart: {
@@ -94,13 +98,16 @@ const MachineInitData: IPressCapacity = {
     }
 }
 
-const PMCapacityStaticsContiner = () => {
+const SeainAbility = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
     const [series, setSeries] = useState<{ name: string, data: number[], max: number }[]>([{
         name: "value1",
         data: MachineInitData.analyze.productions,
         max: 0
     }])
+
+    const [index, setIndex] = useState({mold_name: '금형명'})
+
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
 
     const [selectMachine, setSelectMachine] = useState<string>('')
@@ -111,6 +118,14 @@ const PMCapacityStaticsContiner = () => {
 
     const [max, setMax] = useState<number>(20000)
 
+    const indexList = {
+        ability: {
+            mold_name: '금형명',
+            material_name: '품목(품목명)'
+        }
+    }
+
+
     /**
      * getData()
      * 생산량 분석 데이터 로드
@@ -119,27 +134,30 @@ const PMCapacityStaticsContiner = () => {
      * @returns X
      */
     const getData = useCallback(async () => {
-        if (selectMachine !== '') {
-            const tempUrl = `${API_URLS['capacity'].load}?pk=${selectMachine}&date=${selectDate}`
-            const resultData = await getCapacityTimeData(tempUrl);
-            setMachineData(resultData)
+        const tempUrl = `${API_URLS['capacity'].load}?pk=${selectMachine}&date=${selectDate}`
+        const resultData = await getCapacityTimeData(tempUrl);
+        setMachineData(resultData)
 
-            let tmp: number[] = []
-            times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmp.push(resultData.analyze.productions[listIndex])
-                } else {
-                    tmp.push(0)
-                }
-            })
-            console.log(tmp)
+        let tmp: number[] = []
+        times.map((v, i) => {
+            let listIndex = resultData.analyze.times.indexOf(v)
+            if (listIndex !== -1) {
+                tmp.push(resultData.analyze.productions[listIndex])
+            } else {
+                tmp.push(0)
+            }
+        })
+        console.log(tmp)
 
-            let tmpMax = maxData(Math.max.apply(null, tmp))
+        let tmpMax = maxData(Math.max.apply(null, tmp))
 
-            setSeries([{name: '생산량', data: tmp, max: tmpMax}])
-        }
+        setSeries([{name: '생산량', data: tmp, max: tmpMax}])
     }, [selectMachine, machineData, series, selectDate]);
+
+    const calendarOnClick = useCallback(async (start, end) => {
+
+
+    }, [selectDate])
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
@@ -155,6 +173,7 @@ const PMCapacityStaticsContiner = () => {
 
     useEffect(() => {
         getList()
+        setIndex(indexList['ability'])
         // getData()
     }, [])
 
@@ -165,7 +184,7 @@ const PMCapacityStaticsContiner = () => {
     return (
         <div>
             <div style={{marginTop: 42, marginBottom: 19}}>
-                <p style={{fontSize: 22, fontWeight: "bold", textAlign: "left"}}>프레스 생산량</p>
+                <p style={{fontSize: 22, fontWeight: "bold", textAlign: "left"}}>프레스 능력</p>
             </div>
             <ChartListBox>
                 <div style={{marginTop: 25, marginBottom: 23}}>
@@ -247,29 +266,37 @@ const PMCapacityStaticsContiner = () => {
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
-                        {console.log("datafladkjlkajsdlkfjlkadsjfljskljdslfjlk")}
-                        <div style={{marginTop: 25, paddingBottom: 23}}>
-                            <div>
-                                <div style={{float: "left", display: "inline-block"}}>
-                                    <p style={{
-                                        textAlign: "left",
-                                        fontSize: 20,
-                                        fontWeight: 'bold'
-                                    }}>{machineData.machine_name}</p>
-                                </div>
-                                <CalendarDropdown type={'single'} select={selectDate}
-                                                  onClickEvent={async (i) => setSelectDate(i)}></CalendarDropdown>
-                            </div>
+                        <div style={{height: 300,}}>
+                            <DateTable indexList={index} selectDate={selectDate} calendarOnClick={setSelectDate}
+                                       valueList={[{mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},
+                                           {mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},
+                                           {mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},
+                                           {mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},]}/>
                         </div>
                         <div style={{
                             width: 640,
-                            height: 619,
-                            backgroundColor: '#111319',
+                            height: 400,
                             margin: 0,
                             padding: 0,
+                            backgroundColor: '#111319',
                             clear: 'both',
                             marginTop: 20
                         }}>
+                            <PressPower>
+                                <p>최대 일량</p>
+                                <div>
+                                    <input value={"9,999,999"}/>
+                                    <p>kgf.m</p>
+                                </div>
+                                <p>최소 일량</p>
+                                <div>
+                                    <input value={"9,999,999"}/>
+                                    <p>kgf.m</p>
+                                </div>
+                                <ButtonWrap>
+                                    분석
+                                </ButtonWrap>
+                            </PressPower>
                             <ReactApexChart options={{
                                 ...ChartInitOptions,
                                 yaxis: {
@@ -279,7 +306,7 @@ const PMCapacityStaticsContiner = () => {
                                     labels: {
                                         formatter: (value, index) => {
                                             if (Math.round(value) === Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100) {
-                                                return "(생산량)"
+                                                return "(ton)"
                                             } else {
                                                 if (index % 5 === 0) {
                                                     return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -291,7 +318,17 @@ const PMCapacityStaticsContiner = () => {
                                         }
                                     }
                                 }
-                            }} series={series} type={'bar'} height={"98%"}></ReactApexChart>
+                            }} series={series} type={'bar'} height={"65%"}/>
+                            <div style={{display: "flex"}}>
+                                <Overtime>
+                                    <p>최대 일일 초과 회수</p>
+                                    <p>9,999,999</p>
+                                </Overtime>
+                                <Overtime>
+                                    <p>최소 일일 초과 회수</p>
+                                    <p>9,999,999</p>
+                                </Overtime>
+                            </div>
                         </div>
                     </ChartDetailBox>
                     : <ChartDetailBox>
@@ -303,48 +340,109 @@ const PMCapacityStaticsContiner = () => {
 }
 
 const ChartListBox = Styled.div`
-    display: inline-block;
-    width: 340px;
-    height: 724px;
-    padding: 0 21px 0 29px;
-    background-color: #353b48;
-    border-radius: 6px;
-    float: left;
-    overflow-y:scroll;
-`
+                display: inline-block;
+                width: 340px;
+                height: 724px;
+                padding: 0 21px 0 29px;
+                background-color: #353b48;
+                border-radius: 6px;
+                float: left;
+                overflow-y:scroll;
+                `
 
 const ChartDetailBox = Styled.div`
-    display: inline-block;
-    width: 640px;
-    height: 724px;
-    padding: 0 25px 0 25px;
-    background-color: #353b48;
-    border-radius: 6px;
-    float: left;
-    margin-left: 20px;
-    .apexcharts-tooltip{
-        color: black;
-    }
-`
+                display: inline-block;
+                width: 640px;
+                height: 724px;
+                padding: 0 25px 0 25px;
+                border-radius: 6px;
+                float: left;
+                margin-left: 20px;
+                .apexcharts-tooltip{
+                color: black;
+                }
+                `
 
 const ChartMiniBox = Styled.div`
-    width: 340px;
-    height: 120px;
-    border-radius: 6px;
-    background-color: #111319;
-    margin-bottom: 20px;
-    img{
-        object-fit: resize;
+                width: 340px;
+                height: 120px;
+                border-radius: 6px;
+                background-color: #111319;
+                margin-bottom: 20px;
+                img{
+                object-fit: resize;
+                }
+                `
+
+const ChartBorderMiniBox = Styled.div`
+                width: 340px;
+                height: 120px;
+                border-radius: 6px;
+                background-color: #111319;
+                border: 4px solid #19b9df;
+                margin-bottom: 20px;
+                `
+
+const PressPower = Styled.div`
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p{
+      font-size: 14px;
+      font-weight: bold;
+    }
+    div{
+      display: flex;
+      width: 120px;
+      height: 20px;
+      margin: 0 16px 0 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background-color: #353b48;
+      input{
+        background-color: #353b48;
+        border: 0;
+        width: 90%;
+        color: #ffffff;
+      }
+      p{
+        font-size: 10px;
+        font-weight: normal;
+      }
     }
 `
 
-const ChartBorderMiniBox = Styled.div`
-    width: 340px;
-    height: 120px;
-    border-radius: 6px;
-    background-color: #111319;
-    border: 4px solid #19b9df;
-    margin-bottom: 20px; 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: white;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+ `
+
+const Overtime = Styled.div`
+  width: 337px;
+  height: 66px;
+  margin: 10px 16px 0 20px;
+  object-fit: contain;
+  border-radius: 6px;
+  background-color: #000000; 
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 16px;
+  padding-right: 16px;
+  p{
+     font-size: 20px;
+     font-weight: bold;
+    &:first-child{
+      font-size: 15px;
+      font-weight: normal;
+    }
+  }
 `
 
-export default PMCapacityStaticsContiner;
+export default SeainAbility;
