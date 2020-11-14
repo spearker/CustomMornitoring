@@ -9,6 +9,7 @@ interface Props {
     allCheckbox?: boolean
     contentTitle?: object
     checkBox?: boolean
+    settingHeight?: string
     contentList?: any[]
     objectLine?: boolean
     children?: any
@@ -17,7 +18,7 @@ interface Props {
     pageOnClickEvent?: any
 }
 
-const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, allCheckbox, contentTitle, checkBox, contentList, objectLine, currentPage, totalPage, pageOnClickEvent, children}: Props) => {
+const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, allCheckbox, contentTitle, checkBox, settingHeight, contentList, objectLine, currentPage, totalPage, pageOnClickEvent, children}: Props) => {
     return (
         <ClickBar>
             <ClickTitle>
@@ -60,62 +61,64 @@ const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, al
                 }
             </ContentTitle>
             <div>
-                {children == undefined || children === null ? <></> : children}
+                {children === undefined || children === null ? <></> : children}
             </div>
-            {contentList !== undefined && contentList.length === 0
-                ? (<Content><p style={{width: '100%', textAlign: 'center'}}>조회 가능한 데이터가 없습니다.</p></Content>)
-                : contentList && contentList.map((v, i) => {
-                return (
-                    <>
-                        <Content key={i}>
-                            {
-                                checkBox !== undefined || false ?
-                                    <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-                                        <input type="checkbox" id={`check-${i}-${v}`} onClick={(e) => true}/>
-                                        <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}></label>
-                                    </div>
+            <div style={{height: settingHeight, overflowY: "scroll"}}>
+                {contentList !== undefined && contentList.length === 0
+                    ? (<Content><p style={{width: '100%', textAlign: 'center'}}>조회 가능한 데이터가 없습니다.</p></Content>)
+                    : contentList && contentList.map((v, i) => {
+                    return (
+                        <>
+                            <Content key={i}>
+                                {
+                                    checkBox !== undefined || false ?
+                                        <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                            <input type="checkbox" id={`check-${i}-${v}`} onClick={(e) => true}/>
+                                            <label htmlFor={`check-${i}-${v}`} style={{backgroundColor: "white"}}/>
+                                        </div>
+                                        :
+                                        null
+                                }
+                                {contentTitle !== undefined ?
+                                    Object.keys(contentTitle).map((mv, mi) => {
+                                        return (
+                                            v[mv] !== null && v[mv] !== undefined ?
+                                                <p key={mv} className="p-limits">
+                                                    {
+                                                        typeof v[mv] === 'object' ?
+                                                            Object.keys(v[mv]).map(m => {
+                                                                return (
+                                                                    <div>
+                                                                        {v[mv][m]}
+                                                                    </div>
+                                                                )
+                                                            })
+                                                            :
+                                                            v[mv]
+                                                    }
+                                                </p>
+                                                :
+                                                null
+                                        )
+                                    }) :
+                                    null
+                                }
+
+                            </Content>
+                            {objectLine !== undefined || false ?
+                                contentList.length !== i + 1 ?
+                                    <Line/>
                                     :
                                     null
-                            }
-                            {contentTitle !== undefined ?
-                                Object.keys(contentTitle).map((mv, mi) => {
-                                    return (
-                                        v[mv] !== null && v[mv] !== undefined ?
-                                            <p key={mv} className="p-limits">
-                                                {
-                                                    typeof v[mv] === 'object' ?
-                                                        Object.keys(v[mv]).map(m => {
-                                                            return (
-                                                                <div>
-                                                                    {v[mv][m]}
-                                                                </div>
-                                                            )
-                                                        })
-                                                        :
-                                                        v[mv]
-                                                }
-                                            </p>
-                                            :
-                                            null
-                                    )
-                                }) :
-                                null
-                            }
-
-                        </Content>
-                        {objectLine !== undefined || false ?
-                            contentList.length !== i + 1 ?
-                                <Line/>
                                 :
                                 null
-                            :
-                            null
-                        }
-                    </>
-                )
-            })
+                            }
+                        </>
+                    )
+                })
+                }
+            </div>
 
-            }
             {currentPage && totalPage ?
                 <PaginationBox>
                     <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
@@ -165,7 +168,7 @@ const ContentTitle = Styled.div`
     width: 100%;
     align-items: center;
     text-align: left;
-    margin-top: 30px;
+    margin-top: 10px;
 `
 
 const Content = Styled.div`
@@ -177,7 +180,7 @@ const Content = Styled.div`
     width: 100%;
     align-items: flex-start;
     text-align: left;
-    margin-top: 20px;
+    margin-top: 10px;
 `
 
 const Line = Styled.hr`
@@ -202,5 +205,6 @@ const PaginationBox = Styled.div`
 
 
 export default LineTable
+
 
 
