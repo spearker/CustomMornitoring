@@ -1,7 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React from 'react'
 import Styled from 'styled-components'
-import moment from 'moment'
-import {API_URLS, getCapacityTimeData} from '../../../Api/pm/analysis'
 
 import tempImage from '../../../Assets/Images/temp_machine.png'
 
@@ -101,20 +99,6 @@ const ChartListBox = Styled.div`
     overflow-y:scroll;
 `
 
-const ChartDetailBox = Styled.div`
-    display: inline-block;
-    width: 640px;
-    height: 724px;
-    padding: 0 25px 0 25px;
-    background-color: #353b48;
-    border-radius: 6px;
-    float: left;
-    margin-left: 20px;
-    .apexcharts-tooltip{
-        color: black;
-    }
-`
-
 const ChartMiniBox = Styled.div`
     width: 340px;
     height: 120px;
@@ -133,13 +117,6 @@ const ChartBorderMiniBox = Styled.div`
     background-color: #111319;
     border: 4px solid #19b9df;
     margin-bottom: 20px;
-`
-
-const Line = Styled.hr`
-    margin: 10px 20px 12px 0px;
-    border-color: #353b48;
-    height: 1px;
-    background-color: #353b48;
 `
 
 

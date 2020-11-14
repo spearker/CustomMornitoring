@@ -2,15 +2,12 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Styled from 'styled-components'
 import moment from "moment";
 import ReactApexChart from "react-apexcharts";
-import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import {API_URLS, getCapacityTimeData} from "../../Api/pm/analysis";
-
-import tempImage from "../../Assets/Images/temp_machine.png"
-import NoDataCard from "../../Components/Card/NoDataCard";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import DateTable from "../../Components/Table/DateTable";
-import {getProjectList} from "../../Api/mes/production";
-import {POINT_COLOR} from "../../Common/configset";
+import {API_URLS, getCapacityTimeData} from "../../../Api/pm/analysis";
+import tempImage from "../../../Assets/Images/temp_machine.png"
+import NoDataCard from "../../../Components/Card/NoDataCard";
+import DateTable from "../../../Components/Table/DateTable";
+import {POINT_COLOR} from "../../../Common/configset";
+import CustomPressListCard from "../../../Components/Custom/pm_analysis/CustomPressListCard";
 
 const ChartInitOptions = {
     chart: {
@@ -154,15 +151,9 @@ const SeainAbility = () => {
         setSeries([{name: '생산량', data: tmp, max: tmpMax}])
     }, [selectMachine, machineData, series, selectDate]);
 
-    const calendarOnClick = useCallback(async (start, end) => {
-
-
-    }, [selectDate])
-
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
         const resultData = await getCapacityTimeData(tempUrl);
-        console.log(resultData)
         setPressList(resultData)
 
     }, [])
@@ -190,73 +181,8 @@ const SeainAbility = () => {
                 <div style={{marginTop: 25, marginBottom: 23}}>
                     <p style={{textAlign: "left", fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
                 </div>
-                {pressList !== undefined && pressList.length === 0 ? (
-                        <p style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
-                            없습니다. </p></p>) :
-                    pressList.map((v, i) => {
-
-                        console.log(series[0])
-                        if (selectMachine === v.pk) {
-                            return (<ChartBorderMiniBox>
-                                <div style={{
-                                    width: 114,
-                                    height: 100,
-                                    marginLeft: 8,
-                                    display: "inline-block",
-                                    float: "left",
-                                    paddingTop: 10
-                                }}>
-                                    <img src={v.machine_img ? v.machine_img : tempImage}
-                                         style={{width: 114, height: 104, objectFit: 'cover'}}/>
-                                </div>
-                                <div style={{
-                                    width: 150,
-                                    height: 100,
-                                    float: 'left',
-                                    display: "inline-block",
-                                    marginTop: 10,
-                                    marginLeft: 21
-                                }}>
-                                    <p style={{
-                                        fontWeight: 'bold',
-                                        textAlign: "left"
-                                    }}>{v.machine_name + "(" + v.machine_ton + "t)"}</p>
-                                    <p style={{textAlign: "left"}}>{v.manufacturer_code}</p>
-                                </div>
-                            </ChartBorderMiniBox>)
-                        } else {
-                            return (<ChartMiniBox onClick={() => {
-                                setSelectMachine(v.pk)
-                            }}>
-                                <div style={{
-                                    width: 114,
-                                    height: 100,
-                                    marginLeft: 8,
-                                    display: "inline-block",
-                                    float: "left",
-                                    paddingTop: 10
-                                }}>
-                                    <img src={v.machine_img ? v.machine_img : tempImage}
-                                         style={{width: 114, height: 104, objectFit: 'cover'}}/>
-                                </div>
-                                <div style={{
-                                    width: 150,
-                                    height: 100,
-                                    float: 'left',
-                                    display: "inline-block",
-                                    marginTop: 10,
-                                    marginLeft: 21
-                                }}>
-                                    <p style={{
-                                        fontWeight: 'bold',
-                                        textAlign: "left"
-                                    }}>{v.machine_name + "(" + v.machine_ton + "t)"}</p>
-                                    <p style={{textAlign: "left"}}>{v.manufacturer_code}</p>
-                                </div>
-                            </ChartMiniBox>)
-                        }
-                    })
-                }
+                <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
+                                     onClickMachine={setSelectMachine}/>
                 {
                     machineData.machine_name !== '' && <div>
 

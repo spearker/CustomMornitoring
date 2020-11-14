@@ -108,8 +108,7 @@ const PMCapacityStaticsContainer = () => {
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-
-    const [max, setMax] = useState<number>(20000)
+    
 
     /**
      * getData()
@@ -133,7 +132,6 @@ const PMCapacityStaticsContainer = () => {
                     tmp.push(0)
                 }
             })
-            console.log(tmp)
 
             let tmpMax = maxData(Math.max.apply(null, tmp))
 
@@ -144,7 +142,6 @@ const PMCapacityStaticsContainer = () => {
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
         const resultData = await getCapacityTimeData(tempUrl);
-        console.log(resultData)
         setPressList(resultData)
 
     }, [])
