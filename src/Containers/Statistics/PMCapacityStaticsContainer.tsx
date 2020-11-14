@@ -94,7 +94,7 @@ const MachineInitData: IPressCapacity = {
     }
 }
 
-const PMCapacityStaticsContiner = () => {
+const PMCapacityStaticsContainer = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
     const [series, setSeries] = useState<{ name: string, data: number[], max: number }[]>([{
         name: "value1",
@@ -347,4 +347,4 @@ const ChartBorderMiniBox = Styled.div`
     margin-bottom: 20px; 
 `
 
-export default PMCapacityStaticsContiner;
+export default PMCapacityStaticsContainer;

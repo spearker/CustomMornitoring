@@ -1,14 +1,14 @@
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import React from "react";
-import PMCapacityStaticsContiner from "../../Containers/Statistics/PMCapacityStaticsContiner";
+import PMCapacityStaticsContainer from "../../Containers/Statistics/PMCapacityStaticsContainer";
 
 const CapacityStatistics = () => {
     return (
         <DashboardWrapContainer index={'analysis'}>
 
             <InnerBodyContainer>
-                <PMCapacityStaticsContiner />
+                <PMCapacityStaticsContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
