@@ -157,10 +157,7 @@ const PMCapacityStaticsContiner = () => {
     const [machineData, setMachineData] = useState<Props>(MachineInitData)
 
     const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
-
-    const [max, setMax] = useState<number>(20000)
-
-
+    
     /**
      * getData()
      * 생산량 분석 데이터 로드
@@ -383,26 +380,6 @@ const ChartDetailBox = Styled.div`
     .apexcharts-tooltip{
         color: black;
     }
-`
-
-const ChartMiniBox = Styled.div`
-    width: 340px;
-    height: 120px;
-    border-radius: 6px;
-    background-color: #111319;
-    margin-bottom: 20px;
-    img{
-        object - fit: resize;
-    }
-`
-
-const ChartBorderMiniBox = Styled.div`
-    width: 340px;
-    height: 120px;
-    border-radius: 6px;
-    background-color: #111319;
-    border: 4px solid #19b9df;
-    margin-bottom: 20px;
 `
 
 const Line = Styled.hr`
