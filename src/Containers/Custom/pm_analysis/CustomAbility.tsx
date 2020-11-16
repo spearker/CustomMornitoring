@@ -95,7 +95,7 @@ const MachineInitData: IPressCapacity = {
     }
 }
 
-const SeainAbility = () => {
+const CustomAbility = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
     const [series, setSeries] = useState<{ name: string, data: number[], max: number }[]>([{
         name: "value1",
@@ -177,18 +177,13 @@ const SeainAbility = () => {
             <div style={{marginTop: 42, marginBottom: 19}}>
                 <p style={{fontSize: 22, fontWeight: "bold", textAlign: "left"}}>프레스 능력</p>
             </div>
-            <ChartListBox>
-                <div style={{marginTop: 25, marginBottom: 23}}>
-                    <p style={{textAlign: "left", fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
-                </div>
-                <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
-                                     onClickMachine={setSelectMachine}/>
-                {
-                    machineData.machine_name !== '' && <div>
+            <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
+                                 onClickMachine={setSelectMachine}/>
+            {
+                machineData.machine_name !== '' && <div>
 
-                    </div>
-                }
-            </ChartListBox>
+                </div>
+            }
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
@@ -208,21 +203,6 @@ const SeainAbility = () => {
                             clear: 'both',
                             marginTop: 20
                         }}>
-                            <PressPower>
-                                <p>최대 일량</p>
-                                <div>
-                                    <input value={"9,999,999"}/>
-                                    <p>kgf.m</p>
-                                </div>
-                                <p>최소 일량</p>
-                                <div>
-                                    <input value={"9,999,999"}/>
-                                    <p>kgf.m</p>
-                                </div>
-                                <ButtonWrap>
-                                    분석
-                                </ButtonWrap>
-                            </PressPower>
                             <ReactApexChart options={{
                                 ...ChartInitOptions,
                                 yaxis: {
@@ -371,4 +351,4 @@ const Overtime = Styled.div`
   }
 `
 
-export default SeainAbility;
+export default CustomAbility;

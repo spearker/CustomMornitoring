@@ -4,11 +4,13 @@ import moment from 'moment'
 import ReactApexChart from 'react-apexcharts'
 import CalendarDropdown from '../../../Components/Dropdown/CalendarDropdown'
 import {API_URLS, getCapacityTimeData} from '../../../Api/pm/analysis'
-
 import tempImage from '../../../Assets/Images/temp_machine.png'
 import NoDataCard from '../../../Components/Card/NoDataCard'
 import LineTable from "../../../Components/Table/LineTable";
 import CustomPressListCard from "../../../Components/Custom/pm_analysis/CustomPressListCard";
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 interface Props {
     manufacturer_code: string
@@ -19,10 +21,12 @@ interface Props {
         times: string[],
         productions: number[],
         max_count: number[],
+        uph: number[],
         mold_change: [][],
         error: [][],
         runtime: string[],
-        stoptime: string[]
+        stoptime: string[],
+        advice: [][],
     }
 }
 
@@ -35,19 +39,21 @@ const MachineInitData: Props = {
         times: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
         productions: [],
         max_count: [],
+        uph: [],
         mold_change: [],
         error: [],
         runtime: [],
-        stoptime: []
+        stoptime: [],
+        advice: []
     }
 }
 
-const PMCapacityStaticsContiner = () => {
+const CustomCapacity = () => {
 
 
     const ChartInitOptions = {
         chart: {
-            type: ['line', 'bar'],
+            type: ['line', 'line', 'bar'],
             toolbar: {
                 tools: {
                     download: false
@@ -61,6 +67,9 @@ const PMCapacityStaticsContiner = () => {
                     setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
                     setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
                     setTimeLog([{runtime: runtime, stoptime: stoptime}])
+                    const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+
+                    setAdvice(temp[0])
                 },
             }
         },
@@ -71,7 +80,7 @@ const PMCapacityStaticsContiner = () => {
             }
         },
         stroke: {
-            width: [2, 0]
+            width: [2, 2, 0]
         },
         grid: {
             borderColor: '#42444b',
@@ -87,7 +96,7 @@ const PMCapacityStaticsContiner = () => {
             },
         },
         fill: {
-            type: ['solid', 'gradient'],
+            type: ['solid', 'solid', 'gradient'],
             gradient: {
                 type: 'vertical',
                 shadeIntensity: 0,
@@ -96,7 +105,7 @@ const PMCapacityStaticsContiner = () => {
                 stops: [0, 100]
             }
         },
-        colors: ['#d8bf00', '#dd4bbe'],
+        colors: ['#bfbfbf', '#d8bf00', '#dd4bbe'],
         dataLabels: {
             enabled: false
         },
@@ -129,6 +138,11 @@ const PMCapacityStaticsContiner = () => {
     const times: string[] = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
     const [series, setSeries] = useState<{ name: string, data: number[], max: number, type: string }[]>([{
         name: 'value1',
+        data: MachineInitData.analyze.uph,
+        max: 0,
+        type: 'line'
+    }, {
+        name: 'value1',
         data: MachineInitData.analyze.max_count,
         max: 0,
         type: 'line'
@@ -139,6 +153,8 @@ const PMCapacityStaticsContiner = () => {
         type: 'line'
     }])
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
+
+    const [advice, setAdvice] = useState<string>()
 
     const [errorIndex, setErrorIndex] = useState({error_content: '에러 상태'})
 
@@ -157,7 +173,7 @@ const PMCapacityStaticsContiner = () => {
     const [machineData, setMachineData] = useState<Props>(MachineInitData)
 
     const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
-    
+
     /**
      * getData()
      * 생산량 분석 데이터 로드
@@ -167,6 +183,7 @@ const PMCapacityStaticsContiner = () => {
      */
     const getData = useCallback(async () => {
         if (selectMachine !== '') {
+            Notiflix.Loading.Circle()
             const tempUrl = `${API_URLS['capacity'].load2}?pk=${selectMachine}&date=${selectDate}`
             const resultData = await getCapacityTimeData(tempUrl)
             setMachineData(resultData)
@@ -193,28 +210,52 @@ const PMCapacityStaticsContiner = () => {
                 }
             })
 
+            let tmpUPH: number[] = []
+
+            times.map((v, i) => {
+                let listIndex = resultData.analyze.times.indexOf(v)
+                if (listIndex !== -1) {
+                    tmpUPH.push(resultData.analyze.uph[listIndex])
+                } else {
+                    tmpUPH.push(0)
+                }
+            })
+
             let tmpMax = maxData(Math.max.apply(null, tmp))
 
             let tmpSPMMax = maxData(Math.max.apply(null, tmpSPM))
 
-            setSeries([{
-                name: '평균 SPM 당 최대 생산 가능량',
-                data: tmpSPM,
-                max: tmpSPMMax,
-                type: 'line'
-            }, {
-                name: '생산량',
-                data: tmp,
-                max: tmpMax,
-                type: 'column'
-            }])
+            let tmpUPHMax = maxData(Math.max.apply(null, tmpUPH))
+
+            setSeries([
+                {
+                    name: 'UPH',
+                    data: tmpUPH,
+                    max: tmpUPHMax,
+                    type: 'line'
+                }, {
+                    name: 'SPM 최대 생산 가능량',
+                    data: tmpSPM,
+                    max: tmpSPMMax,
+                    type: 'line'
+                }, {
+                    name: '생산량',
+                    data: tmp,
+                    max: tmpMax,
+                    type: 'column'
+                }])
+            setErrorLog([])
+            setTimeLog([])
+            setMoldLog([])
+            setAdvice('')
+            Notiflix.Loading.Remove()
         }
     }, [selectMachine, machineData, series, selectDate])
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
         const resultData = await getCapacityTimeData(tempUrl)
-        console.log(resultData)
+
         setPressList(resultData)
 
     }, [])
@@ -268,18 +309,13 @@ const PMCapacityStaticsContiner = () => {
             <div style={{marginTop: 42, marginBottom: 19}}>
                 <p style={{fontSize: 22, fontWeight: 'bold', textAlign: 'left'}}>프레스 생산량</p>
             </div>
-            <ChartListBox>
-                <div style={{marginTop: 25, marginBottom: 23}}>
-                    <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
-                </div>
-                <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
-                                     onClickMachine={setSelectMachine}/>
-                {
-                    machineData.machine_name !== '' && <div>
+            <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
+                                 onClickMachine={setSelectMachine}/>
+            {
+                machineData.machine_name !== '' && <div>
 
-                    </div>
-                }
-            </ChartListBox>
+                </div>
+            }
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
@@ -301,6 +337,7 @@ const PMCapacityStaticsContiner = () => {
                             height: 649,
                             backgroundColor: '#111319',
                             margin: 0,
+                            borderRadius: "6px",
                             padding: 0,
                             clear: 'both',
                             marginTop: 20
@@ -309,11 +346,11 @@ const PMCapacityStaticsContiner = () => {
                                 ...ChartInitOptions,
                                 yaxis: {
                                     min: 0,
-                                    max: Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100,
+                                    max: Math.round(Math.max.apply(null, series[1].data) * 1.1) + 100,
                                     tickAmount: 25,
                                     labels: {
                                         formatter: (value, index) => {
-                                            if (Math.round(value) === Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100) {
+                                            if (Math.round(value) === Math.round(Math.max.apply(null, series[1].data) * 1.1) + 100) {
                                                 return '(생산량)'
                                             } else {
                                                 if (index % 5 === 0) {
@@ -327,10 +364,16 @@ const PMCapacityStaticsContiner = () => {
                                     }
                                 }
                             }} series={series} height={'40%'}/>
+                            <p style={{
+                                textAlign: 'left',
+                                marginLeft: '20px',
+                                fontFamily: 'NotoSansCJKkr-bold',
+                                fontSize: '14px'
+                            }}>개선 방안: {advice}</p>
                             <div style={{marginLeft: '20px'}}>
                                 <LineTable
                                     contentTitle={errorIndex}
-                                    settingHeight={"120px"}
+                                    settingHeight={"80px"}
                                     contentList={errorLog}>
                                     <Line/>
                                 </LineTable>
@@ -390,5 +433,5 @@ const Line = Styled.hr`
 `
 
 
-export default PMCapacityStaticsContiner
+export default CustomCapacity
 
