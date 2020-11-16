@@ -35,6 +35,7 @@ const Title = Styled.h2`
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;
+  white-space: pre-line;
 `
 
 const CustomIndexItem: React.FunctionComponent<Props> = ({info, goToChartPage}) => {

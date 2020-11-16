@@ -53,7 +53,13 @@ const MainSub = Styled.p`
 
 const errorLog: DASHBOARD = {
     iotProtocolKey: '',
-    name: '에러로그',
+    name: '에러 로그',
+    pk: ''
+}
+
+const rotateDashboard: DASHBOARD = {
+    iotProtocolKey: '',
+    name: '자동 화면 전환\n대시보드',
     pk: ''
 }
 
@@ -63,13 +69,14 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
 
     const goToChartPage = React.useCallback((data: DASHBOARD) => {
         try {
-            const id = data.pk.slice(-1)
+            const id = data.pk.split('machine')[1]
             history.push(`/custom/dashboard/loadton/${id}`)
         } catch (error) {
             console.log('error', error)
             alert('response error')
         }
     }, [])
+
 
     const tokenCheck = () => {
         const token = getToken(TOKEN_NAME)
@@ -115,6 +122,8 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
                                                                       key={data.pk}/>)
                     }
                     <CustomIndexItem info={errorLog} goToChartPage={() => history.push('/custom/dashboard/errorLog')}/>
+                    <CustomIndexItem info={rotateDashboard}
+                                     goToChartPage={() => history.push('/custom/dashboard/rotate')}/>
                 </PressSelector>
             </div>
         </Container>
