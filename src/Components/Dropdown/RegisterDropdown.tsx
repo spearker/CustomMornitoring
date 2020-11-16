@@ -1,93 +1,121 @@
-import React, { useEffect , useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import useOnclickOutside from 'react-cool-onclickoutside';
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
+import useOnclickOutside from 'react-cool-onclickoutside'
+import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
 
 //드롭다운 컴포넌트
 
-interface IProps{
-    select?: string | Number,
-    onClickEvent: any
-    contents: any,
-    text: string
-    type: 'string' | 'number'
-    buttonWid?: string | number
+interface IProps {
+  select?: string | Number,
+  onClickEvent: any
+  contents: any,
+  text: string
+  type: 'string' | 'number'
+  buttonWid?: string | number
+  disabled?: boolean
 }
-const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid}: IProps) => {
-    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const [isOpen, setIsOpen] = useState(false);
 
-    const ref = useOnclickOutside(() => {
-        setIsOpen(false);
-    });
+const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid, disabled}: IProps) => {
+  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [isOpen, setIsOpen] = useState(false)
 
-    const handleClickBtn = () => {
-        setIsOpen(!isOpen);
-    };
-    useEffect(()=>{
+  const ref = useOnclickOutside(() => {
+    setIsOpen(false)
+  })
 
-    },[])
+  const handleClickBtn = () => {
+    setIsOpen(!isOpen)
+  }
+  useEffect(() => {
 
-    return (
-        <div style={{position:'relative', display:'inline-block', width: 917}} ref={ref}>
-            <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                <div style={{display:'inline-block', height: 32, width: 885}}>
-                    {
-                        select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select}</p>
-                            : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                    }
+  }, [])
 
-                </div>
-                <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
-                    <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
-                </div>
+  return (
+    <div style={{position: 'relative', display: 'inline-block', width: 917}} ref={ref}>
+      <BoxWrap disabled={disabled} onClick={() => {
+        setIsOpen(true)
+      }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+        <div style={{display: 'inline-block', height: 32, width: 885}}>
+          {
+            select ? <p onClick={() => {
+                setIsOpen(true)
+              }} style={{marginTop: 5}}>&nbsp; {select}</p>
+              : <p onClick={() => {
+                setIsOpen(true)
+              }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+          }
 
+        </div>
+        <div style={{
+          display: 'inline-block',
+          backgroundColor: POINT_COLOR,
+          width: buttonWid ? buttonWid : 32,
+          height: buttonWid ? buttonWid : 32
+        }}>
+          <img src={dropdownButton} onClick={() => {
+            setIsOpen(true)
+          }}/>
+        </div>
+
+      </BoxWrap>
+      {
+        isOpen ?
+          <div style={{position: 'absolute', top: 0, right: 0, textAlign: 'left', width: 917, zIndex: 3}}>
+            <BoxWrap onClick={() => {
+              setIsOpen(true)
+            }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+              <div style={{display: 'inline-block', height: 32, width: 885}}>
+                {
+                  select ? <p onClick={() => {
+                      setIsOpen(true)
+                    }} style={{marginTop: 5}}>&nbsp; {select}</p>
+                    : <p onClick={() => {
+                      setIsOpen(true)
+                    }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                }
+              </div>
+              <div style={{
+                display: 'inline-block',
+                backgroundColor: POINT_COLOR,
+                width: buttonWid ? buttonWid : 32,
+                height: buttonWid ? buttonWid : 32
+              }}>
+                <img src={dropdownButton} onClick={() => {
+                  setIsOpen(true)
+                }}/>
+              </div>
             </BoxWrap>
             {
-                isOpen ?
-                    <div style={{position:'absolute', top:0, right:0, textAlign:'left', width: 917, zIndex: 3}}>
-                        <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                            <div style={{display:'inline-block', height: 32, width: 885}}>
-                                {
-                                    select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select}</p>
-                                        : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                                }
-                            </div>
-                            <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
-                                <img src={dropdownButton} onClick={()=>{setIsOpen(true)}}/>
-                            </div>
-                        </BoxWrap>
-                        {
-                            contents.map((v, i)=>{
-                                if(v !== ''){
-                                    return(
-                                        <BoxWrap style={{borderRadius:0, borderTop:'1px solid #ffffff50'}}>
-                                            <div style={{display:'inline-block', width: 885, paddingLeft: 5}}>
-                                                <p style={{margin:0}} key={i} onClick={()=>{
-                                                    if(type === "number"){
-                                                        onClickEvent(i);
-                                                    }else{
-                                                        onClickEvent(v)
-                                                    }
-                                                    setIsOpen(false)
-                                                }}>{v}</p>
-                                            </div>
-                                        </BoxWrap>
-                                    )
-                                }else{
-                                    return
-                                }
+              contents.map((v, i) => {
+                if (v !== '') {
+                  return (
+                    <BoxWrap style={{borderRadius: 0, borderTop: '1px solid #ffffff50'}}>
+                      <div style={{display: 'inline-block', width: 885, paddingLeft: 5}}>
+                        <p style={{margin: 0}} key={i} onClick={() => {
+                          if (type === 'number') {
+                            onClickEvent(i)
+                          } else {
+                            onClickEvent(v)
+                          }
+                          setIsOpen(false)
+                        }}>{v}</p>
+                      </div>
+                    </BoxWrap>
+                  )
+                } else {
+                  return
+                }
 
-                            })
-                        }
-                    </div>
-                    :
-                    null
-
+              })
             }
-        </div>
-    );
+          </div>
+          :
+          null
+
+      }
+    </div>
+  )
 }
 
 const BoxWrap = Styled.button`
@@ -127,4 +155,4 @@ const InnerBoxWrap = Styled.button`
     }
 `
 
-export default RegisterDropdown;
+export default RegisterDropdown

@@ -17,11 +17,13 @@ interface IProps {
   onClickEvent: any
   text: string
   buttonWid?: string | number
+  disabled?: boolean
 }
 
-const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
+const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
+  const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [machineName, setMachineName] = useState('')
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
@@ -52,6 +54,11 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
     console.log(searchName)
   }, [searchName])
 
+  useEffect(() => {
+    setIsDisabled(disabled ? true : false)
+    console.log(disabled)
+  }, [disabled])
+
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
@@ -63,17 +70,17 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
   return (
     <div>
       <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
-        <BoxWrap onClick={() => {
-          setIsOpen(true)
+        <BoxWrap disabled={isDisabled} onClick={() => {
+          if (disabled) {
+            return
+          } else {
+            setIsOpen(true)
+          }
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
           <div style={{display: 'inline-block', height: 32, width: 885}}>
             {
-              select ? <p onClick={() => {
-                  setIsOpen(true)
-                }} style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                : <p onClick={() => {
-                  setIsOpen(true)
-                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+              select ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
             }
 
           </div>
@@ -83,10 +90,7 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
             width: buttonWid ? buttonWid : 32,
             height: buttonWid ? buttonWid : 32
           }}>
-            <SearchButton style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}
-                          onClick={() => {
-                            setIsOpen(true)
-                          }}>
+            <SearchButton style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
               <img src={IcSearchButton}/>
             </SearchButton>
           </div>
