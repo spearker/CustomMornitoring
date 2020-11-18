@@ -251,6 +251,8 @@ const ContractContainer = () => {
         const res = await getOutsourcingList(tempUrl)
 
         setList(res.info_list)
+        setPage({current: res.current_page, total: res.total_page})
+
         Notiflix.Loading.Remove();
     }, [list])
 

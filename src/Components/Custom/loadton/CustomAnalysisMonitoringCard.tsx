@@ -15,7 +15,7 @@ interface Props {
     onClickEvent?: any
 }
 
-const CustomMonitoringCard = ({contents, isOpen, onClickEvent}: Props) => {
+const CustomAnalysisMonitoringCard = ({contents, isOpen, onClickEvent}: Props) => {
     const Item = (title: string, value: string) => {
         return (
             <div style={{
@@ -77,4 +77,5 @@ const CardDiv = Styled.div`
                 `
 
 
-export default CustomMonitoringCard;
+export default CustomAnalysisMonitoringCard;
+
