@@ -4,6 +4,8 @@ import getYoodongPressList from "../../../Api/custom/getYoodongPressList";
 import {useHistory} from "react-router-dom";
 import CustomDashboardLoadtonChart from "../../../Components/Custom/dashboard/CustomDashboardLoadtonChart";
 import CustomErrorLogDashBoard from "./CustomErrorLogDashBoard";
+import CustomAnalysisDashboardLoadtonChart
+    from "../../../Components/Custom/dashboard/CustomAnalysisDashboardLoadtonChart";
 
 
 const CustomRotateDashboard: React.FunctionComponent = () => {
@@ -66,7 +68,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 (pressList[currentDashboard] === undefined ?
                         null
                         :
-                        <CustomDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
+                        <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
                 )
             }
         </div>
