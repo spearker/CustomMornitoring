@@ -48,7 +48,7 @@ const DummyMachine = {
         material_name: '품목(품목명)',
         registerer: '등록자',
         supplier_name: '납품 업체',
-        goal: '생산 할 수량',
+        goal: '생산 목표 수량',
         current_amount: '현재 생산 수량'
     }
 }

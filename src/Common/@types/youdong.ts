@@ -35,8 +35,13 @@ export interface YOUDONG_PRESS_DATA_TYPE {
         type: string
         code: string
     }
-    main_motor_current: number,
+    main_motor_current: number
     preset_count: string
+    preset_limit_count: number
+    ETC: string
+    mold_name: string
+    material_name: string
+    max_UPH: number
     iotProtocolKey: string
     press_spm: string
     UPH: string
@@ -62,4 +67,6 @@ export interface YOUDONG_LOAD_MONITOR_DATA_TYPE {
         to: number
         from: number
     }
+    isAbnormal: boolean
+    criteria_point: CHART_DRAW_TYPE[]
 }

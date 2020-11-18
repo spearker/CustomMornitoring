@@ -54,6 +54,7 @@ import MainDashboard from "../Pages/jeil1981/MainDashBoard";
 import CapitalDashBoard from "../Pages/jeil1981/CapitalDashBoard";
 import MoldManageList from "../Pages/Mold/MoldManageList";
 import MoldCreateCompleteList from "../Pages/Mold/MoldCreateCompleteList";
+import TodayVoucherProduction from "../Pages/Project/TodayVoucher";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -68,19 +69,20 @@ const JMRouters = () => {
 
             <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 
-            <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis} />
+            <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis}/>
 
-            <Route exact path="/pm/maintenance/oil" component={OilMaintenance} />
+            <Route exact path="/pm/maintenance/oil" component={OilMaintenance}/>
 
-            <Route exact path="/pm/statistics/loadton" component={LoadtoneStatistics} />
-            <Route exact path="/pm/statistics/mold" component={MoldStatistics} />
-            <Route exact path="/pm/statistics/defective" component={DefectiveStatistics} />
-            <Route exact path="/pm/statistics/product" component={ProductToneStatistics} />
+            <Route exact path="/pm/statistics/loadton" component={LoadtoneStatistics}/>
+            <Route exact path="/pm/statistics/mold" component={MoldStatistics}/>
+            <Route exact path="/pm/statistics/defective" component={DefectiveStatistics}/>
+            <Route exact path="/pm/statistics/product" component={ProductToneStatistics}/>
 
             <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
-            <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction} />
-            <Route exact path="/project/work/history" component={WorkProduction} />
-            <Route exact path="/project/work/history/:pk"   component={WorkProduction} />
+            <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>
+            <Route exact path="/project/work/history" component={WorkProduction}/>
+            <Route exact path="/project/work/history/:pk" component={WorkProduction}/>
+            <Route exact path="/project/voucher/today/list" component={TodayVoucherProduction}/>
             <Route exact path="/project/voucher/list" component={VoucherProduction}/>
             <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
             <Route exact path="/project/defective/list" component={DefectiveProject}/>
@@ -89,18 +91,18 @@ const JMRouters = () => {
 
             <Route exact path="/customer/current/list" component={CurrentCustomer}/>
 
-            <Route exact path="/outsourcing/current/list" component={OutsourcingCurrent} />
-            <Route exact path="/outsourcing/order/list" component={OutsourcingOrder} />
-            <Route exact path="/outsourcing/order/register" component={OrderRegister} />
-            <Route exact path="/outsourcing/order/register/:pk" component={OrderRegister} />
-            <Route exact path="/outsourcing/contract/list" component={OutsourcingContract} />
-            <Route exact path="/outsourcing/contract/register" component={ContractRegister} />
-            <Route exact path="/outsourcing/contract/register/:pk" component={ContractRegister} />
+            <Route exact path="/outsourcing/current/list" component={OutsourcingCurrent}/>
+            <Route exact path="/outsourcing/order/list" component={OutsourcingOrder}/>
+            <Route exact path="/outsourcing/order/register" component={OrderRegister}/>
+            <Route exact path="/outsourcing/order/register/:pk" component={OrderRegister}/>
+            <Route exact path="/outsourcing/contract/list" component={OutsourcingContract}/>
+            <Route exact path="/outsourcing/contract/register" component={ContractRegister}/>
+            <Route exact path="/outsourcing/contract/register/:pk" component={ContractRegister}/>
 
             <Route exact path="/marketing/order/list" component={OrderBusiness}/>
             <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/>
 
-            <Route exact path="/process/segment/list" component={SegmentList} />
+            <Route exact path="/process/segment/list" component={SegmentList}/>
 
             <Route exact path="/barcode/current/list" component={BarCodeList}/>
 
