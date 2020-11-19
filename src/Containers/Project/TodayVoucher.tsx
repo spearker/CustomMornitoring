@@ -173,7 +173,7 @@ const TodayVoucherContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['chit'].list}?pk=&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['chit'].todayList}?pk=&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
         const getVoucher = res.info_list.map((v, i) => {

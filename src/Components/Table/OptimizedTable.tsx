@@ -6,6 +6,7 @@ import Pagination from "@material-ui/lab/Pagination";
 interface Props {
     title: string
     selectBoxChange?: any
+    widthList: string[] | number[]
     indexList: any
     valueList: any[]
     EventList?: any[]
@@ -22,7 +23,7 @@ interface Props {
     children?: any
 }
 
-const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
+const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
 
     const [checked, setChecked] = useState<any[]>([])
 
@@ -79,18 +80,18 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                     Object.keys(indexList).map((v, i) => {
                         return (
                             typeof indexList[v] === 'object' ?
-                                <select className="p-limits"
-                                        style={{
-                                            cursor: 'pointer',
-                                            backgroundColor: '#111319',
-                                            borderColor: '#111319',
-                                            color: 'white',
-                                            fontSize: '14px',
-                                            width: '70%',
-                                            marginRight: 30,
-                                            background: `url(${IcDropDownButton}) no-repeat 95% 50%`
-                                        }}
-                                        onChange={(e) => selectBoxChange(e.target.value)}
+                                <LimitSelect
+                                    style={{
+                                        cursor: 'pointer',
+                                        backgroundColor: '#111319',
+                                        borderColor: '#111319',
+                                        color: 'white',
+                                        width: widthList[i],
+                                        fontSize: '14px',
+                                        marginRight: 30,
+                                        background: `url(${IcDropDownButton}) no-repeat 95% 50%`
+                                    }}
+                                    onChange={(e) => selectBoxChange(e.target.value)}
                                 >
                                     {
                                         Object.keys(indexList[v]).map(m => {
@@ -106,9 +107,9 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                                             )
                                         })
                                     }
-                                </select>
+                                </LimitSelect>
                                 :
-                                <p key={v} className="p-limits">{indexList[v]}</p>
+                                <LimitP key={v} style={{width: widthList[i]}}>{indexList[v]}</LimitP>
                         )
                     })
                 }
@@ -176,7 +177,8 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                                         //mv : [pk , machin_list, machine_name ... ]
                                         return (
                                             typeof v[mv] === 'object' ?
-                                                <select className="p-limits" style={{
+                                                <LimitSelect style={{
+                                                    width: indexList[mi],
                                                     backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
                                                     borderColor: clickValue === v ? '#19b9df' : '#353b48'
                                                 }}>
@@ -188,18 +190,18 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                                                             )
                                                         })
                                                     }
-                                                </select>
+                                                </LimitSelect>
                                                 :
-                                                <p key={`td-${i}-${mv}`}
-                                                   className="p-limits"
-                                                   onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
+                                                <LimitP key={`td-${i}-${mv}`}
+                                                        style={{width: indexList[mi]}}
+                                                        onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                                                 >
                                                     {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
                                                         ''
                                                         :
                                                         v[mv]
                                                     }
-                                                </p>
+                                                </LimitP>
 
                                         )
                                     })
@@ -322,6 +324,20 @@ const PaginationBox = Styled.div`
     .MuiPaginationItem-root{
         color: white;
     }
+`
+
+const LimitSelect = Styled.select`
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+`
+
+const LimitP = Styled.p`
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
 `
 
 
