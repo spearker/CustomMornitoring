@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import InnerBodyContainer from '../../../Containers/InnerBodyContainer'
 import Styled from 'styled-components'
-import CustomLoadTon from '../loadton/CustomLoadTonCard'
+import CustomLoadTon from '../loadton/CustomLoadtonCard'
 import CustomMainMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart'
 import CustomSlideMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart'
 import getYoodongDashboard from '../../../Api/custom/getYoodongDashboard'
@@ -10,7 +10,7 @@ import CustomMonitoringCard from '../loadton/CustomMonitoringCard'
 import Modal from 'react-modal'
 import {RotateSpinner} from 'react-spinners-kit'
 import {useHistory} from 'react-router-dom'
-import CustomMaxUPHAngulargaugeChart from "../../../Containers/Custom/dashboard/CustomMaxUPHAngulargaugeChart";
+
 
 interface Props {
     id: string

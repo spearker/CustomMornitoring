@@ -307,7 +307,11 @@ const ScheduleContainer = () => {
                         <LineTable title={selectMaterial} titleOnClickEvent={detailTitleEventList}>
                             <VoucherDropdown pk={'123'} name={'생산 계획 공정'} onClickEvent={() => voucherOnClick(1)}
                                              clickValue={voucherDropdown}>
-                                <div style={{display: 'flex', flexDirection: 'row'}}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    flexWrap: 'wrap'
+                                }}>
                                     {detailList.process.length !== 0 ?
                                         detailList.process.map((v, i) => {
                                             if (detailList.process.length === i + 1) {
