@@ -157,6 +157,7 @@ import CustomLoadtonChartContainer from '../Containers/Custom/dashboard/CustomLo
 import CustomDashboardIndex from '../Containers/Custom/dashboard/CustomDashboardIndex'
 import CustomErrorLogDashBoard from '../Containers/Custom/dashboard/CustomErrorLogDashBoard'
 import CustomRotateDashboard from "../Containers/Custom/dashboard/CustomRotateDashboard";
+import CustomProductionDashBoard from "../Containers/Custom/dashboard/CustomProductionDashboard";
 
 const Routers = () => {
 
@@ -400,6 +401,7 @@ const Routers = () => {
                 <Route exact path="/custom/dashboard/loadton/:press" component={CustomLoadtonChartContainer}/>
                 <Route exact path="/custom/dashboard/errorLog" component={CustomErrorLogDashBoard}/>
                 <Route exact path="/custom/dashboard/rotate" component={CustomRotateDashboard}/>
+                <Route exact path="/custom/dashboard/production" component={CustomProductionDashBoard}/>
             </Switch>
         </div>
     )
