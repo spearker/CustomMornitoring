@@ -11,11 +11,16 @@ import Modal from 'react-modal'
 import {RotateSpinner} from 'react-spinners-kit'
 import {useHistory} from 'react-router-dom'
 
+
 interface Props {
     id: string
+    first?: {
+        loading: boolean,
+        api: boolean
+    }
 }
 
-const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
+const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id, first}) => {
     const [isFirst, setIsFirst] = React.useState({
         loading: true,
         api: true
@@ -26,7 +31,34 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
     const history = useHistory()
 
     const getYoudongCustomDashboardData = async () => {
-        if (id) {
+        if (id && first) {
+            try {
+                const response = await getYoodongDashboard(id, first.api)
+
+                if (response !== null) {
+                    if (response.status === 401) {
+                        return history.push('/login?type=back')
+                    } else if (response.status === 200) {
+                        setData(response.data)
+
+                        if (first.api) {
+                            setTonnageLimit(response.data.loadton_data.tonnage_limit)
+
+                            setIsFirst({
+                                loading: false,
+                                api: false
+                            })
+                        }
+                    } else {
+                        setTimeout(() => {
+                            getYoudongCustomDashboardData()
+                        }, 1000)
+                    }
+                }
+            } catch (error) {
+                console.log('catched error', error)
+            }
+        } else {
             try {
                 const response = await getYoodongDashboard(id, isFirst.api)
 
@@ -45,7 +77,9 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                             })
                         }
                     } else {
-                        return
+                        setTimeout(() => {
+                            getYoudongCustomDashboardData()
+                        }, 1000)
                     }
                 }
             } catch (error) {
@@ -139,16 +173,18 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                 display: 'flex',
                 flexDirection: 'column',
             }}>
-                {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', {opacity: overTonCheck() ? 1 : .9}, {fontSize: 72}, overTonCheck() ? '#ed4337' : 'white')}
-                {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', {marginBottom: 20}, {fontSize: 48}, 'white')}
-                {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, {fontSize: 48}, 'white')}
-                {standardInfItem('일량', data ? data.loadton_data.press_power + 'kgf.m' : '-', {
+                {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', {opacity: overTonCheck() ? 1 : .9,}, {fontSize: 72}, overTonCheck() ? '#ed4337' : '#fb9e70')}
+                {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', {marginBottom: 20}, {fontSize: 48}, '#3ad8c5')}
+                {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, {fontSize: 48}, '#5145c6')}
+                {standardInfItem('일량', data ? Math.floor(data.loadton_data.press_power * pct) + 'kgf.m' : '-', {
                     opacity: 1,
                     marginTop: 20
-                }, {fontSize: 84})}
+                }, {fontSize: 84}, pct === 0 ? '#fff' : (1 / pct >= 0 && 1 / pct < 0.5 ? '#fff' : (1 / pct >= 0.5 && 1 / pct < 0.8 ? 'green' : 'red')))}
             </div>
         )
     }
+
+    const pct = Number(data?.loadton_data.total_ton) === 0 ? 0 : Number(tonnageLimit) / Number(data?.loadton_data.total_ton)
 
     const errorCodeFilter = () => {
         let style: { color: string, opacity: string } = {
@@ -214,10 +250,10 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                             flexDirection: 'column',
                         }}>
                             <div style={{
-                                marginBottom: 110,
+                                marginBottom: data ? data.press_data.error_code.code === '0' ? 20 : 100 : 20,
                                 wordBreak: 'break-all'
                             }}>
-                                <div style={{textAlign: 'center', marginBottom: 20}}>
+                                <div style={{textAlign: 'center'}}>
                                     <Title>에러코드</Title>
                                 </div>
                                 <div style={{textAlign: 'center'}}>
@@ -230,14 +266,33 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                                     display: 'flex',
                                     justifyContent: 'center',
                                     height: 300,
-                                    marginTop: 50,
-                                    marginBottom: 110
                                 }}>
                                     <CustomMainMotorAngulargaugeChart value={data?.press_data.main_motor_current}/>
                                 </div>
-                                <div style={{display: 'flex', justifyContent: 'center', height: 300,}}>
+                                <div style={{display: 'flex', justifyContent: 'center', height: 330, marginTop: 50}}>
                                     <CustomSlideMotorAngulargaugeChart value={data?.press_data.slide_motor_current}/>
                                 </div>
+                                <div style={{justifyContent: 'center', height: 100, marginTop: 50}}>
+                                    <div style={{textAlign: 'center'}}>
+                                        <p style={{
+                                            fontSize: "48px",
+                                            fontWeight: 'bold',
+                                            fontFamily: 'NotoSansCJKkr'
+                                        }}>UPH</p>
+                                    </div>
+                                    <div style={{textAlign: 'center'}}>
+                                        <p style={{
+                                            fontSize: "48px",
+                                            fontWeight: 'bold',
+                                            fontFamily: 'NotoSansCJKkr',
+                                            marginTop: 50
+                                        }}>{data?.press_data?.UPH}</p>
+                                    </div>
+                                </div>
+                                {/*<div style={{display: 'flex', justifyContent: 'center', height: 300,}}>*/}
+                                {/*    <CustomMaxUPHAngulargaugeChart maxValue={data?.press_data.max_UPH}*/}
+                                {/*                                   value={Number(data?.press_data.UPH)}/>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                         <div style={{
@@ -254,6 +309,19 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                         </div>
                     </div>
                 </ItemBox>
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: '40px'}}>
+                    <div style={{display: 'flex'}}>
+                        <p style={{
+                            fontSize: "72px",
+                            fontWeight: 'bold',
+                            fontFamily: 'NotoSansCJKkr',
+                            marginRight: '100px'
+                        }}>금형명
+                            : {data?.press_data?.mold_name}</p>
+                        <p style={{fontSize: "72px", fontWeight: 'bold', fontFamily: 'NotoSansCJKkr'}}>품목명
+                            : {data?.press_data?.material_name}</p>
+                    </div>
+                </div>
             </InnerBodyContainer>
             }
 
@@ -288,4 +356,5 @@ font-family: NotoSansCJKkr;
     font-size: 42px;
 `
 
-export default CustomDashboardLoadtonChart
+export default CustomAnalysisDashboardLoadtonChart
+

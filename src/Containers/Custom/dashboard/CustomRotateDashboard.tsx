@@ -4,6 +4,8 @@ import getYoodongPressList from "../../../Api/custom/getYoodongPressList";
 import {useHistory} from "react-router-dom";
 import CustomDashboardLoadtonChart from "../../../Components/Custom/dashboard/CustomDashboardLoadtonChart";
 import CustomErrorLogDashBoard from "./CustomErrorLogDashBoard";
+import CustomAnalysisDashboardLoadtonChart
+    from "../../../Components/Custom/dashboard/CustomAnalysisDashboardLoadtonChart";
 
 
 const CustomRotateDashboard: React.FunctionComponent = () => {
@@ -11,6 +13,13 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
     const [pressList, setPressList] = React.useState<string[]>([])
     const [totalDashboard, setTotalDashboard] = React.useState<number>(-1)
     const [currentDashboard, setCurrentDashboard] = React.useState<number>(0)
+    const [isFirst, setisFirst] = React.useState<({
+        loading: boolean
+        api: boolean
+    })>({
+        loading: true,
+        api: true
+    })
 
     const getPressList = async () => {
         const response = await getYoodongPressList()
@@ -39,9 +48,13 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
             if (currentDashboard === totalDashboard) {
                 setCurrentDashboard(0)
             } else {
+                setisFirst({
+                    loading: true,
+                    api: true
+                })
                 setCurrentDashboard(currentDashboard + 1)
             }
-        }, 180000)
+        }, 30000)
 
         return () => clearInterval(rotatePage);
 
@@ -55,7 +68,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 (pressList[currentDashboard] === undefined ?
                         null
                         :
-                        <CustomDashboardLoadtonChart id={pressList[currentDashboard]}/>
+                        <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
                 )
             }
         </div>
@@ -64,3 +77,4 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
 }
 
 export default CustomRotateDashboard
+

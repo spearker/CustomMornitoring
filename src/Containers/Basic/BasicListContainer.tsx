@@ -62,7 +62,6 @@ const BasicListContainer = ({type}: Props) => {
         const getBasic = resultList.info_list.map((v, i) => {
 
             const Type = transferCodeToName(pageType, v[pageType + "_type"])
-            console.log(v[pageType])
             return {...v, [pageType + "_type"]: Type}
         })
 
@@ -191,7 +190,8 @@ export const LIST_INDEX = {
             parts_name: "부품명",
             parts_type_name: "부품 종류 명",
             location_name: "공장명",
-            parts_cost: "부품원가"
+            parts_cost: "부품원가",
+            parts_stock: "재고"
         }
     },
     item: {

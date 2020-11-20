@@ -8,82 +8,104 @@ import NoDataCard from "../../../Components/Card/NoDataCard";
 import DateTable from "../../../Components/Table/DateTable";
 import {POINT_COLOR} from "../../../Common/configset";
 import CustomPressListCard from "../../../Components/Custom/pm_analysis/CustomPressListCard";
+import Notiflix from "notiflix";
+import LineTable from "../../../Components/Table/LineTable";
 
-const ChartInitOptions = {
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
+
+const chartOption = {
     chart: {
-        type: 'bar',
-        toolbar: {
-            tools: {
-                download: false
+        height: 350,
+        type: 'area',
+        events: {
+            beforeZoom: (e, {xaxis}) => {
+                if (xaxis.min < 0 || xaxis.max > 360) {
+                    return {
+                        xaxis: {
+                            min: 0,
+                            max: 360
+                        }
+                    }
+                }
             }
         },
-        events: {
-            click: function (chart, w, e) {
-                console.log(chart, w, e)
-            },
-            beforeMount: (chartContext, config) => {
-                console.log(chartContext, config)
-            }
+        toolbar: {
+            show: false,
+        },
+    },
+    colors: ['#bfbfbf55'],
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: ['smooth', 'straight', 'straight'],
+        dashArray: [0, 0, 1, 15],
+        width: 3
+    },
+    fill: {
+        type: ['gradient', 'gradient'],
+        gradient: {
+            type: 'vertical',
+            shadeIntensity: 0,
+            opacityFrom: 0.6,
+            opacityTo: 0.1,
+            inverseColors: true,
+            stops: [0, 100]
         }
     },
-    plotOptions: {
-        bar: {
-            columnWidth: '55%',
-            distributed: false
+    yaxis: {
+        tickAmount: 24,
+        labels: {
+            formatter: (value, index) => {
+                if (index === 24) {
+                    return '(ton)'
+                } else {
+                    if (value % 50 === 0) {
+                        return Math.floor(value)
+                    } else {
+                        return
+                    }
+                }
+            }
+        },
+        tooltip: {
+            enable: false
         }
+    },
+    xaxis: {
+        type: 'numeric',
+        tickAmount: 18,
+        max: 210,
+        min: 120,
+        formatter: (value) => Number(value).toFixed(0),
+        tooltip: {
+            enable: false
+        }
+    },
+    legend: {
+        position: 'bottom',
+        horizontalAlign: 'right',
     },
     grid: {
+        show: true,
         borderColor: '#42444b',
-        xaxis: {
-            lines: {
-                show: true
-            }
-        },
         yaxis: {
             lines: {
                 show: true
             }
         },
-    },
-    fill: {
-        type: "gradient",
-        gradient: {
-            type: "vertical",
-            shadeIntensity: 0,
-            opacityFrom: 1,
-            opacityTo: .20,
-            stops: [0, 90, 100]
+        xaxis: {
+            lines: {
+                show: true
+            }
         }
-    },
-    colors: ['#dd4bbe'],
-    dataLabels: {
-        enabled: false
-    },
-    legend: {
-        show: false
     },
     tooltip: {
-        x: {
-            show: false
-        },
-        y: {
-            formatter: (i) => {
-                return i.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "개"
-            }
-        }
+        enable: false
     },
-    xaxis: {
-        categories: [
-            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"
-        ],
-        labels: {
-            style: {
-                fontSize: '12px'
-            }
-        }
-    }
+
 }
-const detailChartOption = {}
 
 const MachineInitData: IPressCapacity = {
     manufacturer_code: '',
@@ -97,11 +119,7 @@ const MachineInitData: IPressCapacity = {
 
 const CustomAbility = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
-    const [series, setSeries] = useState<{ name: string, data: number[], max: number }[]>([{
-        name: "value1",
-        data: MachineInitData.analyze.productions,
-        max: 0
-    }])
+    const [series, setSeries] = React.useState([{name: 'basic', type: 'line', data: [[0, 0]]}])
 
     const [index, setIndex] = useState({mold_name: '금형명'})
 
@@ -111,9 +129,19 @@ const CustomAbility = () => {
 
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
-    const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
+    const [overTonIndex, setOverTonIndex] = useState({degree: '오버된 각도'})
 
-    const [max, setMax] = useState<number>(20000)
+    const [overTonLog, setOverTonLog] = useState<any[]>([])
+
+    const [selectDate, setSelectDate] = useState<string>(moment().add(-1, "days").format("YYYY-MM-DD"))
+
+    const [selectMold, setSelectMold] = useState<string>('')
+
+    const [selectValue, setSelectValue] = useState<any>()
+
+    const [overtime, setOvertime] = useState('')
+
+    const [list, setList] = useState<any[]>([]);
 
     const indexList = {
         ability: {
@@ -122,34 +150,96 @@ const CustomAbility = () => {
         }
     }
 
+    const overTonIndexList = {
+        ton: {
+            degree: '오버톤 각도',
+            time: '오버톤 시간',
+            ton: '오버톤'
+        }
+    }
 
-    /**
-     * getData()
-     * 생산량 분석 데이터 로드
-     * @param {string} pk 프레스 pk
-     * @param {string} date 요청 날짜
-     * @returns X
-     */
-    const getData = useCallback(async () => {
-        const tempUrl = `${API_URLS['capacity'].load}?pk=${selectMachine}&date=${selectDate}`
-        const resultData = await getCapacityTimeData(tempUrl);
-        setMachineData(resultData)
+    // const onClick = useCallback((mold, i) => {
+    //     if (mold.mold_pk === moldPk) {
+    //
+    //     } else {
+    //         setSelectIndex(i)
+    //         setSelectPk(mold.pressPk)
+    //         setSelectMachine(mold.pressName)
+    //         setSelectValue(mold)
+    //         //TODO: api 요청
+    //         if (machine.pressPk === null) {
+    //             return
+    //         }
+    //         getData(machine.pressPk)
+    //         setDetailPage({...detailPage, current: 1})
+    //     }
+    //
+    //
+    // }, [list, selectPk])
 
-        let tmp: number[] = []
-        times.map((v, i) => {
-            let listIndex = resultData.analyze.times.indexOf(v)
-            if (listIndex !== -1) {
-                tmp.push(resultData.analyze.productions[listIndex])
-            } else {
-                tmp.push(0)
-            }
-        })
-        console.log(tmp)
+    const mainOnClick = useCallback((v) => {
+        console.log(v.mold_pk)
+        if (v.mold_pk === selectMold) {
+            setSelectMold('')
+            setSelectValue(null)
+        } else {
+            setSelectMold(v.mold_pk)
+            setSelectValue(v)
+        }
+    }, [selectMold])
 
-        let tmpMax = maxData(Math.max.apply(null, tmp))
+    const getDataList = useCallback(async () => {
+        if (selectMachine !== '') {
+            const tempUrl = `${API_URLS['ability'].list}?pk=${selectMachine}&date=${selectDate}`
+            const resultData = await getCapacityTimeData(tempUrl);
 
-        setSeries([{name: '생산량', data: tmp, max: tmpMax}])
-    }, [selectMachine, machineData, series, selectDate]);
+            setList(resultData)
+        }
+    }, [selectMachine, list, selectDate]);
+
+    const getData = useCallback(async (mold) => {
+        if (mold !== '') {
+            Notiflix.Loading.Circle()
+
+            const tempUrl = `${API_URLS['ability'].load2}?pk=${selectMachine}&date=${selectDate}&mold_pk=${mold}`
+            const resultData = await getCapacityTimeData(tempUrl);
+
+            let dummylineList: number[][] = []
+            let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
+
+            await resultData.degree.map((v, i) => {
+                console.log(v)
+                dummylineList.push([Number(v), Number(resultData.standard_capacity[i])])
+                return null
+            })
+
+            console.log(dummylineList)
+            await resultData.error_range.map((v, i) => {
+                let tmpListTmp: number[][] = []
+                resultData.degree.map((v, j) => {
+                    tmpListTmp.push([Number(v), (resultData.error_range[i][j])])
+                    return null
+                })
+                dummyroundList.push({
+                    type: 'area',
+                    data: tmpListTmp,
+                    name: '초과량',
+                    color: 'rgba(255, 0, 0, 0.5)'
+                })
+            })
+
+            console.log(dummyroundList)
+            await setSeries([{
+                name: '기준 일량',
+                type: 'area',
+                data: dummylineList
+            }, ...dummyroundList])
+            setOverTonLog(resultData.error_detail)
+            setOvertime(String(resultData.error_range.length))
+
+            Notiflix.Loading.Remove()
+        }
+    }, [selectMachine, selectDate, series, overtime]);
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
@@ -165,12 +255,18 @@ const CustomAbility = () => {
     useEffect(() => {
         getList()
         setIndex(indexList['ability'])
+        setOverTonIndex(overTonIndexList["ton"])
         // getData()
     }, [])
 
     useEffect(() => {
-        getData()
+        getDataList()
     }, [selectMachine, selectDate])
+
+
+    useEffect(() => {
+        getData(selectMold)
+    }, [selectMold])
 
     return (
         <div>
@@ -187,54 +283,57 @@ const CustomAbility = () => {
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
-                        <div style={{height: 300,}}>
+                        <div style={{height: 230,}}>
                             <DateTable indexList={index} selectDate={selectDate} calendarOnClick={setSelectDate}
-                                       valueList={[{mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},
-                                           {mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},
-                                           {mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},
-                                           {mold_name: '엔진 탱크 금형', material_name: '엔진 탱크 상판 케이스'},]}/>
+                                       clickValue={selectValue}
+                                       valueList={list}
+                                       mainOnClickEvent={mainOnClick}/>
                         </div>
                         <div style={{
                             width: 640,
-                            height: 400,
+                            height: 475,
                             margin: 0,
                             padding: 0,
                             backgroundColor: '#111319',
                             clear: 'both',
                             marginTop: 20
                         }}>
-                            <ReactApexChart options={{
-                                ...ChartInitOptions,
-                                yaxis: {
-                                    min: 0,
-                                    max: Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100,
-                                    tickAmount: 25,
-                                    labels: {
-                                        formatter: (value, index) => {
-                                            if (Math.round(value) === Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100) {
-                                                return "(ton)"
-                                            } else {
-                                                if (index % 5 === 0) {
-                                                    return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                } else {
-                                                    return
-                                                }
-                                            }
-
-                                        }
-                                    }
-                                }
-                            }} series={series} type={'bar'} height={"65%"}/>
-                            <div style={{display: "flex"}}>
-                                <Overtime>
-                                    <p>최대 일일 초과 회수</p>
-                                    <p>9,999,999</p>
-                                </Overtime>
-                                <Overtime>
-                                    <p>최소 일일 초과 회수</p>
-                                    <p>9,999,999</p>
-                                </Overtime>
-                            </div>
+                            {/*<PressPower>*/}
+                            {/*    <p>최대 일량</p>*/}
+                            {/*    <div>*/}
+                            {/*        <input value={"9,999,999"}/>*/}
+                            {/*        <p>kgf.m</p>*/}
+                            {/*    </div>*/}
+                            {/*    <p>최소 일량</p>*/}
+                            {/*    <div>*/}
+                            {/*        <input value={"9,999,999"}/>*/}
+                            {/*        <p>kgf.m</p>*/}
+                            {/*    </div>*/}
+                            {/*    <ButtonWrap>*/}
+                            {/*        분석*/}
+                            {/*    </ButtonWrap>*/}
+                            {/*</PressPower>*/}
+                            {overtime !== '' ?
+                                <>
+                                    <ReactApexChart options={chartOption} type={'line'} height={'55%'} series={series}/>
+                                    <div style={{display: "flex"}}>
+                                        <Overtime>
+                                            <p>최대 일일 초과 회수</p>
+                                            <p>{overtime}</p>
+                                        </Overtime>
+                                    </div>
+                                    <div style={{marginLeft: "20px"}}>
+                                        <LineTable
+                                            contentTitle={overTonIndex}
+                                            settingHeight={"40px"}
+                                            contentList={overTonLog}>
+                                            <Line/>
+                                        </LineTable>
+                                    </div>
+                                </>
+                                :
+                                null
+                            }
                         </div>
                     </ChartDetailBox>
                     : <ChartDetailBox>
@@ -332,7 +431,7 @@ const ButtonWrap = Styled.button`
 const Overtime = Styled.div`
   width: 337px;
   height: 66px;
-  margin: 10px 16px 0 20px;
+  margin: 0 16px 0 20px;
   object-fit: contain;
   border-radius: 6px;
   background-color: #000000; 
@@ -349,6 +448,14 @@ const Overtime = Styled.div`
       font-weight: normal;
     }
   }
+`
+
+
+const Line = Styled.hr`
+    margin: 10px 20px 12px 0px;
+    border-color: #353b48;
+    height: 1px;
+    background-color: #353b48;
 `
 
 export default CustomAbility;

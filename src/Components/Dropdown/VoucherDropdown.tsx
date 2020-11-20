@@ -12,15 +12,17 @@ interface IProps {
     children?: any
 }
 
-const VoucherDropdown = ({pk,name,clickValue,onClickEvent,children}:IProps) => {
-    return(
-        <div style={{paddingBottom:20}}>
-            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+const VoucherDropdown = ({pk, name, clickValue, onClickEvent, children}: IProps) => {
+    return (
+        <div style={{paddingBottom: 20}}>
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                 <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr-Bold'}}>{name}</p>
                 {clickValue === pk ?
-                    <img src={IC_Dropup} style={{width: 30, height: 15, paddingRight: 20,alignSelf:"center"}} onClick={() => (onClickEvent(pk))}/>
+                    <img src={IC_Dropup} style={{width: 30, height: 15, paddingRight: 20, alignSelf: "center"}}
+                         onClick={() => (onClickEvent(pk))}/>
                     :
-                    <img src={IC_Dropdown} style={{width: 30, height: 15, paddingRight: 20,alignSelf:"center"}} onClick={() => (onClickEvent(pk))}/>
+                    <img src={IC_Dropdown} style={{width: 30, height: 15, paddingRight: 20, alignSelf: "center"}}
+                         onClick={() => (onClickEvent(pk))}/>
                 }
             </div>
             <Line/>

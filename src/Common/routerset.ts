@@ -191,7 +191,6 @@ export const MES_MENU_LIST = {
     {name: '완제품 관리', url: '/stock/finishmaterial/list'},
     {name: '외주 재고 관리', url: '/stock/outsource/list'},
     {name: '부품 관리', url: '/stock/parts/list'}
-
     // { name: '재고 관리', url: '/comingsoon'},
     // { name: '재고 현황', url: '/comingsoon'},
     // { name : '재공재고 관리', url:'/comingsoon'},
@@ -209,6 +208,7 @@ export const MES_MENU_LIST = {
     {name: '생산 계획 리스트', url: '/project/schedule/list'},
     {name: '생산 계획 관리 리스트', url: '/project/schedulemanage/list'},
     {name: '작업 이력', url: '/project/work/history'},
+    {name: '금일 전표 리스트', url: '/project/voucher/today/list'},
     {name: '전표 리스트', url: '/project/voucher/list'},
     // { name : '불량 이력', url: '/comingsoon' }
     {name: '불량 이력', url: '/project/defective/list'}

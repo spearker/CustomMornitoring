@@ -55,9 +55,7 @@ const CustomCapacity = () => {
         chart: {
             type: ['line', 'line', 'bar'],
             toolbar: {
-                tools: {
-                    download: false
-                }
+                show: false
             },
             events: {
                 click: function (chart, w, e) {
@@ -67,9 +65,9 @@ const CustomCapacity = () => {
                     setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
                     setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
                     setTimeLog([{runtime: runtime, stoptime: stoptime}])
-                    const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                    const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
 
-                    setAdvice(temp[0])
+                    setAdvice(temp)
                 },
             }
         },
@@ -154,7 +152,7 @@ const CustomCapacity = () => {
     }])
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
 
-    const [advice, setAdvice] = useState<string>()
+    const [advice, setAdvice] = useState<string[]>(['', ''])
 
     const [errorIndex, setErrorIndex] = useState({error_content: '에러 상태'})
 
@@ -247,7 +245,7 @@ const CustomCapacity = () => {
             setErrorLog([])
             setTimeLog([])
             setMoldLog([])
-            setAdvice('')
+            setAdvice([])
             Notiflix.Loading.Remove()
         }
     }, [selectMachine, machineData, series, selectDate])
@@ -368,8 +366,14 @@ const CustomCapacity = () => {
                                 textAlign: 'left',
                                 marginLeft: '20px',
                                 fontFamily: 'NotoSansCJKkr-bold',
-                                fontSize: '14px'
-                            }}>개선 방안: {advice}</p>
+                                fontSize: '14px',
+                            }}>개선 방안: {advice[0]}</p>
+                            <p style={{
+                                textAlign: 'left',
+                                marginLeft: '82px',
+                                fontFamily: 'NotoSansCJKkr-bold',
+                                fontSize: '14px',
+                            }}>{advice[1]}</p>
                             <div style={{marginLeft: '20px'}}>
                                 <LineTable
                                     contentTitle={errorIndex}

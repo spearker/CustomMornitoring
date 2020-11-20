@@ -6,21 +6,22 @@ const chartStyle = {
 }
 
 interface Props {
+    maxValue: number | undefined
     value: number | undefined
 }
 
-const CustomSlideMotorAngulargaugeChart: React.FunctionComponent<Props> = ({value}) => {
+const CustomMaxUPHAngulargaugeChart: React.FunctionComponent<Props> = ({maxValue, value}) => {
     return (
         <div>
-            <div style={{marginBottom: 20}}>
-                <p style={{textAlign: 'center', fontSize: 45, fontWeight: 'bold'}}>슬라이더 모터 부하량</p>
+            <div>
+                <p style={{textAlign: 'center', fontSize: 45, fontWeight: 'bold'}}>UPH</p>
             </div>
             <GaugeChart
-                id="slide-chart"
+                id="UPH-chart"
                 colors={['rgba(255, 255, 255, .7)']}
                 nrOfLevels={25}
                 formatTextValue={() => ''}
-                percent={value ? value : 0}
+                percent={value ? value / (maxValue ? maxValue : 100) : 0}
                 needleColor={'rgba(255, 255, 255, 1)'}
                 needleBaseColor={'rgba(255, 255, 255, 1)'}
                 style={chartStyle}/>
@@ -29,4 +30,4 @@ const CustomSlideMotorAngulargaugeChart: React.FunctionComponent<Props> = ({valu
     )
 }
 
-export default CustomSlideMotorAngulargaugeChart
+export default CustomMaxUPHAngulargaugeChart

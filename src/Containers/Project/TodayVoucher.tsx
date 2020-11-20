@@ -15,7 +15,7 @@ interface Props {
     // chilren: string;
 }
 
-const VoucherContainer = ({match}: Props) => {
+const TodayVoucherContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
@@ -44,53 +44,6 @@ const VoucherContainer = ({match}: Props) => {
             current_amount: '현재 생산 수량'
         }
     }
-
-    const dummy = [
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-    ]
-
-
-    const detaildummy = [
-        {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
-    ]
 
 
     const titleeventdummy = [
@@ -220,7 +173,7 @@ const VoucherContainer = ({match}: Props) => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = match.params.pk !== undefined ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${page.current}&limit=5` : `${API_URLS['chit'].list}?pk=&page=${page.current}&limit=5`
+        const tempUrl = `${API_URLS['chit'].todayList}?pk=&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
 
         const getVoucher = res.info_list.map((v, i) => {
@@ -267,15 +220,11 @@ const VoucherContainer = ({match}: Props) => {
     return (
         <div>
             <OvertonTable
-                title={'전표 리스트'}
-                titleOnClickEvent={titleEventList}
-                mainOnClickEvent={onClick}
-                allCheckOnClickEvent={allCheckOnClick}
-                checkOnClickEvent={checkOnClick}
+                title={'금일 전표 리스트'}
                 indexList={index}
                 valueList={list}
                 // EventList={eventList}
-                clickValue={selectValue}
+                noChildren={true}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
@@ -394,4 +343,4 @@ const ButtonBox = Styled.button`
                                             height: 30px;
                                             `
 
-export default VoucherContainer
+export default TodayVoucherContainer
