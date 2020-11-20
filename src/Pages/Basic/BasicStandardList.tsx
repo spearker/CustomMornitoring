@@ -9,6 +9,7 @@ import {getRequest, postRequest} from '../../Common/requestFunctions'
 import SmallButtonLink from '../../Components/Button/SmallButtonLink'
 import InfoTable from '../../Components/Table/InfoTable'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import OptimizedHeaderBox from "../../Components/Box/OptimizedHeaderBox";
 
 // 표준 기준  정보 리스트
 const BasicStandardList = () => {
@@ -84,15 +85,9 @@ const BasicStandardList = () => {
 
     return (
         <DashboardWrapContainer index={'basic'}>
-
             <InnerBodyContainer>
-                <div style={{position: 'relative'}}>
-                    <Header title={`표준 항목 관리 (${list.length})`}/>
-                    <div style={{position: 'absolute', display: 'inline-block', top: 0, right: 0, zIndex: 4}}>
-                        <SmallButtonLink name="+ 등록하기" link="/basic/standard/register"/>
-
-                    </div>
-                </div>
+                <OptimizedHeaderBox title={`표준 항목 관리`}/>
+               
 
                 <InfoTable indexList={index} type={'machine'} pkKey={'pk'} onClickLinkUrl="/basic/standard/update?pk="
                            contents={list} onClickRemove={onClickDelete}/>

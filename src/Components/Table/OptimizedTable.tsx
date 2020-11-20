@@ -4,7 +4,6 @@ import Styled from "styled-components";
 import Pagination from "@material-ui/lab/Pagination";
 
 interface Props {
-    title: string
     selectBoxChange?: any
     widthList: string[] | number[]
     indexList: any
@@ -23,7 +22,7 @@ interface Props {
     children?: any
 }
 
-const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
+const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
 
     const [checked, setChecked] = useState<any[]>([])
 
@@ -87,8 +86,10 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                                         borderColor: '#111319',
                                         color: 'white',
                                         width: widthList[i],
-                                        fontSize: '14px',
-                                        marginRight: 30,
+                                        fontSize: '18px',
+                                        fontWeight: 'bold',
+                                        fontFamily: 'NotoSansCJKkr',
+                                        margin: '0 16px 0 16px',
                                         background: `url(${IcDropDownButton}) no-repeat 95% 50%`
                                     }}
                                     onChange={(e) => selectBoxChange(e.target.value)}
@@ -124,8 +125,8 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
             {
                 valueList !== undefined && valueList.length === 0
                     ? (
-                        <ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
-                            없습니다. </p>
+                        <ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>저장된
+                            데이터가 없습니다.</p>
                         </ValueBar>)
                     : valueList?.map((v, i) => {
                         /*
@@ -142,7 +143,6 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                             <ValueBar key={i}
                                       style={{
                                           backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
-                                          cursor: children === undefined || noChildren ? title.indexOf('제품 검사') !== -1 || title.indexOf('금형 제작') !== -1 ? 'pointer' : 'default' : 'pointer'
                                       }}>
                                 {
                                     checkOnClickEvent ?
@@ -178,7 +178,7 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                                         return (
                                             typeof v[mv] === 'object' ?
                                                 <LimitSelect style={{
-                                                    width: indexList[mi],
+                                                    width: widthList[mi],
                                                     backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
                                                     borderColor: clickValue === v ? '#19b9df' : '#353b48'
                                                 }}>
@@ -193,7 +193,11 @@ const OptimizedTable: React.FunctionComponent<Props> = ({title, selectBoxChange,
                                                 </LimitSelect>
                                                 :
                                                 <LimitP key={`td-${i}-${mv}`}
-                                                        style={{width: indexList[mi]}}
+                                                        style={{
+                                                            width: widthList[mi],
+                                                            fontFamily: 'NotoSansCJKkr',
+                                                            fontSize: '18px'
+                                                        }}
                                                         onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                                                 >
                                                     {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
@@ -261,16 +265,18 @@ const TitleBar = Styled.div`
     border-radius: 8px;
     background-color: #111319;
     width: 100%;
-    max-height: 40px;
-    min-height: 40px;
+    max-height: 50px;
+    min-height: 50px;
     align-items: center;
     p {
-    text-align: left;
-    color: #ffffff;
-    font-size: 14px;
-      &:first-child{
-        padding-left: 20px;
-      }
+     font-family: NotoSansCJKkr;
+     font-size: 18px;
+     font-weight: bold;
+     font-stretch: normal;
+     font-style: normal;
+     text-align: left;
+     color: #ffffff;
+     padding: 0 16px 0 16px;
     }
 `
 
@@ -281,11 +287,11 @@ const ValueBar = Styled.div`
     border-radius: 8px;
     background-color: #353b48;
     width: 100%;
-    max-height: 40px;
-    min-height: 40px;
+    max-height: 50px;
+    min-height: 50px;
     align-items: center;
     select {
-     height: 40px;
+     height: 50px;
      background-color: #353b48;
      border-color: #353b48;
      text-align: left;
@@ -293,12 +299,10 @@ const ValueBar = Styled.div`
      font-size: 14px;
     }
     p {
-    text-align: left;
-    color: #ffffff;
-    font-size: 14px;
-      &:first-child{
-        padding-left: 20px;
-      }
+      text-align: left;
+      color: #ffffff;
+      font-size: 14px;
+      padding: 0 16px 0 16px;
     }
 `
 

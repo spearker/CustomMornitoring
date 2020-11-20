@@ -53,8 +53,14 @@ import LoadtonDashBoard from "../Pages/jeil1981/LoadtonDashBoard";
 import MainDashboard from "../Pages/jeil1981/MainDashBoard";
 import CapitalDashBoard from "../Pages/jeil1981/CapitalDashBoard";
 import MoldManageList from "../Pages/Mold/MoldManageList";
-import MoldCreateCompleteList from "../Pages/Mold/MoldCreateCompleteList";
+import NewBasicList from "../Pages/Basic/NewBasicListContainer";
 import TodayVoucherProduction from "../Pages/Project/TodayVoucher";
+import MoldCreateCompleteList from "../Pages/Mold/MoldCreateCompleteList";
+import NewStockList from "../Pages/Stock/NewStockList";
+import NewRawMaterial from "../Pages/Stock/NewRawMaterial";
+import NewWip from "../Pages/Stock/NewWip";
+import NewFinishedMaterial from "../Pages/Stock/NewFinishedMaterial";
+import NewOutsource from "../Pages/Stock/NewOutsource";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -63,10 +69,13 @@ const JMRouters = () => {
     return (
 
         <Switch>
+
+
             <Route exact path="/jeil/main" component={MainDashboard}/>
             <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
             <Route exact path="/jeil/capacity" component={CapitalDashBoard}/>
 
+            <Route exact path="/basic/new/list/:id" component={NewBasicList}/>
             <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 
             <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis}/>
@@ -115,6 +124,14 @@ const JMRouters = () => {
             <Route exact path="/quality/current/list" component={QualityList}/>
             <Route exact path="/quality/current/detail" component={QualityDetailList}/>
 
+            {/*신규 재고 관리*/}
+            <Route exact path="/new/stock/status/list" component={NewStockList}/>
+            <Route exact path="/new/stock/rawmaterial/list" component={NewRawMaterial}/>
+            <Route exact path="/new/stock/wip/list" component={NewWip}/>
+            <Route exact path="/new/stock/finishmaterial/list" component={NewFinishedMaterial}/>
+            <Route exact path="/new/stock/outsource/list" component={NewOutsource}/>
+
+            {/*현재 재고 관리*/}
             <Route exact path="/stock/wip/list" component={StockWip}/>
             <Route exact path="/stock/outsource/list" component={StockOutSource}/>
             <Route exact path="/stock/rawmaterial/list" component={StockRawMaterial}/>
