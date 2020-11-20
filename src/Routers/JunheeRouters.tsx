@@ -21,6 +21,7 @@ import WorkHistoryRegister from '../Pages/Project/WorkHistoryRegister'
 import MapEditer from '../Pages/Super/MapEditer'
 import MapListPage from '../Pages/map/MapListPage'
 import QualityTestRequest from '../Pages/Quality/QualityTestRequest'
+import CreateMember from '../Pages/Manage/CreatMember'
 
 
 const JunheeRouters = () => {
@@ -28,6 +29,8 @@ const JunheeRouters = () => {
   return (
     <div>
       <Switch>
+        {/*인사관리*/}
+        <Route exact path="/manage/member/create" component={CreateMember}/>
         {/* 외주관리 */}
         <Route exact path="/outsourcing/register" component={OutsourcingRegister}/>
         <Route exact path="/outsourcing/register/:pk" component={OutsourcingRegister}/>
