@@ -73,7 +73,7 @@ const OutsourcingRegister = ({match}: Props) => {
             setIsUpdate(true)
             getData()
         }
-    })
+    }, [])
 
 
     /**
