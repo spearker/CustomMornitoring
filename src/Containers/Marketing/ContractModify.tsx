@@ -19,15 +19,17 @@ interface Props {
 const ContractModifyContainer = ({match}: Props) => {
     const history = useHistory()
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
+    const [finishDate, setFinishDate] = useState<string>(moment().format('YYYY-MM-DD'))
     const [customer, setCustomer] = useState<{ name?: string, pk?: string }>()
     const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
 
-    const [contractData, setContractData] = useState<{ pk: string, customer_pk?: string, material_pk?: string, amount: Number, date: string }>({
+    const [contractData, setContractData] = useState<{ pk: string, customer_pk?: string, material_pk?: string, amount: Number, date: string, deadline: string }>({
         pk: match.params.pk,
         customer_pk: customer?.pk,
         material_pk: selectMaterial?.pk,
         amount: 0,
         date: moment().format('YYYY-MM-DD'),
+        deadline: moment().format('YYYY-MM-DD'),
     })
 
     const getContractLoadData = useCallback(async () => {
@@ -44,6 +46,7 @@ const ContractModifyContainer = ({match}: Props) => {
             material_pk: resultData.material_pk,
             amount: resultData.amount,
             date: resultData.date,
+            deadline: resultData.deadline
         })
     }, [contractData, customer, selectMaterial])
 
@@ -58,6 +61,9 @@ const ContractModifyContainer = ({match}: Props) => {
             alert("수리 담당자는 필수 항목입니다. 반드시 입력해주세요.")
             return;
         } else if (contractData.date === "") {
+            alert("완료 예정일은 필수 항목입니다. 반드시 입력해주세요.")
+            return;
+        } else if (contractData.deadline === "") {
             alert("완료 예정일은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -76,7 +82,7 @@ const ContractModifyContainer = ({match}: Props) => {
     useEffect(() => {
         setContractData({...contractData, customer_pk: customer?.pk, material_pk: selectMaterial?.pk})
     }, [selectMaterial, customer])
-    
+
 
     return (
         <div>
@@ -138,9 +144,37 @@ const ContractModifyContainer = ({match}: Props) => {
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>• 계약 완료일</td>
+                            <td>
+                                <div style={{
+                                    display: 'flex',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    backgroundColor: '#f4f6fa',
+                                    border: '0.5px solid #b3b3b3',
+                                    height: 32
+                                }}>
+                                    <div style={{width: 817, display: 'table-cell'}}>
+                                        <div style={{marginTop: 5}}>
+                                            {
+                                                selectDate === ''
+                                                    ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
+                                                    : <InputText
+                                                        style={{color: '#111319'}}>&nbsp; {finishDate}</InputText>
+                                            }
+                                        </div>
+                                    </div>
+                                    <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                                        setFinishDate(select)
+                                        setContractData({...contractData, deadline: select})
+                                    }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                 </div>
-                <div style={{marginTop: 72}}>
+                <div style={{marginTop: 22}}>
                     <ButtonWrap onClick={async () => {
                         await postContractRegisterData()
                     }}>
