@@ -153,7 +153,6 @@ const MoldManageListContainer = () => {
     Notiflix.Loading.Remove()
   }, [searchValue, option, list, page])
 
-
   useEffect(() => {
     getList()
   }, [page.current])
@@ -165,12 +164,10 @@ const MoldManageListContainer = () => {
     setEventList(eventdummy)
   }, [])
 
-
   return (
     <div>
       <OptimizedHeaderBox title={'금형 SQ 인증 관리'}/>
       <OptimizedTable
-        title={'금형 SQ 인증 관리'}
         widthList={['296px', '128px', '152px', '152px', '152px']}
         allCheckOnClickEvent={allCheckOnClick}
         indexList={index}
