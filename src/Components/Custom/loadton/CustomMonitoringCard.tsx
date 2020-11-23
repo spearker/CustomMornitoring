@@ -40,8 +40,8 @@ const CustomMonitoringCard = ({contents, isOpen, onClickEvent}: Props) => {
                         {/*{Item('프레스 코드', contents ? contents?.press_code : '-')}*/}
                         {Item('프레스 상태', contents ? contents?.press_state : '-')}
                         {Item('전력량', contents ? contents?.electric_power + ' kWh' : '-')}
-                        {Item('현재 생산량', contents ? contents?.preset_count + '/' + contents?.preset_limit_count : ' - ')}
-                        {Item('남은 시간', contents ? contents?.ETC !== '-1' ? contents?.ETC : '∞' : '-')}
+                      {Item('UPH', contents ? contents?.UPH : ' - ')}
+                      {Item('SPM', contents ? contents?.press_spm : '-')}
                         {/*{Item('에러코드', contents ? contents?.error_code : '-')}*/}
                     </CardDiv>
                 }
