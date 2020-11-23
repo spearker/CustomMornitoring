@@ -22,6 +22,7 @@ import MapEditer from '../Pages/Super/MapEditer'
 import MapListPage from '../Pages/map/MapListPage'
 import QualityTestRequest from '../Pages/Quality/QualityTestRequest'
 import CreateMember from '../Pages/Manage/CreatMember'
+import MoldManageList from '../Pages/SQManage/Mold/MoldManageList'
 
 
 const JunheeRouters = () => {
@@ -66,6 +67,8 @@ const JunheeRouters = () => {
         {/*<Route exact path="/company/maps/:id" component={MapList} />*/}
         <Route path="/admin/map/:company" component={MapEditer}/>
         <Route path="/map/update/:company/:factory/:type" component={MapEditer}/>
+        {/*SQ 인증 관리*/}
+        <Route path="/sq/manage/mold" component={MoldManageList}/>
       </Switch>
     </div>
   )
