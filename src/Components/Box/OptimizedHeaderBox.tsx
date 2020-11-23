@@ -23,22 +23,24 @@ const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, 
     return (
         <div>
             <Title>
-                <p className="p-bold" style={{fontSize: 20}}>{title}</p>
+                <div style={{display: 'flex'}}>
+                    <p className="p-bold" style={{fontSize: 20}}>{title}</p>
+                    {searchButtonOnClick ?
+                        <div style={{width: '371px', display: 'flex', flexDirection: 'row', marginLeft: 24}}>
+                            <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 92}}
+                                       onChange={(e) => searchBarChange(e.target.value)}/>
+                            <SearchButton style={{flex: 8}} onClick={() => searchButtonOnClick()}>
+                                <img src={IcSearchButton}/>
+                            </SearchButton>
+                        </div> :
+                        null
+                    }
+                </div>
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                     {dropDownOnClick ?
                         <div style={{alignItems: 'center'}}>
                             <BasicDropdown contents={dropDownContents} select={dropDownContents[dropDownOption]}
                                            onClickEvent={dropDownOnClick}/>
-                        </div> :
-                        null
-                    }
-                    {searchButtonOnClick ?
-                        <div style={{width: '300px', display: 'flex', flexDirection: 'row', marginRight: 15}}>
-                            <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}}
-                                       onChange={(e) => searchBarChange(e.target.value)}/>
-                            <SearchButton style={{flex: 10}} onClick={() => searchButtonOnClick()}>
-                                <img src={IcSearchButton}/>
-                            </SearchButton>
                         </div> :
                         null
                     }
@@ -89,13 +91,12 @@ const TitleButtonBox = Styled.button`
 
 const SearchBox = Styled(Input)`
     input{
-        padding-left: 8px;
+        padding-left: 16px;
         font-family: NotoSansCJKkr;
         height: 28px;
         border: 0.5px solid #b3b3b3;
         border-radius: 10px 0 0px 10px;
         width: 100%;
-        margin-right: -10%;
         background-color: #f4f6fa;
         font-size: 15px;
         &::placeholder:{

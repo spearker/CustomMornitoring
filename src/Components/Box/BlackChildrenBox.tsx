@@ -1,10 +1,16 @@
 import React from "react";
 import Styled from "styled-components";
 
-const BlackChildrenBox: React.FunctionComponent = () => {
+interface Props {
+    children?: any
+}
+
+const BlackChildrenBox: React.FunctionComponent<Props> = ({children}) => {
     return (
         <div>
-            <BlackBg/>
+            <BlackBg>
+                {children}
+            </BlackBg>
         </div>
     )
 }

@@ -22,8 +22,8 @@ interface Props {
     children?: any
 }
 
-const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
 
+const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
     const [checked, setChecked] = useState<any[]>([])
 
     React.useEffect(() => {
@@ -125,8 +125,13 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthL
             {
                 valueList !== undefined && valueList.length === 0
                     ? (
-                        <ValueBar style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>저장된
-                            데이터가 없습니다.</p>
+                        <ValueBar style={{backgroundColor: '#111319'}}>
+                            <p style={{
+                                width: '100%', textAlign: 'center', opacity: 0.3,
+                                fontFamily: 'NotoSansCJKkr',
+                                fontSize: '18px',
+                                fontWeight: 'normal'
+                            }}>저장된 데이터가 없습니다.</p>
                         </ValueBar>)
                     : valueList?.map((v, i) => {
                         /*
@@ -259,10 +264,10 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthL
     )
 }
 
+
 const TitleBar = Styled.div`
     display: flex;
     flex-direction: row;
-    border-radius: 8px;
     background-color: #111319;
     width: 100%;
     max-height: 50px;
@@ -281,10 +286,9 @@ const TitleBar = Styled.div`
 `
 
 const ValueBar = Styled.div`
-    margin-top: 12px;
     display: flex;
     flex-direction: row;
-    border-radius: 8px;
+    border-radius:  0 0 6px 6px;
     background-color: #353b48;
     width: 100%;
     max-height: 50px;
@@ -342,7 +346,15 @@ const LimitP = Styled.p`
     white-space:nowrap;
     word-wrap:normal;
     overflow:hidden;
+    border-bottom: 1px;
+    border-color: #ffffff;
 `
 
+const Line = Styled.hr`
+    margin: 10px 20px 12px 0px;
+    border-color: #353b48;
+    height: 1px;
+    background-color: #353b48;
+`
 
-export default OptimizedTable
+export default InAndOutTable
