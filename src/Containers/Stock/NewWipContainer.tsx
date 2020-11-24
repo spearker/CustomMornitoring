@@ -10,6 +10,9 @@ import Notiflix from "notiflix";
 import OptimizedHeaderBox from "../../Components/Box/OptimizedHeaderBox";
 import OptimizedTable from "../../Components/Table/OptimizedTable";
 import BlackChildrenBox from "../../Components/Box/BlackChildrenBox";
+import InAndOutHeader from "../../Components/Box/InAndOutHeader";
+import InAndOutTable from "../../Components/Table/InAndOutTable";
+import moment from "moment";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -21,11 +24,14 @@ const NewWipContainer = () => {
     const [detailList, setDetailList] = useState<any>();
     const [filter, setFilter] = useState(-1)
     const [type, setType] = useState(10)
+    const [selectTitle, setSelectTitle] = useState<number>(0);
     const [index, setIndex] = useState({material_name: "품목(품목명)"});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
-    const [subIndex, setSubIndex] = useState({writer: "작성자"})
+    const [subIndex, setSubIndex] = useState({writer: "출처"})
+    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
+
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -43,6 +49,15 @@ const NewWipContainer = () => {
         }
     }
 
+    const detailTitle = {
+        wipDetail: {
+            writer: "출처",
+            stock_quantity: "입고 수량",
+            before_quantity: "",
+            date: "입고일"
+        }
+    }
+
     const onClick = useCallback((stock) => {
         console.log('dsfewfewf', stock.type);
         if (stock.pk === selectPk) {
@@ -54,7 +69,7 @@ const NewWipContainer = () => {
             setSelectStock(stock.item_name);
             setSelectValue(stock)
             //TODO: api 요청
-            // getData(stock.pk)
+            getData(stock.pk)
         }
 
     }, [list, selectPk]);
@@ -100,6 +115,7 @@ const NewWipContainer = () => {
 
     useEffect(() => {
         getList()
+        setSubIndex(detailTitle['wipDetail'])
     }, [page.current])
 
     return (
@@ -115,14 +131,17 @@ const NewWipContainer = () => {
                             pageOnClickEvent={(event, i) => setPage({...page, current: i})}
             >
                 {selectPk !== null ?
-                    <BlackChildrenBox>
-                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}
-                                   currentPage={detailPage.current}
-                                   totalPage={detailPage.total}
-                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
-                            <Line/>
-                        </LineTable>
-                    </BlackChildrenBox>
+                    <div>
+                        <InAndOutHeader selectDate={selectDate} setSelectDate={setSelectDate} selectIndex={selectTitle}
+                                        buttonList={['입고 현황', '출고 현황']}
+                                        setSelectIndex={setSelectTitle}/>
+                        <InAndOutTable indexList={subIndex} valueList={detailList}
+                                       widthList={['240px', '88px', '580px', '96px']}
+                                       currentPage={detailPage.current}
+                                       totalPage={detailPage.total}
+                                       pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
+                        </InAndOutTable>
+                    </div>
                     :
                     <BlackChildrenBox/>
                 }
