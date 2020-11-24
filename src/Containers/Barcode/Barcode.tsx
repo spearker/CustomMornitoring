@@ -5,272 +5,276 @@ import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getBarcode, postBarcode} from '../../Api/mes/barcode'
 import {useHistory} from 'react-router-dom'
 import {postProjectDelete} from '../../Api/mes/production'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const BarcodeListContainer = () => {
 
-  const [list, setList] = useState<any[]>([])
-  const [titleEventList, setTitleEventList] = useState<any[]>([])
-  const [eventList, setEventList] = useState<any[]>([])
-  const [detailList, setDetailList] = useState<{
-    barcode_pk: string,
-    barcode_name: string,
-    main_type: string,
-    detail_type: string,
-    item_pk: string,
-    barcode_img_url: string,
-    barcode_type: string,
-    barcode_number: string,
-    barcode_photo: string,
-    description: string | null
-  }>({
-    barcode_pk: '',
-    barcode_name: '',
-    main_type: '',
-    detail_type: '',
-    barcode_img_url: '',
-    item_pk: '',
-    barcode_type: '',
-    barcode_number: '',
-    barcode_photo: '',
-    description: ''
-  })
-  const [index, setIndex] = useState({main_type: '품목(품목명)'})
-  const [selectPk, setSelectPk] = useState<any>(null)
-  const [selectBarcode, setSelectBarcode] = useState<any>(null)
-  const [selectValue, setSelectValue] = useState<any>(null)
-  const [deletePk, setDeletePk] = useState<(string[])>([])
-  const [page, setPage] = useState<PaginationInfo>({
-    current: 1,
-  })
-  const history = useHistory()
+    const [list, setList] = useState<any[]>([])
+    const [titleEventList, setTitleEventList] = useState<any[]>([])
+    const [eventList, setEventList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<{
+        pk: string,
+        barcode_name: string,
+        main_type: string,
+        detail_type: string,
+        item_pk: string,
+        barcode_img_url: string,
+        barcode_type: string,
+        barcode_number: string,
+        barcode_photo: string,
+        description: string | null
+    }>({
+        pk: '',
+        barcode_name: '',
+        main_type: '',
+        detail_type: '',
+        barcode_img_url: '',
+        item_pk: '',
+        barcode_type: '',
+        barcode_number: '',
+        barcode_photo: '',
+        description: ''
+    })
+    const [index, setIndex] = useState({main_type: '품목(품목명)'})
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectBarcode, setSelectBarcode] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
+    const [deletePk, setDeletePk] = useState<(string[])>([])
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    })
+    const history = useHistory()
 
-  const indexList = {
-    barcode: {
-      main_type: '항목',
-      detail_type: '상세 항목',
-      barcode_number: '바코드 번호',
-      barcode_name: '바코드 명',
-      registered: '등록 날짜',
-    }
-  }
-
-  const dummy = [
-    {
-      item_name: '품목명',
-      item_type: '완제품',
-      barcode_num: '1111-111-11-1234567',
-      basic_barcode: '1111-111-11',
-      registered: '2020.06.16',
-    },
-    {
-      item_name: '품목명',
-      item_type: '원자재',
-      barcode_num: '1111-111-11-1234567',
-      basic_barcode: '1111-111-11',
-      registered: '2020.06.16',
-    },
-    {
-      item_name: '품목명',
-      item_type: '원자재',
-      barcode_num: 'A123456789B',
-      basic_barcode: '1111-111-11',
-      registered: '2020.06.16',
-    },
-    {
-      item_name: '품목명',
-      item_type: '완제품',
-      barcode_num: '1111-111-11-1234567',
-      basic_barcode: '1111-111-11',
-      registered: '2020.06.16',
-    },
-    {
-      item_name: '품목명',
-      item_type: '완제품',
-      barcode_num: '1111-111-11-1234567',
-      basic_barcode: '1111-111-11',
-      registered: '2020.06.16',
-    },
-  ]
-
-  const titleeventdummy = [
-    {
-      Name: '등록하기',
-      Width: 90,
-      Link: () => history.push('/barcode/register')
-    },
-    {
-      Name: '삭제',
-      Link: () => postDelete()
-    }
-  ]
-
-
-  const eventdummy = [
-    {
-      Name: '수정',
-      Width: 60,
-      Color: 'white',
-      Link: (v) => history.push(`/barcode/register/${v.barcode_pk}`)
-    },
-  ]
-
-
-  const onClick = useCallback((barcode) => {
-    console.log('dsfewfewf', barcode.barcode_pk, barcode.barcode_name)
-    if (barcode.barcode_pk === selectPk) {
-      setSelectPk(null)
-      setSelectBarcode(null)
-      setSelectValue(null)
-    } else {
-      setSelectPk(barcode.barcode_pk)
-      setSelectBarcode(barcode.barcode_name)
-      setSelectValue(barcode)
-      //TODO: api 요청
-      getData(barcode.barcode_pk)
-    }
-
-  }, [list, selectPk])
-
-  const arrayDelete = () => {
-    while (true) {
-      deletePk.pop()
-      break
-    }
-  }
-
-
-  const allCheckOnClick = useCallback((list) => {
-    let tmpPk: string[] = []
-
-    {
-      list.length === 0 ?
-        arrayDelete()
-        :
-        list.map((v, i) => {
-          arrayDelete()
-
-          if (deletePk.indexOf(v.pk) === -1) {
-            tmpPk.push(v.pk)
-          }
-
-          tmpPk.map((vi, index) => {
-            if (deletePk.indexOf(v.pk) === -1) {
-              deletePk.push(vi)
-            }
-          })
-
-          if (tmpPk.length < deletePk.length) {
-            deletePk.shift()
-          }
-
-          console.log('deletePk.pk', deletePk)
-        })
-    }
-  }, [deletePk])
-
-
-  const checkOnClick = useCallback((Data) => {
-    let IndexPk = deletePk.indexOf(Data.barcode_pk)
-    {
-      deletePk.indexOf(Data.barcode_pk) !== -1 ?
-        deletePk.splice(IndexPk, 1)
-        :
-        deletePk.push(Data.barcode_pk)
-    }
-  }, [deletePk])
-
-  const postDelete = useCallback(async () => {
-    if (deletePk.length <= 0) {
-      alert('삭제하실 항목을 선택해 주세요.')
-      return
-    }
-    const tempUrl = `${API_URLS['barcode'].delete}`
-    const res = await postProjectDelete(tempUrl, deletePk)
-    console.log(res)
-
-    arrayDelete()
-    getList()
-
-    setSelectPk(null)
-  }, [deletePk, selectPk])
-
-  const getData = useCallback(async (pk) => {
-    //TODO: 성공시
-    const tempUrl = `${API_URLS['barcode'].detailInfo}?barcode_pk=${pk}`
-    const res = await getBarcode(tempUrl)
-
-    setDetailList(res)
-
-  }, [detailList])
-
-  const getList = useCallback(async () => { // useCallback
-    //TODO: 성공시
-    const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=${''}&limit=15`
-    const res = await getBarcode(tempUrl)
-
-    setList(res.info_list)
-
-    setPage({current: res.current_page, total: res.total_page})
-  }, [list, page])
-
-  useEffect(() => {
-    getList()
-  }, [page.current])
-
-  useEffect(() => {
-    getList()
-    setIndex(indexList['barcode'])
-    // setList(dummy)
-    setTitleEventList(titleeventdummy)
-    setEventList(eventdummy)
-  }, [])
-
-  return (
-    <div>
-      <OvertonTable
-        title={'바코드 현황'}
-        allCheckOnClickEvent={allCheckOnClick}
-        titleOnClickEvent={titleEventList}
-        indexList={index}
-        valueList={list}
-        EventList={eventList}
-        clickValue={selectValue}
-        checkOnClickEvent={checkOnClick}
-        currentPage={page.current}
-        totalPage={page.total}
-        pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-        mainOnClickEvent={onClick}>
-        {
-          selectPk !== null ?
-            <LineTable title={selectBarcode + ' 바코드 이미지'}>
-              <BarcodeContainer>
-                <BarcodeImage>
-                  {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
-                    <p>바코드 이미지가 없습니다.</p>
-                    :
-                    <img src={detailList.barcode_img_url} style={{width: '100%', height: '100%'}}/>
-                  }
-                </BarcodeImage>
-                <BarcodeNum>
-                  <div>
-                    <p>바코드 번호</p>
-                    <p>{detailList.barcode_number}</p>
-                  </div>
-                  {/*<div>*/}
-                  {/*    <p>기준 바코드</p>*/}
-                  {/*    <p>A123</p>*/}
-                  {/*</div>*/}
-                </BarcodeNum>
-                {/*<ButtonBox>바코드 이미지 다운로드</ButtonBox>*/}
-              </BarcodeContainer>
-            </LineTable>
-            :
-            null
+    const indexList = {
+        barcode: {
+            main_type: '항목',
+            detail_type: '상세 항목',
+            barcode_number: '바코드 번호',
+            barcode_name: '바코드 명',
+            registered: '등록 날짜',
         }
-      </OvertonTable>
-    </div>
-  )
+    }
+
+    const dummy = [
+        {
+            item_name: '품목명',
+            item_type: '완제품',
+            barcode_num: '1111-111-11-1234567',
+            basic_barcode: '1111-111-11',
+            registered: '2020.06.16',
+        },
+        {
+            item_name: '품목명',
+            item_type: '원자재',
+            barcode_num: '1111-111-11-1234567',
+            basic_barcode: '1111-111-11',
+            registered: '2020.06.16',
+        },
+        {
+            item_name: '품목명',
+            item_type: '원자재',
+            barcode_num: 'A123456789B',
+            basic_barcode: '1111-111-11',
+            registered: '2020.06.16',
+        },
+        {
+            item_name: '품목명',
+            item_type: '완제품',
+            barcode_num: '1111-111-11-1234567',
+            basic_barcode: '1111-111-11',
+            registered: '2020.06.16',
+        },
+        {
+            item_name: '품목명',
+            item_type: '완제품',
+            barcode_num: '1111-111-11-1234567',
+            basic_barcode: '1111-111-11',
+            registered: '2020.06.16',
+        },
+    ]
+
+    const titleeventdummy = [
+        {
+            Name: '등록하기',
+            Width: 90,
+            Link: () => history.push('/barcode/register')
+        },
+        {
+            Name: '삭제',
+            Link: () => postDelete()
+        }
+    ]
+
+
+    const eventdummy = [
+        {
+            Name: '수정',
+            Width: 60,
+            Color: 'white',
+            Link: (v) => history.push(`/barcode/register/${v.pk}`)
+        },
+    ]
+
+
+    const onClick = useCallback((barcode) => {
+        console.log('dsfewfewf', barcode.pk, barcode.barcode_name)
+        if (barcode.pk === selectPk) {
+            setSelectPk(null)
+            setSelectBarcode(null)
+            setSelectValue(null)
+        } else {
+            setSelectPk(barcode.pk)
+            setSelectBarcode(barcode.barcode_name)
+            setSelectValue(barcode)
+            //TODO: api 요청
+            getData(barcode.pk)
+        }
+
+    }, [list, selectPk])
+
+    const arrayDelete = () => {
+        while (true) {
+            deletePk.pop()
+            break
+        }
+    }
+
+
+    const allCheckOnClick = useCallback((list) => {
+        let tmpPk: string[] = []
+
+        {
+            list.length === 0 ?
+                arrayDelete()
+                :
+                list.map((v, i) => {
+                    arrayDelete()
+
+                    if (deletePk.indexOf(v.pk) === -1) {
+                        tmpPk.push(v.pk)
+                    }
+
+                    tmpPk.map((vi, index) => {
+                        if (deletePk.indexOf(v.pk) === -1) {
+                            deletePk.push(vi)
+                        }
+                    })
+
+                    if (tmpPk.length < deletePk.length) {
+                        deletePk.shift()
+                    }
+
+                    console.log('deletePk.pk', deletePk)
+                })
+        }
+    }, [deletePk])
+
+
+    const checkOnClick = useCallback((Data) => {
+        let IndexPk = deletePk.indexOf(Data.pk)
+        {
+            deletePk.indexOf(Data.pk) !== -1 ?
+                deletePk.splice(IndexPk, 1)
+                :
+                deletePk.push(Data.pk)
+        }
+    }, [deletePk])
+
+    const postDelete = useCallback(async () => {
+        if (deletePk.length <= 0) {
+            alert('삭제하실 항목을 선택해 주세요.')
+            return
+        }
+        const tempUrl = `${API_URLS['barcode'].delete}`
+        const res = await postProjectDelete(tempUrl, deletePk)
+        console.log(res)
+
+        arrayDelete()
+        getList()
+
+        setSelectPk(null)
+    }, [deletePk, selectPk])
+
+    const getData = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['barcode'].detailInfo}?pk=${pk}`
+        const res = await getBarcode(tempUrl)
+
+        setDetailList(res)
+
+    }, [detailList])
+
+    const getList = useCallback(async () => { // useCallback
+        //TODO: 성공시
+        Notiflix.Loading.Circle();
+        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=15`
+        const res = await getBarcode(tempUrl)
+
+        setList(res.info_list)
+
+        setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
+    }, [list, page])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
+
+    useEffect(() => {
+        getList()
+        setIndex(indexList['barcode'])
+        // setList(dummy)
+        setTitleEventList(titleeventdummy)
+        setEventList(eventdummy)
+    }, [])
+
+    return (
+        <div>
+            <OvertonTable
+                title={'바코드 현황'}
+                allCheckOnClickEvent={allCheckOnClick}
+                titleOnClickEvent={titleEventList}
+                indexList={index}
+                valueList={list}
+                EventList={eventList}
+                clickValue={selectValue}
+                checkOnClickEvent={checkOnClick}
+                currentPage={page.current}
+                totalPage={page.total}
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+                mainOnClickEvent={onClick}>
+                {
+                    selectPk !== null ?
+                        <LineTable title={selectBarcode + ' 바코드 이미지'}>
+                            <BarcodeContainer>
+                                <BarcodeImage>
+                                    {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
+                                        <p>바코드 이미지가 없습니다.</p>
+                                        :
+                                        <img src={detailList.barcode_img_url} style={{width: '100%', height: '100%'}}/>
+                                    }
+                                </BarcodeImage>
+                                <BarcodeNum>
+                                    <div>
+                                        <p>바코드 번호</p>
+                                        <p>{detailList.barcode_number}</p>
+                                    </div>
+                                    {/*<div>*/}
+                                    {/*    <p>기준 바코드</p>*/}
+                                    {/*    <p>A123</p>*/}
+                                    {/*</div>*/}
+                                </BarcodeNum>
+                                {/*<ButtonBox>바코드 이미지 다운로드</ButtonBox>*/}
+                            </BarcodeContainer>
+                        </LineTable>
+                        :
+                        null
+                }
+            </OvertonTable>
+        </div>
+    )
 }
 
 

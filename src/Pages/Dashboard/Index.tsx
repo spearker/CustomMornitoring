@@ -1,20 +1,20 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB3, TOKEN_NAME} from '../../Common/configset'
-import DashboardWrapContainer from '../../Containers/DashboardWrapContainer';
-import SubHeader from '../../Components/Text/SubHeader';
-import moment from 'moment';
-import 'moment/locale/ko';
-import InnerBodyContainer from '../../Containers/InnerBodyContainer';
-import IC_NEXT from '../../Assets/Images/ic_next_page.png';
-import IC_BEFORE from '../../Assets/Images/ic_before_page.png';
-import IC_REFRESH from '../../Assets/Images/ic_refresh.png';
-import DotPagenation from '../../Components/Pagenation/DotPagenation';
-import {getRequest, postRequest} from '../../Common/requestFunctions';
-import {getToken} from '../../Common/tokenFunctions';
-import TaskTable from '../../Components/Table/TaskTable';
-import StatusCard2 from '../../Components/Card/StatusCard2';
-import {changeStatusToColor} from '../../Common/statusFunctions';
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import SubHeader from '../../Components/Text/SubHeader'
+import moment from 'moment'
+import 'moment/locale/ko'
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import IC_NEXT from '../../Assets/Images/ic_next_page.png'
+import IC_BEFORE from '../../Assets/Images/ic_before_page.png'
+import IC_REFRESH from '../../Assets/Images/ic_refresh.png'
+import DotPagenation from '../../Components/Pagenation/DotPagenation'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
+import {getToken} from '../../Common/tokenFunctions'
+import TaskTable from '../../Components/Table/TaskTable'
+import StatusCard2 from '../../Components/Card/StatusCard2'
+import {changeDashboardStatusToColor, changeStatusToColor} from '../../Common/statusFunctions'
 
 interface IWeekInfo {
     date: string,
@@ -44,11 +44,11 @@ const Dashboard = () => {
     const [page, setPage] = useState<number>(1)
     const [taskList, setTaskList] = useState<ITask[]>([])
     const [option, setOption] = useState<number>(0)
-    const [taskFilter, setTaskFilter] = useState<number>(1000);
+    const [taskFilter, setTaskFilter] = useState<number>(1000)
 
 
     const optionList = [
-        "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
+        '등록순', '기계이름 순', '기계종류 순', '기계번호 순', '제조사 순', '제조사 번호 순', '제조사 상세정보 순'
     ]
     const indexList = {
         status: '상태',
@@ -67,8 +67,8 @@ const Dashboard = () => {
      */
     const getSunday = useCallback(() => {
         for (var i = 0; i < 7; ++i) {
-            if (moment().add(0 - i, "days").locale('en').format('dddd') === 'Sunday') {
-                const targetDate = moment().add(0 - i, "days").format('YYYY-MM-DD');
+            if (moment().add(0 - i, 'days').locale('en').format('dddd') === 'Sunday') {
+                const targetDate = moment().add(0 - i, 'days').format('YYYY-MM-DD')
                 return targetDate
             }
         }
@@ -82,7 +82,7 @@ const Dashboard = () => {
      */
     const onClickChangeDay = useCallback((day) => {
         console.log(day)
-        setTargetDate(day);
+        setTargetDate(day)
     }, [targetDate])
 
     useEffect(() => {
@@ -106,7 +106,7 @@ const Dashboard = () => {
         })
 
         //setStatus(dataSet.statusList)
-        getStatus(1);
+        getStatus(1)
         onClickFilter(0)
         //setTaskList(dataSet.taskList)
     }, [])
@@ -238,7 +238,7 @@ const Dashboard = () => {
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <SubHeader title={'전체 장비현황'}/>
                         <img src={IC_REFRESH} onClick={() => {
-                            getStatus(1);
+                            getStatus(1)
                             setPage(1)
                         }} style={{width: 20, height: 20, marginLeft: 7, cursor: 'pointer'}}/>
 
@@ -271,7 +271,7 @@ const Dashboard = () => {
                             <div className="p-limit"
                                  style={{display: 'flex', flexDirection: 'row', width: '100%', textAlign: 'center'}}>
                                 {dummy !== undefined && dummy.length === 0 ?
-                                    <p style={{color: '#ffffff', textAlign: "center", marginLeft: '43%'}}>comming
+                                    <p style={{color: '#ffffff', textAlign: 'center', marginLeft: '43%'}}>coming
                                         soon</p> :
                                     dummy.map((v: IStatus2, index) => {
                                         if ((page - 1) * 6 <= index) {
@@ -301,15 +301,8 @@ const Dashboard = () => {
                 </div>
                 {/* 작업내역  */}
                 <div style={{width: '100%', marginTop: 44, textAlign: 'left', marginBottom: 10}}>
-                    <SubHeader title={'작업지시서 내역 '}/>
+                    <SubHeader title={'생산 계획 내역'}/>
                     <span> </span>
-                    <FilterButton onClick={() => setTaskFilter(1000)}
-                                  style={{backgroundColor: changeStatusToColor(1000)}}>전체</FilterButton>
-                    <FilterButton onClick={() => setTaskFilter(11)}
-                                  style={{backgroundColor: changeStatusToColor(11)}}>진행</FilterButton>
-                    <FilterButton onClick={() => setTaskFilter(10)}
-                                  style={{backgroundColor: changeStatusToColor(10)}}>완료</FilterButton>
-                    {/*<FilterButton onClick={()=>setTaskFilter('share')} style={{backgroundColor: changeStatusToColor('share')}}>공유</FilterButton>*/}
                     {/*<FilterButton onClick={()=>setTaskFilter('ready')} style={{backgroundColor: changeStatusToColor('ready')}}>대기</FilterButton>*/}
 
                     <div style={{display: 'inline-block', float: 'right',}}>
@@ -319,6 +312,14 @@ const Dashboard = () => {
                         {/*</div>*/}
                     </div>
                     <div style={{marginTop: 12}}>
+                        <FilterButton onClick={() => setTaskFilter(1000)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(1000)}}>전체</FilterButton>
+                        <FilterButton onClick={() => setTaskFilter(11)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(11)}}>진행</FilterButton>
+                        <FilterButton onClick={() => setTaskFilter(10)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(10)}}>완료</FilterButton>
+                        <FilterButton onClick={() => setTaskFilter(16)}
+                                      style={{backgroundColor: changeDashboardStatusToColor(16)}}>공유</FilterButton>
                         <TaskTable indexList={indexList} keyName={'pk'} buttonName='수정하기'
                                    contents={taskFilter === 1000 ? taskList : taskList.filter(f => f.status === taskFilter)}
                                    onClickEvent={onClickTaskStatus}/>
@@ -327,7 +328,7 @@ const Dashboard = () => {
                     {
                         taskList.length === 0 &&
                         <NullBox>
-                            {/*등록된 작업지시서가 없습니다.*/} comming soon
+                            {/*등록된 작업지시서가 없습니다.*/} coming soon
                         </NullBox>
                     }
 
@@ -335,7 +336,7 @@ const Dashboard = () => {
             </InnerBodyContainer>
         </DashboardWrapContainer>
 
-    );
+    )
 }
 
 const NullBox = Styled.div`
@@ -350,14 +351,13 @@ const NullBox = Styled.div`
 `
 
 const FilterButton = Styled.div`
-  padding: 7px 18px;
+  padding: 4px 20px;
   font-size: 15px;
   font-weight: bold;
-
+  color: black;
   display: inline-block;
-  border-radius: 4px;
-  margin-left: 10px;
-
-
+  border-radius: 6px;
+  margin-right: 10px;
+  margin-bottom: 12px;
 `
-export default Dashboard;
+export default Dashboard

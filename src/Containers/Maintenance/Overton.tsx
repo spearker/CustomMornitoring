@@ -1,28 +1,31 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getOvertoneData} from "../../Api/pm/preservation";
-import Styled from "styled-components";
+import React, {useCallback, useEffect, useState} from 'react'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import LineTable from '../../Components/Table/LineTable'
+import {API_URLS, getOvertoneData} from '../../Api/pm/preservation'
+import Styled from 'styled-components'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 
 const OvertonMaintenanceContainer = () => {
 
-    const [list, setList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any[]>([]);
-    const [option, setOption] = useState(0);
-    const [keyword, setKeyword] = useState<string>('');
-    const [index, setIndex] = useState({machine_name: '기계명'});
+    const [list, setList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<any[]>([])
+    const [option, setOption] = useState(0)
+    const [keyword, setKeyword] = useState<string>('')
+    const [index, setIndex] = useState({machine_name: '기계명'})
     const [subIndex, setSubIndex] = useState({tons: '정상톤'})
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
     const [detailPage, setDetailPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
 
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMachine, setSelectMachine] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMachine, setSelectMachine] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
 
 
     const indexList = {
@@ -43,47 +46,52 @@ const OvertonMaintenanceContainer = () => {
     }
 
     const onClick = useCallback(machine => {
-        console.log(machine.pk, machine.machine_name);
+        console.log(machine.pk, machine.machine_name)
         if (machine.pk === selectPk) {
-            setSelectPk(null);
+            setSelectPk(null)
             setSelectMachine(null)
             setSelectValue(null)
             setDetailPage({...detailPage, current: 1})
         } else {
-            setSelectPk(machine.pk);
+            setSelectPk(machine.pk)
             setSelectMachine(machine.machine_name)
             setSelectValue(machine)
             //TODO: api 요청
-            getData(machine.pk);
+            getData(machine.pk)
             setDetailPage({...detailPage, current: 1})
         }
-    }, [list, selectPk]);
+    }, [list, selectPk])
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
 
+        if (pk) {
+            Notiflix.Loading.Circle()
+            const tempUrl = `${API_URLS['overtone'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
+            const res = await getOvertoneData(tempUrl)
 
-        const tempUrl = `${API_URLS['overtone'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
-        const res = await getOvertoneData(tempUrl)
+            setDetailList(res.info_list)
 
-        setDetailList(res.info_list)
-
-        setDetailPage({current: res.current_page, total: res.total_page})
+            setDetailPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [detailList, selectPk])
 
 
     const getList = useCallback(async () => { // useCallback
+        Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=15`
         const res = await getOvertoneData(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {
-        setIndex(indexList["overtone"])
-        setSubIndex(detailTitle["overtone"])
+        setIndex(indexList['overtone'])
+        setSubIndex(detailTitle['overtone'])
         getList()
     }, [])
 
@@ -120,7 +128,7 @@ const OvertonMaintenanceContainer = () => {
                     null
             }
         </OvertonTable>
-    );
+    )
 }
 
 const Line = Styled.hr`
@@ -130,4 +138,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default OvertonMaintenanceContainer;
+export default OvertonMaintenanceContainer

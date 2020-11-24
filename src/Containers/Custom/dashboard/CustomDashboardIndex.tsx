@@ -1,44 +1,11 @@
-import React from 'react'
-import CustomIndexItem from "../../../Components/Custom/dashboard/CustomIndexItem";
-import Styled from "styled-components";
-import { useHistory } from "react-router-dom";
-import { getToken } from "../../../lib/tokenFunctions";
-import { TOKEN_NAME } from "../../../Common/configset";
-import { DASHBOARD } from "../../../Common/@types/youdong";
-
-const dashboard: DASHBOARD[] = [
-  {
-    name: '프레스 1호기',
-    pk: '1',
-    url: 'custom/dashboard/loadton/1',
-  },
-  {
-    name: '프레스 2호기',
-    pk: '2',
-    url: 'custom/dashboard/loadton/2',
-  },
-  {
-    name: '프레스 3호기',
-    pk: '3',
-    url: 'custom/dashboard/loadton/3',
-  },
-  {
-    name: '프레스 4호기',
-    pk: '4',
-    url: 'custom/dashboard/loadton/4',
-  },
-  {
-    name: '프레스 5호기',
-    pk: '5',
-    url: 'custom/dashboard/loadton/5',
-  },
-  {
-    name: '에러로그',
-    pk: 'errorLog',
-    url: 'custom/dashboard/errorLog',
-  },
-]
-
+import React, {useState} from 'react'
+import CustomIndexItem from '../../../Components/Custom/dashboard/CustomIndexItem'
+import Styled from 'styled-components'
+import {useHistory} from 'react-router-dom'
+import {getToken} from '../../../lib/tokenFunctions'
+import {TOKEN_NAME} from '../../../Common/configset'
+import {DASHBOARD} from '../../../Common/@types/youdong'
+import getYoodongPressList from '../../../Api/custom/getYoodongPressList'
 
 const Container = Styled.div`
   display: flex;
@@ -84,42 +51,83 @@ const MainSub = Styled.p`
   color: #717c90;
 `
 
+const errorLog: DASHBOARD = {
+    iotProtocolKey: '',
+    name: '에러 로그',
+    pk: ''
+}
+
+const rotateDashboard: DASHBOARD = {
+    iotProtocolKey: '',
+    name: '자동 화면 전환\n대시보드',
+    pk: ''
+}
+
 const CustomDashboardIndex: React.FunctionComponent = () => {
-  const history = useHistory();
+    const [state, setState] = React.useState<DASHBOARD[]>()
+    const history = useHistory()
 
-  const goToChartPage = React.useCallback((data: DASHBOARD) => {
-    history.push(`/${data.url}`)
-  }, [])
+    const goToChartPage = React.useCallback((data: DASHBOARD) => {
+        try {
+            const id = data.pk.split('machine')[1]
+            history.push(`/custom/dashboard/loadton/${id}`)
+        } catch (error) {
+            console.log('error', error)
+            alert('response error')
+        }
+    }, [])
 
-  const tokenCheck = () => {
-    const token = getToken(TOKEN_NAME)
 
-    if (token === null) {
-      history.push('/login?type=dashboard')
+    const tokenCheck = () => {
+        const token = getToken(TOKEN_NAME)
+
+        if (token === null) {
+            history.push('/login?type=dashboard')
+        }
     }
 
-  }
 
+    const getPressList = async () => {
+        const response = await getYoodongPressList()
 
-  React.useEffect(() => {
-    tokenCheck()
-  }, [])
+        if (response !== null && response) {
+            if (response.status === 401) {
+                return history.push('/login?type=back')
+            } else if (response.status === 200) {
+                console.log('response', response)
 
-  return (
-      <Container>
-        <div>
-          <div>
-            <MainTitle>안녕하세요.<br/><span style={{ fontWeight: 'bold' }}>SMART FACTORY SYSTEM</span>입니다.</MainTitle>
-            <MainSub>프레스를 선택해 주세요.</MainSub>
-          </div>
-          <PressSelector>
-            {
-              dashboard.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage} key={data.pk}/>)
+                setState(response.data)
             }
-          </PressSelector>
-        </div>
-      </Container>
-  )
+        }
+    }
+
+    React.useEffect(() => {
+        tokenCheck()
+        getPressList().then(() => console.log('successful load'))
+        const documentEvent: any = document
+        documentEvent.body.style.zoom = 1.0;
+    }, [])
+
+    return (
+        <Container>
+            <div>
+                <div>
+                    <MainTitle>안녕하세요.<br/><span
+                        style={{fontWeight: 'bold'}}>SMART FACTORY SYSTEM</span>입니다.</MainTitle>
+                    <MainSub>프레스를 선택해 주세요.</MainSub>
+                </div>
+                <PressSelector>
+                    {
+                        state && state.map((data) => <CustomIndexItem info={data} goToChartPage={goToChartPage}
+                                                                      key={data.pk}/>)
+                    }
+                    <CustomIndexItem info={errorLog} goToChartPage={() => history.push('/custom/dashboard/errorLog')}/>
+                    <CustomIndexItem info={rotateDashboard}
+                                     goToChartPage={() => history.push('/custom/dashboard/rotate')}/>
+                </PressSelector>
+            </div>
+        </Container>
+    )
 }
 
 export default CustomDashboardIndex

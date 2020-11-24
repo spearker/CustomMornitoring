@@ -8,6 +8,8 @@ import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
 import Pagination from "@material-ui/lab/Pagination";
 import Styled from "styled-components";
+import Notiflix from "notiflix";
+
 
 interface Props {
     type: string
@@ -17,6 +19,7 @@ const optionList = [
     "등록순",
 ]
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 // 리스트 부분 컨테이너
 const BasicListContainer = ({type}: Props) => {
@@ -41,26 +44,31 @@ const BasicListContainer = ({type}: Props) => {
 
     }, [pageType])
 
+    useEffect(() => {
+        setPage({...page, current: 1})
+    }, [type])
+
 
     /**
      * getList()
      * 목록 불러오기
      */
     const getList = useCallback(async (pageType) => {
+        Notiflix.Loading.Circle();
+
         const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}&limit=15`
         const resultList = await getBasicList(tempUrl);
 
         const getBasic = resultList.info_list.map((v, i) => {
 
             const Type = transferCodeToName(pageType, v[pageType + "_type"])
-            console.log(v[pageType])
             return {...v, [pageType + "_type"]: Type}
         })
 
         setList(getBasic);
 
         setPage({current: resultList.current_page, total: resultList.total_page})
-
+        Notiflix.Loading.Remove()
     }, [list, keyword, option, pageType, page])
 
     useEffect(() => {
@@ -182,7 +190,8 @@ export const LIST_INDEX = {
             parts_name: "부품명",
             parts_type_name: "부품 종류 명",
             location_name: "공장명",
-            parts_cost: "부품원가"
+            parts_cost: "부품원가",
+            parts_stock: "재고"
         }
     },
     item: {
@@ -202,9 +211,11 @@ export const LIST_INDEX = {
     barcode: {
         title: '바코드 표준',
         index: {
-            name: '이름',
-            type: '타입(코드)',
-            rules: '규칙',
+            barcode_name: '이름',
+            main_type: '품목(품목명)',
+            detail_type: '상세 품목',
+            barcode_number: '바코드 번호',
+            registered: '등록 날짜'
         }
     },
 }

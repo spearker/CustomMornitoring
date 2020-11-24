@@ -167,6 +167,7 @@ interface IPopupTypes {
   contents?: string,
   is_popup?: boolean,
   mode?: string,
+  okFunc?: () => void
 }
 
 //Axios 요청/응답 관련 타입
@@ -200,7 +201,7 @@ interface IMonitoringList {
   name: string,
   code: string,
   info_list: IInfoM[],
-  is_connect: boolean,
+  is_connected: boolean,
   operation: number,
   percent: string | number
 }
@@ -343,15 +344,15 @@ interface IPressOilSupplyData {
 interface IPressReadyTimeStatisticsData {
   press_pk: string,
   press_name: string,
-  press_ton: number | "NaN",
+  press_ton: number | 'NaN',
   runtime: {
-    operating_ratio: number | "NaN",
-    diff: number | "NaN",
+    operating_ratio: number | 'NaN',
+    diff: number | 'NaN',
     kinds: string
   },
   downtime: {
     time: string,
-    diff: number | "NaN",
+    diff: number | 'NaN',
     kinds: string
   },
   error_time: string,
@@ -403,7 +404,7 @@ interface IProcessRegister {
 }
 
 interface OutsourcingName {
-  current_page:number
+  current_page: number
   info_list: {
     name: string
     pk: string

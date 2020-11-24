@@ -1,45 +1,47 @@
-import React, {useCallback, useEffect, useState,} from "react";
-import Styled from "styled-components";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldList, postMoldRegister, postMoldState} from "../../Api/mes/manageMold";
-import {useHistory} from "react-router-dom";
-import {transferCodeToName} from "../../Common/codeTransferFunctions";
-import {postOutsourcingDelete} from "../../Api/mes/outsourcing";
+import React, {useCallback, useEffect, useState,} from 'react'
+import Styled from 'styled-components'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import LineTable from '../../Components/Table/LineTable'
+import {API_URLS, getMoldList, postMoldRegister, postMoldState} from '../../Api/mes/manageMold'
+import {useHistory} from 'react-router-dom'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import {postOutsourcingDelete} from '../../Api/mes/outsourcing'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const CurrentContainer = () => {
 
-    const [list, setList] = useState<any[]>([]);
-    const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({mold_name: '금형 이름'});
-    const [subIndex, setSubIndex] = useState({manager: "작업자"})
+    const [list, setList] = useState<any[]>([])
+    const [titleEventList, setTitleEventList] = useState<any[]>([])
+    const [eventList, setEventList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<any[]>([])
+    const [index, setIndex] = useState({mold_name: '금형 이름'})
+    const [subIndex, setSubIndex] = useState({manager: '작업자'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMold, setSelectMold] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMold, setSelectMold] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
 
     const history = useHistory()
 
     const indexList = {
         repair: {
             mold_name: '금형명',
-            manager: "담당자 이름",
-            registered: "수리 등록 날짜",
-            complete_date: "완료 예정 날짜",
-            status: "상태"
+            manager: '담당자 이름',
+            registered: '수리 등록 날짜',
+            complete_date: '완료 예정 날짜',
+            status: '상태'
         }
     }
 
 
     const detailTitle = {
         repair: {
-            manager: "작업자",
+            manager: '작업자',
             repair_content: '수리 내용',
             status: '상태',
             complete_date: '완료 날짜'
@@ -84,30 +86,30 @@ const CurrentContainer = () => {
     }
 
     const allCheckOnClick = useCallback((list) => {
-        let tmpPk: string[] = []
+        let mySet: Set<string> = new Set<string>()
 
         {
             list.length === 0 ?
                 arrayDelete()
                 :
                 list.map((v, i) => {
+                    arrayDelete()
 
                     if (deletePk.pk.indexOf(v.pk) === -1) {
-                        tmpPk.push(v.pk)
+                        mySet.add(v.pk)
                     }
 
-                    tmpPk.map((vi, index) => {
+                    mySet.forEach((vi) => {
                         if (deletePk.pk.indexOf(v.pk) === -1) {
                             deletePk.pk.push(vi)
                         }
                     })
 
-                    if (tmpPk.length < deletePk.pk.length) {
+                    if (mySet.size < deletePk.pk.length) {
                         deletePk.pk.shift()
                     }
 
-                    console.log(deletePk.pk)
-
+                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -123,19 +125,19 @@ const CurrentContainer = () => {
     }, [deletePk])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
+            setSelectPk(null)
+            setSelectMold(null)
+            setSelectValue(null)
         } else {
-            setSelectPk(mold.repair_pk);
-            setSelectMold(mold.mold_name);
+            setSelectPk(mold.repair_pk)
+            setSelectMold(mold.mold_name)
             setSelectValue(mold)
             //TODO: api 요청
             getData(mold.pk)
         }
-    }, [list, selectPk]);
+    }, [list, selectPk])
 
 
     const getComplete = useCallback(async (pk) => {
@@ -165,7 +167,7 @@ const CurrentContainer = () => {
         console.log([res])
 
         const Detail = [res].map((v, i) => {
-            const status = v.status === 'WAIT' ? "진행중" : "완료"
+            const status = v.status === 'WAIT' ? '진행중' : '완료'
 
             return {...v, status: status}
         })
@@ -176,11 +178,12 @@ const CurrentContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
         const getStock = res.info_list.map((v, i) => {
-            const status = v.status === 'WAIT' ? "진행중" : "완료"
+            const status = v.status === 'WAIT' ? '진행중' : '완료'
 
             return {...v, status: status}
         })
@@ -188,6 +191,7 @@ const CurrentContainer = () => {
         setList(getStock)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list])
 
     const postDelete = useCallback(async () => {
@@ -213,12 +217,12 @@ const CurrentContainer = () => {
 
     useEffect(() => {
         getList()
-        setIndex(indexList["repair"])
+        setIndex(indexList['repair'])
         // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle["repair"])
+        setSubIndex(detailTitle['repair'])
     }, [])
 
     return (
@@ -247,7 +251,7 @@ const CurrentContainer = () => {
                 }
             </OvertonTable>
         </div>
-    );
+    )
 }
 
 const Line = Styled.hr`

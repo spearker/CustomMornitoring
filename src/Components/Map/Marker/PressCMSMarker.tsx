@@ -4,7 +4,7 @@ import {POINT_COLOR} from "../../../Common/configset";
 
 //import Marker from './Marker';
 
-interface Props{
+interface Props {
     component: any,
     select?: string,
     status?: number,
@@ -12,23 +12,25 @@ interface Props{
     item?: any,
     onChangeComponent?: any
 }
-const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeComponent}:Props ) => {
+
+const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeComponent}: Props) => {
 
     const {pk, machine_name, duty_cycle, current, machine_photo, left, bottom} = component;
 
     const PressStatusWrapper = Styled(Marker)`
-        border: ${select !== undefined && String(select) == String(pk) ? `2px solid ${POINT_COLOR}` : '0' };
+        border: ${select !== undefined && String(select) == String(pk) ? `2px solid ${POINT_COLOR}` : '0'};
         width: 100px;
         left: ${Number(left)}%;
         bottom: ${Number(bottom)}%;
         
     `
 
-    return(
-        <PressStatusWrapper onClick={onChangeEvent!== undefined ? ()=>{
+    return (
+        <PressStatusWrapper onClick={onChangeEvent !== undefined ? () => {
             onChangeEvent(pk)
             onChangeComponent(component)
-        } : ()=>{}} >
+        } : () => {
+        }}>
             <TitleDiv>
                 <p>{machine_name}</p>
             </TitleDiv>
@@ -36,13 +38,13 @@ const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeCompone
                 <img src={machine_photo}/>
                 <div>
                     <table>
-                        <tr>
-                            <td><p>사용률</p></td>
-                            <td><p style={{textAlign:'right'}}>{duty_cycle}%</p></td>
-                        </tr>
+                        {/*<tr>*/}
+                        {/*    <td><p>사용률</p></td>*/}
+                        {/*    <td><p style={{textAlign:'right'}}>{duty_cycle}%</p></td>*/}
+                        {/*</tr>*/}
                         <tr>
                             <td><p>전류량</p></td>
-                            <td><p style={{textAlign:'right'}}>{current}A</p></td>
+                            <td><p style={{textAlign: 'right'}}>{current}A</p></td>
                         </tr>
                     </table>
                 </div>

@@ -1,25 +1,25 @@
-import React, {useCallback, useEffect, useState} from "react";
-import moment from "moment";
-import {getRequest, postRequest} from "../../Common/requestFunctions";
-import {getToken} from "../../Common/tokenFunctions";
-import {BG_COLOR_SUB3, TOKEN_NAME} from "../../Common/configset";
-import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import InnerBodyContainer from "../../Containers/InnerBodyContainer";
-import SubHeader from "../../Components/Text/SubHeader";
-import IC_REFRESH from "../../Assets/Images/ic_refresh.png";
-import IC_BEFORE from "../../Assets/Images/ic_before_page.png";
-import StatusCard2 from "../../Components/Card/StatusCard2";
-import DotPagenation from "../../Components/Pagenation/DotPagenation";
-import IC_NEXT from "../../Assets/Images/ic_next_page.png";
-import {changeStatusToColor} from "../../Common/statusFunctions";
-import TaskTable from "../../Components/Table/TaskTable";
-import Styled from "styled-components";
-import jeilpress1 from "../../Assets/Images/jeilpress1.jpeg"
-import jeilpress2 from "../../Assets/Images/jeilpress2.jpeg"
-import jeilpress3 from "../../Assets/Images/jeilpress3.jpeg"
-import jeilpress4 from "../../Assets/Images/jeilpress4.jpeg"
-import jeilpress5 from "../../Assets/Images/jeilpress5.jpeg"
-import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import React, {useCallback, useEffect, useState} from 'react'
+import moment from 'moment'
+import {getRequest, postRequest} from '../../Common/requestFunctions'
+import {getToken} from '../../Common/tokenFunctions'
+import {BG_COLOR_SUB3, TOKEN_NAME} from '../../Common/configset'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import SubHeader from '../../Components/Text/SubHeader'
+import IC_REFRESH from '../../Assets/Images/ic_refresh.png'
+import IC_BEFORE from '../../Assets/Images/ic_before_page.png'
+import StatusCard2 from '../../Components/Card/StatusCard2'
+import DotPagenation from '../../Components/Pagenation/DotPagenation'
+import IC_NEXT from '../../Assets/Images/ic_next_page.png'
+import {changeStatusToColor} from '../../Common/statusFunctions'
+import TaskTable from '../../Components/Table/TaskTable'
+import Styled from 'styled-components'
+import jeilpress1 from '../../Assets/Images/jeilpress1.jpeg'
+import jeilpress2 from '../../Assets/Images/jeilpress2.jpeg'
+import jeilpress3 from '../../Assets/Images/jeilpress3.jpeg'
+import jeilpress4 from '../../Assets/Images/jeilpress4.jpeg'
+import jeilpress5 from '../../Assets/Images/jeilpress5.jpeg'
+import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 
 
 interface IWeekInfo {
@@ -55,11 +55,11 @@ const MainDashboard = () => {
     const [page, setPage] = useState<number>(1)
     const [taskList, setTaskList] = useState<ITask[]>([])
     const [option, setOption] = useState<number>(0)
-    const [taskFilter, setTaskFilter] = useState<number>(1000);
+    const [taskFilter, setTaskFilter] = useState<number>(1000)
 
 
     const optionList = [
-        "등록순", "기계이름 순", "기계종류 순", "기계번호 순", "제조사 순", "제조사 번호 순", "제조사 상세정보 순"
+        '등록순', '기계이름 순', '기계종류 순', '기계번호 순', '제조사 순', '제조사 번호 순', '제조사 상세정보 순'
     ]
     const indexList = {
         status: '상태',
@@ -78,8 +78,8 @@ const MainDashboard = () => {
      */
     const getSunday = useCallback(() => {
         for (var i = 0; i < 7; ++i) {
-            if (moment().add(0 - i, "days").locale('en').format('dddd') === 'Sunday') {
-                const targetDate = moment().add(0 - i, "days").format('YYYY-MM-DD');
+            if (moment().add(0 - i, 'days').locale('en').format('dddd') === 'Sunday') {
+                const targetDate = moment().add(0 - i, 'days').format('YYYY-MM-DD')
                 return targetDate
             }
         }
@@ -93,7 +93,7 @@ const MainDashboard = () => {
      */
     const onClickChangeDay = useCallback((day) => {
         console.log(day)
-        setTargetDate(day);
+        setTargetDate(day)
     }, [targetDate])
 
     useEffect(() => {
@@ -117,7 +117,7 @@ const MainDashboard = () => {
         })
 
         //setStatus(dataSet.statusList)
-        getStatus(1);
+        getStatus(1)
         onClickFilter(0)
         //setTaskList(dataSet.taskList)
     }, [])
@@ -227,7 +227,7 @@ const MainDashboard = () => {
             pk: '1212312',
             title: 'AL85mm 생산',
             status: 11,
-            process: ["AL85mm 공정"],
+            process: ['AL85mm 공정'],
             amount: 22000,
             output_name: 'AL85mm',
             worker: {
@@ -239,7 +239,7 @@ const MainDashboard = () => {
             pk: '1212312',
             title: 'CU60mm 생산',
             status: 11,
-            process: ["CU60mm 공정"],
+            process: ['CU60mm 공정'],
             amount: 22000,
             output_name: 'CU60mm',
             worker: {
@@ -251,7 +251,7 @@ const MainDashboard = () => {
             pk: '1212312',
             title: 'SDD 생산',
             status: 11,
-            process: ["SDD 공정"],
+            process: ['SDD 공정'],
             amount: 22000,
             output_name: 'SDD',
             worker: {
@@ -263,7 +263,7 @@ const MainDashboard = () => {
             pk: '1212312',
             title: 'AA02 생산',
             status: 11,
-            process: ["AA02 공정"],
+            process: ['AA02 공정'],
             amount: 22000,
             output_name: 'AA02',
             worker: {
@@ -275,7 +275,7 @@ const MainDashboard = () => {
             pk: '1212312',
             title: '투산 RCL LH 생산',
             status: 11,
-            process: ["투산 RCL LH 공정"],
+            process: ['투산 RCL LH 공정'],
             amount: 22000,
             output_name: '투산 RCL LH',
             worker: {
@@ -295,7 +295,7 @@ const MainDashboard = () => {
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <SubHeader title={'전체 장비현황'}/>
                         <img src={IC_REFRESH} onClick={() => {
-                            getStatus(1);
+                            getStatus(1)
                             setPage(1)
                         }} style={{width: 20, height: 20, marginLeft: 7, cursor: 'pointer'}}/>
 
@@ -328,7 +328,7 @@ const MainDashboard = () => {
                             <div className="p-limit"
                                  style={{display: 'flex', flexDirection: 'row', width: '100%', textAlign: 'center'}}>
                                 {dummy !== undefined && dummy.length === 0 ?
-                                    <p style={{color: '#ffffff', textAlign: "center", marginLeft: '43%'}}>데이터가
+                                    <p style={{color: '#ffffff', textAlign: 'center', marginLeft: '43%'}}>데이터가
                                         없습니다.</p> :
                                     dummy.map((v: IStatus2, index) => {
                                         if ((page - 1) * 6 <= index) {
@@ -384,7 +384,7 @@ const MainDashboard = () => {
                     {
                         taskList.length === 0 &&
                         <NullBox>
-                            {/*등록된 작업지시서가 없습니다.*/} comming soon
+                            {/*등록된 작업지시서가 없습니다.*/} coming soon
                         </NullBox>
                     }
 
@@ -392,7 +392,7 @@ const MainDashboard = () => {
             </InnerBodyContainer>
         </DashboardWrapContainer>
 
-    );
+    )
 }
 
 const NullBox = Styled.div`
@@ -417,4 +417,4 @@ const FilterButton = Styled.div`
 
 
 `
-export default MainDashboard;
+export default MainDashboard

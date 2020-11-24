@@ -9,9 +9,13 @@ import client from '../configs/basic';
  * @author 정민
  * @version 0.1
  */
-export const postBarcode = async( url: string,object: object) =>{
-    const temp: IServerData = await client.post(url,object);
+export const postBarcode = async (url: string, object: object) => {
+    const temp: IServerData = await client.post(url, object);
     console.log(temp.status);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.status;
 }
 
@@ -23,8 +27,12 @@ export const postBarcode = async( url: string,object: object) =>{
  * @author 정민
  * @version 0.1
  */
-export const getBarcode = async( url: string) =>{
+export const getBarcode = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     console.log(temp.results);
     return temp.results;
 }
@@ -37,16 +45,19 @@ export const getBarcode = async( url: string) =>{
  * @author 정민
  * @version 0.1
  */
-export const getDeleteBarcode = async( url: string, object: object) =>{
+export const getDeleteBarcode = async (url: string, object: object) => {
     const temp: IServerData = await client.get(url, object);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     console.log(temp.results);
     return temp.results;
 }
 
 
-
 export const API_URLS = {
-    barcode:{
+    barcode: {
         register: `/v1/barcode/register`,
         update: `/v1/barcode/update`,
         list: `/v1/barcode/list`,
@@ -54,6 +65,7 @@ export const API_URLS = {
         imgDownload: `/v1/imgDownload`,
         previewImg: `/v1/previewImg`,
         detailInfo: `/v1/barcode/detailInfo`,
-        upload: `/v1/file/barcode/upload`
+        getBarcodeInfo: `/v1/barcode/getBarcodeInfo`,
+        upload: `/v1/file/barcode/upload`,
     },
 }

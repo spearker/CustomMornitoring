@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import Styled from "styled-components";
-import styled from "styled-components";
+import Styled from 'styled-components'
+import styled from 'styled-components'
 import {Input} from 'semantic-ui-react'
-import ReactShadowScroll from 'react-shadow-scroll';
-import {POINT_COLOR} from "../../Common/configset";
-import IcSearchButton from "../../Assets/Images/ic_search.png"
-import IcPlushButton from "../../Assets/Images/plus_ic.png";
-import {API_URLS, getSearchProcess, postProcessRegister} from "../../Api/mes/process";
-import {transferCodeToName} from "../../Common/codeTransferFunctions";
-import {useHistory} from "react-router-dom"
-import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
+import ReactShadowScroll from 'react-shadow-scroll'
+import {POINT_COLOR} from '../../Common/configset'
+import IcSearchButton from '../../Assets/Images/ic_search.png'
+import IcPlushButton from '../../Assets/Images/plus_ic.png'
+import {API_URLS, getSearchProcess, postProcessRegister} from '../../Api/mes/process'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import {useHistory} from 'react-router-dom'
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 
 interface IMachineData {
     machine_name: string,
@@ -32,11 +32,11 @@ const ProcessDetailRegisterContainer = () => {
     const [machineName, setMachineName] = useState<string>()
 
     const [processList, setProcessList] = useState<IDetailRegister[]>([])
-    const [originalProcessList, setOriginalProcessList] = useState<IDetailRegister[]>([]);
+    const [originalProcessList, setOriginalProcessList] = useState<IDetailRegister[]>([])
     const [machineList, setMachineList] = useState<IMachineData[]>([])
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
+    })
     const [processPKList, setProcessPKList] = useState<string[]>([])
     const [processDataList, setProcessDataList] = useState<{ name: string, type: number, machines: string }[]>([
         {name: '', type: -1, machines: ''}
@@ -44,7 +44,7 @@ const ProcessDetailRegisterContainer = () => {
 
     const getSearchProcessList = useCallback(async () => {
         const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${page.current}&limit=15`
-        const resultData = await getSearchProcess(tempUrl);
+        const resultData = await getSearchProcess(tempUrl)
 
         const getProcess = resultData.results.info_list.map((v, i) => {
 
@@ -79,7 +79,7 @@ const ProcessDetailRegisterContainer = () => {
     const postProcessRegisterFunc = async () => {
         if (validationCheck()) {
             const tempUrl = `${API_URLS['segment'].register}`
-            const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList});
+            const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList})
             console.log(resultData)
 
             if (resultData.status === 200) {
@@ -120,7 +120,7 @@ const ProcessDetailRegisterContainer = () => {
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>공정별 세분화 등록</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>공정별 세분화 등록</span>
                 </div>
             </div>
             <ContainerMain>
@@ -129,7 +129,7 @@ const ProcessDetailRegisterContainer = () => {
                 </div>
                 <div style={{marginTop: 30}}>
                     <div>
-                        <table style={{color: "black"}}>
+                        <table style={{color: 'black'}}>
                             <tr>
                                 <td>• 세분화 공정명</td>
                                 <td><Input placeholder="프로세스명 or 세분화 공정 명을 입력해 주세요."
@@ -174,7 +174,7 @@ const ProcessDetailRegisterContainer = () => {
                                                             <th style={{width: 28}}></th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody style={{overflowY: "scroll", height: 140, width: 359}}>
+                                                        <tbody style={{overflowY: 'scroll', height: 140, width: 359}}>
                                                         {
                                                             processList.map((v, i) => {
                                                                 return (
@@ -287,13 +287,13 @@ const ProcessDetailRegisterContainer = () => {
                                     </div>
                                     <div>
                                         <HeaderTable>
-                                            <div style={{width: 141}}>
+                                            <div style={{width: 341}}>
                                                 <p>공정명</p>
                                             </div>
                                             <div style={{width: 130}}>
                                                 <p>타입</p>
                                             </div>
-                                            <div style={{width: 638}}>
+                                            <div style={{width: 438}}>
                                                 <p>기계명</p>
                                             </div>
                                         </HeaderTable>
@@ -304,7 +304,7 @@ const ProcessDetailRegisterContainer = () => {
                                             border: '1px solid #b3b3b3',
                                             marginTop: 10
                                         }}>
-                                            <ReactShadowScroll style={{width: "100%", height: 132}}>
+                                            <ReactShadowScroll styleSubcontainer={{width: '100%', height: 132}}>
                                                 {
                                                     processDataList.map((v, i) => {
                                                         if (v.name === '') {
@@ -312,13 +312,13 @@ const ProcessDetailRegisterContainer = () => {
                                                         }
                                                         return (
                                                             <HeaderTable>
-                                                                <div style={{width: 141}}>
+                                                                <div style={{width: 341}}>
                                                                     <p>{v.name}</p>
                                                                 </div>
                                                                 <div style={{width: 130}}>
                                                                     <p>{v.type}</p>
                                                                 </div>
-                                                                <div style={{width: 638}}>
+                                                                <div style={{width: 438}}>
                                                                     <p>{v.machines}</p>
                                                                 </div>
                                                             </HeaderTable>

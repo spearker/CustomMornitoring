@@ -7,7 +7,9 @@ import {getCustomerData} from "../../Api/mes/customer";
 import QualityTableDropdown from "../../Components/Dropdown/QualityTableDropdown";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
 import {useHistory} from 'react-router-dom';
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const QualityListContainer = () => {
 
@@ -26,8 +28,6 @@ const QualityListContainer = () => {
     const [workerIndex, setWorkerIndex] = useState({worker: '작업자'});
     const [workerDetail, setWorkerDetail] = useState<any[]>([]);
     const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMold, setSelectMold] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -117,6 +117,7 @@ const QualityListContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['status'].list}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
@@ -137,7 +138,7 @@ const QualityListContainer = () => {
 
         setList(viewList.filter((f: any) => f.material_name !== undefined))
         setPage({current: res.current_page, total: res.total_page})
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

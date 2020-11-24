@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import React, {useEffect} from 'react'
+import {Route, Switch} from 'react-router-dom'
 //import {UserDataProvider, UserDataContext} from '../Context/UserData';
 // 경로 모음
 // ./Pages/Welcome
@@ -13,7 +13,7 @@ import Signup from '../Pages/Welcome/Signup'
 import Complete from '../Pages/Welcome/Complete'
 
 // ./Pages/Dashboard
-import Dashboard from '../Pages/Dashboard/Index';
+import Dashboard from '../Pages/Dashboard/Index'
 
 // manage (인사관리)
 import AcceptMember from '../Pages/Manage/Accept'
@@ -25,48 +25,48 @@ import UpdateMember from '../Pages/Manage/Update'
 import MyPage from '../Pages/My/MyPage'
 
 // 데이터 등록
-import RegisterMachine from '../Pages/Register/Machine';
-import RegisterSubMachine from '../Pages/Register/SubMachine';
-import RegisterLine from '../Pages/Register/Line';
-import RegisterMaterial from '../Pages/Register/Material';
+import RegisterMachine from '../Pages/Register/Machine'
+import RegisterSubMachine from '../Pages/Register/SubMachine'
+import RegisterLine from '../Pages/Register/Line'
+import RegisterMaterial from '../Pages/Register/Material'
 import RegisterDesign from '../Pages/Register/Design'
 import RegisterProcess from '../Pages/Register/Process'
 import RegisterClient from '../Pages/Client/Register'
 
 // 데이터조회
-import DesignList from '../Pages/Old_List/Design';
-import MachineList from '../Pages/Old_List/Machine';
-import SubList from '../Pages/Old_List/SubMachine';
-import LineList from '../Pages/Old_List/Line';
-import MaterialList from '../Pages/Old_List/Material';
-import MaterialStock from '../Pages/Stock/Old_Material';
-import ProductStock from '../Pages/Stock/Old_Product';
-import ProductStockList from '../Pages/Stock/Old_Product';
-import ProcessList from '../Pages/Old_List/Process';
-import ClientList from '../Pages/Client/List';
-import BarcodeSetting from '../Pages/Barcode/Old_Setting';
+import DesignList from '../Pages/Old_List/Design'
+import MachineList from '../Pages/Old_List/Machine'
+import SubList from '../Pages/Old_List/SubMachine'
+import LineList from '../Pages/Old_List/Line'
+import MaterialList from '../Pages/Old_List/Material'
+import MaterialStock from '../Pages/Stock/Old_Material'
+import ProductStock from '../Pages/Stock/Old_Product'
+import ProductStockList from '../Pages/Stock/Old_Product'
+import ProcessList from '../Pages/Old_List/Process'
+import ClientList from '../Pages/Client/List'
+import BarcodeSetting from '../Pages/Barcode/Old_Setting'
 
 // 어드민, 데이터 등록 관련
-import SuperRegister from '../Pages/Super/Register';
-import SuperList from '../Pages/Super/List';
-import RegisterTask from '../Pages/Task/TaskRegister';
-import TaskList from '../Pages/Task/TaskList';
-import PressMonitoring from '../Pages/PM_Monitoring/Press';
+import SuperRegister from '../Pages/Super/Register'
+import SuperList from '../Pages/Super/List'
+import RegisterTask from '../Pages/Task/TaskRegister'
+import TaskList from '../Pages/Task/TaskList'
+import PressMonitoring from '../Pages/PM_Monitoring/Press'
 
-import StatusList from '../Pages/Old_List/Status';
-import RegisterProduct from '../Pages/Register/Product';
-import ProductList from '../Pages/Old_List/Product';
-import Charts from '../Pages/Service/Charts';
-import ServiceDesk from '../Pages/Service/ServiceDesk';
-import Reports from '../Pages/Service/Reports';
-import OnlyChrome from '../Pages/Service/OnlyChrome';
+import StatusList from '../Pages/Old_List/Status'
+import RegisterProduct from '../Pages/Register/Product'
+import ProductList from '../Pages/Old_List/Product'
+import Charts from '../Pages/Service/Charts'
+import ServiceDesk from '../Pages/Service/ServiceDesk'
+import Reports from '../Pages/Service/Reports'
+import OnlyChrome from '../Pages/Service/OnlyChrome'
 import Ranks from '../Pages/Manage/Ranks'
 import Teams from '../Pages/Manage/Teams'
-import BuyList from '../Pages/Client/Buy';
-import SellList from '../Pages/Client/Sell';
+import BuyList from '../Pages/Client/Buy'
+import SellList from '../Pages/Client/Sell'
 import ChangeStockIn from '../Pages/Stock/Old_ChangeIn'
 import ChangeStockOut from '../Pages/Stock/Old_ChangeOut'
-import RegisterInferior from '../Pages/Quality/Register';
+import RegisterInferior from '../Pages/Quality/Register'
 /*
 import OutsourcingList from '../Pages/Outsourcing/List';
 import OutsourcingRegister from '../Pages/Outsourcing/Register';
@@ -77,95 +77,98 @@ import Contract from '../Pages/Outsourcing/Contract';
 //import MaintenanceRegister from '../Pages/Maintenance/Register';
 import StockView from '../Pages/Stock/Old_View'
 
-import PressRecommend from '../Pages/Process/Press';
-import StockList from '../Pages/Stock/Old_List';
-import StockInList from '../Pages/Stock/Old_In';
+import PressRecommend from '../Pages/Process/Press'
+import StockList from '../Pages/Stock/Old_List'
+import StockInList from '../Pages/Stock/Old_In'
 import StockOutList from '../Pages/Stock/Old_Out'
 import Old_DefectiveList from '../Pages/Quality/Old_DefectiveList'
 import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
-import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory';
+import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory'
 
-import BasicBarcodeList from '../Pages/Old_List/Barcode';
-import BasicBarcodeRegister from '../Pages/Basic/BasicBarcodeRegister';
-import StockHistory from '../Pages/Stock/Old_History';
-import Old_ProductKpi from '../Pages/Kpi/Old_ProductKpi';
-import Old_QualityKpi from '../Pages/Kpi/Old_QualityKpi';
-import Old_PriceKpi from '../Pages/Kpi/Old_PriceKpi';
-import Old_DuedateKpi from '../Pages/Kpi/Old_DuedateKpi';
-import PressStatistics from '../Pages/PM_Statistics/PressStatistics';
-import CmsMonitoring from '../Pages/PM_Monitoring/CMS';
-import FullMonitoring from '../Pages/PM_Monitoring/Full';
-import CmsStatistics from '../Pages/PM_Monitoring/Statistics';
-import LoadtonMonitoring from '../Pages/PM_Monitoring/LoadTon';
-import VibrationMonitoring from "../Pages/Monitoring/Vibration";
+import BasicBarcodeList from '../Pages/Old_List/Barcode'
+import BasicBarcodeRegister from '../Pages/Basic/BasicBarcodeRegister'
+import StockHistory from '../Pages/Stock/Old_History'
+import Old_ProductKpi from '../Pages/Kpi/Old_ProductKpi'
+import Old_QualityKpi from '../Pages/Kpi/Old_QualityKpi'
+import Old_PriceKpi from '../Pages/Kpi/Old_PriceKpi'
+import Old_DuedateKpi from '../Pages/Kpi/Old_DuedateKpi'
+import PressStatistics from '../Pages/PM_Statistics/PressStatistics'
+import CmsMonitoring from '../Pages/PM_Monitoring/CMS'
+import FullMonitoring from '../Pages/PM_Monitoring/Full'
+import CmsStatistics from '../Pages/PM_Monitoring/Statistics'
+import LoadtonMonitoring from '../Pages/PM_Monitoring/LoadTon'
+import VibrationMonitoring from '../Pages/Monitoring/Vibration'
 
-import InputKeyinPress from '../Pages/KeyinInput/press';
-import InputKeyinMold from '../Pages/KeyinInput/mold';
-import InputKeyinMilling from '../Pages/KeyinInput/milling';
-import InputKeyinTab from '../Pages/KeyinInput/tab';
-import InputKeyinSunban from '../Pages/KeyinInput/sunban';
-import InputKeyinWelding from '../Pages/KeyinInput/welding';
-import InputKeyinMaterial from '../Pages/KeyinInput/material';
-import ListKeyinPress from '../Pages/KeyinList/press';
-import ListKeyinMaterial from '../Pages/KeyinList/material';
-import ListKeyinWelding from '../Pages/KeyinList/welding';
-import ListKeyinMold from '../Pages/KeyinList/mold';
-import ListKeyinMilling from '../Pages/KeyinList/milling';
-import ListKeyinSunban from '../Pages/KeyinList/sunban';
-import ListKeyinTab from '../Pages/KeyinList/tab';
-import SetKeyinPress from '../Pages/KeyinSet/press';
-import SetKeyinMaterial from '../Pages/KeyinSet/material';
-import SetKeyinWelding from '../Pages/KeyinSet/welding';
-import SetKeyinSunban from '../Pages/KeyinSet/sunban';
-import SetKeyinMilling from '../Pages/KeyinSet/milling';
-import SetKeyinMold from '../Pages/KeyinSet/mold';
-import SetKeyinTab from '../Pages/KeyinSet/tab';
-import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation';
-import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode';
-import SearchMaintenance from '../Pages/Maintenance/search';
-import MaintenanceList from '../Pages/Maintenance/list';
-import LeadTimeAnalysis from "../Pages/Statistics/LeadTimeAnalysis";
-import MachineMaintenance from '../Pages/PM_Maintenance/MachineMaintenance';
-import SubmachineMaintenance from '../Pages/Maintenance/submachine';
-import MoldMaintenance from '../Pages/PM_Maintenance/mold';
-import ReadyTimeStatistics from '../Pages/PM_Analysis/ReadyTimeStatistics';
-import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics';
-import OptimalSPMStatistics from "../Pages/Statistics/OptimalSPMStatistics";
-import FactoryLossSatistics from "../Pages/Statistics/FactoryLossStiatistics";
-import FactoryEnvironmentalAnalysis from "../Pages/Statistics/FactoryEnvironmentalAnalysis";
-import CommingSoon from '../Pages/Common/CommingSoon';
-import BasicDocumentRegister from '../Pages/Basic/BasicDocumentRegister';
-import BasicStandardRegister from '../Pages/Basic/BasicStandardRegister';
-import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister';
+import InputKeyinPress from '../Pages/KeyinInput/press'
+import InputKeyinMold from '../Pages/KeyinInput/mold'
+import InputKeyinMilling from '../Pages/KeyinInput/milling'
+import InputKeyinTab from '../Pages/KeyinInput/tab'
+import InputKeyinSunban from '../Pages/KeyinInput/sunban'
+import InputKeyinWelding from '../Pages/KeyinInput/welding'
+import InputKeyinMaterial from '../Pages/KeyinInput/material'
+import ListKeyinPress from '../Pages/KeyinList/press'
+import ListKeyinMaterial from '../Pages/KeyinList/material'
+import ListKeyinWelding from '../Pages/KeyinList/welding'
+import ListKeyinMold from '../Pages/KeyinList/mold'
+import ListKeyinMilling from '../Pages/KeyinList/milling'
+import ListKeyinSunban from '../Pages/KeyinList/sunban'
+import ListKeyinTab from '../Pages/KeyinList/tab'
+import SetKeyinPress from '../Pages/KeyinSet/press'
+import SetKeyinMaterial from '../Pages/KeyinSet/material'
+import SetKeyinWelding from '../Pages/KeyinSet/welding'
+import SetKeyinSunban from '../Pages/KeyinSet/sunban'
+import SetKeyinMilling from '../Pages/KeyinSet/milling'
+import SetKeyinMold from '../Pages/KeyinSet/mold'
+import SetKeyinTab from '../Pages/KeyinSet/tab'
+import MotorRotationMaintenance from '../Pages/Maintenance/motorRotation'
+import ErrorCodeMaintenance from '../Pages/Maintenance/errorcode'
+import SearchMaintenance from '../Pages/Maintenance/search'
+import MaintenanceList from '../Pages/Maintenance/list'
+import LeadTimeAnalysis from '../Pages/Statistics/LeadTimeAnalysis'
+import MachineMaintenance from '../Pages/PM_Maintenance/MachineMaintenance'
+import SubmachineMaintenance from '../Pages/Maintenance/submachine'
+import MoldMaintenance from '../Pages/PM_Maintenance/mold'
+import ReadyTimeStatistics from '../Pages/PM_Analysis/ReadyTimeStatistics'
+import QdcTimeStatistics from '../Pages/Statistics/QdcTimeStatistics'
+import OptimalSPMStatistics from '../Pages/Statistics/OptimalSPMStatistics'
+import FactoryLossSatistics from '../Pages/Statistics/FactoryLossStiatistics'
+import FactoryEnvironmentalAnalysis from '../Pages/Statistics/FactoryEnvironmentalAnalysis'
+import Comingsoon from '../Pages/Common/ComingSoon'
+import BasicDocumentRegister from '../Pages/Basic/BasicDocumentRegister'
+import BasicStandardRegister from '../Pages/Basic/BasicStandardRegister'
+import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister'
 
-import BasicListPage from '../Pages/Basic/BasicListPage';
-import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister';
-import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister';
-import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister';
-import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister';
-import Old_OutsourcingCompanyRegister from '../Pages/Outsourcing/Old_OutsourcingCompanyRegister';
-import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister';
-import ReadyTimeStatics from "../Pages/PM_Statistics/ReadyTimeStatics";
+import BasicListPage from '../Pages/Basic/BasicListPage'
+import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister'
+import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister'
+import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister'
+import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister'
+import Old_OutsourcingCompanyRegister from '../Pages/Outsourcing/Old_OutsourcingCompanyRegister'
+import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister'
+import ReadyTimeStatics from '../Pages/PM_Statistics/ReadyTimeStatics'
 
-import OvertonMaintenance from "../Pages/Maintenance/Overton";
-import ClutchMaintenance from "../Pages/Maintenance/Clutch";
-import CapacityStatistics from "../Pages/PM_Statistics/CapacityStatistics";
-import PowerStatistics from "../Pages/PM_Statistics/PowerStatistics";
-import ErrorStatistics from "../Pages/PM_Statistics/ErrorStatistics";
-import ProcessRegister from "../Pages/Process/Register";
-import CustomLoadtonChartContainer from "../Containers/Custom/dashboard/CustomLoadtonChartContainer";
-import CustomDashboardIndex from "../Containers/Custom/dashboard/CustomDashboardIndex";
+import OvertonMaintenance from '../Pages/Maintenance/Overton'
+import ClutchMaintenance from '../Pages/Maintenance/Clutch'
+import CapacityStatistics from '../Pages/PM_Statistics/CapacityStatistics'
+import PowerStatistics from '../Pages/PM_Statistics/PowerStatistics'
+import ErrorStatistics from '../Pages/PM_Statistics/ErrorStatistics'
+import ProcessRegister from '../Pages/Process/Register'
+import CustomLoadtonChartContainer from '../Containers/Custom/dashboard/CustomLoadtonChartContainer'
+import CustomDashboardIndex from '../Containers/Custom/dashboard/CustomDashboardIndex'
+import CustomErrorLogDashBoard from '../Containers/Custom/dashboard/CustomErrorLogDashBoard'
+import CustomRotateDashboard from "../Containers/Custom/dashboard/CustomRotateDashboard";
+import CustomProductionDashBoard from "../Containers/Custom/dashboard/CustomProductionDashboard";
 
 const Routers = () => {
 
     //const { isLoggedIn } = useContext(UserDataContext);
 
     useEffect(() => {
-        const browse = navigator.userAgent.toLowerCase();
+        const browse = navigator.userAgent.toLowerCase()
         console.log('broswercheck : ' + navigator.userAgent + ' ' + window.location.pathname)
 
 
-        if ((browse.indexOf('trident') != -1) || (browse.indexOf("msie") != -1) || browse.indexOf("edge") > -1) {
+        if ((browse.indexOf('trident') != -1) || (browse.indexOf('msie') != -1) || browse.indexOf('edge') > -1) {
             if (window.location.pathname !== '/oops') {
                 window.location.href = '/oops'
             }
@@ -391,15 +394,17 @@ const Routers = () => {
                 <Route exact path="/barcode/setting" component={BarcodeSetting}/>
 
                 {/* 준비중 / 404 / 기타오류 */}
-                <Route exact path="/commingsoon" component={CommingSoon}/>
+                <Route exact path="/comingsoon" component={Comingsoon}/>
 
 
                 <Route exact path="/custom/dashboard" component={CustomDashboardIndex}/>
                 <Route exact path="/custom/dashboard/loadton/:press" component={CustomLoadtonChartContainer}/>
-
+                <Route exact path="/custom/dashboard/errorLog" component={CustomErrorLogDashBoard}/>
+                <Route exact path="/custom/dashboard/rotate" component={CustomRotateDashboard}/>
+                <Route exact path="/custom/dashboard/production" component={CustomProductionDashBoard}/>
             </Switch>
         </div>
-    );
+    )
 }
 
-export default Routers;
+export default Routers

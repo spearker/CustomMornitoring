@@ -1,55 +1,63 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB3} from '../../Common/configset'
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom'
 
 
 //대시보드 네비게이션 리스트
-interface Props{
-  contents: {name:string, url:string}[]
+interface Props {
+  contents: { name: string, url: string }[]
   selected: boolean
   onClickEvent: any
   onClickMode?: any
 }
 
 
- const NavGroupList= ({contents, selected, onClickMode, onClickEvent}: Props) => {
+const NavGroupList = ({contents, selected, onClickMode, onClickEvent}: Props) => {
 
-  const history = useHistory();
-  useEffect(()=>{
+  const history = useHistory()
+  useEffect(() => {
 
-  },[])
+  }, [])
 
   return (
-      <div >
-       <ListDiv>
-            <a onClick={onClickEvent}>{contents[0].name}</a>
+    <div>
+      <ListDiv>
+        <a onClick={onClickEvent}>{contents[0].name}</a>
       </ListDiv>
       {
         selected ?
-          contents.map((v, i)=>{
-              if(i === 0){
-                return
-              }else{
-                return(
-                  <ListInnderDiv key={`list-${i}`} onClick={onClickMode}>
-                    <p onClick={()=>{window.scrollTo(0,0);history.push(v.url);}}  ><span>· </span>{v.name}</p>
-                  </ListInnderDiv>
+          contents.map((v, i) => {
+            if (i === 0) {
+              return
+            } else {
+              return (
+                <ListInnderDiv key={`list-${i}`} onClick={onClickMode}>
+                  <p onClick={() => {
+                    window.scrollTo(0, 0)
+                    console.log(v.name)
+                    if (v.name === '전력') {
+                      window.location.href = v.url
+                    } else {
+                      history.push(v.url)
+                    }
+                  }}><span>· </span>{v.name}</p>
+                </ListInnderDiv>
 
-                )
-              }
+              )
+            }
           })
-        :
-        null
+          :
+          null
 
 
       }
 
 
-      </div>
+    </div>
 
 
-  );
+  )
 }
 
 
@@ -97,5 +105,4 @@ const ListDiv = Styled.div`
 `
 
 
-
-export default NavGroupList;
+export default NavGroupList

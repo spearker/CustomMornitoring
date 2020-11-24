@@ -11,9 +11,9 @@ import {Input} from "semantic-ui-react";
 const MoldManageCreate = () => {
     const history = useHistory()
     const [reason, setReason] = useState<string>('')
-    const [moldData, setMoldData] = useState<{name: string, pk: string}>()
+    const [moldData, setMoldData] = useState<{ name: string, pk: string }>()
 
-    const [selectMold, setSelectMold] = useState<{max_stroke: string,manufacturing_date: string,site: string,input_item_name: string,production_name:string}>({
+    const [selectMold, setSelectMold] = useState<{ max_stroke: string, manufacturing_date: string, site: string, input_item_name: string, production_name: string }>({
         max_stroke: "",
         manufacturing_date: "",
         site: "",
@@ -21,18 +21,18 @@ const MoldManageCreate = () => {
         production_name: ""
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         moldData?.pk === undefined ?
             console.log('')
             :
             getMoldManageSelect()
-    },[moldData?.pk])
+    }, [moldData?.pk])
 
     const getMoldManageSelect = useCallback(async () => {
         const tempUrl = `${API_URLS["manage"].selectInfo}?pk=${moldData?.pk}`
         const resultData = await getMoldList(tempUrl);
 
-        if(resultData){
+        if (resultData) {
             setSelectMold({
                 ...selectMold,
                 max_stroke: resultData.max_stroke,
@@ -42,15 +42,15 @@ const MoldManageCreate = () => {
                 production_name: resultData.production_name
             })
         }
-    }, [selectMold,moldData])
+    }, [selectMold, moldData])
 
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS["manage"].register}`
 
-        if(moldData === undefined || moldData.pk === undefined || moldData.pk === ''){
+        if (moldData === undefined || moldData.pk === undefined || moldData.pk === '') {
             alert('금형명을 입력해 주세요')
             return
-        } else if(reason === ''){
+        } else if (reason === '') {
             alert('관리 내용을 입력해주세요.')
             return
         }
@@ -59,15 +59,15 @@ const MoldManageCreate = () => {
             mold_pk: moldData?.pk,
             contents: reason
         })
-        if(resultData.status === 200){
+        if (resultData.status === 200) {
             alert('성공적으로 등록되었습니다.')
             history.push('/mold/manage/list')
         }
     }, [moldData, reason])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(selectMold)
-    },[selectMold])
+    }, [selectMold])
 
     return (
         <div>
@@ -84,33 +84,37 @@ const MoldManageCreate = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 금형명</td>
-                            <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)} select={moldData}/></td>
+                            <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)}
+                                                 select={moldData}/></td>
                         </tr>
                         <tr>
                             <td>• 최대타수</td>
-                            <td><input  disabled placeholder="금형을 선택해 주세요." value={selectMold.max_stroke} /></td>
+                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.max_stroke}/></td>
                         </tr>
                         <tr>
                             <td>• 제조일</td>
-                            <td><input  disabled placeholder="금형을 선택해 주세요." value={selectMold.manufacturing_date} /></td>
+                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.manufacturing_date}/></td>
                         </tr>
                         <tr>
                             <td>• 창고위치</td>
-                            <td><input  disabled placeholder="금형을 선택해 주세요." value={selectMold.site} /></td>
+                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.site}/></td>
                         </tr>
                         <tr>
                             <td>• 투입품목</td>
-                            <td><input  disabled placeholder="금형을 선택해 주세요." value={selectMold.input_item_name} /></td>
+                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.input_item_name}/></td>
                         </tr>
                         <tr>
                             <td>• 생산품목</td>
-                            <td><input  disabled placeholder="금형을 선택해 주세요." value={selectMold.production_name} /></td>
+                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.production_name}/></td>
                         </tr>
                         <tr>
                             <td>• 관리 내용</td>
                             <td>
                                 <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: "99%"}}>
-                                    <textarea maxLength={160} onChange={(e)=>setReason(e.target.value)} style={{border:0, fontSize:14, padding:12, height:'70px', width: '96%' }} placeholder="내용을 입력해주세요 (80자 미만)">
+                                    <textarea maxLength={160} onChange={(e) => setReason(e.target.value)} style={{
+                                        border: 0, fontSize: 14, padding: 12, height: '70px', width: '96%',
+                                        resize: 'none'
+                                    }} placeholder="내용을 입력해주세요 (80자 미만)">
                                         {reason}
                                     </textarea>
                                 </div>

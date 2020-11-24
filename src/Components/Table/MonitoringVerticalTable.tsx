@@ -20,7 +20,7 @@ const MonitoringVerticalTable = ({contents, filterList, operation}: IProps) => {
     const indexList: any[] = [];
 
     useEffect(() => {
-        if (operation !== 1000) {
+        if (operation !== -1) {
             console.log('change')
             setList(contents.filter(v => v.operation === operation))
         } else {
@@ -94,7 +94,7 @@ const MonitoringVerticalTable = ({contents, filterList, operation}: IProps) => {
                                 list.map((v) => {
                                         return (
                                             <td>
-                                                <img src={!v.is_connect ? icCloudOff : icCloudOn} style={{width: 21}}/>
+                                                <img src={!v.is_connected ? icCloudOff : icCloudOn} style={{width: 21}}/>
                                             </td>
                                         )
                                     }
@@ -166,7 +166,7 @@ const MonitoringVerticalTable = ({contents, filterList, operation}: IProps) => {
                         </tbody>
                     </TableWrapDiv>
                     :
-                    <p style={{margin: 100}}>모니터링 데이터가 없습니다</p>
+                    <p style={{margin: 100}}>데이터가 없습니다</p>
             }
         </WrapDiv>
 
@@ -184,7 +184,7 @@ const DownloadButton = Styled.a`
 `
 const StatusDiv = Styled.p`
 height: 100%;
-color: white;
+color: black;
 padding: 3px 9px 3px 9px;
 display: inline-block;
 border-radius: 5px;

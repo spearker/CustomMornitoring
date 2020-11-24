@@ -6,6 +6,9 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import Styled from "styled-components";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const QualityTestList = () => {
     const [list, setList] = useState<any[]>([]);
@@ -94,13 +97,14 @@ const QualityTestList = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['response'].requestList}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {

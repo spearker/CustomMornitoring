@@ -5,7 +5,9 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {useHistory} from "react-router-dom"
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const OutSourceContainer = () => {
 
@@ -21,6 +23,9 @@ const OutSourceContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1
+    })
 
     const history = useHistory()
 
@@ -99,16 +104,23 @@ const OutSourceContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}`
+        if (pk === null) {
+            return
+        }
+
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
 
-        setDetailList(res.logs)
+        setDetailList(res.info_list)
 
-    }, [detailList])
+        setDetailPage({current: res.current_page, total: res.total_page})
+
+    }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=15`
+        Notiflix.Loading.Circle();
+        const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
 
         const getStock = res.info_list.map((v, i) => {
@@ -120,7 +132,7 @@ const OutSourceContainer = () => {
         setList(getStock)
 
         setPage({current: res.current_page, total: res.total_page})
-
+        Notiflix.Loading.Remove()
     }, [list, page])
 
 
@@ -128,6 +140,10 @@ const OutSourceContainer = () => {
         getList()
     }, [page.current])
 
+
+    useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
 
     useEffect(() => {
         getList()
@@ -151,7 +167,10 @@ const OutSourceContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}
+                                   currentPage={detailPage.current}
+                                   totalPage={detailPage.total}
+                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
                             <Line/>
                         </LineTable>
                         :

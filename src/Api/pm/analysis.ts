@@ -8,9 +8,13 @@ import client from '../configs/basic';
  * @author 준희
  * @version 0.1
  */
-export const getAnalysisReadyTime = async( url: string) =>{
+export const getAnalysisReadyTime = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
+
     return temp.results!;
 }
 
@@ -22,9 +26,13 @@ export const getAnalysisReadyTime = async( url: string) =>{
  * @author 준희
  * @version 0.1
  */
-export const getCapacityTimeData = async( url: string) =>{
+export const getCapacityTimeData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -36,9 +44,13 @@ export const getCapacityTimeData = async( url: string) =>{
  * @author 정민
  * @version 0.1
  */
-export const getDefectiveData = async( url: string) =>{
+export const getDefectiveData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
@@ -50,20 +62,24 @@ export const getDefectiveData = async( url: string) =>{
  * @author 준희
  * @version 0.1
  */
-export const getAbilityList = async( url: string) =>{
+export const getAbilityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results!;
 }
 
 export const API_URLS = {
     readyTime: {
-        load:`/v1/analysis/press/downtime`
+        load: `/v1/analysis/press/downtime`
     },
     capacity: {
-        load:`/v1/analysis/press/production`
+        load: `/v1/analysis/press/production`,
+        load2: `/v1/analysis/press/productions`
     },
-
     pressList: {
         list: '/v1/analysis/press/list'
     },
@@ -72,7 +88,9 @@ export const API_URLS = {
         load: '/v1/analysis/press/defective'
     },
     ability: {
-        load: `/v1/analysis/press/capacity`
+        load: `/v1/analysis/press/capacity`,
+        list: `/v1/analysis/press/temp/capacity/list`,
+        load2: `/v1/analysis/press/temp/capacity/detail`
     },
 }
 

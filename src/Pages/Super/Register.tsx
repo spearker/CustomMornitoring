@@ -1,49 +1,49 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB2} from '../../Common/configset'
 import ButtonBox from '../../Components/Button/BasicButton'
-import Axios from 'axios';
-import SubNavigation from '../../Components/Navigation/SubNavigation';
-import {ROUTER_SUPER_ADMIN} from '../../Common/routerset';
-import {SF_ENDPOINT_ADMIN} from "../../Api/SF_endpoint"
+import Axios from 'axios'
+import SubNavigation from '../../Components/Navigation/SubNavigation'
+import {ROUTER_SUPER_ADMIN} from '../../Common/routerset'
+import {SF_ENDPOINT_ADMIN} from '../../Api/SF_endpoint'
 // 회사 등록 페이지
 
 const SuperRegister = () => {
 
-    const [name, setName] = useState<string>('');
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [pw, setPw] = useState<string>('');
-    const [pwCheck, setPwCheck] = useState<string>('');
-    const [error, setError] = useState<string>('-- 에러--');
-    const [code, setCode] = useState<string>('');
-    const [compayList, setCompanyList] = useState<object[]>([]);
+    const [name, setName] = useState<string>('')
+    const [username, setUsername] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [pw, setPw] = useState<string>('')
+    const [pwCheck, setPwCheck] = useState<string>('')
+    const [error, setError] = useState<string>('-- 에러--')
+    const [code, setCode] = useState<string>('')
+    const [compayList, setCompanyList] = useState<object[]>([])
 
     //const { tempEmail } = useContext(UserDataContext); //인증된 이메일
 
     const onsubmitForm = useCallback((e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         //window.location.href= "/super/list" //TODO: 지울것
 
         //발리데이션
         if (pw == '' || name == '' || email === '' || username === '') {
-            //alert('필수 항목을 모두 입력해주세요.')
+            alert('필수 항목을 모두 입력해주세요.')
             return
         }
         if (pw.length < 6 || pw !== pwCheck) {
-            //alert('비밀번호를 확인해주세요. (6자 이상)')
+            alert('비밀번호를 확인해주세요. (6자 이상)')
             setPwCheck('')
             return
         }
         if (email.length < 6 || !email.includes('@')) {
-            //alert('이메일 형식을 확인해주세요.')
+            alert('이메일 형식을 확인해주세요.')
             setEmail('')
             return
         }
 
         // 이메일 보내기
-        Axios.post(`${SF_ENDPOINT_ADMIN}/api/v2/super/company/create`, {
+        Axios.post(`${SF_ENDPOINT_ADMIN}/v2/super/company/create`, {
             company_name: name,
             user_email: email,
             user_name: username,
@@ -51,7 +51,7 @@ const SuperRegister = () => {
 
         })
             .then(function (res) {
-                console.log(res);
+                console.log(res)
                 if (res.status === 200) {
                     //welcome/auth로 이동
                     //alert('등록 완료 되었습니다!')
@@ -69,9 +69,9 @@ const SuperRegister = () => {
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(error)
                 //alert('SERVER ERROR CHECK : ' + error)
-            });
+            })
 
 
     }, [email, name, pw, username, pwCheck])
@@ -124,7 +124,7 @@ const SuperRegister = () => {
 
         </FullPageDiv>
 
-    );
+    )
 }
 const FullPageDiv = Styled.div`
   width: 100%;
@@ -154,4 +154,4 @@ const WelcomeInputBox = Styled.input`
     color: white;
 `
 
-export default SuperRegister;
+export default SuperRegister

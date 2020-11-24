@@ -1,0 +1,150 @@
+import React, {useCallback, useEffect, useState,} from "react";
+import Styled from "styled-components";
+import OvertonTable from "../../Components/Table/OvertonTable";
+import LineTable from "../../Components/Table/LineTable";
+import {API_URLS, getStockList} from "../../Api/mes/manageStock";
+import {useHistory} from "react-router-dom"
+import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
+import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Notiflix from "notiflix";
+import OptimizedHeaderBox from "../../Components/Box/OptimizedHeaderBox";
+import OptimizedTable from "../../Components/Table/OptimizedTable";
+import BlackChildrenBox from "../../Components/Box/BlackChildrenBox";
+import InAndOutTable from "../../Components/Table/InAndOutTable";
+import InAndOutHeader from "../../Components/Box/InAndOutHeader";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
+
+const NewFinishedContainer = () => {
+
+    const [list, setList] = useState<any[]>([]);
+    const [keyword, setKeyword] = useState<string>('')
+    const [detailList, setDetailList] = useState<any[]>([]);
+    const [index, setIndex] = useState({material_name: "품목(품목명)"});
+    const [selectPk, setSelectPk] = useState<any>(null);
+    const [selectStock, setSelectStock] = useState<any>(null);
+    const [selectValue, setSelectValue] = useState<any>(null);
+    const [subIndex, setSubIndex] = useState({writer: "작성자"})
+    const [filter, setFilter] = useState(30)
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1
+    })
+    const history = useHistory()
+
+    const indexList = {
+        quality: {
+            material_name: "품목명",
+            material_number: '품번',
+            current_stock: "재고량",
+            safe_stock: "안전재고",
+            location_name: "제조사",
+        }
+    }
+
+    const detailTitle = {
+        item_detailList: {
+            writer: "출처",
+            stock_quantity: "입고 수량",
+            before_quantity: "",
+            date: "입고일"
+        }
+    }
+
+    const onClick = useCallback((stock) => {
+        if (stock.pk === selectPk) {
+            setSelectPk(null);
+            setSelectStock(null);
+            setSelectValue(null);
+        } else {
+            setSelectPk(stock.pk);
+            setSelectStock(stock.material_name);
+            setSelectValue(stock)
+            //TODO: api 요청
+            getData(stock.pk)
+        }
+
+    }, [list, selectPk]);
+
+    const getData = useCallback(async (pk) => {
+        //TODO: 성공시
+        if (pk === null) {
+            return
+        }
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
+        const res = await getStockList(tempUrl)
+
+        setDetailList(res.info_list)
+
+        setDetailPage({current: res.current_page, total: res.total_page})
+
+    }, [detailList, detailPage])
+
+    const getList = useCallback(async () => { // useCallback
+        //TODO: 성공시
+        Notiflix.Loading.Circle();
+        const tempUrl = `${API_URLS['stock'].list}?type=30&filter=${filter}&page=${page.current}&limit=5`
+        const res = await getStockList(tempUrl)
+
+        const getStock = res.info_list.map((v, i) => {
+            const material_type = transferCodeToName('material', v.material_type)
+            const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+            return {...v, material_type: material_type, current_stock: current_stock, safe_stock: safe_stock}
+        })
+
+        setList(getStock)
+        setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
+    }, [list, page])
+
+    useEffect(() => {
+        getList()
+        setIndex(indexList["quality"])
+        // setList(dummy)
+        setSubIndex(detailTitle['item_detailList'])
+    }, [])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
+
+    return (
+        <div>
+            <OptimizedHeaderBox title={'완제품 관리'} searchBarChange={(e) => setKeyword(e)} searchButtonOnClick={() => ''}/>
+            <OptimizedTable widthList={['264px', '96px', '160px', '120px', '120px', '156px']} indexList={index}
+                            currentPage={page.current}
+                            totalPage={page.total}
+                            pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+                            mainOnClickEvent={onClick}
+                            clickValue={selectValue}
+                            valueList={list}>
+                {selectPk !== null ?
+                    <div>
+                        <InAndOutHeader/>
+                        <InAndOutTable indexList={subIndex} valueList={detailList}
+                                       widthList={['240px', '88px', '580px', '96px']}
+                                       currentPage={detailPage.current}
+                                       totalPage={detailPage.total}
+                                       pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
+                        </InAndOutTable>
+                    </div>
+                    :
+                    <BlackChildrenBox/>
+                }
+            </OptimizedTable>
+        </div>
+    );
+}
+
+const Line = Styled.hr`
+    margin: 10px 20px 12px 0px;
+    border-color: #353b48;
+    height: 1px;
+    background-color: #353b48;
+`
+
+export default NewFinishedContainer;

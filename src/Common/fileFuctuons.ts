@@ -1,7 +1,7 @@
-import {postRequest} from './requestFunctions';
-import {getToken} from './tokenFunctions';
-import {TOKEN_NAME} from './configset';
-import {SF_ENDPOINT} from "../Api/SF_endpoint";
+import {postRequest} from './requestFunctions'
+import {getToken} from './tokenFunctions'
+import {TOKEN_NAME} from './configset'
+import {SF_ENDPOINT} from '../Api/SF_endpoint'
 
 
 /**
@@ -12,20 +12,20 @@ import {SF_ENDPOINT} from "../Api/SF_endpoint";
  */
 export const uploadTempFile = async (data) => {
 
-    const formData = new FormData()
-    formData.append('file', data)
-    const res = await postRequest(`${SF_ENDPOINT}/v1/file/upload`, formData, getToken(TOKEN_NAME))
+  const formData = new FormData()
+  formData.append('file', data)
+  const res = await postRequest(`${SF_ENDPOINT}/api/v1/file/upload`, formData, getToken(TOKEN_NAME))
 
-    if (res === false) {
-        return false
+  if (res === false) {
+    return false
+  } else {
+    if (res.status === 200) { //res.status === 200 //res !== null
+      const path: string = res.results //const path: string = res.results; //const path: string = res[0];
+
+      return path
     } else {
-        if (res.status === 200) { //res.status === 200 //res !== null
-            const path: string = res.results; //const path: string = res.results; //const path: string = res[0];
-
-            return path;
-        } else {
-            alert('해당 파일 업로드 실패하였습니다.')
-            return false
-        }
+      alert('해당 파일 업로드 실패하였습니다.')
+      return false
     }
+  }
 }

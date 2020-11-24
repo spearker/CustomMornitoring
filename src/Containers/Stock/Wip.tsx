@@ -5,8 +5,10 @@ import LineTable from "../../Components/Table/LineTable";
 import {useHistory} from "react-router-dom"
 import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Notiflix from "notiflix";
 
-const SelectType = [0, 10, 30]
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
+
 
 const WipContainer = () => {
 
@@ -15,7 +17,7 @@ const WipContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({material_name: "품목(품목명)"});
-    const [subIndex, setSubIndex] = useState({writer: '작성자'})
+    const [subIndex, setSubIndex] = useState({registerer: '작성자'})
     const [filter, setFilter] = useState(-1)
     const [type, setType] = useState(10)
     const [selectPk, setSelectPk] = useState<any>(null);
@@ -24,12 +26,15 @@ const WipContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1
+    })
     const history = useHistory()
 
     const indexList = {
         wip: {
             material_name: "품목(품목명)",
-            material_type: ['자재 종류', '반제품', '공정품'],
+            material_type: ['자재 종류', '반제품', /*'공정품'*/],
             current_stock: "재고량",
             location_name: "보관장소",
             safe_stock: "안전재고",
@@ -39,13 +44,14 @@ const WipContainer = () => {
 
     const detailTitle = {
         wip: {
-            writer: '작성자',
-            sortation: '구분',
-            stock_quantity: '수량',
-            before_quantity: '변경전 재고량',
+            registerer: '작성자',
+            type: '구분',
+            amount: '수량',
+            before_amount: '변경전 재고량',
             date: '날짜',
         },
     }
+
 
     const dummy = [
         {
@@ -129,7 +135,7 @@ const WipContainer = () => {
             Width: 60,
             Color: 'white',
             Link: (v) => {
-                if(Number(v.current_stock) > 0){  
+                if (Number(v.current_stock) > 0) {
                     history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
                 } else {
                     alert('출고할 수 있는 재고가 없습니다.')
@@ -163,16 +169,21 @@ const WipContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}`
+        if (pk === null) {
+            return
+        }
+        const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
 
-        setDetailList(res.logs)
+        setDetailList(res.info_list)
+        setDetailPage({current: res.current_page, total: res.total_page})
 
-    }, [detailList])
+    }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=15`
+        Notiflix.Loading.Circle();
+        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
 
         const getStock = res.info_list.map((v, i) => {
@@ -182,14 +193,17 @@ const WipContainer = () => {
         })
 
         setList(getStock)
-
-
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, type, filter])
 
     useEffect(() => {
         getList()
     }, [filter])
+
+    useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
 
     useEffect(() => {
         getList()
@@ -214,13 +228,17 @@ const WipContainer = () => {
                 EventList={eventList}
                 selectBoxChange={selectBox}
                 clickValue={selectValue}
+                mainOnClickEvent={onClick}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-                noChildren={true}>
+            >
                 {
                     selectPk !== null ?
-                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}>
+                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}
+                                   currentPage={detailPage.current}
+                                   totalPage={detailPage.total}
+                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
                             <Line/>
                         </LineTable>
                         :

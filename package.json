@@ -21,6 +21,10 @@
     "bluebird": "^3.7.2",
     "cra-template-typescript": "1.0.2",
     "forever": "^3.0.2",
+<<<<<<< HEAD
+=======
+    "fullscreen-react": "^1.0.4",
+>>>>>>> upstream/master
     "fusioncharts": "^3.15.2",
     "i18next": "^19.6.3",
     "koa": "^2.13.0",
@@ -30,6 +34,7 @@
     "koa-static": "^5.0.0",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
+    "notiflix": "^2.6.0",
     "randomcolor": "^0.6.2",
     "react": "^16.12.0",
     "react-advanced-datetimerange-picker": "^1.0.10",

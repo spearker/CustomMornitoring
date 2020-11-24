@@ -9,9 +9,13 @@ import client from '../configs/basic';
  * @author 정민
  * @version 0.1
  */
-export const postProcessDelete = async( url: string,object: object) =>{
-    const temp: IServerData = await client.post(url,object);
+export const postProcessDelete = async (url: string, object: object) => {
+    const temp: IServerData = await client.post(url, object);
     console.log(temp.status);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.status;
 }
 
@@ -23,9 +27,13 @@ export const postProcessDelete = async( url: string,object: object) =>{
  * @author 정민
  * @version 0.1
  */
-export const getProcessList = async( url: string) =>{
+export const getProcessList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results;
 }
 
@@ -38,9 +46,13 @@ export const getProcessList = async( url: string) =>{
  * @author 정민
  * @version 0.1
  */
-export const getSegmentList = async( url: string) =>{
+export const getSegmentList = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results;
 }
 
@@ -53,12 +65,15 @@ export const getSegmentList = async( url: string) =>{
  * @author 정민
  * @version 0.1
  */
-export const postSegmentDelete = async( url: string, object: object) =>{
-    const temp: IServerData = await client.post(url,object);
+export const postSegmentDelete = async (url: string, object: object) => {
+    const temp: IServerData = await client.post(url, object);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results;
 }
-
 
 
 /**
@@ -69,7 +84,7 @@ export const postSegmentDelete = async( url: string, object: object) =>{
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  * @author 준희
  */
-export const postProcessRegister = async( url: string, bodyData: object) =>{
+export const postProcessRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
     return temp
 }
@@ -83,8 +98,12 @@ export const postProcessRegister = async( url: string, bodyData: object) =>{
  * @author 준희
  */
 
-export const getSearchMachine = async( url: string) =>{
+export const getSearchMachine = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results
 }
 
@@ -97,13 +116,14 @@ export const getSearchMachine = async( url: string) =>{
  * @author 준희
  */
 
-export const getSearchProcess = async( url: string) =>{
+export const getSearchProcess = async (url: string) => {
     const temp: IServerData = await client.get(url);
+
     return temp
 }
 
 export const API_URLS = {
-    process:{
+    process: {
         register: `/v1/process/register`,
         update: `/v1/process/update`,
         load: `/v1/process/load`,
@@ -112,7 +132,7 @@ export const API_URLS = {
         search: `/v1/process/search`,
         search2: `/v1/process/segment/search`
     },
-    segment:{
+    segment: {
         register: `/v1/process/segment/register`,
         delete: `/v1/process/segment/delete`,
         list: '/v1/process/segment/list',

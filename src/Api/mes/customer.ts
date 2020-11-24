@@ -8,9 +8,13 @@ import client from '../configs/basic';
  * @author 정민
  */
 
-export const getCustomerData = async( url: string) =>{
+export const getCustomerData = async (url: string) => {
     const temp: IServerData = await client.get(url);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results;
 }
 
@@ -23,9 +27,13 @@ export const getCustomerData = async( url: string) =>{
  * @author 정민
  */
 
-export const postCustomerDelete = async( url: string, object: object ) =>{
-    const temp: IServerData = await client.post(url,object);
+export const postCustomerDelete = async (url: string, object: object) => {
+    const temp: IServerData = await client.post(url, object);
     console.log(temp.results);
+    if (temp.status === 400) {
+        alert('요청이 잘못되었습니다.')
+        return
+    }
     return temp.results;
 }
 

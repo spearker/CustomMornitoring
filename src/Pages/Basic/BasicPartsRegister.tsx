@@ -16,6 +16,7 @@ import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import SmallButton from '../../Components/Button/SmallButton'
 import Styled from 'styled-components'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {setInterval} from "timers";
 
 
 const BasicPartsRegister = () => {
@@ -35,6 +36,7 @@ const BasicPartsRegister = () => {
     const [type, setType] = useState<number>(0)
     const [location, setLocation] = useState<any[]>([])
     const [cost, setCost] = useState<number>()
+    const [quantity, setQuantity] = useState<number>()
 
 
     const [inputData, setInputData] = useObjectInput('CHANGE', {
@@ -79,7 +81,6 @@ const BasicPartsRegister = () => {
                 setPartsPkList(pk)
                 setPartsList(list)
 
-
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -115,26 +116,30 @@ const BasicPartsRegister = () => {
     const onsubmitFormUpdate = useCallback(async () => {
         console.log(type)
 
-        if (name.replace(/(\s*)/g, "") === '') {
+        if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type].replace(/(\s*)/g, "") === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk.replace(/(\s*)/g, "") === '') {
-            alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
+        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
+            alert('공장 정보는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost).replace(/(\s*)/g, "") === '' || cost === 0) {
+        } else if (cost === null || cost === undefined || String(cost).trim() === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (quantity === null || quantity === undefined || String(quantity).trim() === '') {
+            alert('재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
 
         const data = {
             pk: getParameter('pk'),
-            parts_name: name,
+            parts_name: name.trim(),
             parts_type: partsPkList[type],
             location: location[0].pk,
-            parts_cost: cost
+            parts_cost: cost,
+            parts_stock: quantity
         }
 
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/update`, data, getToken(TOKEN_NAME))
@@ -150,28 +155,32 @@ const BasicPartsRegister = () => {
             }
         }
 
-    }, [pk, location, name, type, cost, partsPkList])
+    }, [pk, location, name, type, cost, partsPkList, quantity])
 
     const onsubmitForm = useCallback(async () => {
-        if (name.replace(/(\s*)/g, "") === '') {
+        if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type].replace(/(\s*)/g, "") === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk.replace(/(\s*)/g, "") === '') {
-            alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
+        } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
+            alert('공장 정보는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost).replace(/(\s*)/g, "") === '') {
+        } else if (cost === null || cost === undefined || String(cost).trim() === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (quantity === null || quantity === undefined || String(quantity).trim() === '') {
+            alert('재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
 
         const data = {
-            parts_name: name,
+            parts_name: name.trim(),
             parts_type: partsPkList[type],
             location: location[0].pk,
-            parts_cost: cost
+            parts_cost: cost,
+            parts_stock: quantity
         }
 
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/register`, data, getToken(TOKEN_NAME))
@@ -187,11 +196,11 @@ const BasicPartsRegister = () => {
             }
         }
 
-    }, [name, type, location, cost])
+    }, [name, partsPkList, type, location, cost, quantity])
 
 
     const partsRegister = useCallback(async () => {
-        if (partsName === '' || partsName === null || partsName === undefined) {
+        if (partsName === '' || partsName === null || partsName === undefined || partsName.trim() === '') {
             alert('파츠 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -239,10 +248,10 @@ const BasicPartsRegister = () => {
 
     const partsUpdate = useCallback(async () => {
 
-        if (partsName === '' || partsName === null || partsName === undefined) {
+        if (partsName === '' || partsName === null || partsName === undefined || partsName.trim() === '') {
             alert('파츠 이름은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (partsPkList[type] === '' || partsPkList[type] === undefined) {
+        } else if (partsPkList[type].trim() === '' || partsPkList[type] === undefined) {
             alert('부품 종류는 필수 항목입니다. 반드시 선택해주세요.')
             return
         }
@@ -258,7 +267,10 @@ const BasicPartsRegister = () => {
         } else {
             if (res.status === 200) {
                 //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
+                console.log('partsList[type]', partsList[partsList.length - 2], partsList)
+                // setPartsName(partsList[partsList.length - 2])
+                await partsListLoad()
+                setType(partsList.length - 2)
             } else {
                 ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
             }
@@ -278,17 +290,13 @@ const BasicPartsRegister = () => {
     }, [type])
 
     useEffect(() => {
-        console.log('1111111111', type)
-        if (partsList[type] !== '부품 등록하기' || partsList[type] === undefined) {
-            // setType(partsList.indexOf(partsName))
+        if (partsList[type] !== '부품 등록하기' && partsList[type] === undefined) {
+            setType(partsList.indexOf(partsName))
         } else {
             return
         }
     }, [partsList, partsName])
 
-    useEffect(() => {
-        console.log(type)
-    }, [type])
 
     return (
         <DashboardWrapContainer index={'basic'}>
@@ -305,11 +313,9 @@ const BasicPartsRegister = () => {
                                     <DropdownInput title={'부품 종류'} target={partsList[type]} contents={partsList}
                                                    onChangeEvent={(input) => setType(input)}/>
                                 </div>
-                                {console.log(partsList[type])}
                                 <NormalInput title={'부품 이름'}
                                              width={partsList[type] === '부품 등록하기' || partsList[type] === undefined ? 140 : 80}
                                              value={partsName} onChangeEvent={(input) => {
-                                    console.log(input)
                                     setPartsName(input)
                                 }} description={'부품명을 입력하세요'}/>
                                 <div
@@ -343,6 +349,9 @@ const BasicPartsRegister = () => {
                             <NormalNumberInput title={'원가'} value={cost} onChangeEvent={(input) => setCost(input)}
                                                description={'원가를 입력해주세요.'}/>
 
+                            <NormalNumberInput title={'재고'} value={quantity}
+                                               onChangeEvent={isUpdate ? null : (input) => setQuantity(input)}
+                                               description={'재고를 입력해주세요.'}/>
                             {/*<br/>*/}
                             {/*<ListHeader title="선택 항목"/>*/}
                             {/*<NormalInput title={'품목 스펙'}  value={inputData.material_spec} onChangeEvent={(input)=>setInputData(`material_spec`, input)} description={'이름을 입력해주세요.'}/>*/}

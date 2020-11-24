@@ -1,170 +1,196 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import dropdownButton from "../../Assets/Images/ic_dropdownbutton.png";
-import Modal from "react-modal";
-import ReactShadowScroll from 'react-shadow-scroll';
+import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
+import Modal from 'react-modal'
+import ReactShadowScroll from 'react-shadow-scroll'
 import ic_check from '../../Assets/Images/ic_check.png'
-import {Input} from "semantic-ui-react";
-import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getSearchMachine} from "../../Api/mes/process";
-import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import {Input} from 'semantic-ui-react'
+import IcSearchButton from '../../Assets/Images/ic_search.png'
+import {API_URLS, getSearchMachine} from '../../Api/mes/process'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
 
 //드롭다운 컴포넌트
 
-interface IProps{
-    select?: { name?:string, pk?: string },
-    onClickEvent: any
-    text: string
-    buttonWid?: string | number
+interface IProps {
+  select?: { name?: string, pk?: string },
+  onClickEvent: any
+  text: string
+  buttonWid?: string | number
+  disabled?: boolean
 }
 
-const MoldPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
-    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const [isOpen, setIsOpen] = useState(false);
-    const [machineName, setMachineName] = useState('')
-    const [page, setPage] = useState<PaginationInfo>({
-        current: 1,
-    });
+const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProps) => {
+  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [isOpen, setIsOpen] = useState(false)
+  const [isDisabled, setIsDisabled] = useState<boolean>(false)
+  const [machineName, setMachineName] = useState('')
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  })
 
-    const [machineList, setMachineList] = useState([{
-        pk: "",
-        mold_name: "",
-        mold_type: 0,
-        limit: 0,
-        current: 0,
-        location_name: ''
-    }])
-    const [searchName, setSearchName] = useState<string>('')
+  const [machineList, setMachineList] = useState([{
+    pk: '',
+    mold_name: '',
+    mold_type: 0,
+    limit: 0,
+    current: 0,
+    location_name: ''
+  }])
+  const [searchName, setSearchName] = useState<string>('')
 
-    // const ref = useOnclickOutside(() => {
-    //     setIsOpen(false);
-    // });
+  // const ref = useOnclickOutside(() => {
+  //     setIsOpen(false);
+  // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
-        const resultData = await getSearchMachine(tempUrl);
-        console.log(resultData)
-        setMachineList(resultData.info_list)
-    }, [searchName])
+  const getList = useCallback(async () => {
+    const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const resultData = await getSearchMachine(tempUrl)
+    console.log(resultData)
+    setMachineList(resultData.info_list)
+  }, [searchName])
 
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
+  useEffect(() => {
+    console.log(searchName)
+  }, [searchName])
+
+  useEffect(() => {
+    setIsDisabled(disabled ? true : false)
+    console.log(disabled)
+  }, [disabled])
 
 
-    const handleClickBtn = () => {
-        setIsOpen(!isOpen);
-    };
-    useEffect(()=>{
-        getList()
-    },[])
+  const handleClickBtn = () => {
+    setIsOpen(!isOpen)
+  }
+  useEffect(() => {
+    getList()
+  }, [])
 
-    return (
-        <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
-                        {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                        }
+  return (
+    <div>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+        <BoxWrap disabled={isDisabled} onClick={() => {
+          if (disabled) {
+            return
+          } else {
+            setIsOpen(true)
+          }
+        }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+          <div style={{display: 'inline-block', height: 32, width: 885}}>
+            {
+              select ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+            }
 
-                    </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
-                        <SearchButton style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}} onClick={()=>{setIsOpen(true)}}>
-                            <img src={IcSearchButton} />
-                        </SearchButton>
-                    </div>
+          </div>
+          <div style={{
+            display: 'inline-block',
+            backgroundColor: POINT_COLOR,
+            width: buttonWid ? buttonWid : 32,
+            height: buttonWid ? buttonWid : 32
+          }}>
+            <SearchButton style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
+              <img src={IcSearchButton}/>
+            </SearchButton>
+          </div>
 
-                </BoxWrap>
+        </BoxWrap>
+      </div>
+      <Modal
+        isOpen={isOpen}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            padding: 0
+          },
+          overlay: {
+            background: 'rgba(0,0,0,.6)',
+            zIndex: 5
+          }
+        }}
+      >
+        <div style={{width: 900}}>
+          <div style={{width: 860, height: 440, padding: 20}}>
+            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 금형 검색</p>
+            <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
+              <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}}
+                         onChange={(e) => setSearchName(e.target.value)}/>
+              <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                <img src={IcSearchButton}/>
+              </SearchButton>
             </div>
-            <Modal
-                isOpen={isOpen}
-                style={{
-                   content : {
-                       top                   : '50%',
-                       left                  : '50%',
-                       right                 : 'auto',
-                       bottom                : 'auto',
-                       marginRight           : '-50%',
-                       transform             : 'translate(-50%, -50%)',
-                       padding: 0
-                   },
-                   overlay:{
-                       background: 'rgba(0,0,0,.6)',
-                       zIndex: 5
-                   }
-                }}
-            >
-                <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 금형 검색</p>
-                        <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
-                                <img src={IcSearchButton}/>
-                            </SearchButton>
-                        </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
-                            <ReactShadowScroll>
-                                <MachineTable>
-                                    <tr>
-                                        <th style={{width: 250}}>금형명</th>
-                                        <th style={{width: 250}}>타입</th>
-                                        <th style={{width: 325}}>공장명</th>
-                                        <th style={{width: 30}}></th>
-                                    </tr>
-                                    {   machineList !== undefined && machineList.length === 0 ?
-                                        <tr>
-                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
-                                        </tr>
-                                        :
-                                        machineList.map((v,i) => {
-                                            return(
-                                                <tr style={{height: 32}}>
-                                                    <td><span>{v.mold_name}</span></td>
-                                                    <td><span>{transferCodeToName('mold',v.mold_type)}</span></td>
-                                                    <td><span>{v.location_name}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.mold_name)
-                                                                return onClickEvent({name: v.mold_name, pk: v.pk})
-                                                            }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </MachineTable>
-                            </ReactShadowScroll>
-                        </div>
-                    </div>
-                    <div style={{width: 900}}>
-                        <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-                            onClickEvent({name: undefined, pk: undefined})
-                            setIsOpen(false)
-                        }}>
-                            <div>
-                                <span style={{color: '#666d79'}}>취소</span>
-                            </div>
-                        </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
-                            <div>
-                                <span style={{color: 'black'}}>확인</span>
-                            </div>
-                        </CheckButton>
-                    </div>
-                </div>
-            </Modal>
-
+            <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+              <ReactShadowScroll>
+                <MachineTable>
+                  <tr>
+                    <th style={{width: 250}}>금형명</th>
+                    <th style={{width: 250}}>타입</th>
+                    <th style={{width: 325}}>공장명</th>
+                    <th style={{width: 30}}></th>
+                  </tr>
+                  {machineList !== undefined && machineList.length === 0 ?
+                    <tr>
+                      <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                    </tr>
+                    :
+                    machineList.map((v, i) => {
+                      return (
+                        <tr style={{height: 32}}>
+                          <td><span>{v.mold_name}</span></td>
+                          <td><span>{transferCodeToName('mold', v.mold_type)}</span></td>
+                          <td><span>{v.location_name}</span></td>
+                          <td>
+                            <button
+                              onClick={() => {
+                                setMachineName(v.mold_name)
+                                return onClickEvent({name: v.mold_name, pk: v.pk})
+                              }}
+                              style={{
+                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                width: 32,
+                                height: 32,
+                                margin: 0
+                              }}
+                            >
+                              <img src={ic_check} style={{width: 20, height: 20}}/>
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  }
+                </MachineTable>
+              </ReactShadowScroll>
+            </div>
+          </div>
+          <div style={{width: 900}}>
+            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+              onClickEvent({name: undefined, pk: undefined})
+              setIsOpen(false)
+            }}>
+              <div>
+                <span style={{color: '#666d79'}}>취소</span>
+              </div>
+            </CheckButton>
+            <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+              setIsOpen(false)
+            }}>
+              <div>
+                <span style={{color: 'black'}}>확인</span>
+              </div>
+            </CheckButton>
+          </div>
         </div>
-    );
+      </Modal>
+
+    </div>
+  )
 }
 
 const BoxWrap = Styled.button`
@@ -263,4 +289,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default MoldPickerModal;
+export default MoldPickerModal

@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import moment from "moment";
-import Styled from "styled-components";
-import ReactApexChart from "react-apexcharts";
-import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import {API_URLS, getAbilityList} from "../../Api/pm/statistics";
-import {API_URLS as URLS_MAP} from "../../Api/pm/map";
-import MapBoard from "../../Components/Map/MapBoard";
-import NoDataCard from "../../Components/Card/NoDataCard";
+import moment from 'moment'
+import Styled from 'styled-components'
+import ReactApexChart from 'react-apexcharts'
+import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
+import {API_URLS, getAbilityList} from '../../Api/pm/statistics'
+import {API_URLS as URLS_MAP} from '../../Api/pm/map'
+import MapBoard from '../../Components/Map/MapBoard'
+import NoDataCard from '../../Components/Card/NoDataCard'
 
 const chartOption = {
     chart: {
@@ -28,20 +28,20 @@ const chartOption = {
         enabled: false
     },
     stroke: {
-        curve: ['straight', "smooth"],
+        curve: ['straight', 'smooth'],
         dashArray: [0, 10],
         width: 2
     },
-    yaxis:{
+    yaxis: {
         tickAmount: 24,
-        labels:{
+        labels: {
             formatter: (value, index) => {
-                if(index === 24){
-                    return "(ton)"
-                }else{
-                    if(value % 50 === 0){
+                if (index === 24) {
+                    return '(ton)'
+                } else {
+                    if (value % 50 === 0) {
                         return Math.floor(value)
-                    }else{
+                    } else {
                         return
                     }
                 }
@@ -53,9 +53,9 @@ const chartOption = {
     },
     xaxis: {
         type: 'numeric',
-        tickAmount: 24,
-        max: 300,
-        min: 90,
+        tickAmount: 18,
+        max: 210,
+        min: 120,
         // labels:{
         //     formatter: (value, timestamp, index) => {
         //
@@ -78,29 +78,28 @@ const chartOption = {
             enable: false
         }
     },
-    legend:{
+    legend: {
         show: false
     },
-    grid:{
+    grid: {
         show: true,
-        borderColor:'#42444b',
+        borderColor: '#42444b',
         yaxis: {
-            lines:{
+            lines: {
                 show: true
             }
         },
         xaxis: {
-            lines:{
+            lines: {
                 show: true
             }
         }
     },
     tooltip: {
-        enable:false
+        enable: false
     },
 
 }
-
 
 const AbilityContainer = () => {
     const [data, setData] = React.useState<IPressAbilityData>({
@@ -110,27 +109,30 @@ const AbilityContainer = () => {
         y_capacity: [],
         y_ton: []
     })
-    const [pk, setPk] = React.useState()
-    const [series, setSeries] = React.useState([{type: 'line', data: [[0,0]]}])
+    const [pressName, setPressName] = React.useState('')
+    const [series, setSeries] = React.useState([{type: 'line', data: [[0, 0]]}])
+    const [loading, setLoading] = React.useState<boolean>(false)
+    const [pressLoading, setPressLoading] = React.useState<boolean>(false)
 
-    const [selectComponent, setSelectComponent] = useState<string>('');
+    const [selectComponent, setSelectComponent] = useState<string>('')
 
-    const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"))
+    const [selectDate, setSelectDate] = useState(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
-    const getData = useCallback(async ()=>{
-
+    const getData = useCallback(async () => {
+        setLoading(true)
+        setPressLoading(true)
         console.log('ap')
 
         const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&date=${selectDate}`
-        const resultData = await getAbilityList(tempUrl);
+        const resultData = await getAbilityList(tempUrl)
 
         console.log(resultData)
-        setData(resultData.results);
+        setData(resultData.results)
 
         let dummylineList: number[][] = []
         let dummyroundList: number[][] = []
 
-        await resultData.x_degree.map((v,i) => {
+        await resultData.x_degree.map((v, i) => {
             dummylineList.push([Number(v), Number(resultData.y_capacity[i])])
             return null
         })
@@ -143,13 +145,16 @@ const AbilityContainer = () => {
         })
 
         setSeries([{type: 'line', data: dummylineList}, {type: 'area', data: dummyroundList}])
+        setPressName(resultData.pressName)
 
+        setLoading(false)
+        setPressLoading(false)
         // setSeries()
 
-    },[data, selectComponent, selectDate])
+    }, [data, selectComponent, selectDate])
 
     useEffect(() => {
-        if(selectComponent){
+        if (selectComponent) {
             getData()
         }
     }, [selectComponent, selectDate])
@@ -170,36 +175,40 @@ const AbilityContainer = () => {
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
 
                 <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: "bold"}}>프레스 능력</span>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>프레스 능력</span>
                 </div>
             </div>
             <MapBoard
                 type={1}//0: 모니터링 1:통계/분석
                 url={URLS_MAP.press.statics}
                 select={selectComponent} //pk
-                onChangeEvent={setSelectComponent}
+                onChangeEvent={pressLoading ? undefined : setSelectComponent}
             />
             {
-                selectComponent ? series
-                    ? <BlackContainer>
-                        <div>
-                            <div className={"itemDiv"} style={{float: "left", display: "inline-block"}}>
-                                <p style={{textAlign: "left", fontSize: 20, fontWeight:'bold'}}>프레스 01</p>
+                selectComponent
+                    ? !loading
+                    ? series
+                        ? <BlackContainer>
+                            <div>
+                                <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
+                                    <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>{pressName}</p>
+                                </div>
+                                <div style={{marginRight: 30, paddingTop: 25,}}>
+                                    <CalendarDropdown type={'single'} select={selectDate}
+                                                      onClickEvent={(i) => setSelectDate(i)}/>
+                                </div>
                             </div>
-                            <div style={{marginRight: 30, paddingTop: 25, }}>
-                                <CalendarDropdown type={'single'} select={selectDate} onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                            <div style={{marginTop: 30}}>
+                                <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
                             </div>
-                        </div>
-                        <div style={{marginTop: 30}}>
-                            <ReactApexChart options={chartOption} type={'line'} height={400} series={series}/>
-                        </div>
-                    </BlackContainer>
-                    : <NoDataCard contents={'데이터를 불러오지 못했습니다.'} height={504}/>
+                        </BlackContainer>
+                        : <NoDataCard contents={'데이터를 불러오지 못했습니다.'} height={504}/>
+                    : <NoDataCard contents={'데이터를 불러오는 중입니다.'} height={504}/>
                     : <NoDataCard contents={'프레스를 선택해주세요'} height={504}/>
             }
 
         </div>
-    );
+    )
 }
 
 const BlackContainer = Styled.div`

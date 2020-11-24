@@ -1,27 +1,26 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import {TOKEN_NAME} from '../../Common/configset'
-import {useUserDispatch} from '../../Context/UserContext';
-import {setToken} from '../../Common/tokenFunctions';
-import {postRequestWithNoToken} from '../../Common/requestFunctions';
-import WelcomeInput from '../../Components/Input/WelcomeInput';
-import {useTranslation} from 'react-i18next';
-import {Link} from 'react-router-dom';
-import BasicColorButton from '../../Components/Button/BasicColorButton';
-import WelcomeContainer from '../../Containers/WelcomeContainer';
-import {usePopupDispatch} from '../../Context/PopupContext';
-import {API_URLS, getServerStatus} from '../../Api/mes/common';
-import {useHistory} from 'react-router-dom'
-import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {useUserDispatch} from '../../Context/UserContext'
+import {setToken} from '../../Common/tokenFunctions'
+import {postRequestWithNoToken} from '../../Common/requestFunctions'
+import WelcomeInput from '../../Components/Input/WelcomeInput'
+import {useTranslation} from 'react-i18next'
+import {Link, useHistory} from 'react-router-dom'
+import BasicColorButton from '../../Components/Button/BasicColorButton'
+import WelcomeContainer from '../../Containers/WelcomeContainer'
+import {usePopupDispatch} from '../../Context/PopupContext'
+import {API_URLS, getServerStatus} from '../../Api/mes/common'
+import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 
 // 로그인 페이지
 const Login = () => {
 
-    const dispatch = useUserDispatch();
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
-    const {t} = useTranslation();
-    const dispatchp = usePopupDispatch();
+    const dispatch = useUserDispatch()
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [error, setError] = useState<string>('')
+    const {t} = useTranslation()
+    const dispatchp = usePopupDispatch()
     const history = useHistory()
 
     /**
@@ -32,7 +31,7 @@ const Login = () => {
      * @returns X
      */
     const onsubmitForm = useCallback(async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         let data: object = {
             email: email,
             password: password,
@@ -51,13 +50,14 @@ const Login = () => {
 
                         console.log('type1', type[1])
 
+
                         if (type[1] === 'dashboard') {
-                            window.location.href = "/custom/dashboard"
+                            window.location.href = '/custom/dashboard'
                         } else if (type[1] === 'back') {
                             history.goBack()
                         }
                     } else {
-                        window.location.href = "/dashboard"
+                        window.location.href = '/dashboard'
                     }
 
 
@@ -87,7 +87,7 @@ const Login = () => {
 
 
         const tempUrl = `${API_URLS.status.check}`
-        const results = await getServerStatus(tempUrl);
+        const results = await getServerStatus(tempUrl)
         if (results === false) {
             dispatchp({
                 type: 'OPEN_POPUP',
@@ -133,8 +133,8 @@ const Login = () => {
             </form>
         </WelcomeContainer>
 
-    );
+    )
 }
 
 
-export default Login;
+export default Login

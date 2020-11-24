@@ -66,7 +66,7 @@ const ChitRegisterContainer = () => {
             alert("납기일은 필수 항목입니다. 반드시 선택해주세요.")
             return;
         } else if (Number(chitData.goal) <= 0) {
-            alert("생산 할 수량은 필수 항목입니다. 반드시 입력해주세요.")
+            alert("생산 목표 수량은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
 
@@ -80,7 +80,7 @@ const ChitRegisterContainer = () => {
         });
 
         history.goBack()
-    }, [chitData])
+    }, [chitData, modalSelect, selectDate])
 
     return (
         <div>
@@ -140,7 +140,7 @@ const ChitRegisterContainer = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td>• 생산 할 수량</td>
+                            <td>• 생산 목표 수량</td>
                             <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'}
                                        onChange={(e) => setChitData({...chitData, goal: Number(e.target.value)})}/></td>
                         </tr>

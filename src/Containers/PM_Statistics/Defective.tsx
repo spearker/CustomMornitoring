@@ -1,10 +1,13 @@
-import React, {useCallback, useEffect, useState,} from "react";
-import Styled from "styled-components";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import CalendarDropdown from "../../Components/Dropdown/CalendarDropdown";
-import moment from "moment";
-import ReactApexChart from "react-apexcharts";
-import {API_URLS, getDefectiveData} from "../../Api/pm/statistics";
+import React, {useCallback, useEffect, useState,} from 'react'
+import Styled from 'styled-components'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
+import moment from 'moment'
+import ReactApexChart from 'react-apexcharts'
+import {API_URLS, getDefectiveData} from '../../Api/pm/statistics'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 
 const chartOption = {
@@ -30,7 +33,7 @@ const chartOption = {
         width: 2
     },
     fill: {
-        type: "gradient",
+        type: 'gradient',
         gradient: {
             shadeIntensity: 1,
             opacityFrom: 0.35,
@@ -41,7 +44,7 @@ const chartOption = {
         tickAmount: 10
     },
     grid: {
-        borderColor: "#42444b",
+        borderColor: '#42444b',
         xaxis: {
             lines: {
                 show: true
@@ -61,7 +64,7 @@ const chartOption = {
             show: true,
             formatter: (value) => {
                 if (value === 100) {
-                    return "(%)"
+                    return '(%)'
                 } else {
                     if (value % 20 === 0) {
                         return Math.floor(value)
@@ -81,7 +84,7 @@ const chartOption = {
 }
 
 const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: number[] } } = {
-    pressPk: "dummyPK1",
+    pressPk: 'dummyPK1',
     insert_oil_time: {
         Xaxis: [0, 28, 29, 30, 1, 2, 3, 4, 0],
         Yaxis: [58, 55, 55, 60, 57, 58, 60, 55, 56],
@@ -90,25 +93,26 @@ const dummyData: { pressPk: string; insert_oil_time: { Xaxis: number[]; Yaxis: n
 
 const DefectiveContainer = () => {
     const [data, setData] = React.useState(dummyData)
-    const [list, setList] = useState<any[]>([]);
+    const [list, setList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any>({
-        pk: "",
+        pk: '',
         max_count: 0,
         current_count: 0,
-    });
-    const [index, setIndex] = useState({material_name: '품목(품목명)'});
-    const [labels, setLabels] = useState([]);
-    const [series, setSeries] = useState([]);
+    })
+    const [index, setIndex] = useState({material_name: '품목(품목명)'})
+    const [labels, setLabels] = useState([])
+    const [series, setSeries] = useState([])
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMold, setSelectMold] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    })
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectIndex, setSelectIndex] = useState<number | null>(null)
+    const [selectMold, setSelectMold] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
 
     const [selectDate, setSelectDate] = useState({
-        start: moment().subtract(1, 'days').format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD")
+        start: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD')
     })
 
     const indexList = {
@@ -127,22 +131,24 @@ const DefectiveContainer = () => {
         }
     ]
 
-    const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold);
-        if (mold.pk === selectPk) {
-            setSelectPk(null);
-            setSelectMold(null);
-            setSelectValue(null);
+    const onClick = useCallback((mold, index) => {
+        console.log('dsfewfewf', index, selectIndex)
+        if (index === selectIndex) {
+            // setSelectPk(null)
+            // setSelectMold(null)
+            // setSelectValue(null)
+            // setSelectIndex(null)
         } else {
-            setSelectPk(mold.pk);
-            setSelectMold(mold.mold_name);
+            setSelectPk(mold.pk)
+            setSelectMold(mold.mold_name)
             setSelectValue(mold)
+            setSelectIndex(index)
             //TODO: api 요청
 
         }
 
 
-    }, [list, selectPk]);
+    }, [list, selectPk, selectIndex])
 
     useEffect(() => {
         console.log(selectValue, selectDate)
@@ -160,24 +166,40 @@ const DefectiveContainer = () => {
 
         setDetailList(res)
 
-        setLabels(res.dates)
-        setSeries(res.amounts)
+        let tmpArray = res.amounts.map((v) => {
+            console.log(v)
+            let value = 0
+            if (v !== 0 && res.total_production !== 0) {
+                value = Math.round(v / res.total_production * 10000) / 100
+            }
+
+            return value
+        })
+
+        console.log(tmpArray)
+
+        //@ts-ignore
+        setLabels([...res.dates])
+        //@ts-ignore
+        setSeries([...tmpArray])
 
     }, [detailList, selectValue, selectDate])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=5`
         const res = await getDefectiveData(tempUrl)
 
         setList(res.info_list)
 
         setPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
     }, [list, page])
 
     useEffect(() => {
         getList()
-        setIndex(indexList["defective"])
+        setIndex(indexList['defective'])
         setDetailList(detaildummy)
     }, [])
 
@@ -197,10 +219,15 @@ const DefectiveContainer = () => {
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?
-                    <div style={{display: "flex", flexDirection: "row"}}>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
                         <div>
                             <LineContainer>
-                                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    paddingTop: 10
+                                }}>
                                     <p>생산량</p>
                                     <p>{detailList.total_production}<span>ea</span></p>
                                 </div>
@@ -221,14 +248,14 @@ const DefectiveContainer = () => {
 
                                 <div>
                                     <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "space-between",
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
                                         marginLeft: 30,
                                         marginRight: 30,
                                         paddingTop: 25
                                     }}>
-                                        <div style={{alignSelf: "center"}}>
+                                        <div style={{alignSelf: 'center', width: '40%'}}>
                                             <p>{selectValue.material_name} 불량률</p>
                                         </div>
                                         <CalendarDropdown type={'range'} selectRange={selectDate}
@@ -239,7 +266,7 @@ const DefectiveContainer = () => {
                                     </div>
                                     <ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}
                                                     type={'area'} height={444} width={630}
-                                                    series={[{name: "data", data: series}]}/>
+                                                    series={[{name: 'data', data: series}]}/>
                                 </div>
                             }
                         </GraphContainer>
@@ -248,7 +275,7 @@ const DefectiveContainer = () => {
                     null
             }
         </OvertonTable>
-    );
+    )
 }
 
 const CapacityContainer = Styled.div`
@@ -309,6 +336,9 @@ const GraphContainer = Styled.div`
             font-size: 15px;
             }
   }
+  .apexcharts-tooltip{
+        color: black;
+    }
 `
 
-export default DefectiveContainer;
+export default DefectiveContainer

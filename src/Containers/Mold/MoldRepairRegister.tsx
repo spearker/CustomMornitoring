@@ -10,151 +10,155 @@ import {Input} from 'semantic-ui-react'
 import {useHistory} from 'react-router-dom'
 
 const factoryDummy = [
-  '더미 업체 1',
-  '더미 업체 2',
-  '더미 업체 3',
+    '더미 업체 1',
+    '더미 업체 2',
+    '더미 업체 3',
 ]
 
 const productionDummy = [
-  '더미 품목 1',
-  '더미 품목 2',
-  '더미 품목 3',
+    '더미 품목 1',
+    '더미 품목 2',
+    '더미 품목 3',
 ]
 
 const listDummy = [
-  {
-    project_pk: 'dummy01',
-    factory: '더미 업체 1',
-    production: '더미 품목 1',
-    planDate: {start: '2020-08-15', end: '2020-08-17'}
-  },
-  {
-    project_pk: 'dummy02',
-    factory: '더미 업체 1',
-    production: '더미 품목 1',
-    planDate: {start: '2020-08-15', end: '2020-08-17'}
-  },
+    {
+        project_pk: 'dummy01',
+        factory: '더미 업체 1',
+        production: '더미 품목 1',
+        planDate: {start: '2020-08-15', end: '2020-08-17'}
+    },
+    {
+        project_pk: 'dummy02',
+        factory: '더미 업체 1',
+        production: '더미 품목 1',
+        planDate: {start: '2020-08-15', end: '2020-08-17'}
+    },
 ]
 
 const MoldRepairRegisterContainer = () => {
 
-  const history = useHistory()
+    const history = useHistory()
 
-  const [open, setOpen] = useState<boolean>(false)
-  const [reason, setReason] = useState<string>('')
-  const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
+    const [open, setOpen] = useState<boolean>(false)
+    const [reason, setReason] = useState<string>('')
+    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
-  const [moldData, setMoldData] = useState<{ name: string, pk: string }>({name: '', pk: ''})
-  const [parts, setParts] = useState<{ name: string, pk: string }>()
-  const [managerData, setManagerData] = useState<string>()
+    const [moldData, setMoldData] = useState<{ name: string, pk: string }>({name: '', pk: ''})
+    const [parts, setParts] = useState<{ name: string, pk: string }>()
+    const [managerData, setManagerData] = useState<string>()
 
-  const postContractRegisterData = useCallback(async () => {
+    const postContractRegisterData = useCallback(async () => {
 
-    if (!moldData || moldData?.pk === '' || !moldData.pk) {
-      alert('금형명은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (!reason || reason === '') {
-      alert('수리사유 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (!managerData || managerData === '') {
-      alert('수리 담당자는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (!selectDate || selectDate === '') {
-      alert('완료 예정일은 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
+        if (!moldData || moldData?.pk === '' || !moldData.pk) {
+            alert('금형명은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (!reason || reason === '') {
+            alert('수리사유 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (!managerData || managerData === '') {
+            alert('수리 담당자는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (!selectDate || selectDate === '') {
+            alert('완료 예정일은 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        }
 
-    const tempUrl = `${API_URLS['repair'].register}`
-    const resultData = await postMoldRegister(tempUrl, {
-      mold_pk: moldData?.pk,
-      description: reason,
-      manager: managerData,
-      complete_date: selectDate
-    })
+        const tempUrl = `${API_URLS['repair'].register}`
+        const resultData = await postMoldRegister(tempUrl, {
+            mold_pk: moldData?.pk,
+            description: reason,
+            manager: managerData,
+            complete_date: selectDate
+        })
 
-    if (resultData.status === 200) {
-      alert('금형 수리 요청이 등록되었습니다.')
-      history.push('/mold/current/list')
-    }
-  }, [moldData, reason, parts, managerData, selectDate])
+        if (resultData.status === 200) {
+            alert('금형 수리 요청이 등록되었습니다.')
+            history.push('/mold/current/list')
+        }
+    }, [moldData, reason, parts, managerData, selectDate])
 
-  return (
-    <div>
-      <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
-        <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-          <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>금형 수리 등록</span>
-        </div>
-      </div>
-      <ContainerMain style={{paddingBottom: 20}}>
+    return (
         <div>
-          <p className={'title'}>필수 항목</p>
-        </div>
-        <div>
-          <table style={{color: 'black'}}>
-            <tr>
-              <td>• 금형명</td>
-              <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)} select={moldData}/></td>
-            </tr>
-            <tr>
-              <td>• 수리 사유</td>
-              <td>
-                <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: '99%'}}>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
+                <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>금형 수리 등록</span>
+                </div>
+            </div>
+            <ContainerMain style={{paddingBottom: 20}}>
+                <div>
+                    <p className={'title'}>필수 항목</p>
+                </div>
+                <div>
+                    <table style={{color: 'black'}}>
+                        <tr>
+                            <td>• 금형명</td>
+                            <td><MoldPickerModal text={'금형을 선택해 주세요'} onClickEvent={(e) => setMoldData(e)}
+                                                 select={moldData}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 수리 사유</td>
+                            <td>
+                                <div style={{border: '1px solid #b3b3b3', marginRight: 1, width: '99%'}}>
                                     <textarea maxLength={160} onChange={(e) => setReason(e.target.value)} style={{
-                                      border: 0,
-                                      fontSize: 14,
-                                      padding: 12,
-                                      height: '70px',
-                                      width: '96%'
+                                        border: 0,
+                                        fontSize: 14,
+                                        padding: 12,
+                                        height: '70px',
+                                        width: '96%',
+                                        resize: 'none'
                                     }} placeholder="내용을 입력해주세요 (80자 미만)">
                                         {reason}
                                     </textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 수리 담당자</td>
+                            <td><Input placeholder="수리 담당자명 입력해 주세요." onChange={(e) => setManagerData(e.target.value)}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 완료 예정일</td>
+                            <td>
+                                <div style={{
+                                    display: 'flex',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    backgroundColor: '#f4f6fa',
+                                    border: '0.5px solid #b3b3b3',
+                                    height: 32
+                                }}>
+                                    <div style={{width: 817, display: 'table-cell'}}>
+                                        <div style={{marginTop: 5}}>
+                                            {
+                                                selectDate === ''
+                                                    ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
+                                                    : <InputText
+                                                        style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                                            }
+                                        </div>
+                                    </div>
+                                    <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                                        setSelectDate(select)
+                                    }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-              </td>
-            </tr>
-            <tr>
-              <td>• 수리 담당자</td>
-              <td><Input placeholder="수리 담당자명 입력해 주세요." onChange={(e) => setManagerData(e.target.value)}/></td>
-            </tr>
-            <tr>
-              <td>• 완료 예정일</td>
-              <td>
-                <div style={{
-                  display: 'flex',
-                  flex: 1,
-                  flexDirection: 'row',
-                  backgroundColor: '#f4f6fa',
-                  border: '0.5px solid #b3b3b3',
-                  height: 32
-                }}>
-                  <div style={{width: 817, display: 'table-cell'}}>
-                    <div style={{marginTop: 5}}>
-                      {
-                        selectDate === ''
-                          ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                          : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
-                      }
-                    </div>
-                  </div>
-                  <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
-                    setSelectDate(select)
-                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                <div style={{marginTop: 72,}}>
+                    <ButtonWrap onClick={async () => {
+                        await postContractRegisterData()
+                    }}>
+                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+                            <p style={{fontSize: 18}}>등록하기</p>
+                        </div>
+                    </ButtonWrap>
                 </div>
-              </td>
-            </tr>
-          </table>
+            </ContainerMain>
         </div>
-        <div style={{marginTop: 72,}}>
-          <ButtonWrap onClick={async () => {
-            await postContractRegisterData()
-          }}>
-            <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
-              <p style={{fontSize: 18}}>등록하기</p>
-            </div>
-          </ButtonWrap>
-        </div>
-      </ContainerMain>
-    </div>
-  )
+    )
 }
 
 const ContainerMain = Styled.div`

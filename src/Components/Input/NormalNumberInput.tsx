@@ -5,31 +5,33 @@ import InputContainer from '../../Containers/InputContainer'
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 
 interface IProps {
-  title: string,
-  description: string,
-  value: number | undefined,
-  onChangeEvent: any,
-  width?: number | string
-  line?: boolean
+    title: string,
+    description: string,
+    value: number | undefined,
+    onChangeEvent: any,
+    width?: number | string
+    line?: boolean
+
+    returnType?: 'string' | 'number'
 }
 
-const NormalNumberInput = ({title, line, description, value, onChangeEvent, width}: IProps) => {
-  useEffect(() => {
+const NormalNumberInput = ({title, line, description, value, onChangeEvent, width, returnType}: IProps) => {
+    useEffect(() => {
 
-  }, [])
+    }, [])
 
 
-  return (
-    <InputContainer title={title} line={line} width={width}>
-      {onChangeEvent !== null ?
-        <InputBox type="number" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-          onChangeEvent(Number(e.target.value.toString()))
-        }} defaultValue={''} placeholder={description}/>
-        :
-        <InputBox type="number" value={value} placeholder={description} disabled/>
-      }
-    </InputContainer>
-  )
+    return (
+        <InputContainer title={title} line={line} width={width}>
+            {onChangeEvent !== null ?
+                <InputBox type="number" value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                    onChangeEvent(returnType && returnType === 'string' ? e.target.value : Number(e.target.value.toString()))
+                }} defaultValue={''} placeholder={description}/>
+                :
+                <InputBox type="number" value={value} placeholder={description} disabled/>
+            }
+        </InputContainer>
+    )
 }
 
 const InputBox = Styled.input`
