@@ -3,14 +3,34 @@ import Styled from 'styled-components'
 import CalendarDropdown from "../Dropdown/CalendarDropdown";
 import InAndOutButton from "../Button/InAndOutButton";
 
-const InAndOutHeader: React.FunctionComponent = () => {
+interface Props {
+    buttonList?: string[]
+    selectIndex: number
+    setSelectIndex: any
+    selectDate?: string
+    setSelectDate?: any
+}
+
+const InAndOutHeader: React.FunctionComponent<Props> = ({buttonList, selectIndex, setSelectIndex, selectDate, setSelectDate}) => {
     return (
         <Header>
-            <div style={{margin: '0 16px 0 16px', display: 'flex'}}>
-                <InAndOutButton title={'입고 현황'} select={true}/>
-                <InAndOutButton title={'출고 현황'} select={false}/>
-                {/*<CalendarDropdown type={'single'} select={selectDate}*/}
-                {/*                  onClickEvent={async (i) => setSelectDate(i)}/>*/}
+            <div style={{margin: '0 16px 0 16px', display: 'flex', justifyContent: 'space-between'}}>
+                <div style={{display: 'flex'}}>
+                    {buttonList &&
+                    buttonList.map((buttonValue, index) => {
+                        return (
+                            <InAndOutButton title={buttonValue} select={selectIndex === index} key={`bv-${index}`}
+                                            index={index} onClickIndex={setSelectIndex}/>
+                        )
+                    })
+                    }
+                </div>
+                <div style={{alignSelf: 'center'}}>
+                    {selectDate &&
+                    <CalendarDropdown type={'single'} select={selectDate}
+                                      onClickEvent={(i) => setSelectDate(i)}/>
+                    }
+                </div>
             </div>
         </Header>
     )

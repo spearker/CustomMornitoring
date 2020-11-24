@@ -5,9 +5,11 @@ import Styled from 'styled-components'
 interface Props {
     title: string
     select?: boolean
+    index: number
+    onClickIndex: any
 }
 
-const InAndOutButton: React.FunctionComponent<Props> = ({title, select}) => {
+const InAndOutButton: React.FunctionComponent<Props> = ({title, select, index, onClickIndex}) => {
     return (
         <div>
             {select ?
@@ -15,7 +17,7 @@ const InAndOutButton: React.FunctionComponent<Props> = ({title, select}) => {
                     <ButtonTitle>{title}</ButtonTitle>
                 </OnButton>
                 :
-                <OffButton>
+                <OffButton onClick={() => onClickIndex(index)}>
                     <ButtonTitle>{title}</ButtonTitle>
                 </OffButton>
             }
