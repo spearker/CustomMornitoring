@@ -21,10 +21,7 @@
     "bluebird": "^3.7.2",
     "cra-template-typescript": "1.0.2",
     "forever": "^3.0.2",
-<<<<<<< HEAD
-=======
     "fullscreen-react": "^1.0.4",
->>>>>>> upstream/master
     "fusioncharts": "^3.15.2",
     "i18next": "^19.6.3",
     "koa": "^2.13.0",

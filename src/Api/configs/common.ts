@@ -11,11 +11,7 @@ import {SF_ENDPOINT} from '../SF_endpoint'
  */
 const client = axios.create()
 
-<<<<<<< HEAD
-client.defaults.baseURL = 'http://61.101.55.224:9912';
-=======
 client.defaults.baseURL = SF_ENDPOINT
->>>>>>> upstream/master
 
 client.interceptors.response.use(function (response) {
 

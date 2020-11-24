@@ -11,11 +11,7 @@ import {SF_ENDPOINT} from '../SF_endpoint'
  */
 const client = axios.create()
 
-<<<<<<< HEAD
-client.defaults.baseURL = 'http://61.101.55.224:8299/api';
-=======
 client.defaults.baseURL = SF_ENDPOINT + '/api'
->>>>>>> upstream/master
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME)
 
