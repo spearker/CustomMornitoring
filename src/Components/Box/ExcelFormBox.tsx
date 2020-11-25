@@ -38,6 +38,8 @@ const FormBox = Styled.div`
   margin-right: 16px;
   padding: 0 16px;
   p{
+   text-align:left;
+   width: 120px;
    font-family: NotoSansCJKkr;
    font-size: 18px;
    font-weight: bold;

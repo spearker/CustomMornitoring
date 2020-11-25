@@ -110,6 +110,7 @@ export const API_URLS = {
         update: `/v1/factory/update`,
         list: `/v1/factory/list`,
         load: `/v1/factory/load`,
+        search: `/v1/factory/search`
     },
     subdivided: {
         delete: `/v1/subdivided/delete`,
