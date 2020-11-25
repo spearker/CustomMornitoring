@@ -22,7 +22,6 @@ interface Props {
 
 
 const MapEditorContiner = ({match}: Props) => {
-    console.log(match)
 
     const [index, setIndex] = useState({mapType: '지도 타입 선택 (사용처)'})
     const [subIndex, setSubIndex] = useState({name: '공장 내 기계 목록'})
@@ -125,7 +124,6 @@ const MapEditorContiner = ({match}: Props) => {
      */
     const addFile = useCallback(async (event: any): Promise<void> => {
 
-        console.log(event.target.files[0]);
         const tempFile = event.target.files[0];
         if (tempFile === undefined) {
             return;
@@ -258,7 +256,6 @@ const MapEditorContiner = ({match}: Props) => {
                                 <Slider value={v.bottom}
                                         orientation="vertical"
                                         onChange={(e: any, v: any) => {
-                                            console.log(v)
                                             const temp = [...componentList];
                                             temp[i].bottom = v;
                                             setComponentList(temp)
@@ -275,7 +272,6 @@ const MapEditorContiner = ({match}: Props) => {
                                     <p>{v.pk}</p>
                                     <Slider value={v.left}
                                             onChange={(e: any, v: any) => {
-                                                console.log(v)
                                                 const temp = [...componentList];
                                                 temp[i].left = v;
                                                 setComponentList(temp)
@@ -336,14 +332,12 @@ const MapEditorContiner = ({match}: Props) => {
                                                         checked={componentList.find(f => f.pk == v.pk) ? true : false}
                                                         contents={v}
                                                         onChangeEvent={(id: any) => { //@param : machine info
-                                                            console.log(id)
                                                             if (componentList.find(f => f.pk == id)) {
                                                                 const tempObj = componentList.find(f => f.pk == id);
                                                                 let temp = [...componentList].filter(f => f.pk !== tempObj.pk);
                                                                 setComponentList(temp);
                                                             } else {
                                                                 const tempObj = {pk: id, bottom: 0, left: 0}
-                                                                console.log(tempObj)
                                                                 let temp = [...componentList, tempObj];
                                                                 setComponentList(temp);
                                                             }

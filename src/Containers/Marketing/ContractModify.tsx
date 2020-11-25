@@ -68,10 +68,8 @@ const ContractModifyContainer = ({match}: Props) => {
             return;
         }
 
-        console.log(contractData)
         const tempUrl = `${API_URLS['contract'].update}`
         const resultData = await postContractModify(tempUrl, contractData);
-        console.log(contractData)
         history.goBack()
     }, [contractData])
 

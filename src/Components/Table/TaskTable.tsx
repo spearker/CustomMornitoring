@@ -142,10 +142,6 @@ const TaskTable = ({indexList, contents, keyName, onClickEvent, buttonName}: IPr
     }, [openTarget, task, process])
 
 
-    useEffect(() => {
-        console.log(Object.keys(indexList))
-    }, [])
-
     return (
         <TableWrap>
             <table>

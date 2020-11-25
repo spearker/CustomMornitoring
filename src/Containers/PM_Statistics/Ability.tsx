@@ -121,12 +121,10 @@ const AbilityContainer = () => {
     const getData = useCallback(async () => {
         setLoading(true)
         setPressLoading(true)
-        console.log('ap')
 
         const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&date=${selectDate}`
         const resultData = await getAbilityList(tempUrl)
 
-        console.log(resultData)
         setData(resultData.results)
 
         let dummylineList: number[][] = []
@@ -137,7 +135,6 @@ const AbilityContainer = () => {
             return null
         })
 
-        console.log(dummylineList)
 
         resultData.x_degree.map((v, i) => {
             dummyroundList.push([Number(v), Number(resultData.y_ton[i])])

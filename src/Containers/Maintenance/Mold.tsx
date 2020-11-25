@@ -47,7 +47,6 @@ const MoldMaintenanceContainer = () => {
     }, [])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)

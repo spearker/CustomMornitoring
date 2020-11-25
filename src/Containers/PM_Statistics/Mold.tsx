@@ -105,7 +105,6 @@ const MoldContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        console.log(page.current)
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=5`
         const res = await getMoldData(tempUrl)

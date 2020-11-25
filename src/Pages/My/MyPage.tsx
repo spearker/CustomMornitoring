@@ -123,7 +123,6 @@ const MyPage = () => {
      */
     const getTarget = useCallback(async () => {
 
-        console.log(User.email)
         const results = await getRequest('http://255.255.255.255:8299/api/v1/member/view?pk=' + encodeURIComponent(User.email), getToken(TOKEN_NAME))
 
         if (results === false) {
@@ -167,35 +166,27 @@ const MyPage = () => {
      * @returns X
      */
     const addFile = useCallback(async (event: any): Promise<void> => {
-        console.log(event.target.files[0])
 
         if (event.target.files[0] === undefined) {
             setFile(null)
             setPath(null)
             return
         }
-        console.log(event.target.files[0].type)
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
 
             setFile(event.target.files[0])
             const previewFile = URL.createObjectURL(event.target.files[0])
             setPreview(previewFile)
-            console.log(file)
             const temp = await uploadTempFile(event.target.files[0])
             if (temp === false) {
-                console.log(temp)
                 setPhoto(null)
                 setFile(null)
                 return
             } else {
-                console.log(temp)
                 setPath(temp)
 
-                console.log(previewFile)
                 setPreview(previewFile)
-                console.log(file)
-                console.log(file)
             }
 
 
@@ -208,9 +199,7 @@ const MyPage = () => {
     }, [file, photo, path])
 
     const setPreview = useCallback((blobUrl) => {
-        console.log('setPreview' + typeof blobUrl)
         setPhoto(blobUrl)
-        console.log(photo)
     }, [photo])
 
 

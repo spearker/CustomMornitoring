@@ -178,7 +178,6 @@ const CustomAbility = () => {
     // }, [list, selectPk])
 
     const mainOnClick = useCallback((v) => {
-        console.log(v.mold_pk)
         if (v.mold_pk === selectMold) {
             setSelectMold('')
             setSelectValue(null)
@@ -208,12 +207,10 @@ const CustomAbility = () => {
             let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
 
             await resultData.degree.map((v, i) => {
-                console.log(v)
                 dummylineList.push([Number(v), Number(resultData.standard_capacity[i])])
                 return null
             })
 
-            console.log(dummylineList)
             await resultData.error_range.map((v, i) => {
                 let tmpListTmp: number[][] = []
                 resultData.degree.map((v, j) => {
@@ -228,7 +225,6 @@ const CustomAbility = () => {
                 })
             })
 
-            console.log(dummyroundList)
             await setSeries([{
                 name: '기준 일량',
                 type: 'area',

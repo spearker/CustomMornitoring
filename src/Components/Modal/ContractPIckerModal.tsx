@@ -47,13 +47,9 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=1000`
         const resultData = await getMarketing(tempUrl);
-        console.log(resultData)
         setMachineList(resultData.info_list)
     }, [searchName])
 
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
 
 
     const handleClickBtn = () => {
@@ -130,10 +126,8 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                                                     <td>
                                                         <button
                                                             onClick={(e) => {
-                                                                console.log('asldkfjaslkdjflkjsf')
                                                                 setMachineName(v.customer_name)
 
-                                                                console.log(select && select.pk, v.pk)
                                                                 return onClickEvent(v)
                                                             }}
                                                             style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}

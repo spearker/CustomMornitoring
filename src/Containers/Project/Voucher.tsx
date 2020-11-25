@@ -146,7 +146,6 @@ const VoucherContainer = ({match}: Props) => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -194,7 +193,6 @@ const VoucherContainer = ({match}: Props) => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -250,7 +248,6 @@ const VoucherContainer = ({match}: Props) => {
 
         arrayDelete()
         getList()
-        console.log(res)
 
     }, [deletePk])
 

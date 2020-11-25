@@ -72,7 +72,6 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
             const id = data.pk.split('machine')[1]
             history.push(`/custom/dashboard/loadton/${id}`)
         } catch (error) {
-            console.log('error', error)
             alert('response error')
         }
     }, [])
@@ -94,7 +93,6 @@ const CustomDashboardIndex: React.FunctionComponent = () => {
             if (response.status === 401) {
                 return history.push('/login?type=back')
             } else if (response.status === 200) {
-                console.log('response', response)
 
                 setState(response.data)
             }

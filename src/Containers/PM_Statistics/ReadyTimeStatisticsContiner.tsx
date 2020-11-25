@@ -57,12 +57,10 @@ const ReadyTimeStatisticsContainer = () => {
   const getData = useCallback(async () => {
     const tempUrl = `${API_URLS['readyTime'].load}?pk=${selectComponent}&date=${selectDate}`
     const resultData = await getReadyTimeData(tempUrl)
-    console.log(resultData)
     setData(resultData)
   }, [data, pk, selectComponent, selectDate])
 
   useEffect(() => {
-    console.log(selectComponent)
     if (selectComponent !== '') {
       getData()
     }

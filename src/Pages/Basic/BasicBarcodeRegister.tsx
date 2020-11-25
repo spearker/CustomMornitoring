@@ -133,10 +133,6 @@ const BasicBarcodeRegister = ({match}: Props) => {
     }, [])
 
 
-    useEffect(() => {
-        console.log(match)
-    }, [])
-
     return (
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>

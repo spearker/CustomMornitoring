@@ -37,7 +37,6 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
     const [isDetail, setIsDetail] = useState('Inspection');
 
     useEffect(() => {
-        console.log(match.params.pk)
         /* if( match.params.pk ){
             alert(`수정 페이지 진입 - pk :` + match.params.pk + match.params.type)
 

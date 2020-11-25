@@ -68,11 +68,6 @@ const ProcessDetailRegisterContainer = () => {
             return window.alert('등록 공정 검색을 선택해주세요.')
         }
 
-        console.log({
-            processName,
-            processPKList
-        })
-
         return true
     }
 
@@ -80,7 +75,6 @@ const ProcessDetailRegisterContainer = () => {
         if (validationCheck()) {
             const tempUrl = `${API_URLS['segment'].register}`
             const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList})
-            console.log(resultData)
 
             if (resultData.status === 200) {
                 history.goBack()
@@ -99,7 +93,6 @@ const ProcessDetailRegisterContainer = () => {
 
 
     const onSearch = () => {
-        console.log('process', searchData)
         getSearchProcessList()
         if (searchData && searchData !== '') {
             const target: IDetailRegister[] = []

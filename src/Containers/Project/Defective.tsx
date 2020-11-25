@@ -87,7 +87,6 @@ const DefectiveContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -109,7 +108,7 @@ const DefectiveContainer = () => {
         }
         const tempUrl = `${API_URLS['defective'].delete}`
         const res = await postProjectDelete(tempUrl, {pk: deletePk.pk[0]})
-        console.log(res)
+
 
         arrayDelete()
         getList()
@@ -117,7 +116,6 @@ const DefectiveContainer = () => {
     }, [deletePk])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectValue(null)

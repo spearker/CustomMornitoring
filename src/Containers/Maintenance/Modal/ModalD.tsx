@@ -35,7 +35,6 @@ const ModalD: React.FunctionComponent<Props> = ({ isOpen, modals, setOpen }) => 
                 }
             }}
         >
-            {console.log(modals.modified)}
             <div style={{ width: 900, height: 364, display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column' }}>
                 <div style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: 'solid', borderBottomColor: '#b3b3b3', borderBottomWidth: 0.5,

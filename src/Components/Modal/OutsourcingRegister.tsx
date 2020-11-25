@@ -40,13 +40,9 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     const getList = useCallback(async () => {
         const tempUrl = searchName === '' ? `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000&keyword=` : `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000&keyword=${searchName}`
         const resultData = await getSearchOutsourcing(tempUrl);
-        console.log(resultData)
         setMachineList(resultData)
     }, [searchName])
 
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
 
 
     const handleClickBtn = () => {

@@ -56,9 +56,6 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
         setPage({current: resultData.current_page, total: resultData.total_page})
     }, [searchName, page])
 
-    useEffect(() => {
-        console.log(searchName)
-    }, [searchName])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen)

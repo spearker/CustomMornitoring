@@ -48,10 +48,6 @@ const ScheduleContainer = () => {
     const [selectValue, setSelectValue] = useState<any>(null)
     const history = useHistory()
 
-    useEffect(() => {
-        console.log(selectPk)
-    }, [selectPk])
-
 
     const indexList = {
         schedule: {
@@ -92,7 +88,7 @@ const ScheduleContainer = () => {
         {
             Name: '생산 계획 배포',
             Width: 130,
-            Link: () => getDistribute()
+            Link: () => console.log(selectValue)
         }
     ]
 
@@ -129,7 +125,7 @@ const ScheduleContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
+
                 })
         }
     }, [deletePk])
@@ -242,9 +238,10 @@ const ScheduleContainer = () => {
         //TODO: 성공시
 
         const tempUrl = `${API_URLS['production'].distribute}?pk=${sendPk}`
-        const res = getProjectList(tempUrl)
-
-        history.push('/project/chit/register')
+        const res = getProjectList(tempUrl).then((res) => {
+            if (res)
+                getList()
+        })
 
     }, [sendPk])
 
@@ -254,17 +251,12 @@ const ScheduleContainer = () => {
             return
         }
         const tempUrl = `${API_URLS['production'].delete}`
-        console.log('@@삭제pk배열 : ', deletePk.pk)
         const res = await postProjectDelete(tempUrl, deletePk)
-        console.log(res)
 
         arrayDelete()
         getList()
     }, [deletePk])
 
-    useEffect(() => {
-        console.log(deletePk)
-    }, [deletePk.pk])
 
     // const resetDeletePk = useCallback(()=>{
     //   const tempDeletePk = {...deletePk,pk:[]}

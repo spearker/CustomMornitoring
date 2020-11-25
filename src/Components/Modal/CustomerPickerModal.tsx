@@ -39,15 +39,10 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) =>
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getCustomerData(tempUrl);
-        console.log(resultData)
         setMachineList(resultData.info_list)
         setPage({ current: resultData.current_page, total: resultData.total_page })
 
     }, [searchName, page])
-
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
 
 
     const handleClickBtn = () => {

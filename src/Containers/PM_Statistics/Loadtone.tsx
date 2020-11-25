@@ -123,14 +123,12 @@ const LoadtoneContiner = () => {
   const getData = useCallback(async () => {
     const tempUrl = `${API_URLS2['loadTon'].load}?pk=${selectMachine}&date=${selectDate}`
     const resultData = await getCapacityTimeData(tempUrl)
-    console.log(resultData)
-    setOverTon(resultData)
+  setOverTon(resultData)
 
     const seriesList = resultData.y_average.map((v, i) => {
       return Number(v).toFixed(1)
     })
 
-    console.log(seriesList)
 
     setSeries([{name: 'LoadTone', data: seriesList}])
   }, [selectMachine, selectDate])
@@ -138,7 +136,6 @@ const LoadtoneContiner = () => {
   const getList = useCallback(async () => {
     const tempUrl = `${API_URLS['pressList'].list}`
     const resultData = await getCapacityTimeData(tempUrl)
-    console.log(resultData)
     setPressList(resultData)
 
   }, [])

@@ -31,7 +31,6 @@ const QualityTestRequest = ({match}: Props) => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log(match.params.pk)
         if (match.params.pk) {
             // alert(`수정 페이지 진입 - pk :` + match.params.pk)
             setIsUpdate(true)
@@ -62,10 +61,6 @@ const QualityTestRequest = ({match}: Props) => {
 
     }, [processData, machineData, productionData, total_count, reason, worker])
 
-    useEffect(() => {
-        console.log(processData)
-        console.log(machineData)
-    }, [processData])
 
     const postQualityRegisterData = useCallback(async () => {
 

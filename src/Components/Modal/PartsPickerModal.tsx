@@ -47,7 +47,6 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=${page.current}&type=0&limit=1000`
         const resultData = await getSearchMachine(tempUrl);
-        console.log(resultData)
         setMachineList(resultData.info_list)
 
         setPage({ current: resultData.current_page, total: resultData.total_page })

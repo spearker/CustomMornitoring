@@ -60,7 +60,6 @@ const ProcessListContainer = () => {
     }
 
     const onClick = useCallback((process) => {
-        console.log('dsfewfewf', process.type)
         if (process.pk === selectPk) {
             setSelectPk(null)
             setSelectProcess(null)
@@ -108,7 +107,6 @@ const ProcessListContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -124,14 +122,12 @@ const ProcessListContainer = () => {
     }, [deletePk])
 
     const postDelete = useCallback(async () => {
-        console.log(deletePk.pk)
         if (deletePk.pk.length <= 0) {
             alert('삭제하실 항목을 선택해 주세요.')
             return
         }
         const tempUrl = `${API_URLS['process'].delete}`
         const res = await postProcessDelete(tempUrl, deletePk)
-        console.log(res)
 
         arrayDelete()
         getList()
@@ -146,7 +142,7 @@ const ProcessListContainer = () => {
             const processType = transferCodeToName('process', res.type)
             return {...v, type: processType + ' ' + (i + 1) + '차'}
         })
-        console.log(getprocesses)
+
         setDetailList(getprocesses)
 
     }, [detailList])

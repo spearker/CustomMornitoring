@@ -68,9 +68,7 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(() => {
-        console.log(select)
-    }, [select])
+
 
     return (
         <div>

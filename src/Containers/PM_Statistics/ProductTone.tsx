@@ -99,7 +99,6 @@ const ProductToneContainer = () => {
 
 
     const onClick = useCallback((product, index) => {
-        // console.log('dsfewfewf',product.pk,product.mold_name);
         if (selectPk === index) {
             setSelectPk(null)
             setSelectMold(null)

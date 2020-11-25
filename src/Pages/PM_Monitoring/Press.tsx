@@ -48,18 +48,15 @@ const PressMonitoring = () => {
    */
   const getList = useCallback(async () => {
     if (document.hidden) { // Opera 12.10 and Firefox 18 and later support
-      console.log('-- hidden browser -- ')
       //setCount(999)
       return
     }
 
-    console.log('-- monitoring data load -- ')
     const tempUrl = `${API_URLS['press'].monitoring}`
     const resultData = await getLoadTonList(tempUrl)
     setIsFirstLoad(true)
     const data = resultData
     setList(data)
-    console.log('data', data)
     if (data && data.info_list) {
       const arr = data[0].info_list!.map((v, i) => {
         return (v['title'])
@@ -82,7 +79,6 @@ const PressMonitoring = () => {
     }, 3000)
 
     return () => {
-      console.log('-- monitoring end -- ')
       clearTimeout(interval)
     }
   }, [])
@@ -172,10 +168,8 @@ const PressMonitoring = () => {
                                               onClickEvent={() => {
                                                 if (openList.indexOf(v.pk) !== -1) { // 열렸으면
                                                   setOpenList(openList.filter(f => f !== v.pk))
-                                                  console.log('추가' + v.pk)
                                                 } else {// 닫혔으면
                                                   setOpenList(openList.concat(v.pk))
-                                                  console.log('삭제' + v.pk)
                                                 }
                                               }}
                                               isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>
@@ -191,10 +185,8 @@ const PressMonitoring = () => {
                                               onClickEvent={() => {
                                                 if (openList.indexOf(v.pk) !== -1) { // 열렸으면
                                                   setOpenList(openList.filter(f => f !== v.pk))
-                                                  console.log('추가' + v.pk)
                                                 } else {// 닫혔으면
                                                   setOpenList(openList.concat(v.pk))
-                                                  console.log('삭제' + v.pk)
                                                 }
                                               }}
                                               isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>

@@ -18,10 +18,8 @@ const ChartInitOptions = {
         },
         events: {
             click: function (chart, w, e) {
-                console.log(chart, w, e)
             },
             beforeMount: (chartContext, config) => {
-                console.log(chartContext, config)
             }
         }
     },
@@ -108,7 +106,7 @@ const PMCapacityStaticsContainer = () => {
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    
+
 
     /**
      * getData()
@@ -173,7 +171,6 @@ const PMCapacityStaticsContainer = () => {
                             없습니다. </p></p>) :
                     pressList.map((v, i) => {
 
-                        console.log(series[0])
                         if (selectMachine === v.pk) {
                             return (<ChartBorderMiniBox>
                                 <div style={{
@@ -244,7 +241,6 @@ const PMCapacityStaticsContainer = () => {
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
-                        {console.log("datafladkjlkajsdlkfjlkadsjfljskljdslfjlk")}
                         <div style={{marginTop: 25, paddingBottom: 23}}>
                             <div>
                                 <div style={{float: "left", display: "inline-block"}}>

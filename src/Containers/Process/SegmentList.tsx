@@ -85,7 +85,6 @@ const SegmentListContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -133,7 +132,6 @@ const SegmentListContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -175,7 +173,6 @@ const SegmentListContainer = () => {
         // process_pk: "v1_SIZL_process_0_null_단발 공정"
         // process_type: "0"
         const getprocesses = res.processes.map((v, i) => {
-            console.log(v.process_type)
             const processType = transferCodeToName('process', Number(v.process_type))
             const machine_name = v.machines.map((v, i) => {
                 return v.machine_name

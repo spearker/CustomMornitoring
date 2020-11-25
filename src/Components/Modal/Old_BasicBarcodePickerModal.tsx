@@ -60,9 +60,7 @@ const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
-        console.log(select)
-    },[select])
+
 
     return (
         <div>

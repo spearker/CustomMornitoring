@@ -205,8 +205,6 @@ const CompanySetting = () => {
 
     const onClickMotherTeam = useCallback((id) => {
 
-        console.log('--select id : ' + id)
-
     }, [])
 
     /**

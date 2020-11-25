@@ -102,10 +102,8 @@ const BasicPartsRegister = () => {
                 setLocation([{pk: data.location_pk, name: data.location_name}])
                 setCost(data.parts_cost)
                 setName(data.parts_name)
-                console.log(data.parts_type_name)
                 setPartsName(data.parts_type_name)
-                console.log(partsPkList)
-                console.log(partsList.indexOf(data.parts_type_name))
+
             } else {
                 //TODO:  기타 오류
             }
@@ -114,7 +112,6 @@ const BasicPartsRegister = () => {
 
 
     const onsubmitFormUpdate = useCallback(async () => {
-        console.log(type)
 
         if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
@@ -267,7 +264,6 @@ const BasicPartsRegister = () => {
         } else {
             if (res.status === 200) {
                 //alert('성공적으로 등록 되었습니다')
-                console.log('partsList[type]', partsList[partsList.length - 2], partsList)
                 // setPartsName(partsList[partsList.length - 2])
                 await partsListLoad()
                 setType(partsList.length - 2)

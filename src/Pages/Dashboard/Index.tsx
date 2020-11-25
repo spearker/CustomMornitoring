@@ -81,7 +81,6 @@ const Dashboard = () => {
      * @returns X
      */
     const onClickChangeDay = useCallback((day) => {
-        console.log(day)
         setTargetDate(day)
     }, [targetDate])
 
@@ -162,7 +161,6 @@ const Dashboard = () => {
      */
     const onClickChangePage = useCallback((index: number) => {
         ////alert(page + ' -> ' + index)
-        console.log(index)
         if (stock < 7) {
             ////alert('미만')
             return
@@ -172,7 +170,6 @@ const Dashboard = () => {
             return
         }
         setPage(index)
-        console.log(index)
         getStatus(index)
         //getStatus(index)
     }, [page, stock])

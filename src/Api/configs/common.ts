@@ -16,7 +16,6 @@ client.defaults.baseURL = SF_ENDPOINT
 client.interceptors.response.use(function (response) {
 
 
-  console.log(response.data.status)
   const returnError = getErrorCase(response.data.status)
 
   if (returnError) {

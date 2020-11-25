@@ -35,6 +35,7 @@ const NewBasicMaterialRegister = () => {
     const [optional, setOptional] = useState<any[]>([])
 
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const [isDetail, setIsDetail] = useState<boolean>(false)
     const [pk, setPk] = useState<string>('')
     const indexList = getMaterialTypeList('kor')
     const [inputData, setInputData] = useObjectInput('CHANGE', {
@@ -187,16 +188,15 @@ const NewBasicMaterialRegister = () => {
 
     return (
         <DashboardWrapContainer index={'basic'}>
-
             <InnerBodyContainer>
-                <Header title={isUpdate ? '품목 정보수정' : '품목 정보등록'}/>
+                <Header title={isUpdate ? '품목 정보수정' : '품목 기본정보 등록'}/>
                 <WhiteBoxContainer>
                     {
                         // document.id !== '' || isUpdate == true?
                         <div>
                             <ListHeader title="필수 항목"/>
                             <RadioInput title={'품목 종류'} target={type} onChangeEvent={isUpdate ? null : setType}
-                                        opacity={true}
+                                        opacity={isUpdate}
                                         contents={[{value: 0, title: '원자재'}, {value: 1, title: '반제품'}, {
                                             value: 2, title: '부자재'
                                         }, {value: 3, title: '완제품'}]}/>

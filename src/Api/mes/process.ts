@@ -11,7 +11,6 @@ import client from '../configs/basic';
  */
 export const postProcessDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.status);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -29,7 +28,7 @@ export const postProcessDelete = async (url: string, object: object) => {
  */
 export const getProcessList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
+
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -48,7 +47,7 @@ export const getProcessList = async (url: string) => {
  */
 export const getSegmentList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
+
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -67,7 +66,7 @@ export const getSegmentList = async (url: string) => {
  */
 export const postSegmentDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.results);
+
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return

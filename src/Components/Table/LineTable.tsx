@@ -52,7 +52,6 @@ const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, al
                 }
                 {contentTitle !== undefined ?
                     Object.keys(contentTitle).map((v, i) => {
-                        console.log(v)
                         return (
                             <p key={v} className="p-limits">{contentTitle[v]}</p>
                         )

@@ -10,7 +10,6 @@ import client from '../configs/basic';
  */
 export const getPowerList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -28,7 +27,6 @@ export const getPowerList = async (url: string) => {
  */
 export const getAbilityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -46,7 +44,6 @@ export const getAbilityList = async (url: string) => {
  */
 export const getOilSupplyData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -64,7 +61,6 @@ export const getOilSupplyData = async (url: string) => {
  */
 export const getReadyTimeData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -82,7 +78,6 @@ export const getReadyTimeData = async (url: string) => {
  */
 export const getLoadTonData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -101,7 +96,6 @@ export const getLoadTonData = async (url: string) => {
 
 export const getErrorData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -120,7 +114,6 @@ export const getErrorData = async (url: string) => {
 
 export const getDefectiveData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -139,7 +132,6 @@ export const getDefectiveData = async (url: string) => {
 
 export const getProductData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return

@@ -109,7 +109,6 @@ const CurrentContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -125,7 +124,6 @@ const CurrentContainer = () => {
     }, [deletePk])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -160,11 +158,8 @@ const CurrentContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        console.log(pk)
         const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
         const res = await getMoldList(tempUrl)
-
-        console.log([res])
 
         const Detail = [res].map((v, i) => {
             const status = v.status === 'WAIT' ? '진행중' : '완료'
@@ -211,9 +206,7 @@ const CurrentContainer = () => {
     }, [page.current])
 
 
-    useEffect(() => {
-        console.log(detailList)
-    }, [detailList])
+
 
     useEffect(() => {
         getList()

@@ -70,8 +70,6 @@ const ClientContainer = () => {
                     if (mySet.size < deletePk.pk.length) {
                         deletePk.pk.shift()
                     }
-
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -150,7 +148,6 @@ const ClientContainer = () => {
         const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option + 1}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
-        console.log('response', res)
         setList(res.info_list)
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove();

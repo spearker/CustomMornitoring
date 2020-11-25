@@ -35,8 +35,6 @@ const CustomAnalysisLoadTon = ({color, propData, overTonCheck, tonnage_limit, st
 
     useEffect(() => {
 
-        console.log('propData@@@@@@@@@@@@@@@@@@propData', propData)
-
         if (propData) {
             if (propData.capacity_point !== undefined) {
                 setData({

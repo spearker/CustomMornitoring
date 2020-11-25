@@ -107,8 +107,6 @@ const StockList = () => {
     const onClickDelete = useCallback(async (id) => {
 
         const results = await postRequest('http://255.255.255.255:8299/api/v1/material/delete', {pk: id}, getToken(TOKEN_NAME))
-
-        console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {

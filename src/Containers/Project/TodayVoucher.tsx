@@ -98,7 +98,6 @@ const TodayVoucherContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -146,7 +145,6 @@ const TodayVoucherContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -202,7 +200,6 @@ const TodayVoucherContainer = () => {
 
         arrayDelete()
         getList()
-        console.log(res)
 
     }, [deletePk])
 

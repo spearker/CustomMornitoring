@@ -107,7 +107,6 @@ const WipContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
@@ -156,7 +155,6 @@ const WipContainer = () => {
     ]
 
     const selectBox = useCallback((value) => {
-        console.log(value)
         if (value === '반제품') {
             setFilter(10)
         } else if (value === '공정품') {

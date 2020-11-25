@@ -109,7 +109,6 @@ const NewRawMaterialContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
@@ -140,7 +139,6 @@ const NewRawMaterialContainer = () => {
     }, [detailList, detailPage])
 
     const selectBox = useCallback((value) => {
-        console.log(value)
         if (value === '원자재') {
             setFilter(0)
         } else if (value === '부자재') {

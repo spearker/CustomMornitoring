@@ -54,13 +54,10 @@ export const getRequest = async (url: string, token: string): Promise<any> => {
  * @returns 리턴데이터, 요청실패(false)
  */
 export const postRequestWithNoToken = async (url: string, data: object): Promise<any> => {
-    console.log('try--request');
 
     const returnValue = await Axios.post(url, data)
     .then(function (res) {
 
-      console.log(res);
-      console.log('accept--res : ' + res);
       return res.data
     })
     .catch(function (error) {
@@ -79,10 +76,8 @@ export const postRequestWithNoToken = async (url: string, data: object): Promise
  * @returns 리턴데이터, 요청실패(false)
  */
 export const getRequestWithNoToken = async (url: string) => {
-    console.log('try--request');
     const returnValue = await Axios.get(url)
     .then(function (res: IServerResponse) {
-      console.log('accept--res : ' + res);
       return res.data
     })
     .catch(function (error) {

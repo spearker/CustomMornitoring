@@ -63,7 +63,6 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
     setIsOpen(!isOpen)
   }
   useEffect(() => {
-    console.log(select)
     getList()
   }, [select])
 

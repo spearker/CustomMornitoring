@@ -49,7 +49,6 @@ const chartOption = {
         hour: 'HH:mm'
       },
       formatter: (v, datatime, index) => {
-        console.log(index)
         return v
       }
     }
@@ -115,7 +114,6 @@ const OilSupplyContainer = () => {
   const getData = useCallback(async () => {
     setPressLoading(true)
     const tempUrl = `${API_URLS['oilSupply'].load}?pk=${selectComponent}&date=${date}`
-    console.log(tempUrl)
     const resultData = await getOilSupplyData(tempUrl)
     let XaxisData = resultData.insert_oil_time.Xaxis
 

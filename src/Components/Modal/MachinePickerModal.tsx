@@ -52,9 +52,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled}: I
     setPage({current: resultData.current_page, total: resultData.total_page})
   }, [searchName, page])
 
-  useEffect(() => {
-    console.log(searchName)
-  }, [searchName])
+
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)

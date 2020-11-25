@@ -43,12 +43,10 @@ const FullMonitoring = () => {
      */
     const getList = useCallback(async () => {
         if (document.hidden) { // Opera 12.10 and Firefox 18 and later support
-            console.log('-- hidden browser -- ')
             //setCount(999)
             return
         }
 
-        console.log('-- monitoring data load -- ')
         const res = await getRequest(`http://255.255.255.255:8299/api/v1/monitoring?type=press&from=mobile`, getToken(TOKEN_NAME))
         setIsFirstLoad(true)
         if (res === false) {
@@ -60,7 +58,6 @@ const FullMonitoring = () => {
                 const data = res.results
                 setList(data)
                 ////alert(data.info_list);
-                console.log(data.info_list)
                 const arr = data[0].info_list.map((v, i) => {
                     return (v['title'])
                 })
@@ -159,10 +156,8 @@ const FullMonitoring = () => {
                                                          onClickEvent={() => {
                                                              if (openList.indexOf(v.pk) !== -1) { // 열렸으면
                                                                  setOpenList(openList.filter(f => f !== v.pk))
-                                                                 console.log('추가' + v.pk)
                                                              } else {// 닫혔으면
                                                                  setOpenList(openList.concat(v.pk))
-                                                                 console.log('삭제' + v.pk)
                                                              }
                                                          }}
                                                          isOpen={openList.indexOf(v.pk) == -1 ? false : true}/>

@@ -9,13 +9,11 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer'
 const ServiceDesk = () => {
     const [count1, setCount1] = useState(0)
     const increment1 = useCallback(() => {
-        console.log('rander...')
         setCount1(c => c + 1)
     }, [count1])
     const [str, setStr] = useState<string>('')
     const [count2, setCount2] = useState(0)
     const increment2 = () => {
-        console.log('rander...2')
         setCount2(c => c + 1)
     }
 

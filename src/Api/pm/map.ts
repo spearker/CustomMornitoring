@@ -13,7 +13,6 @@ export const getMonitoringMapData = async (url: string) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results!;
 }
 
@@ -30,7 +29,6 @@ export const getMapListData = async (url: string) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results!;
 }
 

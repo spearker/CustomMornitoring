@@ -14,7 +14,6 @@ const chartOption = {
         type: 'area',
         events: {
             beforeZoom: (e, {xaxis}) => {
-                console.log(e, xaxis)
                 if (xaxis.min < 0 || xaxis.max > 360) {
                     return {
                         xaxis: {
@@ -136,24 +135,19 @@ const AbilityContainer = () => {
         setLoading(true)
         setPressLoading(true)
 
-        console.log('ap')
-
         const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&fromDate=${selectDate}&toDate=${selectDate}`
         const resultData = await getAbilityList(tempUrl)
 
-        console.log(resultData)
         setData(resultData)
 
         let dummylineList: number[][] = []
         let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
 
         await resultData.x_degree.map((v, i) => {
-            console.log(v)
             dummylineList.push([Number(v), Number(resultData.y_capacity[i])])
             return null
         })
 
-        console.log(dummylineList)
         await resultData.info_list.map((v, i) => {
             let tmpListTmp: number[][] = []
             let errorList: number[][] = []
@@ -183,7 +177,6 @@ const AbilityContainer = () => {
     }, [data, selectComponent, selectDate])
 
     useEffect(() => {
-        console.log('selectDate', selectDate)
         if (selectComponent) {
             getData()
         }

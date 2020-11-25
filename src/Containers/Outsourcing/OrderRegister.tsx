@@ -121,7 +121,6 @@ const OutsourcingRegister = ({match}: Props) => {
      * @returns X
      */
     const onsubmitFormUpdate = useCallback(async () => {
-            console.log(quantity)
 
             if (selectOutsource?.pk === '') {
                 alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
@@ -172,9 +171,6 @@ const OutsourcingRegister = ({match}: Props) => {
         [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData]
     )
 
-    useEffect(() => {
-        console.log(selectMaterial)
-    }, [selectMaterial])
     /**
      * onsubmitForm()
      * 기계 정보 등록
@@ -222,7 +218,6 @@ const OutsourcingRegister = ({match}: Props) => {
             payment_condition: paymentCondition,
             address: inputData.location
         }
-        console.log(inputData.location)
 
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/register`, data, getToken(TOKEN_NAME))
 

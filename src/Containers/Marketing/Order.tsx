@@ -71,7 +71,6 @@ const OrderContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -92,7 +91,6 @@ const OrderContainer = () => {
             key: pk
         })
 
-        console.log(res)
         getList()
 
     }

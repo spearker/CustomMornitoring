@@ -17,7 +17,6 @@ export const uploadTempFile = async (data: Blob) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results;
 }
 

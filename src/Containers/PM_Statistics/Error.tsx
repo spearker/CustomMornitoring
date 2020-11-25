@@ -50,7 +50,6 @@ const ErrorContainer = () => {
   }
 
   const onClick = useCallback((machine, i) => {
-    console.log(machine.pressPk, machine.pressName)
     if (selectIndex === i) {
       setSelectPk(null)
       setSelectMachine(null)

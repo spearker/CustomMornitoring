@@ -132,7 +132,6 @@ const DefectiveContainer = () => {
     ]
 
     const onClick = useCallback((mold, index) => {
-        console.log('dsfewfewf', index, selectIndex)
         if (index === selectIndex) {
             // setSelectPk(null)
             // setSelectMold(null)
@@ -151,7 +150,6 @@ const DefectiveContainer = () => {
     }, [list, selectPk, selectIndex])
 
     useEffect(() => {
-        console.log(selectValue, selectDate)
         if (selectValue) {
             getData(selectValue.material_pk)
         }
@@ -162,12 +160,10 @@ const DefectiveContainer = () => {
         const tempUrl = `${API_URLS['defective'].load}?pk=${pk}&from=${selectDate.start}&to=${selectDate.end}`
         const res = await getDefectiveData(tempUrl)
 
-        console.log(res)
 
         setDetailList(res)
 
         let tmpArray = res.amounts.map((v) => {
-            console.log(v)
             let value = 0
             if (v !== 0 && res.total_production !== 0) {
                 value = Math.round(v / res.total_production * 10000) / 100
@@ -176,7 +172,6 @@ const DefectiveContainer = () => {
             return value
         })
 
-        console.log(tmpArray)
 
         //@ts-ignore
         setLabels([...res.dates])
