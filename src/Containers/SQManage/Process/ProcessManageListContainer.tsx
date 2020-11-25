@@ -10,7 +10,7 @@ import OptimizedHeaderBox from '../../../Components/Box/OptimizedHeaderBox'
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 
-const MoldManageListContainer = () => {
+const ProcessManageListContainer = () => {
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
@@ -26,12 +26,10 @@ const MoldManageListContainer = () => {
   const history = useHistory()
 
   const indexList = {
-    sqMold: {
-      name: '거래처 명',
-      type: '금형 종류',
-      max: '최대 타수',
-      current: '현재 타수',
-      location: '기본위치'
+    sqProcess: {
+      name: '공정명',
+      type: ['공정 타입', '단발', '라인'],
+      state: '현황',
     }
   }
 
@@ -158,7 +156,7 @@ const MoldManageListContainer = () => {
       Name: '등록하기',
       Width: '96px',
       Link: () => {
-        history.push('/sq/manage/moldregister')
+        history.push('/sq/manage/processregister')
       }
     },
     {
@@ -175,21 +173,24 @@ const MoldManageListContainer = () => {
 
   useEffect(() => {
     getList()
-    setIndex(indexList['sqMold'])
+    setIndex(indexList['sqProcess'])
     setTitleEventList(titleeventdummy)
     setEventList(eventdummy)
   }, [])
 
   return (
     <div>
-      <OptimizedHeaderBox title={'금형 SQ 인증 관리'} searchButtonOnClick titleOnClickEvent={titleButtons}/>
+      <OptimizedHeaderBox title={'공정 SQ 인증 관리'} searchButtonOnClick={() => {
+      }} titleOnClickEvent={titleButtons}/>
       <OptimizedTable
-        widthList={['296px', '128px', '152px', '152px', '152px']}
+        widthList={['296px', '128px', '152px']}
         allCheckOnClickEvent={allCheckOnClick}
         indexList={index}
         valueList={list}
         currentPage={page.current}
         totalPage={page.total}
+        selectBoxChange={() => {
+        }}
         pageOnClickEvent={(event, i) => setPage({...page, current: i})}
         checkOnClickEvent={checkOnClick}
         noChildren={true}>
@@ -198,4 +199,4 @@ const MoldManageListContainer = () => {
   )
 }
 
-export default MoldManageListContainer
+export default ProcessManageListContainer

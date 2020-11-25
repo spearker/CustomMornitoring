@@ -23,6 +23,10 @@ import MapListPage from '../Pages/map/MapListPage'
 import QualityTestRequest from '../Pages/Quality/QualityTestRequest'
 import CreateMember from '../Pages/Manage/CreatMember'
 import MoldManageList from '../Pages/SQManage/Mold/MoldManageList'
+import MoldManageInput from '../Pages/SQManage/Mold/MoldManageInputContainer'
+import ProcessManageList from '../Pages/SQManage/Process/ProcessManageList'
+import ProcessManageInput from '../Pages/SQManage/Process/ProcessManageInput'
+import NewProcessRegister from '../Pages/Process/NewProcess'
 
 
 const JunheeRouters = () => {
@@ -30,6 +34,8 @@ const JunheeRouters = () => {
   return (
     <div>
       <Switch>
+        {/*신 공정관리*/}
+        <Route exact path={'/basic/new/list/process/register'} component={NewProcessRegister}/>
         {/*인사관리*/}
         <Route exact path="/manage/member/create" component={CreateMember}/>
         {/* 외주관리 */}
@@ -69,6 +75,9 @@ const JunheeRouters = () => {
         <Route path="/map/update/:company/:factory/:type" component={MapEditer}/>
         {/*SQ 인증 관리*/}
         <Route path="/sq/manage/mold" component={MoldManageList}/>
+        <Route path="/sq/manage/process" component={ProcessManageList}/>
+        <Route path="/sq/manage/moldregister" component={MoldManageInput}/>
+        <Route path="/sq/manage/processregister" component={ProcessManageInput}/>
       </Switch>
     </div>
   )

@@ -3,6 +3,7 @@ import Styled from 'styled-components'
 import OvertonTable from '../../../Components/Table/OvertonTable'
 import {API_URLS, getCustomerData, postCustomerDelete} from '../../../Api/mes/customer'
 import {useHistory} from 'react-router-dom'
+//@ts-ignore
 import Notiflix from 'notiflix'
 import OptimizedTable from '../../../Components/Table/OptimizedTable'
 import OptimizedHeaderBox from '../../../Components/Box/OptimizedHeaderBox'
@@ -10,7 +11,7 @@ import OptimizedHeaderBox from '../../../Components/Box/OptimizedHeaderBox'
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 
-const MoldManageListContainer = () => {
+const MaterialManageListContainer = () => {
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
@@ -198,4 +199,4 @@ const MoldManageListContainer = () => {
   )
 }
 
-export default MoldManageListContainer
+export default MaterialManageListContainer

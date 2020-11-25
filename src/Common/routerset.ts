@@ -156,10 +156,10 @@ export const MES_MENU_LIST = {
     //   { name : '표준 항목 관리', url : '/comingsoon'},
     //   { name : '표준 문서 관리', url : '/comingsoon'},
   ],
-  manage: [
-    {name: '인사 관리', url: '/manage/member/create'}, //상위메뉴
-    {name: '사용자 정보 등록', url: '/manage/member/create'},
-  ],
+  // manage: [
+  //   {name: '인사 관리', url: '/manage/member/create'}, //상위메뉴
+  //   {name: '사용자 정보 등록', url: '/manage/member/create'},
+  // ],
   customer: [
     {name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
     {name: '거래처 리스트', url: '/customer/current/list'},
