@@ -9,6 +9,7 @@ interface Props {
     indexList: any
     valueList: any[]
     EventList?: any[]
+    alignList?: any[]
     allCheckOnClickEvent?: any
     checkOnClickEvent?: any
     clickValue?: object
@@ -23,7 +24,7 @@ interface Props {
 }
 
 
-const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
+const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthList, indexList, valueList, EventList, alignList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
     const [checked, setChecked] = useState<any[]>([])
 
     React.useEffect(() => {
@@ -125,7 +126,7 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
             {
                 valueList !== undefined && valueList.length === 0
                     ? (
-                        <ValueBar style={{backgroundColor: '#111319'}}>
+                        <ValueBar style={{backgroundColor: '#111319', borderRadius: '0 0 6px 6px'}}>
                             <p style={{
                                 width: '100%', textAlign: 'center', opacity: 0.3,
                                 fontFamily: 'NotoSansCJKkr',
@@ -147,7 +148,9 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                         return (
                             <ValueBar key={i}
                                       style={{
-                                          backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                                          backgroundColor: clickValue === v ? '#19b9df' : '#111319',
+                                          borderTop: 0 === i ? '0.5px solid #353b48' : '0.5px solid #353b4850',
+                                          borderBottom: valueList.length === i + 1 ? '0.5px solid #353b48' : ''
                                       }}>
                                 {
                                     checkOnClickEvent ?
@@ -185,7 +188,8 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                                                 <LimitSelect style={{
                                                     width: widthList[mi],
                                                     backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
-                                                    borderColor: clickValue === v ? '#19b9df' : '#353b48'
+                                                    borderColor: clickValue === v ? '#19b9df' : '#353b48',
+                                                    textAlign: alignList === undefined ? 'left' : alignList[mi],
                                                 }}>
                                                     <option value={''}>선택</option>
                                                     {
@@ -201,7 +205,8 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                                                         style={{
                                                             width: widthList[mi],
                                                             fontFamily: 'NotoSansCJKkr',
-                                                            fontSize: '18px'
+                                                            fontSize: '18px',
+                                                            textAlign: alignList === undefined ? 'left' : alignList[mi],
                                                         }}
                                                         onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                                                 >
@@ -239,8 +244,6 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                                         )
                                     })
                                 }
-
-
                             </ValueBar>
 
                         )
@@ -288,8 +291,7 @@ const TitleBar = Styled.div`
 const ValueBar = Styled.div`
     display: flex;
     flex-direction: row;
-    border-radius:  0 0 6px 6px;
-    background-color: #353b48;
+    background-color: #111319;
     width: 100%;
     max-height: 50px;
     min-height: 50px;
@@ -323,7 +325,10 @@ const ButtonBox = Styled.button`
 
 
 const PaginationBox = Styled.div`
-    padding-top: 10pt;
+    padding-top: 24pt;
+    padding-bottom: 16pt;
+    border-radius: 0 0 6px 6px;
+    background-color: #111319;
     display: flex;
     justify-content: center;
     .MuiButtonBase-root {

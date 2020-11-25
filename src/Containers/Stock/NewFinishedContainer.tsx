@@ -12,6 +12,7 @@ import OptimizedTable from "../../Components/Table/OptimizedTable";
 import BlackChildrenBox from "../../Components/Box/BlackChildrenBox";
 import InAndOutTable from "../../Components/Table/InAndOutTable";
 import InAndOutHeader from "../../Components/Box/InAndOutHeader";
+import moment from "moment";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -24,6 +25,7 @@ const NewFinishedContainer = () => {
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
+    const [selectTitle, setSelectTitle] = useState<number>(0);
     const [subIndex, setSubIndex] = useState({writer: "작성자"})
     const [filter, setFilter] = useState(30)
     const [page, setPage] = useState<PaginationInfo>({
@@ -32,6 +34,8 @@ const NewFinishedContainer = () => {
     const [detailPage, setDetailPage] = useState<PaginationInfo>({
         current: 1
     })
+    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
+
     const history = useHistory()
 
     const indexList = {
@@ -124,7 +128,9 @@ const NewFinishedContainer = () => {
                             valueList={list}>
                 {selectPk !== null ?
                     <div>
-                        <InAndOutHeader/>
+                        <InAndOutHeader selectDate={selectDate} setSelectDate={setSelectDate} selectIndex={selectTitle}
+                                        buttonList={['입고 현황', '출고 현황']}
+                                        setSelectIndex={setSelectTitle}/>
                         <InAndOutTable indexList={subIndex} valueList={detailList}
                                        widthList={['240px', '88px', '580px', '96px']}
                                        currentPage={detailPage.current}

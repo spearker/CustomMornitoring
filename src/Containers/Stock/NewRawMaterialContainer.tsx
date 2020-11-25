@@ -10,6 +10,9 @@ import Notiflix from "notiflix";
 import OptimizedHeaderBox from "../../Components/Box/OptimizedHeaderBox";
 import OptimizedTable from "../../Components/Table/OptimizedTable";
 import BlackChildrenBox from "../../Components/Box/BlackChildrenBox";
+import InAndOutHeader from "../../Components/Box/InAndOutHeader";
+import InAndOutTable from "../../Components/Table/InAndOutTable";
+import moment from "moment";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -21,11 +24,13 @@ const NewRawMaterialContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({material_name: "품목(품목명)"});
-    const [subIndex, setSubIndex] = useState({registerer: '작성자',})
+    const [subIndex, setSubIndex] = useState({writer: "출처",})
     const [filter, setFilter] = useState(-1)
     const [type, setType] = useState(0)
+    const [selectTitle, setSelectTitle] = useState<number>(0);
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
+    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
     const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
@@ -37,7 +42,7 @@ const NewRawMaterialContainer = () => {
     const history = useHistory()
 
     const indexList = {
-        rawmaterial: {
+        rawMaterial: {
             material_name: "품목명",
             material_number: '품번',
             current_stock: "재고량(kg)",
@@ -48,12 +53,16 @@ const NewRawMaterialContainer = () => {
 
 
     const detailTitle = {
-        rawmaterial: {
-            registerer: '작성자',
-            type: '구분',
-            amount: '수량',
-            before_amount: '변경전 재고량',
-            date: '날짜',
+        rawMaterial: {
+            writer: "현재 위치",
+            stock_quantity: "중량(kg)",
+            before_quantity: "두께(mm)",
+            date: "폭(mm)",
+            writer1: "재질",
+            writer2: "입고일",
+            writer3: ["검수 결과", '합격', '불합격'],
+            writer4: "품질 성적표",
+            writer5: "",
         },
     }
 
@@ -176,12 +185,11 @@ const NewRawMaterialContainer = () => {
 
     useEffect(() => {
         getList()
-        setIndex(indexList["rawmaterial"])
+        setIndex(indexList["rawMaterial"])
         // setList(dummy)
-        setDetailList(detaildummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
-        setSubIndex(detailTitle['rawmaterial'])
+        setSubIndex(detailTitle['rawMaterial'])
     }, [])
 
     return (
@@ -195,14 +203,18 @@ const NewRawMaterialContainer = () => {
                             clickValue={selectValue}
                             valueList={list}>
                 {selectPk !== null ?
-                    <BlackChildrenBox>
-                        <LineTable title={'입출고 현황'} contentTitle={subIndex} contentList={detailList}
-                                   currentPage={detailPage.current}
-                                   totalPage={detailPage.total}
-                                   pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
-                            <Line/>
-                        </LineTable>
-                    </BlackChildrenBox>
+                    <div>
+                        <InAndOutHeader selectDate={selectDate} setSelectDate={setSelectDate}
+                                        buttonList={['입고 현황', '출고 현황']} selectIndex={selectTitle}
+                                        setSelectIndex={setSelectTitle}/>
+                        <InAndOutTable indexList={subIndex} valueList={detailList}
+                                       alignList={['left', 'left', 'left', 'left', 'left', 'left', 'left', 'center']}
+                                       widthList={['80px', '88px', '88px', '88px', '88px', '96px', '96px', '87px']}
+                                       currentPage={detailPage.current}
+                                       totalPage={detailPage.total}
+                                       pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
+                        </InAndOutTable>
+                    </div>
                     :
                     <BlackChildrenBox/>
                 }
