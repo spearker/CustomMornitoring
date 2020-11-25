@@ -19,6 +19,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 import RadioInput from "../../Components/Input/RadioInput";
+import GrayRegisterButton from "../../Components/Button/GrayRegisterButton";
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -198,9 +199,6 @@ const NewBasicMaterialRegister = () => {
                             <NormalInput title={'품목(품목명)'} value={inputData.material_name}
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
                                          description={'품목명을 입력해주세요.'}/>
-                            <NormalNumberInput title={'품번'} value={inputData.safe_stock}
-                                               onChangeEvent={(input) => setInputData(`safe_stock`, input)}
-                                               description={'품번을 입력해주세요'}/>
                             {type === 0 &&
                             <NormalInput title={'제조사'} value={inputData.material_name}
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
@@ -219,10 +217,13 @@ const NewBasicMaterialRegister = () => {
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
                                          description={'재질 종류를 입력해주세요'}/>
                             }
+                            <br/>
+                            <ListHeader title="선택 항목"/>
+                            <NormalNumberInput title={'품번'} value={inputData.safe_stock}
+                                               onChangeEvent={(input) => setInputData(`safe_stock`, input)}
+                                               description={'품번을 입력해주세요'}/>
                             {type !== 0 &&
                             <div>
-                                <br/>
-                                <ListHeader title="선택 항목"/>
                                 <NormalNumberInput title={'가로 사이즈'} value={inputData.cost}
                                                    onChangeEvent={(input) => setInputData(`cost`, input)}
                                                    description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
@@ -232,12 +233,14 @@ const NewBasicMaterialRegister = () => {
                                 <NormalNumberInput title={'높이 사이즈'} value={inputData.cost}
                                                    onChangeEvent={(input) => setInputData(`cost`, input)}
                                                    description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalNumberInput title={'원가'} value={inputData.cost}
-                                                   onChangeEvent={(input) => setInputData(`cost`, input)}
-                                                   description={'원가를 입력해주세요 (단위 : 원)'}/>
                             </div>
                             }
-                            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
+                            {type !== 0 && type !== 3 &&
+                            <NormalNumberInput title={'원가'} value={inputData.cost}
+                                               onChangeEvent={(input) => setInputData(`cost`, input)}
+                                               description={'원가를 입력해주세요 (단위 : 원)'}/>
+                            }
+                            <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
                         </form>
                         // :
                         //

@@ -62,6 +62,7 @@ import NewWip from "../Pages/Stock/NewWip";
 import NewFinishedMaterial from "../Pages/Stock/NewFinishedMaterial";
 import NewOutsource from "../Pages/Stock/NewOutsource";
 import NewBasicMaterialRegister from "../Containers/Basic/NewBasicMaterialContainer";
+import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -71,7 +72,8 @@ const JMRouters = () => {
 
         <Switch>
             {/*품목 기본정보*/}
-            <Route exact path="/basic/new/list/material/register" component={NewBasicMaterialRegister}/>
+            <Route exact path="/new/basic/material/register" component={NewBasicMaterialRegister}/>
+            <Route exact path="/new/basic/list/item" component={NewBasicItemList}/>
 
             <Route exact path="/jeil/main" component={MainDashboard}/>
             <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
