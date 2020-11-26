@@ -165,7 +165,6 @@ const Routers = () => {
 
     useEffect(() => {
         const browse = navigator.userAgent.toLowerCase()
-        console.log('broswercheck : ' + navigator.userAgent + ' ' + window.location.pathname)
 
 
         if ((browse.indexOf('trident') != -1) || (browse.indexOf('msie') != -1) || browse.indexOf('edge') > -1) {

@@ -51,7 +51,6 @@ const SuperRegister = () => {
 
         })
             .then(function (res) {
-                console.log(res)
                 if (res.status === 200) {
                     //welcome/auth로 이동
                     //alert('등록 완료 되었습니다!')

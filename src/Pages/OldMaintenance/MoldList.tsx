@@ -101,7 +101,6 @@ const MoldMaintenance = () => {
     }, [])
     const onClickModify = useCallback((id) => {
 
-        console.log('--select id : ' + id)
         window.location.href = `/update/design?pk=${id}`
 
     }, [])

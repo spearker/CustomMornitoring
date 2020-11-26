@@ -52,9 +52,6 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
         setPage({current: resultData.current_page, total: resultData.total_page})
     }, [searchName, page])
 
-    useEffect(() => {
-        console.log(searchName)
-    }, [searchName])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);

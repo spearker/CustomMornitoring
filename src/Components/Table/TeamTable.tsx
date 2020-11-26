@@ -20,9 +20,6 @@ interface IProps {
 const TeamTable = ({ indexList, contents, depth,onClickEvent, onChangeEvent, onClickRemove, onClickModify }: IProps) => {
   const history = useHistory()
 
-  useEffect(() => {
-    console.log(Object.keys(indexList))
-  }, [])
 
   return (
     <TableWrap>

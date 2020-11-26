@@ -179,7 +179,6 @@ const DefectiveContainer = () => {
     }
 
     const onClick = useCallback((process) => {
-        console.log('dsfewfewf', process.pk)
         if (process.process_pk === selectPk) {
             setSelectPk(null)
             setSelectValue(null)
@@ -216,7 +215,6 @@ const DefectiveContainer = () => {
         setPieData([...tmpPieDatas])
         setLabelDatas([...tmpLabelDatas])
 
-        console.log(pieData)
         let tmp = 0
         tmpList.map((v, i) => {
             tmp += v
@@ -253,9 +251,6 @@ const DefectiveContainer = () => {
         getList()
     }, [page.current])
 
-    useEffect(() => {
-        console.log(pieData)
-    }, [pieData])
 
     useEffect(() => {
         setSelectPie(undefined)
@@ -283,7 +278,6 @@ const DefectiveContainer = () => {
                                         chart: {
                                             events: {
                                                 dataPointSelection: (event, chartContext, config) => {
-                                                    console.log(event, chartContext, config)
                                                     pieOnClick(config.dataPointIndex)
                                                 }
                                             },

@@ -16,7 +16,6 @@ client.defaults.baseURL = SF_ENDPOINT + '/api'
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME)
 
 client.interceptors.response.use(function (response) {
-    console.log(response.data)
     const returnError = getErrorCase(response.data.status)
 
     if (returnError) {
@@ -33,7 +32,6 @@ client.interceptors.response.use(function (response) {
 })
 
 const getErrorCase = (code) => {
-    console.log(code)
     switch (code) {
         case 2000:
             // alert('[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다')

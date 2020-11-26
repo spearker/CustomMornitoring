@@ -40,7 +40,6 @@ const NewStockListContainer = () => {
 
 
     const onClick = useCallback((stock) => {
-        console.log('dsfewfewf', stock.type);
         if (stock.pk === selectPk) {
             setSelectPk(null);
             setSelectStock(null);

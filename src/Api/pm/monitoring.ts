@@ -10,7 +10,6 @@ import client from '../configs/monitoring'
  */
 export const getLoadTonList = async (url: string) => {
     const temp: IServerData = await client.get(url)
-    console.log(temp.results)
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -24,7 +23,6 @@ export const postLoadTonList = async (url: string, bodyData: object) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results)
     return temp.results!
 }
 

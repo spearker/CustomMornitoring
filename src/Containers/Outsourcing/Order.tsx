@@ -96,8 +96,6 @@ const OrderContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log(deletePk.pk)
-
                 })
         }
     }, [deletePk])
@@ -138,7 +136,6 @@ const OrderContainer = () => {
     }, [searchValue, option])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMaterial(null)

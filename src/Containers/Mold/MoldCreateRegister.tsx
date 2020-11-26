@@ -120,7 +120,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
       v.material.map((value, index) => {
         if (value.material_pk === '' && value.usage === '') {
-          console.log(1)
           partsState = 0
           // state = true
         } else if (value.material_pk !== '' && value.usage !== '') {
@@ -146,22 +145,18 @@ const MoldCreateRegisterContainer = ({match}: any) => {
           (v.standard.l && v.standard.l !== 0) &&
           v.steel_grade !== ''
         ) {
-          console.log(123123, v)
           return v
         } else {
           state = true
-          console.log(234234, v)
         }
       }
     }).filter((value) => {
       return value
     })
 
-    console.log(tmpParts)
 
     const tmpCompo = components.map((v, i) => {
       if (v.material_pk === '' && v.usage === '') {
-        console.log(1)
         return null
       } else if (v.material_pk !== '' && v.usage !== '') {
         return v
@@ -182,7 +177,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')
     } else {
-      console.log('post Complete')
       const resultData = await postMoldRegister(tempUrl, {
         mold_pk: moldData?.pk,
         schedule: selectDate,
@@ -205,7 +199,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
       v.material.map((value, index) => {
         if (value.material_pk === '' && value.usage === '') {
-          console.log(1)
           partsState = 0
           // state = true
         } else if (value.material_pk !== '' && value.usage !== '') {
@@ -231,22 +224,18 @@ const MoldCreateRegisterContainer = ({match}: any) => {
           (v.standard.l && v.standard.l !== 0) &&
           v.steel_grade !== ''
         ) {
-          console.log(123123, v)
           return v
         } else {
           state = true
-          console.log(234234, v)
         }
       }
     }).filter((value) => {
       return value
     })
 
-    console.log(tmpParts)
 
     const tmpCompo = components.map((v, i) => {
       if (v.material_pk === '' && v.usage === '') {
-        console.log(1)
         return null
       } else if (v.material_pk !== '' && v.usage !== '') {
         return v
@@ -267,7 +256,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')
     } else {
-      console.log('post Complete')
       const resultData = await postMoldRegister(tempUrl, {
         pk: match.params.pk,
         mold_pk: moldData?.pk,
@@ -306,14 +294,12 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
     const res = await uploadTempFile(event.target.files[0])
 
-    console.log(res, event.target.files[0])
     let tmp = drawing
     if (res !== false) {
       tmp[index] = res
     } else {
       tmp[index] = ''
     }
-    console.log(tmp)
     setDrawing([...tmp])
   }
 
@@ -329,7 +315,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
   }
 
   return (
-    <div>{console.log('selectParts', selectParts)}
+    <div>
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
           <span style={{
@@ -390,7 +376,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
               let tmp = selectParts
 
               if (tmpParts.length === 1) {
-                console.log('삭제불가능')
               } else {
                 tmpParts.splice(i, 1)
                 tmp.part.splice(i, 1)
@@ -453,7 +438,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                       <PartsPickerModal text={'부품을 검색해 주세요.'} onClickEvent={(e) => {
                         let tmpArr = parts
                         let tmp = selectParts
-                        console.log(e)
                         tmp.part[i][index] = e
                         tmpArr[i].material[index] = {...tmpArr[i].material[index], ...e, material_pk: e.pk}
 
@@ -484,7 +468,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                         let tmp = selectParts
 
                         if (tmpCompo[i].material.length === 1) {
-                          console.log('삭제불가능')
                         } else {
                           tmpCompo[i].material.splice(index, 1)
                           tmp.part[i].splice(index, 1)
@@ -562,7 +545,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                   <DeleteButton onClick={() => {
                     let tmpCompo = components
                     if (tmpCompo.length === 1) {
-                      console.log('삭제불가능')
                       setComponents([initComponent])
                     } else {
                       tmpCompo.splice(i, 1)
@@ -605,7 +587,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
         <MoldPartDropdown title={'도면'} part={false}>
           {
             drawing.map((v, i) => <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
-              {console.log(v)}
               <p style={{
                 fontSize: 14,
                 marginTop: 5,
@@ -634,13 +615,11 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                 <input type={'file'} name={`file${i}`} id={`file${i}`} style={{display: 'none'}} onChange={(e) => {
                   e.persist()
 
-                  console.log('inputEvent', e)
                   addFile(e, i)
                 }}/>
                 <DeleteButton onClick={() => {
                   let tmpCompo = drawing
                   if (tmpCompo.length === 1) {
-                    console.log('삭제불가능')
                   } else {
                     tmpCompo.splice(i, 1)
                     setDrawing([...tmpCompo])

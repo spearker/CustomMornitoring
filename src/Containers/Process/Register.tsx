@@ -68,7 +68,7 @@ const ProcessRegisterContainer = () => {
 
     return true
   }
-  
+
   const otherValidationCheck = () => {
     const { name, description, processes } = processData
 
@@ -86,12 +86,10 @@ const ProcessRegisterContainer = () => {
   }
 
   const postContractRegisterData = useCallback(async () => {
-    console.log('process', processData)
 
     if (processData.type === 0 || processData.type === 1 ? validationCheck() : otherValidationCheck()) {
       const tempUrl = `${API_URLS['process'].register}`
       const resultData = await postProcessRegister(tempUrl, processData);
-      console.log(resultData)
       if (resultData.status === 200) {
         history.goBack()
       }
@@ -100,7 +98,6 @@ const ProcessRegisterContainer = () => {
 
   const changeType = async (e: number) => {
     if (e === 0) {
-      console.log("0번")
       await setProcessData({
         ...processData,
         processes: [ { machine_pk: '' } ]
@@ -108,7 +105,6 @@ const ProcessRegisterContainer = () => {
       await setSelectMachine([ {} ])
       await setSelectMold([ {} ])
     } else if (e === 1) {
-      console.log("1번")
       await setProcessData({
         ...processData,
         processes: [ { machine_pk: '' }, { machine_pk: '' } ]
@@ -116,7 +112,6 @@ const ProcessRegisterContainer = () => {
       await setSelectMachine([ {}, {} ])
       await setSelectMold([ {} ])
     } else {
-      console.log("나머지")
       await setProcessData({
         ...processData,
         processes: []
@@ -130,9 +125,6 @@ const ProcessRegisterContainer = () => {
     changeType(processData.type)
   }, [ processData.type ])
 
-  useEffect(() => {
-    console.log(processData)
-  }, [ processData ])
 
   return (
       <div>

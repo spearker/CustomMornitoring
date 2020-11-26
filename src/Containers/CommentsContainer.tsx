@@ -33,7 +33,6 @@ const CommentsContainer = ({children, pk}: Props) => {
      * @returns X
      */
     const addFile = useCallback(async (event: any): Promise<void> => {
-        console.log(event.target.files[0])
 
         if (event.target.files[0] === undefined) {
             setFile(null)
@@ -44,13 +43,11 @@ const CommentsContainer = ({children, pk}: Props) => {
             setFile(event.target.files[0])
             const temp = await uploadTempFile(event.target.files[0])
             if (temp === false) {
-                console.log(temp)
 
                 setFile(null)
 
                 return
             } else {
-                console.log(temp)
                 setPath(temp)
 
             }

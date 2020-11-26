@@ -2,70 +2,71 @@ import React from 'react';
 import Styled, {css} from 'styled-components';
 import moreGroupBtn from '../../Assets/Images/btn_more_group.png';
 
-const errorCodeTrs = ({ pres, onToggle, onToggle2 }) => {
-  const { id, name, number, errorCode, date, remark, moreAction, action } = pres;
-  return (
-      <>
-        <Lists>
-          <ListDiv>
-            <Span1>{name}</Span1>
-            <Span2>{number}</Span2>
-            <Span3>{errorCode}</Span3>
-            <Span4>{date}</Span4>
-            <Span5>{remark}</Span5>
-            <MoreLookBtnDiv>
-              <MoreLookBtn style={{
-                backgroundColor: moreAction ? '#19b9df' : '#717c90'
-              }}
-                           onClick={() => onToggle(id)}
-              >자세히 보기</MoreLookBtn>
-            </MoreLookBtnDiv>
-          </ListDiv>
-          <ListMoreDiv style={{
-            display: moreAction ? 'block' : 'none'
-          }}>
-            <Table>
-              <thead>
-              <MoreTableTr>
-                <Th1></Th1>
-                <Th2></Th2>
-                <Th3>에러코드</Th3>
-                <Th4>날짜</Th4>
-                <Th5>비고</Th5>
-                <Th6> <button onClick={() => onToggle2(id)}>
-                  <MoreImg src={moreGroupBtn} style={{
-                    transform: action ? "rotate( 0deg )" : "rotate( 180deg )"
-                  }} />
-                </button></Th6>
-                {console.log(action)}
-              </MoreTableTr>
-              </thead>
-              <tbody>
-              {/* map으로 늘리기 */}
-              <Tr>
-                <Td></Td>
-                <Td></Td>
-                <Td>FFFFFF</Td>
-                <Td>2020.06.10</Td>
-                <Td>-</Td>
-                <Td></Td>
-              </Tr>
-              <Tr style={{
-                display: action ? 'contents' : 'none'
-              }}>
-                <Td></Td>
-                <Td></Td>
-                <Td>2FF0FF00</Td>
-                <Td>2020.05.30</Td>
-                <Td>-</Td>
-                <Td></Td>
-              </Tr>
-              </tbody>
-            </Table>
-          </ListMoreDiv>
-        </Lists>
-      </>
-  )
+const errorCodeTrs = ({pres, onToggle, onToggle2}) => {
+    const {id, name, number, errorCode, date, remark, moreAction, action} = pres;
+    return (
+        <>
+            <Lists>
+                <ListDiv>
+                    <Span1>{name}</Span1>
+                    <Span2>{number}</Span2>
+                    <Span3>{errorCode}</Span3>
+                    <Span4>{date}</Span4>
+                    <Span5>{remark}</Span5>
+                    <MoreLookBtnDiv>
+                        <MoreLookBtn style={{
+                            backgroundColor: moreAction ? '#19b9df' : '#717c90'
+                        }}
+                                     onClick={() => onToggle(id)}
+                        >자세히 보기</MoreLookBtn>
+                    </MoreLookBtnDiv>
+                </ListDiv>
+                <ListMoreDiv style={{
+                    display: moreAction ? 'block' : 'none'
+                }}>
+                    <Table>
+                        <thead>
+                        <MoreTableTr>
+                            <Th1></Th1>
+                            <Th2></Th2>
+                            <Th3>에러코드</Th3>
+                            <Th4>날짜</Th4>
+                            <Th5>비고</Th5>
+                            <Th6>
+                                <button onClick={() => onToggle2(id)}>
+                                    <MoreImg src={moreGroupBtn} style={{
+                                        transform: action ? "rotate( 0deg )" : "rotate( 180deg )"
+                                    }}/>
+                                </button>
+                            </Th6>
+                        </MoreTableTr>
+                        </thead>
+                        <tbody>
+                        {/* map으로 늘리기 */}
+                        <Tr>
+                            <Td></Td>
+                            <Td></Td>
+                            <Td>FFFFFF</Td>
+                            <Td>2020.06.10</Td>
+                            <Td>-</Td>
+                            <Td></Td>
+                        </Tr>
+                        <Tr style={{
+                            display: action ? 'contents' : 'none'
+                        }}>
+                            <Td></Td>
+                            <Td></Td>
+                            <Td>2FF0FF00</Td>
+                            <Td>2020.05.30</Td>
+                            <Td>-</Td>
+                            <Td></Td>
+                        </Tr>
+                        </tbody>
+                    </Table>
+                </ListMoreDiv>
+            </Lists>
+        </>
+    )
 };
 
 

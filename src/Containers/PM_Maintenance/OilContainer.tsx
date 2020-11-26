@@ -277,7 +277,6 @@ const OilMaintenanceContainer = () => {
             Notiflix.Loading.Circle()
             const tempUrl = `${URLS_PRE['oil'].load}?pk=${selectComponent}&date=${selectDate}`
             const resultData = await getOilData(tempUrl)
-            console.log('resultData', resultData)
             // if(index === '1'){
             //     setData(dummyData1)
             // }else if(index === '2'){

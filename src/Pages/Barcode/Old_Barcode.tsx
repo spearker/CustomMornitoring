@@ -131,7 +131,6 @@ const BarcodeList = () => {
 
     const onClickModify = useCallback((id) => {
 
-        console.log('--select id : ' + id)
         window.location.href = `/update/material?pk=${id}`
 
     }, [])

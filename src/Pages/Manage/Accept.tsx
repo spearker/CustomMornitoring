@@ -50,7 +50,6 @@ const AcceptMember = () => {
 
     const onClickAccept = useCallback(async (id) => {
 
-        console.log('--select id : ' + id)
         const results = await postRequest('http://255.255.255.255:8299/api/v1/member/accept', {user_pk: id}, getToken(TOKEN_NAME))
 
         if (results === false) {

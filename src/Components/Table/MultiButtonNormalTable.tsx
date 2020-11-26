@@ -22,10 +22,6 @@ interface IProps{
 
 const MultiButtonNormalTable = ({indexList, contents, buttonName2, onClickEvent2, widthList, eventType, link, keyName, onClickEvent ,buttonName, newStock, onChangeEvent}: IProps) => {
 
-  useEffect(()=>{
-   console.log(Object.keys(indexList))
-  },[])
-
   return (
     <TableWrap>
       <table>

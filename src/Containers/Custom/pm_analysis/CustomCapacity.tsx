@@ -298,9 +298,6 @@ const CustomCapacity = () => {
         getData()
     }, [selectMachine, selectDate])
 
-    useEffect(() => {
-        console.log(timeLog)
-    }, [timeLog])
 
     return (
         <div>

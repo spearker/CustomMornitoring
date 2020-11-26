@@ -31,7 +31,6 @@ const ItemList = ({ pk, description, title, contents, stock , onClickEvent}: Pro
         return
         }
         setPage(index)
-        console.log(index)
         //getStatus(index)
     },[page])
 

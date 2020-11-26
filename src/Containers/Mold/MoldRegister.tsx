@@ -44,16 +44,16 @@ const MoldRegisterContainer = () => {
     const [locationList, setLocationList] = useState<string[]>(locationDummy)
     const [companyList, setCompanyList] = useState<string[]>(locationDummy)
     const [selectFactory, setSelectFactory] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory?: string, production?: string}>({
+    const [modalSelect, setModalSelect] = useState<{ factory?: string, production?: string }>({
         factory: undefined,
         production: undefined
     })
-    const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
+    const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({
         start: moment().format("YYYY-MM-DD"),
         end: moment().format("YYYY-MM-DD"),
     })
 
-    const [contractData, setContractData] = useState<{mold_type:string,mold_name:string,part_name:string[],mold_location:string,delivery_company:string,mold_barcode:string,registered: string}>({
+    const [contractData, setContractData] = useState<{ mold_type: string, mold_name: string, part_name: string[], mold_location: string, delivery_company: string, mold_barcode: string, registered: string }>({
         mold_type: '',
         mold_name: '',
         part_name: [''],
@@ -66,14 +66,11 @@ const MoldRegisterContainer = () => {
     const postContractRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['mold'].register}`
         const resultData = await postMoldRegister(tempUrl, contractData);
-        if(resultData.status === 200){
+        if (resultData.status === 200) {
             history.push('/mold/current/list')
         }
     }, [contractData])
 
-    useEffect(() => {
-        console.log(contractData)
-    }, [contractData])
 
     return (
         <div>
@@ -90,16 +87,21 @@ const MoldRegisterContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 타입</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({...contractData,mold_type: e})} select={contractData.mold_type} contents={typeList} text={'타입을 선택해 주세요'}/></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({
+                                ...contractData,
+                                mold_type: e
+                            })} select={contractData.mold_type} contents={typeList} text={'타입을 선택해 주세요'}/></td>
                         </tr>
                         <tr>
                             <td>• 금형명</td>
-                            <td><Input placeholder="금형 이름을 입력하세요." onChange={(e) => setContractData({...contractData,mold_name: e.target.value})} /></td>
+                            <td><Input placeholder="금형 이름을 입력하세요."
+                                       onChange={(e) => setContractData({...contractData, mold_name: e.target.value})}/>
+                            </td>
                         </tr>
                         {
                             processData.processes && processData.processes.length !== 0
                             && contractData.part_name.map((v, i) => {
-                                return(
+                                return (
                                     <tr>
                                         {i === 0 ?
                                             <td>• 부품명</td>
@@ -131,9 +133,14 @@ const MoldRegisterContainer = () => {
                                             part_name: list
                                         })
                                     }}>
-                                        <div style={{width: 919, height: 34, backgroundColor: '#f4f6fa', border: '1px solid #b3b3b3'}}>
+                                        <div style={{
+                                            width: 919,
+                                            height: 34,
+                                            backgroundColor: '#f4f6fa',
+                                            border: '1px solid #b3b3b3'
+                                        }}>
                                             <div style={{marginTop: 5}}>
-                                                <p style={{color: '#b3b3b3', }}>+ 부품 추가</p>
+                                                <p style={{color: '#b3b3b3',}}>+ 부품 추가</p>
                                             </div>
                                         </div>
                                     </button>
@@ -142,17 +149,26 @@ const MoldRegisterContainer = () => {
                         }
                         <tr>
                             <td>• 보관위치</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({...contractData,mold_location:e})} select={contractData.mold_location} contents={locationList} text={'보관 위치를 선택해 주세요'}/></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({
+                                ...contractData,
+                                mold_location: e
+                            })} select={contractData.mold_location} contents={locationList} text={'보관 위치를 선택해 주세요'}/>
+                            </td>
                         </tr>
                         <tr>
                             <td>• 납품업체</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({...contractData,delivery_company:e})} select={contractData.delivery_company} contents={companyList} text={'납품 업체를 선택해 주세요'}/></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setContractData({
+                                ...contractData,
+                                delivery_company: e
+                            })} select={contractData.delivery_company} contents={companyList} text={'납품 업체를 선택해 주세요'}/>
+                            </td>
                         </tr>
                         <tr>
                             <td>• 바코드 번호</td>
                             <td>
                                 <div style={{width: 919, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                                    <Input disabled placeholder={'바코드 번호 생성 버튼을 눌러주세요.'} style={{flex: 85, height: 28}}/>
+                                    <Input disabled placeholder={'바코드 번호 생성 버튼을 눌러주세요.'}
+                                           style={{flex: 85, height: 28}}/>
                                     <SearchButton style={{flex: 15}}>
                                         <p>바코드 번호 생성</p>
                                     </SearchButton>
@@ -162,18 +178,25 @@ const MoldRegisterContainer = () => {
                         <tr>
                             <td>• 완료 예정일</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
+                                <div style={{
+                                    display: 'flex',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    backgroundColor: '#f4f6fa',
+                                    border: '0.5px solid #b3b3b3',
+                                    height: 32
+                                }}>
                                     <div style={{width: 817, display: 'table-cell'}}>
                                         <div style={{marginTop: 5}}>
                                             {
-                                                    <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                                                <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                                             }
                                         </div>
                                     </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
                                         setContractData({...contractData, registered: select})
-                                    }} text={'날짜 선택'} type={'single'} customStyle={{ height: 32, marginLeft: 0}}/>
+                                    }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>
                         </tr>

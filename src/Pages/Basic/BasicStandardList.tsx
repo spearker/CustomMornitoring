@@ -58,7 +58,6 @@ const BasicStandardList = () => {
 
     const onClickModify = useCallback((id) => {
 
-        console.log('--select id : ' + id)
         window.location.href = `/update/machine?pk=${id}`
 
     }, [])
@@ -87,7 +86,7 @@ const BasicStandardList = () => {
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
                 <OptimizedHeaderBox title={`표준 항목 관리`}/>
-               
+
 
                 <InfoTable indexList={index} type={'machine'} pkKey={'pk'} onClickLinkUrl="/basic/standard/update?pk="
                            contents={list} onClickRemove={onClickDelete}/>

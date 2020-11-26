@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
@@ -19,6 +19,11 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 import RadioInput from "../../Components/Input/RadioInput";
+import GrayRegisterButton from "../../Components/Button/GrayRegisterButton";
+import FactoryPickerModal from "../../Components/Modal/FactoryPickerModal";
+import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
+import InputContainer from "../InputContainer";
+import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -30,6 +35,7 @@ const NewBasicMaterialRegister = () => {
     const [optional, setOptional] = useState<any[]>([])
 
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const [isDetail, setIsDetail] = useState<boolean>(false)
     const [pk, setPk] = useState<string>('')
     const indexList = getMaterialTypeList('kor')
     const [inputData, setInputData] = useObjectInput('CHANGE', {
@@ -182,15 +188,15 @@ const NewBasicMaterialRegister = () => {
 
     return (
         <DashboardWrapContainer index={'basic'}>
-
             <InnerBodyContainer>
-                <Header title={isUpdate ? '품목 정보수정' : '품목 정보등록'}/>
+                <Header title={isUpdate ? '품목 정보수정' : '품목 기본정보 등록'}/>
                 <WhiteBoxContainer>
                     {
                         // document.id !== '' || isUpdate == true?
-                        <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
+                        <div>
                             <ListHeader title="필수 항목"/>
-                            <RadioInput title={'품목 종류'} target={type} onChangeEvent={setType}
+                            <RadioInput title={'품목 종류'} target={type} onChangeEvent={isUpdate ? null : setType}
+                                        opacity={isUpdate}
                                         contents={[{value: 0, title: '원자재'}, {value: 1, title: '반제품'}, {
                                             value: 2, title: '부자재'
                                         }, {value: 3, title: '완제품'}]}/>
@@ -198,9 +204,35 @@ const NewBasicMaterialRegister = () => {
                             <NormalInput title={'품목(품목명)'} value={inputData.material_name}
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
                                          description={'품목명을 입력해주세요.'}/>
-                            <NormalNumberInput title={'품번'} value={inputData.safe_stock}
-                                               onChangeEvent={(input) => setInputData(`safe_stock`, input)}
-                                               description={'품번을 입력해주세요'}/>
+                            {type === 3 &&
+                            <div>
+                                <NormalInput title={'모델'} value={inputData.material_name}
+                                             onChangeEvent={(input) => setInputData(`material_name`, input)}
+                                             description={'모델을 입력해주세요'}/>
+                                <InputContainer title={''} width={167.84}>
+                                    <ProcessAddButton onClick={() => {
+                                        // let tmpList = processData.processes
+                                        // //@ts-ignore
+                                        // tmpList.push({machine_pk: ''})
+                                        // setProcessData({
+                                        //     ...processData,
+                                        //     processes: tmpList
+                                        // })
+                                    }}>
+                                        <div style={{
+                                            width: 872,
+                                            height: 30,
+                                            backgroundColor: '#f4f6fa',
+                                            border: '1px solid #b3b3b3'
+                                        }}>
+                                            <div style={{alignSelf: 'center'}}>
+                                                <p style={{color: '#b3b3b3',}}>+ 모델 추가</p>
+                                            </div>
+                                        </div>
+                                    </ProcessAddButton>
+                                </InputContainer>
+                            </div>
+                            }
                             {type === 0 &&
                             <NormalInput title={'제조사'} value={inputData.material_name}
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
@@ -219,10 +251,21 @@ const NewBasicMaterialRegister = () => {
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
                                          description={'재질 종류를 입력해주세요'}/>
                             }
+                            <InputContainer title={'기본 위치'} width={167.84}>
+                                <FactoryPickerModal select={inputData}
+                                                    keyword={''}
+                                                    option={1}
+                                                    onClickEvent={(e) => {
+
+                                                    }} text={'기본위치를 입력해주세요'}/>
+                            </InputContainer>
+                            <br/>
+                            <ListHeader title="선택 항목"/>
+                            <NormalNumberInput title={'품번'} value={inputData.safe_stock}
+                                               onChangeEvent={(input) => setInputData(`safe_stock`, input)}
+                                               description={'품번을 입력해주세요'}/>
                             {type !== 0 &&
                             <div>
-                                <br/>
-                                <ListHeader title="선택 항목"/>
                                 <NormalNumberInput title={'가로 사이즈'} value={inputData.cost}
                                                    onChangeEvent={(input) => setInputData(`cost`, input)}
                                                    description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
@@ -232,16 +275,32 @@ const NewBasicMaterialRegister = () => {
                                 <NormalNumberInput title={'높이 사이즈'} value={inputData.cost}
                                                    onChangeEvent={(input) => setInputData(`cost`, input)}
                                                    description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalNumberInput title={'원가'} value={inputData.cost}
-                                                   onChangeEvent={(input) => setInputData(`cost`, input)}
-                                                   description={'원가를 입력해주세요 (단위 : 원)'}/>
                             </div>
                             }
-                            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-                        </form>
-                        // :
-                        //
-                        // <SelectDocumentForm category={3} onChangeEvent={setDocument}/>
+                            {type !== 0 && type !== 3 &&
+                            <NormalNumberInput title={'원가'} value={inputData.cost}
+                                               onChangeEvent={(input) => setInputData(`cost`, input)}
+                                               description={'원가를 입력해주세요 (단위 : 원)'}/>
+                            }
+                            {isUpdate ?
+                                <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
+                                    <TestButton>
+                                        <div>
+                                            <p style={{fontSize: 18}}>수정하기</p>
+                                        </div>
+                                    </TestButton>
+
+                                    <ButtonWrap onClick={() => history.goBack()}>
+                                        <div>
+                                            <p style={{fontSize: 18}}>리스트 보기</p>
+                                        </div>
+                                    </ButtonWrap>
+                                </div>
+                                :
+                                <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
+                            }
+                        </div>
+
                     }
                 </WhiteBoxContainer>
 
@@ -259,4 +318,44 @@ const FullPageDiv = Styled.div`
 `
 
 
+const ButtonWrap = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    width: 224px;
+    height: 46px;
+    border-radius: 6px;
+    border-radius: 6px;
+    border: none;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: #0d0d0d;
+`
+
+const TestButton = Styled.button`
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: #e7e9eb;
+    width: 224px;
+    height: 46px;
+    border-radius: 6px;
+    border-radius: 6px;
+    border: none;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: #666d79;
+    margin-right: 20px;
+`
+
+const ProcessAddButton = Styled.button`
+    
+`
 export default NewBasicMaterialRegister

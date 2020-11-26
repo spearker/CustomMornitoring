@@ -11,7 +11,6 @@ import client from '../configs/basic';
  */
 export const postOutsourcingDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.status);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -29,7 +28,6 @@ export const postOutsourcingDelete = async (url: string, object: object) => {
  */
 export const getOutsourcingList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -52,7 +50,6 @@ export const postOutsourcingList = async (url: string, object: object) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results;
 }
 
@@ -67,7 +64,6 @@ export const postOutsourcingList = async (url: string, object: object) => {
  */
 export const getSegmentList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -86,7 +82,6 @@ export const getSegmentList = async (url: string) => {
  */
 export const postSegmentDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return

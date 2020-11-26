@@ -15,7 +15,6 @@ export const getMoldData = async (url: string) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results!;
 }
 
@@ -34,7 +33,6 @@ export const getOvertoneData = async (url: string) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results!;
 }
 
@@ -51,7 +49,6 @@ export const getCluchData = async (url: string, bodyData: object) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results!;
 }
 
@@ -68,7 +65,6 @@ export const getOilData = async (url: string) => {
         alert('요청이 잘못되었습니다.')
         return
     }
-    console.log(temp.results);
     return temp.results!;
 }
 

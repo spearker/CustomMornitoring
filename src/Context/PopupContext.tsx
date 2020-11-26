@@ -33,7 +33,6 @@ function PopupReducer(state: IPopupTypes, action: Action): IPopupTypes {
             mode: action.data.mode,
         }
       case 'CLOSE_POPUP':
-          console.log(`CLOSE_POPUP`)
           return {
               ...state,
               is_popup: false,

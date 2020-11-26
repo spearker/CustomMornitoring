@@ -92,7 +92,6 @@ const PartsContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
@@ -122,7 +121,6 @@ const PartsContainer = () => {
             return {...v, division: division}
         })
 
-        console.log(getStock)
         setDetailList(getStock)
         setDetailPage({current: res.current_page, total: res.total_page})
     }, [detailList, detailPage])

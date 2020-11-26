@@ -63,7 +63,6 @@ const TeamsSetting = () => {
                 mother_pk: null
             }
 
-            console.log('--select id : ' + id)
             const results = await postRequest('http://255.255.255.255:8299/api/v1/member/teams/register', data, getToken(TOKEN_NAME))
             if (results === false) {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -84,7 +83,6 @@ const TeamsSetting = () => {
                 mother_pk: target !== null ? target.pk : null
             }
 
-            console.log('--select id : ' + id)
             const results = await postRequest('http://255.255.255.255:8299/api/v1/member/teams/register', data, getToken(TOKEN_NAME))
             if (results === false) {
                 ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
@@ -174,7 +172,6 @@ const TeamsSetting = () => {
 
         const results = await postRequest('http://255.255.255.255:8299/api/v1/member/teams/delete', {pk: id}, getToken(TOKEN_NAME))
 
-        console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
@@ -200,7 +197,6 @@ const TeamsSetting = () => {
             name: value
         }, getToken(TOKEN_NAME))
 
-        console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
@@ -216,8 +212,6 @@ const TeamsSetting = () => {
     }, [])
 
     const onChangeEvent = useCallback((depth, idx, value) => {
-
-        console.log('--select id : ' + idx + depth + value)
 
         if (depth === 0) {
             const tempList = list.slice()

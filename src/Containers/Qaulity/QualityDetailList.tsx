@@ -31,7 +31,6 @@ const QualityDetailListContainer = ({match}) => {
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
 
     useEffect(() => {
-        console.log(match.params.pk)
         if (match.params.pk) {
             // alert(`수정 페이지 진입 - pk :` + match.params.pk)
             getData()

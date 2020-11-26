@@ -28,7 +28,6 @@ export const getAnalysisReadyTime = async (url: string) => {
  */
 export const getCapacityTimeData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -46,7 +45,6 @@ export const getCapacityTimeData = async (url: string) => {
  */
 export const getDefectiveData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -64,7 +62,6 @@ export const getDefectiveData = async (url: string) => {
  */
 export const getAbilityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return

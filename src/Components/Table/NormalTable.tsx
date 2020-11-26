@@ -22,9 +22,7 @@ interface IProps{
 
 const NormalTable = ({indexList, contents, widthList,eventType, link, keyName, onClickEvent ,buttonName, newStock, onChangeEvent}: IProps) => {
 
-  useEffect(()=>{
-   console.log(Object.keys(indexList))
-  },[])
+
 
   return (
     <TableWrap>
@@ -64,7 +62,6 @@ const NormalTable = ({indexList, contents, widthList,eventType, link, keyName, o
                           mv == 'stock' && onChangeEvent !== undefined && eventType == 'input'?
                           <>
                           <InputBox type="number" value={v[mv]} style={{float:'left'}} onChange={ (e: React.ChangeEvent<HTMLInputElement>): void =>{
-                            console.log(e.target.value)
                             const tempList = contents.slice();
                             tempList[i][`stock`] = e.target.value;
                             onChangeEvent(tempList)

@@ -102,10 +102,8 @@ const BasicPartsRegister = () => {
                 setLocation([{pk: data.location_pk, name: data.location_name}])
                 setCost(data.parts_cost)
                 setName(data.parts_name)
-                console.log(data.parts_type_name)
                 setPartsName(data.parts_type_name)
-                console.log(partsPkList)
-                console.log(partsList.indexOf(data.parts_type_name))
+
             } else {
                 //TODO:  기타 오류
             }
@@ -114,7 +112,6 @@ const BasicPartsRegister = () => {
 
 
     const onsubmitFormUpdate = useCallback(async () => {
-        console.log(type)
 
         if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
@@ -267,7 +264,6 @@ const BasicPartsRegister = () => {
         } else {
             if (res.status === 200) {
                 //alert('성공적으로 등록 되었습니다')
-                console.log('partsList[type]', partsList[partsList.length - 2], partsList)
                 // setPartsName(partsList[partsList.length - 2])
                 await partsListLoad()
                 setType(partsList.length - 2)
@@ -306,18 +302,18 @@ const BasicPartsRegister = () => {
                     {
                         <>
                             <ListHeader title="필수 항목"/>
-                            <NormalInput title={'부품 이름'} value={name} onChangeEvent={(input) => setName(input)}
-                                         description={'이름을 입력해주세요.'}/>
+                            <NormalInput title={'부품명'} value={name} onChangeEvent={(input) => setName(input)}
+                                         description={'부품명을 입력해주세요.'}/>
                             <div style={{width: '100%', display: 'flex', alignItems: 'center'}}>
                                 <div style={{width: '60%', marginRight: 20}}>
                                     <DropdownInput title={'부품 종류'} target={partsList[type]} contents={partsList}
                                                    onChangeEvent={(input) => setType(input)}/>
                                 </div>
-                                <NormalInput title={'부품 이름'}
+                                <NormalInput title={'부품 종류명'}
                                              width={partsList[type] === '부품 등록하기' || partsList[type] === undefined ? 140 : 80}
                                              value={partsName} onChangeEvent={(input) => {
                                     setPartsName(input)
-                                }} description={'부품명을 입력하세요'}/>
+                                }} description={'부품 종류명을 입력하세요'}/>
                                 <div
                                     style={{marginLeft: partsList[type] === '부품 등록하기' || partsList[type] === undefined ? 30 : 10}}>
                                     {partsList[type] === undefined || partsList[type] === '부품 등록하기' ?

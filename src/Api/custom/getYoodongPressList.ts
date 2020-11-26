@@ -12,7 +12,6 @@ export default async () => {
             }
         })
 
-        console.log('response', response.data)
 
 
         if(response.data.status === 200) {

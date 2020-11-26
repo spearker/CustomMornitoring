@@ -32,7 +32,6 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 const pressCode = response.data.map((pressInfo: DASHBOARD) => {
                     return pressInfo.pk.split('machine')[1]
                 })
-                console.log(pressCode)
                 setPressList(pressCode)
                 setTotalDashboard(response.data.length)
             }

@@ -76,7 +76,6 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
     * 지도 데이터 가져오기
     */
     const getMapData = useCallback(async (facPk) => {
-        console.log('getMapData()')
         //지도 데이터 초기화
         //setComponents(dummy_map_data.components);
         //setMapData(dummy_map_data);
@@ -92,7 +91,6 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
             ////alert('[데이터 없음] 공장 도면이 등록되어야 사용 할 수 있는 기능힙니다. 공장 도면을 등록해주세요!')
         }
 
-        console.log(resultObj)
 
     }, [components, mapData, selectFactory, type])
 
@@ -110,7 +108,6 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
         //setFactories(dummy_factory)
         const results = await getMonitoringMapData(API_URLS.factory.list)
 
-        console.log('results =>', results)
         setFactories(results)
 
         if (results.length <= 0) {
@@ -126,7 +123,6 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
         if (mapType === 'cms' && selectFactory.pk !== '') {
             const interval = setInterval(() => {
                 getMapData(selectFactory.pk)
-                console.log('반복중....', selectFactory.pk)
             }, 3000)
             return () => {
                 console.log('-- monitoring end -- ')
@@ -178,7 +174,6 @@ const MapBoard = ({autoRendering, type, mapType = 'basic', url, onChangeEvent, s
             clearTimeout(intervalId);
         };
     */
-        console.log(item)
     }, [item])
 
 

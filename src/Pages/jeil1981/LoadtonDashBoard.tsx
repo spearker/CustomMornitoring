@@ -27,7 +27,6 @@ const LoadtonDashBoard = () => {
         //setSelectFactory({pk: '2', name: '공장 2'});
         //setFactories(dummy_factory)
         const results = await getMonitoringMapData(URLS_MAP.factory.list)
-        console.log(results)
         setFactories(results)
 
         if (results.length <= 0) {
@@ -76,7 +75,6 @@ const LoadtonDashBoard = () => {
             const result = [1].map(() => {
                 return {...results, machines: resultMachine}
             })
-            console.log(result[0])
             setList(result[0])
             setMornitorInex(2)
         } else if (monitorIndex === 2) {
@@ -106,7 +104,6 @@ const LoadtonDashBoard = () => {
             const result = [1].map(() => {
                 return {...results, machines: resultMachine}
             })
-            console.log(result[0])
             setList(result[0])
             setMornitorInex(3)
         } else if (monitorIndex === 3) {
@@ -136,7 +133,6 @@ const LoadtonDashBoard = () => {
                 return {...results, machines: resultMachine}
             })
 
-            console.log(result[0])
             setList(result[0])
             setMornitorInex(4)
         } else if (monitorIndex === 4) {
@@ -168,7 +164,6 @@ const LoadtonDashBoard = () => {
                     const result = [1].map(() => {
                         return {...results.results, machines: resultMachine}
                     })
-                    console.log(result[0])
                     setList(result[0])
                 }
             } else {
@@ -184,7 +179,6 @@ const LoadtonDashBoard = () => {
                 getData()
             }, 3000)
             return () => {
-                console.log('-- monitoring end -- ')
                 clearTimeout(interval)
                 // setTimer(null)
             }

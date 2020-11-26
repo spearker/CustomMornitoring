@@ -52,7 +52,6 @@ const LoadtonMonitoring = () => {
         //setSelectFactory({pk: '2', name: '공장 2'});
         //setFactories(dummy_factory)
         const results = await getMonitoringMapData(URLS_MAP.factory.list)
-        console.log(results)
         setFactories(results)
 
         if (results.length <= 0) {
@@ -76,17 +75,14 @@ const LoadtonMonitoring = () => {
     const getDataInit = async () => {
         const tempUrl = `${API_URLS['loadTon'].predata}?factory=${selectFactory.pk}`
         const resultData = await getLoadTonList(tempUrl)
-        console.log(resultData)
         setInitData(resultData)
         const count = resultData.machines.map((value, index) => {
             return value.pk
         })
-        console.log(count)
         setMachineCount([...count])
     }
 
     const getData = async () => {
-        console.log(machineCount)
         const tempUrl = `${API_URLS['loadTon'].list}`
         const resultData = await postLoadTonList(tempUrl, {pk: machineCount})
 
@@ -114,7 +110,6 @@ const LoadtonMonitoring = () => {
                     getData()
                 }, 3000)
                 return () => {
-                    console.log('-- monitoring end -- ')
                     clearTimeout(interval)
                     //setTimer(null)
                 }

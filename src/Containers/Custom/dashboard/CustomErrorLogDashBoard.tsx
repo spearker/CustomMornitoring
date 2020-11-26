@@ -15,7 +15,6 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
         const documentEvent: any = document
 
         documentEvent.body.style.zoom = .6;
-        getData().then(() => console.log('load success'))
     }, [])
 
     React.useEffect(() => {
@@ -24,7 +23,6 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
         }, 30000)
 
         return () => {
-            console.log('-- monitoring end -- ')
             clearTimeout(interval);
         }
     }, [state])
@@ -47,8 +45,6 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
             console.log('catched error', error)
         }
     }
-
-    console.log('isFirstLoad', isFirstLoad)
 
     return (
         <DashboardWrapDiv>

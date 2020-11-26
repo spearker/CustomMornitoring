@@ -31,10 +31,8 @@ const Ranks = () => {
      * @returns X
      */
     const onChangeListName = useCallback((e, index) => {
-        console.log(e.target.value)
         const tempList = list.slice()
         tempList[index] = e.target.value
-        console.log(tempList)
         setList(tempList)
     }, [list])
 
@@ -46,13 +44,9 @@ const Ranks = () => {
      */
     const onClickModify = useCallback((action: 'UP' | 'DOWN' | 'ADD' | 'DELETE', index: number) => {
         let tempList = list.slice()
-        console.log('onclick modi - ' + index)
-        console.log(tempList)
         switch (action) {
             case 'UP':
                 if (index !== 0) {
-                    console.log('onclick up - ' + index)
-                    console.log(tempList)
                     tempList.splice(index - 1, 0, tempList[index])
                     tempList.splice(index + 1, 1)
                 }
@@ -60,9 +54,7 @@ const Ranks = () => {
                 // code block
                 break
             case 'DOWN':
-                console.log('down')
                 if (index !== tempList.length) {
-                    console.log('down')
                     tempList.splice(index + 2, 0, tempList[index])
                     tempList.splice(index, 1)
                 }
@@ -71,7 +63,6 @@ const Ranks = () => {
                 // code block
                 break
             case 'ADD':
-                console.log('add')
                 tempList.push('')
                 setList(tempList)
                 break
@@ -79,7 +70,6 @@ const Ranks = () => {
                 if (tempList.length <= 1) {
                     return
                 }
-                console.log('delete')
                 tempList.splice(index, 1)
                 setList(tempList)
                 // code block
@@ -159,7 +149,6 @@ const Ranks = () => {
 
     const onClickAccept = useCallback((id) => {
 
-        console.log('--select id : ' + id)
 
     }, [])
 

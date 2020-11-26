@@ -1,5 +1,4 @@
 export const changeStatusToString = ((status: number | undefined) => {
-    console.log(status)
     if (status === 11) {
         return '진행'
     }/*else if(status === 'done'){

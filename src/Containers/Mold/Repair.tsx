@@ -113,7 +113,6 @@ const RepairContainer = () => {
 
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
@@ -131,11 +130,10 @@ const RepairContainer = () => {
 
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
-        console.log(pk)
+
         const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
         const res = await getMoldList(tempUrl)
 
-        console.log([res])
 
         const Detail = [res].map((v, i) => {
             const status = v.status === 'WAIT' ? "진행중" : "완료"

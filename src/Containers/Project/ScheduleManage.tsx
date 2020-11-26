@@ -98,7 +98,6 @@ const ScheduleManageContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -169,7 +168,6 @@ const ScheduleManageContainer = () => {
         }
         const tempUrl = `${API_URLS['production'].delete}`
         const res = await postProjectDelete(tempUrl, deletePk)
-        console.log(res)
 
         getList()
     }, [deletePk])

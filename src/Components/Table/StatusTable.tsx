@@ -23,10 +23,6 @@ interface IProps{
 
 const StatusTable = ({indexList, contents, widthList,eventType, link, keyName, onClickEvent ,buttonName, newStock, onChangeEvent}: IProps) => {
 
-  useEffect(()=>{
-   console.log(Object.keys(indexList))
-  },[])
-
   return (
     <TableWrap>
       <table>

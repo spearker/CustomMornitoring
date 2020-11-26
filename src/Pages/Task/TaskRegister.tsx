@@ -326,13 +326,9 @@ const TaskRegister = () => {
      */
     const onClickWhere = useCallback((action: 'UP' | 'DOWN' | 'DELETE', index: number) => {
         let tempList = list2.slice();
-        console.log('onclick modi - ' + index)
-        console.log(tempList)
         switch (action) {
             case 'UP':
                 if (index !== 0) {
-                    console.log('onclick up - ' + index)
-                    console.log(tempList)
                     tempList.splice(index - 1, 0, tempList[index])
                     tempList.splice(index + 1, 1)
                 }
@@ -340,9 +336,7 @@ const TaskRegister = () => {
                 // code block
                 break;
             case 'DOWN':
-                console.log('down')
                 if (index !== tempList.length) {
-                    console.log('down')
                     tempList.splice(index + 2, 0, tempList[index])
                     tempList.splice(index, 1)
                 }
@@ -354,7 +348,6 @@ const TaskRegister = () => {
                 if (tempList.length <= 1) {
                     return;
                 }
-                console.log('delete')
                 tempList.splice(index, 1)
                 setList2(tempList);
                 // code block
@@ -374,7 +367,6 @@ const TaskRegister = () => {
      * @returns X
      */
     const addFile = useCallback(async (event: any): Promise<void> => {
-        console.log(event.target.files[0]);
 
         if (fileList.length + oldFileList.length > 7) {
             //alert('파일 업로드는 8개 이하로 제한되어있습니다.')
@@ -384,14 +376,12 @@ const TaskRegister = () => {
         if (event.target.files[0] === undefined) {
             return;
         }
-        console.log(event.target.files[0].type);
         if (event.target.files[0].size < 10000000) { //10MB 이하 판별
             const tempData = event.target.files[0]
             const tempPath = await uploadTempFile(event.target.files[0]);
 
 
             if (tempPath === false) {
-                console.log(tempPath)
 
                 return
             } else {
@@ -592,7 +582,6 @@ const TaskRegister = () => {
      * @returns X
      */
     const onSubmitFile = useCallback(async (id) => {
-        console.log(fileList)
         const data = new FormData();
         data.append('pk', id);
         fileList.forEach((v, i) => {

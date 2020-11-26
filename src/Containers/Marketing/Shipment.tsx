@@ -68,7 +68,6 @@ const ShipmentContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -89,7 +88,6 @@ const ShipmentContainer = () => {
             key: value
         })
 
-        console.log(res)
         getList()
     }
 

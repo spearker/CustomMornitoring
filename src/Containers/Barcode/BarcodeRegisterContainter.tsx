@@ -63,7 +63,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
     const getBarcodeImg = useCallback(async () => {
         const tempUrl = `${API_URLS['barcode'].upload}?barcode_number=${rules.toString()}&barcode_type=${BarcodeType[0]}`
         const resultData = await getBarcode(tempUrl)
-        console.log(resultData)
+
 
         setBarcodeImg(`${SF_ENDPOINT}/api/v1/barcode/previewImg?barcode_img_name=` + resultData.barcode_photo)
     }, [rules, barcodeImg])

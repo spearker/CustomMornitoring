@@ -65,9 +65,6 @@ const MoldManageCreate = () => {
         }
     }, [moldData, reason])
 
-    useEffect(() => {
-        console.log(selectMold)
-    }, [selectMold])
 
     return (
         <div>

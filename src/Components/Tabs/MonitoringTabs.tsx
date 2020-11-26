@@ -18,7 +18,6 @@ const MonitoringTabs = ({contents, onClickEvent}: IProps) => {
     <div style={{display: 'inline-block'}}>
       {
         contents.map((v, i) => {
-          console.log('vvvvv', v)
           return (
             <ButtonBox
               className="p-bold"

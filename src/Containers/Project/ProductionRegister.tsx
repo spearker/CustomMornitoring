@@ -105,15 +105,11 @@ const ProductionRegisterContainer = () => {
             segment: modalSelect.segment?.pk
         });
 
-        console.log(resultData)
         if(resultData.status === 200) {
             history.goBack()
         }
     }, [chitData, modalSelect])
 
-    useEffect(() => {
-        console.log(modalSelect)
-    }, [modalSelect])
 
     return (
         <div>
@@ -185,7 +181,6 @@ const ProductionRegisterContainer = () => {
                             <td>
                                 <ProcessPickerModal select={modalSelect.segment}
                                     onClickEvent={(e) => {
-                                        console.log(e)
                                         setModalSelect({...modalSelect, segment: e })
                                     }}
                                                     seg

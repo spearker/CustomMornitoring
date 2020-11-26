@@ -119,7 +119,6 @@ const BarcodeListContainer = () => {
 
 
     const onClick = useCallback((barcode) => {
-        console.log('dsfewfewf', barcode.pk, barcode.barcode_name)
         if (barcode.pk === selectPk) {
             setSelectPk(null)
             setSelectBarcode(null)
@@ -166,7 +165,6 @@ const BarcodeListContainer = () => {
                         deletePk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk)
                 })
         }
     }, [deletePk])
@@ -189,7 +187,6 @@ const BarcodeListContainer = () => {
         }
         const tempUrl = `${API_URLS['barcode'].delete}`
         const res = await postProjectDelete(tempUrl, deletePk)
-        console.log(res)
 
         arrayDelete()
         getList()

@@ -9,10 +9,7 @@ import client from '../configs/basic';
  */
 export const getBasicList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log({
-        url,
-        temp
-    });
+
     if (temp.status === 400) {
         alert('요청이 잘못되었습니다.')
         return
@@ -110,6 +107,7 @@ export const API_URLS = {
         update: `/v1/factory/update`,
         list: `/v1/factory/list`,
         load: `/v1/factory/load`,
+        search: `/v1/factory/search`
     },
     subdivided: {
         delete: `/v1/subdivided/delete`,

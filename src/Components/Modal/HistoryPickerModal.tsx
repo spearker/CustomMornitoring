@@ -50,15 +50,11 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getHistorySearch(tempUrl);
-        console.log('resultData', resultData)
         setHistoryList(resultData.info_list)
 
         setPage({ current: resultData.current_page, total: resultData.total_page })
     }, [searchName,page])
 
-    useEffect(() => {
-        console.log(searchName)
-    },[searchName])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
@@ -126,16 +122,12 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
                                         <th style={{width: 200}}>총 작업</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {
-                                        console.log('historyList', historyList)
-                                    }
                                     { historyList !== undefined && historyList.length === 0 ?
                                         <tr>
                                             <td  colSpan={5} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                         </tr>
                                         :
                                         historyList && historyList.map((v,i) => {
-                                            console.log(v)
                                             return(
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.worker_name}</span></td>

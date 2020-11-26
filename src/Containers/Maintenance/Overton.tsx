@@ -46,7 +46,6 @@ const OvertonMaintenanceContainer = () => {
     }
 
     const onClick = useCallback(machine => {
-        console.log(machine.pk, machine.machine_name)
         if (machine.pk === selectPk) {
             setSelectPk(null)
             setSelectMachine(null)
