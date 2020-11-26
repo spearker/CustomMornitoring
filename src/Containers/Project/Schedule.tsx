@@ -88,7 +88,7 @@ const ScheduleContainer = () => {
         {
             Name: '생산 계획 배포',
             Width: 130,
-            Link: () => console.log(selectValue)
+            Link: () => getDistribute()
         }
     ]
 
