@@ -64,7 +64,7 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
 
     return (
         <div>
-            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: '100%'}}>
                 <BoxWrap disabled={isDisabled} onClick={() => {
                     if (disabled) {
                         return
@@ -72,9 +72,9 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                         setIsOpen(true)
                     }
                 }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display: 'inline-block', height: 32, width: 885}}>
+                    <div style={{display: 'inline-block', height: 32, width: '100%'}}>
                         {
-                            select ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                            select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
                                 : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
@@ -82,11 +82,11 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                     <div style={{
                         display: 'inline-block',
                         backgroundColor: POINT_COLOR,
-                        width: buttonWid ? buttonWid : 32,
-                        height: buttonWid ? buttonWid : 32
+                        width: buttonWid ? buttonWid : 30,
+                        height: buttonWid ? buttonWid : 30
                     }}>
                         <SearchButton
-                            style={{flex: 4, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
+                            style={{flex: 4, width: buttonWid ? buttonWid : 30, height: buttonWid ? buttonWid : 30}}>
                             <img src={IcSearchButton}/>
                         </SearchButton>
                     </div>

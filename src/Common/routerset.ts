@@ -181,7 +181,6 @@ export const MES_MENU_LIST = {
         // { name: '외주처 발주 리스트', url: '/comingsoon' },
         // { name: '외주처 수주 리스트', url: '/comingsoon' },
         // { name: '외주처 현황', url: '/comingsoon' },
-
     ],
     stock: [
         {name: '재고 관리', url: '/stock/status/list'},

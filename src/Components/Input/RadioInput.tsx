@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import InputContainer from '../../Containers/InputContainer';
+import React, {useEffect} from 'react'
+import InputContainer from '../../Containers/InputContainer'
 
 //레디오
 interface IProps {
@@ -8,15 +8,16 @@ interface IProps {
     target: number,
     onChangeEvent: any,
     opacity?: boolean
+    width?: number
 }
 
-const RadioInput = ({title, target, contents, onChangeEvent, opacity}: IProps) => {
+const RadioInput = ({title, target, contents, onChangeEvent, opacity, width}: IProps) => {
     useEffect(() => {
 
     }, [])
     return (
 
-        <InputContainer title={title}>
+        <InputContainer title={title} width={width}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
                     contents.map((v, i) => {
@@ -30,12 +31,17 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity}: IProps) =
                                     <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20,}}>{v.title}</span>
                                 </div>
                                 :
-                                <div key={i}>
+                                <div key={i} style={{display: 'flex', justifyContent: 'center'}}>
                                     <input type="radio" id={`rd${i}`} name="type"
                                            checked={target === v.value ? true : false}
                                            onClick={(e) => onChangeEvent === null ? null : onChangeEvent(v.value)}/>
                                     <label htmlFor={`rd${i}`}></label>
-                                    <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20,}}>{v.title}</span>
+                                    <span style={{
+                                        paddingLeft: 4,
+                                        fontSize: 14,
+                                        marginRight: 20,
+                                        paddingTop: width ? 5 : 0
+                                    }}>{v.title}</span>
                                 </div>
                         )
                     })

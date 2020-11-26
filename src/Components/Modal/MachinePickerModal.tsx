@@ -16,6 +16,7 @@ interface IProps {
   text: string
   buttonWid?: string | number
   disabled?: boolean
+  width?: number
 }
 
 const DummyMachine = [
@@ -28,7 +29,7 @@ const DummyMachine = [
   }
 ]
 
-const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProps) => {
+const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, width}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
@@ -68,22 +69,21 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled}: I
 
   return (
     <div>
-      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+      <div style={{display: 'inline-block', zIndex: 0, width: '100%'}}>
         <BoxWrap disabled={disabled} onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-          <div style={{display: 'inline-block', height: 32, width: 885}}>
+          <div style={{display: 'inline-block', height: 32, width: '100%'}}>
             {
               select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
                 : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
             }
-
           </div>
           <div style={{
             display: 'inline-block',
             backgroundColor: POINT_COLOR,
-            width: buttonWid ? buttonWid : 32,
-            height: buttonWid ? buttonWid : 32
+            width: buttonWid ? buttonWid : 30,
+            height: buttonWid ? buttonWid : 30
           }}>
             <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}/>
           </div>

@@ -391,11 +391,11 @@ const BasicMoldRegister = () => {
                                 select={input_material} onClickEvent={setInput_material}
                                 type={0}
                                 innerWidth={'100%'}
-                                addIsOpen={input_material.type === 0 ? true : false}
+                                /*addIsOpen={input_material.type === 0 ? true : false}
                                 addInputType={'input'}
                                 addPlaceholder={'//투입 품목이 원자재일 경우 투입 중량 기입 필수'}
                                 addValue={input_material_weight}
-                                onAddChangeEvent={setInput_material_weight}/>
+                                onAddChangeEvent={setInput_material_weight}*//>
                             <ColorProductionPickerModal
                                 title={'생산 품목(완제품)'}
                                 placeholder={'생산 품목을 입력해주세요'}
@@ -403,12 +403,12 @@ const BasicMoldRegister = () => {
                                 select={output_material} onClickEvent={setOutput_material}
                                 type={1}
                                 innerWidth={'100%'}
-                                addIsOpen={output_material.type === 30 ? true : false}
+                                /*addIsOpen={output_material.type === 30 ? true : false}
                                 addInputType={'select'}
                                 addPlaceholder={'//완제품 등록 할 때 같이 기입한 모델명 셀렉 박스로 선택'}
                                 addValue={output_material_model}
                                 onAddChangeEvent={setOutput_material_model}
-                                addContents={output_material_model_dummy}/>
+                                addContents={output_material_model_dummy}*//>
                             <EmptyPlace height={'40px'}/>
                             <InputHeader title="선택 항목"/>
                             <ColorInputWithText title={'제조사'} value={made} onChangeEvent={setMade}
