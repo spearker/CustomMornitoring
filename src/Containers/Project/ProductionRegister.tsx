@@ -24,8 +24,18 @@ const productionDummy = [
 ]
 
 const listDummy = [
-    { project_pk: 'dummy01', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
-    { project_pk: 'dummy02', factory: '더미 업체 1', production: '더미 품목 1', planDate: {start: '2020-08-15', end: '2020-08-17'}},
+    {
+        project_pk: 'dummy01',
+        factory: '더미 업체 1',
+        production: '더미 품목 1',
+        planDate: {start: '2020-08-15', end: '2020-08-17'}
+    },
+    {
+        project_pk: 'dummy02',
+        factory: '더미 업체 1',
+        production: '더미 품목 1',
+        planDate: {start: '2020-08-15', end: '2020-08-17'}
+    },
 ]
 
 const ProductionRegisterContainer = () => {
@@ -33,15 +43,16 @@ const ProductionRegisterContainer = () => {
     const [open, setOpen] = useState<boolean>(false)
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
     const [selectType, setSelectType] = useState<string>()
-    const [modalSelect, setModalSelect] = useState<{factory: { name?: string, pk?: string }, production: { name?: string, pk?: string },
+    const [modalSelect, setModalSelect] = useState<{
+        factory: { name?: string, pk?: string }, production: { name?: string, pk?: string },
         segment: { name?: string, pk?: string }
     }>({
-        factory: {name: "", pk: "" },
-        production: {name: "", pk: "" },
-        segment: {name: "", pk: "" },
+        factory: {name: "", pk: ""},
+        production: {name: "", pk: ""},
+        segment: {name: "", pk: ""},
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"))
-    const [selectDateRange, setSelectDateRange] = useState<{start: string, end: string}>({
+    const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({
         start: moment().format("YYYY-MM-DD"),
         end: moment().format("YYYY-MM-DD"),
     })
@@ -60,36 +71,36 @@ const ProductionRegisterContainer = () => {
     const postChitRegisterData = useCallback(async () => {
         const tempUrl = `${API_URLS['production'].register}`
         let type
-        if(selectType === '수주 처리') {
+        if (selectType === '수주 처리') {
             type = 0
-        }else if(selectType === '안전 재고 확보') {
+        } else if (selectType === '안전 재고 확보') {
             type = 1
-        }else if(selectType === '주문 예측') {
+        } else if (selectType === '주문 예측') {
             type = 1
         }
 
-        if(type === ""  ){
+        if (type === "") {
             alert("타입은 필수 항목입니다. 반드시 선택해주세요.")
             return;
-        } else if (chitData.manager === ""){
+        } else if (chitData.manager === "") {
             alert("계획자는 필수 항목입니다. 반드시 입력해 주세요.")
             return;
-        } else if (modalSelect.production?.pk === ""){
+        } else if (modalSelect.production?.pk === "") {
             alert("품목명은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (selectDateRange.start=== ""){
+        } else if (selectDateRange.start === "") {
             alert("생산계획 일정은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (selectDateRange.end=== ""){
+        } else if (selectDateRange.end === "") {
             alert("생산계획 일정은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (chitData.amount=== 0){
+        } else if (chitData.amount === 0) {
             alert("총 수량은 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (modalSelect.factory.pk=== ""){
+        } else if (modalSelect.factory.pk === "") {
             alert("납품 업체를 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (modalSelect.segment.pk=== ""){
+        } else if (modalSelect.segment.pk === "") {
             alert("공정명은 필수 항목입니다. 반드시 입력해주세요.")
             return;
         }
@@ -100,12 +111,12 @@ const ProductionRegisterContainer = () => {
             material: modalSelect.production?.pk,
             from: selectDateRange.start,
             to: selectDateRange.end,
-            amount:chitData.amount,
+            amount: chitData.amount,
             supplier: modalSelect.factory?.pk,
             segment: modalSelect.segment?.pk
         });
 
-        if(resultData.status === 200) {
+        if (resultData.status === 200) {
             history.goBack()
         }
     }, [chitData, modalSelect])
@@ -126,36 +137,56 @@ const ProductionRegisterContainer = () => {
                     <table style={{color: "black"}}>
                         <tr>
                             <td>• 타입</td>
-                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType} contents={typeList} text={'타입을 선택해 주세요'} buttonWid={30} /></td>
+                            <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)}
+                                                  select={selectType} contents={typeList} text={'타입을 선택해 주세요'}
+                                                  buttonWid={30}/></td>
                         </tr>
                         <tr>
                             <td>• 계획자</td>
-                            <td><Input placeholder="계획자를 입력해 주세요." onChange={(e) => setChitData({...chitData, manager: e.target.value})}/></td>
+                            <td><Input placeholder="계획자를 입력해 주세요."
+                                       onChange={(e) => setChitData({...chitData, manager: e.target.value})}/></td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
                             <td><ProductionPickerModal select={modalSelect.production}
                                                        onClickEvent={(e) => {
-                                setModalSelect({...modalSelect, production: e })
-                            }} text={"품목명을 검색해주세요."} type={1} buttonWid={30} /></td>
+                                                           setModalSelect({...modalSelect, production: e})
+                                                       }} text={"품목명을 검색해주세요."} type={1} buttonWid={30}/></td>
                         </tr>
                         <tr>
                             <td>• 생산 계획 일정</td>
                             <td>
-                                <div style={{ display: 'flex', flex: 1, flexDirection: 'row', backgroundColor: '#f4f6fa', border: '0.5px solid #b3b3b3', height: 32}}>
+                                <div style={{
+                                    display: 'flex',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    backgroundColor: '#f4f6fa',
+                                    border: '0.5px solid #b3b3b3',
+                                    height: 32
+                                }}>
                                     <div style={{width: 821, display: 'table-cell'}}>
                                         <div style={{marginTop: 5}}>
                                             {
                                                 selectDateRange.start === ''
-                                                    ?<InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                                                    :<InputText style={{color: '#111319'}}>&nbsp; {selectDateRange.start} ~ {selectDateRange.end}</InputText>
+                                                    ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
+                                                    : <InputText
+                                                        style={{color: '#111319'}}>&nbsp; {selectDateRange.start} ~ {selectDateRange.end}</InputText>
                                             }
                                         </div>
                                     </div>
-                                    <ColorCalendarDropdown selectRange={selectDateRange} zIndex={3} onClickEvent={(start, end) => {
-                                        setSelectDateRange({start, end: !end ? selectDateRange.end : end})
-                                        setChitData({...chitData, from: start, to: !end ? selectDateRange.end : end})
-                                    }} text={'기간 선택'} type={'range'} customStyle={{ height: 32, marginLeft: 0}}/>
+                                    <ColorCalendarDropdown selectRange={selectDateRange} zIndex={3}
+                                                           onClickEvent={(start, end) => {
+                                                               setSelectDateRange({
+                                                                   start,
+                                                                   end: !end ? selectDateRange.end : end
+                                                               })
+                                                               setChitData({
+                                                                   ...chitData,
+                                                                   from: start,
+                                                                   to: !end ? selectDateRange.end : end
+                                                               })
+                                                           }} text={'기간 선택'} type={'range'}
+                                                           customStyle={{height: 32, marginLeft: 0}} unLimit={true}/>
                                 </div>
                             </td>
                         </tr>
@@ -165,26 +196,28 @@ const ProductionRegisterContainer = () => {
                         {/*</tr>*/}
                         <tr>
                             <td>• 총 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} onChange={(e) => setChitData({...chitData, amount: Number(e.target.value)})}/></td>
+                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'}
+                                       onChange={(e) => setChitData({...chitData, amount: Number(e.target.value)})}/>
+                            </td>
                         </tr>
                         <tr>
                             <td>• 납품 업체</td>
                             <td>
                                 <CustomerPickerModal select={modalSelect.factory}
-                                                       onClickEvent={(e) => {
-                                                           setModalSelect({...modalSelect, factory: e })
-                                                       }} text={"거래처를 검색해주세요."} buttonWid={30} />
+                                                     onClickEvent={(e) => {
+                                                         setModalSelect({...modalSelect, factory: e})
+                                                     }} text={"거래처를 검색해주세요."} buttonWid={30}/>
                             </td>
                         </tr>
                         <tr>
                             <td>• 공정명</td>
                             <td>
                                 <ProcessPickerModal select={modalSelect.segment}
-                                    onClickEvent={(e) => {
-                                        setModalSelect({...modalSelect, segment: e })
-                                    }}
+                                                    onClickEvent={(e) => {
+                                                        setModalSelect({...modalSelect, segment: e})
+                                                    }}
                                                     seg
-                                    text={"공정명을 검색해 주세요"} buttonWid={30} />
+                                                    text={"공정명을 검색해 주세요"} buttonWid={30}/>
                             </td>
                         </tr>
                         {/*<tr>*/}

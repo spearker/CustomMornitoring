@@ -81,6 +81,7 @@ const ColorCalendarDropdown = ({select, onClickEvent, text, type, selectRange, z
                                 {type === 'range' && <p>종료 날짜</p>}
                                 <Calendar
                                     maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : toDayLimit ? moment().toDate() : moment().subtract(1, 'days').toDate()}
+                                    minDate={moment(selectRange?.start).toDate()}
                                     onChange={(date) => {
                                         if (selectRange) {
                                             onClickEvent(selectRange.start, moment(String(date)).format("YYYY-MM-DD"))
