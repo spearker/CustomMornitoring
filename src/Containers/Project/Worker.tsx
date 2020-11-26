@@ -92,6 +92,7 @@ const WorkerContainer = ({match}: Props) => {
         const getWorker = res.info_list.map((v, i) => {
 
             const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            
 
             return {...v, amount: amount}
         })
@@ -99,14 +100,14 @@ const WorkerContainer = ({match}: Props) => {
         setPage({current: res.current_page, total: res.total_page})
         setList(getWorker)
         Notiflix.Loading.Remove()
-    }, [list])
+    }, [list, selectDate, page])
 
     const eventdummy = [
         {
             Name: '완료하기',
             Width: 80,
             Color: 'white',
-            Link: (v) => history.push(`/project/history/register/${v.pk}`)
+            Link: (v) => v.state === '완료됨' ? null : history.push(`/project/history/register/${v.pk}`)
         },
     ]
 
