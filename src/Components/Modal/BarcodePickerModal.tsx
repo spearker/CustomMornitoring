@@ -15,6 +15,7 @@ interface IProps {
     onClickEvent: any
     text: string
     buttonWid?: string | number
+    notOpen?: boolean
 }
 
 const DummyMachine = [
@@ -28,7 +29,7 @@ const DummyMachine = [
     }
 ]
 
-const BarcodePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
+const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
@@ -68,14 +69,14 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
     return (
         <div>
             <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 870, marginLeft: -12}}>
-                <BoxWrap onClick={() => {
-                    setIsOpen(true)
-                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                <BoxWrap onClick={() =>
+                    notOpen ? null : setIsOpen(true)
+                } style={{padding: 0, backgroundColor: '#f4f6fa'}}>
                     <div style={{display: 'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.name ? <p onClick={() => {
-                                    setIsOpen(true)
-                                }} style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                            select && select.name ? <p onClick={() =>
+                                    notOpen ? null : setIsOpen(true)
+                                } style={{marginTop: 5}}>&nbsp; {select.name}</p>
                                 : <p onClick={() => {
                                     setIsOpen(true)
                                 }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
@@ -88,9 +89,9 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => 
                         width: buttonWid ? buttonWid : 32,
                         height: buttonWid ? buttonWid : 32
                     }}>
-                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
-                            setIsOpen(true)
-                        }}/>
+                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() =>
+                            notOpen ? null : setIsOpen(true)
+                        }/>
                     </div>
 
                 </BoxWrap>

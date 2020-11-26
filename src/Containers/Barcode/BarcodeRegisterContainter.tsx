@@ -170,7 +170,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
             <WhiteBoxContainer>
                 <div>
                     <InputContainer title={'표준 바코드'}>
-                        <BarcodePickerModal select={selectBarcode} onClickEvent={(e) => setSelectBarcode(e)}
+                        <BarcodePickerModal select={selectBarcode} onClickEvent={(e) => null} notOpen={true}
                                             text={'바코드를 선택해주세요'}/>
                     </InputContainer>
                     <DropdownInput title={'바코드 종류'} target={indexBarcodeType[0]} contents={indexBarcodeType}
