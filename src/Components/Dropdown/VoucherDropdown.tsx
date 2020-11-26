@@ -19,10 +19,20 @@ const VoucherDropdown = ({pk, name, clickValue, onClickEvent, children}: IProps)
                 <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr-Bold'}}>{name}</p>
                 {clickValue === pk ?
                     <img src={IC_Dropup} style={{width: 30, height: 15, paddingRight: 20, alignSelf: "center"}}
-                         onClick={() => (onClickEvent(pk))}/>
+                        onClick={() => {
+                            if(onClickEvent !== undefined && onClickEvent !== null){
+                                onClickEvent(pk)
+                            }
+                        }}
+                    />
                     :
                     <img src={IC_Dropdown} style={{width: 30, height: 15, paddingRight: 20, alignSelf: "center"}}
-                         onClick={() => (onClickEvent(pk))}/>
+                        onClick={() => {
+                            if(onClickEvent !== undefined && onClickEvent !== null){
+                                onClickEvent(pk)
+                            }
+                        }}
+                    />
                 }
             </div>
             <Line/>
