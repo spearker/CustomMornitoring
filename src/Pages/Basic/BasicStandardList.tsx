@@ -86,8 +86,7 @@ const BasicStandardList = () => {
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
                 <OptimizedHeaderBox title={`표준 항목 관리`}/>
-
-
+                
                 <InfoTable indexList={index} type={'machine'} pkKey={'pk'} onClickLinkUrl="/basic/standard/update?pk="
                            contents={list} onClickRemove={onClickDelete}/>
             </InnerBodyContainer>

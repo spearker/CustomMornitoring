@@ -34,7 +34,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
             console.log(event.target.files[0])
             const formData = new FormData()
             formData.append('file', event.target.files[0])
-            
+
             const temp = await postRequest('http://192.168.0.21:7523/api/v1/format/upload?type=1', formData, getToken(TOKEN_NAME))
             if (temp === false) {
 
@@ -59,17 +59,18 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
         <div style={{display: 'flex'}}>
             <FormBox>
                 <p>{title}</p>
-                <FormDownload onClick={() => window.open('http://192.168.0.21:7523/api/v1/format/download?type=1')}>양식
-                    다운로드</FormDownload>
+                <ExcelUpload>
+                    <label htmlFor={'file'}>업로드</label>
+                </ExcelUpload>
+                <FormDownload onClick={() => window.open('http://192.168.0.21:7523/api/v1/format/download?type=1')}>
+                    양식 다운로드
+                </FormDownload>
             </FormBox>
             <ExcelNameBox>
                 <p>{excelName}</p>
                 <ExcelDownLoad>
                     다운로드
                 </ExcelDownLoad>
-                <ExcelUpload>
-                    <label htmlFor={'file'}>업로드</label>
-                </ExcelUpload>
                 <input type="file" name="file" id={'file'} style={{display: 'none'}} onChange={addFile}/>
             </ExcelNameBox>
         </div>
@@ -78,7 +79,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
 
 const FormBox = Styled.div`
   color: white;
-  width: 280px;
+  width: 400px;
   height: 50px;
   border-radius: 6px;
   background-color: #111319;
@@ -111,7 +112,7 @@ const FormDownload = Styled.button`
 `
 
 const ExcelNameBox = Styled.div`
-  width: 804px;
+  width: 704px;
   height: 50px;
   display: flex;
   border-radius: 6px;
@@ -134,7 +135,6 @@ const ExcelDownLoad = Styled.button`
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
-  margin-right: 16px;
 `
 
 const ExcelUpload = Styled.button`

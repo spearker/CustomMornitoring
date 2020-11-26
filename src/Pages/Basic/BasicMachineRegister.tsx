@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
@@ -140,8 +140,7 @@ const BasicMachineRegister = () => {
     }, [pk, made, madeNo, date, volt, tons, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory])
 
 
-    const onsubmitFormUpdate = useCallback(async (e) => {
-        e.preventDefault()
+    const onsubmitFormUpdate = useCallback(async () => {
 
         if (name.trim() === '') {
             alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
@@ -200,8 +199,7 @@ const BasicMachineRegister = () => {
      * onsubmitForm()
      * 기계 정보 등록
      */
-    const onsubmitForm = useCallback(async (e) => {
-        e.preventDefault()
+    const onsubmitForm = useCallback(async () => {
 
         //console.log(infoList)
         ////alert(JSON.stringify(infoList))
@@ -269,7 +267,7 @@ const BasicMachineRegister = () => {
                 <WhiteBoxContainer>
                     {
                         // document.pk !== '' || isUpdate == true?
-                        <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
+                        <div>
                             <ListHeader title="필수 항목"/>
                             <NormalInput title={'기계 이름'} value={name} onChangeEvent={setName}
                                          description={'고객사가 보유한 기계의 이름을 입력하세요'}/>
@@ -338,8 +336,28 @@ const BasicMachineRegister = () => {
                             {/*  />*/}
 
 
-                            <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-                        </form>
+                            {isUpdate ?
+                                <div style={{display: 'flex', justifyContent: 'center'}}>
+                                    <ButtonWrap onClick={async () => {
+                                        await onsubmitFormUpdate()
+                                    }}>
+                                        <div style={{}}>
+                                            <p style={{fontSize: 18}}>수정하기</p>
+                                        </div>
+                                    </ButtonWrap>
+                                </div>
+                                :
+                                <div style={{display: 'flex', justifyContent: 'center'}}>
+                                    <ButtonWrap onClick={async () => {
+                                        await onsubmitForm()
+                                    }}>
+                                        <div style={{}}>
+                                            <p style={{fontSize: 18}}>등록하기</p>
+                                        </div>
+                                    </ButtonWrap>
+                                </div>
+                            }
+                        </div>
                         // :
                         // <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
 
@@ -359,5 +377,24 @@ const FullPageDiv = Styled.div`
   background-color: ${BG_COLOR_SUB2}
 `
 
+
+const ButtonWrap = Styled.button`
+    margin-top: 30px;
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    width: 360px;
+    height: 46px;
+    box-sizing: border-box;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+  `
 
 export default BasicMachineRegister
