@@ -86,11 +86,12 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
                     color: 'white'
                 }} onChange={(e) => setExcelPk(e.target.value)}>
                     {
-                        materialList.map(m => {
-                            return (
-                                <option value={m.pk}>{m.file_name}</option>
-                            )
-                        })
+                        materialList === undefined ? <option>선택사항이 없습니다.</option> :
+                            materialList.map(m => {
+                                return (
+                                    <option value={m.pk}>{m.file_name}</option>
+                                )
+                            })
                     }
                 </select>
                 <ExcelDownLoad

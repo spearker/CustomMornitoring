@@ -156,7 +156,7 @@ const NewBasicListContainer = ({type}: Props) => {
 export const LIST_INDEX = {
     machine: {
         title: '기계 기본정보',
-        width: ['264px', '96px', '157px', '112px', '115px'],
+        width: ['220px', '220px', '220px', '220px'],
         index: {
             machine_name: '기계명',
             machine_type: '기계종류(코드)',
@@ -166,7 +166,7 @@ export const LIST_INDEX = {
     },
     device: {
         title: '주변장치 기본정보',
-        width: ['264px', '96px', '157px', '112px', '115px'],
+        width: ['220px', '220px', '220px', '220px'],
         index: {
             device_name: '장치명',
             device_type: '장치종류(코드)',
@@ -187,7 +187,7 @@ export const LIST_INDEX = {
     },
     mold: {
         title: '금형 기본 정보',
-        width: ['290px', '96px', '120px', '120px', '120px'],
+        width: ['184px', '184px', '184px', '184px', '184px'],
         index: {
             mold_name: '금형명',
             mold_type: ['금형 종류'],
@@ -198,7 +198,7 @@ export const LIST_INDEX = {
     },
     factory: {
         title: '공장 기본정보',
-        width: ['264px', '96px', '157px', '112px', '115px'],
+        width: ['366px', '536px'],
         index: {
             name: '공장명',
             location: '위치',
@@ -206,7 +206,7 @@ export const LIST_INDEX = {
     },
     subdivided: {
         title: '공장 세분화',
-        width: ['264px', '96px', '157px', '112px', '115px'],
+        width: ['366px', '536px'],
         index: {
             subdivided_name: '부속 공장명',
             factory_name: '공장명',
@@ -214,7 +214,7 @@ export const LIST_INDEX = {
     },
     parts: {
         title: '부품 기본정보',
-        width: ['264px', '96px', '157px', '112px', '115px'],
+        width: ['184px', '184px', '184px', '184px', '184px'],
         index: {
             parts_name: "부품명",
             parts_type_name: "부품 종류 명",
@@ -223,25 +223,9 @@ export const LIST_INDEX = {
             parts_stock: "재고"
         }
     },
-    item: {
-        title: '표준 항목',
-        width: ['264px', '96px', '157px', '112px', '115px'],
-        index: {
-            category: '카테고리(코드)',
-            name: '이름',
-        }
-    },
-    document: {
-        title: '표준 문서',
-        width: ['264px', '96px', '157px', '112px', '115px'],
-        index: {
-            category: '카테고리(코드)',
-            name: '이름',
-        }
-    },
     barcode: {
         title: '바코드 표준',
-        width: ['264px', '96px', '157px', '112px', '115px'],
+        width: ['184px', '184px', '184px', '184px', '184px'],
         index: {
             barcode_name: '이름',
             main_type: '품목(품목명)',

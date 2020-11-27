@@ -72,14 +72,10 @@ const JMRouters = () => {
 
         <Switch>
             {/*품목 기본정보*/}
-            <Route exact path="/new/basic/material/register" component={NewBasicMaterialRegister}/>
-            <Route exact path="/new/basic/list/item" component={NewBasicItemList}/>
-
             <Route exact path="/jeil/main" component={MainDashboard}/>
             <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
             <Route exact path="/jeil/capacity" component={CapitalDashBoard}/>
 
-            <Route exact path="/basic/new/list/:id" component={NewBasicList}/>
             <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 
             <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis}/>

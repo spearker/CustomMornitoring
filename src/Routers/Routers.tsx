@@ -158,6 +158,9 @@ import CustomDashboardIndex from '../Containers/Custom/dashboard/CustomDashboard
 import CustomErrorLogDashBoard from '../Containers/Custom/dashboard/CustomErrorLogDashBoard'
 import CustomRotateDashboard from "../Containers/Custom/dashboard/CustomRotateDashboard";
 import CustomProductionDashBoard from "../Containers/Custom/dashboard/CustomProductionDashboard";
+import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
+import NewBasicList from "../Pages/Basic/NewBasicListContainer";
+import NewBasicMaterialRegister from "../Containers/Basic/NewBasicMaterialContainer";
 
 const Routers = () => {
 
@@ -197,7 +200,8 @@ const Routers = () => {
 
                 {/* 2.0 기준정보관리 */}
 
-                <Route exact path="/basic/list/:id" component={BasicListPage}/>
+                <Route exact path="/basic/list/:id" component={NewBasicList}/>
+                <Route exact path="/basic/standard/list/item" component={NewBasicItemList}/>
 
                 <Route exact path="/basic/item/register" component={BasicStandardRegister}/>
 
@@ -208,7 +212,7 @@ const Routers = () => {
                 <Route exact path="/basic/subdivided/register" component={BasicSubdividedRegister}/>
                 <Route exact path="/basic/mold/register" component={BasicMoldRegister}/>
                 <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
-                <Route exact path="/basic/material/register" component={BasicMaterialRegister}/>
+                <Route exact path="/basic/material/register" component={NewBasicMaterialRegister}/>
                 <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
                 {/* 외주정보 관리 */}
