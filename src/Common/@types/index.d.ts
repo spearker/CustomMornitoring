@@ -403,6 +403,23 @@ interface IProcessRegister {
   description: string
 }
 
+interface IProcessDetailData {
+  machine_pk?: string
+  machine_type?: number
+  machine_name?: string
+  mold_pk?: string
+  mold_name?: string
+  input_materials?: IMaterialData[]
+  output_materials?: IMaterialData
+}
+
+interface IMaterialData {
+  material_pk: string
+  material_name: string
+  material_type: number
+  count: number
+}
+
 interface OutsourcingName {
   current_page: number
   info_list: {
