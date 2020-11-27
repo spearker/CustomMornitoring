@@ -2,7 +2,7 @@ import React, {useCallback, useState} from "react";
 import Styled from 'styled-components'
 import {uploadTempFile} from "../../Common/fileFuctuons";
 import InputContainer from "../../Containers/InputContainer";
-import {postRequest} from "../../Common/requestFunctions";
+import {getRequest, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 
@@ -14,8 +14,9 @@ interface Props {
 const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
 
     const [file, setFile] = useState<any>(null)
+    const [excelPk, setExcelPk] = useState<string>('')
     const [path, setPath] = useState<string | null>(null)
-
+    const [materialList, setMaterialList] = useState<any[]>([])
     /**
      * addFile()
      * 파일 등록
@@ -55,6 +56,18 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
     }, [file, path])
 
 
+    const getList = useCallback(async () => {
+
+        const temp = await getRequest('http://61.101.55.224:18900/api/v1/format/history/list', getToken(TOKEN_NAME))
+
+        setMaterialList(temp.data)
+    }, [materialList])
+
+
+    React.useEffect(() => {
+        getList()
+    }, [])
+
     return (
         <div style={{display: 'flex'}}>
             <FormBox>
@@ -67,8 +80,21 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
                 </FormDownload>
             </FormBox>
             <ExcelNameBox>
-                <p>{excelName}</p>
-                <ExcelDownLoad>
+                <select className="p-limits" style={{
+                    backgroundColor: '#353b48',
+                    borderColor: '#353b48',
+                    color: 'white'
+                }} onChange={(e) => setExcelPk(e.target.value)}>
+                    {
+                        materialList.map(m => {
+                            return (
+                                <option value={m.pk}>{m.file_name}</option>
+                            )
+                        })
+                    }
+                </select>
+                <ExcelDownLoad
+                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${excelPk}`)}>
                     다운로드
                 </ExcelDownLoad>
                 <input type="file" name="file" id={'file'} style={{display: 'none'}} onChange={addFile}/>
