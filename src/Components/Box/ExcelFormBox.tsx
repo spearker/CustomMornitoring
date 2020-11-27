@@ -58,7 +58,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
 
     const getList = useCallback(async () => {
 
-        const temp = await getRequest('http://61.101.55.224:18900/api/v1/format/history/list', getToken(TOKEN_NAME))
+        const temp = await getRequest('http://61.101.55.224:18900/api/v1/format/history/list?type=4', getToken(TOKEN_NAME))
 
         setMaterialList(temp.data)
     }, [materialList])
