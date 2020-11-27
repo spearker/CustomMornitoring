@@ -16,7 +16,7 @@ const GrayRegisterButton = ({name, onPress}: IProps) => {
     }, [])
 
     return (
-        <div className="p-bold" style={{textAlign: 'center'}} onClick={() => onPress}>
+        <div className="p-bold" style={{textAlign: 'center'}} onClick={onPress}>
             <ButtonBox type="submit">{name}</ButtonBox>
         </div>
 
