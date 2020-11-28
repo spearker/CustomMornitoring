@@ -151,8 +151,10 @@ const StockListContainer = () => {
 
         const getStock = res.info_list.map((v, i) => {
             const material_type = transferCodeToName('material', v.material_type)
+            const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-            return {...v, material_type: material_type}
+            return {...v, material_type: material_type, current_stock: current_stock, safe_stock: safe_stock}
         })
 
         setList(getStock)

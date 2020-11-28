@@ -52,48 +52,6 @@ const RawMaterialContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            item_pk: '품목00',
-            materials_type: '원자재',
-            stock_type: '재공재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '원자재',
-            stock_type: '재공재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '원자재',
-            stock_type: '재공재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '원자재',
-            stock_type: '재공재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-        {
-            item_pk: '품목00',
-            materials_type: '원자재',
-            stock_type: '재공재고',
-            stock_quantity: '1,000,000',
-            storage_location: '창고01',
-            safety_stock: '9,999,999'
-        },
-    ]
 
     const detaildummy = [
         {
@@ -161,7 +119,14 @@ const RawMaterialContainer = () => {
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
 
-        setDetailList(res.info_list)
+        const getStock = res.info_list.map((v, i) => {
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const before_amount = v.before_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+            return {...v, amount: amount, before_amount: before_amount,}
+        })
+
+        setDetailList(getStock)
 
         setDetailPage({current: res.current_page, total: res.total_page})
 
@@ -186,8 +151,10 @@ const RawMaterialContainer = () => {
 
         const getStock = res.info_list.map((v, i) => {
             const material_type = transferCodeToName('material', v.material_type)
+            const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-            return {...v, material_type: material_type}
+            return {...v, material_type: material_type, safe_stock: safe_stock, current_stock: current_stock}
         })
 
         setList(getStock)

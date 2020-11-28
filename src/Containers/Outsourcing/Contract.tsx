@@ -54,44 +54,6 @@ const ContractContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            name: '외주처 01',
-            material_name: '제품명은 길어질수도',
-            quantity: '1,000,000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 02',
-            material_name: '제품명은 길어질수도',
-            quantity: '1,000,000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 03',
-            material_name: '제품명은 길어질수도',
-            quantity: '1,000,000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 04',
-            material_name: '제품명은 길어질수도',
-            quantity: '1,000,000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-        {
-            name: '외주처 05',
-            material_name: '제품명은 길어질수도',
-            quantity: '1,000,000',
-            ceo_name: '김대표',
-            registered: '2020.06.16',
-        },
-    ]
-
     const detaildummy = [
         {
             writer: '김담당',
@@ -110,7 +72,6 @@ const ContractContainer = () => {
             }
         }
     }
-
 
 
     const allCheckOnClick = useCallback((list) => {
@@ -156,7 +117,16 @@ const ContractContainer = () => {
         const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
-        setList(res.info_list)
+        const contractList = res.info_list.map((v) => {
+
+            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+
+            return {...v, quantity: quantity, unpaid: unpaid}
+        })
+
+        setList(contractList)
         setPage({current: res.current_page, total: res.total_page})
     }, [option, searchValue, page])
 
@@ -171,7 +141,16 @@ const ContractContainer = () => {
         const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
-        setList(res.info_list)
+        const contractList = res.info_list.map((v) => {
+
+            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+
+            return {...v, quantity: quantity, unpaid: unpaid}
+        })
+
+        setList(contractList)
         setPage({current: res.current_page, total: res.total_page})
 
     }, [searchValue, option, page])
@@ -246,7 +225,16 @@ const ContractContainer = () => {
         const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
 
-        setList(res.info_list)
+        const contractList = res.info_list.map((v) => {
+
+            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+
+            return {...v, quantity: quantity, unpaid: unpaid}
+        })
+
+        setList(contractList)
         setPage({current: res.current_page, total: res.total_page})
 
         Notiflix.Loading.Remove();

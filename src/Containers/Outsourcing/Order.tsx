@@ -115,7 +115,17 @@ const OrderContainer = () => {
         const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
-        setList(res.info_list)
+        const orderList = res.info_list.map((v) => {
+
+            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+
+            return {...v, quantity: quantity, unpaid: unpaid}
+        })
+
+        setList(orderList)
+
         setPage({current: res.current_page, total: res.total_page})
     }, [option, searchValue])
 
@@ -130,7 +140,17 @@ const OrderContainer = () => {
         const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
 
-        setList(res.info_list)
+        const orderList = res.info_list.map((v) => {
+
+            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+
+            return {...v, quantity: quantity, unpaid: unpaid}
+        })
+
+        setList(orderList)
+
         setPage({current: res.current_page, total: res.total_page})
 
     }, [searchValue, option])
@@ -205,7 +225,16 @@ const OrderContainer = () => {
         const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
 
-        setList(res.info_list)
+        const orderList = res.info_list.map((v) => {
+
+            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+
+            return {...v, quantity: quantity, unpaid: unpaid}
+        })
+
+        setList(orderList)
 
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove();

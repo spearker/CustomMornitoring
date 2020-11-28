@@ -7,99 +7,247 @@ import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 
 interface Props {
-    title: string
-    excelName: string
+    title: string[]
 }
 
-const ExcelFormBox: React.FunctionComponent<Props> = ({title, excelName}) => {
+const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
     const [file, setFile] = useState<any>(null)
-    const [excelPk, setExcelPk] = useState<string>('')
     const [path, setPath] = useState<string | null>(null)
-    const [materialList, setMaterialList] = useState<any[]>([])
+    /**엑셀 리스트**/
+    const [rawMaterial, setRawMaterialList] = useState<any[]>([])
+    const [semiProduct, setSemiProduct] = useState<any[]>([])
+    const [subMaterialList, setSubMaterialList] = useState<any[]>([])
+    const [finishedMaterialList, setFinishedMaterialList] = useState<any[]>([])
+    const [moldList, setMoldList] = useState<any[]>([])
+    /**선택 엑셀**/
+    const [selectRaw, setSelectRaw] = useState<any[]>([])
+    const [selectSemi, setSelectSemi] = useState<any[]>([])
+    const [selectSub, setSelectSub] = useState<any[]>([])
+    const [selectFinished, setSelectFinished] = useState<any[]>([])
+    const [selectMold, setSelectMold] = useState<any[]>([])
+
+
     /**
      * addFile()
      * 파일 등록
      * @param {object(file)} event.target.files[0] 파일
      * @returns X
      */
-    const addFile = useCallback(async (event: any): Promise<void> => {
+    const addFile = useCallback(async (event: any, index: number) => {
 
         if (event.target.files[0] === undefined) {
             setFile(null)
-
             return
         }
-        if (event.target.files[0].size < 10485760) { //파일 크기 10MB 이하
-            setFile(event.target.files[0])
-            console.log(event.target.files[0])
-            const formData = new FormData()
-            formData.append('file', event.target.files[0])
+        setFile(event.target.files[0])
+        // console.log(index)
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
 
-            const temp = await postRequest('http://192.168.0.21:7523/api/v1/format/upload?type=1', formData, getToken(TOKEN_NAME))
-            if (temp === false) {
-
-                setFile(null)
-
-                return
-            } else {
-                setPath(temp)
-
-            }
-
-        } else {
-            alert('10MB 이하의 파일만 업로드 가능합니다.')
+        const temp = await postRequest(`http://192.168.0.21:7523/api/v1/format/upload?type=${index}`, formData, getToken(TOKEN_NAME))
+        if (temp === false) {
             setFile(null)
             return
+        } else {
+            setPath(temp)
         }
 
     }, [file, path])
 
+    const onChange =
+        (index) =>
+            (e) => {
+                console.log(index)
+                addFile(e, index)
+            }
+
 
     const getList = useCallback(async () => {
+        title.map(async (value, index) => {
+            const temp = await getRequest(`http://61.101.55.224:18900/api/v1/format/history/list?type=${index}`, getToken(TOKEN_NAME))
+            switch (index) {
+                case 0:
+                    setRawMaterialList(temp.data)
+                    break
+                case 1:
+                    setSemiProduct(temp.data)
+                    break
+                case 2:
+                    setSubMaterialList(temp.data)
+                    break
+                case 3:
+                    setFinishedMaterialList(temp.data)
+                    break
+                case 4:
+                    setMoldList(temp.data)
+                    break
+                default:
+                    break
+            }
+        })
 
-        const temp = await getRequest('http://61.101.55.224:18900/api/v1/format/history/list?type=4', getToken(TOKEN_NAME))
+    }, [moldList])
 
-        setMaterialList(temp.data)
-    }, [materialList])
+    const selectSwitch = useCallback((value, index) => {
+        switch (index) {
+            case 0:
+                setSelectRaw(value)
+                break
+            case 1:
+                setSelectSemi(value)
+                break
+            case 2:
+                setSelectSub(value)
+                break
+            case 3:
+                setSelectFinished(value)
+                break
+            case 4:
+                setSelectMold(value)
+                break
+            default:
+                break
+        }
 
+    }, [])
 
     React.useEffect(() => {
         getList()
     }, [])
 
     return (
-        <div style={{display: 'flex'}}>
-            <FormBox>
-                <p>{title}</p>
-                <ExcelUpload>
-                    <label htmlFor={'file'}>업로드</label>
-                </ExcelUpload>
-                <FormDownload onClick={() => window.open('http://192.168.0.21:7523/api/v1/format/download?type=1')}>
-                    양식 다운로드
-                </FormDownload>
-            </FormBox>
-            <ExcelNameBox>
-                <select className="p-limits" style={{
-                    backgroundColor: '#353b48',
-                    borderColor: '#353b48',
-                    color: 'white'
-                }} onChange={(e) => setExcelPk(e.target.value)}>
-                    {
-                        materialList === undefined ? <option>선택사항이 없습니다.</option> :
-                            materialList.map(m => {
-                                return (
-                                    <option value={m.pk}>{m.file_name}</option>
-                                )
-                            })
-                    }
-                </select>
-                <ExcelDownLoad
-                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${excelPk}`)}>
-                    다운로드
-                </ExcelDownLoad>
-                <input type="file" name="file" id={'file'} style={{display: 'none'}} onChange={addFile}/>
-            </ExcelNameBox>
+        <div>
+            {title.map((excelName, index) => {
+                return (
+                    <div style={{display: 'flex', marginBottom: '10px'}}>
+                        <FormBox>
+                            <p>{excelName}</p>
+                            <ExcelUpload>
+                                <label htmlFor={'file'}>업로드</label>
+                                <input type="file" name="file" id={'file'} style={{display: 'none'}}
+                                       onChange={onChange(index)}/>
+                            </ExcelUpload>
+                            <FormDownload
+                                onClick={() => window.open(`http://192.168.0.21:7523/api/v1/format/download?type=${index}`)}>
+                                양식 다운로드
+                            </FormDownload>
+                        </FormBox>
+                        <ExcelNameBox>
+                            {index === 0 &&
+                            <select className="p-limits" style={{
+                                backgroundColor: '#353b48',
+                                borderColor: '#353b48',
+                                color: 'white'
+                            }} onChange={(e) => selectSwitch(e.target.value, index)}>
+                                <option value={''}>다운받을 파일을 선택해주세요.</option>
+                                {
+                                    rawMaterial === undefined ? <option>선택사항이 없습니다.</option> :
+                                        rawMaterial.map(m => {
+                                            return (
+                                                <option value={m.pk}>{m.file_name}</option>
+                                            )
+                                        })
+                                }
+                            </select>}
+                            {index === 1 &&
+                            <select className="p-limits" style={{
+                                backgroundColor: '#353b48',
+                                borderColor: '#353b48',
+                                color: 'white'
+                            }} onChange={(e) => selectSwitch(e.target.value, index)}>
+                                <option value={''}>다운받을 파일을 선택해주세요.</option>
+                                {
+                                    subMaterialList === undefined ? <option>선택사항이 없습니다.</option> :
+                                        subMaterialList.map(m => {
+                                            return (
+                                                <option value={m.pk}>{m.file_name}</option>
+                                            )
+                                        })
+                                }
+                            </select>}
+                            {index === 2 &&
+                            <select className="p-limits" style={{
+                                backgroundColor: '#353b48',
+                                borderColor: '#353b48',
+                                color: 'white'
+                            }} onChange={(e) => selectSwitch(e.target.value, index)}>
+                                <option value={''}>다운받을 파일을 선택해주세요.</option>
+                                {
+                                    semiProduct === undefined ? <option>선택사항이 없습니다.</option> :
+                                        semiProduct.map(m => {
+                                            return (
+                                                <option value={m.pk}>{m.file_name}</option>
+                                            )
+                                        })
+                                }
+                            </select>}
+                            {index === 3 &&
+                            <select className="p-limits" style={{
+                                backgroundColor: '#353b48',
+                                borderColor: '#353b48',
+                                color: 'white'
+                            }} onChange={(e) => selectSwitch(e.target.value, index)}>
+                                <option value={''}>다운받을 파일을 선택해주세요.</option>
+                                {
+                                    finishedMaterialList === undefined ? <option>선택사항이 없습니다.</option> :
+                                        finishedMaterialList.map(m => {
+                                            return (
+                                                <option value={m.pk}>{m.file_name}</option>
+                                            )
+                                        })
+                                }
+                            </select>}
+                            {index === 4 &&
+                            <select className="p-limits" style={{
+                                backgroundColor: '#353b48',
+                                borderColor: '#353b48',
+                                color: 'white'
+                            }} onChange={(e) => selectSwitch(e.target.value, index)}>
+                                <option value={''}>다운받을 파일을 선택해주세요.</option>
+                                {
+                                    moldList === undefined ? <option>선택사항이 없습니다.</option> :
+                                        moldList.map(m => {
+                                            return (
+                                                <option value={m.pk}>{m.file_name}</option>
+                                            )
+                                        })
+                                }
+                            </select>}
+                            {index === 0 &&
+                            <ExcelDownLoad
+                                onClick={() => selectRaw !== undefined && selectRaw !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectRaw}`)}>
+                                다운로드
+                            </ExcelDownLoad>
+                            }
+                            {index === 1 &&
+                            <ExcelDownLoad
+                                onClick={() => selectSemi !== undefined && selectSemi !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSemi}`)}>
+                                다운로드
+                            </ExcelDownLoad>
+                            }
+                            {index === 2 &&
+                            <ExcelDownLoad
+                                onClick={() => selectSub !== undefined && selectSub !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSub}`)}>
+                                다운로드
+                            </ExcelDownLoad>
+                            }
+                            {index === 3 &&
+                            <ExcelDownLoad
+                                onClick={() => selectFinished !== undefined && selectFinished !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectFinished}`)}>
+                                다운로드
+                            </ExcelDownLoad>
+                            }
+                            {index === 4 &&
+                            <ExcelDownLoad
+                                onClick={() => selectMold !== undefined && selectMold !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectMold}`)}>
+                                다운로드
+                            </ExcelDownLoad>
+                            }
+                        </ExcelNameBox>
+                    </div>
+                )
+            })}
         </div>
     )
 }

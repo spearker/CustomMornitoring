@@ -145,8 +145,9 @@ const OrderContainer = () => {
 
         const orderList = res.info_list.map((v) => {
             const finished = v.finished === true ? '완료' : '진행중'
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-            return {...v, finished: finished}
+            return {...v, finished: finished, amount: amount}
         })
         setList(orderList)
 

@@ -138,7 +138,14 @@ const ShipmentContainer = () => {
         const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}&limit=15`
         const res = await getMarketing(tempUrl)
 
-        setList(res.info_list)
+        const shipmentList = res.info_list.map((v) => {
+
+            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+            return {...v, amount: amount}
+        })
+
+        setList(shipmentList)
 
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove();

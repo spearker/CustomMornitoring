@@ -128,9 +128,9 @@ const QualityListContainer = () => {
                 request_pk: v.request_pk,
                 material_name: v.material_name !== undefined ? v.material_name : "-",
                 process_name: v.process_name !== undefined ? v.process_name : "-",
-                amount: v.amount !== undefined ? v.amount : 0,
-                eligible: v.eligible !== undefined ? v.eligible : 0,
-                ineligible: v.ineligible !== undefined ? v.ineligible : 0,
+                amount: v.amount !== undefined ? v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                eligible: v.eligible !== undefined ? v.eligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                ineligible: v.ineligible !== undefined ? v.ineligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
                 whether: v.whether !== undefined ? v.whether : "-",
                 statement: v.statement !== undefined ? v.statement : "-"
             }
