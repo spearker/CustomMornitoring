@@ -18,27 +18,6 @@ const typeDummy = [
   '주문 예측',
 ]
 
-const productionDummy = [
-  '더미 품목 1',
-  '더미 품목 2',
-  '더미 품목 3',
-]
-
-const listDummy = [
-  {
-    project_pk: 'dummy01',
-    factory: '더미 업체 1',
-    production: '더미 품목 1',
-    planDate: {start: '2020-08-15', end: '2020-08-17'}
-  },
-  {
-    project_pk: 'dummy02',
-    factory: '더미 업체 1',
-    production: '더미 품목 1',
-    planDate: {start: '2020-08-15', end: '2020-08-17'}
-  },
-]
-
 interface modalData {
   name?: string,
   pk?: string
@@ -62,6 +41,7 @@ const ProductionRegisterContainer = () => {
     start: moment().format('YYYY-MM-DD'),
     end: moment().format('YYYY-MM-DD'),
   })
+
 
   const [selectMember, setSelectMember] = useState<modalData>({})
 
@@ -128,7 +108,6 @@ const ProductionRegisterContainer = () => {
       history.goBack()
     }
   }, [chitData, modalSelect])
-
 
   return (
     <div>

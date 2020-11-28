@@ -28,7 +28,9 @@ const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, 
                     {searchButtonOnClick ?
                         <div style={{width: '371px', display: 'flex', flexDirection: 'row', marginLeft: 24}}>
                             <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 92}}
-                                       onChange={(e) => searchBarChange(e.target.value)}/>
+                                       onChange={(e) => searchBarChange(e.target.value)}
+                                       onKeyPress={(event) => event.key === 'Enter' && searchButtonOnClick()}
+                            />
                             <SearchButton style={{flex: 8}} onClick={() => searchButtonOnClick()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>

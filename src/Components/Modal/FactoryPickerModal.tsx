@@ -140,9 +140,14 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
                                             return (
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.name}</span></td>
-                                                    <td><span>{v.location.postcode}</span></td>
-                                                    <td><span>{v.location.roadAddress}</span></td>
-                                                    <td><span>{v.location.detail}</span></td>
+                                                    <td>
+                                                        <span>{v.location !== undefined ? v.location.postcode : ''}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{v.location !== undefined ? v.location.roadAddress : ''}</span>
+                                                    </td>
+                                                    <td><span>{v.location !== undefined ? v.location.detail : ''}</span>
+                                                    </td>
                                                     <td>
                                                         <button
                                                             onClick={() => {

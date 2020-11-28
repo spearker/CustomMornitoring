@@ -24,6 +24,9 @@ import FactoryPickerModal from "../../Components/Modal/FactoryPickerModal";
 import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import InputContainer from "../InputContainer";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
+import ModelRulesInput from "../../Components/Input/ModelRulesInput";
+import FullAddInput from "../../Components/Input/FullAddInput";
+import * as _ from 'lodash'
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -38,15 +41,22 @@ const NewBasicMaterialRegister = () => {
     const [isDetail, setIsDetail] = useState<boolean>(false)
     const [pk, setPk] = useState<string>('')
     const indexList = getMaterialTypeList('kor')
+
     const [inputData, setInputData] = useObjectInput('CHANGE', {
         pk: '',
         material_name: '',
         material_type: 0,
-        location: [],
-        using_mold: [],
-        cost: '',
+        material_code: '',
+        manufacturer: null,
         safe_stock: '',
-        material_spec: '',
+        cost: '',
+        location: {factory_name: '', pk: ''},
+        info_list: null,
+        material_spec_W: null,
+        material_spec_H: null,
+        material_spec_D: null,
+        texture: null,
+        model: ['']
     })
 
     useEffect(() => {
@@ -69,21 +79,25 @@ const NewBasicMaterialRegister = () => {
             if (res.status === 200 || res.status === '200') {
                 const data = res.results
                 const form = {
-
                     pk: data.pk,
                     material_name: data.material_name,
                     material_type: data.material_type,
-                    location: [{pk: data.location_pk, name: data.location_name}],
-                    using_mold: data.mold !== undefined ? [{pk: data.mold.mold_pk, name: data.mold.mold_name}] : [],
+                    material_code: data.material_code,
+                    location: {pk: data.location_pk, name: data.location_name},
+                    manufacturer: data.manufacturer,
+                    material_spec_W: data.material_spec_W,
+                    material_spec_H: data.material_spec_H,
+                    material_spec_D: data.material_spec_D,
                     cost: data.cost,
                     safe_stock: data.safe_stock,
                     material_spec: data.material_spec,
                     stock: data.stock,
+                    texture: data.texture,
+                    model: data.model
                 }
 
                 setInputData('all', form)
-
-
+                
             } else {
                 //TODO:  기타 오류
             }
@@ -91,24 +105,36 @@ const NewBasicMaterialRegister = () => {
     }, [pk, optional, essential, inputData])
 
 
-    const onsubmitFormUpdate = useCallback(async (e) => {
-        e.preventDefault()
+    const onsubmitFormUpdate = useCallback(async () => {
+
 
         if (inputData.material_name.trim() === '') {
             alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.material_type === '') {
-            alert('품목 종류는 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk === '') {
-            alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
+        } else if (inputData.location === undefined || +inputData.location.pk === undefined || inputData.location.pk === '') {
+            alert('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (inputData.safe_stock === '') {
             alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.cost === '') {
-            alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
-            return
+        }
+
+        if (inputData.material_type === 0) {
+            if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
+                alert('제조사는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (inputData.cost === '') {
+                alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if ((inputData.texture).trim() === '' || inputData.texture === null) {
+                alert('재질은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
+        } else if (inputData.material_type === 3) {
+            if (inputData.model[0].trim() === '') {
+                alert('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
         }
 
 
@@ -116,12 +142,17 @@ const NewBasicMaterialRegister = () => {
             pk: getParameter('pk'),
             material_name: inputData.material_name,
             material_type: inputData.material_type,
-            location: inputData.location[0].pk,
-            using_mold: inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
-            cost: inputData.cost,
+            material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
+            manufacturer: inputData.manufacturer,
             safe_stock: inputData.safe_stock,
-            material_spec: inputData.material_spec,
-            info_list: JsonStringifyList(essential, optional)
+            cost: inputData.cost,
+            location: inputData.location.pk,
+            info_list: inputData.info_list,
+            material_spec_W: inputData.material_spec_W,
+            material_spec_H: inputData.material_spec_H,
+            material_spec_D: inputData.material_spec_D,
+            texture: inputData.texture,
+            model: inputData.model[0].trim() === '' ? null : inputData.model
         }
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/update`, data, getToken(TOKEN_NAME))
 
@@ -138,36 +169,52 @@ const NewBasicMaterialRegister = () => {
 
     }, [pk, optional, essential, inputData])
 
-    const onsubmitForm = useCallback(async (e) => {
-        e.preventDefault()
+    const onsubmitForm = useCallback(async () => {
 
         if (inputData.material_name.trim() === '') {
             alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.material_type === '') {
-            alert('품목 종류는 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (inputData.location === undefined || inputData.location[0]?.pk === undefined || inputData.location[0]?.pk === '') {
-            alert('공장은 필수 항목입니다. 반드시 선택해주세요.')
+        } else if (inputData.location === undefined || +inputData.location.pk === undefined || inputData.location.pk === '') {
+            alert('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (inputData.safe_stock === '') {
             alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (inputData.cost === '') {
-            alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
-            return
         }
 
+        if (inputData.material_type === 0) {
+            if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
+                alert('제조사는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (inputData.cost === '') {
+                alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if ((inputData.texture).trim() === '' || inputData.texture === null) {
+                alert('재질은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
+        } else if (inputData.material_type === 3) {
+            if (inputData.model[0].trim() === '') {
+                alert('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
+        }
+
+
         const data = {
-            document_pk: document.pk,
             material_name: inputData.material_name,
             material_type: inputData.material_type,
-            cost: inputData.cost,
-            location: inputData.location[0].pk,
-            using_mold: inputData.using_mold[0] ? inputData.using_mold[0].pk : null,
+            material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
+            manufacturer: inputData.manufacturer,
             safe_stock: inputData.safe_stock,
-            material_spec: inputData.material_spec,
-            info_list: JsonStringifyList(essential, optional)
+            cost: inputData.cost,
+            location: inputData.location.pk,
+            info_list: inputData.info_list,
+            material_spec_W: inputData.material_spec_W,
+            material_spec_H: inputData.material_spec_H,
+            material_spec_D: inputData.material_spec_D,
+            texture: inputData.texture,
+            model: inputData.model[0].trim() === '' ? null : inputData.model
         }
 
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/register`, data, getToken(TOKEN_NAME))
@@ -195,7 +242,8 @@ const NewBasicMaterialRegister = () => {
                         // document.id !== '' || isUpdate == true?
                         <div>
                             <ListHeader title="필수 항목"/>
-                            <RadioInput title={'품목 종류'} target={type} onChangeEvent={isUpdate ? null : setType}
+                            <RadioInput title={'품목 종류'} target={inputData.material_type}
+                                        onChangeEvent={(e) => isUpdate ? null : setInputData('material_type', e)}
                                         opacity={isUpdate}
                                         contents={[{value: 0, title: '원자재'}, {value: 1, title: '반제품'}, {
                                             value: 2, title: '부자재'
@@ -204,80 +252,80 @@ const NewBasicMaterialRegister = () => {
                             <NormalInput title={'품목(품목명)'} value={inputData.material_name}
                                          onChangeEvent={(input) => setInputData(`material_name`, input)}
                                          description={'품목명을 입력해주세요.'}/>
-                            {type === 3 &&
+                            {inputData.material_type === 3 &&
                             <div>
-                                <NormalInput title={'모델'} value={inputData.material_name}
-                                             onChangeEvent={(input) => setInputData(`material_name`, input)}
-                                             description={'모델을 입력해주세요'}/>
-                                <InputContainer title={''} width={167.84}>
-                                    <ProcessAddButton onClick={() => {
-                                        // let tmpList = processData.processes
-                                        // //@ts-ignore
-                                        // tmpList.push({machine_pk: ''})
-                                        // setProcessData({
-                                        //     ...processData,
-                                        //     processes: tmpList
-                                        // })
-                                    }}>
-                                        <div style={{
-                                            width: 872,
-                                            height: 30,
-                                            backgroundColor: '#f4f6fa',
-                                            border: '1px solid #b3b3b3'
-                                        }}>
-                                            <div style={{alignSelf: 'center'}}>
-                                                <p style={{color: '#b3b3b3',}}>+ 모델 추가</p>
-                                            </div>
-                                        </div>
-                                    </ProcessAddButton>
-                                </InputContainer>
+                                <FullAddInput title={'모델'} onChangeEvent={() => {
+                                    let temp = _.cloneDeep(inputData.model)
+                                    temp.push('')
+                                    setInputData('model', temp)
+                                }}>
+
+                                    {
+                                        inputData.model.map((v, i) => {
+                                            return (
+                                                <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
+                                                                 onRemoveEvent={() => {
+                                                                     let temp = _.cloneDeep(inputData.model)
+                                                                     temp.splice(i, 1)
+                                                                     setInputData('model', temp)
+                                                                 }}
+                                                                 onChangeEvent={(input) => {
+                                                                     let temp = _.cloneDeep(inputData.model)
+                                                                     temp.splice(i, 1, input)
+                                                                     setInputData('model', temp)
+                                                                 }}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </FullAddInput>
                             </div>
                             }
-                            {type === 0 &&
-                            <NormalInput title={'제조사'} value={inputData.material_name}
-                                         onChangeEvent={(input) => setInputData(`material_name`, input)}
+                            {inputData.material_type === 0 &&
+                            <NormalInput title={'제조사'} value={inputData.manufacturer}
+                                         onChangeEvent={(input) => setInputData(`manufacturer`, input)}
                                          description={'제조사를 입력해주세요'}/>
                             }
                             <NormalNumberInput title={'안전재고'} value={inputData.safe_stock}
                                                onChangeEvent={(input) => setInputData(`safe_stock`, input)}
                                                description={'안전재고량을 입력해주세요 (단위 : kg)'}/>
-                            {type === 0 || type === 3 &&
+                            {(inputData.material_type === 0 || inputData.material_type === 3) &&
                             <NormalNumberInput title={'원가'} value={inputData.cost}
                                                onChangeEvent={(input) => setInputData(`cost`, input)}
                                                description={'원가를 입력해주세요 (단위 : 원)'}/>
                             }
-                            {type === 0 &&
-                            <NormalInput title={'재질 종류'} value={inputData.material_name}
-                                         onChangeEvent={(input) => setInputData(`material_name`, input)}
+                            {inputData.material_type === 0 &&
+                            <NormalInput title={'재질 종류'} value={inputData.texture}
+                                         onChangeEvent={(input) => setInputData(`texture`, input)}
                                          description={'재질 종류를 입력해주세요'}/>
                             }
                             <InputContainer title={'기본 위치'} width={167.84}>
-                                <FactoryPickerModal select={inputData}
+                                <FactoryPickerModal select={inputData.location}
                                                     keyword={''}
                                                     option={1}
                                                     onClickEvent={(e) => {
-
+                                                        setInputData('location', e)
                                                     }} text={'기본위치를 입력해주세요'}/>
                             </InputContainer>
                             <br/>
                             <ListHeader title="선택 항목"/>
-                            <NormalNumberInput title={'품번'} value={inputData.safe_stock}
-                                               onChangeEvent={(input) => setInputData(`safe_stock`, input)}
-                                               description={'품번을 입력해주세요'}/>
-                            {type !== 0 &&
+                            <NormalInput title={'품번'} value={inputData.material_code}
+                                         onChangeEvent={(input) => setInputData(`material_code`, input)}
+                                         description={'품번을 입력해주세요'}/>
+                            {inputData.material_type !== 0 &&
                             <div>
-                                <NormalNumberInput title={'가로 사이즈'} value={inputData.cost}
-                                                   onChangeEvent={(input) => setInputData(`cost`, input)}
+                                <NormalNumberInput title={'가로 사이즈'} value={inputData.material_spec_W}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
                                                    description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalNumberInput title={'세로 사이즈'} value={inputData.cost}
-                                                   onChangeEvent={(input) => setInputData(`cost`, input)}
+                                <NormalNumberInput title={'세로 사이즈'} value={inputData.material_spec_H}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
                                                    description={'세로 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalNumberInput title={'높이 사이즈'} value={inputData.cost}
-                                                   onChangeEvent={(input) => setInputData(`cost`, input)}
+                                <NormalNumberInput title={'높이 사이즈'} value={inputData.material_spec_D}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
                                                    description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
                             </div>
                             }
-                            {type !== 0 && type !== 3 &&
+                            {inputData.material_type !== 0 && inputData.material_type !== 3 &&
                             <NormalNumberInput title={'원가'} value={inputData.cost}
                                                onChangeEvent={(input) => setInputData(`cost`, input)}
                                                description={'원가를 입력해주세요 (단위 : 원)'}/>
@@ -297,7 +345,8 @@ const NewBasicMaterialRegister = () => {
                                     </ButtonWrap>
                                 </div>
                                 :
-                                <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
+                                <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}
+                                                    onPress={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}/>
                             }
                         </div>
 

@@ -8,6 +8,7 @@ import {API_URLS, postProcessRegister} from '../../Api/mes/process'
 import MoldPickerModal from '../../Components/Modal/MoldPickerModal'
 import {useHistory} from 'react-router-dom'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
+import IC_MINUS from '../../Assets/Images/ic_minus.png'
 
 const typeDummy = [
   '단발',
@@ -28,6 +29,8 @@ const ProcessRegisterContainer = () => {
     processes: [{machine_pk: '', mold_pk: null}],
     description: ''
   })
+
+  const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
 
   const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
 
@@ -84,10 +87,13 @@ const ProcessRegisterContainer = () => {
 
   const changeType = async (e: number) => {
     if (e === 0 || e === 2) {
+      setInitalIndexCnt(1)
       setDetailMaterialData([{}])
     } else if (e === 1) {
+      setInitalIndexCnt(2)
       setDetailMaterialData([{}, {}])
     } else {
+      setInitalIndexCnt(0)
       setDetailMaterialData([])
     }
   }
@@ -136,34 +142,47 @@ const ProcessRegisterContainer = () => {
             {
               detailMaterialData && detailMaterialData.length !== 0
               && detailMaterialData.map((v, i) => {
+                console.log(i, initalIndexCnt, i < initalIndexCnt)
                 return (
                   <tbody>
                   <tr>
                     <td>• {i + 1}번 기계</td>
-                    <td><MachinePickerModal select={
-                      detailMaterialData[i] && (detailMaterialData[i].machine_name && detailMaterialData[i].machine_pk) ? {
-                        name: detailMaterialData[i].machine_name,
-                        pk: detailMaterialData[i].machine_pk
-                      } : undefined
-                    } text={'기계명을 검색해 주세요'} onClickEvent={(e: { name?: string, type?: number, pk?: string }) => {
-                      if (e.pk && e.name) {
-                        let tmpDetailMaterialData = detailMaterialData
-                        tmpDetailMaterialData[i].machine_pk = e.pk
-                        tmpDetailMaterialData[i].machine_name = e.name
-                        tmpDetailMaterialData[i].machine_type = e.type
-                        setDetailMaterialData([...tmpDetailMaterialData])
+                    <td style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 15}}>
+                      <MachinePickerModal select={
+                        detailMaterialData[i] && (detailMaterialData[i].machine_name && detailMaterialData[i].machine_pk) ? {
+                          name: detailMaterialData[i].machine_name,
+                          pk: detailMaterialData[i].machine_pk
+                        } : undefined
+                      } text={'기계명을 검색해 주세요'} width={initalIndexCnt > i ? 921 : 889}
+                                          onClickEvent={(e: { name?: string, type?: number, pk?: string }) => {
+                                            if (e.pk && e.name) {
+                                              let tmpDetailMaterialData = detailMaterialData
+                                              tmpDetailMaterialData[i].machine_pk = e.pk
+                                              tmpDetailMaterialData[i].machine_name = e.name
+                                              tmpDetailMaterialData[i].machine_type = e.type
+                                              setDetailMaterialData([...tmpDetailMaterialData])
+                                            }
+                                            // let tmpList = processData.processes
+                                            // if (tmpList && e.pk) {
+                                            //   tmpList[i] = {...tmpList[i], machine_pk: e.pk}
+                                            // }
+                                            //
+                                            // let tmpMachineList = selectMachine
+                                            // selectMachine[i] = e
+                                            //
+                                            // setSelectMachine(tmpMachineList)
+                                            // return setProcessData({...processData, processes: tmpList})
+                                          }} buttonWid={30}/>
+                      {
+                        i >= initalIndexCnt &&
+                        <img src={IC_MINUS} style={{width: 32, height: 32, marginLeft: 8, cursor: 'pointer'}}
+                             onClick={() => {
+                               let tmpDetailData = detailMaterialData
+                               tmpDetailData.splice(i, 1)
+                               setDetailMaterialData([...tmpDetailData])
+                             }}/>
                       }
-                      // let tmpList = processData.processes
-                      // if (tmpList && e.pk) {
-                      //   tmpList[i] = {...tmpList[i], machine_pk: e.pk}
-                      // }
-                      //
-                      // let tmpMachineList = selectMachine
-                      // selectMachine[i] = e
-                      //
-                      // setSelectMachine(tmpMachineList)
-                      // return setProcessData({...processData, processes: tmpList})
-                    }} buttonWid={30}/></td>
+                    </td>
                   </tr>
                   {
                     detailMaterialData[i] && detailMaterialData[i].machine_type === 1
@@ -336,81 +355,81 @@ const ProcessRegisterContainer = () => {
 }
 
 const ContainerMain = Styled.div`
-                            width: 1060px;
-                            height: auto;
-                            border-radius: 6px;
-                            background-color: white;
-                            padding: 35px 20px 0 20px;
-                            .title {
-                            font-size: 18px;
-                            font-family: NotoSansCJKkr;
-                            font-weight: bold;
-                            color: #19b8df;
-                            text-align: left;
-                            }
-                            table{
-                            width: 100%;
-                            height: 100%;
-                            margin-top: 35px;
-                            }
-                            td{
-                            font-family: NotoSansCJKkr;
-                            font-weight: bold;
-                            font-size: 15px;
-                            input{
-                            padding-left: 8px;
-                            font-family: NotoSansCJKkr;
-                            height: 32px;
-                            border: 0.5px solid #b3b3b3;
-                            width: calc( 100% - 8px );
-                            background-color: #f4f6fa;
-                            font-size: 15px;
-                            &::placeholder:{
-                            color: #b3b3b3;
-                            };
-                            }
-                            &:first-child{
-                            width: 133px;
-                            text-align: left;
-                            }
-                            }
-                            tr{
-                            height: 65px;
-                            }
-                            `
+                        width: 1060px;
+                        height: auto;
+                        border-radius: 6px;
+                        background-color: white;
+                        padding: 35px 20px 0 20px;
+                        .title {
+                        font-size: 18px;
+                        font-family: NotoSansCJKkr;
+                        font-weight: bold;
+                        color: #19b8df;
+                        text-align: left;
+                        }
+                        table{
+                        width: 100%;
+                        height: 100%;
+                        margin-top: 35px;
+                        }
+                        td{
+                        font-family: NotoSansCJKkr;
+                        font-weight: bold;
+                        font-size: 15px;
+                        input{
+                        padding-left: 8px;
+                        font-family: NotoSansCJKkr;
+                        height: 32px;
+                        border: 0.5px solid #b3b3b3;
+                        width: calc( 100% - 8px );
+                        background-color: #f4f6fa;
+                        font-size: 15px;
+                        &::placeholder:{
+                        color: #b3b3b3;
+                        };
+                        }
+                        &:first-child{
+                        width: 133px;
+                        text-align: left;
+                        }
+                        }
+                        tr{
+                        height: 65px;
+                        }
+                        `
 
 const CheckButton = Styled.button`
-                            position: absolute;
-                            bottom: 0px;
-                            height: 46px;
-                            width: 225px;
-                            div{
-                            width: 100%;
-                            }
-                            span{
-                            line-height: 46px;
-                            font-family: NotoSansCJKkr;
-                            font-weight: bold;
-                            }
-                            `
+                        position: absolute;
+                        bottom: 0px;
+                        height: 46px;
+                        width: 225px;
+                        div{
+                        width: 100%;
+                        }
+                        span{
+                        line-height: 46px;
+                        font-family: NotoSansCJKkr;
+                        font-weight: bold;
+                        }
+                        `
 
 const ButtonWrap = Styled.button`
-                            padding: 4px 12px 4px 12px;
-                            margin-bottom: 20px;
-                            border-radius: 5px;
-                            color: black;
-                            background-color: ${POINT_COLOR};
-                            border: none;
-                            font-weight: bold;
-                            font-size: 13px;
-                            img {
-                            margin-right: 7px;
-                            width: 14px;
-                            height: 14px;
-                            }
-                            `
+                        padding: 4px 12px 4px 12px;
+                        margin-bottom: 20px;
+                        border-radius: 5px;
+                        color: black;
+                        background-color: ${POINT_COLOR};
+                        border: none;
+                        font-weight: bold;
+                        font-size: 13px;
+                        img {
+                        margin-right: 7px;
+                        width: 14px;
+                        height: 14px;
+                        }
+                        `
 const ProcessAddButton = Styled.button`
 
-                            `
+                        `
 
 export default ProcessRegisterContainer

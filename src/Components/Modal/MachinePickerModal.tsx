@@ -16,7 +16,7 @@ interface IProps {
   text: string
   buttonWid?: string | number
   disabled?: boolean
-  width?: number
+  width?: number | string
 }
 
 const DummyMachine = [
@@ -54,7 +54,6 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
   }, [searchName, page])
 
 
-
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }
@@ -69,7 +68,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
 
   return (
     <div>
-      <div style={{display: 'inline-block', zIndex: 0, width: '100%'}}>
+      <div style={{display: 'inline-block', zIndex: 0, width: width ? width : '100%'}}>
         <BoxWrap disabled={disabled} onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>

@@ -51,11 +51,11 @@ const BasicMoldRegister = () => {
 
     const [limit, setLimit] = useState<number | undefined>(undefined);
     const [inspect, setInspect] = useState<number | undefined>(undefined);
-    const [current, setCurrent] = useState<number | undefined>(undefined);
+    const [current, setCurrent] = useState<number>(0);
     const [proper, setProper] = useState<number | undefined>(undefined);
     const [files, setFiles] = useState<any[3]>([null, null]);
-    const [paths, setPaths] = useState<any[3]>([null, null]);
-    const [oldPaths, setOldPaths] = useState<any[3]>([null, null]);
+    const [paths, setPaths] = useState<any[2]>([null, null]);
+    const [oldPaths, setOldPaths] = useState<any[2]>([null, null]);
     const [date, setDate] = useState<string>('');
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
     const [mold_spec_w, setMold_spec_w] = useState<number | undefined>(undefined);
@@ -73,7 +73,7 @@ const BasicMoldRegister = () => {
         name: ''
     });
     const [output_material_model, setOutput_material_model] = useState<string | number>('');
-    const [cavity, setCavity] = useState<string>('');
+    const [cavity, setCavity] = useState<number | null>(null);
 
     const indexList = getMoldTypeList('kor');
 
@@ -147,19 +147,17 @@ const BasicMoldRegister = () => {
                 setMold_spec_w(data.mold_spec_W);
                 setMold_spec_l(data.mold_spec_L);
                 setMold_spec_t(data.mold_spec_T);
-                setInput_material({...input_material, pk: data.input_material_pk, name: data.input_material_name});
-                setOutput_material({...output_material, pk: data.output_material_pk, name: data.output_material_name});
                 const tempList = paths.slice();
                 tempList[0] = data.upper;
                 tempList[1] = data.below;
                 setOldPaths(tempList);
-
+                setCavity(data.cavity)
 
             } else {
                 //TODO:  기타 오류
             }
         }
-    }, [pk, made, madeNo, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, paths, inspect, essential, optional, factory, output_material, input_material, current])
+    }, [pk, made, madeNo, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, cavity, paths, inspect, essential, optional, factory, output_material, input_material, current])
 
 
     const onsubmitFormUpdate = useCallback(async () => {
@@ -194,14 +192,8 @@ const BasicMoldRegister = () => {
         } else if (!mold_spec_t || mold_spec_t <= 0) {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (input_material.pk === "" || input_material.pk === undefined) {
-            alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (output_material.pk === "" || output_material.pk === undefined) {
-            alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (input_material.pk === output_material.pk) {
-            alert("투입 품목과 생산 품목이 같습니다. 다르게 체크해주세요.")
+        } else if (cavity === 0) {
+            alert('캐비티는 0이 될 수 없습니다.')
             return
         }
 
@@ -211,22 +203,20 @@ const BasicMoldRegister = () => {
             mold_name: name,
             mold_type: type,
             manufactured_at: date,
-            limit: limit,
-            inspect: inspect,
-            proper_tons: proper,
-            current: current,
+            limit: Number(limit),
+            inspect: Number(inspect),
+            proper_tons: Number(proper),
+            current: current !== null ? Number(current) : null,
             location: factory[0].pk,
             info_list: JsonStringifyList(essential, optional),
-            output_material: output_material.pk,
-            input_material: input_material.pk,
             manufacturer: made.trim(),
             manufacturer_code: madeNo,
-            mold_spec_L: mold_spec_l,
-            mold_spec_W: mold_spec_w,
-            mold_spec_T: mold_spec_t,
+            mold_spec_L: Number(mold_spec_l),
+            mold_spec_W: Number(mold_spec_w),
+            mold_spec_T: Number(mold_spec_t),
             upper: paths[0],
             below: paths[1],
-
+            cavity: cavity === null ? cavity : Number(cavity)
         };
 
         const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/update`, data, getToken(TOKEN_NAME))
@@ -242,7 +232,7 @@ const BasicMoldRegister = () => {
             }
         }
 
-    }, [pk, made, madeNo, current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, paths, inspect, essential, optional, factory, output_material, input_material])
+    }, [pk, made, madeNo, current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, cavity, infoList, paths, inspect, essential, optional, factory, output_material, input_material])
 
     /**
      * onsubmitForm()
@@ -283,37 +273,29 @@ const BasicMoldRegister = () => {
         } else if (!mold_spec_t || mold_spec_t <= 0) {
             alert("금형 치수 T 필수 항목입니다. 반드시 입력해주세요.")
             return;
-        } else if (input_material.pk === "" || input_material.pk === undefined) {
-            alert("투입 품목은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (output_material.pk === "" || output_material.pk === undefined) {
-            alert("생산 품목은 필수 항목입니다. 반드시 입력해주세요.")
-            return;
-        } else if (input_material.pk === output_material.pk) {
-            alert("투입 품목과 생산 품목이 같습니다. 다르게 체크해주세요.")
+        } else if (cavity === 0) {
+            alert('캐비티는 0이 될 수 없습니다.')
             return
         }
 
         const data = {
-            document_pk: document.pk,
             mold_name: name,
             mold_type: type,
             manufactured_at: date,
-            limit: limit,
-            inspect: inspect,
-            proper_tons: proper,
-            current: current,
+            limit: Number(limit),
+            inspect: Number(inspect),
+            proper_tons: Number(proper),
+            current: current !== null ? Number(current) : null,
             location: factory[0].pk,
             info_list: JsonStringifyList(essential, optional),
-            output_material: output_material.pk,
-            input_material: input_material.pk,
             manufacturer: made.trim(),
             manufacturer_code: madeNo,
-            mold_spec_L: mold_spec_l,
-            mold_spec_W: mold_spec_w,
-            mold_spec_T: mold_spec_t,
+            mold_spec_L: Number(mold_spec_l),
+            mold_spec_W: Number(mold_spec_w),
+            mold_spec_T: Number(mold_spec_t),
             upper: paths[0],
             below: paths[1],
+            cavity: cavity === null ? cavity : Number(cavity)
         };
 
 
@@ -330,7 +312,7 @@ const BasicMoldRegister = () => {
             }
         }
 
-    }, [pk, made, madeNo, current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, paths, inspect, essential, optional, factory, output_material, input_material])
+    }, [pk, made, madeNo, current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, paths, cavity, inspect, essential, optional, factory, output_material, input_material])
 
 
     return (
@@ -432,7 +414,7 @@ const BasicMoldRegister = () => {
                                     :
                                     null
                             }
-                            <ColorInputWithText title={'캐비티'} value={cavity} onChangeEvent={setCavity}
+                            <ColorInputWithText title={'캐비티'} value={cavity} onChangeEvent={setCavity} type={'number'}
                                                 placeholder={'캐비티를 입력해주세요'}/>
                             <br/>
                             {
