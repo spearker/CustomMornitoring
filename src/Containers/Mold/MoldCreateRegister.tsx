@@ -105,7 +105,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     setDrawing([...resultData.drawing])
     setSelectDate(resultData.schedule)
 
-
   }, [])
 
   useEffect(() => {
@@ -367,148 +366,150 @@ const MoldCreateRegisterContainer = ({match}: any) => {
           </table>
         </div>
         {
-          parts && parts.map((v, i) =>
-            <MoldPartDropdown title={'파트'} part={true} onClick={() => {
-              setSelectParts({...selectParts, part: [...selectParts.part, [{pk: '', name: '', current: ''}]]})
-              setParts([...parts, initParts])
-            }} onClickDelete={() => {
-              let tmpParts = parts
-              let tmp = selectParts
+          parts && parts.length !== 0 ? parts.map((v, i) =>
+              <MoldPartDropdown title={'파트'} part={true} onClick={() => {
+                setSelectParts({...selectParts, part: [...selectParts.part, [{pk: '', name: '', current: ''}]]})
+                setParts([...parts, initParts])
+              }} onClickDelete={() => {
+                let tmpParts = parts
+                let tmp = selectParts
 
-              if (tmpParts.length === 1) {
-              } else {
                 tmpParts.splice(i, 1)
                 tmp.part.splice(i, 1)
+                console.log(tmpParts)
                 setParts([...tmpParts])
                 setSelectParts({...selectParts, ...tmp})
-              }
-            }}>
-              <PartInput title={'파트명'} value={parts[i].name} onChangeEvent={(input) => {
-                let tmp = parts
-                tmp[i] = {...tmp[i], name: input}
-                return setParts([...tmp])
-              }}/>
-              <PartInput title={'강종'} value={parts[i].steel_grade} onChangeEvent={(input) => {
-                let tmp = parts
-                tmp[i] = {...tmp[i], steel_grade: input}
-                return setParts([...tmp])
-              }}/>
-              <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
-                <p style={{
-                  fontSize: 14,
-                  marginTop: 5,
-                  fontWeight: 700,
-                  width: '13%',
-                  textAlign: 'left',
-                  display: 'inline-block'
-                }}>{`• 규격`}</p>
-                <div style={{width: '90%', justifyContent: 'space-around', display: 'flex'}}>
-                  <InputWrap>
-                    <InputBox type="number" value={parts[i].standard.w} onChange={(input) => {
-                      onChangeNumberInput('w', i, input.target.value)
-                    }} placeholder={'가로규격 입력'}/>
-                    <p>mm</p>
-                  </InputWrap>
-                  <InputWrap>
-                    <InputBox type="number" value={parts[i].standard.l} onChange={(input) => {
-                      onChangeNumberInput('l', i, input.target.value)
-                    }} placeholder={'세로규격 입력'}/>
-                    <p>mm</p>
-                  </InputWrap>
-                  <InputWrap>
-                    <InputBox type="number" value={parts[i].standard.h} onChange={(input) => {
-                      onChangeNumberInput('h', i, input.target.value)
-                    }} placeholder={'높이규격 입력'}/>
-                    <p>mm</p>
-                  </InputWrap>
+
+              }}>
+                <PartInput title={'파트명'} value={parts[i].name} onChangeEvent={(input) => {
+                  let tmp = parts
+                  tmp[i] = {...tmp[i], name: input}
+                  return setParts([...tmp])
+                }}/>
+                <PartInput title={'강종'} value={parts[i].steel_grade} onChangeEvent={(input) => {
+                  let tmp = parts
+                  tmp[i] = {...tmp[i], steel_grade: input}
+                  return setParts([...tmp])
+                }}/>
+                <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
+                  <p style={{
+                    fontSize: 14,
+                    marginTop: 5,
+                    fontWeight: 700,
+                    width: '13%',
+                    textAlign: 'left',
+                    display: 'inline-block'
+                  }}>{`• 규격`}</p>
+                  <div style={{width: '90%', justifyContent: 'space-around', display: 'flex'}}>
+                    <InputWrap>
+                      <InputBox type="number" value={parts[i].standard.w} onChange={(input) => {
+                        onChangeNumberInput('w', i, input.target.value)
+                      }} placeholder={'가로규격 입력'}/>
+                      <p>mm</p>
+                    </InputWrap>
+                    <InputWrap>
+                      <InputBox type="number" value={parts[i].standard.l} onChange={(input) => {
+                        onChangeNumberInput('l', i, input.target.value)
+                      }} placeholder={'세로규격 입력'}/>
+                      <p>mm</p>
+                    </InputWrap>
+                    <InputWrap>
+                      <InputBox type="number" value={parts[i].standard.h} onChange={(input) => {
+                        onChangeNumberInput('h', i, input.target.value)
+                      }} placeholder={'높이규격 입력'}/>
+                      <p>mm</p>
+                    </InputWrap>
+                  </div>
                 </div>
-              </div>
-              {
-                parts[i].material.map((value, index) =>
-                  <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
-                    <p style={{
-                      fontSize: 14,
-                      marginTop: 5,
-                      fontWeight: 700,
-                      width: '13%',
-                      textAlign: 'left',
-                      display: 'inline-block'
-                    }}>{`• 부품`}</p>
-                    <div style={{width: '87%', display: 'flex', alignItems: 'center'}}>
-                      <PartsPickerModal text={'부품을 검색해 주세요.'} onClickEvent={(e) => {
-                        let tmpArr = parts
-                        let tmp = selectParts
-                        tmp.part[i][index] = e
-                        tmpArr[i].material[index] = {...tmpArr[i].material[index], ...e, material_pk: e.pk}
+                {
+                  parts[i].material.map((value, index) =>
+                    <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
+                      <p style={{
+                        fontSize: 14,
+                        marginTop: 5,
+                        fontWeight: 700,
+                        width: '13%',
+                        textAlign: 'left',
+                        display: 'inline-block'
+                      }}>{`• 부품`}</p>
+                      <div style={{width: '87%', display: 'flex', alignItems: 'center'}}>
+                        <PartsPickerModal text={'부품을 검색해 주세요.'} onClickEvent={(e) => {
+                          let tmpArr = parts
+                          let tmp = selectParts
+                          tmp.part[i][index] = e
+                          tmpArr[i].material[index] = {...tmpArr[i].material[index], ...e, material_pk: e.pk}
 
-                        setParts([...tmpArr])
-                        setSelectParts({...tmp})
-                      }} select={selectParts.part[i][index]} width={365}/>
-                      <p style={{marginLeft: 15}}>현재 재고량</p>
-                      <MaterialBox type="number" value={selectParts.part[i][index].current}
-                                   placeholder={'9,999,999,999'}/>
-                      <p>사용할 수량</p>
-                      <MaterialBox type="number" value={parts[i].material[index].usage} onChange={(e) => {
-                        let tmpArr = parts
+                          setParts([...tmpArr])
+                          setSelectParts({...tmp})
+                        }} select={selectParts.part[i][index]} width={365}/>
+                        <p style={{marginLeft: 15}}>현재 재고량</p>
+                        <MaterialBox type="number" value={selectParts.part[i][index].current}
+                                     placeholder={'9,999,999,999'}/>
+                        <p>사용할 수량</p>
+                        <MaterialBox type="number" value={parts[i].material[index].usage} onChange={(e) => {
+                          let tmpArr = parts
 
-                        if (Number(selectParts.part[i][index].current) >= Number(e.target.value)) {
-                          tmpArr[i].material[index] = {...tmpArr[i].material[index], usage: e.target.value}
-                        } else {
-                          tmpArr[i].material[index] = {
-                            ...tmpArr[i].material[index],
-                            usage: selectParts.part[i][index].current
+                          if (Number(selectParts.part[i][index].current) >= Number(e.target.value)) {
+                            tmpArr[i].material[index] = {...tmpArr[i].material[index], usage: e.target.value}
+                          } else {
+                            tmpArr[i].material[index] = {
+                              ...tmpArr[i].material[index],
+                              usage: selectParts.part[i][index].current
+                            }
                           }
-                        }
 
 
-                        setParts([...tmpArr])
-                      }} placeholder={'9,999,999,999'}/>
-                      <DeleteButton onClick={() => {
-                        let tmpCompo = parts
-                        let tmp = selectParts
+                          setParts([...tmpArr])
+                        }} placeholder={'9,999,999,999'}/>
+                        <DeleteButton onClick={() => {
+                          let tmpCompo = parts
+                          let tmp = selectParts
 
-                        if (tmpCompo[i].material.length === 1) {
-                        } else {
                           tmpCompo[i].material.splice(index, 1)
                           tmp.part[i].splice(index, 1)
 
                           setSelectParts({...tmp})
                           setParts([...tmpCompo])
-                        }
-                      }}>
-                        <p>부품 삭제</p>
-                      </DeleteButton>
+                        }}>
+                          <p>부품 삭제</p>
+                        </DeleteButton>
+                      </div>
                     </div>
+                  )
+                }
+                <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
+                  <p style={{
+                    fontSize: 14,
+                    marginTop: 5,
+                    fontWeight: 700,
+                    width: '13%',
+                    textAlign: 'left',
+                    display: 'inline-block'
+                  }}>{``}</p>
+                  <div style={{width: '87%', display: 'flex', alignItems: 'center'}}>
+                    <AddButton onClick={() => {
+                      let tmpArr = parts
+                      let tmp = selectParts
+
+                      tmp.part[i].push({pk: '', name: '', current: ''})
+
+                      tmpArr[i] = {...tmpArr[i], material: [...tmpArr[i].material, initComponent]}
+
+                      setSelectParts({...tmp})
+                      setParts([...tmpArr])
+                    }}>
+                      <img src={IcPlusGray} style={{width: 13, height: 13, marginTop: 3, marginBottom: 3}}/>
+                      <p>부품 추가</p>
+                    </AddButton>
                   </div>
-                )
-              }
-              <div style={{display: 'flex', paddingTop: 16, verticalAlign: 'top'}}>
-                <p style={{
-                  fontSize: 14,
-                  marginTop: 5,
-                  fontWeight: 700,
-                  width: '13%',
-                  textAlign: 'left',
-                  display: 'inline-block'
-                }}>{``}</p>
-                <div style={{width: '87%', display: 'flex', alignItems: 'center'}}>
-                  <AddButton onClick={() => {
-                    let tmpArr = parts
-                    let tmp = selectParts
-
-                    tmp.part[i].push({pk: '', name: '', current: ''})
-
-                    tmpArr[i] = {...tmpArr[i], material: [...tmpArr[i].material, initComponent]}
-
-                    setSelectParts({...tmp})
-                    setParts([...tmpArr])
-                  }}>
-                    <img src={IcPlusGray} style={{width: 13, height: 13, marginTop: 3, marginBottom: 3}}/>
-                    <p>부품 추가</p>
-                  </AddButton>
                 </div>
-              </div>
-            </MoldPartDropdown>)
+              </MoldPartDropdown>)
+            : <MoldPartDropdown title={'파트'} part={true} onClick={() => {
+              setSelectParts({...selectParts, part: [...selectParts.part, [{pk: '', name: '', current: ''}]]})
+              setParts([...parts, initParts])
+            }}>
+
+            </MoldPartDropdown>
         }
 
         <MoldPartDropdown title={'부품'} part={false}>
@@ -532,9 +533,9 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
                     setComponents([...tmpArr])
                     setSelectParts({...tmp})
-                  }} select={selectParts.parts[i]} width={365}/>
+                  }} select={components[i]} width={365}/>
                   <p style={{marginLeft: 15}}>현재 재고량</p>
-                  <MaterialBox type="text" value={selectParts.parts[i].current} placeholder={'9,999,999,999'}/>
+                  <MaterialBox type="text" value={components[i].current} placeholder={'9,999,999,999'}/>
                   <p>사용할 수량</p>
                   <MaterialBox type="text" value={components[i].usage} onChange={(e) => {
                     let tmpArr = components
