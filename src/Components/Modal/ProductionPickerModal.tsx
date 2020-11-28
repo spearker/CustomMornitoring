@@ -11,15 +11,19 @@ import {API_URLS, getProductionSearch} from '../../Api/mes/production'
 //드롭다운 컴포넌트
 
 interface IProps {
-  select?: { name?: string, pk?: string },
+  select?: { name?: string, type?: string, pk?: string }
+  selectRange?: { name?: string, type?: number, pk?: string }[]
   onClickEvent: any
   text: string
   width?: boolean
   type?: number
-  style?: any,
+  style?: any
   innerWidth?: string | number
   buttonWid?: string | number
   disabled?: boolean
+  isType?: boolean
+  multiSelect?: boolean
+  isAllItem?: boolean
 }
 
 const DummyItem = [
@@ -30,14 +34,15 @@ const DummyItem = [
   }
 ]
 
-const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled}: IProps) => {
+const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [searchName, setSearchName] = useState('')
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
-  const [selectMaterial, setSelectMaterial] = useState('')
+  const [selectMaterial, setSelectMaterial] = useState<{ material_pk: string, material_name: string, material_type: string, location: string }[]>([])
+  const [indexList, setIndexList] = useState<number[]>([])
   const [productList, setProductList] = useState([
     {
       pk: '',
@@ -91,7 +96,6 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
           }}>
             <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}/>
           </div>
-
         </BoxWrap>
       </div>
       <Modal
@@ -147,11 +151,45 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
                               onSubmit={() => {
                               }}
                               onClick={() => {
-                                setSelectMaterial(v.material_name)
-                                return onClickEvent({name: v.material_name, pk: v.pk})
+                                let isCancel: boolean = false
+                                const tmpIndexList = indexList
+                                const tmpSelectMaterial = selectMaterial
+
+                                if (tmpIndexList.indexOf(i) !== -1) {
+                                  isCancel = true
+                                }
+
+                                if (isCancel) {
+                                  tmpIndexList.splice(tmpIndexList.indexOf(i), 1)
+                                  tmpSelectMaterial.splice(i, 1)
+                                  setIndexList([...tmpIndexList])
+                                  return setSelectMaterial([...tmpSelectMaterial])
+                                } else {
+                                  if (multiSelect) {
+                                    tmpIndexList.push(i)
+                                    tmpSelectMaterial.push({
+                                      material_pk: v.pk,
+                                      material_name: v.material_name,
+                                      material_type: v.material_type,
+                                      location: v.location
+                                    })
+                                    setIndexList([...tmpIndexList])
+                                    return setSelectMaterial([...tmpSelectMaterial])
+                                  } else {
+                                    tmpIndexList[0] = i
+                                    tmpSelectMaterial[0] = {
+                                      material_pk: v.pk,
+                                      material_name: v.material_name,
+                                      material_type: v.material_type,
+                                      location: v.location
+                                    }
+                                    setIndexList([...tmpIndexList])
+                                    return setSelectMaterial([...tmpSelectMaterial])
+                                  }
+                                }
                               }}
                               style={{
-                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                backgroundColor: indexList.indexOf(i) !== -1 ? POINT_COLOR : '#dfdfdf',
                                 width: 32,
                                 height: 32,
                                 margin: 0
@@ -169,15 +207,37 @@ const ProductionPickerModal = ({select, onClickEvent, text, width, type, style, 
             </div>
           </div>
           <div style={{width: 900}}>
-            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-              onClickEvent({name: undefined, pk: undefined})
-              setIsOpen(false)
-            }}>
+            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => setIsOpen(false)}>
               <div>
                 <span style={{color: '#666d79'}}>취소</span>
               </div>
             </CheckButton>
             <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+              if (multiSelect) {
+                onClickEvent(selectMaterial)
+              } else {
+                if (isAllItem) {
+                  onClickEvent(selectMaterial[0])
+                } else {
+                  if (isType) {
+                    if (selectMaterial[0]) {
+                      onClickEvent({
+                        name: selectMaterial[0].material_name,
+                        type: selectMaterial[0].material_type,
+                        material_pk: selectMaterial[0].material_pk
+                      })
+                    }
+                  } else {
+                    if (selectMaterial[0]) {
+                      onClickEvent({
+                        name: selectMaterial[0].material_name,
+                        material_pk: selectMaterial[0].material_pk
+                      })
+                    }
+                  }
+                }
+              }
+
               setIsOpen(false)
             }}>
               <div>

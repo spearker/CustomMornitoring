@@ -6,7 +6,7 @@ import ReactShadowScroll from 'react-shadow-scroll'
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
-import {API_URLS, getSearchMachine} from '../../Api/mes/process'
+import {API_URLS, getMemberList} from '../../Api/mes/member'
 
 //드롭다운 컴포넌트
 
@@ -16,20 +16,17 @@ interface IProps {
   text: string
   buttonWid?: string | number
   disabled?: boolean
-  width?: number | string
+  width?: number
 }
 
 const DummyMachine = [
   {
     pk: '',
-    machine_name: '',
-    machine_type: '',
-    manufacturer: '',
-    manufacturer_code: ''
+    name: '',
   }
 ]
 
-const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, width}: IProps) => {
+const MemeberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
@@ -41,18 +38,17 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
     current: 1,
   })
 
-  // const ref = useOnclickOutside(() => {
-  //     setIsOpen(false);
-  // });
-
   const getList = useCallback(async () => {
-    const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
-    const resultData = await getSearchMachine(tempUrl)
+    const tempUrl = `${API_URLS['member'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const resultData = await getMemberList(tempUrl)
     setMachineList(resultData.info_list)
 
     setPage({current: resultData.current_page, total: resultData.total_page})
   }, [searchName, page])
 
+  useEffect(() => {
+    console.log(searchName)
+  }, [searchName])
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
@@ -68,7 +64,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
 
   return (
     <div>
-      <div style={{display: 'inline-block', zIndex: 0, width: width ? width : '100%'}}>
+      <div style={{display: 'inline-block', zIndex: 0, width: '100%'}}>
         <BoxWrap disabled={disabled} onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
@@ -109,7 +105,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
       >
         <div style={{width: 900}}>
           <div style={{width: 860, height: 440, padding: 20}}>
-            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
+            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업자 검색</p>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList()}>
@@ -120,10 +116,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
               <ReactShadowScroll>
                 <MachineTable>
                   <tr>
-                    <th style={{width: 195}}>기계명</th>
-                    <th style={{width: 195}}>기계 종류</th>
-                    <th style={{width: 225}}>제조사</th>
-                    <th style={{width: 225}}>제조번호</th>
+                    <th style={{width: 840}}>이름</th>
                     <th style={{width: 30}}></th>
                   </tr>
                   {machineList !== undefined && machineList.length === 0 ?
@@ -134,15 +127,12 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
                     machineList.map((v, i) => {
                       return (
                         <tr style={{height: 32}}>
-                          <td><span>{v.machine_name}</span></td>
-                          <td><span>{v.machine_type}</span></td>
-                          <td><span>{v.manufacturer}</span></td>
-                          <td><span>{v.manufacturer_code}</span></td>
+                          <td><span>{v.name}</span></td>
                           <td>
                             <button
                               onClick={() => {
-                                setMachineName(v.machine_name)
-                                return onClickEvent({name: v.machine_name, type: v.machine_type, pk: v.pk})
+                                setMachineName(v.name)
+                                return onClickEvent({name: v.name, pk: v.pk})
                               }}
                               style={{
                                 backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
@@ -285,4 +275,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default MachinePickerModal
+export default MemeberPickerModal

@@ -1,35 +1,35 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
 
 
 //바코드 규칙
 interface IProps {
-    title: string,
-    value: string,
-    onChangeEvent: any,
-    onRemoveEvent: any,
+  title: string,
+  value: string,
+  onChangeEvent: any,
+  onRemoveEvent: any,
 }
 
-const ModelType = /^[A-Za-z0-9+]*$/;
+const ModelType = /^[A-Za-z0-9+]*$/
 
 const ModelRulesInput = ({title, value, onChangeEvent, onRemoveEvent}: IProps) => {
-    useEffect(() => {
+  useEffect(() => {
 
-    }, [])
+  }, [])
 
-    return (
+  return (
 
-        <div style={{marginTop: 17, marginBottom: 17, display: 'flex', alignItems: 'center'}}>
-            <p className="p-bold" style={{width: '20%', fontSize: 14, marginRight: 0}}>{title}</p>
-            <InputBox style={{width: 'calc(100% - 40px)'}} type="text" value={value}
-                      onChange={(e) => onChangeEvent(ModelType.test(e.target.value) ? e.target.value : value)}
-                      placeholder={'내용을 입력하세요.'}/>
-            <img src={IC_MINUS} style={{width: 20, height: 20, marginLeft: 8, cursor: 'pointer'}}
-                 onClick={onRemoveEvent}/>
-        </div>
+    <div style={{marginTop: 17, marginBottom: 17, display: 'flex', alignItems: 'center'}}>
+      <p className="p-bold" style={{width: '20%', fontSize: 14, marginRight: 0}}>{title}</p>
+      <InputBox style={{width: 'calc(100% - 40px)'}} type="text" value={value}
+                onChange={(e) => onChangeEvent(ModelType.test(e.target.value) ? e.target.value : value)}
+                placeholder={'내용을 입력하세요.'}/>
+      <img src={IC_MINUS} style={{width: 20, height: 20, marginLeft: 8, cursor: 'pointer'}}
+           onClick={onRemoveEvent}/>
+    </div>
 
-    );
+  )
 }
 
 const InputBox = Styled.input`
@@ -48,4 +48,4 @@ const Wrapper = Styled.div`
 
 `
 
-export default ModelRulesInput;
+export default ModelRulesInput
