@@ -9,7 +9,7 @@ const NewBasicItemListContainer: React.FunctionComponent = () => {
         <div>
             <div style={{position: 'relative'}}>
                 <Header title={'표준 항목 관리'}/>
-                <ExcelFormBox title={'품목 관리'} excelName={'품목 관리_20201120.xlxs'}/>
+                <ExcelFormBox title={['원자재 관리', '반제품 관리', '부자재 관리', '완제품 관리', '금형 관리']}/>
             </div>
         </div>
     )
