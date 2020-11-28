@@ -12,8 +12,6 @@ interface Props {
 
 const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
-    const [file, setFile] = useState<any>(null)
-    const [path, setPath] = useState<string | null>(null)
     /**엑셀 리스트**/
     const [rawMaterial, setRawMaterialList] = useState<any[]>([])
     const [semiProduct, setSemiProduct] = useState<any[]>([])
@@ -21,52 +19,102 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
     const [finishedMaterialList, setFinishedMaterialList] = useState<any[]>([])
     const [moldList, setMoldList] = useState<any[]>([])
     /**선택 엑셀**/
-    const [selectRaw, setSelectRaw] = useState<any[]>([])
-    const [selectSemi, setSelectSemi] = useState<any[]>([])
-    const [selectSub, setSelectSub] = useState<any[]>([])
-    const [selectFinished, setSelectFinished] = useState<any[]>([])
-    const [selectMold, setSelectMold] = useState<any[]>([])
+    const [selectRaw, setSelectRaw] = useState<string>('')
+    const [selectSemi, setSelectSemi] = useState<string>('')
+    const [selectSub, setSelectSub] = useState<string>('')
+    const [selectFinished, setSelectFinished] = useState<string>('')
+    const [selectMold, setSelectMold] = useState<string>('')
 
 
-    /**
-     * addFile()
-     * 파일 등록
-     * @param {object(file)} event.target.files[0] 파일
-     * @returns X
-     */
-    const addFile = useCallback(async (event: any, index: number) => {
-
+    const rawFile = useCallback(async (event: any) => {
         if (event.target.files[0] === undefined) {
-            setFile(null)
+
             return
         }
-        setFile(event.target.files[0])
-        // console.log(index)
         const formData = new FormData()
         formData.append('file', event.target.files[0])
+        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=0`, formData, getToken(TOKEN_NAME))
+        alert('업로드 되었습니다.')
+        getList(0)
+    }, [])
 
-        const temp = await postRequest(`http://192.168.0.21:7523/api/v1/format/upload?type=${index}`, formData, getToken(TOKEN_NAME))
-        if (temp === false) {
-            setFile(null)
+
+    const semiFile = useCallback(async (event: any) => {
+        if (event.target.files[0] === undefined) {
+
             return
-        } else {
-            setPath(temp)
         }
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=1`, formData, getToken(TOKEN_NAME))
+        alert('업로드 되었습니다.')
+        getList(1)
+    }, [])
 
-    }, [file, path])
+    const subFile = useCallback(async (event: any) => {
+        if (event.target.files[0] === undefined) {
 
-    const onChange =
-        (index) =>
-            (e) => {
-                console.log(index)
-                addFile(e, index)
-            }
+            return
+        }
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=2`, formData, getToken(TOKEN_NAME))
+        alert('업로드 되었습니다.')
+        getList(2)
+    }, [])
+
+    const finishedFile = useCallback(async (event: any) => {
+        if (event.target.files[0] === undefined) {
+
+            return
+        }
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=3`, formData, getToken(TOKEN_NAME))
+        alert('업로드 되었습니다.')
+        getList(3)
+    }, [])
+
+    const molFile = useCallback(async (event: any) => {
+        if (event.target.files[0] === undefined) {
+
+            return
+        }
+        const formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=4`, formData, getToken(TOKEN_NAME))
+        alert('업로드 되었습니다.')
+        getList(4)
+    }, [])
 
 
-    const getList = useCallback(async () => {
-        title.map(async (value, index) => {
-            const temp = await getRequest(`http://61.101.55.224:18900/api/v1/format/history/list?type=${index}`, getToken(TOKEN_NAME))
-            switch (index) {
+    const getList = useCallback(async (type) => {
+        if (type === 'all') {
+            title.map(async (value, index) => {
+                const temp = await getRequest(`http://61.101.55.224:18900/api/v1/format/history/list?type=${index}`, getToken(TOKEN_NAME))
+                switch (index) {
+                    case 0:
+                        setRawMaterialList(temp.data)
+                        break
+                    case 1:
+                        setSemiProduct(temp.data)
+                        break
+                    case 2:
+                        setSubMaterialList(temp.data)
+                        break
+                    case 3:
+                        setFinishedMaterialList(temp.data)
+                        break
+                    case 4:
+                        setMoldList(temp.data)
+                        break
+                    default:
+                        break
+                }
+            })
+        } else {
+            const temp = await getRequest(`http://61.101.55.224:18900/api/v1/format/history/list?type=${type}`, getToken(TOKEN_NAME))
+            switch (type) {
                 case 0:
                     setRawMaterialList(temp.data)
                     break
@@ -85,7 +133,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                 default:
                     break
             }
-        })
+        }
 
     }, [moldList])
 
@@ -113,7 +161,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
     }, [])
 
     React.useEffect(() => {
-        getList()
+        getList('all')
     }, [])
 
     return (
@@ -123,13 +171,43 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                     <div style={{display: 'flex', marginBottom: '10px'}}>
                         <FormBox>
                             <p>{excelName}</p>
+                            {index === 0 &&
                             <ExcelUpload>
                                 <label htmlFor={'file'}>업로드</label>
                                 <input type="file" name="file" id={'file'} style={{display: 'none'}}
-                                       onChange={onChange(index)}/>
+                                       onChange={rawFile}/>
                             </ExcelUpload>
+                            }
+                            {index === 1 &&
+                            <ExcelUpload>
+                                <label htmlFor={'semiFile'}>업로드</label>
+                                <input type="file" name="semiFile" id={'semiFile'} style={{display: 'none'}}
+                                       onChange={semiFile}/>
+                            </ExcelUpload>
+                            }
+                            {index === 2 &&
+                            <ExcelUpload>
+                                <label htmlFor={'subFile'}>업로드</label>
+                                <input type="file" name="subFile" id={'subFile'} style={{display: 'none'}}
+                                       onChange={subFile}/>
+                            </ExcelUpload>
+                            }
+                            {index === 3 &&
+                            <ExcelUpload>
+                                <label htmlFor={'finishedFile'}>업로드</label>
+                                <input type="file" name="finishedFile" id={'finishedFile'} style={{display: 'none'}}
+                                       onChange={finishedFile}/>
+                            </ExcelUpload>
+                            }
+                            {index === 4 &&
+                            <ExcelUpload>
+                                <label htmlFor={'molFile'}>업로드</label>
+                                <input type="file" name="molFile" id={'molFile'} style={{display: 'none'}}
+                                       onChange={molFile}/>
+                            </ExcelUpload>
+                            }
                             <FormDownload
-                                onClick={() => window.open(`http://192.168.0.21:7523/api/v1/format/download?type=${index}`)}>
+                                onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/download?type=${index}`)}>
                                 양식 다운로드
                             </FormDownload>
                         </FormBox>
@@ -158,8 +236,8 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             }} onChange={(e) => selectSwitch(e.target.value, index)}>
                                 <option value={''}>다운받을 파일을 선택해주세요.</option>
                                 {
-                                    subMaterialList === undefined ? <option>선택사항이 없습니다.</option> :
-                                        subMaterialList.map(m => {
+                                    semiProduct === undefined ? <option>선택사항이 없습니다.</option> :
+                                        semiProduct.map(m => {
                                             return (
                                                 <option value={m.pk}>{m.file_name}</option>
                                             )
@@ -174,8 +252,8 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             }} onChange={(e) => selectSwitch(e.target.value, index)}>
                                 <option value={''}>다운받을 파일을 선택해주세요.</option>
                                 {
-                                    semiProduct === undefined ? <option>선택사항이 없습니다.</option> :
-                                        semiProduct.map(m => {
+                                    subMaterialList === undefined ? <option>선택사항이 없습니다.</option> :
+                                        subMaterialList.map(m => {
                                             return (
                                                 <option value={m.pk}>{m.file_name}</option>
                                             )
@@ -216,31 +294,31 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             </select>}
                             {index === 0 &&
                             <ExcelDownLoad
-                                onClick={() => selectRaw !== undefined && selectRaw !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectRaw}`)}>
+                                onClick={() => selectRaw !== undefined && selectRaw !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectRaw}`)}>
                                 다운로드
                             </ExcelDownLoad>
                             }
                             {index === 1 &&
                             <ExcelDownLoad
-                                onClick={() => selectSemi !== undefined && selectSemi !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSemi}`)}>
+                                onClick={() => selectSemi !== undefined && selectSemi !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSemi}`)}>
                                 다운로드
                             </ExcelDownLoad>
                             }
                             {index === 2 &&
                             <ExcelDownLoad
-                                onClick={() => selectSub !== undefined && selectSub !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSub}`)}>
+                                onClick={() => selectSub !== undefined && selectSub !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSub}`)}>
                                 다운로드
                             </ExcelDownLoad>
                             }
                             {index === 3 &&
                             <ExcelDownLoad
-                                onClick={() => selectFinished !== undefined && selectFinished !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectFinished}`)}>
+                                onClick={() => selectFinished !== undefined && selectFinished !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectFinished}`)}>
                                 다운로드
                             </ExcelDownLoad>
                             }
                             {index === 4 &&
                             <ExcelDownLoad
-                                onClick={() => selectMold !== undefined && selectMold !== null && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectMold}`)}>
+                                onClick={() => selectMold !== undefined && selectMold !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectMold}`)}>
                                 다운로드
                             </ExcelDownLoad>
                             }
