@@ -105,6 +105,11 @@ const CreateContainer = () => {
 
     const titleeventdummy = [
         {
+            Name: '등록하기',
+            Link: () => history.push('/mold/create/register'),
+            Width: 80
+        },
+        {
             Name: '삭제',
             Link: () => postDelete()
         }
@@ -175,7 +180,7 @@ const CreateContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 현황 리스트'}
+                title={'금형 제작 현황'}
                 titleOnClickEvent={titleEventList}
                 mainOnClickEvent={(v) => history.push(`/mold/create/register/${v.pk}`)}
                 allCheckOnClickEvent={allCheckOnClick}

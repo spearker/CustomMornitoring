@@ -5,11 +5,12 @@ import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getMoldList} from '../../Api/mes/manageMold'
 import {postCustomerDelete} from '../../Api/mes/customer'
 import Notiflix from "notiflix";
+import {useHistory} from "react-router-dom";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const CreateContainer = () => {
-
+    const history = useHistory()
     const [list, setList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [eventList, setEventList] = useState<any[]>([])
@@ -30,7 +31,6 @@ const CreateContainer = () => {
             mold_name: '금형명',
             manufacturing_date: '제조일',
             site: '창고위치',
-            production: '생산품목',
             registered: '등록날짜',
         }
     }
@@ -52,6 +52,11 @@ const CreateContainer = () => {
     // ]
 
     const titleeventdummy = [
+        {
+            Name: '등록하기',
+            Link: () => history.push('/mold/manage/register'),
+            Width: 80
+        },
         {
             Name: '삭제',
             Link: () => postDelete()
@@ -170,7 +175,7 @@ const CreateContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 관리 리스트'}
+                title={'금형 관리 현황'}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 checkOnClickEvent={checkOnClick}

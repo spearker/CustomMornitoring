@@ -173,7 +173,7 @@ const MoldCreateCompleteListContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 완료 리스트'}
+                title={'금형 제작 완료'}
                 mainOnClickEvent={(v) => history.push(`/mold/create/register/${v.pk}`)}
                 indexList={index}
                 valueList={list}
