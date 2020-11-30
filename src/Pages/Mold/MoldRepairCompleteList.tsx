@@ -1,16 +1,16 @@
 import React from "react";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import MoldRepairCompleteListContainer from "../../Containers/Mold/MoldRepairCompleteList";
+import MoldCreateCompleteListContainer from "../../Containers/Mold/MoldCreateCompleteList";
 
-const MoldCreateCompleteList = () => {
+const MoldRepairCompleteList = () => {
     return (
         <DashboardWrapContainer index={'mold'}>
             <InnerBodyContainer>
-                <MoldRepairCompleteListContainer/>
+                <MoldCreateCompleteListContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
 }
 
-export default MoldCreateCompleteList
+export default MoldRepairCompleteList

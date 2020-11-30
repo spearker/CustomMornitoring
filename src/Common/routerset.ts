@@ -159,6 +159,7 @@ export const MES_MENU_LIST = {
     manage: [
         {name: '인사 관리', url: '/manage/member/create'}, //상위메뉴
         {name: '사용자 정보 등록', url: '/manage/member/create'},
+        {name: '사용자 리스트', url: '/manage/member/list'}
     ],
     customer: [
         {name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
@@ -237,7 +238,8 @@ export const MES_MENU_LIST = {
         {name: '금형 제작 현황', url: '/mold/create/list'},
         {name: '금형 제작 완료', url: '/mold/create/complete/list'},
         {name: '금형 수리 등록', url: '/mold/repair/register'},
-        {name: '금형 수리 현황', url: '/mold/current/list'},
+        {name: '금형 수리 현황', url: '/mold/repair/list'},
+        {name: '금형 수리 현황', url: '/mold/repair/complete/list'},
         // { name : '금형 수리 완료', url: '/mold/repair/list'},
         // { name : '금형 등록', url: '/mold/register'}
         // { name : '금형 관리 등록', url: '/comingsoon'},

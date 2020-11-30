@@ -63,6 +63,9 @@ import NewFinishedMaterial from "../Pages/Stock/NewFinishedMaterial";
 import NewOutsource from "../Pages/Stock/NewOutsource";
 import NewBasicMaterialRegister from "../Containers/Basic/NewBasicMaterialContainer";
 import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
+import MoldRepairCompleteList from "../Pages/Mold/MoldRepairCompleteList";
+import CreateMember from "../Pages/Manage/CreateMember";
+import MemberList from "../Pages/Manage/MemberList";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -76,6 +79,7 @@ const JMRouters = () => {
             <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
             <Route exact path="/jeil/capacity" component={CapitalDashBoard}/>
 
+
             <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 
             <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis}/>
@@ -86,6 +90,9 @@ const JMRouters = () => {
             <Route exact path="/pm/statistics/mold" component={MoldStatistics}/>
             <Route exact path="/pm/statistics/defective" component={DefectiveStatistics}/>
             <Route exact path="/pm/statistics/product" component={ProductToneStatistics}/>
+            {/*인사 관리*/}
+            <Route exact path="/manage/member/create" component={CreateMember}/>
+            <Route exact path="/manage/member/list" component={MemberList}/>
 
             <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
             <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>
@@ -150,6 +157,7 @@ const JMRouters = () => {
             <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
+            <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
 
             <Route exact path="/kpi/production" component={ProductionKPI}/>
             <Route exact path="/kpi/quality" component={QualityKPI}/>

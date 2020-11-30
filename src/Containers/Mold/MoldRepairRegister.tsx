@@ -8,33 +8,12 @@ import MoldPickerModal from '../../Components/Modal/MoldPickerModal'
 import PartsPickerModal from '../../Components/Modal/PartsPickerModal'
 import {Input} from 'semantic-ui-react'
 import {useHistory} from 'react-router-dom'
+import MemberPickerModal from "../../Components/Modal/MemberPickerModal";
 
-const factoryDummy = [
-    '더미 업체 1',
-    '더미 업체 2',
-    '더미 업체 3',
-]
-
-const productionDummy = [
-    '더미 품목 1',
-    '더미 품목 2',
-    '더미 품목 3',
-]
-
-const listDummy = [
-    {
-        project_pk: 'dummy01',
-        factory: '더미 업체 1',
-        production: '더미 품목 1',
-        planDate: {start: '2020-08-15', end: '2020-08-17'}
-    },
-    {
-        project_pk: 'dummy02',
-        factory: '더미 업체 1',
-        production: '더미 품목 1',
-        planDate: {start: '2020-08-15', end: '2020-08-17'}
-    },
-]
+interface modalData {
+    name?: string,
+    pk?: string
+}
 
 const MoldRepairRegisterContainer = () => {
 
@@ -42,6 +21,8 @@ const MoldRepairRegisterContainer = () => {
 
     const [open, setOpen] = useState<boolean>(false)
     const [reason, setReason] = useState<string>('')
+    const [selectMember, setSelectMember] = useState<modalData>({})
+
     const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
     const [moldData, setMoldData] = useState<{ name: string, pk: string }>({name: '', pk: ''})
@@ -56,8 +37,8 @@ const MoldRepairRegisterContainer = () => {
         } else if (!reason || reason === '') {
             alert('수리사유 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (!managerData || managerData === '') {
-            alert('수리 담당자는 필수 항목입니다. 반드시 입력해주세요.')
+        } else if (!selectMember.pk || selectMember.pk === '') {
+            alert('수리 담당자는 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (!selectDate || selectDate === '') {
             alert('완료 예정일은 필수 항목입니다. 반드시 입력해주세요.')
@@ -68,7 +49,7 @@ const MoldRepairRegisterContainer = () => {
         const resultData = await postMoldRegister(tempUrl, {
             mold_pk: moldData?.pk,
             description: reason,
-            manager: managerData,
+            manager: selectMember.pk,
             complete_date: selectDate
         })
 
@@ -76,7 +57,7 @@ const MoldRepairRegisterContainer = () => {
             alert('금형 수리 요청이 등록되었습니다.')
             history.push('/mold/current/list')
         }
-    }, [moldData, reason, parts, managerData, selectDate])
+    }, [moldData, reason, parts, selectMember, selectDate])
 
     return (
         <div>
@@ -115,7 +96,8 @@ const MoldRepairRegisterContainer = () => {
                         </tr>
                         <tr>
                             <td>• 수리 담당자</td>
-                            <td><Input placeholder="수리 담당자명 입력해 주세요." onChange={(e) => setManagerData(e.target.value)}/>
+                            <td><MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
+                                                   text={'작업자를 선택해 주세요'} select={selectMember}/>
                             </td>
                         </tr>
                         <tr>

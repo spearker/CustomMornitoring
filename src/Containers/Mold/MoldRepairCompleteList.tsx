@@ -10,7 +10,7 @@ import Notiflix from "notiflix";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
-const CreateContainer = () => {
+const MoldRepairCompleteListContainer = () => {
 
     const history = useHistory()
     const [list, setList] = useState<any[]>([])
@@ -105,23 +105,16 @@ const CreateContainer = () => {
 
     const titleeventdummy = [
         {
-            Name: '등록하기',
-            Link: () => history.push('/mold/create/register'),
-            Width: 80
-        },
-        {
             Name: '삭제',
             Link: () => postDelete()
         }
     ]
 
     const postDelete = useCallback(async () => {
-
         if (deletePk.pk.length <= 0) {
             alert('삭제하실 항목을 선택해 주세요.')
             return
         }
-
         const tempUrl = `${API_URLS['making'].delete}`
         const res = await postCustomerDelete(tempUrl, deletePk)
 
@@ -150,7 +143,7 @@ const CreateContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['making'].list}?page=${page.current}&keyword=&type=0&limit=15`
+        const tempUrl = `${API_URLS['making'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
         const res = await getMoldList(tempUrl)
 
         const Detail = res.info_list.map((v, i) => {
@@ -180,14 +173,10 @@ const CreateContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 현황'}
-                titleOnClickEvent={titleEventList}
+                title={'금형 제작 완료'}
                 mainOnClickEvent={(v) => history.push(`/mold/create/register/${v.pk}`)}
-                allCheckOnClickEvent={allCheckOnClick}
-                checkOnClickEvent={checkOnClick}
                 indexList={index}
                 valueList={list}
-                EventList={eventList}
                 clickValue={selectValue}
                 buttonState={true}
                 currentPage={page.current}
@@ -214,4 +203,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default CreateContainer
+export default MoldRepairCompleteListContainer
