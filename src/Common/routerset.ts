@@ -157,8 +157,8 @@ export const MES_MENU_LIST = {
         //   { name : '표준 문서 관리', url : '/comingsoon'},
     ],
     manage: [
-        {name: '인사 관리', url: '/manage/member/create'}, //상위메뉴
-        {name: '사용자 정보 등록', url: '/manage/member/create'},
+        {name: '인사 관리', url: '/manage/member/register'}, //상위메뉴
+        {name: '사용자 정보 등록', url: '/manage/member/register'},
         {name: '사용자 리스트', url: '/manage/member/list'}
     ],
     customer: [
