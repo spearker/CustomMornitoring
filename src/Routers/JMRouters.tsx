@@ -63,6 +63,7 @@ import NewFinishedMaterial from "../Pages/Stock/NewFinishedMaterial";
 import NewOutsource from "../Pages/Stock/NewOutsource";
 import NewBasicMaterialRegister from "../Containers/Basic/NewBasicMaterialContainer";
 import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
+import MoldRepairCompleteList from "../Pages/Mold/MoldRepairCompleteList";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -150,6 +151,7 @@ const JMRouters = () => {
             <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
             <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
+            <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
 
             <Route exact path="/kpi/production" component={ProductionKPI}/>
             <Route exact path="/kpi/quality" component={QualityKPI}/>
