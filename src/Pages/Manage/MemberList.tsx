@@ -2,13 +2,13 @@ import React from "react";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
 import MoldCurrentContainer from "../../Containers/Mold/Current";
+import MemberListContainer from "../../Containers/Manage/MemberList";
 
 const MemberList = () => {
     return (
-        <DashboardWrapContainer index={'mold'}>
-
+        <DashboardWrapContainer index={'manage'}>
             <InnerBodyContainer>
-                <MoldCurrentContainer/>
+                <MemberListContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

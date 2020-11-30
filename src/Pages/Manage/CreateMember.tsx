@@ -1,14 +1,13 @@
 import React from "react";
 import InnerBodyContainer from "../../Containers/InnerBodyContainer";
 import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import MoldCurrentContainer from "../../Containers/Mold/Current";
+import CreateMemberContainer from "../../Containers/Manage/CreateMember";
 
 const CreateMember = () => {
     return (
-        <DashboardWrapContainer index={'mold'}>
-
+        <DashboardWrapContainer index={'manage'}>
             <InnerBodyContainer>
-                <MoldCurrentContainer/>
+                <CreateMemberContainer/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
