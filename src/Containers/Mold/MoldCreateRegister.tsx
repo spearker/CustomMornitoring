@@ -441,7 +441,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
 
                           setParts([...tmpArr])
                           setSelectParts({...tmp})
-                        }} select={selectParts.part[i][index]} width={365}/>
+                        }} select={parts[i].material[index]} width={365}/>
                         <p style={{marginLeft: 15}}>현재 재고량</p>
                         <MaterialBox type="number" value={selectParts.part[i][index].current}
                                      placeholder={'9,999,999,999'}/>
