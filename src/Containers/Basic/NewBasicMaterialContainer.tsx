@@ -175,7 +175,10 @@ const NewBasicMaterialRegister = () => {
     if (inputData.material_name.trim() === '') {
       Notiflix.Notify.Failure('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (inputData.location === undefined || +inputData.location.pk === undefined || inputData.location.pk === '') {
+    } else if (inputData.material_code.trim() === '') {
+      Notiflix.Notify.Failure('품목 번호는 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (!inputData.location || !inputData.location.pk) {
       Notiflix.Notify.Failure('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
       return
     } else if (inputData.safe_stock === '') {
@@ -253,6 +256,9 @@ const NewBasicMaterialRegister = () => {
               <NormalInput title={'품목(품목명)'} value={inputData.material_name}
                            onChangeEvent={(input) => setInputData(`material_name`, input)}
                            description={'품목명을 입력해주세요.'}/>
+              <NormalInput title={'품번'} value={inputData.material_code}
+                           onChangeEvent={(input) => setInputData(`material_code`, input)}
+                           description={'품번을 입력해주세요'}/>
               {inputData.material_type === 3 &&
               <div>
                   <FullAddInput title={'모델'} onChangeEvent={() => {
@@ -310,9 +316,6 @@ const NewBasicMaterialRegister = () => {
               </InputContainer>
               <br/>
               <ListHeader title="선택 항목"/>
-              <NormalInput title={'품번'} value={inputData.material_code}
-                           onChangeEvent={(input) => setInputData(`material_code`, input)}
-                           description={'품번을 입력해주세요'}/>
               {inputData.material_type !== 0 &&
               <div>
                   <NormalNumberInput title={'가로 사이즈'} value={inputData.material_spec_W}
