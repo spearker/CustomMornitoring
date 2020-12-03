@@ -78,9 +78,7 @@ const NewBasicMaterialRegister = () => {
             //TODO: 에러 처리
         } else {
             if (res.status === 200 || res.status === '200') {
-
                 const data = res.results
-                
                 const form = {
                     pk: data.pk,
                     material_name: data.material_name,
@@ -268,7 +266,6 @@ const NewBasicMaterialRegister = () => {
                                     temp.push('')
                                     setInputData('model', temp)
                                 }}>
-
                                     {
                                         inputData.model.map((v, i) => {
                                             return (
@@ -297,7 +294,7 @@ const NewBasicMaterialRegister = () => {
                             }
                             <NormalNumberInput title={'안전재고'} value={inputData.safe_stock}
                                                onChangeEvent={(input) => setInputData(`safe_stock`, input)}
-                                               description={`안전재고량을 입력해주세요 (단위 : ${inputData.material_type === 0 ? "kg" : "개"})`}/>
+                                               description={`안전재고량을 입력해주세요 (단위 : ${inputData.material_type === 0 ? 'kg' : '개'})`}/>
                             {(inputData.material_type === 0 || inputData.material_type === 30) &&
                             <NormalNumberInput title={'원가'} value={inputData.cost}
                                                onChangeEvent={(input) => setInputData(`cost`, input)}
@@ -331,7 +328,7 @@ const NewBasicMaterialRegister = () => {
                                                    description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
                             </div>
                             }
-                            {inputData.material_type !== 0 && inputData.material_type !== 30 &&
+                            {inputData.material_type !== 0 && inputData.material_type !== 3 &&
                             <NormalNumberInput title={'원가'} value={inputData.cost}
                                                onChangeEvent={(input) => setInputData(`cost`, input)}
                                                description={'원가를 입력해주세요 (단위 : 원)'}/>

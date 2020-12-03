@@ -24,6 +24,7 @@ interface IProps {
   isType?: boolean
   multiSelect?: boolean
   isAllItem?: boolean
+  noBasic?: boolean
 }
 
 const DummyItem = [
@@ -34,7 +35,7 @@ const DummyItem = [
   }
 ]
 
-const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem}: IProps) => {
+const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem, noBasic}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [searchName, setSearchName] = useState('')
@@ -219,21 +220,28 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                 if (isAllItem) {
                   onClickEvent(selectMaterial[0])
                 } else {
-                  if (isType) {
-                    if (selectMaterial[0]) {
-                      onClickEvent({
-                        name: selectMaterial[0].material_name,
-                        type: selectMaterial[0].material_type,
-                        material_pk: selectMaterial[0].material_pk
-                      })
+                  if (noBasic) {
+                    if (isType) {
+                      if (selectMaterial[0]) {
+                        onClickEvent({
+                          name: selectMaterial[0].material_name,
+                          type: selectMaterial[0].material_type,
+                          material_pk: selectMaterial[0].material_pk
+                        })
+                      }
+                    } else {
+                      if (selectMaterial[0]) {
+                        onClickEvent({
+                          name: selectMaterial[0].material_name,
+                          material_pk: selectMaterial[0].material_pk
+                        })
+                      }
                     }
                   } else {
-                    if (selectMaterial[0]) {
-                      onClickEvent({
-                        name: selectMaterial[0].material_name,
-                        material_pk: selectMaterial[0].material_pk
-                      })
-                    }
+                    onClickEvent({
+                      name: selectMaterial[0].material_name,
+                      pk: selectMaterial[0].material_pk
+                    })
                   }
                 }
               }
