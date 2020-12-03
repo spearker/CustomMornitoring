@@ -7,6 +7,7 @@ import ReactShadowScroll from 'react-shadow-scroll'
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import {API_URLS, getProductionSearch} from '../../Api/mes/production'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
 
 //드롭다운 컴포넌트
 
@@ -145,7 +146,7 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                       return (
                         <tr style={{height: 32}}>
                           <td><span>&nbsp; {v.material_name}</span></td>
-                          <td><span>{v.material_type}</span></td>
+                          <td><span>{transferCodeToName('material', v.material_type)}</span></td>
                           <td><span>{v.location}</span></td>
                           <td>
                             <button

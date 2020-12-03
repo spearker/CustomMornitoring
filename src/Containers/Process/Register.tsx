@@ -11,6 +11,7 @@ import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
 import styled from 'styled-components'
 import Notiflix from 'notiflix'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
 
 const typeDummy = [
   '단발',
@@ -282,7 +283,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                           <p
                                             style={{
                                               textAlign: 'left',
-                                            }}>{value.material_type}</p></div>
+                                            }}>{transferCodeToName('material', value.material_type)}</p></div>
                                         <div style={{flex: 1, textAlign: 'left', width: 112, height: 36}}>
                                           <input type={'number'}
                                                  style={{width: '112px', height: '24px', padding: 0, margin: '5px 0'}}
@@ -353,11 +354,14 @@ const ProcessRegisterContainer = ({match}: any) => {
                                           textAlign: 'left',
                                         }}>{
                                         //@ts-ignore
-                                        detailMaterialData[i].output_materials.material_type
+                                        transferCodeToName('material', detailMaterialData[i].output_materials.material_type)
                                       }</p>
                                     </div>
                                     <div style={{flex: 1, textAlign: 'left', width: 112, height: 36}}>
-                                      <input type={'number'}
+                                      <input type={'number'} value={
+                                        //@ts-ignore
+                                        detailMaterialData[i].output_materials.count
+                                      }
                                              style={{width: '112px', height: '24px', padding: 0, margin: '5px 0'}}
                                              onChange={(e) => {
                                                const tmpDetailMaterials = detailMaterialData

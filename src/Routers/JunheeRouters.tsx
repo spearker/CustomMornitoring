@@ -29,6 +29,8 @@ import ProcessManageInput from '../Pages/SQManage/Process/ProcessManageInput'
 import NewProcessRegister from '../Pages/Process/NewProcess'
 import ProcessRegister from '../Pages/Process/Register'
 
+import OutsourcingRegisterFree from '../Pages/Old_Outsourcing/Register'
+
 
 const JunheeRouters = () => {
 
@@ -80,6 +82,9 @@ const JunheeRouters = () => {
         <Route path="/sq/manage/process" component={ProcessManageList}/>
         <Route path="/sq/manage/moldregister" component={MoldManageInput}/>
         <Route path="/sq/manage/processregister" component={ProcessManageInput}/>
+
+
+        <Route path='/free' component={OutsourcingRegisterFree}/>
       </Switch>
     </div>
   )
