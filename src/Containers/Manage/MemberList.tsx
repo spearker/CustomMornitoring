@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getStockList} from "../../Api/mes/manageStock";
+import {API_URLS, getMemberList} from "../../Api/mes/member";
 import {useHistory} from "react-router-dom"
 import NumberPagenation from "../../Components/Pagenation/NumberPagenation";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
@@ -44,7 +44,7 @@ const MemberListContainer = () => {
         wip: {
             material_name: "아이디",
             current_stock: "유저명",
-            location_name: "권한",
+            location_name: ["권한", '관리자', '작업자'],
         }
     }
 
@@ -94,7 +94,7 @@ const MemberListContainer = () => {
             return
         }
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
-        const res = await getStockList(tempUrl)
+        const res = await getMemberList(tempUrl)
 
         setDetailList(res.info_list)
         setDetailPage({current: res.current_page, total: res.total_page})
@@ -104,18 +104,10 @@ const MemberListContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${page.current}&limit=5`
-        const res = await getStockList(tempUrl)
+        const tempUrl = `${API_URLS['member'].list}?keyword=&page=${page.current}&limit=15&ordered=0`
+        const res = await getMemberList(tempUrl)
 
-        const getStock = res.info_list.map((v, i) => {
-            const material_type = transferCodeToName('material', v.material_type)
-            const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-            return {...v, material_type: material_type, current_stock: current_stock, safe_stock: safe_stock}
-        })
-
-        setList(getStock)
+        setList(res)
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove()
     }, [list, type, filter])
