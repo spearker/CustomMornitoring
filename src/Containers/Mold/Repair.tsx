@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from "react";
 import Styled from "styled-components";
 import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
-import {API_URLS, getMoldList} from "../../Api/mes/manageMold";
+import {API_URLS, getMoldList, postMoldState} from "../../Api/mes/manageMold";
 
 
 const RepairContainer = () => {
@@ -94,14 +94,9 @@ const RepairContainer = () => {
 
     const eventdummy = [
         {
-            Name: '입고',
-            Width: 60,
-            Color: 'white'
-        },
-        {
-            Name: '출고',
-            Width: 60,
-            Color: 'white'
+            buttonState: true,
+            Width: 98,
+            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
         },
     ]
 
@@ -128,6 +123,24 @@ const RepairContainer = () => {
 
     }, [list, selectPk]);
 
+    const getComplete = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['repair'].complete}`
+        const res = await postMoldState(tempUrl, {pk: pk})
+
+        setDetailList(res)
+        getList()
+    }, [detailList])
+
+    const getCancel = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['repair'].cancel}`
+        const res = await postMoldState(tempUrl, {pk: pk})
+
+        setDetailList(res)
+        getList()
+    }, [detailList])
+
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
 
@@ -147,11 +160,16 @@ const RepairContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&keyword=&type=0&limit=15`
-
+        const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
 
-        setList(res.info_list)
+        const listStatus = res.info_list.map((v, i) => {
+            const status = v.status === 'WAIT' ? "진행중" : "완료"
+
+            return {...v, status: status}
+        })
+
+        setList(listStatus)
 
         setPage({current: res.current_page, total: res.total_page})
     }, [list, page])
@@ -176,6 +194,8 @@ const RepairContainer = () => {
                 title={'금형 수리 현황'}
                 indexList={index}
                 valueList={list}
+                EventList={eventList}
+                buttonState={true}
                 clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
