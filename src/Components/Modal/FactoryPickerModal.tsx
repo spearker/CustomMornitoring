@@ -49,12 +49,12 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
     // });
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['factory'].search}?keyword=${keyword}&option=${option}&page=1&page=${page.current}&limit=1000`
+        const tempUrl = `${API_URLS['factory'].search}?keyword=${searchName}&option=${option}&page=1&page=${page.current}&limit=1000`
         const resultData = await getBasicList(tempUrl)
         setMachineList(resultData.info_list)
 
         setPage({current: resultData.current_page, total: resultData.total_page})
-    }, [searchName, page])
+    }, [searchName, page, keyword, option])
 
 
     const handleClickBtn = () => {
@@ -113,9 +113,10 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 공장 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
+                            <SearchBox placeholder="공장명을 입력해주세요." style={{flex: 96}}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
