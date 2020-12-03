@@ -293,34 +293,64 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                                 }
                             </select>}
                             {index === 0 &&
-                            <ExcelDownLoad
-                                onClick={() => selectRaw !== undefined && selectRaw !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectRaw}`)}>
-                                다운로드
-                            </ExcelDownLoad>
+                            <div style={{display: 'flex'}}>
+                                < ExcelDownLoad
+                                    onClick={() => selectRaw !== undefined && selectRaw !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectRaw}`)}>
+                                    다운로드
+                                </ExcelDownLoad>
+                                <IntegrationExcelDownLoad
+                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=0`)}>
+                                    통합 다운로드
+                                </IntegrationExcelDownLoad>
+                            </div>
                             }
                             {index === 1 &&
-                            <ExcelDownLoad
-                                onClick={() => selectSemi !== undefined && selectSemi !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSemi}`)}>
-                                다운로드
-                            </ExcelDownLoad>
+                            <div style={{display: 'flex'}}>
+                                <ExcelDownLoad
+                                    onClick={() => selectSemi !== undefined && selectSemi !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSemi}`)}>
+                                    다운로드
+                                </ExcelDownLoad>
+                                <IntegrationExcelDownLoad
+                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=1`)}>
+                                    통합 다운로드
+                                </IntegrationExcelDownLoad>
+                            </div>
                             }
                             {index === 2 &&
-                            <ExcelDownLoad
-                                onClick={() => selectSub !== undefined && selectSub !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSub}`)}>
-                                다운로드
-                            </ExcelDownLoad>
+                            <div style={{display: 'flex'}}>
+                                <ExcelDownLoad
+                                    onClick={() => selectSub !== undefined && selectSub !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSub}`)}>
+                                    다운로드
+                                </ExcelDownLoad>
+                                <IntegrationExcelDownLoad
+                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=2`)}>
+                                    통합 다운로드
+                                </IntegrationExcelDownLoad>
+                            </div>
                             }
                             {index === 3 &&
-                            <ExcelDownLoad
-                                onClick={() => selectFinished !== undefined && selectFinished !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectFinished}`)}>
-                                다운로드
-                            </ExcelDownLoad>
+                            <div style={{display: 'flex'}}>
+                                <ExcelDownLoad
+                                    onClick={() => selectFinished !== undefined && selectFinished !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectFinished}`)}>
+                                    다운로드
+                                </ExcelDownLoad>
+                                <IntegrationExcelDownLoad
+                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=3`)}>
+                                    통합 다운로드
+                                </IntegrationExcelDownLoad>
+                            </div>
                             }
                             {index === 4 &&
-                            <ExcelDownLoad
-                                onClick={() => selectMold !== undefined && selectMold !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectMold}`)}>
-                                다운로드
-                            </ExcelDownLoad>
+                            <div style={{display: 'flex'}}>
+                                <ExcelDownLoad
+                                    onClick={() => selectMold !== undefined && selectMold !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectMold}`)}>
+                                    다운로드
+                                </ExcelDownLoad>
+                                <IntegrationExcelDownLoad
+                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=4`)}>
+                                    통합 다운로드
+                                </IntegrationExcelDownLoad>
+                            </div>
                             }
                         </ExcelNameBox>
                     </div>
@@ -331,70 +361,83 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 }
 
 const FormBox = Styled.div`
-  color: white;
-  width: 400px;
-  height: 50px;
-  border-radius: 6px;
-  background-color: #111319;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-right: 16px;
-  padding: 0 16px;
-  p{
-   text-align:left;
-   width: 120px;
-   font-family: NotoSansCJKkr;
-   font-size: 18px;
-   font-weight: bold;
-   font-stretch: normal;
-  }
-`
+                                color: white;
+                                width: 400px;
+                                height: 50px;
+                                border-radius: 6px;
+                                background-color: #111319;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                margin-right: 16px;
+                                padding: 0 16px;
+                                p{
+                                text-align:left;
+                                width: 120px;
+                                font-family: NotoSansCJKkr;
+                                font-size: 18px;
+                                font-weight: bold;
+                                font-stretch: normal;
+                                }
+                                `
 
 const FormDownload = Styled.button`
-  color: white;
-  width: 126px;
-  height: 30px;
-  border-radius: 6px;
-  background-color: #717c90;
-  font-family: NotoSansCJKkr;
-  font-size: 15px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-`
+                                color: white;
+                                width: 126px;
+                                height: 30px;
+                                border-radius: 6px;
+                                background-color: #717c90;
+                                font-family: NotoSansCJKkr;
+                                font-size: 15px;
+                                font-weight: bold;
+                                font-stretch: normal;
+                                font-style: normal;
+                                `
 
 const ExcelNameBox = Styled.div`
-  width: 704px;
-  height: 50px;
-  display: flex;
-  border-radius: 6px;
-  background-color: #353b48;
-  align-items: center;
-  padding: 0 16px;
-  p{
-    text-align: left;
-    width: 578px;
-  }
-`
+                                width: 704px;
+                                height: 50px;
+                                display: flex;
+                                border-radius: 6px;
+                                background-color: #353b48;
+                                align-items: center;
+                                padding: 0 16px;
+                                p{
+                                text-align: left;
+                                width: 578px;
+                                }
+                                `
 
 const ExcelDownLoad = Styled.button`
-  width: 96px;
-  height: 30px;
-  border-radius: 6px;
-  background-color: #717c90;
-  font-family: NotoSansCJKkr;
-  font-size: 15px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-`
+                                width: 96px;
+                                height: 30px;
+                                border-radius: 6px;
+                                background-color: #717c90;
+                                font-family: NotoSansCJKkr;
+                                font-size: 15px;
+                                font-weight: bold;
+                                font-stretch: normal;
+                                font-style: normal;
+                                `
+
+const IntegrationExcelDownLoad = Styled.button` 
+                                margin-left: 10px; 
+                                width: 114px;
+                                height: 30px;
+                                border-radius: 6px;
+                                background-color: #717c90;
+                                font-family: NotoSansCJKkr;
+                                font-size: 15px;
+                                font-weight: bold;
+                                font-stretch: normal;
+                                font-style: normal;
+                                `
 
 const ExcelUpload = Styled.button`
-  width: 82px;
-  height: 30px;
-  border-radius: 6px;
-  background-color: #717c90;
-`
+                                width: 82px;
+                                height: 30px;
+                                border-radius: 6px;
+                                background-color: #717c90;
+                                `
 
 export default ExcelFormBox

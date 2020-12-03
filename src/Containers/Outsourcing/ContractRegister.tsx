@@ -205,7 +205,7 @@ const ContractRegister = ({match}: Props) => {
         if (selectOutsource?.pk === '' || selectOutsource?.pk === undefined) {
             alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (selectMaterial?.pk === '' || selectOutsource?.pk === undefined) {
+        } else if (selectMaterial?.pk === '' || selectMaterial?.pk === undefined) {
             alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (!quantity || quantity === 0) {
@@ -269,7 +269,7 @@ const ContractRegister = ({match}: Props) => {
         if (selectOutsource?.pk === '' || selectOutsource?.pk === undefined) {
             alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (selectMaterial?.pk === '' || selectOutsource?.pk === undefined) {
+        } else if (selectMaterial?.pk === '' || selectMaterial?.pk === undefined) {
             alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
             return
         } else if (quantity === null) {
