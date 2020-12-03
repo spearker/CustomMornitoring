@@ -131,7 +131,7 @@ const NewBasicMaterialRegister = () => {
                 Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
                 return
             }
-        } else if (inputData.material_type === 3) {
+        } else if (inputData.material_type === 30) {
             if (inputData.model[0].trim() === '') {
                 Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
                 return
@@ -197,7 +197,7 @@ const NewBasicMaterialRegister = () => {
                 Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
                 return
             }
-        } else if (inputData.material_type === 3) {
+        } else if (inputData.material_type === 30) {
             if (inputData.model[0].trim() === '') {
                 Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
                 return
@@ -328,7 +328,7 @@ const NewBasicMaterialRegister = () => {
                                                    description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
                             </div>
                             }
-                            {inputData.material_type !== 0 && inputData.material_type !== 3 &&
+                            {inputData.material_type !== 0 && inputData.material_type !== 30 &&
                             <NormalNumberInput title={'원가'} value={inputData.cost}
                                                onChangeEvent={(input) => setInputData(`cost`, input)}
                                                description={'원가를 입력해주세요 (단위 : 원)'}/>
