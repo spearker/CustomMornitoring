@@ -4,11 +4,13 @@ import {Input} from 'semantic-ui-react'
 import {POINT_COLOR} from '../../Common/configset'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import MachinePickerModal from '../../Components/Modal/MachinePickerModal'
-import {API_URLS, postProcessRegister} from '../../Api/mes/process'
+import {API_URLS, getSearchDetail, postProcessRegister} from '../../Api/mes/process'
 import MoldPickerModal from '../../Components/Modal/MoldPickerModal'
 import {useHistory} from 'react-router-dom'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
+import styled from 'styled-components'
+import Notiflix from 'notiflix'
 
 const typeDummy = [
   '단발',
@@ -19,7 +21,7 @@ const typeDummy = [
   '검수',
 ]
 
-const ProcessRegisterContainer = () => {
+const ProcessRegisterContainer = ({match}: any) => {
   const history = useHistory()
   const [typeList] = useState<string[]>(typeDummy)
 
@@ -31,14 +33,14 @@ const ProcessRegisterContainer = () => {
   })
 
   const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
-
   const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
+  const [isUpdata] = useState<boolean>(match.params ? true : false)
 
   const validationCheck = () => {
     const {name} = processData
 
     if (name === '') {
-      return window.alert('공정명을 입력해주세요.')
+      return Notiflix.Notify.Failure('공정명을 입력해주세요.')
     }
 
     if (detailMaterialData && detailMaterialData.length !== 0) {
@@ -52,18 +54,18 @@ const ProcessRegisterContainer = () => {
         })
 
         if (count > 0) {
-          return window.alert('투입 품목의 투입량을 입력해주세요.')
+          return Notiflix.Notify.Failure('투입 품목의 투입량을 입력해주세요.')
         }
       } else {
-        return window.alert('투입 품목을 1가지 이상 선택해주세요.')
+        return Notiflix.Notify.Failure('투입 품목을 1가지 이상 선택해주세요.')
       }
 
       if (detailMaterialData[0] && detailMaterialData[0].output_materials) {
         if (!detailMaterialData[0].output_materials.count || detailMaterialData[0].output_materials.count <= 0) {
-          return window.alert('생산 품목의 생산량을 입력해주세요.')
+          return Notiflix.Notify.Failure('생산 품목의 생산량을 입력해주세요.')
         }
       } else {
-        return window.alert('생산 품목을 선택해주세요.')
+        return Notiflix.Notify.Failure('생산 품목을 선택해주세요.')
       }
     }
     return true
@@ -84,6 +86,17 @@ const ProcessRegisterContainer = () => {
       }
     }
   }, [processData])
+
+  const getData = async () => {
+    const tempUrl = `${API_URLS['process'].load}?pk=${match.params.pk}`
+    const resultData = await getSearchDetail(tempUrl)
+    setProcessData({
+      ...processData,
+      type: resultData.type,
+      name: resultData.name,
+    })
+    setDetailMaterialData(resultData.processes)
+  }
 
   const changeType = async (e: number) => {
     if (e === 0 || e === 2) {
@@ -108,12 +121,23 @@ const ProcessRegisterContainer = () => {
     changeType(processData.type)
   }, [processData.type])
 
+  useEffect(() => {
+    if (isUpdata) {
+      getData()
+    }
+  }, [])
+
 
   return (
     <div>
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-          <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>공정 등록</span>
+          <span style={{
+            fontSize: 20,
+            marginRight: 18,
+            marginLeft: 3,
+            fontWeight: 'bold'
+          }}>{isUpdata ? '공정 수정' : '공정 등록'}</span>
         </div>
       </div>
       <ContainerMain>
@@ -136,7 +160,7 @@ const ProcessRegisterContainer = () => {
             </tr>
             <tr>
               <td>• 공정명</td>
-              <td><Input placeholder="공정명을 입력해 주세요."
+              <td><Input placeholder="공정명을 입력해 주세요." value={processData.name}
                          onChange={(e) => setProcessData({...processData, name: e.target.value})}/></td>
             </tr>
             {
@@ -217,8 +241,8 @@ const ProcessRegisterContainer = () => {
                     <td/>
                     <td>
                       <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <div style={{width: 400, border: '0.5px solid #b3b3b3'}}>
-                          <ProductionPickerModal width={true} multiSelect innerWidth={400} isType
+                        <div style={{width: 447, border: '0.5px solid #b3b3b3'}}>
+                          <ProductionPickerModal width={true} multiSelect innerWidth={447} isType
                                                  onClickEvent={(material) => {
                                                    let tmpDetailMaterialData = detailMaterialData
                                                    tmpDetailMaterialData[i].input_materials = material
@@ -239,22 +263,46 @@ const ProcessRegisterContainer = () => {
                                     //@ts-ignore
                                     detailMaterialData[i] && detailMaterialData[i].input_materials.map((value, index) => {
                                       return <div style={{display: 'flex', marginTop: 5, padding: 5}}>
-                                        <div style={{flex: 1, textAlign: 'left'}}>{value.material_name}</div>
-                                        <div style={{flex: 1, textAlign: 'left'}}>{value.material_type}</div>
-                                        <div style={{flex: 1, textAlign: 'left'}}>
-                                          <input type={'number'} onChange={(e) => {
-                                            const tmpDetailMaterials = detailMaterialData
+                                        <div style={{
+                                          flex: 1, textAlign: 'left',
+                                          display: 'flex',
+                                          justifyContent: 'flex-start',
+                                          alignItems: 'center'
+                                        }}>
+                                          <p
+                                            style={{
+                                              textAlign: 'left',
+                                            }}>{value.material_name}</p></div>
+                                        <div style={{
+                                          flex: 1, textAlign: 'left',
+                                          display: 'flex',
+                                          justifyContent: 'flex-start',
+                                          alignItems: 'center'
+                                        }}>
+                                          <p
+                                            style={{
+                                              textAlign: 'left',
+                                            }}>{value.material_type}</p></div>
+                                        <div style={{flex: 1, textAlign: 'left', width: 112, height: 36}}>
+                                          <input type={'number'}
+                                                 style={{width: '112px', height: '24px', padding: 0, margin: '5px 0'}}
+                                                 value={
+                                                   //@ts-ignore
+                                                   detailMaterialData[i].input_materials[index].count
+                                                 }
+                                                 onChange={(e) => {
+                                                   const tmpDetailMaterials = detailMaterialData
 
-                                            //@ts-ignore
-                                            tmpDetailMaterials[i].input_materials[index] = {
-                                              //@ts-ignore
-                                              ...tmpDetailMaterials[i].input_materials[index],
-                                              count: Number(e.target.value)
-                                            }
+                                                   //@ts-ignore
+                                                   tmpDetailMaterials[i].input_materials[index] = {
+                                                     //@ts-ignore
+                                                     ...tmpDetailMaterials[i].input_materials[index],
+                                                     count: Number(e.target.value)
+                                                   }
 
-                                            setDetailMaterialData([...tmpDetailMaterials])
+                                                   setDetailMaterialData([...tmpDetailMaterials])
 
-                                          }}/>
+                                                 }}/>
                                         </div>
                                       </div>
                                     })
@@ -264,8 +312,8 @@ const ProcessRegisterContainer = () => {
                             }
                           </div>
                         </div>
-                        <div style={{width: 400, border: '0.5px solid #b3b3b3'}}>
-                          <ProductionPickerModal width={true} innerWidth={400} onClickEvent={(material) => {
+                        <div style={{width: 447, border: '0.5px solid #b3b3b3'}}>
+                          <ProductionPickerModal width={true} innerWidth={447} onClickEvent={(material) => {
                             console.log('output', material)
                             let tmpDetailMaterialData = detailMaterialData
                             tmpDetailMaterialData[i].output_materials = material
@@ -281,27 +329,48 @@ const ProcessRegisterContainer = () => {
                                     <div style={{flex: 1, textAlign: 'left'}}>생산 개수</div>
                                   </div>
                                   <div style={{display: 'flex', marginTop: 5, padding: 5}}>
-                                    <div style={{flex: 1, textAlign: 'left'}}>{
-                                      //@ts-ignore
-                                      detailMaterialData[i].output_materials.material_name
-                                    }</div>
-                                    <div style={{flex: 1, textAlign: 'left'}}>{
-                                      //@ts-ignore
-                                      detailMaterialData[i].output_materials.material_type
-                                    }</div>
-                                    <div style={{flex: 1, textAlign: 'left'}}>
-                                      <input type={'number'} onChange={(e) => {
-                                        const tmpDetailMaterials = detailMaterialData
-
+                                    <div style={{
+                                      flex: 1, textAlign: 'left',
+                                      display: 'flex',
+                                      justifyContent: 'flex-start',
+                                      alignItems: 'center'
+                                    }}>
+                                      <p
+                                        style={{
+                                          textAlign: 'left',
+                                        }}>{
                                         //@ts-ignore
-                                        tmpDetailMaterials[i].output_materials = {
-                                          //@ts-ignore
-                                          ...tmpDetailMaterials[i].output_materials,
-                                          count: Number(e.target.value)
-                                        }
+                                        detailMaterialData[i].output_materials.material_name
+                                      }</p></div>
+                                    <div style={{
+                                      flex: 1, textAlign: 'left',
+                                      display: 'flex',
+                                      justifyContent: 'flex-start',
+                                      alignItems: 'center'
+                                    }}>
+                                      <p
+                                        style={{
+                                          textAlign: 'left',
+                                        }}>{
+                                        //@ts-ignore
+                                        detailMaterialData[i].output_materials.material_type
+                                      }</p>
+                                    </div>
+                                    <div style={{flex: 1, textAlign: 'left', width: 112, height: 36}}>
+                                      <input type={'number'}
+                                             style={{width: '112px', height: '24px', padding: 0, margin: '5px 0'}}
+                                             onChange={(e) => {
+                                               const tmpDetailMaterials = detailMaterialData
 
-                                        setDetailMaterialData([...tmpDetailMaterials])
-                                      }}/>
+                                               //@ts-ignore
+                                               tmpDetailMaterials[i].output_materials = {
+                                                 //@ts-ignore
+                                                 ...tmpDetailMaterials[i].output_materials,
+                                                 count: Number(e.target.value)
+                                               }
+
+                                               setDetailMaterialData([...tmpDetailMaterials])
+                                             }}/>
                                     </div>
                                   </div>
                                 </div>
@@ -333,6 +402,11 @@ const ProcessRegisterContainer = () => {
                   </td>
               </tr>
             }
+          </table>
+          <div style={{marginTop: 20}}>
+            <p className={'title'}>선택 항목</p>
+          </div>
+          <table style={{color: 'black'}}>
             <tr>
               <td>• 설명</td>
               <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요."
@@ -431,5 +505,11 @@ const ButtonWrap = Styled.button`
 const ProcessAddButton = Styled.button`
 
                         `
+
+const tableInnerDiv = styled.div`
+  flex: 1; 
+  textAlign: left;
+  height: 36px;
+`
 
 export default ProcessRegisterContainer
