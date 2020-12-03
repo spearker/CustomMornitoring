@@ -72,7 +72,8 @@ const CurrentContainer = () => {
     const eventdummy = [
         {
             Width: 98,
-            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
+            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk),
+            buttonState: true
         },
     ]
 
@@ -204,8 +205,6 @@ const CurrentContainer = () => {
     useEffect(() => {
         getList()
     }, [page.current])
-
-
 
 
     useEffect(() => {

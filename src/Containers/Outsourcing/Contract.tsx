@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom'
 import {getCustomerData} from '../../Api/mes/customer'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from "notiflix";
+import {postMoldState} from "../../Api/mes/manageMold";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -121,9 +122,9 @@ const ContractContainer = () => {
 
             const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-
-            return {...v, quantity: quantity, unpaid: unpaid}
+            return {...v, quantity: quantity, unpaid: unpaid, status: status}
         })
 
         setList(contractList)
@@ -145,9 +146,9 @@ const ContractContainer = () => {
 
             const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-
-            return {...v, quantity: quantity, unpaid: unpaid}
+            return {...v, quantity: quantity, unpaid: unpaid, status: status}
         })
 
         setList(contractList)
@@ -176,6 +177,11 @@ const ContractContainer = () => {
             Width: 60,
             Color: 'white',
             Link: (v) => history.push(`/outsourcing/contract/register/${v.pk}`)
+        },
+        {
+            buttonState: true,
+            Width: 98,
+            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
         }
     ]
 
@@ -197,6 +203,26 @@ const ContractContainer = () => {
             Width: 90,
         },
     ]
+
+    const getComplete = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['contract'].complete}`
+        const res = await postMoldState(tempUrl, {pk: pk})
+
+        setSelectPk(null)
+        setSelectValue(null)
+        getList()
+    }, [selectPk, selectValue])
+
+    const getCancel = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['contract'].cancel}`
+        const res = await postMoldState(tempUrl, {pk: pk})
+
+        setSelectPk(null)
+        setSelectValue(null)
+        getList()
+    }, [selectPk, selectValue])
 
     const postDelete = useCallback(async () => {
         if (deletePk.pk.length <= 0) {
@@ -229,9 +255,9 @@ const ContractContainer = () => {
 
             const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-
-            return {...v, quantity: quantity, unpaid: unpaid}
+            return {...v, quantity: quantity, unpaid: unpaid, status: status}
         })
 
         setList(contractList)
@@ -269,6 +295,7 @@ const ContractContainer = () => {
                 searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
+                buttonState={true}
                 EventList={eventList}
                 currentPage={page.current}
                 totalPage={page.total}

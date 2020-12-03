@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom'
 import {getCustomerData} from '../../Api/mes/customer'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from "notiflix";
+import {postMoldState} from "../../Api/mes/manageMold";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -177,6 +178,11 @@ const OrderContainer = () => {
             Width: 60,
             Color: 'white',
             Link: (v) => history.push(`/outsourcing/order/register/${v.pk}`)
+        },
+        {
+            buttonState: true,
+            Width: 98,
+            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
         }
     ]
 
@@ -211,6 +217,27 @@ const OrderContainer = () => {
         getList()
     }, [deletePk])
 
+
+    const getComplete = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['order'].complete}`
+        const res = await postMoldState(tempUrl, {pk: pk})
+
+        setSelectPk(null)
+        setSelectValue(null)
+        getList()
+    }, [selectPk, selectValue])
+
+    const getCancel = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['order'].cancel}`
+        const res = await postMoldState(tempUrl, {pk: pk})
+
+        setSelectPk(null)
+        setSelectValue(null)
+        getList()
+    }, [selectPk, selectValue])
+
     const getData = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['order'].load}?pk=${pk}`
@@ -229,9 +256,9 @@ const OrderContainer = () => {
 
             const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-
-            return {...v, quantity: quantity, unpaid: unpaid}
+            return {...v, quantity: quantity, unpaid: unpaid, status: status}
         })
 
         setList(orderList)
@@ -268,6 +295,7 @@ const OrderContainer = () => {
                 searchButtonOnClick={searchOnClick}
                 indexList={index}
                 valueList={list}
+                buttonState={true}
                 EventList={eventList}
                 currentPage={page.current}
                 totalPage={page.total}

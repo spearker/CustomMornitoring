@@ -62,7 +62,7 @@ const MemberListContainer = () => {
         {
             Name: '등록하기',
             Width: 90,
-            Link: () => history.push('/mange/member/register')
+            Link: () => history.push('/manage/member/register')
         },
         // {
         //     Name: '수정',

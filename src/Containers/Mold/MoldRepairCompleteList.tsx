@@ -178,7 +178,6 @@ const MoldRepairCompleteListContainer = () => {
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
-                buttonState={true}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}

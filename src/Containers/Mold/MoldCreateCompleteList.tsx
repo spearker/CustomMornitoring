@@ -173,10 +173,9 @@ const MoldCreateCompleteListContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 완료'}
+                title={'금형 수리 완료'}
                 indexList={index}
                 valueList={list}
-                buttonState={true}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}

@@ -173,7 +173,7 @@ const RepairContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 수리 완료'}
+                title={'금형 수리 현황'}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}
