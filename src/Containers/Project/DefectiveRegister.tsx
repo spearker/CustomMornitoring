@@ -40,7 +40,18 @@ const DefectiveRegisterContainer = ({match}: Props) => {
 
   const history = useHistory()
   const [open, setOpen] = useState<boolean>(false)
-  const [selectHistory, setSelectHistory] = useState<{ name?: string, pk?: string }>({name: '', pk: ''})
+  const [selectHistory, setSelectHistory] = useState<{
+    amount: number
+    machine_name: string
+    machine_pk: string
+    material_name: string
+    material_pk: string
+    pk: string
+    process_name: string
+    worked: string
+    worker: string
+    worker_name: string
+  }>()
   const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>({name: '', pk: ''})
   const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>({name: '', pk: ''})
   const [pk, setPk] = useState<string>('')
@@ -82,7 +93,20 @@ const DefectiveRegisterContainer = ({match}: Props) => {
       //console.log('resresres------->', res)
 
       setPk(res.pk)
-      setSelectHistory({name: res.history_name, pk: res.history_pk})
+      if (selectHistory) {
+        setSelectHistory({
+          amount: selectHistory.amount,
+          machine_name: selectHistory.machine_name,
+          machine_pk: selectHistory.machine_pk,
+          material_name: selectHistory.material_name,
+          material_pk: selectHistory.material_pk,
+          pk: selectHistory.pk,
+          process_name: selectHistory.process_name,
+          worked: selectHistory.worked,
+          worker: selectHistory.worker,
+          worker_name: selectHistory.worker_name,
+        })
+      }
       setSelectMachine({name: res.machine_name, pk: res.machine_pk})
       setSelectMaterial({name: res.material_name, pk: res.material_pk})
       setName(res.checker)
@@ -110,17 +134,17 @@ const DefectiveRegisterContainer = ({match}: Props) => {
    */
   const onsubmitFormUpdate = useCallback(async () => {
 
-    if (selectHistory.pk === '' || selectHistory.pk == undefined) {
+    if (!selectHistory || selectHistory.pk === '' || selectHistory.pk == undefined) {
       alert('작업 이력은 필수 항목입니다. 반드시 선택해주세요.')
       return
     } else if (selectMaterial.pk === '' || selectMaterial.pk == undefined) {
       alert('품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.')
       return
     } else if (selectMachine.pk === '' || selectMachine.pk == undefined) {
-      alert('기계은 필수 항목입니다. 반드시 선택해주세요.')
+      alert('기계는 필수 항목입니다. 반드시 선택해주세요.')
       return
     } else if (selectMember.pk === '' || selectMember.pk == undefined) {
-      alert('검수자은 필수 항목입니다. 반드시 입력해주세요.')
+      alert('검수자는 필수 항목입니다. 반드시 입력해주세요.')
       return
     } else if (amount === null || amount == undefined) {
       alert('불량개수는 필수 항목입니다. 반드시 입력해주세요.')
@@ -177,7 +201,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
     // alert(JSON.stringify(infoList))
     // console.log(JSON.stringify(infoList))
 
-    if (selectHistory.pk === '' || selectHistory.pk == undefined) {
+    if (!selectHistory || selectHistory.pk === '' || selectHistory.pk == undefined) {
       alert('작업 이력은 필수 항목입니다. 반드시 선택해주세요.')
       return
     } else if (selectMaterial.pk === '' || selectMaterial.pk == undefined) {
@@ -231,6 +255,14 @@ const DefectiveRegisterContainer = ({match}: Props) => {
 
   }, [selectHistory, selectMaterial, selectMachine, name, amount, selectDate, reason])
 
+  useEffect(() => {
+    console.log(selectHistory)
+    if (selectHistory) {
+      setSelectMaterial({name: selectHistory?.material_name, pk: selectHistory?.material_pk})
+      setSelectMachine({name: selectHistory.machine_name, pk: selectHistory.machine_pk})
+      setSelectMember({name: selectHistory.worker_name, pk: selectHistory.worker})
+    }
+  }, [selectHistory])
 
   return (
     <div>
@@ -238,9 +270,9 @@ const DefectiveRegisterContainer = ({match}: Props) => {
       <WhiteBoxContainer>
         <ListHeader title="필수 항목"/>
         <InputContainer title={'작업 이력'} width={120}>
-          <HistoryPickerModal select={selectHistory}
+          <HistoryPickerModal select={{name: selectHistory?.worker_name, pk: selectHistory?.pk}}
                               onClickEvent={(e) => setSelectHistory({...selectHistory, ...e})}
-                              text={'작업자명을 검색해주세요.'} buttonWid={30}/>
+                              text={'작업자명을 검색해주세요.'} buttonWid={30} isAllItem={true}/>
         </InputContainer>
         <InputContainer title={'품목(품목명)'} width={120}>
           <ProductionPickerModal select={selectMaterial}

@@ -1,178 +1,204 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
-import Modal from "react-modal";
-import ReactShadowScroll from 'react-shadow-scroll';
+import Modal from 'react-modal'
+import ReactShadowScroll from 'react-shadow-scroll'
 import ic_check from '../../Assets/Images/ic_check.png'
-import {Input} from "semantic-ui-react";
-import IcSearchButton from "../../Assets/Images/ic_search.png";
-import {API_URLS, getHistorySearch} from "../../Api/mes/production";
+import {Input} from 'semantic-ui-react'
+import IcSearchButton from '../../Assets/Images/ic_search.png'
+import {API_URLS, getHistorySearch} from '../../Api/mes/production'
 
 //드롭다운 컴포넌트
 
-interface IProps{
-    select?: { name?:string, pk?: string },
-    onClickEvent: any
-    text: string
-    buttonWid?: string | number
+interface IProps {
+  select?: { name?: string, pk?: string },
+  onClickEvent: any
+  text: string
+  buttonWid?: string | number
+  isAllItem?: boolean
 }
 
 const DummyMachine = [
-    {
-        pk: '',
-        worker_name: '',
-        material_name: '',
-        worked: '',
-        amount: '',
-    }
+  {
+    pk: '',
+    worker_name: '',
+    material_name: '',
+    worked: '',
+    amount: '',
+  }
 ]
 
-const HistoryPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
-    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const [isOpen, setIsOpen] = useState(false);
-    const [workerName, setWorkerName] = useState('')
-    const [page, setPage] = useState<PaginationInfo>({
-        current: 1,
-    });
-    const [historyList, setHistoryList] = useState<{
-        pk:string,
-        worker_name: string,
-        material_name: string,
-        worked: string,
-        amount: string
-    }[]>(DummyMachine)
-    const [searchName, setSearchName] = useState<string>('')
+const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: IProps) => {
+  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [isOpen, setIsOpen] = useState(false)
+  const [workerName, setWorkerName] = useState('')
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  })
+  const [historyList, setHistoryList] = useState<{
+    pk: string,
+    worker_name: string,
+    material_name: string,
+    worked: string,
+    amount: string
+  }[]>(DummyMachine)
+  const [searchName, setSearchName] = useState<string>('')
 
-    // const ref = useOnclickOutside(() => {
-    //     setIsOpen(false);
-    // });
+  // const ref = useOnclickOutside(() => {
+  //     setIsOpen(false);
+  // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
-        const resultData = await getHistorySearch(tempUrl);
-        setHistoryList(resultData.info_list)
+  const getList = useCallback(async () => {
+    const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const resultData = await getHistorySearch(tempUrl)
+    setHistoryList(resultData.info_list)
 
-        setPage({ current: resultData.current_page, total: resultData.total_page })
-    }, [searchName,page])
-
-
-    const handleClickBtn = () => {
-        setIsOpen(!isOpen);
-    };
-    useEffect(()=>{
-        getList()
-    },[])
+    setPage({current: resultData.current_page, total: resultData.total_page})
+  }, [searchName, page])
 
 
-    useEffect(()=>{
-        getList()
-    },[page.current])
+  const handleClickBtn = () => {
+    setIsOpen(!isOpen)
+  }
+  useEffect(() => {
+    getList()
+  }, [])
 
-    return (
-        <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
-                        {
-                            select && select.name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                        }
 
-                    </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
-                        <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
-                    </div>
+  useEffect(() => {
+    getList()
+  }, [page.current])
 
-                </BoxWrap>
+  return (
+    <div>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+        <BoxWrap onClick={() => {
+          setIsOpen(true)
+        }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+          <div style={{display: 'inline-block', height: 32, width: 885}}>
+            {
+              select && select.name ? <p onClick={() => {
+                  setIsOpen(true)
+                }} style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                : <p onClick={() => {
+                  setIsOpen(true)
+                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+            }
+
+          </div>
+          <div style={{
+            display: 'inline-block',
+            backgroundColor: POINT_COLOR,
+            width: buttonWid ? buttonWid : 32,
+            height: buttonWid ? buttonWid : 32
+          }}>
+            <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
+              setIsOpen(true)
+            }}/>
+          </div>
+
+        </BoxWrap>
+      </div>
+      <Modal
+        isOpen={isOpen}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            padding: 0
+          },
+          overlay: {
+            background: 'rgba(0,0,0,.6)',
+            zIndex: 5
+          }
+        }}
+      >
+        <div style={{width: 900}}>
+          <div style={{width: 860, height: 440, padding: 20}}>
+            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이력 검색</p>
+            <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
+              <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}}
+                         onChange={(e) => setSearchName(e.target.value)}/>
+              <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                <img src={IcSearchButton}/>
+              </SearchButton>
             </div>
-            <Modal
-                isOpen={isOpen}
-                style={{
-                    content : {
-                        top                   : '50%',
-                        left                  : '50%',
-                        right                 : 'auto',
-                        bottom                : 'auto',
-                        marginRight           : '-50%',
-                        transform             : 'translate(-50%, -50%)',
-                        padding: 0
-                    },
-                    overlay:{
-                        background: 'rgba(0,0,0,.6)',
-                        zIndex: 5
-                    }
-                }}
-            >
-                <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이력 검색</p>
-                        <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
-                                <img src={IcSearchButton}/>
-                            </SearchButton>
-                        </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
-                            <ReactShadowScroll>
-                                <MachineTable>
-                                    <tr>
-                                        <th style={{width: 150}}>작업자 명</th>
-                                        <th style={{width: 150}}>품목명</th>
-                                        <th style={{width: 275}}>작업 시간</th>
-                                        <th style={{width: 200}}>총 작업</th>
-                                        <th style={{width: 30}}></th>
-                                    </tr>
-                                    { historyList !== undefined && historyList.length === 0 ?
-                                        <tr>
-                                            <td  colSpan={5} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
-                                        </tr>
-                                        :
-                                        historyList && historyList.map((v,i) => {
-                                            return(
-                                                <tr style={{height: 32}}>
-                                                    <td><span>{v.worker_name}</span></td>
-                                                    <td><span>{v.material_name}</span></td>
-                                                    <td><span>{v.worked}</span></td>
-                                                    <td><span>{v.amount}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setWorkerName(v.worker_name)
-                                                                return onClickEvent({name: v.worker_name, pk: v.pk})
-                                                            }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </MachineTable>
-                            </ReactShadowScroll>
-                        </div>
-                    </div>
-                    <div style={{width: 900}}>
-                        <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-                            onClickEvent({name: undefined, pk: undefined})
-                            setIsOpen(false)
-                        }}>
-                            <div>
-                                <span style={{color: '#666d79'}}>취소</span>
-                            </div>
-                        </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
-                            <div>
-                                <span style={{color: 'black'}}>확인</span>
-                            </div>
-                        </CheckButton>
-                    </div>
-                </div>
-            </Modal>
-
+            <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+              <ReactShadowScroll>
+                <MachineTable>
+                  <tr>
+                    <th style={{width: 150}}>작업자 명</th>
+                    <th style={{width: 150}}>품목명</th>
+                    <th style={{width: 275}}>작업 시간</th>
+                    <th style={{width: 200}}>총 작업</th>
+                    <th style={{width: 30}}></th>
+                  </tr>
+                  {historyList !== undefined && historyList.length === 0 ?
+                    <tr>
+                      <td colSpan={5} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                    </tr>
+                    :
+                    historyList && historyList.map((v, i) => {
+                      return (
+                        <tr style={{height: 32}}>
+                          <td><span>{v.worker_name}</span></td>
+                          <td><span>{v.material_name}</span></td>
+                          <td><span>{v.worked}</span></td>
+                          <td><span>{v.amount}</span></td>
+                          <td>
+                            <button
+                              onClick={() => {
+                                setWorkerName(v.worker_name)
+                                if (isAllItem) {
+                                  return onClickEvent(v)
+                                } else {
+                                  return onClickEvent({name: v.worker_name, pk: v.pk})
+                                }
+                              }}
+                              style={{
+                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                width: 32,
+                                height: 32,
+                                margin: 0
+                              }}
+                            >
+                              <img src={ic_check} style={{width: 20, height: 20}}/>
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  }
+                </MachineTable>
+              </ReactShadowScroll>
+            </div>
+          </div>
+          <div style={{width: 900}}>
+            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+              onClickEvent({name: undefined, pk: undefined})
+              setIsOpen(false)
+            }}>
+              <div>
+                <span style={{color: '#666d79'}}>취소</span>
+              </div>
+            </CheckButton>
+            <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+              setIsOpen(false)
+            }}>
+              <div>
+                <span style={{color: 'black'}}>확인</span>
+              </div>
+            </CheckButton>
+          </div>
         </div>
-    );
+      </Modal>
+
+    </div>
+  )
 }
 
 const BoxWrap = Styled.button`
@@ -274,4 +300,4 @@ const MachineTable = Styled.table`
     
 `
 
-export default HistoryPickerModal;
+export default HistoryPickerModal
