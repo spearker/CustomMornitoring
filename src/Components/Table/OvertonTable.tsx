@@ -274,21 +274,22 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                     EventList && EventList.map((bv, bi) => {
                                         return (
                                             <div className="p-limits">
-                                                {buttonState ?
-                                                    <ButtonBox onClick={() => bv.Link(v)} style={{
-                                                        width: bv.Width,
-                                                        color: v.status === '진행중' ? 'white' : 'white',
-                                                        backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df'
-                                                    }}
-                                                    >{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
-                                                    :
-                                                    <ButtonBox disabled={(v.finished === '완료' && bv.Name !== '수정')}
-                                                               onClick={() => bv.Link(v)}
-                                                               style={{
-                                                                   width: bv.Width,
-                                                                   color: bv.Color,
-                                                                   backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
-                                                               }}>{bv.Name}</ButtonBox>
+                                                {
+                                                    buttonState ?
+                                                        <ButtonBox onClick={() => bv.Link(v)} style={{
+                                                            width: bv.Width,
+                                                            color: bv.buttonState === true ? v.status === '진행중' ? 'white' : 'white' : bv.Color,
+                                                            backgroundColor: bv.buttonState === true ? v.status === '진행중' ? '#717c90' : '#19b9df' : '#717c90'
+                                                        }}
+                                                        >{bv.buttonState === true ? v.status === '진행중' ? '완료 하기' : '취소 하기' : bv.Name}</ButtonBox>
+                                                        :
+                                                        <ButtonBox disabled={(v.finished === '완료' && bv.Name !== '수정')}
+                                                                   onClick={() => bv.Link(v)}
+                                                                   style={{
+                                                                       width: bv.Width,
+                                                                       color: bv.Color,
+                                                                       backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
+                                                                   }}>{bv.Name}</ButtonBox>
                                                 }
                                             </div>
                                         )
