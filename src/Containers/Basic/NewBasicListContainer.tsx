@@ -145,7 +145,7 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
 
   useEffect(() => {
     setEventList(eventdummy)
-    getList(pageType)
+    getList(pageType).then(() => Notiflix.Loading.Remove(300))
     setTitleEventList(titleEvent)
   }, [page.current])
 

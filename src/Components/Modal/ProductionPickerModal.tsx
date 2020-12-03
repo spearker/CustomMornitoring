@@ -155,10 +155,19 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                                 let isCancel: boolean = false
                                 const tmpIndexList = indexList
                                 const tmpSelectMaterial = selectMaterial
+                                const i = tmpSelectMaterial.findIndex((o) => {
+                                  return o.material_name === v.material_name
+                                })
 
-                                if (tmpIndexList.indexOf(i) !== -1) {
+                                console.log(i)
+
+                                if (i !== -1) {
                                   isCancel = true
                                 }
+
+                                // if (tmpSelectMaterial.indexOf(v) !== -1) {
+                                //   isCancel = true
+                                // }
 
                                 if (isCancel) {
                                   tmpIndexList.splice(tmpIndexList.indexOf(i), 1)
@@ -190,7 +199,11 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                                 }
                               }}
                               style={{
-                                backgroundColor: indexList.indexOf(i) !== -1 ? POINT_COLOR : '#dfdfdf',
+                                backgroundColor: selectMaterial.findIndex(
+                                  (o) => {
+                                    return o.material_name === v.material_name
+                                  }
+                                ) !== -1 ? POINT_COLOR : '#dfdfdf',
                                 width: 32,
                                 height: 32,
                                 margin: 0
