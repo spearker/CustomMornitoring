@@ -94,7 +94,7 @@ const NewBasicMaterialRegister = () => {
                     material_spec: data.material_spec,
                     stock: data.stock,
                     texture: data.texture,
-                    model: data.model.toString().split(',')
+                    model: data.model ? data.model.toString().split(',') : null
                 }
 
                 setInputData('all', form)
