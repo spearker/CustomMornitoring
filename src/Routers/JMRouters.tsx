@@ -155,7 +155,6 @@ const JMRouters = () => {
             <Route exact path="/mold/create/register/:pk" component={MoldCreateRegister}/>
             <Route exact path="/mold/create/list" component={MoldCreate}/>
             <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
-            <Route exact path="/mold/current/list" component={MoldCurrent}/>
             <Route exact path="/mold/repair/list" component={MoldRepair}/>
             <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
 

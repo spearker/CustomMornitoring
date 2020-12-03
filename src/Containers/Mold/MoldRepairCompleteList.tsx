@@ -77,12 +77,12 @@ const MoldRepairCompleteListContainer = () => {
 
 
     const indexList = {
-        making: {
+        repair: {
             mold_name: '금형 명',
-            barcode: '금형 바코드 번호',
-            manager: '제작 담당자',
-            schedule: '제작 일정',
-            status: '제작 현황',
+            manager: '수리 담당자',
+            complete_date: '완료 예정 날짜',
+            registered: '수리 등록 날짜',
+            status: '상태',
         }
     }
 
@@ -96,12 +96,6 @@ const MoldRepairCompleteListContainer = () => {
         },
     }
 
-    const eventdummy = [
-        {
-            Width: 98,
-            Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
-        },
-    ]
 
     const titleeventdummy = [
         {
@@ -122,28 +116,10 @@ const MoldRepairCompleteListContainer = () => {
         getList()
     }, [deletePk])
 
-    const getComplete = useCallback(async (pk) => {
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['making'].complete}`
-        const res = await postMoldState(tempUrl, {pk: pk})
-
-        setDetailList(res)
-        getList()
-    }, [detailList])
-
-    const getCancel = useCallback(async (pk) => {
-        //TODO: 성공시
-        const tempUrl = `${API_URLS['making'].cancel}`
-        const res = await postMoldState(tempUrl, {pk: pk})
-
-        setDetailList(res)
-        getList()
-    }, [detailList])
-
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['making'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
+        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
         const res = await getMoldList(tempUrl)
 
         const Detail = res.info_list.map((v, i) => {
@@ -164,16 +140,15 @@ const MoldRepairCompleteListContainer = () => {
 
     useEffect(() => {
         getList()
-        setIndex(indexList['making'])
+        setIndex(indexList['repair'])
         // setList(dummy)
-        setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
     }, [])
 
     return (
         <div>
             <OvertonTable
-                title={'금형 제작 완료'}
+                title={'금형 수리 완료'}
                 mainOnClickEvent={(v) => history.push(`/mold/create/register/${v.pk}`)}
                 indexList={index}
                 valueList={list}

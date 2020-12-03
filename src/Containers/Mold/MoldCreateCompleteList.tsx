@@ -77,12 +77,12 @@ const MoldCreateCompleteListContainer = () => {
 
 
     const indexList = {
-        repair: {
+        making: {
             mold_name: '금형 명',
-            manager: '수리 담당자',
-            complete_date: '완료 예정 날짜',
-            registered: '수리 등록 날짜',
-            status: '상태',
+            barcode: '금형 바코드 번호',
+            manager: '제작 담당자',
+            schedule: '제작 일정',
+            status: '제작 현황',
         }
     }
 
@@ -143,7 +143,7 @@ const MoldCreateCompleteListContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['repair'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
+        const tempUrl = `${API_URLS['making'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
         const res = await getMoldList(tempUrl)
 
         const Detail = res.info_list.map((v, i) => {
@@ -164,7 +164,7 @@ const MoldCreateCompleteListContainer = () => {
 
     useEffect(() => {
         getList()
-        setIndex(indexList['repair'])
+        setIndex(indexList['making'])
         // setList(dummy)
         setEventList(eventdummy)
         setTitleEventList(titleeventdummy)
@@ -173,7 +173,7 @@ const MoldCreateCompleteListContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 수리 완료'}
+                title={'금형 제작 완료'}
                 indexList={index}
                 valueList={list}
                 currentPage={page.current}
