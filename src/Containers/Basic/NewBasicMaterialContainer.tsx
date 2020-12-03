@@ -78,7 +78,9 @@ const NewBasicMaterialRegister = () => {
             //TODO: 에러 처리
         } else {
             if (res.status === 200 || res.status === '200') {
+
                 const data = res.results
+                
                 const form = {
                     pk: data.pk,
                     material_name: data.material_name,
@@ -94,7 +96,7 @@ const NewBasicMaterialRegister = () => {
                     material_spec: data.material_spec,
                     stock: data.stock,
                     texture: data.texture,
-                    model: data.model
+                    model: data.model.toString().split(',')
                 }
 
                 setInputData('all', form)

@@ -46,54 +46,7 @@ const VoucherContainer = ({match}: Props) => {
         }
     }
 
-    const dummy = [
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-        {
-            registerer_name: '홍길동',
-            supplier_name: '(주)대한민국',
-            material_name: '품목(품목명)',
-            goal: '999,999,999,999',
-            current_amount: '99,999'
-        },
-    ]
-
-
-    const detaildummy = [
-        {
-            pk: 'PK1',
-            max_count: 100,
-            current_count: 20
-        }
-    ]
-
-
+    
     const titleeventdummy = [
         {
             Name: '등록하기',
