@@ -16,7 +16,7 @@ client.defaults.baseURL = SF_ENDPOINT + '/api'
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME)
 
-client.interceptors.response.use(function (response) {
+client.interceptors.response.use((response) => {
   const returnError = getErrorCase(response.data.status, response.data.message)
 
   if (returnError) {
@@ -25,11 +25,10 @@ client.interceptors.response.use(function (response) {
     return response.data
   }
 
-}, function (error) {
-  console.error(error)
+}, (error) => {
+  console.log(error)
   // alert('[ERROR] 요청을 처리 할 수 없습니다.')
   return Promise.reject(error)
-
 })
 
 const getErrorCase = (code, message) => {
