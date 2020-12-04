@@ -30,7 +30,7 @@ import NewProcessRegister from '../Pages/Process/NewProcess'
 import ProcessRegister from '../Pages/Process/Register'
 
 import OutsourcingRegisterFree from '../Pages/Old_Outsourcing/Register'
-import Test from '../Pages/Test'
+import DateTypeCalendar from '../Components/Modal/DateTypeCalendar'
 
 
 const JunheeRouters = () => {
@@ -86,7 +86,6 @@ const JunheeRouters = () => {
 
 
         <Route path='/free' component={OutsourcingRegisterFree}/>
-        <Route path='/testCalendar' component={Test}/>
       </Switch>
     </div>
   )

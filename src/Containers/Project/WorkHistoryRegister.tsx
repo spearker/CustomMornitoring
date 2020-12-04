@@ -393,7 +393,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                                     placeholder={'총 작업량을 입력해 주세요'}></InputBox>
                         : <MoldPickerModal disabled={isUpdate} select={modalSelect.mold} onClickEvent={(e) => {
                           setModalSelect({...modalSelect, mold: e})
-                          setWorkHistoryData({...workHistoryData, material_pk: e.pk})
+                          setDetailMaterialData({...detailMaterialData, mold_name: e.name, mold_pk: e.pk})
                         }} text={'품목(품목명)을 선택해 주세요'} buttonWid={30}/>
                     }
                   </td>
