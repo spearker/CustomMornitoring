@@ -246,7 +246,7 @@ export const LIST_INDEX = {
     index: {
       material_name: '품목명',
       material_type: '품목 종류',
-      material_number: '품번',
+      material_code: '품번',
       location_name: '기본위치',
       safe_stock: '안전재고'
     }

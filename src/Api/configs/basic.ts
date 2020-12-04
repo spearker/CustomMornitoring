@@ -47,13 +47,9 @@ const getErrorCase = (code, message) => {
             return false
         case '200':
             return false
-        case 2000:
-        case 3000:
-        case 1011:
+        default:
             Notiflix.Loading.Remove(300)
             return Notiflix.Report.Failure('요청 실패', message, '닫기')
-        default:
-            return '[RESPONSE ERROR] 요청을 처리 할 수 없습니다.'
     }
 }
 export default client
