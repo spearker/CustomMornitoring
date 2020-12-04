@@ -22,15 +22,12 @@ const MemberListContainer = () => {
     const [keyword, setKeyword] = useState<string>('');
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any>();
-    const [filter, setFilter] = useState(-1)
-    const [type, setType] = useState(10)
-    const [selectTitle, setSelectTitle] = useState<number>(0);
-    const [index, setIndex] = useState({material_name: "품목(품목명)"});
+    const [order, setOrder] = useState(1)
+    const [index, setIndex] = useState({pk: "아이디"});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
     const [subIndex, setSubIndex] = useState({writer: "출처"})
-    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -42,9 +39,9 @@ const MemberListContainer = () => {
 
     const indexList = {
         wip: {
-            material_name: "아이디",
-            current_stock: "유저명",
-            location_name: ["권한", '관리자', '작업자'],
+            pk: "아이디",
+            name: "유저명",
+            authority: ["권한", '관리자', '작업자'],
         }
     }
 
@@ -57,6 +54,14 @@ const MemberListContainer = () => {
         }
     }
 
+    const selectBox = useCallback((value) => {
+        if (value === '관리자') {
+            setOrder(0)
+        } else if (value === '작업자') {
+            setOrder(1)
+        }
+
+    }, [order])
 
     const titleeventdummy = [
         {
@@ -104,13 +109,13 @@ const MemberListContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['member'].list}?keyword=&page=${page.current}&limit=15&ordered=0`
+        const tempUrl = `${API_URLS['member'].list}?keyword=${keyword}&page=${page.current}&limit=15&ordered=${order}`
         const res = await getMemberList(tempUrl)
 
-        setList(res)
+        setList(res.info_list)
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove()
-    }, [list, type, filter])
+    }, [list, keyword, order])
 
 
     useEffect(() => {
@@ -125,13 +130,18 @@ const MemberListContainer = () => {
         setSubIndex(detailTitle['wipDetail'])
     }, [page.current])
 
+
+    useEffect(() => {
+        getList()
+    }, [order])
+
     return (
         <div>
             <OptimizedHeaderBox title={'사용자 리스트'} searchBarChange={(e) => setKeyword(e)}
-                                searchButtonOnClick={() => ''} titleOnClickEvent={titleEventList}/>
+                                searchButtonOnClick={() => getList()} titleOnClickEvent={titleEventList}/>
             <OptimizedTable widthList={['264px', '96px', '96px']} indexList={index}
+                            selectBoxChange={selectBox}
                             valueList={list}
-                            mainOnClickEvent={onClick}
                             currentPage={page.current}
                             totalPage={page.total}
                             pageOnClickEvent={(event, i) => setPage({...page, current: i})}

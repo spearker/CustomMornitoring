@@ -10,7 +10,7 @@ import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
 import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 import {useHistory} from 'react-router-dom'
-import MemberPickerModal from "../../Components/Modal/MemberPickerModal";
+import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
 
 const typeDummy = [
     '수주 처리',
@@ -29,11 +29,11 @@ const ProductionRegisterContainer = () => {
     const [typeList, setTypelist] = useState<string[]>(typeDummy)
     const [selectType, setSelectType] = useState<string>()
     const [modalSelect, setModalSelect] = useState<{
-        factory: { name?: string, pk?: string }, production: { name?: string, material_pk?: string },
+        factory: { name?: string, pk?: string }, production: { name?: string, pk?: string },
         segment: { name?: string, pk?: string }
     }>({
         factory: {name: '', pk: ''},
-        production: {name: '', material_pk: ''},
+        production: {name: '', pk: ''},
         segment: {name: '', pk: ''},
     })
     const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
@@ -73,7 +73,7 @@ const ProductionRegisterContainer = () => {
         } else if (selectMember.pk === '') {
             alert('계획자는 필수 항목입니다. 반드시 입력해 주세요.')
             return
-        } else if (modalSelect.production?.material_pk === '') {
+        } else if (modalSelect.production?.pk === '') {
             alert('품목명은 필수 항목입니다. 반드시 입력해주세요.')
             return
         } else if (selectDateRange.start === '') {
@@ -96,7 +96,7 @@ const ProductionRegisterContainer = () => {
         const resultData = await postProductionRegister(tempUrl, {
             type: Number(type),
             manager: selectMember.pk,
-            material: modalSelect.production?.material_pk,
+            material: modalSelect.production?.pk,
             from: selectDateRange.start,
             to: selectDateRange.end,
             amount: chitData.amount,
@@ -139,7 +139,6 @@ const ProductionRegisterContainer = () => {
                             <td>• 품목(품목명)</td>
                             <td><ProductionPickerModal select={modalSelect.production}
                                                        onClickEvent={(e) => {
-                                                           console.log(e)
                                                            setModalSelect({...modalSelect, production: e})
                                                        }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30}/></td>
                         </tr>
@@ -164,7 +163,7 @@ const ProductionRegisterContainer = () => {
                                             }
                                         </div>
                                     </div>
-                                    <ColorCalendarDropdown selectRange={selectDateRange} zIndex={3}
+                                    <ColorCalendarDropdown selectRange={selectDateRange} zIndex={3} unLimit
                                                            onClickEvent={(start, end) => {
                                                                setSelectDateRange({
                                                                    start,
@@ -186,7 +185,7 @@ const ProductionRegisterContainer = () => {
                         {/*</tr>*/}
                         <tr>
                             <td>• 총 수량</td>
-                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'}
+                            <td><Input placeholder="생산 목표 수량은 입력해 주세요 (최대: 2,147,483,647개)" type={'number'}
                                        onChange={(e) => setChitData({...chitData, amount: Number(e.target.value)})}/>
                             </td>
                         </tr>

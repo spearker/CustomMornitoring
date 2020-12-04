@@ -1,4 +1,4 @@
-import client from '../configs/basic';
+import client from '../configs/basic'
 
 /**
  * postProcessDelete()
@@ -10,12 +10,12 @@ import client from '../configs/basic';
  * @version 0.1
  */
 export const postProcessDelete = async (url: string, object: object) => {
-    const temp: IServerData = await client.post(url, object);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
-    return temp.status;
+  const temp: IServerData = await client.post(url, object)
+  if (temp.status === 400) {
+    alert('요청이 잘못되었습니다.')
+    return
+  }
+  return temp.status
 }
 
 /**
@@ -27,13 +27,13 @@ export const postProcessDelete = async (url: string, object: object) => {
  * @version 0.1
  */
 export const getProcessList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
+  const temp: IServerData = await client.get(url)
 
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
-    return temp.results;
+  if (temp.status === 400) {
+    alert('요청이 잘못되었습니다.')
+    return
+  }
+  return temp.results
 }
 
 
@@ -46,13 +46,13 @@ export const getProcessList = async (url: string) => {
  * @version 0.1
  */
 export const getSegmentList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
+  const temp: IServerData = await client.get(url)
 
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
-    return temp.results;
+  if (temp.status === 400) {
+    alert('요청이 잘못되었습니다.')
+    return
+  }
+  return temp.results
 }
 
 /**
@@ -65,13 +65,13 @@ export const getSegmentList = async (url: string) => {
  * @version 0.1
  */
 export const postSegmentDelete = async (url: string, object: object) => {
-    const temp: IServerData = await client.post(url, object);
+  const temp: IServerData = await client.post(url, object)
 
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
-    return temp.results;
+  if (temp.status === 400) {
+    alert('요청이 잘못되었습니다.')
+    return
+  }
+  return temp.results
 }
 
 
@@ -84,26 +84,8 @@ export const postSegmentDelete = async (url: string, object: object) => {
  * @author 준희
  */
 export const postProcessRegister = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData);
-    return temp
-}
-
-/**
- * getSearchMachine()
- * 기계 검색하기
- * @param {string} url 링크 주소
- * @param {Object} keyword 기계명
- * @returns {Object} 기게정보 리스트
- * @author 준희
- */
-
-export const getSearchMachine = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
-    return temp.results
+  const temp: IServerData = await client.post(url, bodyData)
+  return temp
 }
 
 /**
@@ -116,39 +98,73 @@ export const getSearchMachine = async (url: string) => {
  */
 
 export const getSearchProcess = async (url: string) => {
-    const temp: IServerData = await client.get(url);
+  const temp: IServerData = await client.get(url)
 
-    return temp
+  return temp
+}
+
+/**
+ * getSearchMachine()
+ * 기계 검색하기
+ * @param {string} url 링크 주소
+ * @param {Object} keyword 기계명
+ * @returns {Object} 기게정보 리스트
+ * @author 준희
+ */
+
+export const getSearchMachine = async (url: string) => {
+  const temp: IServerData = await client.get(url)
+  if (temp.status === 400) {
+    alert('요청이 잘못되었습니다.')
+    return
+  }
+  return temp.results
+}
+
+/**
+ * getSearchDetail()
+ * 공정 디테일
+ * @param {string} 공정 pk
+ * @returns {Object} 공정 디테일 객체
+ * @author 준희
+ */
+
+export const getSearchDetail = async (url: string) => {
+  const temp: IServerData = await client.get(url)
+  console.log(temp)
+  if (temp) {
+    return temp.results
+  }
 }
 
 export const API_URLS = {
-    process: {
-        register: `/v1/process/register`,
-        update: `/v1/process/update`,
-        load: `/v1/process/load`,
-        list: `/v1/process/list`,
-        delete: `/v1/process/delete`,
-        search: `/v1/process/search`,
-        search2: `/v1/process/segment/search`
-    },
-    segment: {
-        register: `/v1/process/segment/register`,
-        delete: `/v1/process/segment/delete`,
-        list: '/v1/process/segment/list',
-        load: '/v1/process/segment/load'
-    },
-    machine: {
-        list: `/v1/machine/search`
-    },
-    mold: {
-        search: `/v1/mold/search`
-    },
-    chit: {
-        search: `/v1/chit/search`
-    },
-    parts: {
-        search: `/v1/parts/list`
-    }
+  process: {
+    register: `/v1/process/register`,
+    update: `/v1/process/update`,
+    load: `/v1/process/load`,
+    list: `/v1/process/list`,
+    delete: `/v1/process/delete`,
+    search: `/v1/process/search`,
+    search2: `/v1/process/segment/search`
+  },
+  segment: {
+    register: `/v1/process/segment/register`,
+    delete: `/v1/process/segment/delete`,
+    list: '/v1/process/segment/list',
+    load: '/v1/process/segment/load'
+  },
+  machine: {
+    list: `/v1/machine/search`
+  },
+  mold: {
+    search: `/v1/mold/search`
+  },
+  chit: {
+    search: `/v1/chit/search`
+  },
+  parts: {
+    search: `/v1/parts/list`
+  }
 
 }
 

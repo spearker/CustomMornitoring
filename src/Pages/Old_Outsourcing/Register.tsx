@@ -17,7 +17,9 @@ import OldFileInput from '../../Components/Input/OldFileInput'
 import RadioInput from '../../Components/Input/RadioInput'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import DaumPostcode from 'react-daum-postcode'
-
+import FullAddInput from '../../Components/Input/FullAddInput'
+import CustomIndexInput from '../../Components/Input/CustomIndexInput'
+import DateTypeCalendar from '../../Components/Modal/DateTypeCalendar'
 
 // 외주사 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -324,39 +326,40 @@ const OutsourcingRegister = () => {
                          description={'사업장 담당자(관리자) 연락처를 입력하세요'}/>
             <NormalInput title={'담당자 이메일'} value={emailM} onChangeEvent={setEmailM}
                          description={'사업장 담당자(관리자) 이메일을 입력하세요'}/>
-            {/* 자유항목 입력 창
-                 <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
-                  const tempInfo = infoList.slice();
-                  tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
-                  setInfoList(tempInfo)
-                }}>
-                  {
-                    infoList.map((v: IInfo, i)=>{
-                      return(
-                          <CustomIndexInput index={i} value={v}
-                          onRemoveEvent={()=>{
-                            const tempInfo = infoList.slice();
-                            tempInfo.splice(i, 1)
-                            setInfoList(tempInfo)
-                          }}
-                          onChangeEvent={(obj: IInfo)=>{
-                            const tempInfo = infoList.slice();
-                            tempInfo.splice(i, 1, obj)
-                            setInfoList(tempInfo)
-                          }}
-                          />
-                      )
-                    })
-                  }
-                  </FullAddInput>
-                  */}
+            {/*자유항목 입력 창*/}
+            <FullAddInput title={'자유 항목'} onChangeEvent={() => {
+              const tempInfo = infoList.slice()
+              tempInfo.push({title: `자유 항목 ${infoList.length + 1}`, value: ''})
+              setInfoList(tempInfo)
+            }}>
+              {
+                infoList.map((v: IInfo, i) => {
+                  return (
+                    <CustomIndexInput index={i} value={v}
+                                      onRemoveEvent={() => {
+                                        const tempInfo = infoList.slice()
+                                        tempInfo.splice(i, 1)
+                                        setInfoList(tempInfo)
+                                      }}
+                                      onChangeEvent={(obj: IInfo) => {
+                                        const tempInfo = infoList.slice()
+                                        tempInfo.splice(i, 1, obj)
+                                        setInfoList(tempInfo)
+                                      }}
+                    />
+                  )
+                })
+              }
+            </FullAddInput>
+            <DateTypeCalendar type={'week'}/>
+
 
             <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
           </form>
+
         </WhiteBoxContainer>
 
       </InnerBodyContainer>
-
     </DashboardWrapContainer>
 
   )
