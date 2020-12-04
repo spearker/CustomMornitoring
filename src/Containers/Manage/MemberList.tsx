@@ -23,7 +23,7 @@ const MemberListContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any>();
     const [order, setOrder] = useState(1)
-    const [index, setIndex] = useState({id: "아이디"});
+    const [index, setIndex] = useState({pk: "아이디"});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -39,7 +39,7 @@ const MemberListContainer = () => {
 
     const indexList = {
         wip: {
-            id: "아이디",
+            pk: "아이디",
             name: "유저명",
             authority: ["권한", '관리자', '작업자'],
         }
@@ -142,7 +142,6 @@ const MemberListContainer = () => {
             <OptimizedTable widthList={['264px', '96px', '96px']} indexList={index}
                             selectBoxChange={selectBox}
                             valueList={list}
-                            mainOnClickEvent={onClick}
                             currentPage={page.current}
                             totalPage={page.total}
                             pageOnClickEvent={(event, i) => setPage({...page, current: i})}
