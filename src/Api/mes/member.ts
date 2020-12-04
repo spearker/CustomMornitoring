@@ -31,6 +31,7 @@ export const postCreateMember = async (url: string, object: object) => {
 export const API_URLS = {
     member: {
         list: `/v1/member/list`,
-        create: `/v1/member/create`
+        create: `/v1/member/create`,
+        update: `/v1/member/update`
     },
 }

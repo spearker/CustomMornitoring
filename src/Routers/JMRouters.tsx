@@ -92,7 +92,9 @@ const JMRouters = () => {
             <Route exact path="/pm/statistics/product" component={ProductToneStatistics}/>
             {/*인사 관리*/}
             <Route exact path="/manage/member/register" component={CreateMember}/>
+            <Route exact path="/manage/member/register/:pk" component={CreateMember}/>
             <Route exact path="/manage/member/list" component={MemberList}/>
+
 
             <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
             <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>

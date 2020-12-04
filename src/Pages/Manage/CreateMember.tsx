@@ -4,11 +4,11 @@ import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 // import CreateMemberContainer from '../../Pages/Old_Manage/CreatMember'
 import CreateMemberContainer from "../../Containers/Manage/CreateMember";
 
-const CreateMember = () => {
+const CreateMember = (match) => {
     return (
         <DashboardWrapContainer index={'manage'}>
             <InnerBodyContainer>
-                <CreateMemberContainer/>
+                <CreateMemberContainer match={match}/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

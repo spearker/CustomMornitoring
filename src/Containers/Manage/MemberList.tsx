@@ -22,7 +22,7 @@ const MemberListContainer = () => {
     const [keyword, setKeyword] = useState<string>('');
     const [titleEventList, setTitleEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any>();
-    const [order, setOrder] = useState(1)
+    const [auth, setAuth] = useState(-1)
     const [index, setIndex] = useState({pk: "아이디"});
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectStock, setSelectStock] = useState<any>(null);
@@ -56,12 +56,14 @@ const MemberListContainer = () => {
 
     const selectBox = useCallback((value) => {
         if (value === '관리자') {
-            setOrder(0)
+            setAuth(0)
         } else if (value === '작업자') {
-            setOrder(1)
+            setAuth(1)
+        } else if (value === '권한') {
+            setAuth(-1)
         }
 
-    }, [order])
+    }, [auth])
 
     const titleeventdummy = [
         {
@@ -109,13 +111,13 @@ const MemberListContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['member'].list}?keyword=${keyword}&page=${page.current}&limit=15&ordered=${order}`
+        const tempUrl = `${API_URLS['member'].list}?keyword=${keyword}&page=${page.current}&limit=15&auth=${auth}`
         const res = await getMemberList(tempUrl)
 
         setList(res.info_list)
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove()
-    }, [list, keyword, order])
+    }, [list, keyword, auth])
 
 
     useEffect(() => {
@@ -133,13 +135,14 @@ const MemberListContainer = () => {
 
     useEffect(() => {
         getList()
-    }, [order])
+    }, [auth])
 
     return (
         <div>
             <OptimizedHeaderBox title={'사용자 리스트'} searchBarChange={(e) => setKeyword(e)}
                                 searchButtonOnClick={() => getList()} titleOnClickEvent={titleEventList}/>
             <OptimizedTable widthList={['264px', '96px', '96px']} indexList={index}
+                            mainOnClickEvent={(v) => history.push(`/manage/member/register/${v.pk}`)}
                             selectBoxChange={selectBox}
                             valueList={list}
                             currentPage={page.current}

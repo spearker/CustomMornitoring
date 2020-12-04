@@ -25,10 +25,16 @@ import NormalFileInput from "../../Components/Input/NormalFileInput";
 import {uploadTempFile} from "../../Common/fileFuctuons";
 import {API_URLS, postCreateMember} from "../../Api/mes/member";
 import {getMarketing} from "../../Api/mes/marketing";
+import NormalButtonInput from "../../Components/Input/NormalButtonInput";
+import Notiflix from 'notiflix'
+
+interface Props {
+    match: any
+}
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const CreateMemberContainer = () => {
+const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
     const history = useHistory()
     const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
     const [type, setType] = useState<number>(0)
@@ -49,17 +55,37 @@ const CreateMemberContainer = () => {
 
     useEffect(() => {
 
-        if (getParameter('pk') !== '') {
-            setPk(getParameter('pk'))
+        if (match.match.params.pk) {
+
             setIsUpdate(true)
             getData()
         }
 
     }, [])
 
+    const emailDuplicated = useCallback(async () => {
+
+        const data = {
+            email: inputData.email
+        }
+
+        const res = await postRequest(`${SF_ENDPOINT}/user/duplicated`, data, '')
+
+        if (res === false) {
+            return Notiflix.Report.Failure('요청 실패', '체크할 아이디를 입력하셨는지 확인해주세요.', '닫기')
+        } else {
+            if (res.results === false) {
+                Notiflix.Report.Success('사용할 수 있는 아이디', '사용할 수 있는 아이디 입니다.', '닫기')
+            } else {
+                Notiflix.Report.Warning('사용할 수 없는 아이디', '사용할 수 없는 아이디 입니다. 아이디를 변경해주세요.', '닫기')
+            }
+        }
+
+    }, [inputData])
+
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/member/load?pk=` + match.match.params.pk, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -67,21 +93,11 @@ const CreateMemberContainer = () => {
             if (res.status === 200 || res.status === '200') {
                 const data = res.results
                 const form = {
-                    pk: data.pk,
-                    material_name: data.material_name,
-                    material_type: data.material_type,
-                    material_code: data.material_code,
-                    location: {pk: data.location_pk, name: data.location_name},
-                    manufacturer: data.manufacturer,
-                    material_spec_W: data.material_spec_W,
-                    material_spec_H: data.material_spec_H,
-                    material_spec_D: data.material_spec_D,
-                    cost: data.cost,
-                    safe_stock: data.safe_stock,
-                    material_spec: data.material_spec,
-                    stock: data.stock,
-                    texture: data.texture,
-                    model: data.model
+                    email: data.email,
+                    password: data.password,
+                    name: data.name,
+                    authority: data.authority,
+                    profile: data.profile,
                 }
 
                 setInputData('all', form)
@@ -96,64 +112,24 @@ const CreateMemberContainer = () => {
     const onsubmitFormUpdate = useCallback(async () => {
 
 
-        if (inputData.material_name.trim() === '') {
-            alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (inputData.location === undefined || +inputData.location.pk === undefined || inputData.location.pk === '') {
-            alert('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (inputData.safe_stock === '') {
-            alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        }
-
-        if (inputData.material_type === 0) {
-            if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
-                alert('제조사는 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            } else if (inputData.cost === '') {
-                alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            } else if ((inputData.texture).trim() === '' || inputData.texture === null) {
-                alert('재질은 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            }
-        } else if (inputData.material_type === 3) {
-            if (inputData.model[0].trim() === '') {
-                alert('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            }
-        }
-
+        const temp: any = []
+        temp.push(inputData)
 
         const data = {
-            pk: getParameter('pk'),
-            material_name: inputData.material_name,
-            material_type: inputData.material_type,
-            material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
-            manufacturer: inputData.manufacturer,
-            safe_stock: inputData.safe_stock,
-            cost: inputData.cost,
-            location: inputData.location.pk,
-            info_list: inputData.info_list,
-            material_spec_W: inputData.material_spec_W,
-            material_spec_H: inputData.material_spec_H,
-            material_spec_D: inputData.material_spec_D,
-            texture: inputData.texture,
-            model: inputData.model[0].trim() === '' ? null : inputData.model
+            members: temp
         }
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/update`, data, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        const tempUrl = `${API_URLS['member'].update}`
+        const resultData = await postCreateMember(tempUrl, data);
+
+
+        if (resultData !== undefined) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push('/manage/member/list')
         } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/material')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
+
 
     }, [pk, optional, essential, inputData])
 
@@ -168,7 +144,7 @@ const CreateMemberContainer = () => {
 
         const tempUrl = `${API_URLS['member'].create}`
         const resultData = await postCreateMember(tempUrl, data);
-       
+
 
         if (resultData !== undefined) {
             //alert('성공적으로 등록 되었습니다')
@@ -221,19 +197,18 @@ const CreateMemberContainer = () => {
                     <div>
                         <ListHeader title="필수 항목"/>
                         <RadioInput title={'권한'} target={inputData.authority}
-                                    onChangeEvent={(e) => isUpdate ? null : setInputData('authority', e)}
-                                    opacity={isUpdate}
+                                    onChangeEvent={(e) => setInputData('authority', e)}
                                     contents={[{value: 'ADMIN', title: '관리자'}, {value: 'USER', title: '작업자'}]}/>
                         <NormalInput title={'유저명'} value={inputData.name}
                                      onChangeEvent={(input) => setInputData(`name`, input)}
                                      description={'유저명을 입력해주세요.'}/>
-                        <NormalInput title={'아이디'} value={inputData.email}
-                                     onChangeEvent={(input) => setInputData(`email`, input)}
-                                     description={`아이디를 입력해주세요.`}/>
-                        <NormalInput title={'비밀번호'} value={inputData.password}
+                        <NormalButtonInput title={'아이디'} description={'아이디를 입력해주세요.'} value={inputData.email}
+                                           onClickEvent={() => emailDuplicated()}
+                                           onChangeEvent={(input) => setInputData(`email`, input)}/>
+                        <NormalInput title={'비밀번호'} value={inputData.password} type={'password'}
                                      onChangeEvent={(input) => setInputData(`password`, input)}
                                      description={'비밀번호를 입력해주세요'}/>
-                        <NormalInput title={'비밀번호 확인'} value={confirmPassword}
+                        <NormalInput title={'비밀번호 확인'} value={confirmPassword} type={'password'}
                                      onChangeEvent={(input) => setConfirmPassword(input)}
                                      description={'비밀번호를 한번 더 입력해주세요.'}/>
                         <br/>
