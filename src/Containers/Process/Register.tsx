@@ -110,6 +110,10 @@ const ProcessRegisterContainer = ({match}: any) => {
       setInitalIndexCnt(0)
       setDetailMaterialData([])
     }
+
+    if (isUpdata) {
+      getData()
+    }
   }
 
   const addMachine = () => {
@@ -123,10 +127,8 @@ const ProcessRegisterContainer = ({match}: any) => {
   }, [processData.type])
 
   useEffect(() => {
-    if (isUpdata) {
-      getData()
-    }
-  }, [])
+    console.log(detailMaterialData)
+  }, [detailMaterialData])
 
 
   return (

@@ -254,7 +254,7 @@ const ScheduleContainer = () => {
     const res = await postProjectDelete(tempUrl, deletePk)
 
     arrayDelete()
-    getList()
+    getList().then(() => Notiflix.Loading.Remove())
   }, [deletePk])
 
 
