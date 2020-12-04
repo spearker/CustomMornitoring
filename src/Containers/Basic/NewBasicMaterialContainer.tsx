@@ -49,8 +49,8 @@ const NewBasicMaterialRegister = () => {
     material_type: 0,
     material_code: '',
     manufacturer: null,
-    safe_stock: '',
-    cost: '',
+    safe_stock: undefined,
+    cost: undefined,
     location: {factory_name: '', pk: ''},
     info_list: null,
     material_spec_W: null,
@@ -94,7 +94,7 @@ const NewBasicMaterialRegister = () => {
           material_spec: data.material_spec,
           stock: data.stock,
           texture: data.texture,
-          model: data.model
+          model: data.model ? data.model.toString().split(',') : null
         }
 
         setInputData('all', form)
@@ -131,7 +131,7 @@ const NewBasicMaterialRegister = () => {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
         return
       }
-    } else if (inputData.material_type === 3) {
+    } else if (inputData.material_type === 30) {
       if (inputData.model[0].trim() === '') {
         Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
         return
@@ -197,7 +197,7 @@ const NewBasicMaterialRegister = () => {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
         return
       }
-    } else if (inputData.material_type === 3) {
+    } else if (inputData.material_type === 30) {
       if (inputData.model[0].trim() === '') {
         Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
         return
@@ -259,7 +259,7 @@ const NewBasicMaterialRegister = () => {
               <NormalInput title={'품번'} value={inputData.material_code}
                            onChangeEvent={(input) => setInputData(`material_code`, input)}
                            description={'품번을 입력해주세요'}/>
-              {inputData.material_type === 3 &&
+              {inputData.material_type === 30 &&
               <div>
                   <FullAddInput title={'모델'} onChangeEvent={() => {
                     let temp = _.cloneDeep(inputData.model)
@@ -296,7 +296,7 @@ const NewBasicMaterialRegister = () => {
               <NormalNumberInput title={'안전재고'} value={inputData.safe_stock}
                                  onChangeEvent={(input) => setInputData(`safe_stock`, input)}
                                  description={`안전재고량을 입력해주세요 (단위 : ${inputData.material_type === 0 ? 'kg' : '개'})`}/>
-              {(inputData.material_type === 0 || inputData.material_type === 3) &&
+              {(inputData.material_type === 0 || inputData.material_type === 30) &&
               <NormalNumberInput title={'원가'} value={inputData.cost}
                                  onChangeEvent={(input) => setInputData(`cost`, input)}
                                  description={'원가를 입력해주세요 (단위 : 원)'}/>
@@ -329,8 +329,8 @@ const NewBasicMaterialRegister = () => {
                                      description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
               </div>
               }
-              {inputData.material_type !== 0 && inputData.material_type !== 3 &&
-              <NormalNumberInput title={'원가'} value={inputData.cost}
+              {inputData.material_type !== 0 && inputData.material_type !== 30 &&
+              <NormalNumberInput title={'원가'} value={inputData.cost === 0 ? undefined : inputData.cost}
                                  onChangeEvent={(input) => setInputData(`cost`, input)}
                                  description={'원가를 입력해주세요 (단위 : 원)'}/>
               }

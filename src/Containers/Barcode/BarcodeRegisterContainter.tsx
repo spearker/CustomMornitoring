@@ -25,7 +25,7 @@ import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import BarcodePickerModal from '../../Components/Modal/BarcodePickerModal'
 
 
-const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보', '전표 리스트']
+const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보']
 const indexType = ['machine', 'device', 'mold', 'material', 'voucher']
 const indexBarcodeType = getBarcodeTypeList('kor')
 const BarcodeType = ['barcode']

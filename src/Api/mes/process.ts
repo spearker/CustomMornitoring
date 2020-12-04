@@ -131,11 +131,10 @@ export const getSearchMachine = async (url: string) => {
 
 export const getSearchDetail = async (url: string) => {
   const temp: IServerData = await client.get(url)
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
+  console.log(temp)
+  if (temp) {
+    return temp.results
   }
-  return temp.results
 }
 
 export const API_URLS = {

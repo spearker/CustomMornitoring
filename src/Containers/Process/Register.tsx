@@ -35,7 +35,7 @@ const ProcessRegisterContainer = ({match}: any) => {
 
   const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
   const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
-  const [isUpdata] = useState<boolean>(match.params ? true : false)
+  const [isUpdata] = useState<boolean>(match.params.pk ? true : false)
 
   const validationCheck = () => {
     const {name} = processData
@@ -91,12 +91,14 @@ const ProcessRegisterContainer = ({match}: any) => {
   const getData = async () => {
     const tempUrl = `${API_URLS['process'].load}?pk=${match.params.pk}`
     const resultData = await getSearchDetail(tempUrl)
-    setProcessData({
-      ...processData,
-      type: resultData.type,
-      name: resultData.name,
-    })
-    setDetailMaterialData(resultData.processes)
+    if (resultData) {
+      setProcessData({
+        ...processData,
+        type: resultData.type,
+        name: resultData.name,
+      })
+      setDetailMaterialData(resultData.processes)
+    }
   }
 
   const changeType = async (e: number) => {
@@ -125,11 +127,6 @@ const ProcessRegisterContainer = ({match}: any) => {
   useEffect(() => {
     changeType(processData.type)
   }, [processData.type])
-
-  useEffect(() => {
-    console.log(detailMaterialData)
-  }, [detailMaterialData])
-
 
   return (
     <div>
