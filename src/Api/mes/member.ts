@@ -8,20 +8,29 @@ import client from '../configs/basic'
  * @author 수민
  */
 export const getMemberList = async (url: string) => {
-  const temp: IServerData = await client.get(url)
-  console.log({
-    url,
-    temp
-  })
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
-  }
-  return temp.results!
+    const temp: IServerData = await client.get(url)
+
+    return temp.results!
+}
+
+/**
+ * postCreateMember()
+ * 멤버 생성
+ * @param {string} url 링크 주소
+ * @param object
+ * @returns {Array} list
+ * @author 정민
+ */
+
+export const postCreateMember = async (url: string, object: object) => {
+    const temp: IServerData = await client.post(url, object)
+
+    return temp!
 }
 
 export const API_URLS = {
-  member: {
-    list: `/v1/member/list`,
-  },
+    member: {
+        list: `/v1/member/list`,
+        create: `/v1/member/create`
+    },
 }

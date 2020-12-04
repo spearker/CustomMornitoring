@@ -4,7 +4,7 @@ import InputContainer from '../../Containers/InputContainer'
 //레디오
 interface IProps {
     title: string,
-    contents: { title: string, value: number }[],
+    contents: { title: string, value: string | number }[],
     target: number,
     onChangeEvent: any,
     opacity?: boolean
