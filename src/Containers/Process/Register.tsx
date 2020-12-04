@@ -35,7 +35,7 @@ const ProcessRegisterContainer = ({match}: any) => {
 
     const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
     const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
-    const [isUpdata] = useState<boolean>(match.params ? true : false)
+    const [isUpdata] = useState<boolean>(match.params.pk ? true : false)
 
     const validationCheck = () => {
         const {name} = processData
@@ -48,6 +48,7 @@ const ProcessRegisterContainer = ({match}: any) => {
             if (detailMaterialData[0] && detailMaterialData[0].input_materials && detailMaterialData[0].input_materials.length !== 0) {
                 let count = 0
                 detailMaterialData[0].input_materials.map((v, i) => {
+                    console.log(v.count)
                     if (!v.count || v.count <= 0) {
                         count++
                     }
@@ -90,12 +91,14 @@ const ProcessRegisterContainer = ({match}: any) => {
     const getData = async () => {
         const tempUrl = `${API_URLS['process'].load}?pk=${match.params.pk}`
         const resultData = await getSearchDetail(tempUrl)
-        setProcessData({
-            ...processData,
-            type: resultData.type,
-            name: resultData.name,
-        })
-        setDetailMaterialData(resultData.processes)
+        if (resultData) {
+            setProcessData({
+                ...processData,
+                type: resultData.type,
+                name: resultData.name,
+            })
+            setDetailMaterialData(resultData.processes)
+        }
     }
 
     const changeType = async (e: number) => {
@@ -124,7 +127,6 @@ const ProcessRegisterContainer = ({match}: any) => {
     useEffect(() => {
         changeType(processData.type)
     }, [processData.type])
-    
 
     return (
         <div>
@@ -164,6 +166,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                         {
                             detailMaterialData && detailMaterialData.length !== 0
                             && detailMaterialData.map((v, i) => {
+                                console.log(i, initalIndexCnt, i < initalIndexCnt)
                                 return (
                                     <tbody>
                                     <tr>
@@ -346,6 +349,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                 <div style={{width: 447, border: '0.5px solid #b3b3b3'}}>
                                                     <ProductionPickerModal width={true} innerWidth={447}
                                                                            onClickEvent={(material) => {
+                                                                               console.log('output', material)
                                                                                let tmpDetailMaterialData = detailMaterialData
                                                                                tmpDetailMaterialData[i].output_materials = material
                                                                                setDetailMaterialData([...tmpDetailMaterialData])
@@ -558,7 +562,6 @@ const ButtonWrap = Styled.button`
                         }
                         `
 const ProcessAddButton = Styled.button`
-
                         `
 
 const tableInnerDiv = styled.div`
