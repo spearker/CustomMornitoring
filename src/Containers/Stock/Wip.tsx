@@ -25,6 +25,7 @@ const WipContainer = () => {
     const [selectValue, setSelectValue] = useState<any>(null);
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
+        total: 2
     });
     const [detailPage, setDetailPage] = useState<PaginationInfo>({
         current: 1
@@ -201,7 +202,7 @@ const WipContainer = () => {
         setList(getStock)
         setPage({current: res.current_page, total: res.total_page})
         Notiflix.Loading.Remove()
-    }, [list, type, filter])
+    }, [list, type, filter, page])
 
     useEffect(() => {
         getList()
@@ -236,7 +237,7 @@ const WipContainer = () => {
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}
                 currentPage={page.current}
-                totalPage={page.total}
+                totalPage={2}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
             >
                 {
