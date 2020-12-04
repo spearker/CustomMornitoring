@@ -173,15 +173,15 @@ const ProcessRegisterContainer = ({match}: any) => {
                     <td>• {i + 1}번 기계</td>
                     <td style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 15}}>
                       <MachinePickerModal select={
-                        detailMaterialData[i] && (detailMaterialData[i].machine_name && detailMaterialData[i].machine_pk) ? {
+                        detailMaterialData[i] && (detailMaterialData[i].machine_name && detailMaterialData[i].machine) ? {
                           name: detailMaterialData[i].machine_name,
-                          pk: detailMaterialData[i].machine_pk
+                          pk: detailMaterialData[i].machine
                         } : undefined
                       } text={'기계명을 검색해 주세요'} width={initalIndexCnt > i ? 921 : 889}
                                           onClickEvent={(e: { name?: string, type?: number, pk?: string }) => {
                                             if (e.pk && e.name) {
                                               let tmpDetailMaterialData = detailMaterialData
-                                              tmpDetailMaterialData[i].machine_pk = e.pk
+                                              tmpDetailMaterialData[i].machine = e.pk
                                               tmpDetailMaterialData[i].machine_name = e.name
                                               tmpDetailMaterialData[i].machine_type = e.type
                                               setDetailMaterialData([...tmpDetailMaterialData])
@@ -213,14 +213,14 @@ const ProcessRegisterContainer = ({match}: any) => {
                     && <tr>
                         <td>• 사용 금형</td>
                         <td><MoldPickerModal select={
-                          detailMaterialData[i] && (detailMaterialData[i].mold_name && detailMaterialData[i].mold_pk) ? {
+                          detailMaterialData[i] && (detailMaterialData[i].mold_name && detailMaterialData[i].mold) ? {
                             name: detailMaterialData[i].mold_name,
-                            pk: detailMaterialData[i].mold_pk
+                            pk: detailMaterialData[i].mold
                           } : undefined
                         } text={'금형명을 검색해 주세요'} onClickEvent={(e: { name?: string, pk?: string }) => {
                           if (e.pk && e.name) {
                             let tmpDetailMaterialData = detailMaterialData
-                            tmpDetailMaterialData[i].mold_pk = e.pk
+                            tmpDetailMaterialData[i].mold = e.pk
                             tmpDetailMaterialData[i].mold_name = e.name
                             setDetailMaterialData([...tmpDetailMaterialData])
                           }
