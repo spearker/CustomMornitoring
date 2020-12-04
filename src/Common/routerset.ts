@@ -256,6 +256,11 @@ export const MES_MENU_LIST = {
         {name: '원가지수(C)', url: '/kpi/cost'},
         {name: '납기지수(D)', url: '/kpi/duedate'},
         {name: '에너지지수(E)', url: '/kpi/energy'},
+        /* {name: '생산지수(P)', url: '/new/kpi/production'},
+        {name: '품질지수(Q)', url: '/new/kpi/quality'},
+        {name: '원가지수(C)', url: '/new/kpi/cost'},
+        {name: '납기지수(D)', url: '/new/kpi/duedate'},
+        {name: '에너지지수(E)', url: '/new/kpi/energy'}, */
     ],
 }
 
