@@ -167,11 +167,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
       return value
     })
 
-    const tmpDrawing = drawing.map((v) => {
-      return null
-    }).filter((value) => {
-      return value
-    })
+    const tmpDrawing = drawing
 
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')
@@ -246,11 +242,7 @@ const MoldCreateRegisterContainer = ({match}: any) => {
       return value
     })
 
-    const tmpDrawing = drawing.map((v) => {
-      return null
-    }).filter((value) => {
-      return value
-    })
+    const tmpDrawing = drawing
 
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')
@@ -294,10 +286,12 @@ const MoldCreateRegisterContainer = ({match}: any) => {
     const res = await uploadTempFile(event.target.files[0])
 
     let tmp = drawing
-    if (res !== false) {
+    if (res) {
       tmp[index] = res
+      console.log('drawind success', res)
     } else {
       tmp[index] = ''
+      console.log('drawind fail', res)
     }
     setDrawing([...tmp])
   }

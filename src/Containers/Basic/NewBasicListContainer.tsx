@@ -24,6 +24,11 @@ const optionList = [
 ]
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
+Notiflix.Report.Init({
+  Failure: {
+    svgColor: '#ff5549'
+  }
+})
 
 // 리스트 부분 컨테이너
 const NewBasicListContainer = ({type, onClickRegister}: Props) => {
@@ -71,7 +76,7 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
       Width: '180px',
       Color: 'white',
       buttonWidth: '70px',
-      Link: (v) => onClickDelete(v.pk)
+      Link: (v) => onClickDelete(v.pk, pageType)
     },
   ]
 
@@ -84,68 +89,70 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
 
     const tempUrl = `${API_URLS[pageType].list}?page=${page.current}&keyword=${keyword}&type=${option}&limit=15`
     const resultList = await getBasicList(tempUrl)
+    if (resultList) {
+      const getBasic = resultList.info_list.map((v, i) => {
 
-    const getBasic = resultList.info_list.map((v, i) => {
-
-      const Type = transferCodeToName(pageType, v[pageType + '_type'])
-      return {...v, [pageType + '_type']: Type}
-    })
-
-    if (pageType === 'material') {
-      const materialBasic = getBasic.map((material, index) => {
-
-        const stock = material.stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-        return {...material, stock: stock}
+        const Type = transferCodeToName(pageType, v[pageType + '_type'])
+        return {...v, [pageType + '_type']: Type}
       })
-      setList(materialBasic)
+
+      if (pageType === 'material') {
+        const materialBasic = getBasic.map((material, index) => {
+
+          const stock = material.stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+          return {...material, stock: stock}
+        })
+        setList(materialBasic)
+      }
+
+      if (pageType === 'parts') {
+        const partsBasic = getBasic.map((parts, index) => {
+
+          const parts_stock = parts.parts_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          const parts_cost = parts.parts_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+          return {...parts, parts_stock: parts_stock, parts_cost: parts_cost}
+        })
+        setList(partsBasic)
+      }
+
+      if (pageType === 'mold') {
+        const moldBasic = getBasic.map((mold, index) => {
+
+          const current = mold.current.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          const limit = mold.limit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+          return {...mold, current: current, limit: limit}
+        })
+        setList(moldBasic)
+      }
+
+      if (pageType === 'factory') {
+        const factoryBasic = getBasic.map((factory, index) => {
+
+          const roadAddress = factory.location.roadAddress
+          const postcode = factory.location.postcode
+          const detail = factory.location.detail
+
+          return {...factory, roadAddress: roadAddress, postcode: postcode, detail: detail}
+        })
+        setList(factoryBasic)
+      }
+
+      if (pageType !== 'factory' && pageType !== 'material' && pageType !== 'mold' && pageType !== 'parts') {
+        setList(getBasic)
+      }
+
+      setPage({current: resultList.current_page, total: resultList.total_page})
+      Notiflix.Loading.Remove(300)
     }
-
-    if (pageType === 'parts') {
-      const partsBasic = getBasic.map((parts, index) => {
-
-        const parts_stock = parts.parts_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        const parts_cost = parts.parts_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-        return {...parts, parts_stock: parts_stock, parts_cost: parts_cost}
-      })
-      setList(partsBasic)
-    }
-
-    if (pageType === 'mold') {
-      const moldBasic = getBasic.map((mold, index) => {
-
-        const current = mold.current.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        const limit = mold.limit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
-        return {...mold, current: current, limit: limit}
-      })
-      setList(moldBasic)
-    }
-
-    if (pageType === 'factory') {
-      const factoryBasic = getBasic.map((factory, index) => {
-
-        const roadAddress = factory.location.roadAddress
-        const postcode = factory.location.postcode
-        const detail = factory.location.detail
-
-        return {...factory, roadAddress: roadAddress, postcode: postcode, detail: detail}
-      })
-      setList(factoryBasic)
-    }
-
-    if (pageType !== 'factory' && pageType !== 'material' && pageType !== 'mold' && pageType !== 'parts') {
-      setList(getBasic)
-    }
-
-    setPage({current: resultList.current_page, total: resultList.total_page})
-    Notiflix.Loading.Remove()
   }, [list, keyword, option, pageType, page])
 
   useEffect(() => {
     setEventList(eventdummy)
     getList(pageType)
+      .then(() => Notiflix.Loading.Remove(300))
     setTitleEventList(titleEvent)
   }, [page.current])
 
@@ -153,12 +160,12 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
    * onClickDelete()
    * 리스트 항목 삭제
    */
-  const onClickDelete = useCallback(async (id) => {
+  const onClickDelete = useCallback(async (id, pageType) => {
 
     const tempUrl = `${API_URLS[pageType].delete}`
     const result = await deleteBasicList(tempUrl, id)
     if (result) {
-      getList(pageType)
+      getList(pageType).then(() => Notiflix.Loading.Remove(300))
     }
 
   }, [list, pageType])
@@ -184,7 +191,7 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
       <div style={{position: 'relative'}}>
         <OptimizedHeaderBox title={`${LIST_INDEX[type].title ?? '항목 없음'}`}
                             searchBarChange={(e) => setKeyword(e)}
-                            searchButtonOnClick={() => getList(pageType)}
+                            searchButtonOnClick={() => getList(pageType).then(() => Notiflix.Loading.Remove(300))}
                             titleOnClickEvent={titleEventList}/>
       </div>
       {
