@@ -134,17 +134,18 @@ const DefectiveContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
+        if (res) {
+            const getWorker = res.info_list.map((v, i) => {
 
-        const getWorker = res.info_list.map((v, i) => {
+                const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                return {...v, amount: amount}
+            })
 
-            return {...v, amount: amount}
-        })
-
-        setPage({current: res.current_page, total: res.total_page})
-        setList(getWorker)
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            setList(getWorker)
+            Notiflix.Loading.Remove()
+        }
     }, [list])
 
     useEffect(() => {

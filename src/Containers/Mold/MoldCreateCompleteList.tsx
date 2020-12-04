@@ -126,18 +126,20 @@ const MoldCreateCompleteListContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['repair'].complete}`
         const res = await postMoldState(tempUrl, {pk: pk})
-
-        setDetailList(res)
-        getList()
+        if (res) {
+            setDetailList(res)
+            getList()
+        }
     }, [detailList])
 
     const getCancel = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['repair'].cancel}`
         const res = await postMoldState(tempUrl, {pk: pk})
-
-        setDetailList(res)
-        getList()
+        if (res) {
+            setDetailList(res)
+            getList()
+        }
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
@@ -145,17 +147,18 @@ const MoldCreateCompleteListContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['making'].completeList}?page=${page.current}&limit=15&keyword=&type=0`
         const res = await getMoldList(tempUrl)
+        if (res) {
+            const Detail = res.info_list.map((v, i) => {
+                const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-        const Detail = res.info_list.map((v, i) => {
-            const status = v.status === 'WAIT' ? '진행중' : '완료'
+                return {...v, status: status}
+            })
 
-            return {...v, status: status}
-        })
+            setList(Detail)
 
-        setList(Detail)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

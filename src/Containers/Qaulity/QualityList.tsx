@@ -44,44 +44,6 @@ const QualityListContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            factory_name: '공정명 01',
-            machine_name: '프레스 01',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '대기',
-        },
-        {
-            factory_name: '공정명 02',
-            machine_name: '프레스 02',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-        {
-            factory_name: '공정명 03',
-            machine_name: '프레스 03',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '불량',
-        },
-        {
-            factory_name: '공정명 04',
-            machine_name: '프레스 04',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-        {
-            factory_name: '공정명 05',
-            machine_name: '프레스 05',
-            material_name: '(품목)품목명',
-            request_time: '2020.00.00 00:00:00',
-            status: '완료',
-        },
-    ]
-
     const onClick = useCallback((obj) => {
         if (obj.statement === "검수 완료") {
             history.push(`/quality/current/detail/${obj.request_pk}`)
@@ -109,10 +71,26 @@ const QualityListContainer = () => {
 
         const tempUrl = `${API_URLS['status'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
+        if (res) {
+            let viewList: any[] = [];
 
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
+            res.info_list.map(v => viewList.push(
+                {
+                    request_pk: v.request_pk,
+                    material_name: v.material_name !== undefined ? v.material_name : "-",
+                    process_name: v.process_name !== undefined ? v.process_name : "-",
+                    amount: v.amount !== undefined ? v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                    eligible: v.eligible !== undefined ? v.eligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                    ineligible: v.ineligible !== undefined ? v.ineligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                    whether: v.whether !== undefined ? v.whether : "-",
+                    statement: v.statement !== undefined ? v.statement : "-"
+                }
+            ))
 
+            setList(viewList.filter((f: any) => f.material_name !== undefined))
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [searchValue, page])
 
     const getList = useCallback(async () => { // useCallback
@@ -120,25 +98,26 @@ const QualityListContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['status'].list}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
+        if (res) {
+            let viewList: any[] = [];
 
-        let viewList: any[] = [];
+            res.info_list.map(v => viewList.push(
+                {
+                    request_pk: v.request_pk,
+                    material_name: v.material_name !== undefined ? v.material_name : "-",
+                    process_name: v.process_name !== undefined ? v.process_name : "-",
+                    amount: v.amount !== undefined ? v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                    eligible: v.eligible !== undefined ? v.eligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                    ineligible: v.ineligible !== undefined ? v.ineligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
+                    whether: v.whether !== undefined ? v.whether : "-",
+                    statement: v.statement !== undefined ? v.statement : "-"
+                }
+            ))
 
-        res.info_list.map(v => viewList.push(
-            {
-                request_pk: v.request_pk,
-                material_name: v.material_name !== undefined ? v.material_name : "-",
-                process_name: v.process_name !== undefined ? v.process_name : "-",
-                amount: v.amount !== undefined ? v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
-                eligible: v.eligible !== undefined ? v.eligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
-                ineligible: v.ineligible !== undefined ? v.ineligible.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0,
-                whether: v.whether !== undefined ? v.whether : "-",
-                statement: v.statement !== undefined ? v.statement : "-"
-            }
-        ))
-
-        setList(viewList.filter((f: any) => f.material_name !== undefined))
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setList(viewList.filter((f: any) => f.material_name !== undefined))
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

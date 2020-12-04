@@ -116,7 +116,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
         temp.push(inputData)
 
         const data = {
-            members: temp
+            member: temp
         }
 
         const tempUrl = `${API_URLS['member'].update}`
@@ -203,6 +203,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                                      onChangeEvent={(input) => setInputData(`name`, input)}
                                      description={'유저명을 입력해주세요.'}/>
                         <NormalButtonInput title={'아이디'} description={'아이디를 입력해주세요.'} value={inputData.email}
+                                           disabled={isUpdate}
                                            onClickEvent={() => emailDuplicated()}
                                            onChangeEvent={(input) => setInputData(`email`, input)}/>
                         <NormalInput title={'비밀번호'} value={inputData.password} type={'password'}
@@ -219,7 +220,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                                          style={{width: 'calc(100% - 124px)'}}/>
                         {isUpdate ?
                             <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
-                                <TestButton>
+                                <TestButton onClick={() => onsubmitFormUpdate()}>
                                     <div>
                                         <p style={{fontSize: 18}}>수정하기</p>
                                     </div>
@@ -232,8 +233,8 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                                 </ButtonWrap>
                             </div>
                             :
-                            <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}
-                                                onPress={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}/>
+                            <GrayRegisterButton name={'등록하기'}
+                                                onPress={() => onsubmitForm()}/>
                         }
                     </div>
 

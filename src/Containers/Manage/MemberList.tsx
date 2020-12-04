@@ -102,10 +102,10 @@ const MemberListContainer = () => {
         }
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getMemberList(tempUrl)
-
-        setDetailList(res.info_list)
-        setDetailPage({current: res.current_page, total: res.total_page})
-
+        if (res) {
+            setDetailList(res.info_list)
+            setDetailPage({current: res.current_page, total: res.total_page})
+        }
     }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
@@ -113,10 +113,11 @@ const MemberListContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['member'].list}?keyword=${keyword}&page=${page.current}&limit=15&auth=${auth}`
         const res = await getMemberList(tempUrl)
-
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+        if (res) {
+            setList(res.info_list)
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, keyword, auth])
 
 

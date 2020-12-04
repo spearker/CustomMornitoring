@@ -186,11 +186,12 @@ const CurrentContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['outsourcing'].list}?type=0&keyword=&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove();
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove();
+        }
     }, [list, page])
 
     useEffect(() => {

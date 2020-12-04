@@ -40,48 +40,6 @@ const RepairContainer = () => {
         },
     }
 
-    const dummy = [
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-        {
-            mold_name: '금형이름00',
-            mold_location: '창고01',
-            charge_name: '김담당',
-            registered_date: '2020.07.07',
-            complete_date: '2020.08.09',
-            status: '완료'
-        },
-    ]
 
     const detaildummy = [
         {
@@ -127,18 +85,20 @@ const RepairContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['repair'].complete}`
         const res = await postMoldState(tempUrl, {pk: pk})
-
-        setDetailList(res)
-        getList()
+        if (res) {
+            setDetailList(res)
+            getList()
+        }
     }, [detailList])
 
     const getCancel = useCallback(async (pk) => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['repair'].cancel}`
         const res = await postMoldState(tempUrl, {pk: pk})
-
-        setDetailList(res)
-        getList()
+        if (res) {
+            setDetailList(res)
+            getList()
+        }
     }, [detailList])
 
     const getData = useCallback(async (pk) => {
@@ -146,32 +106,33 @@ const RepairContainer = () => {
 
         const tempUrl = `${API_URLS['repair'].detail}?pk=${pk}`
         const res = await getMoldList(tempUrl)
+        if (res) {
 
+            const Detail = [res].map((v, i) => {
+                const status = v.status === 'WAIT' ? "진행중" : "완료"
 
-        const Detail = [res].map((v, i) => {
-            const status = v.status === 'WAIT' ? "진행중" : "완료"
+                return {...v, status: status}
+            })
 
-            return {...v, status: status}
-        })
-
-        setDetailList(Detail)
-
+            setDetailList(Detail)
+        }
     }, [detailList, selectPk])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         const tempUrl = `${API_URLS['repair'].list}?page=${page.current}&keyword=&type=0&limit=15`
         const res = await getMoldList(tempUrl)
+        if (res) {
+            const listStatus = res.info_list.map((v, i) => {
+                const status = v.status === 'WAIT' ? "진행중" : "완료"
 
-        const listStatus = res.info_list.map((v, i) => {
-            const status = v.status === 'WAIT' ? "진행중" : "완료"
+                return {...v, status: status}
+            })
 
-            return {...v, status: status}
-        })
+            setList(listStatus)
 
-        setList(listStatus)
-
-        setPage({current: res.current_page, total: res.total_page})
+            setPage({current: res.current_page, total: res.total_page})
+        }
     }, [list, page])
 
     useEffect(() => {

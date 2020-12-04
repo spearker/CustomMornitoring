@@ -163,9 +163,9 @@ const TodayVoucherContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['chit'].load}?pk=${pk}`
         const res = await getProjectList(tempUrl)
-
-        setDetailList(res)
-
+        if (res) {
+            setDetailList(res)
+        }
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
@@ -173,17 +173,18 @@ const TodayVoucherContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['chit'].todayList}?pk=&page=${page.current}&limit=15`
         const res = await getProjectList(tempUrl)
+        if (res) {
+            const getVoucher = res.info_list.map((v, i) => {
+                const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                return {...v, current_amount: current_amount, goal: goal}
+            })
 
-        const getVoucher = res.info_list.map((v, i) => {
-            const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            return {...v, current_amount: current_amount, goal: goal}
-        })
 
-
-        setPage({current: res.current_page, total: res.total_page})
-        setList(getVoucher)
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            setList(getVoucher)
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

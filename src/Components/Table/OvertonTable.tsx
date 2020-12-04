@@ -76,6 +76,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                     {searchButtonOnClick ?
                         <div style={{width: '300px', display: 'flex', flexDirection: 'row', marginRight: 15}}>
                             <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}}
+                                       onKeyPress={(event) => event.key === 'Enter' && searchButtonOnClick()}
                                        onChange={(e) => searchBarChange(e.target.value)}/>
                             <SearchButton style={{flex: 10}} onClick={() => searchButtonOnClick()}>
                                 <img src={IcSearchButton}/>

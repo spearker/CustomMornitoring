@@ -242,8 +242,9 @@ const OrderContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['order'].load}?pk=${pk}`
         const res = await getOutsourcingList(tempUrl)
-
-        setDetailList([res])
+        if (res) {
+            setDetailList([res])
+        }
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
@@ -251,20 +252,21 @@ const OrderContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
+        if (res) {
+            const orderList = res.info_list.map((v) => {
 
-        const orderList = res.info_list.map((v) => {
+                const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const status = v.status === 'WAIT' ? '진행중' : '완료'
+                return {...v, quantity: quantity, unpaid: unpaid, status: status}
+            })
 
-            return {...v, quantity: quantity, unpaid: unpaid, status: status}
-        })
+            setList(orderList)
 
-        setList(orderList)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove();
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove();
+        }
     }, [list, page])
 
     useEffect(() => {

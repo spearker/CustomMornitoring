@@ -39,15 +39,6 @@ const QualityTestComplete = () => {
     }
 
 
-    const detailTitle = {
-        quality: {
-            worker: '작업자',
-            total_count: '총 완료 개수',
-            defective_count: '불량 개수',
-            description: '요청 내용'
-        },
-    }
-
     const detaildummy = [
         {
             worker: '홍길동',
@@ -92,11 +83,11 @@ const QualityTestComplete = () => {
 
         const tempUrl = `${API_URLS['response'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-
+            setPage({current: res.current_page, total: res.total_page})
+        }
     }, [searchValue, page])
 
     const onClick = useCallback((obj) => {
@@ -117,11 +108,12 @@ const QualityTestComplete = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['response'].list}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

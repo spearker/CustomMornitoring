@@ -9,13 +9,14 @@ interface IProps {
     title: string,
     description: string,
     value: string,
+    disabled?: boolean
     onChangeEvent: any,
     onClickEvent: any,
     children?: any,
     style?: any
 }
 
-const NormalButtonInput = ({title, description, value, onChangeEvent, onClickEvent, children, style}: IProps) => {
+const NormalButtonInput = ({title, description, disabled, value, onChangeEvent, onClickEvent, children, style}: IProps) => {
     useEffect(() => {
 
     }, [])
@@ -25,7 +26,7 @@ const NormalButtonInput = ({title, description, value, onChangeEvent, onClickEve
             <InputContainer title={title}>
                 <BodyDiv style={style}>
                     <InputWrapBox>
-                        <input placeholder={description} type="text" value={value}
+                        <input placeholder={description} type="text" value={value} disabled={disabled}
                                onChange={(e) => onChangeEvent(e.target.value)}
                                style={{
                                    textAlign: 'left',

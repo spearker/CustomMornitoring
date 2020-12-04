@@ -66,6 +66,7 @@ import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
 import MoldRepairCompleteList from "../Pages/Mold/MoldRepairCompleteList";
 import CreateMember from "../Pages/Manage/CreateMember";
 import MemberList from "../Pages/Manage/MemberList";
+import CustomPress from "../Containers/Custom/PM_Monitoring/CustomPress";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -74,6 +75,9 @@ const JMRouters = () => {
     return (
 
         <Switch>
+            {/*신규 프레스 모니터링*/}
+            <Route exact path="/new/monitoring/press" component={CustomPress}/>
+
             {/*품목 기본정보*/}
             <Route exact path="/jeil/main" component={MainDashboard}/>
             <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
