@@ -94,7 +94,7 @@ const NewBasicMaterialRegister = () => {
           material_spec: data.material_spec,
           stock: data.stock,
           texture: data.texture,
-          model: data.model.toString().split(',')
+          model: data.model
         }
 
         setInputData('all', form)
@@ -131,7 +131,7 @@ const NewBasicMaterialRegister = () => {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
         return
       }
-    } else if (inputData.material_type === 30) {
+    } else if (inputData.material_type === 3) {
       if (inputData.model[0].trim() === '') {
         Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
         return
@@ -197,7 +197,7 @@ const NewBasicMaterialRegister = () => {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
         return
       }
-    } else if (inputData.material_type === 30) {
+    } else if (inputData.material_type === 3) {
       if (inputData.model[0].trim() === '') {
         Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
         return
@@ -248,6 +248,7 @@ const NewBasicMaterialRegister = () => {
               <ListHeader title="필수 항목"/>
               <RadioInput title={'품목 종류'} target={inputData.material_type}
                           onChangeEvent={(e) => isUpdate ? null : setInputData('material_type', e)}
+                          opacity={isUpdate}
                           contents={[{value: 0, title: '원자재'}, {value: 10, title: '반제품'}, {
                             value: 1, title: '부자재'
                           }, {value: 30, title: '완제품'}]}/>
@@ -258,13 +259,14 @@ const NewBasicMaterialRegister = () => {
               <NormalInput title={'품번'} value={inputData.material_code}
                            onChangeEvent={(input) => setInputData(`material_code`, input)}
                            description={'품번을 입력해주세요'}/>
-              {inputData.material_type === 30 &&
+              {inputData.material_type === 3 &&
               <div>
                   <FullAddInput title={'모델'} onChangeEvent={() => {
                     let temp = _.cloneDeep(inputData.model)
                     temp.push('')
                     setInputData('model', temp)
                   }}>
+
                     {
                       inputData.model.map((v, i) => {
                         return (
@@ -294,7 +296,7 @@ const NewBasicMaterialRegister = () => {
               <NormalNumberInput title={'안전재고'} value={inputData.safe_stock}
                                  onChangeEvent={(input) => setInputData(`safe_stock`, input)}
                                  description={`안전재고량을 입력해주세요 (단위 : ${inputData.material_type === 0 ? 'kg' : '개'})`}/>
-              {(inputData.material_type === 0 || inputData.material_type === 30) &&
+              {(inputData.material_type === 0 || inputData.material_type === 3) &&
               <NormalNumberInput title={'원가'} value={inputData.cost}
                                  onChangeEvent={(input) => setInputData(`cost`, input)}
                                  description={'원가를 입력해주세요 (단위 : 원)'}/>
@@ -327,7 +329,7 @@ const NewBasicMaterialRegister = () => {
                                      description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
               </div>
               }
-              {inputData.material_type !== 0 && inputData.material_type !== 30 &&
+              {inputData.material_type !== 0 && inputData.material_type !== 3 &&
               <NormalNumberInput title={'원가'} value={inputData.cost}
                                  onChangeEvent={(input) => setInputData(`cost`, input)}
                                  description={'원가를 입력해주세요 (단위 : 원)'}/>
