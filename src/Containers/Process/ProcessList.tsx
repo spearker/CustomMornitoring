@@ -144,14 +144,15 @@ const ProcessListContainer = () => {
     Notiflix.Loading.Circle()
     const tempUrl = `${API_URLS['process'].list + '?page='}${page.current}&limit=15`
     const res = await getProcessList(tempUrl)
+    if (res) {
+      const getprocesses = res.info_list.map((v, i) => {
+        const processType = transferCodeToName('process', v.type)
+        return {...v, type: processType}
+      })
 
-    const getprocesses = res.info_list.map((v, i) => {
-      const processType = transferCodeToName('process', v.type)
-      return {...v, type: processType}
-    })
-
-    setPage({current: res.current_page, total: res.total_page})
-    setList(getprocesses)
+      setPage({current: res.current_page, total: res.total_page})
+      setList(getprocesses)
+    }
     Notiflix.Loading.Remove()
   }, [list, page])
 

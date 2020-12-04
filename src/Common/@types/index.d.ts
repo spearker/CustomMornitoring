@@ -404,10 +404,10 @@ interface IProcessRegister {
 }
 
 interface IProcessDetailData {
-  machine_pk?: string
+  machine?: string
   machine_type?: number
   machine_name?: string
-  mold_pk?: string
+  mold?: string
   mold_name?: string
   input_materials?: IMaterialData[]
   output_materials?: IMaterialData
