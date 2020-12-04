@@ -30,7 +30,7 @@ import NewProcessRegister from '../Pages/Process/NewProcess'
 import ProcessRegister from '../Pages/Process/Register'
 
 import OutsourcingRegisterFree from '../Pages/Old_Outsourcing/Register'
-import NewCalendarModal from '../Components/Modal/NewCalendarModal'
+import DateTypeCalendar from '../Components/Modal/DateTypeCalendar'
 
 
 const JunheeRouters = () => {

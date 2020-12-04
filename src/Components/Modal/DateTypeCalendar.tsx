@@ -4,6 +4,25 @@ import moment from 'moment'
 import 'react-day-picker/lib/style.css'
 import Modal from 'react-modal'
 
+const WEEKDAYS_SHORT = {
+  ko: ['일', '월', '화', '수', '목', '금', '토'],
+}
+const MONTHS = {
+  ko: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+}
+
+const WEEKDAYS_LONG = {
+  ko: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+}
+
+const FIRST_DAY_OF_WEEK = {
+  ko: 1
+}
+// Translate aria-labels
+const LABELS = {
+  ko: {nextMonth: '다음달', previousMonth: '이전달'},
+}
+
 const getWeekDays = (weekStart) => {
   const days = [weekStart]
   for(let i = 1; i < 7; i += 1) {
@@ -28,13 +47,13 @@ const getMonthDays = (monthStart) => {
   return days
 }
 
-const getWeekRange = (date) => {
+const getRange = (date, type: 'month' | 'week') => {
   return {
     from: moment(date)
-      .startOf('week')
+      .startOf(type)
       .toDate(),
     to: moment(date)
-      .endOf('week')
+      .endOf(type)
       .toDate(),
   }
 }
@@ -48,24 +67,25 @@ interface ISelectDate {
   to?: Date
 }
 
-const NewCalendarModal = ({type}: Props) => {
+const locale = 'ko'
+
+const DateTypeCalendar = ({type}: Props) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(true)
   const [hoverRange, setHoverRange] = React.useState<ISelectDate | undefined>(undefined)
   const [selectedDays, setSelectDay] = React.useState<Date[]>([])
-  const [daysAreSelected] = React.useState(selectedDays.length > 0)
 
   const handleDayChange = date => {
     if (type === 'day') {
       setSelectDay([moment(date).toDate()])
     } else if (type === 'week') {
-      setSelectDay(getWeekDays(getWeekRange(date).from))
+      setSelectDay(getWeekDays(getRange(date, 'week').from))
     } else if (type === 'month') {
-      setSelectDay(getMonthDays(getWeekRange(date).from))
+      setSelectDay(getMonthDays(getRange(date, 'month').from))
     }
   }
 
   const handleDayEnter = date => {
-    setHoverRange(getWeekRange(date))
+    setHoverRange(getRange(date, 'week'))
   }
 
   const handleDayLeave = () => {
@@ -98,6 +118,12 @@ const NewCalendarModal = ({type}: Props) => {
       >
         <div className="SelectedWeekExample">
           <DayPicker
+            locale={locale}
+            months={MONTHS[locale]}
+            weekdaysLong={WEEKDAYS_LONG[locale]}
+            weekdaysShort={WEEKDAYS_SHORT[locale]}
+            firstDayOfWeek={FIRST_DAY_OF_WEEK[locale]}
+            labels={LABELS[locale]}
             selectedDays={selectedDays}
             onDayClick={handleDayChange}
             onDayMouseEnter={handleDayEnter}
@@ -117,10 +143,6 @@ const NewCalendarModal = ({type}: Props) => {
                 borderRightColor: '#fff7ba',
                 borderRadius: 0
               },
-              // hoverRange: {
-              //   backgroundColor: '#EFEFEF',
-              //   borderRadius: 0
-              // }
             }}
           />
         </div>
@@ -130,4 +152,4 @@ const NewCalendarModal = ({type}: Props) => {
 }
 
 
-export default NewCalendarModal
+export default DateTypeCalendar
