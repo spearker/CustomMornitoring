@@ -21,234 +21,252 @@ import InputContainer from '../InputContainer'
 import ModelRulesInput from '../../Components/Input/ModelRulesInput'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import * as _ from 'lodash'
+import NormalFileInput from "../../Components/Input/NormalFileInput";
+import {uploadTempFile} from "../../Common/fileFuctuons";
+import {API_URLS, postCreateMember} from "../../Api/mes/member";
+import {getMarketing} from "../../Api/mes/marketing";
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const CreateMemberContainer = () => {
-  const history = useHistory()
-  const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
-  const [type, setType] = useState<number>(0)
-  const [essential, setEssential] = useState<any[]>([])
-  const [optional, setOptional] = useState<any[]>([])
+    const history = useHistory()
+    const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
+    const [type, setType] = useState<number>(0)
+    const [essential, setEssential] = useState<any[]>([])
+    const [optional, setOptional] = useState<any[]>([])
 
-  const [isUpdate, setIsUpdate] = useState<boolean>(false)
-  const [isDetail, setIsDetail] = useState<boolean>(false)
-  const [pk, setPk] = useState<string>('')
-  const indexList = getMaterialTypeList('kor')
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const [confirmPassword, setConfirmPassword] = useState<string>('')
+    const [pk, setPk] = useState<string>('')
 
-  const [inputData, setInputData] = useObjectInput('CHANGE', {
-    pk: '',
-    material_name: '',
-    material_type: 0,
-    material_code: '',
-    manufacturer: null,
-    safe_stock: '',
-    cost: '',
-    location: {factory_name: '', pk: ''},
-    info_list: null,
-    material_spec_W: null,
-    material_spec_H: null,
-    material_spec_D: null,
-    texture: null,
-    model: ['']
-  })
+    const [inputData, setInputData] = useObjectInput('CHANGE', {
+        email: '',
+        password: '',
+        name: '',
+        authority: 'ADMIN',
+        profile: '',
+    })
 
-  useEffect(() => {
+    useEffect(() => {
 
-    if (getParameter('pk') !== '') {
-      setPk(getParameter('pk'))
-      setIsUpdate(true)
-      getData()
-    }
-
-  }, [])
-
-  const getData = useCallback(async () => {
-
-    const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
-
-    if (res === false) {
-      //TODO: 에러 처리
-    } else {
-      if (res.status === 200 || res.status === '200') {
-        const data = res.results
-        const form = {
-          pk: data.pk,
-          material_name: data.material_name,
-          material_type: data.material_type,
-          material_code: data.material_code,
-          location: {pk: data.location_pk, name: data.location_name},
-          manufacturer: data.manufacturer,
-          material_spec_W: data.material_spec_W,
-          material_spec_H: data.material_spec_H,
-          material_spec_D: data.material_spec_D,
-          cost: data.cost,
-          safe_stock: data.safe_stock,
-          material_spec: data.material_spec,
-          stock: data.stock,
-          texture: data.texture,
-          model: data.model
+        if (getParameter('pk') !== '') {
+            setPk(getParameter('pk'))
+            setIsUpdate(true)
+            getData()
         }
 
-        setInputData('all', form)
+    }, [])
 
-      } else {
-        //TODO:  기타 오류
-      }
-    }
-  }, [pk, optional, essential, inputData])
+    const getData = useCallback(async () => {
 
+        const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
-  const onsubmitFormUpdate = useCallback(async () => {
+        if (res === false) {
+            //TODO: 에러 처리
+        } else {
+            if (res.status === 200 || res.status === '200') {
+                const data = res.results
+                const form = {
+                    pk: data.pk,
+                    material_name: data.material_name,
+                    material_type: data.material_type,
+                    material_code: data.material_code,
+                    location: {pk: data.location_pk, name: data.location_name},
+                    manufacturer: data.manufacturer,
+                    material_spec_W: data.material_spec_W,
+                    material_spec_H: data.material_spec_H,
+                    material_spec_D: data.material_spec_D,
+                    cost: data.cost,
+                    safe_stock: data.safe_stock,
+                    material_spec: data.material_spec,
+                    stock: data.stock,
+                    texture: data.texture,
+                    model: data.model
+                }
 
+                setInputData('all', form)
 
-    if (inputData.material_name.trim() === '') {
-      alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (inputData.location === undefined || +inputData.location.pk === undefined || inputData.location.pk === '') {
-      alert('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
-      return
-    } else if (inputData.safe_stock === '') {
-      alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
-
-    if (inputData.material_type === 0) {
-      if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
-        alert('제조사는 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      } else if (inputData.cost === '') {
-        alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      } else if ((inputData.texture).trim() === '' || inputData.texture === null) {
-        alert('재질은 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      }
-    } else if (inputData.material_type === 3) {
-      if (inputData.model[0].trim() === '') {
-        alert('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      }
-    }
-
-
-    const data = {
-      pk: getParameter('pk'),
-      material_name: inputData.material_name,
-      material_type: inputData.material_type,
-      material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
-      manufacturer: inputData.manufacturer,
-      safe_stock: inputData.safe_stock,
-      cost: inputData.cost,
-      location: inputData.location.pk,
-      info_list: inputData.info_list,
-      material_spec_W: inputData.material_spec_W,
-      material_spec_H: inputData.material_spec_H,
-      material_spec_D: inputData.material_spec_D,
-      texture: inputData.texture,
-      model: inputData.model[0].trim() === '' ? null : inputData.model
-    }
-    const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/update`, data, getToken(TOKEN_NAME))
-
-    if (res === false) {
-      // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 등록 되었습니다')
-        history.push('/basic/list/material')
-      } else {
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
-    }
-
-  }, [pk, optional, essential, inputData])
-
-  const onsubmitForm = useCallback(async () => {
-
-
-    const data = {
-      material_name: inputData.material_name,
-      material_type: inputData.material_type,
-      material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
-      manufacturer: inputData.manufacturer,
-      safe_stock: inputData.safe_stock,
-      cost: inputData.cost,
-      location: inputData.location.pk,
-      info_list: inputData.info_list,
-      material_spec_W: inputData.material_spec_W,
-      material_spec_H: inputData.material_spec_H,
-      material_spec_D: inputData.material_spec_D,
-      texture: inputData.texture,
-      model: inputData.model[0].trim() === '' ? null : inputData.model
-    }
-
-    const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/register`, data, getToken(TOKEN_NAME))
-
-    if (res === false) {
-      // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 등록 되었습니다')
-        history.push('/basic/list/material')
-      } else {
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
-    }
-
-  }, [pk, optional, essential, inputData, document])
-
-
-  return (
-    <div>
-      <Header title={isUpdate ? '사용자 정보수정' : '사용자 정보 등록'}/>
-      <WhiteBoxContainer>
-        {
-          // document.id !== '' || isUpdate == true?
-          <div>
-            <ListHeader title="필수 항목"/>
-            <RadioInput title={'권한'} target={inputData.material_type}
-                        onChangeEvent={(e) => isUpdate ? null : setInputData('material_type', e)}
-                        opacity={isUpdate}
-                        contents={[{value: 0, title: '관리자'}, {value: 1, title: '작업자'}, {
-                          value: 2, title: '기타'
-                        }]}/>
-
-            <NormalInput title={'유저명'} value={inputData.material_name}
-                         onChangeEvent={(input) => setInputData(`material_name`, input)}
-                         description={'유저명을 입력해주세요.'}/>
-            <NormalInput title={'비밀번호'} value={inputData.manufacturer}
-                         onChangeEvent={(input) => setInputData(`manufacturer`, input)}
-                         description={'비밀번호를 입력해주세요'}/>
-            <NormalInput title={'비밀번호 확인'} value={inputData.safe_stock}
-                         onChangeEvent={(input) => setInputData(`safe_stock`, input)}
-                         description={'비밀번호를 한번 더 입력해주세요.'}/>
-            <br/>
-            <ListHeader title="선택 항목"/>
-            {isUpdate ?
-              <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
-                <TestButton>
-                  <div>
-                    <p style={{fontSize: 18}}>수정하기</p>
-                  </div>
-                </TestButton>
-
-                <ButtonWrap onClick={() => history.goBack()}>
-                  <div>
-                    <p style={{fontSize: 18}}>리스트 보기</p>
-                  </div>
-                </ButtonWrap>
-              </div>
-              :
-              <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}
-                                  onPress={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}/>
+            } else {
+                //TODO:  기타 오류
             }
-          </div>
-
         }
-      </WhiteBoxContainer>
-    </div>
+    }, [pk, optional, essential, inputData])
 
-  )
+
+    const onsubmitFormUpdate = useCallback(async () => {
+
+
+        if (inputData.material_name.trim() === '') {
+            alert('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (inputData.location === undefined || +inputData.location.pk === undefined || inputData.location.pk === '') {
+            alert('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
+            return
+        } else if (inputData.safe_stock === '') {
+            alert('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        }
+
+        if (inputData.material_type === 0) {
+            if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
+                alert('제조사는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (inputData.cost === '') {
+                alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if ((inputData.texture).trim() === '' || inputData.texture === null) {
+                alert('재질은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
+        } else if (inputData.material_type === 3) {
+            if (inputData.model[0].trim() === '') {
+                alert('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            }
+        }
+
+
+        const data = {
+            pk: getParameter('pk'),
+            material_name: inputData.material_name,
+            material_type: inputData.material_type,
+            material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
+            manufacturer: inputData.manufacturer,
+            safe_stock: inputData.safe_stock,
+            cost: inputData.cost,
+            location: inputData.location.pk,
+            info_list: inputData.info_list,
+            material_spec_W: inputData.material_spec_W,
+            material_spec_H: inputData.material_spec_H,
+            material_spec_D: inputData.material_spec_D,
+            texture: inputData.texture,
+            model: inputData.model[0].trim() === '' ? null : inputData.model
+        }
+        const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/update`, data, getToken(TOKEN_NAME))
+
+        if (res === false) {
+            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
+        } else {
+            if (res.status === 200) {
+                //alert('성공적으로 등록 되었습니다')
+                history.push('/basic/list/material')
+            } else {
+                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+            }
+        }
+
+    }, [pk, optional, essential, inputData])
+
+    const onsubmitForm = useCallback(async () => {
+
+        const temp: any = []
+        temp.push(inputData)
+
+        const data = {
+            members: temp
+        }
+
+        const tempUrl = `${API_URLS['member'].create}`
+        const resultData = await postCreateMember(tempUrl, data);
+       
+
+        if (resultData !== undefined) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push('/manage/member/list')
+        } else {
+            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+        }
+
+    }, [pk, optional, essential, inputData, document])
+
+
+    /**
+     * addFiles()
+     * 사진 등록
+     * @param {object(file)} event.target.files[0] 파일
+     * @returns X
+     */
+    const addFiles = async (event: any): Promise<void> => {
+
+        if (event.target.files[0] === undefined) {
+
+            return
+        }
+
+        if (event.target.files[0].type.includes('image')) { //이미지인지 판별
+
+            const tempFile = event.target.files[0]
+            const res = await uploadTempFile(event.target.files[0])
+
+            if (res !== false) {
+                setInputData('profile', res)
+                return
+            } else {
+                return
+            }
+
+        } else {
+
+            //alert('이미지 형식만 업로드 가능합니다.')
+        }
+
+    }
+
+    return (
+        <div>
+            <Header title={isUpdate ? '사용자 정보수정' : '사용자 정보 등록'}/>
+            <WhiteBoxContainer>
+                {
+                    // document.id !== '' || isUpdate == true?
+                    <div>
+                        <ListHeader title="필수 항목"/>
+                        <RadioInput title={'권한'} target={inputData.authority}
+                                    onChangeEvent={(e) => isUpdate ? null : setInputData('authority', e)}
+                                    opacity={isUpdate}
+                                    contents={[{value: 'ADMIN', title: '관리자'}, {value: 'USER', title: '작업자'}]}/>
+                        <NormalInput title={'유저명'} value={inputData.name}
+                                     onChangeEvent={(input) => setInputData(`name`, input)}
+                                     description={'유저명을 입력해주세요.'}/>
+                        <NormalInput title={'아이디'} value={inputData.email}
+                                     onChangeEvent={(input) => setInputData(`email`, input)}
+                                     description={`아이디를 입력해주세요.`}/>
+                        <NormalInput title={'비밀번호'} value={inputData.password}
+                                     onChangeEvent={(input) => setInputData(`password`, input)}
+                                     description={'비밀번호를 입력해주세요'}/>
+                        <NormalInput title={'비밀번호 확인'} value={confirmPassword}
+                                     onChangeEvent={(input) => setConfirmPassword(input)}
+                                     description={'비밀번호를 한번 더 입력해주세요.'}/>
+                        <br/>
+                        <ListHeader title="선택 항목"/>
+                        <NormalFileInput title={'사용자 사진'} name={inputData.profile} thisId={'ProfilePhoto'}
+                                         onChangeEvent={(e) => addFiles(e)}
+                                         description={isUpdate ? '' : '기계를 사진으로 찍어 등록해주세요'}
+                                         style={{width: 'calc(100% - 124px)'}}/>
+                        {isUpdate ?
+                            <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
+                                <TestButton>
+                                    <div>
+                                        <p style={{fontSize: 18}}>수정하기</p>
+                                    </div>
+                                </TestButton>
+
+                                <ButtonWrap onClick={() => history.goBack()}>
+                                    <div>
+                                        <p style={{fontSize: 18}}>리스트 보기</p>
+                                    </div>
+                                </ButtonWrap>
+                            </div>
+                            :
+                            <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}
+                                                onPress={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}/>
+                        }
+                    </div>
+
+                }
+            </WhiteBoxContainer>
+        </div>
+
+    )
 }
 
 const FullPageDiv = Styled.div`
