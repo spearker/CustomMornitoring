@@ -19,6 +19,7 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import DaumPostcode from 'react-daum-postcode'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import CustomIndexInput from '../../Components/Input/CustomIndexInput'
+import NewCalendarModal from '../../Components/Modal/NewCalendarModal'
 
 // 외주사 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -350,6 +351,7 @@ const OutsourcingRegister = () => {
                 })
               }
             </FullAddInput>
+            <NewCalendarModal type={'month'}/>
 
 
             <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
