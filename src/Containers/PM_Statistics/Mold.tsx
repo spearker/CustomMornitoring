@@ -35,42 +35,6 @@ const MoldContainer = () => {
         }
     }
 
-    // const dummy = [
-    //     {
-    //         mold_name: '금형 01',
-    //         location_name: '(주)시즐',
-    //         mold_number: '1234-123-1349(제조번호)',
-    //     },
-    //     {
-    //         mold_name: '금형 02',
-    //         location_name: '(주)시즐',
-    //         mold_number: '1234-143-1349(제조번호)',
-    //     },
-    //     {
-    //         mold_name: '금형 03',
-    //         location_name: '(주)시즐',
-    //         mold_number: '1234-153-1349(제조번호)',
-    //     },
-    //     {
-    //         mold_name: '금형 04',
-    //         location_name: '(주)시즐',
-    //         mold_number: '1234-323-1349(제조번호)',
-    //     },
-    //     {
-    //         mold_name: '금형 05',
-    //         location_name: '(주)시즐',
-    //         mold_number: '1234-523-1349(제조번호)',
-    //     },
-    // ]
-
-    // const detaildummy = [
-    //     {
-    //         max_count: 50000,
-    //         today_count: 1000,
-    //         current_count: 38898
-    //     },
-    // ]
-
     const onClick = useCallback((mold) => {
         setDetailList({
             max_life: 0,
@@ -98,9 +62,9 @@ const MoldContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
         const res = await getMoldData(tempUrl)
-
-        setDetailList(res)
-
+        if (res) {
+            setDetailList(res)
+        }
     }, [])
 
     const getList = useCallback(async () => { // useCallback
@@ -108,10 +72,12 @@ const MoldContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=5`
         const res = await getMoldData(tempUrl)
-        setList(res.info_list)
+        if (res) {
+            setList(res.info_list)
 
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page.current])
 
     useEffect(() => {

@@ -118,29 +118,7 @@ const ProductToneContainer = () => {
         const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}&page=${tonPage.current}&limit=15`
         const res = await getProductData(tempUrl)
 
-
-        const getTonDetail = {
-            avg: res.avg ? res.avg.toFixed(1) : 0,
-            current_page: res.current_page,
-            high: res.high,
-            info_list: res.info_list,
-            low: res.low,
-            total_number: res.total_number,
-            total_page: res.total_page,
-        }
-
-        setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
-        setTonPage({current: res.current_page, total: res.total_page})
-        setDetailTonList(res.info_list)
-    }
-
-    const getDataPaginatoin = async () => {
-        //TODO: 성공시
-        if (selectValue !== null && selectValue.mold_pk !== null && selectValue.product_pk !== null && selectValue.process_pk !== null) {
-            Notiflix.Loading.Circle()
-            const tempUrl = `${API_URLS['product'].load}?mold_pk=${selectValue.mold_pk}&product_pk=${selectValue.product_pk}&process_pk=${selectValue.process_pk}&date=${selectDate}&page=${tonPage.current}&limit=15`
-            const res = await getProductData(tempUrl)
-
+        if (res) {
             const getTonDetail = {
                 avg: res.avg ? res.avg.toFixed(1) : 0,
                 current_page: res.current_page,
@@ -151,11 +129,35 @@ const ProductToneContainer = () => {
                 total_page: res.total_page,
             }
 
-
             setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
             setTonPage({current: res.current_page, total: res.total_page})
             setDetailTonList(res.info_list)
-            Notiflix.Loading.Remove()
+        }
+    }
+
+    const getDataPaginatoin = async () => {
+        //TODO: 성공시
+        if (selectValue !== null && selectValue.mold_pk !== null && selectValue.product_pk !== null && selectValue.process_pk !== null) {
+            Notiflix.Loading.Circle()
+            const tempUrl = `${API_URLS['product'].load}?mold_pk=${selectValue.mold_pk}&product_pk=${selectValue.product_pk}&process_pk=${selectValue.process_pk}&date=${selectDate}&page=${tonPage.current}&limit=15`
+            const res = await getProductData(tempUrl)
+            if (res) {
+                const getTonDetail = {
+                    avg: res.avg ? res.avg.toFixed(1) : 0,
+                    current_page: res.current_page,
+                    high: res.high,
+                    info_list: res.info_list,
+                    low: res.low,
+                    total_number: res.total_number,
+                    total_page: res.total_page,
+                }
+
+
+                setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
+                setTonPage({current: res.current_page, total: res.total_page})
+                setDetailTonList(res.info_list)
+                Notiflix.Loading.Remove()
+            }
         }
     }
 
@@ -164,11 +166,12 @@ const ProductToneContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['product'].list}?filter=${pk}&page=${materialPage.current}&limit=15`
         const res = await getProductData(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setMaterialPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setMaterialPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [machinePk, materialPage])
 
     useEffect(() => {

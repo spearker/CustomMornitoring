@@ -66,11 +66,12 @@ const MoldMaintenanceContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=5`
         const res = await getMoldData(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

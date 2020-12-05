@@ -244,7 +244,7 @@ const OilMaintenanceContainer = () => {
         dials: {
             dial: [
                 {
-                    value: pressData.pk !== '' ? data.pressure_average : '0'
+                    value: pressData && pressData.pk !== '' ? data.pressure_average : '0'
                 }
             ]
         }

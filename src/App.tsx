@@ -8,14 +8,14 @@ import YejiRouters from './Routers/YejiRouters'
 import Styled from 'styled-components'
 import AlertPopup from './Components/Modal/AlertPopup'
 import {
-  BASE_URL,
-  BG_COLOR,
-  BG_COLOR_SUB,
-  SYSTEM_NAME,
-  BG_COLOR_SUB2,
-  COMPANY_LOGO,
-  POINT_COLOR,
-  MAX_WIDTH
+    BASE_URL,
+    BG_COLOR,
+    BG_COLOR_SUB,
+    SYSTEM_NAME,
+    BG_COLOR_SUB2,
+    COMPANY_LOGO,
+    POINT_COLOR,
+    MAX_WIDTH
 } from './Common/configset'
 import {UserContextProvider} from './Context/UserContext'
 import Check from './Assets/Images/ic_checkbox_y.png'
@@ -29,29 +29,29 @@ import ProcessSelectModal from './Components/Modal/ProcessSelectModal'
 
 const App = () => {
 
-  return (
-    <I18nextProvider i18n={i18n}>
-      <UserContextProvider>
-        <PopupContextProvider>
-          <BrowserRouter>
-            <AppBodyContainer>
-              <ProcessSelectModal/>
-              <AlertPopup/>
-              <Routers/> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
-              <JunheeRouters/>
-              <SuminRouters/>
-              <JMRouters/>
-              <YejiRouters/>
-            </AppBodyContainer>
-          </BrowserRouter>
-        </PopupContextProvider>
-      </UserContextProvider>
-    </I18nextProvider>
+    return (
+        <I18nextProvider i18n={i18n}>
+            <UserContextProvider>
+                <PopupContextProvider>
+                    <BrowserRouter>
+                        <AppBodyContainer>
+                            <ProcessSelectModal/>
+                            <AlertPopup/>
+                            <Routers/> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
+                            <JunheeRouters/>
+                            <SuminRouters/>
+                            <JMRouters/>
+                            <YejiRouters/>
+                        </AppBodyContainer>
+                    </BrowserRouter>
+                </PopupContextProvider>
+            </UserContextProvider>
+        </I18nextProvider>
 
-  )
+    )
 }
 const AppBodyContainer = Styled.div`
-  
+  min-width: 1700px;
   width: 100%;
   height: 100%;
   a{

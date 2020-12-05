@@ -17,7 +17,7 @@ const ClutchMaintenanceContainer = () => {
     const [data, setData] = useState<IPressClutch>()
 
 
-    const [postData, setPostData] = useState<({pk:string,normal_from: string, normal_to: string, change_from: string,change_to: string, danger_from: string,danger_to: string})>({
+    const [postData, setPostData] = useState<({ pk: string, normal_from: string, normal_to: string, change_from: string, change_to: string, danger_from: string, danger_to: string })>({
         pk: "",
         normal_from: "",
         normal_to: "",
@@ -31,7 +31,7 @@ const ClutchMaintenanceContainer = () => {
      * getList()
      * 클러치 정보 불러오기
      */
-    const getData = useCallback(async ()=>{
+    const getData = useCallback(async () => {
         const tempUrl = `${URLS_PRE['clutch'].load}`
         const resultData = await getCluchData(tempUrl, postData);
         // if(index === '1'){
@@ -43,46 +43,64 @@ const ClutchMaintenanceContainer = () => {
         // }
         setData(resultData)
 
-    },[postData])
+    }, [postData])
 
     useEffect(() => {
-        setPostData({...postData,pk: selectComponent})
+        setPostData({...postData, pk: selectComponent})
     }, [selectComponent])
 
 
-    useEffect(()=>{
-        if(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) {
+    useEffect(() => {
+        if (postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "") {
             getData()
         }
-    },[postData.pk])
-
-    useEffect(()=>{
-        getData()
-    },[postData.pk])
+    }, [postData.pk])
 
 
     return (
         <div>
-            <div style={{position:'relative', textAlign:'left', marginTop:87, marginBottom: 20}}>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 87, marginBottom: 20}}>
 
-                <div style={{display:'inline-block', textAlign:'left'}}>
-                    <span style={{fontSize:20, marginRight:18, marginLeft: 3, fontWeight: 'bold'}}>클러치&브레이크</span>
+                <div style={{display: 'inline-block', textAlign: 'left'}}>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>클러치&브레이크</span>
                 </div>
-                <div style={{display:"flex",flexDirection:"row",width: '100%', justifyContent: 'space-around', marginTop: 10, backgroundColor: '#17181c',height: 40,paddingTop: 10}}>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: '100%',
+                    justifyContent: 'space-around',
+                    marginTop: 10,
+                    backgroundColor: '#17181c',
+                    height: 40,
+                    paddingTop: 10
+                }}>
                     <p>정상 범위</p>
                     <p>위험 범위</p>
                     <p>교체 요망 범위</p>
                 </div>
-                <div style={{display:"flex",flexDirection:"row",width: '100%', justifyContent: 'space-around', backgroundColor: '#17181c',height: 40}}>
-                    <Input placeholder="정상의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, normal_from: e.target.value})}/>
-                    <Input placeholder="정상의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, normal_to: e.target.value})}/>
-                    <Input placeholder="위험의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, change_from: e.target.value})}/>
-                    <Input placeholder="위험의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, change_to: e.target.value})}/>
-                    <Input placeholder="교체 요망의 최소값을 입력해 주세요." onChange={(e) => setPostData({...postData, danger_from: e.target.value})}/>
-                    <Input placeholder="교체 요망의 최대값을 입력해 주세요." onChange={(e) => setPostData({...postData, danger_to: e.target.value})}/>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: '100%',
+                    justifyContent: 'space-around',
+                    backgroundColor: '#17181c',
+                    height: 40
+                }}>
+                    <Input placeholder="정상의 최소값을 입력해 주세요."
+                           onChange={(e) => setPostData({...postData, normal_from: e.target.value})}/>
+                    <Input placeholder="정상의 최대값을 입력해 주세요."
+                           onChange={(e) => setPostData({...postData, normal_to: e.target.value})}/>
+                    <Input placeholder="위험의 최소값을 입력해 주세요."
+                           onChange={(e) => setPostData({...postData, change_from: e.target.value})}/>
+                    <Input placeholder="위험의 최대값을 입력해 주세요."
+                           onChange={(e) => setPostData({...postData, change_to: e.target.value})}/>
+                    <Input placeholder="교체 요망의 최소값을 입력해 주세요."
+                           onChange={(e) => setPostData({...postData, danger_from: e.target.value})}/>
+                    <Input placeholder="교체 요망의 최대값을 입력해 주세요."
+                           onChange={(e) => setPostData({...postData, danger_to: e.target.value})}/>
                 </div>
             </div>
-            { (postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "" ) ?
+            {(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== "") ?
                 <MapBoard
                     type={1}//0: 모니터링 1:통계/분석
                     url={URLS_MAP.press.statics}
@@ -99,7 +117,10 @@ const ClutchMaintenanceContainer = () => {
                 selectComponent ? data
                     ? <DetailBox>
                         <div style={{width: 300, height: 30, paddingTop: 14}}>
-                            <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+"ton)"}</p>
+                            <p style={{
+                                fontSize: 18,
+                                fontWeight: "bold"
+                            }}>{data?.machine_name + " (" + data?.machine_ton + "ton)"}</p>
                         </div>
                         <StatusBox>
                             {

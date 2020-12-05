@@ -160,23 +160,24 @@ const DefectiveContainer = () => {
         const tempUrl = `${API_URLS['defective'].load}?pk=${pk}&from=${selectDate.start}&to=${selectDate.end}`
         const res = await getDefectiveData(tempUrl)
 
+        if (res) {
+            setDetailList(res)
 
-        setDetailList(res)
+            let tmpArray = res.amounts.map((v) => {
+                let value = 0
+                if (v !== 0 && res.total_production !== 0) {
+                    value = Math.round(v / res.total_production * 10000) / 100
+                }
 
-        let tmpArray = res.amounts.map((v) => {
-            let value = 0
-            if (v !== 0 && res.total_production !== 0) {
-                value = Math.round(v / res.total_production * 10000) / 100
-            }
-
-            return value
-        })
+                return value
+            })
 
 
-        //@ts-ignore
-        setLabels([...res.dates])
-        //@ts-ignore
-        setSeries([...tmpArray])
+            //@ts-ignore
+            setLabels([...res.dates])
+            //@ts-ignore
+            setSeries([...tmpArray])
+        }
 
     }, [detailList, selectValue, selectDate])
 
@@ -185,11 +186,12 @@ const DefectiveContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=5`
         const res = await getDefectiveData(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Styled from "styled-components";
 
-const dummyData:IPressClutch = {
-    manufacturer_code:'factory1',
+const dummyData: IPressClutch = {
+    manufacturer_code: 'factory1',
     machine_name: '프레스 01',
     machine_ton: '1000ton',
-    statement:0
+    statement: 0
 }
 
 const ClutchMaintenanceContainer = () => {
@@ -19,38 +19,43 @@ const ClutchMaintenanceContainer = () => {
      * getList()
      * 클러치 정보 불러오기
      */
-    const getData = useCallback(async (pageType)=>{
+    const getData = useCallback(async (pageType) => {
 
         // const tempUrl = `${API_URLS[pageType].load}?pk=${pk}`
         // const resultData = await getCluchData(tempUrl);
         setData(dummyData);
 
-    },[data, pk])
+    }, [data, pk])
 
     useEffect(() => {
+
         getData('clutch')
     }, [])
 
     return (
         <div>
-            <div style={{position:'relative', textAlign:'left', marginTop:87}}>
+            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
 
-                <div style={{display:'inline-block', textAlign:'left'}}>
-                    <span style={{fontSize:20, marginRight:18, marginLeft: 3}}>클러치&브레이크</span>
+                <div style={{display: 'inline-block', textAlign: 'left'}}>
+                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3}}>클러치&브레이크</span>
                 </div>
             </div>
             <MapFlexBox>
                 <MapBox>
-                    <div style={{width:100, height: 40,color: "black", backgroundColor: 'skyblue'}}
+                    <div style={{width: 100, height: 40, color: "black", backgroundColor: 'skyblue'}}
                          onClick={() => {
                              setSelectMachine('1')
                          }}
-                    >프레스1</div>
+                    >프레스1
+                    </div>
                 </MapBox>
             </MapFlexBox>
             <DetailBox>
                 <div style={{width: 200, height: 30, marginTop: 14}}>
-                    <p style={{fontSize: 18, fontWeight: "bold"}}>{data?.machine_name + " (" +data?.machine_ton+")"}</p>
+                    <p style={{
+                        fontSize: 18,
+                        fontWeight: "bold"
+                    }}>{data?.machine_name + " (" + data?.machine_ton + ")"}</p>
                 </div>
                 <StatusBox>
                     {
