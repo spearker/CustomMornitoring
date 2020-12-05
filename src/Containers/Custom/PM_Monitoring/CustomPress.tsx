@@ -1,49 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CustomDashboardHeader from "../../../Components/Custom/dashboard/CustomDashboardHeader";
 import Styled from "styled-components";
 import CustomDashboardTable from "../../../Components/Custom/dashboard/CustomDashboardTable";
 import CustomDashboardTargetTable from "../../../Components/Custom/dashboard/CustomDashboardTargetTable";
 import PressBox from "../../../Components/Custom/PM_Monitoring/PressBox";
-
-const dummy = [{
-    pk: '12',
-    name: '131af',
-    material_name: 'wefqe',
-    operation: 10,
-    spm: 10,
-    preset_counter: 10000000,
-    total_counter: 10000000,
-    runtime: '01:52:35',
-    downtime: '03:42:35',
-    percent: 90,
-    material_spec_H: 41,
-    material_spec_W: 44,
-    material_spec_D: 46,
-    mold_name: 'wef',
-    keyCam: '촌동',
-    production: 100000,
-    load_factor: 20,
-    cavity: 4
-},]
-
+import {API_URLS, getLoadTonList} from "../../../Api/pm/monitoring";
+import Notiflix from 'notiflix'
 
 const CustomPress: React.FunctionComponent = () => {
-    const [index, setIndex] = useState({machine_name: '기계명'})
     const [list, setList] = useState<any[]>([])
 
-    const indexList = {
-        production: {
-            machine_name: '기계명',
-            model: '모델',
-            production_name: '품명',
-            goal: '목표수량',
-            current_amount: '작업수량'
+    const getList = useCallback(async () => { // useCallback
+        //TODO: 성공시
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['press'].status}`
+        const res = await getLoadTonList(tempUrl)
+        if (res) {
+            setList(res.info_list)
+
+            Notiflix.Loading.Remove()
         }
-    }
+    }, [list])
 
     useEffect(() => {
-        setIndex(indexList["production"])
-        setList(dummy)
+        getList()
     }, [])
 
     return (
@@ -55,7 +35,14 @@ const CustomPress: React.FunctionComponent = () => {
                 flexWrap: "wrap",
                 width: '100%'
             }}>
-                <PressBox machineData={dummy[0]}/>
+                {list === undefined ?
+                    <p style={{color: 'white', fontSize: '30px', textAlign: 'center', width: '100%'}}>불러 올 수 있는 기계 정보가
+                        없습니다.</p>
+                    :
+                    list.map((machineData, index) => (
+                        <PressBox machineData={machineData}/>
+                    ))
+                }
             </div>
         </Container>
     )

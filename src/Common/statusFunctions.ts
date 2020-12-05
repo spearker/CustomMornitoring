@@ -45,8 +45,8 @@ export const changeStatusToColor = ((status: number | undefined) => {
     } else {
         return '#ff461a'
     }
-
 })
+
 
 export const changeDashboardStatusToColor = ((status: number | undefined) => {
     if (status === 11) {

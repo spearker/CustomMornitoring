@@ -161,6 +161,7 @@ import CustomProductionDashBoard from "../Containers/Custom/dashboard/CustomProd
 import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
 import NewBasicList from "../Pages/Basic/NewBasicListContainer";
 import NewBasicMaterialRegister from "../Containers/Basic/NewBasicMaterialContainer";
+import NewDashboard from "../Containers/Custom/index/CustomIndex";
 
 const Routers = () => {
 
@@ -196,7 +197,7 @@ const Routers = () => {
                 <Route exact path="/oops" component={OnlyChrome}/>
 
                 {/* 1.0 홈 */}
-                <Route exact path="/dashboard" component={Dashboard}/>
+                <Route exact path="/dashboard" component={NewDashboard}/>
 
                 {/* 2.0 기준정보관리 */}
 
