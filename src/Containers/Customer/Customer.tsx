@@ -88,9 +88,10 @@ const ClientContainer = () => {
         setOption(filter)
         const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter + 1)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
-
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
+        if (res) {
+            setList(res.info_list)
+            setPage({current: res.current_page, total: res.total_page})
+        }
     }, [option, searchValue, page])
 
 
@@ -103,10 +104,10 @@ const ClientContainer = () => {
 
         const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(option + 1)}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
-
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
-
+        if (res) {
+            setList(res.info_list)
+            setPage({current: res.current_page, total: res.total_page})
+        }
     }, [searchValue, option, page])
 
     const eventdummy = [
@@ -147,10 +148,11 @@ const ClientContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${option + 1}&page=${page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
-
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove();
+        if (res) {
+            setList(res.info_list)
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove();
+        }
     }, [searchValue, option, list, page])
 
 

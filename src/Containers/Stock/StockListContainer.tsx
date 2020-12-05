@@ -39,44 +39,6 @@ const StockListContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            item_name: "품목명00",
-            stock_type: "일반",
-            stock_quantity: "1,000,000",
-            storage_location: "창고01",
-            safety_stock: "9,999,999"
-        },
-        {
-            item_name: "품목명01",
-            stock_type: "재공재고",
-            stock_quantity: "1,000,000",
-            storage_location: "창고01",
-            safety_stock: "9,999,999"
-        },
-        {
-            item_name: "품목명02",
-            stock_type: "외주 재고",
-            stock_quantity: "1,000,000",
-            storage_location: "창고01",
-            safety_stock: "9,999,999"
-        },
-        {
-            item_name: "품목명03",
-            stock_type: "외주 재고",
-            stock_quantity: "1,000,000",
-            storage_location: "창고01",
-            safety_stock: "9,999,999"
-        },
-        {
-            item_name: "품목명04",
-            stock_type: "일반",
-            stock_quantity: "1,000,000",
-            storage_location: "창고01",
-            safety_stock: "9,999,999"
-        }
-    ]
-
     const detailTitle = {
         item_detailList: {
             writer: "작성자",
@@ -95,27 +57,6 @@ const StockListContainer = () => {
             before_quantity: "9,999,999,9999",
             date: "2020.08.09"
         },
-        {
-            writer: "김담당",
-            sortation: "정상 출고",
-            stock_quantity: "9,999,999,9999",
-            before_quantity: "9,999,999,9999",
-            date: "2020.08.09"
-        },
-        {
-            writer: "김담당",
-            sortation: "정상 입고",
-            stock_quantity: "9,999,999,9999",
-            before_quantity: "9,999,999,9999",
-            date: "2020.08.09"
-        },
-        {
-            writer: "김담당",
-            sortation: "정상 입고",
-            stock_quantity: "9,999,999,9999",
-            before_quantity: "9,999,999,9999",
-            date: "2020.08.09"
-        }
     ]
 
 
@@ -148,19 +89,20 @@ const StockListContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const material_type = transferCodeToName('material', v.material_type)
+                const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const getStock = res.info_list.map((v, i) => {
-            const material_type = transferCodeToName('material', v.material_type)
-            const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, material_type: material_type, current_stock: current_stock, safe_stock: safe_stock}
+            })
 
-            return {...v, material_type: material_type, current_stock: current_stock, safe_stock: safe_stock}
-        })
+            setList(getStock)
 
-        setList(getStock)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

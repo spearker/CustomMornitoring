@@ -115,18 +115,19 @@ const PartsContainer = () => {
 
         const tempUrl = `${API_URLS['parts'].detail}?pk=${pk}&page=${detailPage.current}&limit=7`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const division = transferCodeToName('stock', Number(v.division))
+                const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const parts_stock = v.parts_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const getStock = res.info_list.map((v, i) => {
-            const division = transferCodeToName('stock', Number(v.division))
-            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const parts_stock = v.parts_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, division: division, amount: amount, parts_stock: parts_stock,}
+            })
 
-            return {...v, division: division, amount: amount, parts_stock: parts_stock,}
-        })
+            setDetailList(getStock)
 
-        setDetailList(getStock)
-
-        setDetailPage({current: res.current_page, total: res.total_page})
+            setDetailPage({current: res.current_page, total: res.total_page})
+        }
     }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
@@ -134,18 +135,19 @@ const PartsContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['parts'].list}?page=${page.current}&limit=15`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const parts_cost = v.parts_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const parts_stock = v.parts_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const getStock = res.info_list.map((v, i) => {
-            const parts_cost = v.parts_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const parts_stock = v.parts_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, parts_cost: parts_cost, parts_stock: parts_stock}
+            })
 
-            return {...v, parts_cost: parts_cost, parts_stock: parts_stock}
-        })
+            setList(getStock)
 
-        setList(getStock)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

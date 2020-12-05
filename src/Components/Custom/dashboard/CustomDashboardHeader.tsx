@@ -2,12 +2,14 @@ import React from "react";
 import Style from "styled-components"
 import NAV_HOME from "../../../Assets/Images/btn_nav_home.png";
 import moment from 'moment'
+import {useHistory} from 'react-router-dom'
 
 interface Props {
     title: string
 }
 
 const CustomDashboardHeader: React.FunctionComponent<Props> = ({title}) => {
+    const history = useHistory()
     return (
         <div style={{
             display: 'flex',
@@ -15,7 +17,7 @@ const CustomDashboardHeader: React.FunctionComponent<Props> = ({title}) => {
             alignItems: 'center',
             justifyContent: 'space-between'
         }}>
-            <Home>
+            <Home onClick={() => history.push('/dashboard')}>
                 <img src={NAV_HOME}/>
             </Home>
             <Title>{title}</Title>

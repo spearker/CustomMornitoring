@@ -57,44 +57,6 @@ const BarcodeListContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            item_name: '품목명',
-            item_type: '완제품',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '원자재',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '원자재',
-            barcode_num: 'A123456789B',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '완제품',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '완제품',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-    ]
-
     const titleeventdummy = [
         {
             Name: '등록하기',
@@ -198,9 +160,9 @@ const BarcodeListContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['barcode'].detailInfo}?pk=${pk}`
         const res = await getBarcode(tempUrl)
-
-        setDetailList(res)
-
+        if (res) {
+            setDetailList(res)
+        }
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
@@ -208,11 +170,12 @@ const BarcodeListContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=15`
         const res = await getBarcode(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

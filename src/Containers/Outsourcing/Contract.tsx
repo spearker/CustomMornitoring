@@ -250,20 +250,21 @@ const ContractContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
+        if (res) {
+            const contractList = res.info_list.map((v) => {
 
-        const contractList = res.info_list.map((v) => {
+                const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const status = v.status === 'WAIT' ? '진행중' : '완료'
 
-            const quantity = v.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const unpaid = v.unpaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const status = v.status === 'WAIT' ? '진행중' : '완료'
+                return {...v, quantity: quantity, unpaid: unpaid, status: status}
+            })
 
-            return {...v, quantity: quantity, unpaid: unpaid, status: status}
-        })
+            setList(contractList)
+            setPage({current: res.current_page, total: res.total_page})
 
-        setList(contractList)
-        setPage({current: res.current_page, total: res.total_page})
-
-        Notiflix.Loading.Remove();
+            Notiflix.Loading.Remove();
+        }
     }, [list])
 
     useEffect(() => {

@@ -142,17 +142,18 @@ const OrderContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=15`
         const res = await getMarketing(tempUrl)
+        if (res) {
+            const orderList = res.info_list.map((v) => {
+                const finished = v.finished === true ? '완료' : '진행중'
+                const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const orderList = res.info_list.map((v) => {
-            const finished = v.finished === true ? '완료' : '진행중'
-            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, finished: finished, amount: amount}
+            })
+            setList(orderList)
 
-            return {...v, finished: finished, amount: amount}
-        })
-        setList(orderList)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove();
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove();
+        }
     }, [list, page])
 
     useEffect(() => {

@@ -109,18 +109,18 @@ const OutSourceContainer = () => {
 
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const before_amount = v.before_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const getStock = res.info_list.map((v, i) => {
-            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const before_amount = v.before_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, amount: amount, before_amount: before_amount,}
+            })
 
-            return {...v, amount: amount, before_amount: before_amount,}
-        })
+            setDetailList(getStock)
 
-        setDetailList(getStock)
-
-        setDetailPage({current: res.current_page, total: res.total_page})
-
+            setDetailPage({current: res.current_page, total: res.total_page})
+        }
     }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
@@ -128,19 +128,20 @@ const OutSourceContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const material_type = transferCodeToName('material', v.material_type)
+                const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const getStock = res.info_list.map((v, i) => {
-            const material_type = transferCodeToName('material', v.material_type)
-            const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, material_type: material_type, safe_stock: safe_stock, current_stock: current_stock}
+            })
 
-            return {...v, material_type: material_type, safe_stock: safe_stock, current_stock: current_stock}
-        })
+            setList(getStock)
 
-        setList(getStock)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
 

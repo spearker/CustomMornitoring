@@ -137,18 +137,19 @@ const ShipmentContainer = () => {
         Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['shipment'].list}?page=${page.current}&limit=15`
         const res = await getMarketing(tempUrl)
+        if (res) {
+            const shipmentList = res.info_list.map((v) => {
 
-        const shipmentList = res.info_list.map((v) => {
+                const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-            const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return {...v, amount: amount}
+            })
 
-            return {...v, amount: amount}
-        })
+            setList(shipmentList)
 
-        setList(shipmentList)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove();
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove();
+        }
     }, [list, page])
 
     useEffect(() => {

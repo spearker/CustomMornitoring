@@ -11,6 +11,7 @@ import moment from 'moment'
 import {API_URLS, postQualityRegister, postQualityRequestDetail} from '../../Api/mes/quality'
 import {useHistory} from 'react-router-dom'
 import {getProjectList} from '../../Api/mes/production'
+import MemeberPickerModal from "../../Components/Modal/MemberPickerModal";
 
 const nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
 
@@ -26,7 +27,7 @@ const QualityTestRequest = ({match}: Props) => {
     const [productionData, setProductionData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
     const [total_count, setTotal_count] = useState<string>('')
     const [reason, setReason] = useState<string>('')
-    const [worker, setWorker] = useState<string>('')
+    const [worker, setWorker] = useState<{ pk: string, name: string }>({pk: '', name: ''})
     const [statement, setStatement] = useState<string>('')
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
@@ -79,7 +80,7 @@ const QualityTestRequest = ({match}: Props) => {
         } else if (reason === '') {
             alert('요청 내용은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (worker === '') {
+        } else if (worker.pk === '') {
             alert('작업자는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -91,7 +92,7 @@ const QualityTestRequest = ({match}: Props) => {
             material_pk: productionData.pk,
             amount: Number(total_count),
             description: reason,
-            worker: worker
+            worker: worker.pk
         })
 
         if (resultData.status === 200) {
@@ -116,7 +117,7 @@ const QualityTestRequest = ({match}: Props) => {
         } else if (reason === '') {
             alert('요청 내용은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (worker === '') {
+        } else if (worker.pk === '') {
             alert('작업자는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
@@ -128,7 +129,7 @@ const QualityTestRequest = ({match}: Props) => {
             statement: statement,
             amount: Number(total_count),
             description: reason,
-            worker: worker
+            worker: worker.pk
         })
         if (res.status === 200) {
             alert('성공적으로 수정하였습니다!')
@@ -223,8 +224,11 @@ const QualityTestRequest = ({match}: Props) => {
                         </tr>
                         <tr>
                             <td>• 작업자</td>
-                            <td><Input value={worker} onChange={(e) => setWorker(e.target.value)}
-                                       disabled={match.params.type !== 'status' ? false : true}/></td>
+                            <td>
+                                <MemeberPickerModal onClickEvent={(e) => setWorker(e)}
+                                                    disabled={match.params.type !== 'status' ? false : true}
+                                                    text={'작업자를 선택해 주세요'} select={worker}/>
+                            </td>
                         </tr>
 
                     </table>
