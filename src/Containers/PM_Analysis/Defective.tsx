@@ -200,29 +200,30 @@ const DefectiveContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['defective'].load}?pk=${pk}`
         const res = await getDefectiveData(tempUrl)
+        if (res) {
+            let tmpList: number[] = []
+            let tmpLabelDatas: string[] = []
+            let tmpPieDatas: any[] = []
 
-        let tmpList: number[] = []
-        let tmpLabelDatas: string[] = []
-        let tmpPieDatas: any[] = []
+            res.pies.map((v, i) => {
+                // series.push(v.percentage)
+                tmpList.push(v.percentage)
+                tmpLabelDatas.push(v.material_name)
+                tmpPieDatas.push(v)
+            })
 
-        res.pies.map((v, i) => {
-            // series.push(v.percentage)
-            tmpList.push(v.percentage)
-            tmpLabelDatas.push(v.material_name)
-            tmpPieDatas.push(v)
-        })
+            setPieData([...tmpPieDatas])
+            setLabelDatas([...tmpLabelDatas])
 
-        setPieData([...tmpPieDatas])
-        setLabelDatas([...tmpLabelDatas])
+            let tmp = 0
+            tmpList.map((v, i) => {
+                tmp += v
+            })
 
-        let tmp = 0
-        tmpList.map((v, i) => {
-            tmp += v
-        })
-
-        setAllPercent(tmp)
-        setSeries([...tmpList])
-        setDetailList(res)
+            setAllPercent(tmp)
+            setSeries([...tmpList])
+            setDetailList(res)
+        }
     }
 
 
@@ -231,11 +232,12 @@ const DefectiveContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=5`
         const res = await getDefectiveData(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     const pieOnClick = useCallback((index) => {

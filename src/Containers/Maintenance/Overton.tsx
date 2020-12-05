@@ -68,11 +68,12 @@ const OvertonMaintenanceContainer = () => {
             Notiflix.Loading.Circle()
             const tempUrl = `${API_URLS['overtone'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
             const res = await getOvertoneData(tempUrl)
+            if (res) {
+                setDetailList(res.info_list)
 
-            setDetailList(res.info_list)
-
-            setDetailPage({current: res.current_page, total: res.total_page})
-            Notiflix.Loading.Remove()
+                setDetailPage({current: res.current_page, total: res.total_page})
+                Notiflix.Loading.Remove()
+            }
         }
     }, [detailList, selectPk])
 
@@ -81,11 +82,12 @@ const OvertonMaintenanceContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=5`
         const res = await getOvertoneData(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-        Notiflix.Loading.Remove()
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {
