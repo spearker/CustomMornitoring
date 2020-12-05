@@ -14,21 +14,43 @@ const KPICompareBox = ({data, type, setType}: IProps) => {
   const [startDate, setStartDate] = useState<string>('2020-12-04')
   const [endDate, setEndDate] = useState<string>('2020-12-11')
 
-  const [selectDate, setSelectDate] = useState<{ from: Date, to: Date } | Date>(moment().subtract(1, 'days').toDate())
+  const [selectDate, setSelectDate] = useState<Date>(moment().subtract(1, 'days').toDate())
+  const [selectDates, setSelectDates] = useState<{ from: Date, to: Date }>({
+    from: moment().subtract(2, 'day').toDate(),
+    to: moment().subtract(1, 'day').toDate(),
+  })
 
   React.useEffect(() => {
-    // if (type === 'day') {
-    //
-    // } else if () {
-    // }
-    // setSelectDate()
+    if (type === 'day') {
+      setSelectDate(moment().subtract(1, 'days').toDate())
+    } else if (type === 'week') {
+      const nowDate = moment().subtract(7, 'days')
+      setSelectDates({
+        from: nowDate.startOf('isoWeek').toDate(),
+        to: nowDate.endOf('isoWeek').toDate()
+      })
+    } else if (type === 'month') {
+      const nowDate = moment().subtract(1, 'month')
+      setSelectDates({
+        from: nowDate.startOf('month').toDate(),
+        to: nowDate.endOf('month').toDate()
+      })
+    }
+
   }, [type])
 
   return (
     <Container>
       <div>
         <FlexBox>
-          <DateTypeCalendar type={type}/>
+          <DateTypeCalendar type={type} selectDate={selectDate} selectDates={selectDates}
+                            onChangeSelectDate={(v, type) => {
+                              if (type === 'day') {
+                                setSelectDate(v)
+                              } else {
+                                setSelectDates(v)
+                              }
+                            }}/>
           {
             setType !== undefined &&
             <div style={{marginTop: 8}}>
@@ -56,7 +78,7 @@ const KPICompareBox = ({data, type, setType}: IProps) => {
           }
         </FlexBox>
         <div>
-          {type === 'week' ? `${startDate} ~ ${endDate}` : startDate}
+          {type === 'week' ? `${moment(selectDates.from).format('yyyy-MM-DD')} ~ ${moment(selectDates.to).format('yyyy-MM-DD')}` : type === 'month' ? moment(selectDates.from).format('yyyy-MM') : moment(selectDate).format('yyyy-MM-DD')}
         </div>
       </div>
       <div>
