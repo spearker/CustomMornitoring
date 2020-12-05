@@ -288,6 +288,7 @@ const LoadtoneContiner = () => {
             {/*    setSelectType([false, false, true])*/}
             {/*  }*/}
             {/*}}/>*/}
+            <div style={{width: 30, height: 30}}></div>
           </div>
           <div>
             <p style={{textAlign: 'left', color: 'rgba(255, 255, 255, .4)'}}>그래프 값은 시간당 평균값입니다.</p>
