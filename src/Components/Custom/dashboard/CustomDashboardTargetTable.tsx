@@ -29,6 +29,9 @@ const CustomDashboardTargetTable: React.FunctionComponent<Props> = ({valueList, 
                 }}>
                     <LimitP key={'target'}
                             style={{
+                                fontFamily: 'NotoSansCJKkr',
+                                fontSize: '20px',
+                                fontWeight: 'bold',
                                 width: '400px',
                                 textAlign: 'center'
                             }}>달성율</LimitP>

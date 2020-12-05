@@ -156,12 +156,14 @@ import ProcessRegister from '../Pages/Process/Register'
 import CustomLoadtonChartContainer from '../Containers/Custom/dashboard/CustomLoadtonChartContainer'
 import CustomDashboardIndex from '../Containers/Custom/dashboard/CustomDashboardIndex'
 import CustomErrorLogDashBoard from '../Containers/Custom/dashboard/CustomErrorLogDashBoard'
-import CustomRotateDashboard from "../Containers/Custom/dashboard/CustomRotateDashboard";
-import CustomProductionDashBoard from "../Containers/Custom/dashboard/CustomProductionDashboard";
-import NewBasicItemList from "../Pages/Basic/NewBasicItemList";
-import NewBasicList from "../Pages/Basic/NewBasicListContainer";
-import NewBasicMaterialRegister from "../Containers/Basic/NewBasicMaterialContainer";
+
+import CustomRotateDashboard from '../Containers/Custom/dashboard/CustomRotateDashboard'
+import CustomProductionDashBoard from '../Containers/Custom/dashboard/CustomProductionDashboard'
+import NewBasicItemList from '../Pages/Basic/NewBasicItemList'
+import NewBasicList from '../Pages/Basic/NewBasicListContainer'
+import NewBasicMaterialRegister from '../Containers/Basic/NewBasicMaterialContainer'
 import NewDashboard from "../Containers/Custom/index/CustomIndex";
+
 
 const Routers = () => {
 
@@ -195,6 +197,7 @@ const Routers = () => {
                 <Route exact path="/forgot" component={ForgotPw}/>
                 <Route exact path="/password" component={ChangePw}/>
                 <Route exact path="/oops" component={OnlyChrome}/>
+
 
                 {/* 1.0 홈 */}
                 <Route exact path="/dashboard" component={NewDashboard}/>
@@ -364,8 +367,8 @@ const Routers = () => {
 
                 {/* 15.0 프레스 분석 및 통계 */}
                 <Route exact path="/pm/statistics/press" component={PressStatistics}/>
-                <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatistics}/>
-                <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatics}/>
+                <Route exact path="/pm/analysis/readytime" component={ReadyTimeStatics}/>
+                <Route exact path="/pm/statistics/readytime" component={ReadyTimeStatistics}/>
                 <Route exact path="/pm/statistics/power" component={PowerStatistics}/>
                 <Route exact path="/pm/analysis/capacity" component={CapacityStatistics}/>
                 <Route exact path="/statistics/qdctime" component={QdcTimeStatistics}/>

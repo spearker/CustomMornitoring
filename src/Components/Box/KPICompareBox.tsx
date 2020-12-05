@@ -1,59 +1,69 @@
-import React, { useState } from "react";
-import Styled from 'styled-components';
+import React, {useEffect, useState} from 'react'
+import Styled from 'styled-components'
+import DateTypeCalendar from '../Modal/DateTypeCalendar'
+import moment from 'moment'
 
 // KPI
-interface IProps{
-    data: {number: number, increase: boolean}
-    type: 'year' | 'week' | 'day'
-    setType?: (type:'year' | 'week' | 'day') => void
+interface IProps {
+  data: { number: number, increase: boolean }
+  type: 'month' | 'week' | 'day'
+  setType?: (type: 'month' | 'week' | 'day') => void
 }
 
-const KPICompareBox = ({ data, type, setType }: IProps) => {
-    const [startDate, setStartDate] = useState<string>('2020-12-04');
-    const [endDate, setEndDate] = useState<string>('2020-12-11');
+const KPICompareBox = ({data, type, setType}: IProps) => {
+  const [startDate, setStartDate] = useState<string>('2020-12-04')
+  const [endDate, setEndDate] = useState<string>('2020-12-11')
 
-    return (
-        <Container>
-            <div>
-                <FlexBox>
-                    <div>
-                        {type === 'week' ? '날짜 선택 2020-11-01~2020-12-05' : '날짜 선택 2020-11-01'} 
-                    </div>
-                    {
-                        setType !== undefined &&
-                        <div>
-                            <input type="radio" id="day" name="type"
-                                checked={type === 'day' ? true : false}
-                                onClick={() => {
-                                    setType('day')
-                                }}/>
-                            <label htmlFor="day"><span>일</span></label>
+  const [selectDate, setSelectDate] = useState<{ from: Date, to: Date } | Date>(moment().subtract(1, 'days').toDate())
 
-                            <input type="radio" id="week" name="type"
-                                checked={type === 'week' ? true : false}
-                                onClick={() => {
-                                    setType('week')
-                                }}/>
-                            <label htmlFor="week"><span>주</span></label>
+  React.useEffect(() => {
+    // if (type === 'day') {
+    //
+    // } else if () {
+    // }
+    // setSelectDate()
+  }, [type])
 
-                            <input type="radio" id="year" name="type"
-                                checked={type === 'year' ? true : false}
-                                onClick={() => {
-                                    setType('year')
-                                }}/>
-                            <label htmlFor="year"><span>월</span></label>
-                        </div>
-                    }
-                </FlexBox>
-                <div>
-                    {type === 'week' ? `${startDate} ~ ${endDate}` : startDate}
-                </div>
+  return (
+    <Container>
+      <div>
+        <FlexBox>
+          <DateTypeCalendar type={type}/>
+          {
+            setType !== undefined &&
+            <div style={{marginTop: 8}}>
+                <input type="radio" id="day" name="type"
+                       checked={type === 'day' ? true : false}
+                       onClick={() => {
+                         setType('day')
+                       }}/>
+                <label htmlFor="day"><span style={{marginLeft: 25}}>일</span></label>
+
+                <input type="radio" id="week" name="type"
+                       checked={type === 'week' ? true : false}
+                       onClick={() => {
+                         setType('week')
+                       }}/>
+                <label htmlFor="week"><span style={{marginLeft: 25}}>주</span></label>
+
+                <input type="radio" id="month" name="type"
+                       checked={type === 'month' ? true : false}
+                       onClick={() => {
+                         setType('month')
+                       }}/>
+                <label htmlFor="month"><span style={{marginLeft: 25}}>월</span></label>
             </div>
-            <div>
-                <p>{data.number}<span>{data.increase ? '+' : '-'}</span></p>
-            </div>
-        </Container>
-    )
+          }
+        </FlexBox>
+        <div>
+          {type === 'week' ? `${startDate} ~ ${endDate}` : startDate}
+        </div>
+      </div>
+      <div>
+        <p>{data.number}<span>{data.increase ? '+' : '-'}</span></p>
+      </div>
+    </Container>
+  )
 }
 
 const Container = Styled.div`
@@ -102,6 +112,7 @@ const FlexBox = Styled.div`
     &>div{
         &:first-child{
             margin-right: 24px;
+            cursor: pointer;
             // 달력 붙이면 지우기(시작)
             border-radius: 6px;
             background-color: #b3b3b3;
@@ -129,4 +140,4 @@ const FlexBox = Styled.div`
     }
 `
 
-export default KPICompareBox;
+export default KPICompareBox
