@@ -6,35 +6,24 @@ import CustomDashboardTargetTable from "../../../Components/Custom/dashboard/Cus
 import PressBox from "../../../Components/Custom/PM_Monitoring/PressBox";
 
 const dummy = [{
-    machine_name: '기계명',
-    model: '모델',
-    production_name: '품명',
-    goal: '목표수량',
-    current_amount: '작업수량'
-}, {
-    machine_name: '기계명',
-    model: '모델',
-    production_name: '품명',
-    goal: '목표수량',
-    current_amount: '작업수량'
-}, {
-    machine_name: '기계명',
-    model: '모델',
-    production_name: '품명',
-    goal: '목표수량',
-    current_amount: '작업수량'
-}, {
-    machine_name: '기계명',
-    model: '모델',
-    production_name: '품명',
-    goal: '목표수량',
-    current_amount: '작업수량'
-}, {
-    machine_name: '기계명',
-    model: '모델',
-    production_name: '품명',
-    goal: '목표수량',
-    current_amount: '작업수량'
+    pk: '12',
+    name: '131af',
+    material_name: 'wefqe',
+    operation: 10,
+    spm: 10,
+    preset_counter: 10000000,
+    total_counter: 10000000,
+    runtime: '01:52:35',
+    downtime: '03:42:35',
+    percent: 90,
+    material_spec_H: 41,
+    material_spec_W: 44,
+    material_spec_D: 46,
+    mold_name: 'wef',
+    keyCam: '촌동',
+    production: 100000,
+    load_factor: 20,
+    cavity: 4
 },]
 
 
@@ -66,9 +55,7 @@ const CustomPress: React.FunctionComponent = () => {
                 flexWrap: "wrap",
                 width: '100%'
             }}>
-                <PressBox machine={'프레스 1호기'} material={'ASSIDJX0000SAD012301230QW0'}>
-
-                </PressBox>
+                <PressBox machineData={dummy[0]}/>
             </div>
         </Container>
     )

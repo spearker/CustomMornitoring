@@ -159,7 +159,7 @@ export const MES_MENU_LIST = {
     manage: [
         {name: '인사 관리', url: '/manage/member/register'}, //상위메뉴
         {name: '사용자 정보 등록', url: '/manage/member/register'},
-        {name: '사용자 리스트', url: '/manage/member/list'}
+        // {name: '사용자 리스트', url: '/manage/member/list'}
     ],
     customer: [
         {name: '거래처 관리', url: '/customer/current/list'}, //상위메뉴
@@ -267,7 +267,7 @@ export const MES_MENU_LIST = {
 export const PM_MENU_LIST = {
     monitoring: [ //
         {name: '프레스 모니터링', url: '/pm/monitoring/press'},
-        {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
+        {name: '프레스 상태 모니터링', url: '/pm/monitoring/press'},
         {name: '로드모니터 모니터링', url: '/pm/monitoring/loadton'},
         {name: '전력 모니터링', url: '/pm/monitoring/cms'},
     ],

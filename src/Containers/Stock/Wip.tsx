@@ -239,7 +239,7 @@ const WipContainer = () => {
                 clickValue={selectValue}
                 mainOnClickEvent={onClick}
                 currentPage={page.current}
-                totalPage={2}
+                totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
             >
                 {
