@@ -123,7 +123,7 @@ const ReadyTimeErrorAnalysisContainer = () => {
   const [labels, setLabels] = React.useState<string[]>([])
   const [dots, setDots] = React.useState<{ total: number, resolve: string }[]>([])
 
-  const [selectComponent, setSelectComponent] = useState<string>('7HF45I_machine0')
+  const [selectComponent, setSelectComponent] = useState<string>('')
 
   const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
@@ -170,61 +170,46 @@ const ReadyTimeErrorAnalysisContainer = () => {
         onChangeEvent={pressLoading ? undefined : setSelectComponent}
       />
       {
-        // loading ? <NoDataCard contents={'데이터를 불러오는 중입니다...'} height={504}/> :
-        //   selectComponent ?
-        <BlackContainer>
-          <div>
-            <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
-              <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>{pressName} {error.error_name} 분석</p>
-            </div>
-            <div style={{marginRight: 30, paddingTop: 25,}}>
-              <CalendarDropdown unLimit select={selectDate} onClickEvent={(date) => setSelectDate(date)}
-                                type={'single'}/>
-            </div>
-          </div>
-          <div className={'chartBox'}>
-            <div style={{width: 750}}>
-              {
-                dots.length !== 0 && <ReactApexChart options={{
-                  ...chartOption,
-                  labels: labels,
-                  tooltip: {
-                    custom: function ({dataPointIndex}) {
-                      console.log(dots)
-                      return (
-                        `<div style='width: 200px; height: 80px; background-color: white; display: flex; flex-direction: column; justify-content: center;'>
+        loading ? <NoDataCard contents={'데이터를 불러오는 중입니다...'} height={504}/> :
+          selectComponent ?
+            <BlackContainer>
+              <div>
+                <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
+                  <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>{pressName} {error.error_name} 분석</p>
+                </div>
+                <div style={{marginRight: 30, paddingTop: 25,}}>
+                  <CalendarDropdown unLimit select={selectDate} onClickEvent={(date) => setSelectDate(date)}
+                                    type={'single'}/>
+                </div>
+              </div>
+              <div className={'chartBox'}>
+                <div style={{width: 750}}>
+                  {
+                    dots.length !== 0 && <ReactApexChart options={{
+                      ...chartOption,
+                      labels: labels,
+                      tooltip: {
+                        custom: function ({dataPointIndex}) {
+                          console.log(dots)
+                          return (
+                            `<div style='width: 200px; height: 80px; background-color: white; display: flex; flex-direction: column; justify-content: center;'>
                                      <p>총 에러 발생 횟수 : ${Number(dots[dataPointIndex].total).toFixed(0)}</p>
                                      <p>에러 해결 시간 평균 : ${Number(dots[dataPointIndex].resolve).toFixed(2)}</p>
                                   </div>`
-                      )
-                    }
+                          )
+                        }
+                      }
+                    }} type={'line'} height={400} series={series}/>
                   }
-                }} type={'line'} height={400} series={series}/>
-              }
-            </div>
-            <div style={{width: 330, padding: 10}}>
-              <div style={{
-                height: 420,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'center'
-              }}>
-                <div style={{
-                  width: 200,
-                  height: 50,
-                  display: 'flex',
-                  cursor: 'pointer',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  border: '1px solid #b3b3b3'
-                }} onClick={() => {
-                  setError({error_number: -1, error_name: '모든 에러'})
-                }}>
-                  <p>모든 에러</p>
                 </div>
-                {
-                  errorList && errorList.map(v => (
+                <div style={{width: 330, padding: 10}}>
+                  <div style={{
+                    height: 420,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                  }}>
                     <div style={{
                       width: 200,
                       height: 50,
@@ -234,17 +219,32 @@ const ReadyTimeErrorAnalysisContainer = () => {
                       justifyContent: 'center',
                       border: '1px solid #b3b3b3'
                     }} onClick={() => {
-                      setError(v)
+                      setError({error_number: -1, error_name: '모든 에러'})
                     }}>
-                      <p>{v.error_name}</p>
+                      <p>모든 에러</p>
                     </div>
-                  ))
-                }
+                    {
+                      errorList && errorList.map(v => (
+                        <div style={{
+                          width: 200,
+                          height: 50,
+                          display: 'flex',
+                          cursor: 'pointer',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          border: '1px solid #b3b3b3'
+                        }} onClick={() => {
+                          setError(v)
+                        }}>
+                          <p>{v.error_name}</p>
+                        </div>
+                      ))
+                    }
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </BlackContainer>
-        // : <NoDataCard contents={''} height={504}/>
+            </BlackContainer>
+            : <NoDataCard contents={''} height={504}/>
 
       }
     </div>
