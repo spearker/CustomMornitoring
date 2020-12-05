@@ -123,7 +123,7 @@ const LoadtoneContiner = () => {
   const getData = useCallback(async () => {
     const tempUrl = `${API_URLS2['loadTon'].load}?pk=${selectMachine}&date=${selectDate}`
     const resultData = await getCapacityTimeData(tempUrl)
-  setOverTon(resultData)
+    setOverTon(resultData)
 
     const seriesList = resultData.y_average.map((v, i) => {
       return Number(v).toFixed(1)
@@ -279,15 +279,16 @@ const LoadtoneContiner = () => {
             </div>
             <CalendarDropdown type={'single'} select={selectDate}
                               onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
-            <ListRadioButton nameList={['일']} data={selectType} onClickEvent={(i) => {
-              if (i === 0) {
-                setSelectType([true, false, false])
-              } else if (i === 1) {
-                setSelectType([false, true, false])
-              } else {
-                setSelectType([false, false, true])
-              }
-            }}/>
+            {/*<ListRadioButton nameList={['일']} data={selectType} onClickEvent={(i) => {*/}
+            {/*  if (i === 0) {*/}
+            {/*    setSelectType([true, false, false])*/}
+            {/*  } else if (i === 1) {*/}
+            {/*    setSelectType([false, true, false])*/}
+            {/*  } else {*/}
+            {/*    setSelectType([false, false, true])*/}
+            {/*  }*/}
+            {/*}}/>*/}
+            <div style={{width: 30, height: 30}}></div>
           </div>
           <div>
             <p style={{textAlign: 'left', color: 'rgba(255, 255, 255, .4)'}}>그래프 값은 시간당 평균값입니다.</p>

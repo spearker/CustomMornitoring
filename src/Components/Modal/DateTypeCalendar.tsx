@@ -64,17 +64,19 @@ const getRange = (date, type: 'month' | 'week') => {
 
 interface Props {
   type: 'day' | 'week' | 'month'
-  selectDate?: Date | ISelectDate[]
+  selectDate?: Date
+  selectDates?: ISelectDate
+  onChangeSelectDate?: (v: any, type: 'day' | 'week' | 'month') => void
 }
 
 interface ISelectDate {
-  from?: Date,
-  to?: Date
+  from: Date,
+  to: Date
 }
 
 const locale = 'ko'
 
-const DateTypeCalendar = ({type, selectDate}: Props) => {
+const DateTypeCalendar = ({type, selectDate, selectDates, onChangeSelectDate}: Props) => {
   const [hoverRange, setHoverRange] = React.useState<ISelectDate | undefined>(undefined)
   const [selectedDays, setSelectDay] = React.useState<Date[]>([])
 
@@ -112,17 +114,19 @@ const DateTypeCalendar = ({type, selectDate}: Props) => {
   }
 
   React.useEffect(() => {
-    // setSelectDay()
     if (type === 'day') {
-
+      let today = moment(selectDate).toDate()
+      setSelectDay([today])
     } else if (type === 'week') {
-
+      setSelectDay(getWeekDays(selectDates && selectDates.from))
+    } else if (type === 'month') {
+      setSelectDay(getMonthDays(selectDates && selectDates.from))
     }
-  }, [selectDate])
+  }, [selectDate, selectDates, type])
 
   React.useEffect(() => {
-    setSelectDay([])
-  }, [type])
+  }, [selectedDays])
+  
 
   return (
     <DropBoxContainer ref={ref}>
