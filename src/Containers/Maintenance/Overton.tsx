@@ -79,7 +79,7 @@ const OvertonMaintenanceContainer = () => {
 
     const getList = useCallback(async () => { // useCallback
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=5`
         const res = await getOvertoneData(tempUrl)
 
         setList(res.info_list)

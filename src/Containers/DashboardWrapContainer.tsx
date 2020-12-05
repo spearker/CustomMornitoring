@@ -80,6 +80,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
                         {children}
                     </div>
                 </div>
+                <div style={{width: 70}}/>
             </DashboardWrapDiv>
         </>
 
