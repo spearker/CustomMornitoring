@@ -8,6 +8,7 @@ import {API_URLS as URLS_MAP} from '../../Api/pm/map'
 import MapBoard from '../../Components/Map/MapBoard'
 import NoDataCard from '../../Components/Card/NoDataCard'
 import styled from 'styled-components'
+import {POINT_COLOR} from '../../Common/configset'
 
 const chartOption = {
   chart: {
@@ -217,7 +218,8 @@ const ReadyTimeErrorAnalysisContainer = () => {
                       cursor: 'pointer',
                       flexDirection: 'column',
                       justifyContent: 'center',
-                      border: '1px solid #b3b3b3'
+                      border: '1px solid #b3b3b3',
+                      backgroundColor: error.error_number === -1 ? POINT_COLOR : '#111319'
                     }} onClick={() => {
                       setError({error_number: -1, error_name: '모든 에러'})
                     }}>
@@ -232,7 +234,8 @@ const ReadyTimeErrorAnalysisContainer = () => {
                           cursor: 'pointer',
                           flexDirection: 'column',
                           justifyContent: 'center',
-                          border: '1px solid #b3b3b3'
+                          border: '1px solid #b3b3b3',
+                          backgroundColor: error.error_number === v.error_number ? POINT_COLOR : '#111319'
                         }} onClick={() => {
                           setError(v)
                         }}>

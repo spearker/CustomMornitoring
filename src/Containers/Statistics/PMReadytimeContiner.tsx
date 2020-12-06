@@ -134,7 +134,8 @@ const PMReadyTimeContainer = () => {
                   width: '60%',
                   fontSize: 12,
                   textAlign: 'right',
-                  verticalAlign: 'center'
+                  verticalAlign: 'center',
+                  marginTop: 5
                 }}>오차범위
                   ±0.03%</p>
                 <CalendarDropdown type={'single'} select={selectDate}
@@ -166,54 +167,29 @@ const PMReadyTimeContainer = () => {
                     <tr>
                       <td style={{width: 150}}>
                         <div>
-                          <div style={{
-                            display: 'inline-block',
-                            borderRadius: 8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: '#397485',
-                            float: 'left',
-                            marginTop: 8,
-                            marginRight: 10,
-                          }}/>
-                          <p style={{fontSize: 20, fontWeight: 'bold'}}>금형교체주기</p>
+                          <p style={{fontSize: 20, fontWeight: 'bold'}}>시작 시간</p>
                         </div>
                       </td>
                       <td>
                         <p style={{
                           fontSize: 20,
                           fontWeight: 'bold'
-                        }}>{machineData.analyze.downtime.qdc.toFixed(2)}%</p>
+                        }}>{machineData.analyze.powered_on_at}</p>
                       </td>
                     </tr>
-                    <tr>
-                      <td colSpan={2}>{machineData.analyze.downtime.qdc_time}</td>
-                    </tr>
+                    <tr style={{height: 30}}></tr>
                     <tr>
                       <td>
                         <div>
-                          <div style={{
-                            display: 'inline-block',
-                            borderRadius: 8,
-                            width: 16,
-                            height: 16,
-                            backgroundColor: '#ff341a',
-                            float: 'left',
-                            marginTop: 8,
-                            marginRight: 10,
-                          }}/>
-                          <p style={{fontSize: 20, fontWeight: 'bold'}}>에러</p>
+                          <p style={{fontSize: 20, fontWeight: 'bold'}}>종료 시간</p>
                         </div>
                       </td>
                       <td>
                         <p style={{
                           fontSize: 20,
                           fontWeight: 'bold'
-                        }}>{machineData.analyze.downtime.error.toFixed(2)}%</p>
+                        }}>{machineData.analyze.powered_off_at}</p>
                       </td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>{machineData.analyze.downtime.error_time}</td>
                     </tr>
                   </table>
                 </div>
