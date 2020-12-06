@@ -219,6 +219,7 @@ const ReadyTimeErrorAnalysisContainer = () => {
                       flexDirection: 'column',
                       justifyContent: 'center',
                       border: '1px solid #b3b3b3',
+                      color: error.error_number === -1 ? 'black' : 'white',
                       backgroundColor: error.error_number === -1 ? POINT_COLOR : '#111319'
                     }} onClick={() => {
                       setError({error_number: -1, error_name: '모든 에러'})
@@ -235,6 +236,7 @@ const ReadyTimeErrorAnalysisContainer = () => {
                           flexDirection: 'column',
                           justifyContent: 'center',
                           border: '1px solid #b3b3b3',
+                          color: error.error_number === v.error_number ? 'black' : 'white',
                           backgroundColor: error.error_number === v.error_number ? POINT_COLOR : '#111319'
                         }} onClick={() => {
                           setError(v)
