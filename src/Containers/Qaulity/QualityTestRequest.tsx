@@ -56,7 +56,7 @@ const QualityTestRequest = ({match}: Props) => {
             } else {
                 setReason(res.results.request_description)
             }
-            setWorker(res.results.worker)
+            setWorker({pk: res.results.id_pk, name: res.results.worker})
             setStatement(res.results.statement)
         }
 

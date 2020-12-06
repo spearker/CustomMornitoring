@@ -1,8 +1,9 @@
 import axios from 'axios';
-
-const TOKEN_NAME = 'sizl_auth'
 import Notiflix from 'notiflix'
 import {SF_ENDPOINT_FILE} from "../SF_endpoint";
+
+const TOKEN_NAME = 'sizl_auth'
+
 
 /**
  *
