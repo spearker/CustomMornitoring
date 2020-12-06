@@ -161,6 +161,62 @@ const PMReadyTimeContainer = () => {
                   <ContentsText>{parseFloat(String(machineData.analyze.runtime)).toFixed(2)}%</ContentsText>
                   <ContentsTime>{machineData.analyze.runtime_time}</ContentsTime>
                 </InnerText>
+                <div style={{paddingTop: 20,}}>
+                  <table style={{height: '100%'}}>
+                    <tr>
+                      <td style={{width: 150}}>
+                        <div>
+                          <div style={{
+                            display: 'inline-block',
+                            borderRadius: 8,
+                            width: 16,
+                            height: 16,
+                            backgroundColor: '#397485',
+                            float: 'left',
+                            marginTop: 8,
+                            marginRight: 10,
+                          }}/>
+                          <p style={{fontSize: 20, fontWeight: 'bold'}}>금형교체주기</p>
+                        </div>
+                      </td>
+                      <td>
+                        <p style={{
+                          fontSize: 20,
+                          fontWeight: 'bold'
+                        }}>{machineData.analyze.downtime.qdc.toFixed(2)}%</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>{machineData.analyze.downtime.qdc_time}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div>
+                          <div style={{
+                            display: 'inline-block',
+                            borderRadius: 8,
+                            width: 16,
+                            height: 16,
+                            backgroundColor: '#ff341a',
+                            float: 'left',
+                            marginTop: 8,
+                            marginRight: 10,
+                          }}/>
+                          <p style={{fontSize: 20, fontWeight: 'bold'}}>에러</p>
+                        </div>
+                      </td>
+                      <td>
+                        <p style={{
+                          fontSize: 20,
+                          fontWeight: 'bold'
+                        }}>{machineData.analyze.downtime.error.toFixed(2)}%</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>{machineData.analyze.downtime.error_time}</td>
+                    </tr>
+                  </table>
+                </div>
               </ItemDataBox>
               <ItemDataBox>
                 <InnerText>
@@ -251,6 +307,20 @@ const PMReadyTimeContainer = () => {
                   <ContentsText>{parseFloat(String(machineData.analyze.power_off)).toFixed(2)}%</ContentsText>
                   <ContentsTime>{machineData.analyze.power_off_time}</ContentsTime>
                 </InnerText>
+                <InnerText>
+                  <div style={{
+                    display: 'inline-block',
+                    borderRadius: 8,
+                    width: 16,
+                    height: 16,
+                    backgroundColor: 'rgb(255,255,255 )',
+                    float: 'left',
+                    marginTop: 8,
+                    marginRight: 10,
+                  }}/>
+                  <TitleText>총 작동시간</TitleText>
+                  <ContentsText>{machineData.analyze.power_on_time}</ContentsText>
+                </InnerText>
               </ItemDataBox>
             </div>
           </TimeLineBox> : <NoDataCard contents={'데이터를 불러오지 못했습니다.'} height={470}/> :
@@ -307,7 +377,7 @@ const InnerText = Styled.div`
 const TimeLineBox = Styled.div`
     background-color: #111319;
     padding: 14px 0 27px 0;
-    height: 470px;
+    height: 520px;
     margin-top: 20px;
     font-size: 18px;
     border-radius: 6px;
@@ -322,7 +392,7 @@ const ItemDataBox = Styled.div`
     height: 160px;
     margin-left: 100px;
     border-bottom: 0.5px solid #707070;
-
+    margin-top:8px;
 `
 
 

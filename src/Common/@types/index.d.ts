@@ -274,6 +274,7 @@ interface IPressReadyTimeAnalysis {
     power_off_time: string
     runtime: number | string
     runtime_time: string
+    power_on_time: string
     downtime: {
       total: number
       total_time: string

@@ -94,10 +94,13 @@ const DateTypeCalendar = ({type, selectDate, selectDates, onChangeSelectDate}: P
 
     if (type === 'day') {
       setSelectDay([moment(date).toDate()])
+      onChangeSelectDate && onChangeSelectDate(moment(date).toDate(), 'day')
     } else if (type === 'week') {
       setSelectDay(getWeekDays(getRange(date, 'week').from))
+      onChangeSelectDate && onChangeSelectDate(getRange(date, 'week'), 'week')
     } else if (type === 'month') {
       setSelectDay(getMonthDays(getRange(date, 'month').from))
+      onChangeSelectDate && onChangeSelectDate(getRange(date, 'month'), 'month')
     }
   }
 
@@ -126,7 +129,7 @@ const DateTypeCalendar = ({type, selectDate, selectDates, onChangeSelectDate}: P
 
   React.useEffect(() => {
   }, [selectedDays])
-  
+
 
   return (
     <DropBoxContainer ref={ref}>

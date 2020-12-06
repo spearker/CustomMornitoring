@@ -147,6 +147,7 @@ const ReadyTimeErrorAnalysisContainer = () => {
       setPressName(resultData.name)
     }
 
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -158,7 +159,6 @@ const ReadyTimeErrorAnalysisContainer = () => {
   return (
     <div>
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
-
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
           <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>비가동시간 분석</span>
         </div>
