@@ -8,6 +8,7 @@ import {API_URLS as URLS_MAP} from '../../Api/pm/map'
 import MapBoard from '../../Components/Map/MapBoard'
 import NoDataCard from '../../Components/Card/NoDataCard'
 import styled from 'styled-components'
+import {POINT_COLOR} from '../../Common/configset'
 
 const chartOption = {
   chart: {
@@ -147,6 +148,7 @@ const ReadyTimeErrorAnalysisContainer = () => {
       setPressName(resultData.name)
     }
 
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -158,7 +160,6 @@ const ReadyTimeErrorAnalysisContainer = () => {
   return (
     <div>
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
-
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
           <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>비가동시간 분석</span>
         </div>
@@ -217,7 +218,9 @@ const ReadyTimeErrorAnalysisContainer = () => {
                       cursor: 'pointer',
                       flexDirection: 'column',
                       justifyContent: 'center',
-                      border: '1px solid #b3b3b3'
+                      border: '1px solid #b3b3b3',
+                      color: error.error_number === -1 ? 'black' : 'white',
+                      backgroundColor: error.error_number === -1 ? POINT_COLOR : '#111319'
                     }} onClick={() => {
                       setError({error_number: -1, error_name: '모든 에러'})
                     }}>
@@ -232,7 +235,9 @@ const ReadyTimeErrorAnalysisContainer = () => {
                           cursor: 'pointer',
                           flexDirection: 'column',
                           justifyContent: 'center',
-                          border: '1px solid #b3b3b3'
+                          border: '1px solid #b3b3b3',
+                          color: error.error_number === v.error_number ? 'black' : 'white',
+                          backgroundColor: error.error_number === v.error_number ? POINT_COLOR : '#111319'
                         }} onClick={() => {
                           setError(v)
                         }}>
