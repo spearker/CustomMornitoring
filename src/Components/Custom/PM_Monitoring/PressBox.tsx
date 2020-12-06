@@ -1,6 +1,7 @@
 import React from "react";
 import Styled from "styled-components";
 import PressStatusBox from "./PressStatusBox";
+import {changeStatusToColor, changeStatusToString} from "../../../Common/statusFunctions";
 
 interface Props {
     machineData: {
@@ -34,8 +35,8 @@ const PressBox: React.FunctionComponent<Props> = ({machineData}) => {
                 <MaterialName>생산품목 - {machineData.material_name}</MaterialName>
             </div>
             <div style={{display: 'flex'}}>
-                <StatusBox>
-                    <p>{machineData.operation}</p>
+                <StatusBox style={{backgroundColor: changeStatusToColor(machineData.operation)}}>
+                    <p>{changeStatusToString(machineData.operation)}</p>
                 </StatusBox>
                 <div style={{width: '770px', height: '200px', display: 'flex', flexWrap: "wrap",}}>
                     <PressStatusBox title={'SPM'} value={machineData.spm} fontSize={'38px'}/>
@@ -47,13 +48,17 @@ const PressBox: React.FunctionComponent<Props> = ({machineData}) => {
                                     fontSize={'22px'}/>
                     <PressStatusBox title={'가동시간'} value={machineData.runtime} fontSize={'22px'}/>
                     <PressStatusBox title={'비가동시간'} value={machineData.downtime} fontSize={'22px'}/>
-                    <PressStatusBox title={'기계가동율'} value={`${machineData.percent}%`} fontSize={'38px'}/>
+                    <PressStatusBox title={'기계가동율'} value={`${machineData.percent}%`} fontSize={'30px'}/>
                     <PressStatusBox title={'제품 규격'} value={''} fontSize={'12px'}
                                     mold_spec={[machineData.material_spec_H, machineData.material_spec_W, machineData.material_spec_D]}/>
                     <PressStatusBox title={'금형명'} value={machineData.mold_name} fontSize={'14px'}/>
                     <PressStatusBox title={'키캠상태'} value={machineData.keyCam} fontSize={'38px'}/>
-                    <PressStatusBox title={'생산수량'} value={machineData.production} fontSize={'22px'}/>
-                    <PressStatusBox title={'부하율'} value={`${machineData.load_factor}%`} fontSize={'38px'}/>
+                    <PressStatusBox title={'생산수량'}
+                                    value={machineData.production.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    fontSize={'22px'}/>
+                    <PressStatusBox title={'부하율'} value={`${machineData.load_factor}%`} fontSize={'30px'}
+                                    titleColor={'#000000'}
+                                    valueColor={machineData.load_factor === 0 ? '#fff' : (machineData.load_factor < 50 ? '#fff' : (machineData.load_factor < 80 ? 'green' : 'red'))}/>
                     <PressStatusBox title={'캐비티'} value={machineData.cavity} fontSize={'38px'}/>
                 </div>
             </div>
@@ -92,7 +97,6 @@ const StatusBox = Styled.div`
  width: 120px;
   height: 200px;
   border-radius: 6px;
-   background-color: #70ff17;
    margin-top: 10px;
    margin-right: 8px;
     justify-content: center;

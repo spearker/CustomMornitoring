@@ -33,12 +33,16 @@ export const API_URLS = {
         predata: `/v1/monitoring/loadton/predetail`
     },
     press: {
+        status: `/v1/monitoring/press/status`,
         monitoring: `/v1/monitoring/press/details`
     },
     power: {
         monitoring: `v1/monitoring/cms/map`
+    },
+    project: {
+        list: `/v1/monitoring/project`,
+        dropdown: `/v1/monitoring/project/dropdown`
     }
-
 }
 
 
