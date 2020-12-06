@@ -195,6 +195,7 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthL
                                                 :
                                                 <LimitP key={`td-${i}-${mv}`}
                                                         style={{
+                                                            cursor: mainOnClickEvent ? 'pointer' : 'default',
                                                             width: widthList[mi],
                                                             fontFamily: 'NotoSansCJKkr',
                                                             fontSize: '18px'
