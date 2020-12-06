@@ -13,7 +13,8 @@ import InAndOutHeader from "../../../Components/Box/InAndOutHeader";
 import InAndOutTable from "../../../Components/Table/InAndOutTable";
 import BlackChildrenBox from "../../../Components/Box/BlackChildrenBox";
 import OptimizedTable from "../../../Components/Table/OptimizedTable";
-import {getStockList} from "../../../Api/mes/manageStock";
+import OptimizedLineTable from "../../../Components/Table/OptimizedLineTable";
+import Styled from "styled-components";
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -22,10 +23,16 @@ Notiflix.Loading.Init({svgColor: "#1cb9df",});
 const NewDashboard = () => {
     const [index, setIndex] = useState({model: '모델'})
     const [list, setList] = useState<any[]>([])
+    const [subIndex, setSubIndex] = useState({machine_name: '사용 기계명'})
+    const [detailList, setDetailList] = useState<any[]>([]);
     const [page, setPage] = useState<{ current: number, total?: number }>({current: 1})
+    const [detailPage, setDetailPage] = useState<PaginationInfo>({
+        current: 1
+    })
     const [achievement, setAchievement] = useState<any[]>([])
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
+    const [selectVoucher, setSelectVoucher] = useState<any>(null);
 
     const indexList = {
         production: {
@@ -36,32 +43,44 @@ const NewDashboard = () => {
         }
     }
 
+    const detailTitle = {
+        production: {
+            machine_name: '사용 기계명',
+            worker_name: '작업자명',
+            material_name: '생산 품목명',
+            worked: '총 작업시간',
+            amount: '작업량'
+        },
+    }
+
     const onClick = useCallback((stock) => {
         if (stock.pk === selectPk) {
             setSelectPk(null);
+            setSelectVoucher(null);
             setSelectValue(null);
         } else {
             setSelectPk(stock.pk);
+            setSelectVoucher(stock.material_name)
             setSelectValue(stock)
             //TODO: api 요청
-            // getData(stock.pk)
+            getData(stock.pk)
         }
 
     }, [list, selectPk]);
 
-    // const getData = useCallback(async (pk) => {
-    //     //TODO: 성공시
-    //     if (pk === null) {
-    //         return
-    //     }
-    //     const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
-    //     const res = await getStockList(tempUrl)
-    //
-    //     setDetailList(res.info_list)
-    //
-    //     setDetailPage({current: res.current_page, total: res.total_page})
-    //
-    // }, [detailList, detailPage])
+    const getData = useCallback(async (pk) => {
+        //TODO: 성공시
+        if (pk === null) {
+            return
+        }
+        const tempUrl = `${API_URLS['project'].dropdown}?pk=${pk}&page=${detailPage.current}&limit=6`
+        const res = await getLoadTonList(tempUrl)
+        if (res) {
+            setDetailList(res.info_list)
+
+            setDetailPage({current: res.current_page, total: res.total_page})
+        }
+    }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
@@ -78,14 +97,30 @@ const NewDashboard = () => {
             setList(res.info_list)
 
             setPage({current: res.current_page, total: res.total_page})
+            setSelectPk(null)
             Notiflix.Loading.Remove()
         }
     }, [list, page])
 
     useEffect(() => {
         setIndex(indexList["production"])
-        getList()
+        setSubIndex(detailTitle["production"])
+        const interval = setInterval(() => {
+            getList()
+        }, 60000)
+        return () => {
+            clearTimeout(interval)
+            //setTimer(null)
+        }
     }, [])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
+
+    useEffect(() => {
+        getData(selectPk)
+    }, [detailPage.current])
 
     return (
         <DashboardWrapContainer>
@@ -100,11 +135,23 @@ const NewDashboard = () => {
                                               clickValue={selectValue}
                                               currentPage={page.current}
                                               totalPage={page.total}
-                                              pageOnClickEvent={(event, i) => setPage({...page, current: i})}/>
+                                              pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+                        />
                         {selectPk !== null ?
-                            <div>
-                                
-                            </div>
+                            <BlackChildrenBox>
+                                <OptimizedLineTable title={selectVoucher + ' 전표'}
+                                                    contentTitle={subIndex}
+                                                    contentList={detailList}
+                                                    currentPage={detailPage.current}
+                                                    totalPage={detailPage.total}
+                                                    pageOnClickEvent={(event, i: number) => setDetailPage({
+                                                        ...detailPage,
+                                                        current: i
+                                                    })}
+                                                    widthList={['152px', '152px', '178px', '178px']}>
+                                    <Line/>
+                                </OptimizedLineTable>
+                            </BlackChildrenBox>
                             :
                             <BlackChildrenBox/>
                         }
@@ -116,5 +163,12 @@ const NewDashboard = () => {
 
     )
 }
+
+const Line = Styled.hr`
+    margin: 10px 20px 0px 0px;
+    border-color: #353b48;
+    height: 1px;
+    background-color: #353b48;
+`
 
 export default NewDashboard
