@@ -15,7 +15,6 @@ import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
 const typeDummy = [
     '수주 처리',
     '안전 재고 확보',
-    '주문 예측',
 ]
 
 interface modalData {
@@ -63,8 +62,6 @@ const ProductionRegisterContainer = () => {
             type = '0'
         } else if (selectType === '안전 재고 확보') {
             type = '1'
-        } else if (selectType === '주문 예측') {
-            type = '2'
         }
 
         if (type === '') {
