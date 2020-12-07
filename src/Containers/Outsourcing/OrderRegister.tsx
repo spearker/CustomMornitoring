@@ -92,6 +92,7 @@ const OutsourcingRegister = ({match}: Props) => {
         } else {
             if (res.status === 200) {
                 const data = res.results
+                console.log(data.address)
                 setSelectOutsource({name: data.company_name, pk: data.company_pk})
                 setSelectMaterial({name: data.product, pk: data.product_pk})
                 setInputData('location', data.address)
@@ -161,9 +162,15 @@ const OutsourcingRegister = ({match}: Props) => {
             const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/update/`, data, getToken(TOKEN_NAME))
 
             if (res === false) {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+                //TODO: 에러 처리
             } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
+                if (res.status === 200) {
+                    //alert('성공적으로 등록 되었습니다')
+                    history.push('/outsourcing/order/list')
+
+                } else {
+                    //TODO:  기타 오류
+                }
             }
         }
 
