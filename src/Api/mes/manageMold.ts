@@ -25,10 +25,7 @@ export const postMoldRegister = async (url: string, bodyData: object) => {
 
 export const postMoldState = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 
@@ -42,10 +39,7 @@ export const postMoldState = async (url: string, bodyData: object) => {
 
 export const getMoldList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 

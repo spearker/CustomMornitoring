@@ -11,10 +11,7 @@ import client from '../configs/basic';
  */
 export const postBarcode = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.status;
 }
 
@@ -28,10 +25,7 @@ export const postBarcode = async (url: string, object: object) => {
  */
 export const getBarcode = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results;
 }
 
@@ -45,10 +39,7 @@ export const getBarcode = async (url: string) => {
  */
 export const getDeleteBarcode = async (url: string, object: object) => {
     const temp: IServerData = await client.get(url, object);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results;
 }
 

@@ -31,8 +31,10 @@ const QualityTestList = () => {
             process_name: "공정명",
             machine_name: "기계명",
             material_name: "품목(품목명)",
-            time: "요청 시간",
-            statement: "상태"
+            request_time: "요청 시간",
+            statement: "상태",
+            worker: '작업자',
+            worker_pk: '작업자 ID'
         }
     }
 

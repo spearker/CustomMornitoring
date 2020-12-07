@@ -24,6 +24,13 @@ const CustomPress: React.FunctionComponent = () => {
 
     useEffect(() => {
         getList()
+        const interval = setInterval(() => {
+            getList()
+        }, 60000)
+        return () => {
+            clearTimeout(interval)
+            //setTimer(null)
+        }
     }, [])
 
     return (

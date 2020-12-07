@@ -11,6 +11,7 @@ import MachinePickerModal from "../../Components/Modal/MachinePickerModal";
 import DropdownInput from "../../Components/Input/DropdownInput";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import {useHistory} from 'react-router-dom'
+import MemeberPickerModal from "../../Components/Modal/MemberPickerModal";
 
 interface Props {
     match: any;
@@ -25,8 +26,9 @@ const initialInputValue = {
     total_count: 0,
     defective_count: '',
     none_defective_count: '',
+    worker: {pk: '', name: ''},
     whether: '',
-    inspector_name: '',
+    inspector_name: {pk: '', name: ''},
     test_reason: '',
 };
 
@@ -71,7 +73,7 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
             setInputData('request_time', res.results.request_time)
             setInputData('request_reason', res.results.description)
             setInputData('total_count', Number(res.results.amount))
-
+            setInputData('worker', {pk: res.results.worker_pk, name: res.results.worker})
             //부적격 개수 입력전 적격 개수
             setInputData('defective_count', Number(res.results.amount))
         }
@@ -94,7 +96,8 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
             setInputData('defective_count', Number(res.results.eligible))
             setInputData('none_defective_count', Number(res.results.ineligible));
             setInputData('whether', res.results.whether);
-            setInputData('inspector_name', res.results.writer)
+            setInputData('worker', {pk: res.results.worker_pk, name: res.results.worker})
+            setInputData('inspector_name', {pk: res.results.writer_pk, name: res.results.writer})
             setInputData('test_reason', res.results.response_description)
 
         }
@@ -117,7 +120,8 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
             setInputData('defective_count', Number(res.results.eligible))
             setInputData('none_defective_count', Number(res.results.ineligible));
             setInputData('whether', res.results.whether);
-            setInputData('inspector_name', res.results.writer)
+            setInputData('worker', {pk: res.results.worker_pk, name: res.results.worker})
+            setInputData('inspector_name', {pk: res.results.writer_pk, name: res.results.writer})
             setInputData('test_reason', res.results.response_description)
 
         }
@@ -125,8 +129,8 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
 
     const onClickRegister = useCallback(async () => {
 
-        if (inputData.inspector_name === '') {
-            alert("검사자 이름를 작성해주세요.")
+        if (inputData.inspector_name.pk === '') {
+            alert("검사자 이름를 선택해주세요.")
             return
         } else if (inputData.whether === '') {
             alert('적격 여부를 선택해 주세요.')
@@ -157,12 +161,11 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
             eligible: Number(inputData.defective_count),
             ineligible: Number(inputData.none_defective_count),
             response_description: inputData.test_reason,
-            writer: inputData.inspector_name,
+            writer: inputData.inspector_name.pk,
             whether: inputData.whether
         });
 
         if (res.status === 200) {
-            alert("성공적으로 검수 완료하였습니다!")
             history.push('/quality/test/list')
         }
 
@@ -170,16 +173,31 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
 
     const onClickModify = useCallback(async () => {
 
-        if (inputData.inspector_name === '' || inputData.total_count === '' || inputData.defective_count === '' || inputData.none_defective_count === '' || inputData.whether === '' || inputData.test_reason === '') {
-            alert("공백을 채워주세요")
-            return;
+        if (inputData.inspector_name.pk === '') {
+            alert("검사자 이름를 선택해주세요.")
+            return
+        } else if (inputData.whether === '') {
+            alert('적격 여부를 선택해 주세요.')
+            return
+        } else if (inputData.test_reason === '') {
+            alert('검사 내용을 작성해 주세요.')
+            return
+        } else if (inputData.total_count === '') {
+            alert("총 완료개수가 없습니다.")
+            return
+        } else if (inputData.defective_count === '') {
+            alert("적격 개수가 없습니다.")
+            return
+        } else if (inputData.none_defective_count === '') {
+            alert("부적격 개수가 없습니다.")
+            return
         }
 
         const tempUrl = `${API_URLS['response'].update}`
 
         const res = await postQualityRequestDetail(tempUrl, {
             request_pk: match.params.pk,
-            writer: inputData.inspector_name,
+            writer: inputData.inspector_name.pk,
             amount: inputData.total_count,
             eligible: inputData.defective_count,
             ineligible: inputData.none_defective_count,
@@ -188,7 +206,6 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
         });
 
         if (res.status === 200) {
-            alert("성공적으로 수정하였습니다!")
             history.push('/quality/test/complete')
         }
 
@@ -259,6 +276,12 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
                                        }} disabled/></td>
                         </tr>
                         <tr>
+                            <td>• 작업자</td>
+                            <td><MemeberPickerModal onClickEvent={(e) => setInputData('worker', e)}
+                                                    disabled
+                                                    text={'작업자를 선택해 주세요'} select={inputData.worker}/></td>
+                        </tr>
+                        <tr>
                             <td>• 적격 개수</td>
                             <td><input value={inputData.defective_count} placeholder="적격 개수" type="number"
                                        onChange={(e) => setInputData('defective_count', e.target.value)} disabled/></td>
@@ -283,9 +306,9 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
                         </tr>
                         <tr>
                             <td>• 검사자</td>
-                            <td><input value={inputData.inspector_name} placeholder="검사자"
-                                       onChange={(e) => setInputData('inspector_name', e.target.value)}
-                                       disabled={isDetail === 'Worker'}/></td>
+                            <td><MemeberPickerModal onClickEvent={(e) => setInputData('inspector_name', e)}
+                                                    disabled={isDetail === 'Worker'}
+                                                    text={'검사자를 선택해 주세요'} select={inputData.inspector_name}/></td>
                         </tr>
                         <tr>
                             <td>• 검사 내용</td>
@@ -351,91 +374,91 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
 }
 
 const ContainerMain = Styled.div`
-    width: 1060px;
-    height: auto;
-    border-radius: 6px;
-    background-color: white;
-    padding: 35px 20px 0 20px;
-    .title {
-        font-size: 18px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        color: #19b8df;
-        text-align: left;
-    }
-    table{
-        width: 100%;
-        height: 100%;
-        margin-top: 35px;
-    }
-    td{
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        font-size: 15px;
-        input{
-            padding-left: 8px;
-            font-family: NotoSansCJKkr;
-            height: 28px;
-            border: 0.5px solid #b3b3b3;
-            width: calc( 100% - 8px );
-            background-color: #f4f6fa;
-            font-size: 15px;
-            &::placeholder:{
-                color: #b3b3b3;
-            };
-        }
-        &:first-child{
-            width: 133px;
-            text-align: left;
-        }
-    }
-    tr{
-        height: 65px;
-    }
+width: 1060px;
+height: auto;
+border-radius: 6px;
+background-color: white;
+padding: 35px 20px 0 20px;
+.title {
+    font - size: 18px;
+    font-family: NotoSansCJKkr;
+    font-weight: bold;
+    color: #19b8df;
+    text-align: left;
+}
+table{
+    width: 100%;
+    height: 100%;
+    margin-top: 35px;
+}
+td{
+    font - family: NotoSansCJKkr;
+    font-weight: bold;
+    font-size: 15px;
+    input{
+    padding-left: 8px;
+    font-family: NotoSansCJKkr;
+    height: 28px;
+    border: 0.5px solid #b3b3b3;
+    width: calc( 100% - 8px );
+    background-color: #f4f6fa;
+    font-size: 15px;
+    &::placeholder:{
+    color: #b3b3b3;
+};
+}
+    &:first-child{
+    width: 133px;
+    text-align: left;
+}
+}
+tr{
+    height: 65px;
+}
 `
 
 const SearchButton = Styled.button`
-    width: 32px;
-    height: 32px;
-    background-color: ${POINT_COLOR};
-    border: 1px solid #b3b3b3;
+width: 32px;
+height: 32px;
+background-color: ${POINT_COLOR};
+border: 1px solid #b3b3b3;
 `
 
 const ButtonWrap = Styled.button`
-    padding: 4px 12px 4px 12px;
-    border-radius: 5px;
-    color: black;
-    background-color: ${POINT_COLOR};
-    width: 224px;
-    height: 46px;
-    border-radius: 6px;
-    border-radius: 6px;
-    border: none;
-    font-family: NotoSansCJKkr;
-    font-size: 18px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    color: #0d0d0d;
+padding: 4px 12px 4px 12px;
+border-radius: 5px;
+color: black;
+background-color: ${POINT_COLOR};
+width: 224px;
+height: 46px;
+border-radius: 6px;
+border-radius: 6px;
+border: none;
+font-family: NotoSansCJKkr;
+font-size: 18px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+color: #0d0d0d;
 `
 
 const TestButton = Styled.button`
-    padding: 4px 12px 4px 12px;
-    border-radius: 5px;
-    color: black;
-    background-color: #e7e9eb;
-    width: 224px;
-    height: 46px;
-    border-radius: 6px;
-    border-radius: 6px;
-    border: none;
-    font-family: NotoSansCJKkr;
-    font-size: 18px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    color: #666d79;
-    margin-right: 20px;
+padding: 4px 12px 4px 12px;
+border-radius: 5px;
+color: black;
+background-color: #e7e9eb;
+width: 224px;
+height: 46px;
+border-radius: 6px;
+border-radius: 6px;
+border: none;
+font-family: NotoSansCJKkr;
+font-size: 18px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+color: #666d79;
+margin-right: 20px;
 `
 
 

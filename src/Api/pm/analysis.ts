@@ -9,9 +9,9 @@ import client from '../configs/basic'
  * @version 0.1
  */
 export const getAnalysisReadyTime = async (url: string) => {
-  const temp: IServerData = await client.get(url)
+    const temp: IServerData = await client.get(url)
 
-  return temp.results!
+    return temp.results!
 }
 
 /**
@@ -23,12 +23,9 @@ export const getAnalysisReadyTime = async (url: string) => {
  * @version 0.1
  */
 export const getCapacityTimeData = async (url: string) => {
-  const temp: IServerData = await client.get(url)
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
-  }
-  return temp.results!
+    const temp: IServerData = await client.get(url)
+
+    return temp.results!
 }
 
 /**
@@ -40,12 +37,9 @@ export const getCapacityTimeData = async (url: string) => {
  * @version 0.1
  */
 export const getDefectiveData = async (url: string) => {
-  const temp: IServerData = await client.get(url)
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
-  }
-  return temp.results!
+    const temp: IServerData = await client.get(url)
+
+    return temp.results!
 }
 
 /**
@@ -57,37 +51,34 @@ export const getDefectiveData = async (url: string) => {
  * @version 0.1
  */
 export const getAbilityList = async (url: string) => {
-  const temp: IServerData = await client.get(url)
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
-  }
-  return temp.results!
+    const temp: IServerData = await client.get(url)
+
+    return temp.results!
 }
 
 export const API_URLS = {
-  readyTime: {
-    load: `/v1/analysis/press/downtime`
-  },
-  capacity: {
-    load: `/v1/analysis/press/production`,
-    load2: `/v1/analysis/press/productions`
-  },
-  pressList: {
-    list: '/v1/analysis/press/list'
-  },
-  defective: {
-    list: '/v1/analysis/press/defective/list',
-    load: '/v1/analysis/press/defective'
-  },
-  ability: {
-    load: `/v1/analysis/press/capacity`,
-    list: `/v1/analysis/press/temp/capacity/list`,
-    load2: `/v1/analysis/press/temp/capacity/detail`
-  },
-  error: {
-    detail: `/v1/analysis/press/error/detail`
-  }
+    readyTime: {
+        load: `/v1/analysis/press/downtime`
+    },
+    capacity: {
+        load: `/v1/analysis/press/production`,
+        load2: `/v1/analysis/press/productions`
+    },
+    pressList: {
+        list: '/v1/analysis/press/list'
+    },
+    defective: {
+        list: '/v1/analysis/press/defective/list',
+        load: '/v1/analysis/press/defective'
+    },
+    ability: {
+        load: `/v1/analysis/press/capacity`,
+        list: `/v1/analysis/press/temp/capacity/list`,
+        load2: `/v1/analysis/press/temp/capacity/detail`
+    },
+    error: {
+        detail: `/v1/analysis/press/error/detail`
+    }
 }
 
 

@@ -56,7 +56,7 @@ const QualityTestRequest = ({match}: Props) => {
             } else {
                 setReason(res.results.request_description)
             }
-            setWorker(res.results.worker)
+            setWorker({pk: res.results.worker_pk, name: res.results.worker})
             setStatement(res.results.statement)
         }
 
@@ -96,7 +96,6 @@ const QualityTestRequest = ({match}: Props) => {
         })
 
         if (resultData.status === 200) {
-            alert('성공적으로 등록되었습니다!')
             history.push('/quality/test/list/worker')
         }
     }, [processData, machineData, productionData, total_count, reason, worker])
@@ -132,7 +131,6 @@ const QualityTestRequest = ({match}: Props) => {
             worker: worker.pk
         })
         if (res.status === 200) {
-            alert('성공적으로 수정하였습니다!')
             history.push('/quality/test/list/worker')
         } else if (res.status === 1001) {
             alert('이미 검사를 완료한 제품 검사요청입니다.')

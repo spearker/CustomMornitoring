@@ -32,9 +32,11 @@ const QualityTestComplete = () => {
             process_name: "공정명",
             machine_name: "기계명",
             material_name: "품목(품목명)",
-            request_time: "요청 시간",
+            response_time: "완료 시간",
             statement: "상태",
-            whether: "적격 여부"
+            whether: "적격 여부",
+            writer: '검사자',
+            writer_pk: '검사자 ID',
         }
     }
 
