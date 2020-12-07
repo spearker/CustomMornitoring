@@ -26,7 +26,9 @@ export const postMoldRegister = async (url: string, bodyData: object) => {
 export const postMoldState = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
 
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 /**
@@ -40,7 +42,9 @@ export const postMoldState = async (url: string, bodyData: object) => {
 export const getMoldList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 export const API_URLS = {

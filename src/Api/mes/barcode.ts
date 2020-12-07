@@ -12,7 +12,9 @@ import client from '../configs/basic';
 export const postBarcode = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
 
-    return temp.status;
+    if (temp) {
+        return temp.status;
+    }
 }
 
 /**
@@ -26,7 +28,9 @@ export const postBarcode = async (url: string, object: object) => {
 export const getBarcode = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 /**
@@ -40,7 +44,9 @@ export const getBarcode = async (url: string) => {
 export const getDeleteBarcode = async (url: string, object: object) => {
     const temp: IServerData = await client.get(url, object);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 

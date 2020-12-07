@@ -149,7 +149,7 @@ export const MES_MENU_LIST = {
     {name: '금형 기본정보', url: '/basic/list/mold'},
     {name: '부품 기본정보', url: '/basic/list/parts'},
     {name: '바코드 표준 관리', url: '/basic/list/barcode'},
-    {name: '표준 항목 관리', url: '/basic/standard/list/item'},
+    // {name: '표준 항목 관리', url: '/basic/standard/list/item'},
     // { name : '표준 문서 관리', url : '/basic/list/document'},
     //   { name : '부품 기본정보', url : '/comingsoon'},
     //   { name : '바코드 표준 관리', url : '/comingsoon'},

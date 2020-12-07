@@ -139,10 +139,10 @@ const ShipmentContainer = () => {
         const res = await getMarketing(tempUrl)
         if (res) {
             const shipmentList = res.info_list.map((v) => {
-
                 const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const finished = v.finished === true ? '완료' : '진행중'
 
-                return {...v, amount: amount}
+                return {...v, amount: amount, finished: finished}
             })
 
             setList(shipmentList)

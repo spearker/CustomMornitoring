@@ -12,7 +12,8 @@ const CustomPress: React.FunctionComponent = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
-        Notiflix.Loading.Circle()
+        
+
         const tempUrl = `${API_URLS['press'].status}`
         const res = await getLoadTonList(tempUrl)
         if (res) {
@@ -23,10 +24,11 @@ const CustomPress: React.FunctionComponent = () => {
     }, [list])
 
     useEffect(() => {
+        Notiflix.Loading.Circle()
         getList()
         const interval = setInterval(() => {
             getList()
-        }, 60000)
+        }, 2500)
         return () => {
             clearTimeout(interval)
             //setTimer(null)

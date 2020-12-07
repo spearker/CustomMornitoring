@@ -28,6 +28,7 @@ import ModelRulesInput from '../../Components/Input/ModelRulesInput'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import Notiflix from 'notiflix'
 import * as _ from 'lodash'
+import {API_URLS, registerBasicItem} from '../../Api/mes/basic'
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -221,12 +222,14 @@ const NewBasicMaterialRegister = () => {
       model: inputData.model[0].trim() === '' ? null : inputData.model
     }
 
-    const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/register`, data, getToken(TOKEN_NAME))
+    const res = await registerBasicItem(`${API_URLS['material'].create}`, data)
+
+    console.log(res)
 
     if (res === false) {
       // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
     } else {
-      if (res.status === 200) {
+      if (res) {
         //alert('성공적으로 등록 되었습니다')
         history.push('/basic/list/material')
       } else {

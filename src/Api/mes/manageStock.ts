@@ -24,7 +24,9 @@ export const getItemSearch = async (url: string) => {
 export const getStockList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 export const API_URLS = {

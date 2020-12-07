@@ -11,7 +11,9 @@ import client from '../configs/basic';
 export const getPowerList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -25,7 +27,9 @@ export const getPowerList = async (url: string) => {
 export const getAbilityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -39,7 +43,9 @@ export const getAbilityList = async (url: string) => {
 export const getOilSupplyData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -53,7 +59,9 @@ export const getOilSupplyData = async (url: string) => {
 export const getReadyTimeData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -67,7 +75,9 @@ export const getReadyTimeData = async (url: string) => {
 export const getLoadTonData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -82,7 +92,9 @@ export const getLoadTonData = async (url: string) => {
 export const getErrorData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -97,7 +109,9 @@ export const getErrorData = async (url: string) => {
 export const getDefectiveData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -112,7 +126,9 @@ export const getDefectiveData = async (url: string) => {
 export const getProductData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -127,7 +143,9 @@ export const getProductData = async (url: string) => {
 export const getMoldData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 export const API_URLS = {

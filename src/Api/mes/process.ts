@@ -12,7 +12,9 @@ import client from '../configs/basic'
 export const postProcessDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object)
 
-    return temp.status
+    if (temp) {
+        return temp.status
+    }
 }
 
 /**
@@ -26,8 +28,9 @@ export const postProcessDelete = async (url: string, object: object) => {
 export const getProcessList = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 
@@ -42,8 +45,9 @@ export const getProcessList = async (url: string) => {
 export const getSegmentList = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 /**
@@ -58,8 +62,9 @@ export const getSegmentList = async (url: string) => {
 export const postSegmentDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object)
 
-
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 
@@ -103,7 +108,9 @@ export const getSearchProcess = async (url: string) => {
 export const getSearchMachine = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 /**
@@ -116,7 +123,7 @@ export const getSearchMachine = async (url: string) => {
 
 export const getSearchDetail = async (url: string) => {
     const temp: IServerData = await client.get(url)
-    console.log(temp)
+    
     if (temp) {
         return temp.results
     }

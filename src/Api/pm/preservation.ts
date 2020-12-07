@@ -12,7 +12,9 @@ import client from '../configs/basic';
 export const getMoldData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -27,7 +29,9 @@ export const getMoldData = async (url: string) => {
 export const getOvertoneData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -40,7 +44,9 @@ export const getOvertoneData = async (url: string) => {
 export const getCluchData = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -53,7 +59,9 @@ export const getCluchData = async (url: string, bodyData: object) => {
 export const getOilData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 
