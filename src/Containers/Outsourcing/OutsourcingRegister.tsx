@@ -176,7 +176,7 @@ const OutsourcingRegister = ({match}: any) => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: inputData.location.postcode === undefined && inputData.location.roadAddress === undefined && inputData.location.detail === undefined ? null : inputData.location,
+            address: inputData === null && inputData.location.postcode === undefined && inputData.location.roadAddress === undefined && inputData.location.detail === undefined ? null : inputData.location,
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 

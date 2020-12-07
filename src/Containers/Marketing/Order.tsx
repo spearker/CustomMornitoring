@@ -86,7 +86,7 @@ const OrderContainer = () => {
     }, [deletePk])
 
     const getFinish = async (pk) => {
-        const tempUrl = `${API_URLS['shipment'].finish}`
+        const tempUrl = `${API_URLS['contract'].finish}`
         const res = await postMarketing(tempUrl, {
             key: pk
         })
