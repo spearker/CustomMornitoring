@@ -11,7 +11,9 @@ import client from '../configs/basic'
 export const getAnalysisReadyTime = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-    return temp.results!
+    if (temp) {
+        return temp.results!
+    }
 }
 
 /**
@@ -25,7 +27,9 @@ export const getAnalysisReadyTime = async (url: string) => {
 export const getCapacityTimeData = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-    return temp.results!
+    if (temp) {
+        return temp.results!
+    }
 }
 
 /**
@@ -39,7 +43,9 @@ export const getCapacityTimeData = async (url: string) => {
 export const getDefectiveData = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-    return temp.results!
+    if (temp) {
+        return temp.results!
+    }
 }
 
 /**
@@ -53,7 +59,9 @@ export const getDefectiveData = async (url: string) => {
 export const getAbilityList = async (url: string) => {
     const temp: IServerData = await client.get(url)
 
-    return temp.results!
+    if (temp) {
+        return temp.results!
+    }
 }
 
 export const API_URLS = {

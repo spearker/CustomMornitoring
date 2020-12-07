@@ -10,8 +10,9 @@ import client from '../configs/basic';
 export const getBasicList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -57,7 +58,9 @@ export const registerBasicItem = async (url: string, data: any) => {
 export const loadBasicItem = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 
