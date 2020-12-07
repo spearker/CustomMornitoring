@@ -316,7 +316,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
                 }
               </div>
             </div>
-            <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+            <ColorCalendarDropdown unLimit={true} select={selectDate} onClickEvent={(select) => {
               setSelectDate(select)
             }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
           </div>
