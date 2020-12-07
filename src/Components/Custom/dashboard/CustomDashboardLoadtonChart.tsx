@@ -13,9 +13,13 @@ import {useHistory} from 'react-router-dom'
 
 interface Props {
     id: string
+    first?: {
+        loading: boolean,
+        api: boolean
+    }
 }
 
-const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
+const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id, first}) => {
     const [isFirst, setIsFirst] = React.useState({
         loading: true,
         api: true
@@ -26,7 +30,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
     const history = useHistory()
 
     const getYoudongCustomDashboardData = async () => {
-        if (id) {
+        if (id && first) {
             try {
                 const response = await getYoodongDashboard(id, isFirst.api)
 
@@ -46,6 +50,33 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
                         }
                     } else {
                         return
+                    }
+                }
+            } catch (error) {
+                console.log('catched error', error)
+            }
+        } else {
+            try {
+                const response = await getYoodongDashboard(id, isFirst.api)
+
+                if (response !== null) {
+                    if (response.status === 401) {
+                        return history.push('/login?type=back')
+                    } else if (response.status === 200) {
+                        setData(response.data)
+
+                        if (isFirst.api) {
+                            setTonnageLimit(response.data.loadton_data.tonnage_limit)
+
+                            setIsFirst({
+                                loading: false,
+                                api: false
+                            })
+                        }
+                    } else {
+                        setTimeout(() => {
+                            getYoudongCustomDashboardData()
+                        }, 1000)
                     }
                 }
             } catch (error) {
