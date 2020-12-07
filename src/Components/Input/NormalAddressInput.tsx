@@ -51,9 +51,9 @@ const NormalAddressInput = ({title, description, value, onChangeEvent, onChangeE
                 <SmallButton name={'검색'} color={'#dddddd'} onClickEvent={() => setIsOpen(true)}/>
 
                 <InputBox style={{width: '40%', marginLeft: 10}} type="text"
-                          value={value === null ? '' : value.readAddress}
+                          value={value !== null ? value.roadAddress : ''}
                           placeholder={'검색 버튼을 눌러 주소를 입력해주세요'}/>
-                <InputBox style={{width: '30%', marginLeft: 10}} type="text" value={value === null ? '' : value.detail}
+                <InputBox style={{width: '30%', marginLeft: 10}} type="text" value={value !== null ? value.detail : ''}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                               const temp = {...value};
                               temp.detail = e.target.value;

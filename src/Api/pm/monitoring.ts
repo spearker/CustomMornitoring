@@ -10,14 +10,16 @@ import client from '../configs/monitoring'
  */
 export const getLoadTonList = async (url: string) => {
     const temp: IServerData = await client.get(url)
-
-    return temp.results!
+    if (temp) {
+        return temp.results!
+    }
 }
 
 export const postLoadTonList = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData)
-
-    return temp.results!
+    if (temp) {
+        return temp.results!
+    }
 }
 
 

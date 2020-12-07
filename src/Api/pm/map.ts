@@ -22,8 +22,9 @@ export const getMonitoringMapData = async (url: string) => {
  */
 export const getMapListData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 
