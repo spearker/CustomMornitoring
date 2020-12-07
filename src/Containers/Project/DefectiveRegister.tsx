@@ -38,7 +38,7 @@ interface modalData {
 }
 
 const DefectiveRegisterContainer = ({match}: Props) => {
-
+    
     const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
     const [selectHistory, setSelectHistory] = useState<{

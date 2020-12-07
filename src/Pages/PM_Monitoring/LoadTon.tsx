@@ -108,7 +108,7 @@ const LoadtonMonitoring = () => {
             if (machineCount.length !== 0) {
                 const interval = setInterval(() => {
                     getData()
-                }, 3000)
+                }, 1000)
                 return () => {
                     clearTimeout(interval)
                     //setTimer(null)
