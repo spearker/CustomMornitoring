@@ -9,10 +9,7 @@ import client from '../Api/configs/admin';
  */
 export const getCommonList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results!;
 }
 
@@ -26,10 +23,7 @@ export const getCommonList = async (url: string) => {
  */
 export const saveCommonData = async (url: string, data: any) => {
     const temp: IServerData = await client.post(url, data);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     if (temp) {
         return true
     } else {
@@ -46,10 +40,7 @@ export const saveCommonData = async (url: string, data: any) => {
  */
 export const getCommonData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results!;
 }
 

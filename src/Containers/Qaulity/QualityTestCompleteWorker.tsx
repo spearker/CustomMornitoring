@@ -32,6 +32,8 @@ const QualityTestCompleteWorker = () => {
             material_name: "품목(품목명)",
             request_time: "요청 시간",
             whether: "적격 여부",
+            writer: '검사자',
+            writer_pk: '검사자 ID'
         }
     }
 

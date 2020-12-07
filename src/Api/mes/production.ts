@@ -10,10 +10,7 @@ import client from '../configs/basic'
  */
 export const getProjectList = async (url: string) => {
     const temp: IServerData = await client.get(url)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 
@@ -27,10 +24,7 @@ export const getProjectList = async (url: string) => {
  */
 export const getHistorySearch = async (url: string) => {
     const temp: IServerData = await client.get(url)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 
@@ -45,10 +39,7 @@ export const getHistorySearch = async (url: string) => {
 
 export const postProjectDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 
@@ -63,10 +54,7 @@ export const postProjectDelete = async (url: string, object: object) => {
  */
 export const postChitRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
@@ -94,10 +82,7 @@ export const postProductionRegister = async (url: string, bodyData: object) => {
  */
 export const getProductionSearch = async (url: string) => {
     const temp: IServerData = await client.get(url)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 

@@ -10,10 +10,7 @@ import client from '../configs/basic';
 export const getBasicList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results!;
 }
 
@@ -26,10 +23,7 @@ export const getBasicList = async (url: string) => {
  */
 export const deleteBasicList = async (url: string, id: string) => {
     const temp: IServerData = await client.post(url, {pk: id});
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     if (temp) {
         return true
     } else {
@@ -46,10 +40,7 @@ export const deleteBasicList = async (url: string, id: string) => {
  */
 export const registerBasicItem = async (url: string, data: any) => {
     const temp: IServerData = await client.post(url, data);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     if (temp) {
         return true
     } else {
@@ -65,10 +56,7 @@ export const registerBasicItem = async (url: string, data: any) => {
  */
 export const loadBasicItem = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 

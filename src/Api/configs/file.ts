@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Notiflix from 'notiflix'
-import {SF_ENDPOINT_FILE} from "../SF_endpoint";
+import {SF_ENDPOINT_FILE} from '../SF_endpoint'
 
 const TOKEN_NAME = 'sizl_auth'
 
@@ -10,9 +10,9 @@ const TOKEN_NAME = 'sizl_auth'
  * axios 인스턴스 기본 설정
  * - 파일데이터
  */
-const client = axios.create();
+const client = axios.create()
 
-client.defaults.baseURL = SF_ENDPOINT_FILE;
+client.defaults.baseURL = SF_ENDPOINT_FILE
 
 //client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
 client.interceptors.response.use(function (response) {
@@ -54,4 +54,4 @@ const getErrorCase = (code, message) => {
     }
 }
 
-export default client;
+export default client

@@ -78,7 +78,12 @@ const KPICompareBox = ({data, type, setType}: IProps) => {
           }
         </FlexBox>
         <div>
-          {type === 'week' ? `${moment(selectDates.from).format('yyyy-MM-DD')} ~ ${moment(selectDates.to).format('yyyy-MM-DD')}` : type === 'month' ? moment(selectDates.from).format('yyyy-MM') : moment(selectDate).format('yyyy-MM-DD')}
+          {
+            type === 'week'
+              ? `${moment(selectDates.from).format('yyyy.MM.DD')} ~ ${moment(selectDates.to).format('yyyy.MM.DD')}`
+              : type === 'month'
+              ? moment(selectDates.from).format('yyyy.MM')
+              : moment(selectDate).format('yyyy.MM.DD')}
         </div>
       </div>
       <div>

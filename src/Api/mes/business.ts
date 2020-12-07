@@ -10,10 +10,7 @@ import client from '../configs/common';
  */
 export const postContractRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
@@ -27,10 +24,7 @@ export const postContractRegister = async (url: string, bodyData: object) => {
  */
 export const postContractModify = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
@@ -44,10 +38,7 @@ export const postContractModify = async (url: string, bodyData: object) => {
  */
 export const postOrderRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
@@ -61,10 +52,7 @@ export const postOrderRegister = async (url: string, bodyData: object) => {
  */
 export const postOrderModify = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
