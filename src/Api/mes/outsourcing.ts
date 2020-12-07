@@ -12,7 +12,9 @@ import client from '../configs/basic';
 export const postOutsourcingDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
 
-    return temp.status;
+    if (temp) {
+        return temp.status;
+    }
 }
 
 /**
@@ -26,7 +28,9 @@ export const postOutsourcingDelete = async (url: string, object: object) => {
 export const getOutsourcingList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 /**
@@ -41,7 +45,9 @@ export const getOutsourcingList = async (url: string) => {
 export const postOutsourcingList = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 
@@ -56,7 +62,9 @@ export const postOutsourcingList = async (url: string, object: object) => {
 export const getSegmentList = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 /**
@@ -71,7 +79,9 @@ export const getSegmentList = async (url: string) => {
 export const postSegmentDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 
@@ -116,7 +126,9 @@ export const getSearchMachine = async (url: string) => {
 export const getSearchOutsourcing = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results
+    if (temp) {
+        return temp.results
+    }
 }
 
 export const API_URLS = {

@@ -11,7 +11,9 @@ import client from '../configs/basic';
 export const getCustomerData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 /**
@@ -26,7 +28,9 @@ export const getCustomerData = async (url: string) => {
 export const postCustomerDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
 
-    return temp.results;
+    if (temp) {
+        return temp.results;
+    }
 }
 
 

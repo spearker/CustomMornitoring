@@ -10,6 +10,8 @@ import CustomMonitoringCard from '../loadton/CustomMonitoringCard'
 import Modal from 'react-modal'
 import {RotateSpinner} from 'react-spinners-kit'
 import {useHistory} from 'react-router-dom'
+import CustomAnalysisMonitoringCard from "../loadton/CustomAnalysisMonitoringCard";
+import CustomAnalysisLoadTon from "../loadton/CustomAnalysisLoadtonCard";
 
 
 interface Props {
@@ -298,14 +300,14 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                         <div style={{
                             width: '70%',
                         }}>
-                            <CustomLoadTon color={0} propData={data ? data.loadton_data : undefined}
-                                           overTonCheck={overTonCheck}
-                                           styles={{width: '100%', height: '50%'}}
-                                           tonnage_limit={tonnageLimit ? tonnageLimit : 0}/>
+                            <CustomAnalysisLoadTon color={0} propData={data ? data.loadton_data : undefined}
+                                                   overTonCheck={overTonCheck}
+                                                   styles={{width: '100%', height: '50%'}}
+                                                   tonnage_limit={tonnageLimit ? tonnageLimit : 0}/>
                             {standardInfo()}
                         </div>
                         <div style={{width: '13%',}}>
-                            <CustomMonitoringCard contents={data && data.press_data}/>
+                            <CustomAnalysisMonitoringCard contents={data && data.press_data}/>
                         </div>
                     </div>
                 </ItemBox>

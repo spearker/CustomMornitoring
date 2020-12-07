@@ -10,7 +10,9 @@ import client from '../configs/map';
 export const getMonitoringMapData = async (url: string) => {
     const temp: IServerData = await client.get(url);
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!;
+    }
 }
 
 /**
@@ -22,6 +24,7 @@ export const getMonitoringMapData = async (url: string) => {
  */
 export const getMapListData = async (url: string) => {
     const temp: IServerData = await client.get(url);
+    
     if (temp) {
         return temp.results!;
     }
