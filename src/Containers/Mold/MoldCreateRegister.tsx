@@ -167,7 +167,13 @@ const MoldCreateRegisterContainer = ({match}: any) => {
       return value
     })
 
-    const tmpDrawing = drawing
+    const tmpDrawing = drawing.map((v) => {
+      if (v === '') {
+        return null
+      } else {
+        return v
+      }
+    })
 
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')
@@ -242,7 +248,13 @@ const MoldCreateRegisterContainer = ({match}: any) => {
       return value
     })
 
-    const tmpDrawing = drawing
+    const tmpDrawing = drawing.map((v) => {
+      if (v === '') {
+        return null
+      } else {
+        return v
+      }
+    })
 
     if (!moldData?.pk || !selectDate || state) {
       alert('모든 칸을 입력해주세요.')

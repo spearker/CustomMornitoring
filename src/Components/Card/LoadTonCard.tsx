@@ -17,6 +17,8 @@ interface IProps {
   propData: IPressLoadTonMachineData | undefined
 }
 
+const tmpArray = new Array(120).fill(0)
+
 // 로드톤 모니터링
 const LoadTonCard = ({color, propData}: IProps) => {
   // const [series, setSeries] = useState([{
@@ -24,15 +26,16 @@ const LoadTonCard = ({color, propData}: IProps) => {
   // }])
   const colorList = ['#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff']
   const [datum, setDatum] = useState([
-    {data: propData?.capacity, color: 'gray', name: '능률곡선'},
+    {data: [...tmpArray, ...propData!.capacity], color: 'gray', name: '능률곡선'},
     {data: propData?.total_ton, color: '#fb9e70', name: 'Total'},
     {data: propData?.ch1_ton, color: '#3ad8c5', name: 'Ch1'},
     {data: propData?.ch2_ton, color: '#5145c6', name: 'Ch2'}
   ])
 
   useEffect(() => {
+    // console.log('propData', propData)
     setDatum([
-      {data: propData?.capacity, color: 'gray', name: '능률곡선'},
+      {data: [...tmpArray, ...propData!.capacity], color: 'gray', name: '능률곡선'},
       {data: propData?.total_ton, color: '#fb9e70', name: 'Total'},
       {data: propData?.ch1_ton, color: '#3ad8c5', name: 'Ch1'},
       {data: propData?.ch2_ton, color: '#5145c6', name: 'Ch2'}
@@ -115,6 +118,7 @@ const LoadTonCard = ({color, propData}: IProps) => {
 
   return (
     <div style={{height: 403, width: 329, backgroundColor: '#f4f6fa', borderRadius: 6, margin: 13}}>
+      {console.log(datum)}
       <div style={{
         width: '100%',
         height: 92,
