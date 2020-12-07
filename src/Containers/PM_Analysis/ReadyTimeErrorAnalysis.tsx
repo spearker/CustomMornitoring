@@ -147,7 +147,7 @@ const ReadyTimeErrorAnalysisContainer = () => {
       setSeries([{...series[0], data: yaxisData}])
       setPressName(resultData.name)
     }
-
+    setPressLoading(false)
     setLoading(false)
   }
 
