@@ -50,7 +50,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
     password: '',
     name: '',
     authority: 'ADMIN',
-    profile: '',
+    profile: null,
   })
 
   useEffect(() => {
