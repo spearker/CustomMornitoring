@@ -1,5 +1,4 @@
-import Axios from "axios";
-
+import Axios from 'axios'
 
 /**
  * postRequest()
@@ -11,18 +10,18 @@ import Axios from "axios";
  */
 export const postRequest = async (url: string, data: object, token: string): Promise<any> => {
 
-    const returnValue = await Axios.post(url,
-         data,
-         { 'headers': { 'Authorization': token } }
-    )
+  const returnValue = await Axios.post(url,
+    data,
+    {'headers': {'Authorization': token}}
+  )
     .then(function (res: IServerResponse) {
       return res.data
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error)
       return false
-    });
-    return returnValue
+    })
+  return returnValue
 }
 
 /**
@@ -34,16 +33,16 @@ export const postRequest = async (url: string, data: object, token: string): Pro
  */
 export const getRequest = async (url: string, token: string): Promise<any> => {
 
-    const returnValue = await Axios.get(url, { 'headers': { 'Authorization': token } })
+  const returnValue = await Axios.get(url, {'headers': {'Authorization': token}})
     .then(function (res: IServerResponse) {
       return res.data
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error)
       return false
-    });
+    })
 
-    return returnValue
+  return returnValue
 }
 
 /**
@@ -55,17 +54,17 @@ export const getRequest = async (url: string, token: string): Promise<any> => {
  */
 export const postRequestWithNoToken = async (url: string, data: object): Promise<any> => {
 
-    const returnValue = await Axios.post(url, data)
+  const returnValue = await Axios.post(url, data)
     .then(function (res) {
 
       return res.data
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error)
       return false
-    });
+    })
 
-    return returnValue
+  return returnValue
 
 }
 
@@ -76,16 +75,16 @@ export const postRequestWithNoToken = async (url: string, data: object): Promise
  * @returns 리턴데이터, 요청실패(false)
  */
 export const getRequestWithNoToken = async (url: string) => {
-    const returnValue = await Axios.get(url)
+  const returnValue = await Axios.get(url)
     .then(function (res: IServerResponse) {
       return res.data
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error)
       return false
-    });
+    })
 
-    return returnValue
+  return returnValue
 }
 
 /**
@@ -95,10 +94,10 @@ export const getRequestWithNoToken = async (url: string) => {
  * @returns 파라매터 키에 매칭되는 value값
  */
 
-export const getParameter = (key) =>{
-  key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-  var regex = new RegExp("[\\?&]" + key + "=([^&#]*)"),
-      results = regex.exec(window.location.search);
-  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+export const getParameter = (key) => {
+  key = key.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
+  var regex = new RegExp('[\\?&]' + key + '=([^&#]*)'),
+    results = regex.exec(window.location.search)
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
 
