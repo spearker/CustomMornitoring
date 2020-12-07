@@ -53,7 +53,7 @@ const PressBox: React.FunctionComponent<Props> = ({machineData}) => {
                           mold_spec={[machineData.material_spec_H, machineData.material_spec_W, machineData.material_spec_D]}/>
           <PressStatusBox title={'금형명'} value={machineData.mold_name} fontSize={'14px'}/>
           <PressStatusBox title={'키캠상태'} value={machineData.keyCam}
-                          fontSize={machineData.keyCam === '안전 1행정' || machineData.keyCam === '슬라이더 조절' ? '20px' : '38px'}/>
+                          fontSize={machineData.keyCam === '안전 1행정' || machineData.keyCam === '슬라이드 조절' ? '15px' : '38px'}/>
           <PressStatusBox title={'생산수량'}
                           value={machineData.production.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           fontSize={'22px'}/>
