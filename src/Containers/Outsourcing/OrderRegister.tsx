@@ -92,7 +92,6 @@ const OutsourcingRegister = ({match}: Props) => {
         } else {
             if (res.status === 200) {
                 const data = res.results
-                console.log(data.address)
                 setSelectOutsource({name: data.company_name, pk: data.company_pk})
                 setSelectMaterial({name: data.product, pk: data.product_pk})
                 setInputData('location', data.address)

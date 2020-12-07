@@ -8,9 +8,9 @@ import {API_URLS, getLoadTonList, postLoadTonList} from '../../Api/pm/monitoring
 import {API_URLS as URLS_MAP, getMonitoringMapData} from '../../Api/pm/map'
 import FactorySelector from '../../Components/Map/FactorySelector'
 import NoDataCard from '../../Components/Card/NoDataCard'
-import Notiflix from "notiflix";
+import Notiflix from 'notiflix'
 
-Notiflix.Loading.Init({svgColor: "#1cb9df",});
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 interface PressInitData {
     machines: {
@@ -95,6 +95,7 @@ const LoadtonMonitoring = () => {
                 total_ton: [...initStartArray, ...value.total_ton, ...initEndArray]
             }
         })
+       
 
         setList({
             ...initData,
@@ -108,7 +109,7 @@ const LoadtonMonitoring = () => {
             if (machineCount.length !== 0) {
                 const interval = setInterval(() => {
                     getData()
-                }, 1000)
+                }, 3000)
                 return () => {
                     clearTimeout(interval)
                     //setTimer(null)
@@ -116,6 +117,7 @@ const LoadtonMonitoring = () => {
             }
         }
     }, [machineCount])
+
 
     useEffect(() => {
         if (selectFactory.pk) {

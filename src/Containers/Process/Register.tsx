@@ -72,7 +72,6 @@ const ProcessRegisterContainer = ({match}: any) => {
     }
 
     const postContractUpDate = async () => {
-        console.log(detailMaterialData)
         if (validationCheck()) {
             const tempUrl = `${API_URLS['process'].update}`
             const resultData = await postProcessRegister(tempUrl, {
@@ -182,7 +181,6 @@ const ProcessRegisterContainer = ({match}: any) => {
                         {
                             detailMaterialData && detailMaterialData.length !== 0
                             && detailMaterialData.map((v, i) => {
-                                console.log(i, initalIndexCnt, i < initalIndexCnt)
                                 return (
                                     <tbody>
                                     <tr>
@@ -365,7 +363,6 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                 <div style={{width: 447, border: '0.5px solid #b3b3b3'}}>
                                                     <ProductionPickerModal width={true} innerWidth={447}
                                                                            onClickEvent={(material) => {
-                                                                               console.log('output', material)
                                                                                let tmpDetailMaterialData = detailMaterialData
                                                                                tmpDetailMaterialData[i].output_materials = material
                                                                                setDetailMaterialData([...tmpDetailMaterialData])
