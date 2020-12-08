@@ -40,6 +40,17 @@ export const API_URLS = {
       facility_operational_improvement_rate: '/v1/kpi/production/facility-operational-improvement-rate',
       item_growth_rate: '/v1/kpi/production/item-growth-rate',
       target_attainment_rate: '/v1/kpi/production/target-attainment-rate',
+    },
+    delivery: {
+      delivery_compliance_improvement_rate: '/v1/kpi/delivery/delivery-compliance-improvement-rate',
+      order_shipment_leadTime_reduced_rate: '/v1/kpi/delivery/order-shipment-leadTime-reduced-rate',
+      stock_accuracy_improvement_rate: '/v1/kpi/delivery/stock-accuracy-improvement-rate',
+    },
+    quality: {
+      defective_items_reduced_rate: '/v1/kpi/quality/defective-items-reduced-rate',
+    },
+    energy: {
+      electric_saving_rate: '/v1/kpi/energy/electric-saving-rate'
     }
   },
 }

@@ -10,10 +10,11 @@ interface IProps {
   setType?: (type: 'month' | 'week' | 'day') => void
   getData?: (from: Date, to: Date, index: number) => Promise<number>
   index?: number
+  value?: any
 }
 
-const KPICompareBox = ({type, setType, getData, index}: IProps) => {
-  const [data, setData] = useState<{ number: number, increase: boolean }>({number: 500, increase: false})
+const KPICompareBox = ({type, setType, getData, index, value}: IProps) => {
+  const [data, setData] = useState<{ number: number, increase: boolean }>({number: 0, increase: false})
 
   const [selectDate, setSelectDate] = useState<Date>(moment().subtract(1, 'days').toDate())
   const [selectDates, setSelectDates] = useState<{ from: Date, to: Date }>({
@@ -33,7 +34,7 @@ const KPICompareBox = ({type, setType, getData, index}: IProps) => {
         })
       }
     }
-  }, [type, selectDate, selectDates])
+  }, [type, selectDate, selectDates, value])
 
   React.useEffect(() => {
     if (type === 'day') {
@@ -102,7 +103,9 @@ const KPICompareBox = ({type, setType, getData, index}: IProps) => {
         </div>
       </div>
       <div>
-        <p>{data.number}<span>{data.increase ? '+' : '-'}</span></p>
+        <p>{data.number}
+          {/*<span>{'(가동률)'}</span>*/}
+        </p>
       </div>
     </Container>
   )
@@ -141,8 +144,9 @@ const Container = Styled.div`
                 font-weight: bold;
                 &>span{
                     margin-left: 20px;
-                    font-size: 85px;
+                    font-size: 30px;
                     vertical-align: bottom;
+                    margin-bottom: 30px;
                 }
             }
         }

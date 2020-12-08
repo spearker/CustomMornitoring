@@ -65,7 +65,7 @@ const ProductionKPIContainer = () => {
     <div style={{maxWidth: 1100}}>
       <TopHeader title={'생산지수(P)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
-        <KPICompareBox type={type} setType={(type) => setType(type)}
+        <KPICompareBox type={type} setType={(type) => setType(type)} value={selectMenu}
                        getData={getData} index={0}/>
         {
           compareView

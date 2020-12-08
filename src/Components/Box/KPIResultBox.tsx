@@ -18,7 +18,7 @@ const KPIResultBox = ({onCloseEvent, data}: IProps) => {
         <button onClick={() => onCloseEvent()}>비교 종료</button>
       </LeftBox>
       <RightBox>
-        <p>{((data[0] - data[1]) * (data[0] + data[1])) * 100}
+        <p>{(data[0] !== 0 && data[1] !== 0) ? Math.round(((data[0] - data[1]) / (data[0] + data[1])) * 1000) / 10 : 0}
           {/*<span>{data.increase ? '+' : '-'}</span>*/}
         </p>
       </RightBox>
