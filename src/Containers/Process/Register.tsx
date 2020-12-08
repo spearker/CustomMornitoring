@@ -80,7 +80,7 @@ const ProcessRegisterContainer = ({match}: any) => {
         type: processData.type,
         name: processData.name,
         processes: detailMaterialData,
-        desciption: processData.description
+        description: processData.description
       })
       if (resultData.status === 200) {
         history.goBack()
@@ -96,7 +96,7 @@ const ProcessRegisterContainer = ({match}: any) => {
         type: processData.type,
         name: processData.name,
         processes: detailMaterialData,
-        desciption: processData.description
+        description: processData.description
       })
       if (resultData.status === 200) {
         history.goBack()
