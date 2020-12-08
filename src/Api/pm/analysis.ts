@@ -72,7 +72,8 @@ export const API_URLS = {
         list: `/v1/analysis/press/material/list`,
         load: `/v1/analysis/press/production`,
         load2: `/v1/analysis/press/productions`,
-        load3: `/v1/analysis/press/material/production`
+        load3: `/v1/analysis/press/material/production`,
+        detail: `/v1/analysis/press/material/detail`
     },
     pressList: {
         list: '/v1/analysis/press/list'
