@@ -26,7 +26,7 @@ const TodayVoucherContainer = () => {
     const [eventList, setEventList] = useState<any[]>([])
 
     const [detailList, setDetailList] = useState<any>({})
-    const [index, setIndex] = useState({registerer: '등록자'})
+    const [index, setIndex] = useState({registerer_name: '등록자'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
 
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
@@ -37,7 +37,7 @@ const TodayVoucherContainer = () => {
 
     const indexList = {
         voucher: {
-            registerer: '등록자',
+            registerer_name: '등록자',
             supplier_name: '납품 업체',
             material_name: '품목(품목명)',
             goal: '생산 목표 수량',

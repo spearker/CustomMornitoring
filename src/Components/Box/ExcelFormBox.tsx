@@ -5,6 +5,7 @@ import InputContainer from "../../Containers/InputContainer";
 import {getRequest, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
+import {SF_ENDPOINT_EXCEL} from "../../Api/SF_endpoint";
 
 interface Props {
     title: string[]
@@ -33,7 +34,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=0`, formData, getToken(TOKEN_NAME))
+        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=0`, formData, getToken(TOKEN_NAME))
         alert('업로드 되었습니다.')
         getList(0)
     }, [])
@@ -46,7 +47,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=1`, formData, getToken(TOKEN_NAME))
+        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=1`, formData, getToken(TOKEN_NAME))
         alert('업로드 되었습니다.')
         getList(1)
     }, [])
@@ -58,7 +59,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=2`, formData, getToken(TOKEN_NAME))
+        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=2`, formData, getToken(TOKEN_NAME))
         alert('업로드 되었습니다.')
         getList(2)
     }, [])
@@ -70,7 +71,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=3`, formData, getToken(TOKEN_NAME))
+        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=3`, formData, getToken(TOKEN_NAME))
         alert('업로드 되었습니다.')
         getList(3)
     }, [])
@@ -82,7 +83,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`http://61.101.55.224:18900/api/v1/format/upload?type=4`, formData, getToken(TOKEN_NAME))
+        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=4`, formData, getToken(TOKEN_NAME))
         alert('업로드 되었습니다.')
         getList(4)
     }, [])
@@ -91,7 +92,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
     const getList = useCallback(async (type) => {
         if (type === 'all') {
             title.map(async (value, index) => {
-                const temp = await getRequest(`http://61.101.55.224:18900/api/v1/format/history/list?type=${index}`, getToken(TOKEN_NAME))
+                const temp = await getRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/list?type=${index}`, getToken(TOKEN_NAME))
                 switch (index) {
                     case 0:
                         setRawMaterialList(temp.data)
@@ -113,7 +114,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                 }
             })
         } else {
-            const temp = await getRequest(`http://61.101.55.224:18900/api/v1/format/history/list?type=${type}`, getToken(TOKEN_NAME))
+            const temp = await getRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/list?type=${type}`, getToken(TOKEN_NAME))
             switch (type) {
                 case 0:
                     setRawMaterialList(temp.data)
@@ -207,7 +208,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             </ExcelUpload>
                             }
                             <FormDownload
-                                onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/download?type=${index}`)}>
+                                onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/download?type=${index}`)}>
                                 양식 다운로드
                             </FormDownload>
                         </FormBox>
@@ -295,11 +296,11 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             {index === 0 &&
                             <div style={{display: 'flex'}}>
                                 < ExcelDownLoad
-                                    onClick={() => selectRaw !== undefined && selectRaw !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectRaw}`)}>
+                                    onClick={() => selectRaw !== undefined && selectRaw !== '' && window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/download?pk=${selectRaw}`)}>
                                     다운로드
                                 </ExcelDownLoad>
                                 <IntegrationExcelDownLoad
-                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=0`)}>
+                                    onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/combination/download?type=0`)}>
                                     통합 다운로드
                                 </IntegrationExcelDownLoad>
                             </div>
@@ -307,11 +308,11 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             {index === 1 &&
                             <div style={{display: 'flex'}}>
                                 <ExcelDownLoad
-                                    onClick={() => selectSemi !== undefined && selectSemi !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSemi}`)}>
+                                    onClick={() => selectSemi !== undefined && selectSemi !== '' && window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/download?pk=${selectSemi}`)}>
                                     다운로드
                                 </ExcelDownLoad>
                                 <IntegrationExcelDownLoad
-                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=1`)}>
+                                    onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/combination/download?type=1`)}>
                                     통합 다운로드
                                 </IntegrationExcelDownLoad>
                             </div>
@@ -319,11 +320,11 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             {index === 2 &&
                             <div style={{display: 'flex'}}>
                                 <ExcelDownLoad
-                                    onClick={() => selectSub !== undefined && selectSub !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectSub}`)}>
+                                    onClick={() => selectSub !== undefined && selectSub !== '' && window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/download?pk=${selectSub}`)}>
                                     다운로드
                                 </ExcelDownLoad>
                                 <IntegrationExcelDownLoad
-                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=2`)}>
+                                    onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/combination/download?type=2`)}>
                                     통합 다운로드
                                 </IntegrationExcelDownLoad>
                             </div>
@@ -331,11 +332,11 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             {index === 3 &&
                             <div style={{display: 'flex'}}>
                                 <ExcelDownLoad
-                                    onClick={() => selectFinished !== undefined && selectFinished !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectFinished}`)}>
+                                    onClick={() => selectFinished !== undefined && selectFinished !== '' && window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/download?pk=${selectFinished}`)}>
                                     다운로드
                                 </ExcelDownLoad>
                                 <IntegrationExcelDownLoad
-                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=3`)}>
+                                    onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/combination/download?type=3`)}>
                                     통합 다운로드
                                 </IntegrationExcelDownLoad>
                             </div>
@@ -343,11 +344,11 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                             {index === 4 &&
                             <div style={{display: 'flex'}}>
                                 <ExcelDownLoad
-                                    onClick={() => selectMold !== undefined && selectMold !== '' && window.open(`http://61.101.55.224:18900/api/v1/format/history/download?pk=${selectMold}`)}>
+                                    onClick={() => selectMold !== undefined && selectMold !== '' && window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/download?pk=${selectMold}`)}>
                                     다운로드
                                 </ExcelDownLoad>
                                 <IntegrationExcelDownLoad
-                                    onClick={() => window.open(`http://61.101.55.224:18900/api/v1/format/combination/download?type=4`)}>
+                                    onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/combination/download?type=4`)}>
                                     통합 다운로드
                                 </IntegrationExcelDownLoad>
                             </div>

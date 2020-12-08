@@ -190,6 +190,7 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
             <div style={{position: 'relative'}}>
                 <OptimizedHeaderBox title={`${LIST_INDEX[type].title ?? '항목 없음'}`}
                                     searchBarChange={(e) => setKeyword(e)}
+                                    searchBarValue={keyword}
                                     searchButtonOnClick={() => getList(pageType).then(() => Notiflix.Loading.Remove(300))}
                                     titleOnClickEvent={titleEventList}/>
             </div>

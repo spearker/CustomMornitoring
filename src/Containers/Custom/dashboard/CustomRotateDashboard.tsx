@@ -67,8 +67,8 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 (pressList[currentDashboard] === undefined ?
                         null
                         :
-                        // <CustomDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
-                        <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
+                        <CustomDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
+                    // <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
                 )
             }
         </div>

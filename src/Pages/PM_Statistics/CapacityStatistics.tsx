@@ -9,7 +9,7 @@ const CapacityStatistics = () => {
         <DashboardWrapContainer index={'analysis'}>
 
             <InnerBodyContainer>
-                <PMCapacityStaticsContainer/>
+                <CustomCapacity/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )

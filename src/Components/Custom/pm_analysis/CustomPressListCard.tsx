@@ -7,14 +7,15 @@ interface Props {
     pressList: IPressMachineType[]
     selectMachine: string
     onClickMachine: any
+    height?: string
 }
 
 
-const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectMachine, onClickMachine}) => {
+const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectMachine, onClickMachine, height}) => {
 
     return (
         <div>
-            <ChartListBox>
+            <ChartListBox style={{height: height ? height : '724px'}}>
                 <div style={{marginTop: 25, marginBottom: 23}}>
                     <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
                 </div>
@@ -91,7 +92,6 @@ const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectM
 const ChartListBox = Styled.div`
     display: inline-block;
     width: 340px;
-    height: 724px;
     padding: 0 21px 0 29px;
     background-color: #353b48;
     border-radius: 6px;
