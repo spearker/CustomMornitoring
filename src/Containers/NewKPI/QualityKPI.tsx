@@ -38,11 +38,11 @@ const QualityKPI = () => {
     <div style={{maxWidth: 1100}}>
       <TopHeader title={'품질지수(Q)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
-        <KPICompareBox data={{number: 500, increase: false}} type={type} setType={(type) => setType(type)}/>
+        <KPICompareBox type={type} setType={(type) => setType(type)}/>
         {
           compareView
             ? <>
-              <KPICompareBox data={{number: 100, increase: true}} type={type}/>
+              <KPICompareBox type={type}/>
               <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>

@@ -5,20 +5,34 @@ import moment from 'moment'
 
 // KPI
 interface IProps {
-  data: { number: number, increase: boolean }
+  // data: { number: number, increase: boolean }
   type: 'month' | 'week' | 'day'
   setType?: (type: 'month' | 'week' | 'day') => void
+  getData?: (from: Date, to: Date) => Promise<number>
 }
 
-const KPICompareBox = ({data, type, setType}: IProps) => {
-  const [startDate, setStartDate] = useState<string>('2020-12-04')
-  const [endDate, setEndDate] = useState<string>('2020-12-11')
+const KPICompareBox = ({type, setType, getData}: IProps) => {
+  const [data, setData] = useState<{ number: number, increase: boolean }>({number: 500, increase: false})
 
   const [selectDate, setSelectDate] = useState<Date>(moment().subtract(1, 'days').toDate())
   const [selectDates, setSelectDates] = useState<{ from: Date, to: Date }>({
     from: moment().subtract(2, 'day').toDate(),
     to: moment().subtract(1, 'day').toDate(),
   })
+
+  useEffect(() => {
+    if (getData) {
+      if (type === 'day') {
+        getData(selectDate, selectDate).then((ratio) => {
+          setData({number: ratio, increase: false})
+        })
+      } else {
+        getData(selectDates.from, selectDates.to).then((ratio) => {
+          setData({number: ratio, increase: false})
+        })
+      }
+    }
+  }, [type, selectDate, selectDates])
 
   React.useEffect(() => {
     if (type === 'day') {
