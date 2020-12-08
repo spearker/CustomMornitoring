@@ -112,6 +112,7 @@ const ProcessRegisterContainer = ({match}: any) => {
         ...processData,
         type: resultData.type,
         name: resultData.name,
+        description: resultData.description
       })
       setDetailMaterialData(resultData.processes)
       setIsFirst(false)
@@ -482,7 +483,7 @@ const ProcessRegisterContainer = ({match}: any) => {
           <table style={{color: 'black'}}>
             <tr>
               <td>• 설명</td>
-              <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요."
+              <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요." value={processData.description}
                          onChange={(e) => setProcessData({...processData, description: e.target.value})}/>
               </td>
             </tr>
