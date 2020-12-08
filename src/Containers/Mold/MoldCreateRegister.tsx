@@ -16,18 +16,6 @@ import IcPlusGray from '../../Assets/Images/ic_plus_gray.png'
 import PartsPickerModal from '../../Components/Modal/PartsPickerModal'
 import {uploadTempFile} from '../../Common/fileFuctuons'
 
-const typeDummy = [
-  '타입 A',
-  '타입 B',
-  '타입 C',
-]
-
-const locationDummy = [
-  '창고01',
-  '창고02',
-  '창고03',
-]
-
 const initParts = {
   name: '',
   steel_grade: '',
@@ -725,22 +713,6 @@ const ContainerMain = Styled.div`
     }
 `
 
-const CheckButton = Styled.button`
-    position: absolute;
-    bottom: 0px;
-    height: 46px;
-    width: 225px;
-    div{
-        width: 100%;
-    }
-    span{
-        line-height: 46px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-    }
-`
-
-
 const AddButton = Styled.button`
     display:flex;
     border: solid 0.5px #d3d3d3;
@@ -808,21 +780,6 @@ const MaterialBox = Styled.input`
     margin: 0 16px 0 8px;
 `
 
-const SearchBox = Styled(Input)`
-    input{
-        padding-left: 8px;
-        font-family: NotoSansCJKkr;
-        height: 28px;
-        border: 0.5px solid #b3b3b3;
-        width: calc( 100% - 8px );
-        background-color: #f4f6fa;
-        font-size: 15px;
-        &::placeholder:{
-            color: #b3b3b3;
-        };
-     }
-`
-
 const UploadBox = Styled(Input)`
     input{
         padding-left: 8px;
@@ -836,18 +793,6 @@ const UploadBox = Styled(Input)`
             color: #b3b3b3;
         };
      }
-`
-
-const SearchButton = Styled.button`
-    margin-right: 16px;
-    width: 32px;
-    height: 32px;
-    background-color: ${POINT_COLOR};
-    img{
-        width: 20px;
-        height: 20px;
-        margin-top: 5px;
-    }
 `
 
 const UploadButton = Styled.button`
