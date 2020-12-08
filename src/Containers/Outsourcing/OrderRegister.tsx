@@ -131,7 +131,7 @@ const OutsourcingRegister = ({match}: Props) => {
             } else if (!quantity || quantity === 0) {
                 alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
                 return
-            } else if (!unpaid) {
+            } else if (unpaid === null) {
                 alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
                 return
             } else if (paymentCondition === '') {
@@ -151,7 +151,7 @@ const OutsourcingRegister = ({match}: Props) => {
                 company: selectOutsource?.pk,
                 product: selectMaterial?.pk,
                 quantity: quantity.toString(),
-                unpaid: unpaid.toString(),
+                unpaid: String(unpaid),
                 due_date: selectDate,
                 payment_condition: paymentCondition,
                 address: inputData.location
@@ -201,7 +201,7 @@ const OutsourcingRegister = ({match}: Props) => {
         } else if (!quantity || quantity === 0) {
             alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
             return
-        } else if (!unpaid) {
+        } else if (unpaid === null) {
             alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
             return
         } else if (paymentCondition === '') {
@@ -219,7 +219,7 @@ const OutsourcingRegister = ({match}: Props) => {
             company: selectOutsource?.pk,
             product: selectMaterial?.pk,
             quantity: quantity.toString(),
-            unpaid: unpaid.toString(),
+            unpaid: String(unpaid),
             due_date: selectDate.toString(),
             payment_condition: paymentCondition,
             address: inputData.location

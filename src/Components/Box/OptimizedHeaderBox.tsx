@@ -12,6 +12,7 @@ interface Props {
     calendarState?: boolean
     calendarOnClick?: any
     searchBarChange?: any
+    searchBarValue?: any
     searchButtonOnClick?: any
     dropDownContents?: any
     dropDownOnClick?: any
@@ -19,7 +20,7 @@ interface Props {
     titleOnClickEvent?: any
 }
 
-const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, titleOnClickEvent, calendarState}) => {
+const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchBarValue, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, titleOnClickEvent, calendarState}) => {
     return (
         <div>
             <Title>
@@ -29,6 +30,7 @@ const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, 
                         <div style={{width: '371px', display: 'flex', flexDirection: 'row', marginLeft: 24}}>
                             <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 92}}
                                        onChange={(e) => searchBarChange(e.target.value)}
+                                       value={searchBarValue}
                                        onKeyPress={(event) => event.key === 'Enter' && searchButtonOnClick()}
                             />
                             <SearchButton style={{flex: 8}} onClick={() => searchButtonOnClick()}>

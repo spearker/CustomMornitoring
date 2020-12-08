@@ -59,15 +59,15 @@ const CustomCapacity = () => {
             },
             events: {
                 click: function (chart, w, e) {
-                    const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
-                    const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
-
-                    setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
-                    setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
-                    setTimeLog([{runtime: runtime, stoptime: stoptime}])
-                    const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
-
-                    setAdvice(temp)
+                    // const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                    // const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                    //
+                    // setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
+                    // setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
+                    // setTimeLog([{runtime: runtime, stoptime: stoptime}])
+                    // const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
+                    //
+                    // setAdvice(temp)
                 },
             }
         },
@@ -133,7 +133,7 @@ const CustomCapacity = () => {
         }
     }
 
-    const times: string[] = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+    const times: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
     const [series, setSeries] = useState<{ name: string, data: number[], max: number, type: string }[]>([{
         name: 'value1',
         data: MachineInitData.analyze.uph,
@@ -151,6 +151,8 @@ const CustomCapacity = () => {
         type: 'line'
     }])
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
+    const [materialList, setMaterialList] = useState<any[]>([])
+    const [selectMaterial, setSelectMaterial] = useState<string>('All')
 
     const [advice, setAdvice] = useState<string[]>(['', ''])
 
@@ -182,15 +184,15 @@ const CustomCapacity = () => {
     const getData = useCallback(async () => {
         if (selectMachine !== '') {
             Notiflix.Loading.Circle()
-            const tempUrl = `${API_URLS['capacity'].load2}?pk=${selectMachine}&date=${selectDate}`
+            const tempUrl = `${API_URLS['capacity'].load3}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
             const resultData = await getCapacityTimeData(tempUrl)
             setMachineData(resultData)
 
             let tmp: number[] = []
             times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
+                let listIndex = resultData.times.indexOf(v)
                 if (listIndex !== -1) {
-                    tmp.push(resultData.analyze.productions[listIndex])
+                    tmp.push(resultData.productions[listIndex])
                 } else {
                     tmp.push(0)
                 }
@@ -200,9 +202,9 @@ const CustomCapacity = () => {
             let tmpSPM: number[] = []
 
             times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
+                let listIndex = resultData.times.indexOf(v)
                 if (listIndex !== -1) {
-                    tmpSPM.push(resultData.analyze.max_count[listIndex])
+                    tmpSPM.push(resultData.max_count[listIndex])
                 } else {
                     tmpSPM.push(0)
                 }
@@ -211,9 +213,9 @@ const CustomCapacity = () => {
             let tmpUPH: number[] = []
 
             times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
+                let listIndex = resultData.times.indexOf(v)
                 if (listIndex !== -1) {
-                    tmpUPH.push(resultData.analyze.uph[listIndex])
+                    tmpUPH.push(resultData.uph[listIndex])
                 } else {
                     tmpUPH.push(0)
                 }
@@ -248,7 +250,7 @@ const CustomCapacity = () => {
             setAdvice([])
             Notiflix.Loading.Remove()
         }
-    }, [selectMachine, machineData, series, selectDate])
+    }, [selectMachine, machineData, series, selectDate, selectMaterial])
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
@@ -257,6 +259,15 @@ const CustomCapacity = () => {
         setPressList(resultData)
 
     }, [])
+
+    const getMaterialList = useCallback(async () => {
+        if (selectMachine !== '') {
+            const tempUrl = `${API_URLS['capacity'].list}?pk=${selectMachine}&date=${selectDate}`
+            const resultData = await getCapacityTimeData(tempUrl)
+
+            setMaterialList(resultData)
+        }
+    }, [selectDate, selectMachine])
 
     const moldIndexList = {
         mold: {
@@ -296,8 +307,12 @@ const CustomCapacity = () => {
 
     useEffect(() => {
         getData()
+        getMaterialList()
     }, [selectMachine, selectDate])
 
+    useEffect(() => {
+        getData()
+    }, [selectMaterial])
 
     return (
         <div>
@@ -305,7 +320,7 @@ const CustomCapacity = () => {
                 <p style={{fontSize: 22, fontWeight: 'bold', textAlign: 'left'}}>프레스 생산량</p>
             </div>
             <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
-                                 onClickMachine={setSelectMachine}/>
+                                 onClickMachine={setSelectMachine} height={'827px'}/>
             {
                 machineData.machine_name !== '' && <div>
 
@@ -314,22 +329,44 @@ const CustomCapacity = () => {
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
-                        <div style={{marginTop: 25, paddingBottom: 23}}>
-                            <div>
-                                <div style={{float: 'left', display: 'inline-block'}}>
+                        <div style={{marginTop: 25}}>
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <div style={{
+                                    float: 'left',
+                                    display: 'inline-block',
+                                    width: '210px',
+                                }}>
                                     <p style={{
                                         textAlign: 'left',
                                         fontSize: 20,
                                         fontWeight: 'bold'
-                                    }}>{machineData.machine_name} ({machineData.produce_output})</p>
+                                    }}>{machineData.machine_name}</p>
                                 </div>
+                                <p style={{marginRight: 10, marginBottom: 2}}>품목 :</p>
+                                <select style={{
+                                    width: '195px',
+                                    height: '28px',
+                                    borderRadius: 5,
+                                    backgroundColor: '#353b48',
+                                    color: '#ffffff',
+                                    paddingLeft: 10,
+                                }} onChange={(e) => setSelectMaterial(e.target.value)}>
+                                    <option value={'All'} key={`All`}>전체</option>
+                                    {
+                                        materialList.map((v, i) => {
+                                            return (
+                                                <option value={v.material_pk}
+                                                        key={`${v.material_pk}machine${i}`}>{v.material_name}</option>
+                                            )
+                                        })}
+                                </select>
                                 <CalendarDropdown type={'single'} select={selectDate}
                                                   onClickEvent={async (i) => setSelectDate(i)}/>
                             </div>
                         </div>
                         <div style={{
                             width: 640,
-                            height: 649,
+                            height: 699,
                             backgroundColor: '#111319',
                             margin: 0,
                             borderRadius: "6px",
@@ -415,7 +452,7 @@ const ChartListBox = Styled.div`
 const ChartDetailBox = Styled.div`
     display: inline-block;
     width: 640px;
-    height: 724px;
+    height: 824px;
     padding: 0 25px 0 25px;
     background-color: #353b48;
     border-radius: 6px;

@@ -9,7 +9,7 @@ const AbilityAnalysis = () => {
         <DashboardWrapContainer index={'analysis'}>
 
             <InnerBodyContainer>
-                <AbilityContainer/>
+                <CustomAbility/>
             </InnerBodyContainer>
         </DashboardWrapContainer>
     )
