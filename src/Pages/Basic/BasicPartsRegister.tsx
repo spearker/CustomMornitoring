@@ -103,7 +103,7 @@ const BasicPartsRegister = () => {
                 setCost(data.parts_cost)
                 setName(data.parts_name)
                 setPartsName(data.parts_type_name)
-
+                setQuantity(data.parts_stock)
             } else {
                 //TODO:  기타 오류
             }

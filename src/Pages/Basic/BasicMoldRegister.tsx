@@ -340,6 +340,7 @@ const BasicMoldRegister = () => {
                             <ColorInputWithText type={'number'} title={'점검 타수'} value={inspect}
                                                 onChangeEvent={setInspect} placeholder={'점검 타수를 입력해주세요'}/>
                             <ColorInputWithText unit={'Ton'} title={'적정 톤 수'} value={proper} onChangeEvent={setProper}
+                                                type={'number'}
                                                 placeholder={'적정 톤 수를 입력해주세요 (단위 : Ton)'}/>
                             <ColorSearchContainer
                                 title={'공장/부속 공장'}

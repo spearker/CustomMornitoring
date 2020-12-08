@@ -56,17 +56,15 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
         // }
     ]
 
-
     useEffect(() => {
         setPage({...page, current: 1})
+        setKeyword('')
+        setList([])
         setPageType(type)
     }, [type])
 
     useEffect(() => {
-        setKeyword('')
-        setList([])
         getList(pageType)
-
     }, [pageType])
 
     const eventdummy = [

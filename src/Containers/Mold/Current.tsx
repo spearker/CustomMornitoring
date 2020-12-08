@@ -31,7 +31,7 @@ const CurrentContainer = () => {
     const indexList = {
         repair: {
             mold_name: '금형명',
-            manager: '담당자 이름',
+            manager_name: '담당자 이름',
             registered: '수리 등록 날짜',
             complete_date: '완료 예정 날짜',
             status: '상태'
@@ -227,7 +227,6 @@ const CurrentContainer = () => {
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
-                clickValue={selectValue}
                 buttonState={true}
                 currentPage={page.current}
                 totalPage={page.total}

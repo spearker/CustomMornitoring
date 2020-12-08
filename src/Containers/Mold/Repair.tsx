@@ -23,7 +23,7 @@ const RepairContainer = () => {
     const indexList = {
         repair: {
             mold_name: '금형 이름',
-            manager: '수리 담당자',
+            manager_name: '수리 담당자',
             complete_date: '완료 예정 날짜',
             registered: '수리 등록 날짜',
             status: "상태"
@@ -157,7 +157,6 @@ const RepairContainer = () => {
                 valueList={list}
                 EventList={eventList}
                 buttonState={true}
-                clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
