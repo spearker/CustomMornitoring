@@ -29,6 +29,7 @@ const ProductionKPIContainer = () => {
   const [type, setType] = useState<'month' | 'week' | 'day'>('day')
   const [compareView, setCompareView] = useState<boolean>(false)
   const [data, setData] = useState<any>({number: 100, increase: true})
+  const [compareArr, setCompareArr] = useState<number[]>([0, 0])
 
   useEffect(() => {
     // getData();
@@ -38,12 +39,15 @@ const ProductionKPIContainer = () => {
     return moment(date).format('YYYY-MM-DD')
   }
 
-  const getData = async (from: Date, to: Date) => {
+  const getData = async (from: Date, to: Date, index: number) => {
     console.log(from, to)
     const tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
     const resultData = await getKPIData(tempUrl)
     if (resultData) {
-      return resultData.ratio
+      const tmpList = compareArr
+      tmpList[index] = resultData.data
+      setCompareArr(tmpList)
+      return resultData.data
     }
     return 0
   }
@@ -62,12 +66,12 @@ const ProductionKPIContainer = () => {
       <TopHeader title={'생산지수(P)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
         <KPICompareBox type={type} setType={(type) => setType(type)}
-                       getData={getData}/>
+                       getData={getData} index={0}/>
         {
           compareView
             ? <>
               <KPICompareBox type={type} getData={getData}/>
-              <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
+              <KPIResultBox onCloseEvent={() => onClose()} data={compareArr}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>
               <button onClick={() => setCompareView(true)}>비교하기</button>
