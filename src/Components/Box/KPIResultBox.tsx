@@ -1,27 +1,29 @@
-import React from "react";
-import Styled from 'styled-components';
-import KPIBasicBox from "./KPIBasicBox";
+import React from 'react'
+import Styled from 'styled-components'
+import KPIBasicBox from './KPIBasicBox'
 
 // KPI용 겉 메뉴박스
 
-interface IProps{
-    onCloseEvent: () => void
-    data: any
+interface IProps {
+  onCloseEvent: () => void
+  data: number[]
 }
 
-const KPIResultBox = ({ onCloseEvent, data }: IProps) => {
-    
-    return (
-        <KPIBasicBox style={{padding: 16}}>
-            <LeftBox>
-                <p>비교대비 증감률</p>
-                <button onClick={()=> onCloseEvent()}>비교 종료</button>
-            </LeftBox>
-            <RightBox>
-                <p>{data.number ? data.number : '000'}<span>{data.increase ? '+' : '-'}</span></p>
-            </RightBox>
-        </KPIBasicBox>
-    )
+const KPIResultBox = ({onCloseEvent, data}: IProps) => {
+
+  return (
+    <KPIBasicBox style={{padding: 16}}>
+      <LeftBox>
+        <p>비교대비 증감률</p>
+        <button onClick={() => onCloseEvent()}>비교 종료</button>
+      </LeftBox>
+      <RightBox>
+        <p>{((data[0] - data[1]) * (data[0] + data[1])) * 100}
+          {/*<span>{data.increase ? '+' : '-'}</span>*/}
+        </p>
+      </RightBox>
+    </KPIBasicBox>
+  )
 }
 
 const LeftBox = Styled.div`

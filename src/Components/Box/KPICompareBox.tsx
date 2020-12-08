@@ -8,10 +8,11 @@ interface IProps {
   // data: { number: number, increase: boolean }
   type: 'month' | 'week' | 'day'
   setType?: (type: 'month' | 'week' | 'day') => void
-  getData?: (from: Date, to: Date) => Promise<number>
+  getData?: (from: Date, to: Date, index: number) => Promise<number>
+  index?: number
 }
 
-const KPICompareBox = ({type, setType, getData}: IProps) => {
+const KPICompareBox = ({type, setType, getData, index}: IProps) => {
   const [data, setData] = useState<{ number: number, increase: boolean }>({number: 500, increase: false})
 
   const [selectDate, setSelectDate] = useState<Date>(moment().subtract(1, 'days').toDate())
@@ -23,11 +24,11 @@ const KPICompareBox = ({type, setType, getData}: IProps) => {
   useEffect(() => {
     if (getData) {
       if (type === 'day') {
-        getData(selectDate, selectDate).then((ratio) => {
+        getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
           setData({number: ratio, increase: false})
         })
       } else {
-        getData(selectDates.from, selectDates.to).then((ratio) => {
+        getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
           setData({number: ratio, increase: false})
         })
       }
