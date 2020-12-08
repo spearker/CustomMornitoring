@@ -59,6 +59,11 @@ const CustomCapacity = () => {
             },
             events: {
                 click: function (chart, w, e) {
+                    if (e.dataPointIndex > 9) {
+                        getDetail(e.dataPointIndex)
+                    } else {
+                        getDetail('0' + e.dataPointIndex.toString())
+                    }
                     // const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
                     // const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
                     //
@@ -259,6 +264,17 @@ const CustomCapacity = () => {
         setPressList(resultData)
 
     }, [])
+
+    const getDetail = useCallback(async (hour) => {
+        const tempUrl = `${API_URLS['capacity'].detail}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}&hour=${hour}`
+        const resultData = await getCapacityTimeData(tempUrl)
+        
+        setAdvice(resultData.advice !== null ? resultData.advice : [])
+        setErrorLog(resultData.error)
+        setMoldLog(resultData.mold_change)
+        setTimeLog([{runtime: resultData.runtime, stoptime: resultData.stoptime}])
+
+    }, [selectMachine, selectDate, selectMaterial])
 
     const getMaterialList = useCallback(async () => {
         if (selectMachine !== '') {

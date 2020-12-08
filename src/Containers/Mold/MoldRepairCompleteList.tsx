@@ -79,7 +79,7 @@ const MoldRepairCompleteListContainer = () => {
     const indexList = {
         repair: {
             mold_name: '금형 명',
-            manager: '수리 담당자',
+            manager_name: '수리 담당자',
             complete_date: '완료 예정 날짜',
             registered: '수리 등록 날짜',
             status: '상태',
@@ -150,7 +150,6 @@ const MoldRepairCompleteListContainer = () => {
         <div>
             <OvertonTable
                 title={'금형 수리 완료'}
-                mainOnClickEvent={(v) => history.push(`/mold/create/register/${v.pk}`)}
                 indexList={index}
                 valueList={list}
                 clickValue={selectValue}

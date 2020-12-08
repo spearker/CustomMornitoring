@@ -74,10 +74,10 @@ const MemberListContainer = () => {
         // {
         //     Name: '수정',
         // },
-        {
-            Name: '삭제',
-            Link: () => 'postDelete()'
-        }
+        // {
+        //     Name: '삭제',
+        //     Link: () => 'postDelete()'
+        // }
     ]
 
     const onClick = useCallback((stock) => {

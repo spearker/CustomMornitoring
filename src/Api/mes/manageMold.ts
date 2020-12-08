@@ -24,10 +24,10 @@ export const postMoldRegister = async (url: string, bodyData: object) => {
  */
 
 export const postMoldState = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData);
+    const temp: { result: any } = await client.post(url, bodyData);
 
     if (temp) {
-        return temp.results
+        return temp.result
     }
 }
 

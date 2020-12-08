@@ -284,7 +284,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                                         }}
                                                         >{bv.buttonState === true ? v.status === '진행중' ? '완료 하기' : '취소 하기' : bv.Name}</ButtonBox>
                                                         :
-                                                        <ButtonBox disabled={(v.finished === '완료' && bv.Name !== '수정')}
+                                                        <ButtonBox disabled={(v.finished === '완료')}
                                                                    onClick={() => bv.Link(v)}
                                                                    style={{
                                                                        width: bv.Width,
