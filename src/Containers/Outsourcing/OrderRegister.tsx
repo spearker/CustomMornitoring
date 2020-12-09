@@ -22,278 +22,278 @@ import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 // 발주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 interface Props {
-    match: any;
-    // chilren: string;
+  match: any;
+  // chilren: string;
 }
 
 const OutsourcingRegister = ({match}: Props) => {
-    const history = useHistory()
+  const history = useHistory()
 
-    const [selectDate, setSelectDate] = useState<string>('')
-    const [pk, setPk] = useState<string>('')
-    const [name, setName] = useState<string>('')
-    const [no, setNo] = useState<number>()
-    const [type, setType] = useState<number>(0) //0: 법인, 1:개인
-    const [phone, setPhone] = useState<string>('')
-    const [address, setAddress] = useState<string>('')
-    const [fax, setFax] = useState<string>('')
-    const [phoneM, setPhoneM] = useState<string>('')
-    const [emailM, setEmailM] = useState<string>('')
-    const [email, setEmail] = useState<string>('')
-    const [manager, setManager] = useState<string>('')
-    const [ceo, setCeo] = useState<string>('')
-    const [infoList, setInfoList] = useState<IInfo[]>([])
+  const [selectDate, setSelectDate] = useState<string>('')
+  const [pk, setPk] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [no, setNo] = useState<number>()
+  const [type, setType] = useState<number>(0) //0: 법인, 1:개인
+  const [phone, setPhone] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [fax, setFax] = useState<string>('')
+  const [phoneM, setPhoneM] = useState<string>('')
+  const [emailM, setEmailM] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [manager, setManager] = useState<string>('')
+  const [ceo, setCeo] = useState<string>('')
+  const [infoList, setInfoList] = useState<IInfo[]>([])
 
-    const [paths, setPaths] = useState<any[1]>([null])
-    const [oldPaths, setOldPaths] = useState<any[1]>([null])
-
-
-    const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
-    const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
-    const [quantity, setQuantity] = useState<number>()
-    const [unpaid, setUnpaid] = useState<number>()
-    const [paymentCondition, setPaymentCondition] = useState('')
-    const [inputData, setInputData] = useObjectInput('CHANGE', {
-        name: '',
-        description: '',
-        location: {
-            postcode: '',
-            roadAddress: '',
-            detail: '',
-        },
-
-    })
-
-    const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [paths, setPaths] = useState<any[1]>([null])
+  const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
 
-    useEffect(() => {
-        if (match.params.pk) {
-            ////alert(`수정 페이지 진입 - pk :` + param)
-            setIsUpdate(true)
-            getData()
-        }
-    }, [])
+  const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
+  const [selectOutsource, setSelectOutsource] = useState<{ name?: string, pk?: string }>()
+  const [quantity, setQuantity] = useState<number>()
+  const [unpaid, setUnpaid] = useState<number>()
+  const [paymentCondition, setPaymentCondition] = useState('')
+  const [inputData, setInputData] = useObjectInput('CHANGE', {
+    name: '',
+    description: '',
+    location: {
+      postcode: '',
+      roadAddress: '',
+      detail: '',
+    },
+
+  })
+
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
 
-    /**
-     * getData()
-     * 기계 정보 수정을 위한 조회
-     * @param {string} url 요청 주소
-     * @param {string} pk 기계 pk
-     * @returns X
-     */
-    const getData = useCallback(async () => {
+  useEffect(() => {
+    if (match.params.pk) {
+      ////alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
+    }
+  }, [])
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/load?pk=` + match.params.pk, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            //TODO: 에러 처리
+  /**
+   * getData()
+   * 기계 정보 수정을 위한 조회
+   * @param {string} url 요청 주소
+   * @param {string} pk 기계 pk
+   * @returns X
+   */
+  const getData = useCallback(async () => {
+
+    const res = await getRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/load?pk=` + match.params.pk, getToken(TOKEN_NAME))
+
+    if (res === false) {
+      //TODO: 에러 처리
+    } else {
+      if (res.status === 200) {
+        const data = res.results
+        setSelectOutsource({name: data.company_name, pk: data.company_pk})
+        setSelectMaterial({name: data.product, pk: data.product_pk})
+        setInputData('location', data.address)
+        setQuantity(data.quantity)
+        setUnpaid(data.unpaid)
+        setSelectDate(data.due_date)
+        setPaymentCondition(data.payment_condition)
+
+      } else {
+        //TODO:  기타 오류
+      }
+    }
+  }, [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
+
+  /**
+   * onsubmitFormUpdate()
+   * 기계 정보 수정 요청
+   * @param {string} url 요청 주소
+   * @param {string} pk 기계 pk
+   * @param {string} name 이름
+   * @param {string} no 넘버
+   * @param {object(file)} file 사진 파일
+   * @param {string} info 상세정보
+   * @param {string} made 제조정보
+   * @param {string} type 종류
+   * @param {string} madeNo 제조사넘버
+   * @returns X
+   */
+  const onsubmitFormUpdate = useCallback(async () => {
+
+      if (selectOutsource?.pk === '') {
+        alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+        return
+      } else if (selectMaterial?.pk === '') {
+        alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+        return
+      } else if (!quantity || quantity === 0) {
+        alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      } else if (unpaid === null) {
+        alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      } else if (paymentCondition === '') {
+        alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      } else if (selectDate === '') {
+        alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+        return
+      } else if (inputData.location.postcode === '') {
+        alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+        return
+      }
+
+
+      const data = {
+        pk: match.params.pk,
+        company: selectOutsource?.pk,
+        product: selectMaterial?.pk,
+        quantity: quantity.toString(),
+        unpaid: String(unpaid),
+        due_date: selectDate,
+        payment_condition: paymentCondition,
+        address: inputData.location
+        //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+
+      }
+      const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/update/`, data, getToken(TOKEN_NAME))
+
+      if (res === false) {
+        //TODO: 에러 처리
+      } else {
+        if (res.status === 200) {
+          //alert('성공적으로 등록 되었습니다')
+          history.push('/outsourcing/order/list')
+
         } else {
-            if (res.status === 200) {
-                const data = res.results
-                setSelectOutsource({name: data.company_name, pk: data.company_pk})
-                setSelectMaterial({name: data.product, pk: data.product_pk})
-                setInputData('location', data.address)
-                setQuantity(data.quantity)
-                setUnpaid(data.unpaid)
-                setSelectDate(data.due_date)
-                setPaymentCondition(data.payment_condition)
-
-            } else {
-                //TODO:  기타 오류
-            }
+          //TODO:  기타 오류
         }
-    }, [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
+      }
+    }
 
-    /**
-     * onsubmitFormUpdate()
-     * 기계 정보 수정 요청
-     * @param {string} url 요청 주소
-     * @param {string} pk 기계 pk
-     * @param {string} name 이름
-     * @param {string} no 넘버
-     * @param {object(file)} file 사진 파일
-     * @param {string} info 상세정보
-     * @param {string} made 제조정보
-     * @param {string} type 종류
-     * @param {string} madeNo 제조사넘버
-     * @returns X
-     */
-    const onsubmitFormUpdate = useCallback(async () => {
+    ,
+    [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData]
+  )
 
-            if (selectOutsource?.pk === '') {
-                alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
-                return
-            } else if (selectMaterial?.pk === '') {
-                alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
-                return
-            } else if (!quantity || quantity === 0) {
-                alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            } else if (unpaid === null) {
-                alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            } else if (paymentCondition === '') {
-                alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            } else if (selectDate === '') {
-                alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
-                return
-            } else if (inputData.location.postcode === '') {
-                alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
-                return
-            }
+  /**
+   * onsubmitForm()
+   * 기계 정보 등록
+   * @param {string} url 요청 주소
+   * @param {string} name 이름
+   * @param {string} no 넘버
+   * @param {string} info 상세정보
+   * @param {string} made 제조정보
+   * @param {string} type 종류
+   * @param {string} madeNo 제조사넘버
+   * @returns X
+   */
+  const onsubmitForm = useCallback(async () => {
+
+    ////alert(JSON.stringify(infoList))
+    if (selectOutsource?.pk === '') {
+      alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (selectMaterial?.pk === '') {
+      alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (!quantity || quantity === 0) {
+      alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (unpaid === null) {
+      alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (paymentCondition === '') {
+      alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (selectDate === '') {
+      alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
+      return
+    } else if (inputData.location.postcode === '') {
+      alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    }
+
+    const data = {
+      company: selectOutsource?.pk,
+      product: selectMaterial?.pk,
+      quantity: quantity.toString(),
+      unpaid: String(unpaid),
+      due_date: selectDate.toString(),
+      payment_condition: paymentCondition,
+      address: inputData.location
+    }
+
+    const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/register`, data, getToken(TOKEN_NAME))
+
+    if (res === false) {
+      //TODO: 에러 처리
+    } else {
+      if (res.status === 200) {
+        //alert('성공적으로 등록 되었습니다')
+        history.push('/outsourcing/order/list')
+
+      } else {
+        //TODO:  기타 오류
+      }
+    }
+
+  }, [selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
 
 
-            const data = {
-                pk: match.params.pk,
-                company: selectOutsource?.pk,
-                product: selectMaterial?.pk,
-                quantity: quantity.toString(),
-                unpaid: String(unpaid),
-                due_date: selectDate,
-                payment_condition: paymentCondition,
-                address: inputData.location
-                //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-
-            }
-            const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/update/`, data, getToken(TOKEN_NAME))
-
-            if (res === false) {
-                //TODO: 에러 처리
-            } else {
-                if (res.status === 200) {
-                    //alert('성공적으로 등록 되었습니다')
-                    history.push('/outsourcing/order/list')
-
-                } else {
-                    //TODO:  기타 오류
+  return (
+    <
+      div>
+      < Header
+        title={isUpdate ? '발주 수정' : '발주 등록'}
+      />
+      <WhiteBoxContainer>
+        <ListHeader title="필수 항목"/>
+        <InputContainer title={'외주처 명'} width={120}>
+          <OutsourcingPickerModal select={selectOutsource}
+                                  onClickEvent={(e) => {
+                                    setSelectOutsource({...selectOutsource, ...e})
+                                  }} text={'외주처 명을 검색해주세요.'}/>
+        </InputContainer>
+        <InputContainer title={'품목(품목명)'} width={120}>
+          <ProductionPickerModal select={selectMaterial}
+                                 onClickEvent={(e) => {
+                                   setSelectMaterial({...selectMaterial, ...e})
+                                 }} text={'품목명을 검색해주세요.'} type={1}/>
+        </InputContainer>
+        <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity}
+                           description={'수량을 입력하세요.'} width={120}/>
+        <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid}
+                           description={'미납 수량을 입력하세요.'} width={120}/>
+        <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
+                     description={'대금 지불조건을 입력해 주세요.'} width={120}/>
+        <InputContainer title={'납기일'} width={120}>
+          <div style={{
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'row',
+            backgroundColor: '#f4f6fa',
+            border: '0.5px solid #b3b3b3',
+            height: 32
+          }}>
+            <div style={{width: 817, display: 'table-cell'}}>
+              <div style={{marginTop: 5}}>
+                {
+                  selectDate === ''
+                    ? <InputText>&nbsp; 납기일을 선택해 주세요.</InputText>
+                    : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
                 }
-            }
-        }
-
-        ,
-        [pk, selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData]
-    )
-
-    /**
-     * onsubmitForm()
-     * 기계 정보 등록
-     * @param {string} url 요청 주소
-     * @param {string} name 이름
-     * @param {string} no 넘버
-     * @param {string} info 상세정보
-     * @param {string} made 제조정보
-     * @param {string} type 종류
-     * @param {string} madeNo 제조사넘버
-     * @returns X
-     */
-    const onsubmitForm = useCallback(async () => {
-
-        ////alert(JSON.stringify(infoList))
-        if (selectOutsource?.pk === '') {
-            alert('외주처는 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (selectMaterial?.pk === '') {
-            alert('품목은 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (!quantity || quantity === 0) {
-            alert('수량은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (unpaid === null) {
-            alert('미납 수량은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (paymentCondition === '') {
-            alert('대급 지불조건은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (selectDate === '') {
-            alert('납기일은 필수 항목입니다. 반드시 선택주세요.')
-            return
-        } else if (inputData.location.postcode === '') {
-            alert('공장 주소는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        }
-
-        const data = {
-            company: selectOutsource?.pk,
-            product: selectMaterial?.pk,
-            quantity: quantity.toString(),
-            unpaid: String(unpaid),
-            due_date: selectDate.toString(),
-            payment_condition: paymentCondition,
-            address: inputData.location
-        }
-
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/order/register`, data, getToken(TOKEN_NAME))
-
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/outsourcing/order/list')
-
-            } else {
-                //TODO:  기타 오류
-            }
-        }
-
-    }, [selectOutsource, selectMaterial, selectDate, quantity, unpaid, paymentCondition, inputData])
-
-
-    return (
-        <
-            div>
-            < Header
-                title={isUpdate ? '발주 수정' : '발주 등록'}
-            />
-            <WhiteBoxContainer>
-                <ListHeader title="필수 항목"/>
-                <InputContainer title={'외주처 명'} width={120}>
-                    <OutsourcingPickerModal select={selectOutsource}
-                                            onClickEvent={(e) => {
-                                                setSelectOutsource({...selectOutsource, ...e})
-                                            }} text={'외주처 명을 검색해주세요.'}/>
-                </InputContainer>
-                <InputContainer title={'품목(품목명)'} width={120}>
-                    <ProductionPickerModal select={selectMaterial}
-                                           onClickEvent={(e) => {
-                                               setSelectMaterial({...selectMaterial, ...e})
-                                           }} text={'품목명을 검색해주세요.'} type={1}/>
-                </InputContainer>
-                <NormalNumberInput title={'수량'} value={quantity} onChangeEvent={setQuantity}
-                                   description={'수량을 입력하세요.'} width={120}/>
-                <NormalNumberInput title={'미납 수량'} value={unpaid} onChangeEvent={setUnpaid}
-                                   description={'미납 수량을 입력하세요.'} width={120}/>
-                <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
-                             description={'대금 지불조건을 입력해 주세요.'} width={120}/>
-                <InputContainer title={'납기일'} width={120}>
-                    <div style={{
-                        display: 'flex',
-                        flex: 1,
-                        flexDirection: 'row',
-                        backgroundColor: '#f4f6fa',
-                        border: '0.5px solid #b3b3b3',
-                        height: 32
-                    }}>
-                        <div style={{width: 817, display: 'table-cell'}}>
-                            <div style={{marginTop: 5}}>
-                                {
-                                    selectDate === ''
-                                        ? <InputText>&nbsp; 납기일을 선택해 주세요.</InputText>
-                                        : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
-                                }
-                            </div>
-                        </div>
-                        <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
-                            setSelectDate(select)
-                        }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
-                    </div>
-                </InputContainer>
-                <NormalAddressInput title={'공장 주소'} value={inputData.location}
-                                    onChangeEvent={(input) => setInputData(`location`, input)}/>
-                {/* 자유항목 입력 창
+              </div>
+            </div>
+            <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+              setSelectDate(select)
+            }} unLimit={true} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+          </div>
+        </InputContainer>
+        <NormalAddressInput title={'공장 주소'} value={inputData.location}
+                            onChangeEvent={(input) => setInputData(`location`, input)}/>
+        {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();
               tempInfo.push({title:`자유 항목 ${infoList.length + 1}`, value:""});
@@ -320,30 +320,30 @@ const OutsourcingRegister = ({match}: Props) => {
               </FullAddInput>
 
             */}
-                {isUpdate ?
-                    <div style={{marginTop: 40, marginLeft: 340}}>
-                        <ButtonWrap onClick={async () => {
-                            await onsubmitFormUpdate()
-                        }}>
-                            <div style={{width: 360, height: 40}}>
-                                <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
-                            </div>
-                        </ButtonWrap>
-                    </div>
-                    :
-                    <div style={{marginTop: 40, marginLeft: 340}}>
-                        <ButtonWrap onClick={async () => {
-                            await onsubmitForm()
-                        }}>
-                            <div style={{width: 360, height: 40}}>
-                                <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
-                            </div>
-                        </ButtonWrap>
-                    </div>
-                }
-            </WhiteBoxContainer>
-        </div>
-    )
+        {isUpdate ?
+          <div style={{marginTop: 40, marginLeft: 340}}>
+            <ButtonWrap onClick={async () => {
+              await onsubmitFormUpdate()
+            }}>
+              <div style={{width: 360, height: 40}}>
+                <p style={{fontSize: 18, marginTop: 15}}>수정하기</p>
+              </div>
+            </ButtonWrap>
+          </div>
+          :
+          <div style={{marginTop: 40, marginLeft: 340}}>
+            <ButtonWrap onClick={async () => {
+              await onsubmitForm()
+            }}>
+              <div style={{width: 360, height: 40}}>
+                <p style={{fontSize: 18, marginTop: 15}}>등록하기</p>
+              </div>
+            </ButtonWrap>
+          </div>
+        }
+      </WhiteBoxContainer>
+    </div>
+  )
 }
 
 const InputText = Styled.p`
