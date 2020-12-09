@@ -87,16 +87,6 @@ const ProductToneContainer = () => {
       machine_name: '기계명'
     }
   }
-  //
-  // const detaildummy = [
-  //     {
-  //         settingTone: 97,
-  //         normalTone: 99,
-  //         maxTone: 120,
-  //         minTone: 93
-  //     }
-  // ]
-
 
   const onClick = useCallback((product, index) => {
     console.log(product)
@@ -195,7 +185,7 @@ const ProductToneContainer = () => {
   }, [machinePk, materialPage.current])
 
   useEffect(() => {
-    if (selectValue !== null && selectValue !== undefined) {
+    if (selectValue) {
       getDataPaginatoin()
     }
   }, [tonPage.current, selectDate, selectValue])
@@ -203,6 +193,7 @@ const ProductToneContainer = () => {
   useEffect(() => {
     setDetailList([])
     setDetailTonList([])
+    console.log(selectValue)
   }, [selectValue])
 
   return (
