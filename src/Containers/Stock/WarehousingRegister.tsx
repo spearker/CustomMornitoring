@@ -17,6 +17,7 @@ import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import moment from 'moment'
 import {transferStringToCode} from '../../Common/codeTransferFunctions'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {API_URLS, postStockRegister, getStockList} from "../../Api/mes/manageStock";
 
 const typeDummy = [
     '정상 입고',
@@ -198,18 +199,11 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/parts/warehousing/register`, data, getToken(TOKEN_NAME))
+            const tempUrl = `${API_URLS['stock'].warehousingRegister}`
+            const res = await postStockRegister(tempUrl, data)
 
-            if (res === false) {
-                //TODO: 에러 처리
-            } else {
-                if (res.status === 200) {
-                    //alert('성공적으로 등록 되었습니다')
-
-                    history.goBack()
-                } else {
-                    //TODO:  기타 오류
-                }
+            if (res) {
+                history.goBack()
             }
         } else {
 
@@ -228,19 +222,13 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
+            const tempUrl = `${API_URLS['stock'].warehousingRegister}`
+            const res = await postStockRegister(tempUrl, data)
 
-            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/warehousing/register`, data, getToken(TOKEN_NAME))
 
-            if (res === false) {
-                //TODO: 에러 처리
-            } else {
-                if (res.status === 200) {
-                    // alert('성공적으로 등록 되었습니다')
+            if (res) {
 
-                    history.goBack()
-                } else {
-                    //TODO:  기타 오류
-                }
+                history.goBack()
             }
         }
     }, [selectType, amount, selectDate])

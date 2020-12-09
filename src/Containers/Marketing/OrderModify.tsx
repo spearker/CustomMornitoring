@@ -65,7 +65,7 @@ const OrderModifyContainer = ({match}: Props) => {
             date: selectDate
         });
 
-        if (resultData.status === 200) {
+        if (resultData) {
             history.goBack()
         }
     }, [orderData])
