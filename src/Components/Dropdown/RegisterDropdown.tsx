@@ -14,9 +14,11 @@ interface IProps {
   type: 'string' | 'number'
   buttonWid?: string | number
   disabled?: boolean
+  style?: any
+  inputStyle?: any
 }
 
-const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid, disabled}: IProps) => {
+const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid, disabled, style, inputStyle}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
 
@@ -32,11 +34,11 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
   }, [])
 
   return (
-    <div style={{position: 'relative', display: 'inline-block', width: 917}} ref={ref}>
+    <div style={{position: 'relative', display: 'inline-block', width: 917, ...style}} ref={ref}>
       <BoxWrap disabled={disabled} onClick={() => {
         setIsOpen(true)
       }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-        <div style={{display: 'inline-block', height: 32, width: 885}}>
+        <div style={{display: 'inline-block', height: 32, width: 885, ...inputStyle}}>
           {
             select ? <p onClick={() => {
                 setIsOpen(true)

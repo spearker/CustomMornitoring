@@ -272,9 +272,10 @@ const BasicMachineRegister = () => {
                             <NormalInput title={'기계 이름'} value={name} onChangeEvent={setName}
                                          description={'고객사가 보유한 기계의 이름을 입력하세요'}/>
                             <DropdownInput title={'기계 종류'} target={indexList[type]} contents={indexList}
-                                           onChangeEvent={(v) => setType(v)}/>
+                                           onChangeEvent={(v) => setType(v)} style={{ width: 'calc(100% - 157px)' }} 
+                                           buttonStyle={{ right: 0 }} inputStyle={{ boxSizing: 'border-box' }} selectStyle={{ boxSizing: 'border-box' }} />
 
-                            <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}/>
+                            <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate} style={{ width: 'calc(100% - 157px)' }} inputStyle={{ boxSizing: 'border-box' }} />
                             <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo}
                                          description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'}/>
 
@@ -324,9 +325,7 @@ const BasicMachineRegister = () => {
                                     <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths}
                                                   nameList={['기계사진', '스펙명판', '능력명판']}
                                                   isImage={true}/>
-
-                                    :
-                                    null
+                                    : null
                             }
                             <br/>
                             {/*<DocumentFormatInputList*/}
@@ -374,7 +373,7 @@ const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;
   color: white;
-  background-color: ${BG_COLOR_SUB2}
+  background-color: ${BG_COLOR_SUB2};
 `
 
 

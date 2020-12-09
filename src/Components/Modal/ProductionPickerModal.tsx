@@ -19,6 +19,7 @@ interface IProps {
     width?: boolean
     type?: number
     style?: any
+    innerStyle?: any
     innerWidth?: string | number
     buttonWid?: string | number
     disabled?: boolean
@@ -36,7 +37,7 @@ const DummyItem = [
     }
 ]
 
-const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem, noBasic}: IProps) => {
+const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerStyle, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem, noBasic}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
     const [searchName, setSearchName] = useState('')
@@ -79,7 +80,8 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                 position: 'relative',
                 display: 'inline-block',
                 zIndex: 0,
-                width: innerWidth ? innerWidth : width ? 867 : 917
+                width: innerWidth ? innerWidth : width ? 867 : 917,
+                ...innerStyle
             }}>
                 <BoxWrap disabled={disabled} onClick={() => {
                     setIsOpen(true)

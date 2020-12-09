@@ -143,10 +143,13 @@ const BasicBarcodeRegister = ({match}: Props) => {
                                      onChangeEvent={(e) => setInputData('barcode_name', e)}
                                      description={'바코드 이름을 입력해주세요.'}/>
                         <DropdownInput title={'항목'} target={indexList[type]} contents={indexList}
-                                       onChangeEvent={(input) => setType(input)}/>
+                                       onChangeEvent={(input) => setType(input)}
+                                       style={{ width: 'calc(100% - 157px)' }} 
+                                       buttonStyle={{ right: 0 }} inputStyle={{ boxSizing: 'border-box' }} 
+                                       selectStyle={{ boxSizing: 'border-box' }}/>
                         <CustomPickerModal select={selectMachine} onClickEvent={(e) => setSelectMachine(e)}
                                            text={'세부 항목을 검색해주세요.'}
-                                           type={indexType[type]}/>
+                                           type={indexType[type]} inputStyle={{ width: 838 }} />
                         {
                             rules.length > 0 && rules[0] !== null &&
                             <>
@@ -206,12 +209,12 @@ const BasicBarcodeRegister = ({match}: Props) => {
                         </InputContainer>
                         <ListHeader title="선택 항목"/>
                         <InputContainer title={'바코드 설명'} width={180}>
-              <textarea maxLength={120} ref={textBoxRef} onChange={(e) => setReason(e.target.value)} value={reason}
-                        style={{
-                            border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)',
-                            resize: 'none'
-                        }}
-                        placeholder="내용을 입력해주세요 (80자 미만)"/>
+                            <textarea maxLength={120} ref={textBoxRef} onChange={(e) => setReason(e.target.value)} value={reason}
+                                style={{
+                                    border: 0, fontSize: 14, padding: 12, height: '70px', width: 'calc(100% - 124px)',
+                                    resize: 'none'
+                                }}
+                                placeholder="내용을 입력해주세요 (80자 미만)"/>
                         </InputContainer>
                     </div>
                     <div style={{marginTop: 72, marginLeft: 330}}>

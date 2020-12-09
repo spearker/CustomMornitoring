@@ -16,6 +16,7 @@ interface IProps {
   text: string
   type: string
   noOnClick?: boolean
+  inputStyle?: any
 }
 
 const DummyMachine = {
@@ -54,7 +55,7 @@ const DummyMachine = {
 }
 
 
-const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick}: IProps) => {
+const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputStyle}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
@@ -120,7 +121,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick}: IProps
           <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 210}}>{'· 세부 항목'}</p>
           <BoxWrap onClick={() => noOnClick ? null : setIsOpen(true)}
                    style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-            <div style={{display: 'inline-block', height: 32, width: 832}}>
+            <div style={{display: 'inline-block', height: 32, width: 832, ...inputStyle}}>
               {
                 select && select.name ? <p onClick={() => noOnClick ? null : setIsOpen(true)}
                                            style={{marginTop: 5}}>&nbsp; {select.name}</p>
