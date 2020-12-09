@@ -52,6 +52,9 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
       material_name: '',
       material_type: '',
       location: '',
+      name: '',
+      type: '',
+      location_name: ''
     }
   ])
 
@@ -75,8 +78,8 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
     }
 
     const resultData = await getProductionSearch(tempUrl)
-
-    setProductList(resultData.info_list)
+    if (resultData)
+      setProductList(resultData.info_list)
   }, [searchName])
 
   const handleClickBtn = () => {
@@ -158,10 +161,10 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                     productList.map((v, i) => {
                       return (
                         <tr style={{height: 32}}>
-                          <td><span>&nbsp; {v.material_name}</span></td>
-                          <td><span>{transferCodeToName('material', v.material_type)}</span>
+                          <td><span>&nbsp; {filter ? v.name : v.material_name}</span></td>
+                          <td><span>{transferCodeToName('material', filter ? v.type : v.material_type)}</span>
                           </td>
-                          <td><span>{v.location}</span></td>
+                          <td><span>{filter ? v.location_name : v.location}</span></td>
                           <td>
                             <button
                               onSubmit={() => {

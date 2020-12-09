@@ -15,7 +15,7 @@ interface Props {
   allCheckbox?: boolean
   checkBox?: boolean
   pkKey?: string
-  clickValue?: object
+  clickValue?: any
   mainOnClickEvent?: any
   onClickEvent?: any
   currentPage?: number
@@ -146,9 +146,10 @@ const HalfTalbe: React.FunctionComponent<Props> = ({title, calendar, titleOnClic
                 more_Action: false
             },
             */
+
             return (
               <ValueBar key={i} style={{
-                backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                backgroundColor: clickValue && clickValue.material_name == v.material_name ? '#19b9df' : '#353b48',
                 cursor: 'pointer'
               }}>
                 {
