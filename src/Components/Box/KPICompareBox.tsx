@@ -25,15 +25,17 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
   })
 
   useEffect(() => {
-    if (getData) {
-      if (type === 'day') {
-        getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
-          setData(ratio)
-        })
-      } else {
-        getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
-          setData(ratio)
-        })
+    if (value.api !== 'manufacturing_leadTime_reduced_rate') {
+      if (getData) {
+        if (type === 'day') {
+          getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
+            setData(ratio)
+          })
+        } else {
+          getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
+            setData(ratio)
+          })
+        }
       }
     }
   }, [type, selectDate, selectDates, value])
@@ -60,9 +62,10 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
   return (
     <Container>
       <div>
-        <FlexBox>
-          {
-            value.api !== 'manufacturing_leadTime_reduced_rate' ? <React.Fragment>
+
+        {
+          value.api !== 'manufacturing_leadTime_reduced_rate' ? <React.Fragment>
+              <FlexBox>
                 <DateTypeCalendar type={type} selectDate={selectDate} selectDates={selectDates}
                                   onChangeSelectDate={(v, type) => {
                                     if (type === 'day') {
@@ -96,15 +99,18 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                       <label htmlFor="month"><span style={{marginLeft: 25}}>월</span></label>
                   </div>
                 }
-              </React.Fragment>
-              : <React.Fragment>
+              </FlexBox>
+            </React.Fragment>
+            : <React.Fragment>
+              <div style={{width: 371}}>
                 {
-                  <ProductionPickerModal onClickEvent={() => {
+                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={() => {
                   }} text={'품목을 선택해주세요'}/>
                 }
-              </React.Fragment>
-          }
-        </FlexBox>
+              </div>
+            </React.Fragment>
+        }
+
         <div style={{display: 'flex', justifyContent: 'row'}}>
           {
             Object.keys(data).map((v) => {
