@@ -2,18 +2,21 @@ import React, {useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import DateTypeCalendar from '../Modal/DateTypeCalendar'
 import moment from 'moment'
+import ProductionPickerModal from '../Modal/ProductionPickerModal'
 
 // KPI
 interface IProps {
   // data: { number: number, increase: boolean }
   type: 'month' | 'week' | 'day'
   setType?: (type: 'month' | 'week' | 'day') => void
-  getData?: (from: Date, to: Date, index: number) => Promise<number>
+  getData?: (from: Date, to: Date, index: number) => Promise<any>
   index?: number
+  value?: any
+  subTitleList?: { total?: string, comply?: string, error?: string }
 }
 
-const KPICompareBox = ({type, setType, getData, index}: IProps) => {
-  const [data, setData] = useState<{ number: number, increase: boolean }>({number: 500, increase: false})
+const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IProps) => {
+  const [data, setData] = useState<any>({})
 
   const [selectDate, setSelectDate] = useState<Date>(moment().subtract(1, 'days').toDate())
   const [selectDates, setSelectDates] = useState<{ from: Date, to: Date }>({
@@ -25,15 +28,15 @@ const KPICompareBox = ({type, setType, getData, index}: IProps) => {
     if (getData) {
       if (type === 'day') {
         getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
-          setData({number: ratio, increase: false})
+          setData(ratio)
         })
       } else {
         getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
-          setData({number: ratio, increase: false})
+          setData(ratio)
         })
       }
     }
-  }, [type, selectDate, selectDates])
+  }, [type, selectDate, selectDates, value])
 
   React.useEffect(() => {
     if (type === 'day') {
@@ -58,51 +61,74 @@ const KPICompareBox = ({type, setType, getData, index}: IProps) => {
     <Container>
       <div>
         <FlexBox>
-          <DateTypeCalendar type={type} selectDate={selectDate} selectDates={selectDates}
-                            onChangeSelectDate={(v, type) => {
-                              if (type === 'day') {
-                                setSelectDate(v)
-                              } else {
-                                setSelectDates(v)
-                              }
-                            }}/>
           {
-            setType !== undefined &&
-            <div style={{marginTop: 8}}>
-                <input type="radio" id="day" name="type"
-                       checked={type === 'day' ? true : false}
-                       onClick={() => {
-                         setType('day')
-                       }}/>
-                <label htmlFor="day"><span style={{marginLeft: 25}}>일</span></label>
+            value.api !== 'manufacturing_leadTime_reduced_rate' ? <React.Fragment>
+                <DateTypeCalendar type={type} selectDate={selectDate} selectDates={selectDates}
+                                  onChangeSelectDate={(v, type) => {
+                                    if (type === 'day') {
+                                      setSelectDate(v)
+                                    } else {
+                                      setSelectDates(v)
+                                    }
+                                  }}/>
+                {
+                  setType !== undefined &&
+                  <div style={{marginTop: 8}}>
+                      <input type="radio" id="day" name="type"
+                             checked={type === 'day'}
+                             onClick={() => {
+                               setType('day')
+                             }}/>
+                      <label htmlFor="day"><span style={{marginLeft: 25}}>일</span></label>
 
-                <input type="radio" id="week" name="type"
-                       checked={type === 'week' ? true : false}
-                       onClick={() => {
-                         setType('week')
-                       }}/>
-                <label htmlFor="week"><span style={{marginLeft: 25}}>주</span></label>
+                      <input type="radio" id="week" name="type"
+                             checked={type === 'week'}
+                             onClick={() => {
+                               setType('week')
+                             }}/>
+                      <label htmlFor="week"><span style={{marginLeft: 25}}>주</span></label>
 
-                <input type="radio" id="month" name="type"
-                       checked={type === 'month' ? true : false}
-                       onClick={() => {
-                         setType('month')
-                       }}/>
-                <label htmlFor="month"><span style={{marginLeft: 25}}>월</span></label>
-            </div>
+                      <input type="radio" id="month" name="type"
+                             checked={type === 'month'}
+                             onClick={() => {
+                               setType('month')
+                             }}/>
+                      <label htmlFor="month"><span style={{marginLeft: 25}}>월</span></label>
+                  </div>
+                }
+              </React.Fragment>
+              : <React.Fragment>
+                {
+                  <ProductionPickerModal onClickEvent={() => {
+                  }} text={'품목을 선택해주세요'}/>
+                }
+              </React.Fragment>
           }
         </FlexBox>
-        <div>
+        <div style={{display: 'flex', justifyContent: 'row'}}>
           {
-            type === 'week'
-              ? `${moment(selectDates.from).format('yyyy.MM.DD')} ~ ${moment(selectDates.to).format('yyyy.MM.DD')}`
-              : type === 'month'
-              ? moment(selectDates.from).format('yyyy.MM')
-              : moment(selectDate).format('yyyy.MM.DD')}
+            Object.keys(data).map((v) => {
+              if (v === 'data') {
+                return
+              }
+              return (
+                <div style={{height: 65, width: 160}}>
+                  <div style={{width: 112, height: 20}}>
+                    <p style={{fontSize: 14}}>{subTitleList && subTitleList[v]}</p>
+                  </div>
+                  <div style={{width: 160, height: 41}}>
+                    <p style={{textAlign: 'right', fontSize: 20}}>{data[v]}</p>
+                  </div>
+                </div>
+              )
+            })
+          }
         </div>
       </div>
       <div>
-        <p>{data.number}<span>{data.increase ? '+' : '-'}</span></p>
+        <p>{data.data}
+          {/*<span>{'(가동률)'}</span>*/}
+        </p>
       </div>
     </Container>
   )
@@ -141,8 +167,9 @@ const Container = Styled.div`
                 font-weight: bold;
                 &>span{
                     margin-left: 20px;
-                    font-size: 85px;
+                    font-size: 30px;
                     vertical-align: bottom;
+                    margin-bottom: 30px;
                 }
             }
         }

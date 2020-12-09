@@ -112,6 +112,7 @@ const ProcessRegisterContainer = ({match}: any) => {
         ...processData,
         type: resultData.type,
         name: resultData.name,
+        description: resultData.description
       })
       setDetailMaterialData(resultData.processes)
       setIsFirst(false)
@@ -272,7 +273,8 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                    tmpDetailMaterialData[i].input_materials = material
                                                    setDetailMaterialData([...tmpDetailMaterialData])
                                                  }} text={'투입품목을 선택해주세요.'}
-                                                 select={undefined}/>
+                            //@ts-ignore
+                                                 selectRange={detailMaterialData[i].input_materials ? detailMaterialData[i].input_materials : []}/>
                           <div>
                             {
                               //@ts-ignore
@@ -363,13 +365,17 @@ const ProcessRegisterContainer = ({match}: any) => {
                           </div>
                         </div>
                         <div style={{width: 447, border: '0.5px solid #b3b3b3'}}>
-                          <ProductionPickerModal width={true} innerWidth={447}
-                                                 onClickEvent={(material) => {
-                                                   let tmpDetailMaterialData = detailMaterialData
-                                                   tmpDetailMaterialData[i].output_materials = material
-                                                   setDetailMaterialData([...tmpDetailMaterialData])
-                                                 }} type={1} text={'생산품목을 선택해주세요.'} isAllItem
-                                                 isType select={undefined}/>
+                          <ProductionPickerModal
+                            width={true} innerWidth={447}
+                            onClickEvent={(material) => {
+                              let tmpDetailMaterialData = detailMaterialData
+                              tmpDetailMaterialData[i].output_materials = material
+                              setDetailMaterialData([...tmpDetailMaterialData])
+                            }}
+                            type={1} text={'생산품목을 선택해주세요.'} isAllItem
+                            //@ts-ignore
+                            selectRange={[detailMaterialData[i].output_materials ? detailMaterialData[i].output_materials : []]}
+                            isType/>
                           <div>
                             {
                               detailMaterialData[i] && detailMaterialData[i].output_materials
@@ -482,7 +488,7 @@ const ProcessRegisterContainer = ({match}: any) => {
           <table style={{color: 'black'}}>
             <tr>
               <td>• 설명</td>
-              <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요."
+              <td><Input style={{width: 917,}} placeholder="설명을 입력해 주세요." value={processData.description}
                          onChange={(e) => setProcessData({...processData, description: e.target.value})}/>
               </td>
             </tr>
