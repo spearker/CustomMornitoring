@@ -68,6 +68,7 @@ import CreateMember from "../Pages/Manage/CreateMember";
 import MemberList from "../Pages/Manage/MemberList";
 import CustomPress from "../Containers/Custom/PM_Monitoring/CustomPress";
 import NewBasicDocumentList from "../Pages/Basic/NewBasicDocumentList";
+import BasicDocumentLog from "../Pages/Basic/BasicDocumentLog";
 
 //정민님 라우터
 const JMRouters = () => {
@@ -86,7 +87,7 @@ const JMRouters = () => {
 
             {/*표준 문서 관리*/}
             <Route exact path="/basic/standard/list/document" component={NewBasicDocumentList}/>
-
+            <Route exact path="/basic/standard/list/document/log" component={BasicDocumentLog}/>
 
             <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 

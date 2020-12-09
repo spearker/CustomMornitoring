@@ -10,6 +10,7 @@ import {POINT_COLOR} from "../../../Common/configset";
 import CustomPressListCard from "../../../Components/Custom/pm_analysis/CustomPressListCard";
 import Notiflix from "notiflix";
 import LineTable from "../../../Components/Table/LineTable";
+import CalendarDropdown from "../../../Components/Dropdown/CalendarDropdown";
 
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
@@ -120,6 +121,8 @@ const MachineInitData: IPressCapacity = {
 const CustomAbility = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
     const [series, setSeries] = React.useState([{name: 'basic', type: 'line', data: [[0, 0]]}])
+    const [materialList, setMaterialList] = useState<any[]>([])
+    const [selectMaterial, setSelectMaterial] = useState<string>('All')
 
     const [index, setIndex] = useState({mold_name: '금형명'})
 
@@ -279,12 +282,47 @@ const CustomAbility = () => {
             {
                 selectMachine !== ''
                     ? <ChartDetailBox>
-                        <div style={{height: 230,}}>
-                            <DateTable indexList={index} selectDate={selectDate} calendarOnClick={setSelectDate}
-                                       clickValue={selectValue}
-                                       valueList={list}
-                                       mainOnClickEvent={mainOnClick}/>
+                        <div style={{marginTop: 25}}>
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <div style={{
+                                    float: 'left',
+                                    display: 'inline-block',
+                                    width: '210px',
+                                }}>
+                                    <p style={{
+                                        textAlign: 'left',
+                                        fontSize: 20,
+                                        fontWeight: 'bold'
+                                    }}>{selectMachine}</p>
+                                </div>
+                                <p style={{marginRight: 10, marginBottom: 2}}>품목 :</p>
+                                <select style={{
+                                    width: '195px',
+                                    height: '28px',
+                                    borderRadius: 5,
+                                    backgroundColor: '#353b48',
+                                    color: '#ffffff',
+                                    paddingLeft: 10,
+                                }} onChange={(e) => setSelectMaterial(e.target.value)}>
+                                    <option value={'All'} key={`All`}>전체</option>
+                                    {
+                                        materialList.map((v, i) => {
+                                            return (
+                                                <option value={v.material_pk}
+                                                        key={`${v.material_pk}machine${i}`}>{v.material_name}</option>
+                                            )
+                                        })}
+                                </select>
+                                <CalendarDropdown type={'single'} select={selectDate}
+                                                  onClickEvent={async (i) => setSelectDate(i)}/>
+                            </div>
                         </div>
+                        {/*<div style={{height: 230,}}>*/}
+                        {/*    <DateTable indexList={index} selectDate={selectDate} calendarOnClick={setSelectDate}*/}
+                        {/*               clickValue={selectValue}*/}
+                        {/*               valueList={list}*/}
+                        {/*               mainOnClickEvent={mainOnClick}/>*/}
+                        {/*</div>*/}
                         <div style={{
                             width: 640,
                             height: 475,
@@ -356,6 +394,7 @@ const ChartDetailBox = Styled.div`
                 width: 640px;
                 height: 724px;
                 padding: 0 25px 0 25px;
+                background-color: #353b48;
                 border-radius: 6px;
                 float: left;
                 margin-left: 20px;

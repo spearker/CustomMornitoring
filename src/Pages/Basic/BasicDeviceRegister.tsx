@@ -21,6 +21,7 @@ import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
 import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 // 주변 장치 페이지
 const BasicDeviceRegister = () => {
@@ -97,33 +98,25 @@ const BasicDeviceRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/device/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['device'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
-
-                setName(data.device_name)
-                setMade(data.manufacturer)
-                setPhotoName(data.photo)
-                setDate(data.manufactured_at)
-                setPk(data.pk)
-                setFactory([{pk: data.location_pk, name: data.location_name}])
-                setMadeNo(data.manufacturer_code)
-                setType(Number(data.device_type))
-                setInfoList(data.info_list)
-                const tempList = paths.slice()
-                tempList[0] = data.photo
-                tempList[1] = data.qualification
-                tempList[2] = data.capacity
-                setOldPaths(tempList)
-
-
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            const data = res
+            setName(data.device_name)
+            setMade(data.manufacturer)
+            setPhotoName(data.photo)
+            setDate(data.manufactured_at)
+            setPk(data.pk)
+            setFactory([{pk: data.location_pk, name: data.location_name}])
+            setMadeNo(data.manufacturer_code)
+            setType(Number(data.device_type))
+            setInfoList(data.info_list)
+            const tempList = paths.slice()
+            tempList[0] = data.photo
+            tempList[1] = data.qualification
+            tempList[2] = data.capacity
+            setOldPaths(tempList)
         }
     }, [pk, made, madeNo, date, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory])
 
@@ -160,17 +153,13 @@ const BasicDeviceRegister = () => {
             capacity: paths[2]
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/device/update/`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['device'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 수정 되었습니다');
-                history.push('/basic/list/device')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            //alert('성공적으로 수정 되었습니다');
+            history.push('/basic/list/device')
         }
 
     }, [pk, made, madeNo, name, type, date, madeNo, infoList, paths, essential, optional, factory])
@@ -211,17 +200,12 @@ const BasicDeviceRegister = () => {
         }
 
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/device/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['device'].create}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/device')
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push('/basic/list/device')
         }
 
     }, [pk, made, madeNo, document, date, name, type, madeNo, infoList, paths, essential, optional, factory])

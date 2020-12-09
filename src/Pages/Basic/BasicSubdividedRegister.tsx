@@ -14,6 +14,7 @@ import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
 import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 // 공장 세분화 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -46,27 +47,20 @@ const BasicSubdividedRegister = () => {
     }, [])
 
     const getData = useCallback(async () => {
+        const tempUrl = `${API_URLS['subdivided'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/subdivided/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        if (res) {
+            const data = res
+            const form = {
+                pk: data.pk,
+                factory: [{pk: data.factory, name: data.factory_name}],
+                name: data.subdivided_name,
+                description: data.description,
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
-                const form = {
-                    pk: data.pk,
-                    factory: [{pk: data.factory, name: data.factory_name}],
-                    name: data.subdivided_name,
-                    description: data.description,
-
-                }
-
-                setInputData(form)
-
-            } else {
-                //TODO:  기타 오류
             }
+
+            setInputData(form)
         }
     }, [pk, optional, essential, inputData])
 
@@ -88,18 +82,13 @@ const BasicSubdividedRegister = () => {
             description: inputData.description,
             info_list: JsonStringifyList(essential, optional)
         }
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/subdivided/update/`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['subdivided'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/subdivided')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            history.push('/basic/list/subdivided')
         }
+
 
     }, [pk, optional, essential, inputData])
 
@@ -121,18 +110,13 @@ const BasicSubdividedRegister = () => {
             info_list: JsonStringifyList(essential, optional)
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/subdivided/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['subdivided'].create}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/subdivided')
-            } else {
-                //TODO:  기타 오류
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push('/basic/list/subdivided')
         }
 
     }, [pk, optional, essential, inputData, document])

@@ -22,6 +22,7 @@ import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 const docDummy = [
     {pk: 'qfqwf', name: '도큐먼트 1'},
@@ -64,6 +65,7 @@ const BasicMachineRegister = () => {
 
         if (getParameter('pk') !== '') {
             setPk(getParameter('pk'))
+
             ////alert(`수정 페이지 진입 - pk :` + param)
             setIsUpdate(true)
             getData()
@@ -107,35 +109,28 @@ const BasicMachineRegister = () => {
 
 
     const getData = useCallback(async () => {
+        
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/machine/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['machine'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
-                setName(data.machine_name)
-                setMade(data.manufacturer)
-                setPhotoName(data.photo)
-                setDate(data.manufactured_at)
-                setPk(data.pk)
-                setFactory([{pk: data.location_pk, name: data.location_name}])
-                setMadeNo(data.manufacturer_code)
-                setType(Number(data.machine_type))
-                setInfoList(data.info_list)
-                setVolt(data.volt ?? 0)
-                setTons(data.tons ?? 0)
-                const tempList = oldPaths.slice()
-                tempList[0] = data.photo
-                tempList[1] = data.qualification
-                tempList[2] = data.capacity
-                setOldPaths(tempList)
-
-
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            setName(res.machine_name)
+            setMade(res.manufacturer)
+            setPhotoName(res.photo)
+            setDate(res.manufactured_at)
+            setPk(res.pk)
+            setFactory([{pk: res.location_pk, name: res.location_name}])
+            setMadeNo(res.manufacturer_code)
+            setType(Number(res.machine_type))
+            setInfoList(res.info_list)
+            setVolt(res.volt ?? 0)
+            setTons(res.tons ?? 0)
+            const tempList = oldPaths.slice()
+            tempList[0] = res.photo
+            tempList[1] = res.qualification
+            tempList[2] = res.capacity
+            setOldPaths(tempList)
         }
     }, [pk, made, madeNo, date, volt, tons, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory])
 
@@ -180,17 +175,12 @@ const BasicMachineRegister = () => {
 
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/machine/update/`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['machine'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 수정 되었습니다')
-                history.push(`/basic/list/machine`)
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            //alert('성공적으로 수정 되었습니다')
+            history.push(`/basic/list/machine`)
         }
 
     }, [pk, made, madeNo, name, volt, tons, type, date, madeNo, infoList, paths, essential, optional, factory])
@@ -240,22 +230,15 @@ const BasicMachineRegister = () => {
             volt: volt,
         }
 
+        const tempUrl = `${API_URLS['machine'].create}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/machine/register`, data, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            //TODO: 에러 처리
-            ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push(`/basic/list/machine`)
-
-            } else {
-                //TODO:  기타 오류
-                // //alert('요청을 처리 할 수 없습니다.')
-            }
+        if (res) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push(`/basic/list/machine`)
         }
+
     }, [pk, made, madeNo, volt, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory])
 
 
