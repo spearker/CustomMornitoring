@@ -171,7 +171,17 @@ const ReadyTimeErrorAnalysisContainer = () => {
     if (selectComponent) {
       getData()
     }
-  }, [selectComponent, selectDate, error])
+  }, [selectDate])
+
+  useEffect(() => {
+    if (selectComponent) {
+      getData()
+    }
+  }, [error])
+  
+  useEffect(() => {
+    setError({error_number: -1, error_name: '모든 에러'})
+  }, [selectComponent])
 
   return (
     <div>

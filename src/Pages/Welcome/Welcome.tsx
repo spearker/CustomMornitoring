@@ -12,9 +12,6 @@ const Welcome = () => {
   const {t, i18n} = useTranslation()
 
   useEffect(() => {
-    if (getToken(TOKEN_NAME)) {
-      window.location.href = '/dashboard'
-    }
   }, [])
 
   return (

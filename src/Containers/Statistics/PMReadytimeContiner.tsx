@@ -165,7 +165,7 @@ const PMReadyTimeContainer = () => {
                 <div style={{paddingTop: 20,}}>
                   <table style={{height: '100%'}}>
                     <tr>
-                      <td style={{width: 150}}>
+                      <td style={{width: 85}}>
                         <div>
                           <p style={{fontSize: 20, fontWeight: 'bold'}}>시작 시간</p>
                         </div>

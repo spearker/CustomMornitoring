@@ -23,6 +23,7 @@ import ColorProductionPickerModal from '../../Components/Modal/ColorProductionPi
 import ColorFileInput from '../../Components/Input/ColorFileInput';
 import EmptyPlace from '../../Components/Box/EmptyPlace';
 import ManyButton from '../../Components/Button/ManyButton';
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 const output_material_model_dummy = [
     "(선택없음)",
@@ -123,39 +124,34 @@ const BasicMoldRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/mold/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['mold'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === "200") {
-                const data = res.results;
+        if (res) {
+            const data = res;
 
-                setName(data.mold_name);
-                setMade(data.manufacturer === null ? '' : data.manufacturer);
-                setPhotoName(data.photo);
-                setLimit(data.limit)
-                setInspect(data.inspect)
-                setCurrent(data.current)
-                setDate(data.manufactured_at);
-                setPk(data.pk);
-                setFactory([{pk: data.location, name: data.location_name}])
-                setMadeNo(data.manufacturer_code);
-                setType(Number(data.mold_type));
-                setInfoList(data.info_list);
-                setProper(data.proper_tons)
-                setMold_spec_w(data.mold_spec_W);
-                setMold_spec_l(data.mold_spec_L);
-                setMold_spec_t(data.mold_spec_T);
-                const tempList = paths.slice();
-                tempList[0] = data.upper;
-                tempList[1] = data.below;
-                setOldPaths(tempList);
-                setCavity(data.cavity)
+            setName(data.mold_name);
+            setMade(data.manufacturer === null ? '' : data.manufacturer);
+            setPhotoName(data.photo);
+            setLimit(data.limit)
+            setInspect(data.inspect)
+            setCurrent(data.current)
+            setDate(data.manufactured_at);
+            setPk(data.pk);
+            setFactory([{pk: data.location, name: data.location_name}])
+            setMadeNo(data.manufacturer_code);
+            setType(Number(data.mold_type));
+            setInfoList(data.info_list);
+            setProper(data.proper_tons)
+            setMold_spec_w(data.mold_spec_W);
+            setMold_spec_l(data.mold_spec_L);
+            setMold_spec_t(data.mold_spec_T);
+            const tempList = paths.slice();
+            tempList[0] = data.upper;
+            tempList[1] = data.below;
+            setOldPaths(tempList);
+            setCavity(data.cavity)
 
-            } else {
-                //TODO:  기타 오류
-            }
         }
     }, [pk, made, madeNo, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, cavity, paths, inspect, essential, optional, factory, output_material, input_material, current])
 
@@ -219,18 +215,14 @@ const BasicMoldRegister = () => {
             cavity: cavity === null ? cavity : Number(cavity)
         };
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/update`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['mold'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        } else {
-            if (res.status === 200) {
-                history.push('/basic/list/mold')
-                //alert('성공적으로 수정 되었습니다')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            history.push('/basic/list/mold')
         }
+
 
     }, [pk, made, madeNo, current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, cavity, infoList, paths, inspect, essential, optional, factory, output_material, input_material])
 
@@ -299,18 +291,14 @@ const BasicMoldRegister = () => {
         };
 
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/mold/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['mold'].create}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/mold')
-            } else {
-                //TODO:  기타 오류
-            }
+
+        if (res) {
+            history.push('/basic/list/mold')
         }
+
 
     }, [pk, made, madeNo, current, document, mold_spec_w, mold_spec_l, mold_spec_t, limit, date, name, proper, type, madeNo, infoList, paths, cavity, inspect, essential, optional, factory, output_material, input_material])
 

@@ -17,6 +17,7 @@ import SmallButton from '../../Components/Button/SmallButton'
 import Styled from 'styled-components'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 import {setInterval} from "timers";
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 
 const BasicPartsRegister = () => {
@@ -62,51 +63,44 @@ const BasicPartsRegister = () => {
 
     const partsListLoad = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/parts/type/list`, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeList}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
 
-                const list = res.results.info_list.map((v) => {
-                    return v.name
-                })
-                list.push('부품 등록하기')
-                const pk = res.results.info_list.map((v => {
-                    return v.pk
-                }))
+        if (res) {
 
-                setPartsPkList(pk)
-                setPartsList(list)
+            const list = res.info_list.map((v) => {
+                return v.name
+            })
+            list.push('부품 등록하기')
+            const pk = res.info_list.map((v => {
+                return v.pk
+            }))
 
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+            setPartsPkList(pk)
+            setPartsList(list)
+
+
         }
 
     }, [partsList, partsPkList])
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/parts/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
 
-                setPk(data.pk)
-                setLocation([{pk: data.location_pk, name: data.location_name}])
-                setCost(data.parts_cost)
-                setName(data.parts_name)
-                setPartsName(data.parts_type_name)
-                setQuantity(data.parts_stock)
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            const data = res
+
+            setPk(data.pk)
+            setLocation([{pk: data.location_pk, name: data.location_name}])
+            setCost(data.parts_cost)
+            setName(data.parts_name)
+            setPartsName(data.parts_type_name)
+            setQuantity(data.parts_stock)
+
         }
     }, [pk, partsList, essential, inputData, partsPkList, type, partsName])
 
@@ -139,18 +133,14 @@ const BasicPartsRegister = () => {
             parts_stock: quantity
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/update`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/parts')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            history.push('/basic/list/parts')
         }
+
 
     }, [pk, location, name, type, cost, partsPkList, quantity])
 
@@ -180,17 +170,13 @@ const BasicPartsRegister = () => {
             parts_stock: quantity
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/register`, data, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/parts')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        const tempUrl = `${API_URLS['parts'].create}`
+        const res = await registerBasicItem(tempUrl, data)
+
+
+        if (res) {
+            history.push('/basic/list/parts')
         }
 
     }, [name, partsPkList, type, location, cost, quantity])
@@ -206,17 +192,12 @@ const BasicPartsRegister = () => {
             name: partsName
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/type/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeCreate}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            partsListLoad()
         }
 
     }, [partsList, partsPkList, partsName])
@@ -227,18 +208,12 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type]
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/type/delete`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeDelete}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
-                setType(0)
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            partsListLoad()
+            setType(0)
         }
 
     }, [partsList, partsPkList, type])
@@ -257,19 +232,13 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type],
             name: partsName
         }
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/type/update`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeUpdate}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                // setPartsName(partsList[partsList.length - 2])
-                await partsListLoad()
-                setType(partsList.length - 2)
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            await partsListLoad()
+            setType(partsList.length - 2)
         }
     }, [partsList, partsPkList, type, partsName])
 

@@ -268,12 +268,12 @@ const CustomCapacity = () => {
     const getDetail = useCallback(async (hour) => {
         const tempUrl = `${API_URLS['capacity'].detail}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}&hour=${hour}`
         const resultData = await getCapacityTimeData(tempUrl)
-        
-        setAdvice(resultData.advice !== null ? resultData.advice : [])
-        setErrorLog(resultData.error)
-        setMoldLog(resultData.mold_change)
-        setTimeLog([{runtime: resultData.runtime, stoptime: resultData.stoptime}])
-
+        if (resultData) {
+            setAdvice(resultData.advice[0] !== null ? resultData.advice : [])
+            setErrorLog(resultData.error)
+            setMoldLog(resultData.mold_change)
+            setTimeLog([{runtime: resultData.runtime, stoptime: resultData.stoptime}])
+        }
     }, [selectMachine, selectDate, selectMaterial])
 
     const getMaterialList = useCallback(async () => {

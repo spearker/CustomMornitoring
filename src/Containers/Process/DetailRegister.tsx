@@ -192,12 +192,12 @@ const ProcessDetailRegisterContainer = () => {
                                           setProcessPKList(tmpList)
                                           setMachineList(v.machines)
 
-                                          setMachineName(v.process_name)
+                                          setMachineName(v.process_name ? v.process_name : undefined)
 
                                           tmpList2.push({
                                             name: v.process_name,
                                             type: v.process_type,
-                                            machines: v.machines[0].machine_name + ' 외 ' + v.machines.length + '개'
+                                            machines: v.machines.length !== 0 ? v.machines[0].machine_name + ' 외 ' + v.machines.length + '개' : ''
                                           })
 
                                           setProcessDataList(tmpList2)
@@ -259,7 +259,7 @@ const ProcessDetailRegisterContainer = () => {
                           </div>
                         </HeaderTable>
                         {
-                          machineList.map((v, i) => {
+                          machineList.length !== 0 ? machineList.map((v, i) => {
                             return (<HeaderTable
                               style={{border: 0, width: 400, paddingLeft: 0}}>
                               <div style={{width: 190}}>
@@ -271,7 +271,10 @@ const ProcessDetailRegisterContainer = () => {
                                 }
                               </div>
                             </HeaderTable>)
-                          })
+                          }) : <HeaderTable
+                            style={{border: 0, width: 400, paddingLeft: 0}}>
+                            <p style={{textAlign: 'center', width: '100%'}}>기계가 없는 공정입니다.</p>
+                          </HeaderTable>
                         }
                       </div>
                       {/*</ReactShadowScroll>*/}
