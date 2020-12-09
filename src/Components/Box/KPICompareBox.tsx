@@ -24,6 +24,8 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
     to: moment().subtract(1, 'day').toDate(),
   })
 
+  const [selectMaterial, setSelectMaterial] = useState<{ name: string, material_pk: string }>()
+
   useEffect(() => {
     if (value.api !== 'manufacturing_leadTime_reduced_rate') {
       if (getData) {
@@ -104,8 +106,9 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             : <React.Fragment>
               <div style={{width: 371}}>
                 {
-                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={() => {
-                  }} text={'품목을 선택해주세요'}/>
+                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => setSelectMaterial(e)}
+                                         select={selectMaterial}
+                                         text={'품목을 선택해주세요'}/>
                 }
               </div>
             </React.Fragment>

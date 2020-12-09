@@ -267,7 +267,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                       <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <div style={{width: 447, border: '0.5px solid #b3b3b3'}}>
                           <ProductionPickerModal width={true} multiSelect innerWidth={447}
-                                                 isType
+                                                 isType type={-1}
                                                  onClickEvent={(material) => {
                                                    let tmpDetailMaterialData = detailMaterialData
                                                    tmpDetailMaterialData[i].input_materials = material
