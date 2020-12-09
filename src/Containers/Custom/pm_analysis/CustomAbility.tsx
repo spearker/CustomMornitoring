@@ -199,25 +199,25 @@ const CustomAbility = () => {
         }
     }, [selectMachine, list, selectDate]);
 
-    const getData = useCallback(async (mold) => {
-        if (mold !== '') {
+    const getData = useCallback(async () => {
+        if (selectMaterial !== '' && selectMachine !== '') {
             Notiflix.Loading.Circle()
 
-            const tempUrl = `${API_URLS['ability'].load2}?pk=${selectMachine}&date=${selectDate}&mold_pk=${mold}`
+            const tempUrl = `${API_URLS['ability'].error}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
             const resultData = await getCapacityTimeData(tempUrl);
 
             let dummylineList: number[][] = []
             let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
 
             await resultData.degree.map((v, i) => {
-                dummylineList.push([Number(v), Number(resultData.standard_capacity[i])])
+                dummylineList.push([Number(v), Number(resultData.capacity[i])])
                 return null
             })
 
-            await resultData.error_range.map((v, i) => {
+            await resultData.standard.map((v, i) => {
                 let tmpListTmp: number[][] = []
                 resultData.degree.map((v, j) => {
-                    tmpListTmp.push([Number(v), (resultData.error_range[i][j])])
+                    tmpListTmp.push([Number(v), (resultData.standard[i][j])])
                     return null
                 })
                 dummyroundList.push({
@@ -233,12 +233,13 @@ const CustomAbility = () => {
                 type: 'area',
                 data: dummylineList
             }, ...dummyroundList])
+
             setOverTonLog(resultData.error_detail)
-            setOvertime(String(resultData.error_range.length))
+            setOvertime(String(resultData.error.length))
 
             Notiflix.Loading.Remove()
         }
-    }, [selectMachine, selectDate, series, overtime]);
+    }, [selectMachine, selectDate, series, overtime, selectMaterial]);
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
@@ -260,12 +261,9 @@ const CustomAbility = () => {
 
     useEffect(() => {
         getDataList()
+        getData()
     }, [selectMachine, selectDate])
 
-
-    useEffect(() => {
-        getData(selectMold)
-    }, [selectMold])
 
     return (
         <div>
@@ -293,7 +291,7 @@ const CustomAbility = () => {
                                         textAlign: 'left',
                                         fontSize: 20,
                                         fontWeight: 'bold'
-                                    }}>{selectMachine}</p>
+                                    }}>{}</p>
                                 </div>
                                 <p style={{marginRight: 10, marginBottom: 2}}>품목 :</p>
                                 <select style={{
@@ -355,14 +353,6 @@ const CustomAbility = () => {
                                             <p>최대 일일 초과 회수</p>
                                             <p>{overtime}</p>
                                         </Overtime>
-                                    </div>
-                                    <div style={{marginLeft: "20px"}}>
-                                        <LineTable
-                                            contentTitle={overTonIndex}
-                                            settingHeight={"40px"}
-                                            contentList={overTonLog}>
-                                            <Line/>
-                                        </LineTable>
                                     </div>
                                 </>
                                 :
