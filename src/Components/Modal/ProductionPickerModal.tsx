@@ -380,7 +380,7 @@ const MachineTable = Styled.table`
         padding: 0px;
         th{
             text-align: left;
-        }
+        } 
         td{
             border-spacing: 0px;
             height: 32px;
