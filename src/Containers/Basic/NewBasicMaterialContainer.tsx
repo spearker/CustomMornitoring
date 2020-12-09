@@ -28,7 +28,7 @@ import ModelRulesInput from '../../Components/Input/ModelRulesInput'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import Notiflix from 'notiflix'
 import * as _ from 'lodash'
-import {API_URLS, registerBasicItem} from '../../Api/mes/basic'
+import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -73,36 +73,30 @@ const NewBasicMaterialRegister = () => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/material/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['material'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
-                const form = {
-                    pk: data.pk,
-                    material_name: data.material_name,
-                    material_type: data.material_type,
-                    material_code: data.material_code,
-                    location: {pk: data.location_pk, name: data.location_name},
-                    manufacturer: data.manufacturer,
-                    material_spec_W: data.material_spec_W,
-                    material_spec_H: data.material_spec_H,
-                    material_spec_D: data.material_spec_D,
-                    cost: data.cost,
-                    safe_stock: data.safe_stock,
-                    material_spec: data.material_spec,
-                    stock: data.stock,
-                    texture: data.texture,
-                    model: data.model ? data.model.toString().split(',') : null
-                }
-
-                setInputData('all', form)
-
-            } else {
-                //TODO:  기타 오류
+        if (res) {
+            const data = res
+            const form = {
+                pk: data.pk,
+                material_name: data.material_name,
+                material_type: data.material_type,
+                material_code: data.material_code,
+                location: {pk: data.location_pk, name: data.location_name},
+                manufacturer: data.manufacturer,
+                material_spec_W: data.material_spec_W,
+                material_spec_H: data.material_spec_H,
+                material_spec_D: data.material_spec_D,
+                cost: data.cost,
+                safe_stock: data.safe_stock,
+                material_spec: data.material_spec,
+                stock: data.stock,
+                texture: data.texture,
+                model: data.model ? data.model.toString().split(',') : null
             }
+
+            setInputData('all', form)
         }
     }, [pk, optional, essential, inputData])
 
@@ -156,17 +150,12 @@ const NewBasicMaterialRegister = () => {
             texture: inputData.texture,
             model: inputData.model[0].trim() === '' ? null : inputData.model
         }
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/material/update`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['material'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/material')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push('/basic/list/material')
         }
 
     }, [pk, optional, essential, inputData])
@@ -224,18 +213,12 @@ const NewBasicMaterialRegister = () => {
 
         const res = await registerBasicItem(`${API_URLS['material'].create}`, data)
 
-        console.log(res)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/material')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            //alert('성공적으로 등록 되었습니다')
+            history.push('/basic/list/material')
         }
+
 
     }, [pk, optional, essential, inputData, document])
 
@@ -243,7 +226,7 @@ const NewBasicMaterialRegister = () => {
     return (
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
-                <Header title={isUpdate ? '품목 정보수정' : '품목 기본정보 등록'}/>
+                <Header title={isUpdate ? '품목 정보수정' : '품목 정보등록'}/>
                 <WhiteBoxContainer>
                     {
                         // document.id !== '' || isUpdate == true?
@@ -354,6 +337,7 @@ const NewBasicMaterialRegister = () => {
                                 <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}
                                                     onPress={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}/>
                             }
+                            
                         </div>
 
                     }
