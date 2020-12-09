@@ -26,6 +26,7 @@ interface IProps {
   multiSelect?: boolean
   isAllItem?: boolean
   noBasic?: boolean
+  filter?: number
 }
 
 const DummyItem = [
@@ -36,7 +37,7 @@ const DummyItem = [
   }
 ]
 
-const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem, noBasic}: IProps) => {
+const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem, noBasic, filter}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [searchName, setSearchName] = useState('')
@@ -66,11 +67,16 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
   // });
 
   const getList = useCallback(async () => {
-    const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=1000`
+    let tempUrl = ''
+    if (filter) {
+      tempUrl = `${API_URLS['material'].filter}?keyword=${searchName}&filter=${filter}&page=${page.current}&limit=1000`
+    } else {
+      tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=1000`
+    }
+
     const resultData = await getProductionSearch(tempUrl)
 
     setProductList(resultData.info_list)
-
   }, [searchName])
 
   const handleClickBtn = () => {

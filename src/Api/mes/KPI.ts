@@ -26,10 +26,10 @@ export const postBarcode = async (url: string, object: object) => {
  * @version 0.1
  */
 export const getKPIData = async (url: string) => {
-  const temp: { result: any } = await client.get(url)
+  const temp: { results: any } = await client.get(url)
 
   if (temp) {
-    return temp.result
+    return temp.results
   }
 }
 
@@ -38,6 +38,7 @@ export const API_URLS = {
   kpi: {
     production: {
       facility_operational_improvement_rate: '/v1/kpi/production/facility-operational-improvement-rate',
+      manufacturing_leadTime_reduced_rate: '/v1/kpi/production/manufacturing-leadTime-reduced-rate',
       item_growth_rate: '/v1/kpi/production/item-growth-rate',
       target_attainment_rate: '/v1/kpi/production/target-attainment-rate',
     },
