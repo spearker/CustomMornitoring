@@ -38,7 +38,7 @@ interface modalData {
 }
 
 const DefectiveRegisterContainer = ({match}: Props) => {
-    
+
     const history = useHistory()
     const [open, setOpen] = useState<boolean>(false)
     const [selectHistory, setSelectHistory] = useState<{
@@ -94,23 +94,23 @@ const DefectiveRegisterContainer = ({match}: Props) => {
             //console.log('resresres------->', res)
 
             setPk(res.pk)
-            if (selectHistory) {
-                setSelectHistory({
-                    amount: selectHistory.amount,
-                    machine_name: selectHistory.machine_name,
-                    machine_pk: selectHistory.machine_pk,
-                    material_name: selectHistory.material_name,
-                    material_pk: selectHistory.material_pk,
-                    pk: selectHistory.pk,
-                    process_name: selectHistory.process_name,
-                    worked: selectHistory.worked,
-                    worker: selectHistory.worker,
-                    worker_name: selectHistory.worker_name,
-                })
-            }
+
+            setSelectHistory({
+                amount: res.amount,
+                machine_name: res.machine_name,
+                machine_pk: res.machine_pk,
+                material_name: res.material_name,
+                material_pk: res.material_pk,
+                pk: res.history_pk,
+                process_name: res.process_name,
+                worked: res.worked,
+                worker: res.checker,
+                worker_name: res.checker_name,
+            })
             setSelectMachine({name: res.machine_name, pk: res.machine_pk})
             setSelectMaterial({name: res.material_name, pk: res.material_pk})
-            setName(res.checker)
+            setSelectMember({name: res.checker_name, pk: res.checker})
+            setName(res.checker_name)
             setAmount(res.amount)
             setSelectDate(res.date)
             setReason(res.reason)
