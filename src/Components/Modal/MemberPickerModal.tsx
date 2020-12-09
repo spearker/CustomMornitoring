@@ -16,7 +16,7 @@ interface IProps {
     text: string
     buttonWid?: string | number
     disabled?: boolean
-    width?: number
+    style?: any
 }
 
 const DummyMachine = [
@@ -26,7 +26,7 @@ const DummyMachine = [
     }
 ]
 
-const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width}: IProps) => {
+const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
     const [machineName, setMachineName] = useState('')
@@ -61,7 +61,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, wid
 
     return (
         <div>
-            <div style={{display: 'inline-block', zIndex: 0, width: '100%'}}>
+            <div style={{display: 'inline-block', zIndex: 0, width: '100%', ...style}}>
                 <BoxWrap disabled={disabled} onClick={() => {
                     setIsOpen(true)
                 }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>

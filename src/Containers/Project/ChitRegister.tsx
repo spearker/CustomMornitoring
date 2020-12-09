@@ -132,7 +132,80 @@ const ChitRegisterContainer = () => {
             <div style={{}}>
               <p style={{fontSize: 18}}>전표 등록하기</p>
             </div>
+<<<<<<< HEAD
+            <ContainerMain>
+                <div>
+                    <p className={'title'}>필수 항목</p>
+                </div>
+                <div>
+                    <table style={{color: 'black'}}>
+                        <tr>
+                            <td>• 등록자</td>
+                            <td>
+                                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
+                                                   text={'작업자를 선택해 주세요'} select={selectMember}
+                                                   style={{width: 'calc(99% - 4px)'}} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 생산계획</td>
+                            <td><ProjectPlanPickerModal select={modalSelect.production} text={'생산계획을 검색해주세요.'}
+                                                        onClickEvent={(e) => setModalSelect({
+                                                            ...modalSelect,
+                                                            production: e
+                                                        })} inputWidth={'calc(99% - 4px)'} buttonWid={30}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 납기일</td>
+                            <td>
+                                <div style={{
+                                    display: 'flex',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    width: 'calc(99% - 4px)',
+                                    margin: '0 auto'
+                                }}>
+                                    <InputBox style={{flex: 95}}>
+                                        <Input style={{width: '100%'}} disabled placeholder="YYYY-MM-DD"
+                                               value={selectDate}/>
+                                    </InputBox>
+                                    <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                                        setSelectDate(select)
+                                        setChitData({...chitData, deadline: select})
+                                    }} text={'날짜 선택'} type={'single'} customStyle={{marginLeft: 0}}/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 품목(품목명)</td>
+                            <td><Input disabled placeholder="Read only" value={modalSelect.production.material_name}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 납품 업체</td>
+                            <td><Input disabled placeholder="Read only" value={modalSelect.production.supplier_name}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>• 생산 목표 수량</td>
+                            <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'}
+                                       onChange={(e) => setChitData({...chitData, goal: Number(e.target.value)})}/></td>
+                        </tr>
+                    </table>
+                </div>
+                <div style={{marginTop: 180}}>
+                    <ButtonWrap onClick={async () => {
+                        await postChitRegisterData()
+                    }}>
+                        <div style={{}}>
+                            <p style={{fontSize: 18}}>전표 등록하기</p>
+                        </div>
+                    </ButtonWrap>
+                </div>
+            </ContainerMain>
+=======
           </ButtonWrap>
+>>>>>>> upstream/master
         </div>
       </ContainerMain>
     </div>
