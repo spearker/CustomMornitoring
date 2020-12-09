@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import KPIBasicBox from './KPIBasicBox'
 
@@ -10,6 +10,22 @@ interface IProps {
 }
 
 const KPIResultBox = ({onCloseEvent, data}: IProps) => {
+  const [result, setResult] = useState<number>(0)
+
+  useEffect(() => {
+    setResult(Math.round(((data[0] - data[1]) / (data[0] + data[1])) * 1000) / 10)
+  }, [data])
+
+  const resultFunc = () => {
+    if (typeof result === 'number') {
+      if (result > 0) {
+        return '+'
+      } else if (result < 0) {
+        return '-'
+      }
+    }
+    return ''
+  }
 
   return (
     <KPIBasicBox style={{padding: 16}}>
@@ -18,8 +34,11 @@ const KPIResultBox = ({onCloseEvent, data}: IProps) => {
         <button onClick={() => onCloseEvent()}>비교 종료</button>
       </LeftBox>
       <RightBox>
-        <p>{(data[0] !== 0 && data[1] !== 0) ? Math.round(((data[0] - data[1]) / (data[0] + data[1])) * 1000) / 10 : 0}
-          {/*<span>{data.increase ? '+' : '-'}</span>*/}
+        <p
+          style={{color: Math.sign(result) === -1 ? '#ff0000' : '#19b9df'}}>{isNaN(result) ? 0 : (Math.abs(result) * 10) / 10}
+          <span>
+            {resultFunc()}
+          </span>
         </p>
       </RightBox>
     </KPIBasicBox>
@@ -48,7 +67,6 @@ const RightBox = Styled.div`
     &:nth-child(2){
         padding-right: 60px;
         &>p{
-            color: #19b9df;
             text-align: right;
             font-size: 128px;
             font-weight: bold;

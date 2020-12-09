@@ -85,6 +85,7 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }
+
   useEffect(() => {
     getList()
   }, [select])
@@ -195,19 +196,20 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                                     tmpIndexList.push(i)
                                     tmpSelectMaterial.push({
                                       material_pk: v.pk,
-                                      material_name: v.material_name,
-                                      material_type: v.material_type,
-                                      location: v.location
+                                      material_name: filter ? v.name : v.material_name,
+                                      material_type: filter ? v.type : v.material_type,
+                                      location: filter ? v.location_name : v.location
                                     })
                                     setIndexList([...tmpIndexList])
                                     return setSelectMaterial([...tmpSelectMaterial])
                                   } else {
+                                    console.log(v)
                                     tmpIndexList[0] = i
                                     tmpSelectMaterial[0] = {
                                       material_pk: v.pk,
-                                      material_name: v.material_name,
-                                      material_type: v.material_type,
-                                      location: v.location
+                                      material_name: filter ? v.name : v.material_name,
+                                      material_type: filter ? v.type : v.material_type,
+                                      location: filter ? v.location_name : v.location
                                     }
                                     setIndexList([...tmpIndexList])
                                     return setSelectMaterial([...tmpSelectMaterial])
@@ -267,6 +269,7 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
                       }
                     }
                   } else {
+                    console.log(selectMaterial)
                     onClickEvent({
                       name: selectMaterial[0].material_name,
                       pk: selectMaterial[0].material_pk
