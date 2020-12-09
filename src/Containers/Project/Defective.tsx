@@ -14,7 +14,7 @@ const DefectiveContainer = () => {
     })
 
     const [list, setList] = useState<any[]>([])
-    const [index, setIndex] = useState({checker: '검수자명'})
+    const [index, setIndex] = useState({checker_name: '검수자명'})
     const [eventList, setEventList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [selectPk, setSelectPk] = useState<any>(null)
@@ -24,7 +24,7 @@ const DefectiveContainer = () => {
 
     const indexList = {
         defective: {
-            checker: '검수자명',
+            checker_name: '검수자명',
             material_name: '품목명',
             amount: '불량 개수',
             date: '검수일',
