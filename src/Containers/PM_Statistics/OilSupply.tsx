@@ -39,16 +39,10 @@ const chartOption = {
     }
   },
   xaxis: {
-    type: 'datetime',
     tickAmount: 10,
     labels: {
-      datetimeFormatter: {
-        year: 'yyyy',
-        month: 'MMM \'yy',
-        day: 'dd MMM',
-        hour: 'HH:mm'
-      },
       formatter: (v, datatime, index) => {
+        console.log(index)
         return v
       }
     }

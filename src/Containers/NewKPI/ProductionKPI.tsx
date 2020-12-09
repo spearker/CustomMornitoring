@@ -19,10 +19,23 @@ const menuList: {
   tip: string
 }[] = [
   {name: '설비가동률', api: 'facility_operational_improvement_rate', tip: '제조 원가를 낮출 수 있습니다.'}, // api key이름
-  {name: '제조 리드타임', api: '', tip: '제조 원가를 낮출 수 있습니다.'},
+  {name: '제조 리드타임', api: 'manufacturing_leadTime_reduced_rate', tip: '제조 원가를 낮출 수 있습니다.'},
   {name: '생산 품목', api: 'item_growth_rate', tip: '제조 원가를 낮출 수 있습니다.'},
   {name: '생산 목표 달성률', api: 'target_attainment_rate', tip: '제조 원가를 낮출 수 있습니다.'}
 ]
+
+const subTitleList = {
+  facility_operational_improvement_rate: {},
+  manufacturing_leadTime_reduced_rate: {
+    total: '총 리드타임',
+    worked: '총 작업 이력 건순'
+  },
+  item_growth_rate: {},
+  target_attainment_rate: {
+    total: '총 생산목표 수량',
+    produced: '총 생산된 수량',
+  }
+}
 
 const ProductionKPIContainer = () => {
   const [selectMenu, setSelectMenu] = useState<Menu>(menuList[0])
@@ -41,13 +54,19 @@ const ProductionKPIContainer = () => {
 
   const getData = async (from: Date, to: Date, index: number) => {
     console.log(from, to)
-    const tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
+    let tempUrl = ''
+    if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
+      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}`
+    } else {
+      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
+    }
+
     const resultData = await getKPIData(tempUrl)
     if (resultData) {
       const tmpList = compareArr
       tmpList[index] = resultData.data
-      setCompareArr(tmpList)
-      return resultData.data
+      setCompareArr([...tmpList])
+      return resultData
     }
     return 0
   }
@@ -65,12 +84,13 @@ const ProductionKPIContainer = () => {
     <div style={{maxWidth: 1100}}>
       <TopHeader title={'생산지수(P)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
-        <KPICompareBox type={type} setType={(type) => setType(type)}
-                       getData={getData} index={0}/>
+        <KPICompareBox type={type} setType={(type) => setType(type)} value={selectMenu}
+                       getData={getData} index={0} subTitleList={subTitleList[selectMenu.api]}/>
         {
           compareView
             ? <>
-              <KPICompareBox type={type} getData={getData}/>
+              <KPICompareBox type={type} getData={getData} subTitleList={subTitleList[selectMenu.api]}
+                             value={selectMenu}/>
               <KPIResultBox onCloseEvent={() => onClose()} data={compareArr}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>
