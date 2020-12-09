@@ -120,15 +120,18 @@ const MachineInitData: IPressCapacity = {
 
 const CustomAbility = () => {
     const times: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
-    const [series, setSeries] = React.useState([{name: 'basic', type: 'line', data: [[0, 0]]}])
+    const [series, setSeries] = React.useState([{name: 'basic', type: 'line', data: [[0, 0]], color: ''}])
     const [materialList, setMaterialList] = useState<any[]>([])
     const [selectMaterial, setSelectMaterial] = useState<string>('All')
+    const [errorList, setErrorList] = useState<string[]>([''])
+    const [selectError, setSelectError] = useState<string>('')
 
     const [index, setIndex] = useState({mold_name: '금형명'})
 
     const [pressList, setPressList] = useState<IPressMachineType[]>([])
 
     const [selectMachine, setSelectMachine] = useState<string>('')
+    const [machineName, setMachineName] = useState<string>('')
 
     const [machineData, setMachineData] = useState<IPressCapacity>(MachineInitData);
 
@@ -161,25 +164,6 @@ const CustomAbility = () => {
         }
     }
 
-    // const onClick = useCallback((mold, i) => {
-    //     if (mold.mold_pk === moldPk) {
-    //
-    //     } else {
-    //         setSelectIndex(i)
-    //         setSelectPk(mold.pressPk)
-    //         setSelectMachine(mold.pressName)
-    //         setSelectValue(mold)
-    //         //TODO: api 요청
-    //         if (machine.pressPk === null) {
-    //             return
-    //         }
-    //         getData(machine.pressPk)
-    //         setDetailPage({...detailPage, current: 1})
-    //     }
-    //
-    //
-    // }, [list, selectPk])
-
     const mainOnClick = useCallback((v) => {
         if (v.mold_pk === selectMold) {
             setSelectMold('')
@@ -199,46 +183,75 @@ const CustomAbility = () => {
         }
     }, [selectMachine, list, selectDate]);
 
-    const getData = useCallback(async (mold) => {
-        if (mold !== '') {
+    const getData = useCallback(async () => {
+        if (selectMaterial !== '' && selectMachine !== '') {
             Notiflix.Loading.Circle()
 
-            const tempUrl = `${API_URLS['ability'].load2}?pk=${selectMachine}&date=${selectDate}&mold_pk=${mold}`
+            const tempUrl = `${API_URLS['ability'].error}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
             const resultData = await getCapacityTimeData(tempUrl);
+            if (resultData) {
+                let dummylineList: number[][] = []
 
-            let dummylineList: number[][] = []
-            let dummyroundList: { type: string, name: string, data: number[][], color?: string }[] = []
-
-            await resultData.degree.map((v, i) => {
-                dummylineList.push([Number(v), Number(resultData.standard_capacity[i])])
-                return null
-            })
-
-            await resultData.error_range.map((v, i) => {
-                let tmpListTmp: number[][] = []
-                resultData.degree.map((v, j) => {
-                    tmpListTmp.push([Number(v), (resultData.error_range[i][j])])
+                await resultData.degree.map((v, i) => {
+                    dummylineList.push([Number(v), Number(resultData.standard[i])])
                     return null
                 })
-                dummyroundList.push({
+                let tmpListTmp: number[][] = []
+
+                await resultData.standard.map((v, i) => {
+                    tmpListTmp.push([Number(v), (resultData.standard[i])])
+                })
+
+                await setSeries([{
+                    name: '기준 능력 곡선',
+                    type: 'area',
+                    data: dummylineList,
+                    color: '#bfbfbf55'
+                }, {
                     type: 'area',
                     data: tmpListTmp,
-                    name: '초과량',
-                    color: 'rgba(255, 0, 0, 0.5)'
-                })
-            })
+                    name: '제품 평균 그래프',
+                    color: '#00FF0050'
+                }])
 
-            await setSeries([{
-                name: '기준 일량',
-                type: 'area',
-                data: dummylineList
-            }, ...dummyroundList])
-            setOverTonLog(resultData.error_detail)
-            setOvertime(String(resultData.error_range.length))
+                setErrorList(resultData.error)
+                setMachineName(resultData.machine_name)
+                setOvertime(String(resultData.error.length))
 
+            }
             Notiflix.Loading.Remove()
         }
-    }, [selectMachine, selectDate, series, overtime]);
+    }, [selectMachine, selectDate, series, overtime, selectMaterial]);
+
+
+    const getDetailError = useCallback(async () => {
+        if (selectMaterial !== '' && selectError !== '') {
+            Notiflix.Loading.Circle()
+
+            const tempUrl = `${API_URLS['ability'].detail}?pk=${selectMachine}&time=${selectError}&material_pk=${selectMaterial}`
+            const resultData = await getCapacityTimeData(tempUrl);
+
+            if (resultData) {
+                let ErrorLineList: number[][] = []
+
+                await resultData.degree.map((v, i) => {
+                    ErrorLineList.push([Number(v), Number(resultData.error_graph[i])])
+                    return null
+                })
+
+                await setSeries([...series, {
+                    name: '에러 그래프',
+                    type: 'area',
+                    data: ErrorLineList,
+                    color: '#FF000055'
+                }])
+
+
+            }
+            Notiflix.Loading.Remove()
+        }
+    }, [selectMachine, selectDate, series, overtime, selectMaterial]);
+
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
@@ -260,12 +273,9 @@ const CustomAbility = () => {
 
     useEffect(() => {
         getDataList()
+        getData()
     }, [selectMachine, selectDate])
 
-
-    useEffect(() => {
-        getData(selectMold)
-    }, [selectMold])
 
     return (
         <div>
@@ -293,7 +303,7 @@ const CustomAbility = () => {
                                         textAlign: 'left',
                                         fontSize: 20,
                                         fontWeight: 'bold'
-                                    }}>{selectMachine}</p>
+                                    }}>{machineName}</p>
                                 </div>
                                 <p style={{marginRight: 10, marginBottom: 2}}>품목 :</p>
                                 <select style={{
@@ -317,52 +327,42 @@ const CustomAbility = () => {
                                                   onClickEvent={async (i) => setSelectDate(i)}/>
                             </div>
                         </div>
-                        {/*<div style={{height: 230,}}>*/}
-                        {/*    <DateTable indexList={index} selectDate={selectDate} calendarOnClick={setSelectDate}*/}
-                        {/*               clickValue={selectValue}*/}
-                        {/*               valueList={list}*/}
-                        {/*               mainOnClickEvent={mainOnClick}/>*/}
-                        {/*</div>*/}
                         <div style={{
                             width: 640,
-                            height: 475,
+                            height: 635,
                             margin: 0,
                             padding: 0,
+                            borderRadius: '6px',
                             backgroundColor: '#111319',
                             clear: 'both',
                             marginTop: 20
                         }}>
-                            {/*<PressPower>*/}
-                            {/*    <p>최대 일량</p>*/}
-                            {/*    <div>*/}
-                            {/*        <input value={"9,999,999"}/>*/}
-                            {/*        <p>kgf.m</p>*/}
-                            {/*    </div>*/}
-                            {/*    <p>최소 일량</p>*/}
-                            {/*    <div>*/}
-                            {/*        <input value={"9,999,999"}/>*/}
-                            {/*        <p>kgf.m</p>*/}
-                            {/*    </div>*/}
-                            {/*    <ButtonWrap>*/}
-                            {/*        분석*/}
-                            {/*    </ButtonWrap>*/}
-                            {/*</PressPower>*/}
                             {overtime !== '' ?
                                 <>
-                                    <ReactApexChart options={chartOption} type={'line'} height={'55%'} series={series}/>
+                                    <ReactApexChart options={chartOption} type={'line'} height={'85%'} series={series}/>
                                     <div style={{display: "flex"}}>
                                         <Overtime>
                                             <p>최대 일일 초과 회수</p>
                                             <p>{overtime}</p>
                                         </Overtime>
-                                    </div>
-                                    <div style={{marginLeft: "20px"}}>
-                                        <LineTable
-                                            contentTitle={overTonIndex}
-                                            settingHeight={"40px"}
-                                            contentList={overTonLog}>
-                                            <Line/>
-                                        </LineTable>
+                                        <Overtime>
+                                            <select style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                backgroundColor: '#000000',
+                                                color: '#ffffff',
+                                                border: 0
+                                            }} onChange={(e) => setSelectError(e.target.value)}>
+                                                <option value={''} key={`All`}>에러 시간을 선택해주세요.</option>
+                                                {
+                                                    errorList.map((v, i) => {
+                                                        return (
+                                                            <option value={v}
+                                                                    key={`${v}Error${i}`}>{v}</option>
+                                                        )
+                                                    })}
+                                            </select>
+                                        </Overtime>
                                     </div>
                                 </>
                                 :
@@ -464,7 +464,7 @@ const ButtonWrap = Styled.button`
  `
 
 const Overtime = Styled.div`
-  width: 337px;
+  width: 287px;
   height: 66px;
   margin: 0 16px 0 20px;
   object-fit: contain;

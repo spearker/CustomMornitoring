@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState,} from 'react'
 import Styled from 'styled-components'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
-import {API_URLS, getBasicList} from '../../Api/mes/basic'
+import {API_URLS, excelPost, excelGet} from '../../Api/mes/basic'
 import {useHistory} from 'react-router-dom'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
@@ -52,7 +52,7 @@ const BasicDocumentLogContainer = () => {
         //TODO: 성공시
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['document'].logList}?page=${page.current}&limit=15`
-        const res = await getBasicList(tempUrl)
+        const res = await excelGet(tempUrl)
 
         if (res) {
             setList(res.info_list)
@@ -81,6 +81,7 @@ const BasicDocumentLogContainer = () => {
                             valueList={list}
                             currentPage={page.current}
                             totalPage={page.total}
+                            mainOnClickEvent={(v) => Notiflix.Report.Success('변경 사항', `${v.log_data}`)}
                             pageOnClickEvent={(event, i) => setPage({...page, current: i})}
             >
             </OptimizedTable>

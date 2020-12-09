@@ -1,10 +1,14 @@
 import React, {useState} from 'react'
 import IcDropDownButton from '../../Assets/Images/ic_dropdown_white.png'
+import IcFile from '../../Assets/Images/ic_file.png'
 import Styled from 'styled-components'
 import Pagination from '@material-ui/lab/Pagination'
+import IC_Dropdown from "../../Assets/Images/ic_folder_close.png";
 
 interface Props {
     selectBoxChange?: any
+    noTitle?: boolean
+    file?: boolean
     widthList: string[] | number[]
     indexList: any
     valueList: any[]
@@ -22,7 +26,7 @@ interface Props {
     children?: any
 }
 
-const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
+const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitle, file, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
 
     const [checked, setChecked] = useState<any[]>([])
 
@@ -42,87 +46,91 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthL
 
     return (
         <div>
-            <TitleBar>
-                {
-                    allCheckOnClickEvent ?
-                        <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
-                            <input type="checkbox" id={'all'}
-                                   checked={valueList.length > 0 && valueList.length === checked.filter(f => f === true).length}
-                                   onChange={(e) => {
-                                       if (valueList.length > 0 && valueList.length !== checked.filter(f => f === true).length) {
-                                           allCheckOnClickEvent(valueList)
-                                           let tmpArr: boolean[] = checked
-                                           tmpArr = tmpArr.map(() => true)
-                                           setChecked(tmpArr)
-                                           return true
-                                       } else {
-                                           let tmpArr: boolean[] = checked
-                                           tmpArr = tmpArr.map(() => false)
-                                           allCheckOnClickEvent([])
-                                           setChecked(tmpArr)
-                                           return false
-                                       }
-                                   }}/>
-                            <label htmlFor='all' style={{backgroundColor: 'white'}}/>
-                        </div>
-                        :
-                        (
-                            checkOnClickEvent ?
-                                <div style={{paddingRight: 10, paddingLeft: 10}}>
-                                    <p></p>
-                                </div>
-                                :
-                                null
-                        )
-                }
-                {
-                    Object.keys(indexList).map((v, i) => {
-                        return (
-                            typeof indexList[v] === 'object' ?
-                                <LimitSelect
-                                    style={{
-                                        cursor: 'pointer',
-                                        backgroundColor: '#111319',
-                                        borderColor: '#111319',
-                                        color: 'white',
-                                        width: widthList[i],
-                                        fontSize: '18px',
-                                        fontWeight: 'bold',
-                                        fontFamily: 'NotoSansCJKkr',
-                                        margin: '0 16px 0 16px',
-                                        background: `url(${IcDropDownButton}) no-repeat 95% 50%`
-                                    }}
-                                    onChange={(e) => selectBoxChange(e.target.value)}
-                                >
-                                    {
-                                        Object.keys(indexList[v]).map(m => {
-                                            return (
-                                                <>
-                                                    <option value={indexList[v][m]}
-                                                            style={{
-                                                                backgroundColor: '#111319',
-                                                                cursor: 'pointer'
-                                                            }}>{indexList[v][m]}</option>
-
-                                                </>
-                                            )
-                                        })
-                                    }
-                                </LimitSelect>
-                                :
-                                <LimitP key={v} style={{width: widthList[i]}}>{indexList[v]}</LimitP>
-                        )
-                    })
-                }
-                {
-                    EventList && EventList.map((bv, bi) => {
-                        return (
-                            <div style={{width: bv.Width}}>
+            {noTitle ?
+                <div></div>
+                :
+                <TitleBar>
+                    {
+                        allCheckOnClickEvent ?
+                            <div style={{paddingRight: 10, paddingLeft: 10, paddingTop: 5}}>
+                                <input type="checkbox" id={'all'}
+                                       checked={valueList.length > 0 && valueList.length === checked.filter(f => f === true).length}
+                                       onChange={(e) => {
+                                           if (valueList.length > 0 && valueList.length !== checked.filter(f => f === true).length) {
+                                               allCheckOnClickEvent(valueList)
+                                               let tmpArr: boolean[] = checked
+                                               tmpArr = tmpArr.map(() => true)
+                                               setChecked(tmpArr)
+                                               return true
+                                           } else {
+                                               let tmpArr: boolean[] = checked
+                                               tmpArr = tmpArr.map(() => false)
+                                               allCheckOnClickEvent([])
+                                               setChecked(tmpArr)
+                                               return false
+                                           }
+                                       }}/>
+                                <label htmlFor='all' style={{backgroundColor: 'white'}}/>
                             </div>
-                        )
-                    })
-                }
-            </TitleBar>
+                            :
+                            (
+                                checkOnClickEvent ?
+                                    <div style={{paddingRight: 10, paddingLeft: 10}}>
+                                        <p></p>
+                                    </div>
+                                    :
+                                    null
+                            )
+                    }
+                    {
+                        Object.keys(indexList).map((v, i) => {
+                            return (
+                                typeof indexList[v] === 'object' ?
+                                    <LimitSelect
+                                        style={{
+                                            cursor: 'pointer',
+                                            backgroundColor: '#111319',
+                                            borderColor: '#111319',
+                                            color: 'white',
+                                            width: widthList[i],
+                                            fontSize: '18px',
+                                            fontWeight: 'bold',
+                                            fontFamily: 'NotoSansCJKkr',
+                                            margin: '0 16px 0 16px',
+                                            background: `url(${IcDropDownButton}) no-repeat 95% 50%`
+                                        }}
+                                        onChange={(e) => selectBoxChange(e.target.value)}
+                                    >
+                                        {
+                                            Object.keys(indexList[v]).map(m => {
+                                                return (
+                                                    <>
+                                                        <option value={indexList[v][m]}
+                                                                style={{
+                                                                    backgroundColor: '#111319',
+                                                                    cursor: 'pointer'
+                                                                }}>{indexList[v][m]}</option>
+
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </LimitSelect>
+                                    :
+                                    <LimitP key={v} style={{width: widthList[i]}}>{indexList[v]}</LimitP>
+                            )
+                        })
+                    }
+                    {
+                        EventList && EventList.map((bv, bi) => {
+                            return (
+                                <div style={{width: bv.Width}}>
+                                </div>
+                            )
+                        })
+                    }
+                </TitleBar>
+            }
             {
                 valueList !== undefined && valueList.length === 0
                     ? (
@@ -202,6 +210,17 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, widthL
                                                         }}
                                                         onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                                                 >
+                                                    {file && 1 > mi &&
+                                                    <img src={IcFile}
+                                                         style={{
+                                                             width: 20,
+                                                             height: 15,
+                                                             marginRight: 10,
+                                                             alignSelf: "center",
+                                                             cursor: "pointer"
+                                                         }}
+                                                    />
+                                                    }
                                                     {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
                                                         ''
                                                         :

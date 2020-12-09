@@ -85,7 +85,9 @@ export const API_URLS = {
     ability: {
         load: `/v1/analysis/press/capacity`,
         list: `/v1/analysis/press/temp/capacity/list`,
-        load2: `/v1/analysis/press/temp/capacity/detail`
+        load2: `/v1/analysis/press/temp/capacity/detail`,
+        error: `/v1/analysis/press/capacity/error`,
+        detail: `v1/analysis/press/capacity/detail`
     },
     error: {
         detail: `/v1/analysis/press/error/detail`

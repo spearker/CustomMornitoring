@@ -1,4 +1,5 @@
 import client from '../configs/basic'
+import excelClient from '../configs/excel'
 
 /**
  * getBasicList()
@@ -63,6 +64,39 @@ export const loadBasicItem = async (url: string) => {
     }
 }
 
+
+/**
+ * excelPost()
+ * 엑셀 정보 항목 등록
+ * @param {string} url
+ * @param {any} data 등록 데이터
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 정민
+ */
+export const excelPost = async (url: string, data: any) => {
+    const temp: IServerData = await excelClient.post(url, data)
+
+    if (temp.status === 200) {
+        return true
+    } else {
+        return false
+    }
+}
+
+/**
+ * excelGet()
+ * 엑셀 목록 불러오기
+ * @param {string} url 링크 주소
+ * @returns {Array} list
+ * @author 정민
+ */
+export const excelGet = async (url: string) => {
+    const temp: IServerData = await excelClient.get(url)
+
+    if (temp) {
+        return temp.results!
+    }
+}
 
 export const API_URLS = {
     machine: {
@@ -130,7 +164,11 @@ export const API_URLS = {
         delete: `/v1/document/delete`,
         create: `/v1/document/folder/register`,
         update: `/v1/document/folder/update`,
+        fileDelete: `/v1/document/file/delete`,
+        fileMove: `/v1/document/file/change`,
+        upload: `/v1/document/file/upload`,
         folderList: `/v1/document/folder/list`,
+        folderDelete: `/v1/document/folder/delete`,
         fileList: `/v1/document/file/list`,
         logList: `/v1/document/log/list`,
         load: `/v1/document/load`,
