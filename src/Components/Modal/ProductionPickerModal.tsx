@@ -12,23 +12,6 @@ import {transferCodeToName} from '../../Common/codeTransferFunctions'
 //드롭다운 컴포넌트
 
 interface IProps {
-<<<<<<< HEAD
-    select?: { name?: string, type?: string, pk?: string }
-    selectRange?: { name?: string, type?: number, pk?: string }[]
-    onClickEvent: any
-    text: string
-    width?: boolean
-    type?: number
-    style?: any
-    innerStyle?: any
-    innerWidth?: string | number
-    buttonWid?: string | number
-    disabled?: boolean
-    isType?: boolean
-    multiSelect?: boolean
-    isAllItem?: boolean
-    noBasic?: boolean
-=======
   select?: { name?: string, type?: string, pk?: string }
   selectRange?: { material_pk: string, material_name: string, material_type: string, location: string }[]
   onClickEvent: any
@@ -44,7 +27,6 @@ interface IProps {
   isAllItem?: boolean
   noBasic?: boolean
   filter?: number
->>>>>>> upstream/master
 }
 
 const DummyItem = [
@@ -76,32 +58,12 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
     }
   ])
 
-<<<<<<< HEAD
-const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, type, style, innerStyle, innerWidth, buttonWid, disabled, isType, multiSelect, isAllItem, noBasic}: IProps) => {
-    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const [isOpen, setIsOpen] = useState(false)
-    const [searchName, setSearchName] = useState('')
-    const [page, setPage] = useState<PaginationInfo>({
-        current: 1,
-    })
-    const [selectMaterial, setSelectMaterial] = useState<{ material_pk: string, material_name: string, material_type: string, location: string }[]>([])
-    const [indexList, setIndexList] = useState<number[]>([])
-    const [productList, setProductList] = useState([
-        {
-            pk: '',
-            material_name: '',
-            material_type: '',
-            location: '',
-        }
-    ])
-=======
   useEffect(() => {
     if (selectRange) {
       console.log(selectRange)
       setSelectMaterial(selectRange)
     }
   }, [selectRange])
->>>>>>> upstream/master
 
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
@@ -128,35 +90,6 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
     getList()
   }, [select])
 
-<<<<<<< HEAD
-    return (
-        <div style={style}>
-            <div style={{
-                position: 'relative',
-                display: 'inline-block',
-                zIndex: 0,
-                width: innerWidth ? innerWidth : width ? 867 : 917,
-                ...innerStyle
-            }}>
-                <BoxWrap disabled={disabled} onClick={() => {
-                    setIsOpen(true)
-                }} style={{padding: 0, backgroundColor: '#f4f6fa'}} type={'button'}>
-                    <div style={{display: 'inline-block', height: 32, width: innerWidth ? innerWidth : 885}}>
-                        {
-                            select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                                : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                        }
-                    </div>
-                    <div style={{
-                        display: 'inline-block',
-                        backgroundColor: POINT_COLOR,
-                        width: buttonWid ? buttonWid : 32,
-                        height: buttonWid ? buttonWid : 32
-                    }}>
-                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}/>
-                    </div>
-                </BoxWrap>
-=======
   return (
     <div style={style}>
       <div style={{
@@ -211,7 +144,6 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
               <SearchButton style={{flex: 4}}>
                 <img src={IcSearchButton}/>
               </SearchButton>
->>>>>>> upstream/master
             </div>
             <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
               <ReactShadowScroll>
