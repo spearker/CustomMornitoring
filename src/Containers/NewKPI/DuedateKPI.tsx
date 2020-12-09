@@ -40,6 +40,7 @@ const DuedateKPI = () => {
   const [compareView, setCompareView] = useState<boolean>(false)
   const [data, setData] = useState<any>({number: 100, increase: true})
   const [compareArr, setCompareArr] = useState<number[]>([0, 0])
+  const [result, setResult] = useState<number>()
 
   const changeDate = (date: Date) => {
     return moment(date).format('YYYY-MM-DD')
@@ -56,12 +57,14 @@ const DuedateKPI = () => {
     const resultData = await getKPIData(tempUrl)
     if (resultData) {
       const tmpList = compareArr
-      tmpList[index] = resultData.data
-      setCompareArr(tmpList)
+      tmpList[index] = typeof resultData.data === 'string' ? Number(resultData.data.split(':')[0]) * 3600 + Number(resultData.data.split(':')[1]) * 60 + Number(resultData.data.split(':')[2]) : resultData.data
+      setCompareArr([...tmpList])
+      console.log(tmpList)
       return resultData
     }
     return 0
   }
+
 
   useEffect(() => {
     setCompareView(false)
@@ -81,8 +84,9 @@ const DuedateKPI = () => {
         {
           compareView
             ? <>
-              <KPICompareBox type={type} getData={getData} subTitleList={subTitleList[selectMenu.api]}/>
-              <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
+              <KPICompareBox type={type} getData={getData} subTitleList={subTitleList[selectMenu.api]} index={1}
+                             value={selectMenu}/>
+              <KPIResultBox onCloseEvent={() => onClose()} data={compareArr}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>
               <button onClick={() => setCompareView(true)}>비교하기</button>

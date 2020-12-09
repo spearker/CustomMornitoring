@@ -21,8 +21,12 @@ const menuList: {
   {name: '불량률', api: 'defective_items_reduced_rate', tip: '제조 원가를 낮출 수 있습니다.'}
 ]
 
-const subTitileList = {
-  defective_items_reduced_rate: {}
+const subTitleList = {
+  defective_items_reduced_rate: {
+    defects: '총 불량 개수',
+    production: '총 생산량 개수',
+    data: '불량률'
+  }
 }
 
 const QualityKPI = () => {
@@ -67,11 +71,13 @@ const QualityKPI = () => {
     <div style={{maxWidth: 1100}}>
       <TopHeader title={'품질지수(Q)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
-        <KPICompareBox type={type} setType={(type) => setType(type)} getData={getData} value={selectMenu}/>
+        <KPICompareBox type={type} setType={(type) => setType(type)} getData={getData} value={selectMenu}
+                       subTitleList={subTitleList[selectMenu.api]}/>
         {
           compareView
             ? <>
-              <KPICompareBox type={type} getData={getData} value={selectMenu}/>
+              <KPICompareBox type={type} getData={getData} value={selectMenu}
+                             subTitleList={subTitleList[selectMenu.api]}/>
               <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>

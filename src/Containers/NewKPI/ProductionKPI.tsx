@@ -28,7 +28,7 @@ const subTitleList = {
   facility_operational_improvement_rate: {},
   manufacturing_leadTime_reduced_rate: {
     total: '총 리드타임',
-    worked: '총 작업 이력 건순'
+    worked: '총 작업 이력 건 순'
   },
   item_growth_rate: {},
   target_attainment_rate: {
@@ -52,20 +52,19 @@ const ProductionKPIContainer = () => {
     return moment(date).format('YYYY-MM-DD')
   }
 
-  const getData = async (from: Date, to: Date, index: number) => {
-    console.log(from, to)
+  const getData = async (from: Date, to: Date, index: number, pk?: string,) => {
     let tempUrl = ''
     if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
-      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}`
+      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?material=${pk}`
     } else {
       tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
     }
-
     const resultData = await getKPIData(tempUrl)
     if (resultData) {
       const tmpList = compareArr
-      tmpList[index] = resultData.data
+      tmpList[index] = typeof resultData.data === 'string' ? Number(resultData.data.split(':')[0]) * 3600 + Number(resultData.data.split(':')[1]) * 60 + Number(resultData.data.split(':')[2]) : resultData
       setCompareArr([...tmpList])
+
       return resultData
     }
     return 0
@@ -90,7 +89,7 @@ const ProductionKPIContainer = () => {
           compareView
             ? <>
               <KPICompareBox type={type} getData={getData} subTitleList={subTitleList[selectMenu.api]}
-                             value={selectMenu}/>
+                             value={selectMenu} index={1}/>
               <KPIResultBox onCloseEvent={() => onClose()} data={compareArr}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>

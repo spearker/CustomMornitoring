@@ -248,6 +248,7 @@ const BoxWrap = Styled.button`
 
 const InnerBoxWrap = Styled.div`
     position: absolute;
+    z-index: 999;
     top: 0;
     left:0;
     text-align: left;

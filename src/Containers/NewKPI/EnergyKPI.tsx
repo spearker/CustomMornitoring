@@ -18,8 +18,16 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '전기에너지 사용률', api: '', tip: '제조 원가를 낮출 수 있습니다.'} // api key이름
+  {name: '전기에너지 사용률', api: 'electric_saving_rate', tip: '제조 원가를 낮출 수 있습니다.'} // api key이름
 ]
+
+const subTitleList = {
+  electric_saving_rate: {
+    defects: '총 불량 개수',
+    production: '총 생산량 개수',
+    data: '불량률'
+  }
+}
 
 const EnergyKPI = () => {
   const [selectMenu, setSelectMenu] = useState<Menu>(menuList[0])
@@ -63,11 +71,13 @@ const EnergyKPI = () => {
     <div style={{maxWidth: 1100}}>
       <TopHeader title={'에너지지수(E)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
-        <KPICompareBox type={type} setType={(type) => setType(type)} getData={getData} value={selectMenu}/>
+        <KPICompareBox type={type} setType={(type) => setType(type)} getData={getData} value={selectMenu}
+                       subTitleList={subTitleList[selectMenu.api]}/>
         {
           compareView
             ? <>
-              <KPICompareBox type={type} getData={getData} value={selectMenu}/>
+              <KPICompareBox type={type} getData={getData} value={selectMenu}
+                             subTitleList={subTitleList[selectMenu.api]}/>
               <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>

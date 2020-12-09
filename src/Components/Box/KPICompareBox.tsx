@@ -9,7 +9,7 @@ interface IProps {
   // data: { number: number, increase: boolean }
   type: 'month' | 'week' | 'day'
   setType?: (type: 'month' | 'week' | 'day') => void
-  getData?: (from: Date, to: Date, index: number) => Promise<any>
+  getData?: (from: Date, to: Date, index: number, pk?: string) => Promise<any>
   index?: number
   value?: any
   subTitleList?: { total?: string, comply?: string, error?: string }
@@ -24,7 +24,7 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
     to: moment().subtract(1, 'day').toDate(),
   })
 
-  const [selectMaterial, setSelectMaterial] = useState<{ name: string, material_pk: string }>()
+  const [selectMaterial, setSelectMaterial] = useState<{ name: string, pk: string }>()
 
   useEffect(() => {
     if (value.api !== 'manufacturing_leadTime_reduced_rate') {
@@ -60,6 +60,14 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
     }
 
   }, [type])
+
+  React.useEffect(() => {
+    if (selectMaterial && index !== undefined) {
+      getData && getData(selectDate, selectDate, index, selectMaterial.pk).then((ratio) => {
+        setData(ratio)
+      })
+    }
+  }, [selectMaterial])
 
   return (
     <Container>
@@ -106,8 +114,10 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             : <React.Fragment>
               <div style={{width: 371}}>
                 {
-                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => setSelectMaterial(e)}
-                                         select={selectMaterial}
+                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => {
+                    setSelectMaterial(e)
+                  }}
+                                         select={{name: selectMaterial?.name, pk: selectMaterial?.pk}}
                                          text={'품목을 선택해주세요'}/>
                 }
               </div>
@@ -121,12 +131,15 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                 return
               }
               return (
-                <div style={{height: 65, width: 160}}>
+                <div style={{height: 65, width: 160, marginRight: 16}}>
                   <div style={{width: 112, height: 20}}>
                     <p style={{fontSize: 14}}>{subTitleList && subTitleList[v]}</p>
                   </div>
                   <div style={{width: 160, height: 41}}>
-                    <p style={{textAlign: 'right', fontSize: 20}}>{data[v]}</p>
+                    <p style={{
+                      textAlign: 'right',
+                      fontSize: 20
+                    }}>{!isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]}</p>
                   </div>
                 </div>
               )
@@ -135,7 +148,9 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
         </div>
       </div>
       <div>
-        <p>{data.data}
+        <p>{
+          !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+        }
           {/*<span>{'(가동률)'}</span>*/}
         </p>
       </div>
