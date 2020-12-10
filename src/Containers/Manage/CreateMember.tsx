@@ -174,64 +174,11 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
             const tempFile = event.target.files[0]
             const res = await uploadTempFile(event.target.files[0])
 
-<<<<<<< HEAD
-  }
-
-  return (
-    <div>
-      <Header title={isUpdate ? '사용자 정보수정' : '사용자 정보 등록'}/>
-      <WhiteBoxContainer>
-        {
-          // document.id !== '' || isUpdate == true?
-          <div>
-            <ListHeader title="필수 항목"/>
-            <RadioInput title={'권한'} target={inputData.authority}
-                        onChangeEvent={(e) => setInputData('authority', e)}
-                        contents={[{value: 'ADMIN', title: '관리자'}, {value: 'USER', title: '작업자'}]}/>
-            <NormalInput title={'유저명'} value={inputData.name}
-                         onChangeEvent={(input) => setInputData(`name`, input)}
-                         description={'유저명을 입력해주세요.'}/>
-            <NormalButtonInput title={'아이디'} description={'아이디를 입력해주세요.'} value={inputData.email}
-                               disabled={isUpdate}
-                               onClickEvent={() => emailDuplicated()}
-                               onChangeEvent={(input) => setInputData(`email`, input)}
-                               style={{ width: 'calc(100% - 109px)' }} />
-            <NormalInput title={'비밀번호'} value={inputData.password} type={'password'}
-                         onChangeEvent={(input) => setInputData(`password`, input)}
-                         description={'비밀번호를 입력해주세요'}/>
-            <NormalInput title={'비밀번호 확인'} value={confirmPassword} type={'password'}
-                         onChangeEvent={(input) => setConfirmPassword(input)}
-                         description={'비밀번호를 한번 더 입력해주세요.'}/>
-            <br/>
-            <ListHeader title="선택 항목"/>
-            <NormalFileInput title={'사용자 사진'} name={inputData.profile} thisId={'ProfilePhoto'}
-                             onChangeEvent={(e) => addFiles(e)}
-                             description={isUpdate ? '' : '기계를 사진으로 찍어 등록해주세요'}
-                             style={{width: 'calc(100% - 109px)'}}/>
-            {isUpdate ?
-              <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
-                <TestButton onClick={() => onsubmitFormUpdate()}>
-                  <div>
-                    <p style={{fontSize: 18}}>수정하기</p>
-                  </div>
-                </TestButton>
-
-                <ButtonWrap onClick={() => history.goBack()}>
-                  <div>
-                    <p style={{fontSize: 18}}>리스트 보기</p>
-                  </div>
-                </ButtonWrap>
-              </div>
-              :
-              <GrayRegisterButton name={'등록하기'}
-                                  onPress={() => onsubmitForm()}/>
-=======
             if (res !== false) {
                 setInputData('profile', res)
                 return
             } else {
                 return
->>>>>>> upstream/master
             }
 
         } else {
@@ -258,7 +205,8 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                         <NormalButtonInput title={'아이디'} description={'아이디를 입력해주세요.'} value={inputData.email}
                                            disabled={isUpdate}
                                            onClickEvent={() => emailDuplicated()}
-                                           onChangeEvent={(input) => setInputData(`email`, input)}/>
+                                           onChangeEvent={(input) => setInputData(`email`, input)}
+                                           style={{ width: 'calc(100% - 109px)' }} />
                         <NormalInput title={'비밀번호'} value={inputData.password} type={'password'}
                                      onChangeEvent={(input) => setInputData(`password`, input)}
                                      description={'비밀번호를 입력해주세요'}/>
@@ -270,7 +218,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                         <NormalFileInput title={'사용자 사진'} name={inputData.profile} thisId={'ProfilePhoto'}
                                          onChangeEvent={(e) => addFiles(e)}
                                          description={isUpdate ? '' : '기계를 사진으로 찍어 등록해주세요'}
-                                         style={{width: 'calc(100% - 124px)'}}/>
+                                         style={{width: 'calc(100% - 109px)'}}/>
                         {isUpdate ?
                             <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
                                 <TestButton onClick={() => onsubmitFormUpdate()}>

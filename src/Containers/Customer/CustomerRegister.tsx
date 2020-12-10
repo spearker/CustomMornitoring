@@ -283,57 +283,19 @@ const CustomerRegister = ({match}: Props) => {
         <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
                          onChangeEvent={(e) => addFiles(e, 0)}
                          description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
-                         style={{width: 'calc(100% - 124px)'}}/>
+                         style={{width: 'calc(100% - 109px)'}}/>
         {
           isUpdate ?
             <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
             :
             null
         }
-<<<<<<< HEAD
-
-    }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
-
-
-    return (
-        <div>
-            <Header title={isUpdate ? '거래처 정보수정' : '거래처 정보등록'}/>
-            <WhiteBoxContainer>
-                <ListHeader title="필수 항목"/>
-                <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
-                <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
-                <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                            contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
-
-                {/* <NormalInput title={'사업자 번호'} value={no} onChangeEvent={setNo} description={'사업자 번호를 입력하세요 (-제외)'}/> */}
-                <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} returnType={'string'}
-                                   description={'사업자 번호를 입력하세요 (-제외)'}/>
-                <br/>
-                <ListHeader title="선택 항목"/>
-                <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
-                                 onChangeEvent={(e) => addFiles(e, 0)}
-                                 description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
-                                 style={{width: 'calc(100% - 109px)'}}/>
-                {
-                    isUpdate ?
-                        <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths} nameList={['']} isImage={true}/>
-                        :
-                        null
-                }
-                <NormalNumberInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} returnType={'string'}
-                                   description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
-                <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
-                <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
-                             description={'사업장 이메일을 입력하세요'}/>
-                {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
-=======
         <NormalNumberInput title={'사업장 대표 연락처'} value={phone} onChangeEvent={setPhone} returnType={'string'}
                            description={'사업자 등록증에기재되어있는 연락처를 입력하세요'}/>
         <NormalAddressInput title={'공장 주소'} value={address} onChangeEvent={(input) => setAddress(input)}/>
         <NormalInput title={'사업장 이메일'} value={email} onChangeEvent={setEmail}
                      description={'사업장 이메일을 입력하세요'}/>
         {/* <NormalInput title={'사업장 대표 FAX'} value={fax} onChangeEvent={setFax}
->>>>>>> upstream/master
                              description={'사업장 팩스번호를 입력하세요'}/> */}
         <NormalNumberInput title={'사업장 대표 FAX'} value={fax} returnType={'string'}
                            onChangeEvent={setFax}
