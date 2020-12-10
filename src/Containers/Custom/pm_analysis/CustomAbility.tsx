@@ -272,7 +272,7 @@ const CustomAbility = () => {
     }, [])
 
     useEffect(() => {
-        getDataList()
+        // getDataList()
         getData()
     }, [selectMachine, selectDate])
 
