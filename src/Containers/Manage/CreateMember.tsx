@@ -23,7 +23,7 @@ import FullAddInput from '../../Components/Input/FullAddInput'
 import * as _ from 'lodash'
 import NormalFileInput from '../../Components/Input/NormalFileInput'
 import {uploadTempFile} from '../../Common/fileFuctuons'
-import {API_URLS, postCreateMember} from '../../Api/mes/member'
+import {API_URLS, getMemberList, postCreateMember} from '../../Api/mes/member'
 import {getMarketing} from '../../Api/mes/marketing'
 import NormalButtonInput from '../../Components/Input/NormalButtonInput'
 import Notiflix from 'notiflix'
@@ -33,6 +33,9 @@ interface Props {
     match: any
 }
 
+const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
@@ -41,6 +44,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
     const [type, setType] = useState<number>(0)
     const [essential, setEssential] = useState<any[]>([])
     const [optional, setOptional] = useState<any[]>([])
+    const [idCheck, setIdCheck] = useState<boolean>(false)
 
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
     const [userImage, setUserImage] = useState<string>('')
@@ -66,6 +70,10 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
     }, [])
 
     const emailDuplicated = useCallback(async () => {
+        if (korean.test(inputData.email)) {
+            alert('아이디에 한글이 들어갈 수 없습니다.')
+            return
+        }
 
         const data = {
             email: inputData.email
@@ -77,6 +85,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
             return Notiflix.Report.Failure('요청 실패', '체크할 아이디를 입력하셨는지 확인해주세요.', '닫기')
         } else {
             if (res.results === false) {
+                setIdCheck(true)
                 Notiflix.Report.Success('사용할 수 있는 아이디', '사용할 수 있는 아이디 입니다.', '닫기')
             } else {
                 Notiflix.Report.Warning('사용할 수 없는 아이디', '사용할 수 없는 아이디 입니다. 아이디를 변경해주세요.', '닫기')
@@ -87,32 +96,36 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/member/load?pk=` + match.match.params.pk, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['member'].load}?pk=${match.match.params.pk}`
+        const resultData = await getMemberList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
-                const form = {
-                    email: data.email,
-                    password: data.password,
-                    name: data.name,
-                    authority: data.authority,
-                    profile: null,
-                }
-                setUserImage(data.profile)
-                setInputData('all', form)
-
-            } else {
-                //TODO:  기타 오류
+        if (resultData) {
+            const data = resultData
+            const form = {
+                email: data.email,
+                password: '',
+                name: data.name,
+                authority: data.authority,
+                profile: null,
             }
+            setUserImage(data.profile)
+            setInputData('all', form)
+
         }
     }, [pk, optional, essential, inputData])
 
 
     const onsubmitFormUpdate = useCallback(async () => {
-
+        if (confirmPassword !== inputData.password) {
+            alert('비밀번호가 같지 않습니다.')
+            return
+        } else if (inputData.name === '') {
+            alert('유저명을 입력해주세요.')
+            return
+        } else if (1 <= inputData.password.length && inputData.password.length < 5) {
+            alert('비밀번호 재설정은 4자리 이상으로 해주세요.')
+            return
+        }
 
         // const temp: any = []
         // temp.push(inputData)
@@ -133,9 +146,25 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
         }
 
 
-    }, [pk, optional, essential, inputData])
+    }, [pk, optional, essential, inputData, confirmPassword])
 
     const onsubmitForm = useCallback(async () => {
+        if (confirmPassword !== inputData.password) {
+            alert('비밀번호가 같지 않습니다.')
+            return
+        } else if (inputData.name === '') {
+            alert('유저명을 입력해주세요.')
+            return
+        } else if (inputData.email === '') {
+            alert('아이디를 입력해주세요.')
+            return
+        } else if (!idCheck) {
+            alert('아이디 중복체크를 해주세요.')
+            return
+        } else if (inputData.password.length < 5) {
+            alert('비밀번호를 4자리 이상으로 해주세요.')
+            return
+        }
 
         const temp: any = []
         temp.push(inputData)
@@ -155,7 +184,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
             ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
         }
 
-    }, [pk, optional, essential, inputData, document])
+    }, [pk, optional, essential, inputData, document, idCheck, confirmPassword])
 
 
     /**
@@ -207,7 +236,10 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                         <NormalButtonInput title={'아이디'} description={'아이디를 입력해주세요.'} value={inputData.email}
                                            disabled={isUpdate}
                                            onClickEvent={() => emailDuplicated()}
-                                           onChangeEvent={(input) => setInputData(`email`, input)}
+                                           onChangeEvent={(input) => {
+                                               setInputData(`email`, input);
+                                               setIdCheck(false)
+                                           }}
                                            style={{width: 'calc(100% - 109px)'}}/>
                         <NormalInput title={'비밀번호'} value={inputData.password} type={'password'}
                                      onChangeEvent={(input) => setInputData(`password`, input)}
@@ -236,7 +268,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                                     </div>
                                 </TestButton>
 
-                                <ButtonWrap onClick={() => history.goBack()}>
+                                <ButtonWrap onClick={() => history.push('/manage/member/list')}>
                                     <div>
                                         <p style={{fontSize: 18}}>리스트 보기</p>
                                     </div>

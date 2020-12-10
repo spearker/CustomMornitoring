@@ -56,13 +56,13 @@ const chartOption = {
         }
     },
     yaxis: {
-        tickAmount: 24,
+        tickAmount: 25,
         labels: {
             formatter: (value, index) => {
-                if (index === 24) {
+                if (index === 25) {
                     return '(ton)'
                 } else {
-                    if (value % 50 === 0) {
+                    if (index % 5 === 0) {
                         return Math.floor(value)
                     } else {
                         return
@@ -79,7 +79,9 @@ const chartOption = {
         tickAmount: 18,
         max: 210,
         min: 120,
-        formatter: (value) => Number(value).toFixed(0),
+        labels: {
+            formatter: (value) => Number(value).toFixed(0),
+        },
         tooltip: {
             enable: false
         }
@@ -125,6 +127,7 @@ const CustomAbility = () => {
     const [selectMaterial, setSelectMaterial] = useState<string>('All')
     const [errorList, setErrorList] = useState<string[]>([''])
     const [selectError, setSelectError] = useState<string>('')
+    const [degree, setDegree] = useState<number[]>([])
 
     const [index, setIndex] = useState({mold_name: '금형명'})
 
@@ -176,10 +179,10 @@ const CustomAbility = () => {
 
     const getDataList = useCallback(async () => {
         if (selectMachine !== '') {
-            const tempUrl = `${API_URLS['ability'].list}?pk=${selectMachine}&date=${selectDate}`
-            const resultData = await getCapacityTimeData(tempUrl);
+            const tempUrl = `${API_URLS['capacity'].list}?pk=${selectMachine}&date=${selectDate}`
+            const resultData = await getCapacityTimeData(tempUrl)
 
-            setList(resultData)
+            setMaterialList(resultData)
         }
     }, [selectMachine, list, selectDate]);
 
@@ -190,16 +193,18 @@ const CustomAbility = () => {
             const tempUrl = `${API_URLS['ability'].error}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
             const resultData = await getCapacityTimeData(tempUrl);
             if (resultData) {
+                setDegree(resultData.degree)
                 let dummylineList: number[][] = []
 
                 await resultData.degree.map((v, i) => {
-                    dummylineList.push([Number(v), Number(resultData.standard[i])])
+                    dummylineList.push([Number(v), Number(resultData.capacity[i])])
                     return null
                 })
                 let tmpListTmp: number[][] = []
 
-                await resultData.standard.map((v, i) => {
+                await resultData.degree.map((v, i) => {
                     tmpListTmp.push([Number(v), (resultData.standard[i])])
+                    return null
                 })
 
                 await setSeries([{
@@ -215,7 +220,6 @@ const CustomAbility = () => {
                 }])
 
                 setErrorList(resultData.error)
-                setMachineName(resultData.machine_name)
                 setOvertime(String(resultData.error.length))
 
             }
@@ -226,6 +230,7 @@ const CustomAbility = () => {
 
     const getDetailError = useCallback(async () => {
         if (selectMaterial !== '' && selectError !== '') {
+            const seriesTemp = series.splice(2, 1)
             Notiflix.Loading.Circle()
 
             const tempUrl = `${API_URLS['ability'].detail}?pk=${selectMachine}&time=${selectError}&material_pk=${selectMaterial}`
@@ -234,13 +239,14 @@ const CustomAbility = () => {
             if (resultData) {
                 let ErrorLineList: number[][] = []
 
-                await resultData.degree.map((v, i) => {
+                await degree.map((v, i) => {
                     ErrorLineList.push([Number(v), Number(resultData.error_graph[i])])
                     return null
                 })
 
+
                 await setSeries([...series, {
-                    name: '에러 그래프',
+                    name: '평균 초과 그래프',
                     type: 'area',
                     data: ErrorLineList,
                     color: '#FF000055'
@@ -250,7 +256,7 @@ const CustomAbility = () => {
             }
             Notiflix.Loading.Remove()
         }
-    }, [selectMachine, selectDate, series, overtime, selectMaterial]);
+    }, [selectMachine, selectDate, series, overtime, selectMaterial, selectError, degree]);
 
 
     const getList = useCallback(async () => {
@@ -272,10 +278,19 @@ const CustomAbility = () => {
     }, [])
 
     useEffect(() => {
-        // getDataList()
-        getData()
+        setOvertime('')
+        getDataList()
+        // getData()
     }, [selectMachine, selectDate])
 
+    useEffect(() => {
+        getData()
+    }, [selectMaterial])
+
+
+    useEffect(() => {
+        getDetailError()
+    }, [selectError])
 
     return (
         <div>
@@ -314,7 +329,7 @@ const CustomAbility = () => {
                                     color: '#ffffff',
                                     paddingLeft: 10,
                                 }} onChange={(e) => setSelectMaterial(e.target.value)}>
-                                    <option value={'All'} key={`All`}>전체</option>
+                                    <option value={''} key={`All`}>품목을 선택해주세요.</option>
                                     {
                                         materialList.map((v, i) => {
                                             return (
@@ -342,7 +357,7 @@ const CustomAbility = () => {
                                     <ReactApexChart options={chartOption} type={'line'} height={'85%'} series={series}/>
                                     <div style={{display: "flex"}}>
                                         <Overtime>
-                                            <p>최대 일일 초과 회수</p>
+                                            <p>제품 평균 로드톤 초과 회수</p>
                                             <p>{overtime}</p>
                                         </Overtime>
                                         <Overtime>

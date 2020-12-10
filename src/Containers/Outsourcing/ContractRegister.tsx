@@ -240,8 +240,7 @@ const ContractRegister = ({match}: Props) => {
         const res = await postOutsourcingRegister(tempUrl, data)
 
         if (res) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        } else {
+     
             history.goBack()
 
         }

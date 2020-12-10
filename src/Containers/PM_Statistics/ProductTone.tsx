@@ -182,13 +182,13 @@ const ProductToneContainer = () => {
 
   useEffect(() => {
     getList(machinePk)
-  }, [machinePk, materialPage.current])
+  }, [materialPage.current])
 
   useEffect(() => {
     if (selectValue) {
       getDataPaginatoin()
     }
-  }, [tonPage.current, selectDate, selectValue])
+  }, [tonPage.current, selectDate, selectValue, machinePk])
 
   useEffect(() => {
     setDetailList([])
