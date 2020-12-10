@@ -174,13 +174,13 @@ const SegmentListContainer = () => {
     // process_type: "0"
     const getprocesses = res.processes.map((v, i) => {
       const processType = transferCodeToName('process', Number(v.process_type))
-      const machine_name = v.machine.length === 0
+      const machine_name = (!v.machines || v.machines.length === 0)
         ? []
         : v.machines.map((v, i) => {
           return v.machine_name
         })
 
-      const mold_name = v.machine.length === 0
+      const mold_name = (!v.machines || v.machines.length === 0)
         ? []
         : v.machines.map((v, i) => {
           return v.mold_name
