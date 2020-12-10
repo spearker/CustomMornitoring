@@ -123,7 +123,8 @@ const MoldRepairRegisterContainer = () => {
                                     </div>
                                     <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
                                         setSelectDate(select)
-                                    }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                                    }} text={'날짜 선택'} type={'single'} unLimit
+                                                           customStyle={{height: 32, marginLeft: 0}}/>
                                 </div>
                             </td>
                         </tr>

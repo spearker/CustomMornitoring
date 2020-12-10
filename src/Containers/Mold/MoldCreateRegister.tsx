@@ -39,6 +39,7 @@ const initComponent = {
 
 const initDrawing = ''
 
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi
 
 const MoldCreateRegisterContainer = ({match}: any) => {
     const history = useHistory()
@@ -450,10 +451,11 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                                                              onChange={(e) => {
                                                                  let tmpArr = parts
 
+
                                                                  if (Number(selectParts.part[i][index].current) >= Number(e.target.value)) {
                                                                      tmpArr[i].material[index] = {
                                                                          ...tmpArr[i].material[index],
-                                                                         usage: e.target.value
+                                                                         usage: String(parseInt(e.target.value))
                                                                      }
                                                                  } else {
                                                                      tmpArr[i].material[index] = {
@@ -461,7 +463,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                                                                          usage: selectParts.part[i][index].current
                                                                      }
                                                                  }
-
 
                                                                  setParts([...tmpArr])
                                                              }} placeholder={'9,999,999,999'}/>
@@ -545,7 +546,19 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                                     <p>사용할 수량</p>
                                     <MaterialBox type="text" value={components[i].usage} onChange={(e) => {
                                         let tmpArr = components
-                                        tmpArr[i] = {...tmpArr[i], usage: e.target.value}
+
+                                        if (Number(components[i].current) >= Number(e.target.value)) {
+                                            tmpArr[i] = {
+                                                ...tmpArr[i],
+                                                usage: String(parseInt(e.target.value))
+                                            }
+                                        } else {
+                                            tmpArr[i] = {
+                                                ...tmpArr[i],
+                                                usage: components[i].current
+                                            }
+                                        }
+                                        
 
                                         setComponents([...tmpArr])
                                     }} placeholder={'9,999,999,999'}/>
