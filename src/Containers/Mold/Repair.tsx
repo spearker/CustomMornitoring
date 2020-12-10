@@ -12,7 +12,7 @@ const RepairContainer = () => {
     const [eventList, setEventList] = useState<any[]>([]);
     const [detailList, setDetailList] = useState<any[]>([]);
     const [index, setIndex] = useState({mold_name: '금형 이름'});
-    const [subIndex, setSubIndex] = useState({manager: "작업자"})
+    const [subIndex, setSubIndex] = useState({manager_name: "작업자"})
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -33,7 +33,7 @@ const RepairContainer = () => {
 
     const detailTitle = {
         repair: {
-            manager: "작업자",
+            manager_name: "작업자",
             repair_content: '수리 내용',
             status: '상태',
             complete_date: '완료 날짜'
@@ -86,7 +86,6 @@ const RepairContainer = () => {
         const tempUrl = `${API_URLS['repair'].complete}`
         const res = await postMoldState(tempUrl, {pk: pk})
         if (res) {
-            setDetailList(res)
             getList()
         }
     }, [detailList])
@@ -96,7 +95,6 @@ const RepairContainer = () => {
         const tempUrl = `${API_URLS['repair'].cancel}`
         const res = await postMoldState(tempUrl, {pk: pk})
         if (res) {
-            setDetailList(res)
             getList()
         }
     }, [detailList])
@@ -157,11 +155,11 @@ const RepairContainer = () => {
                 valueList={list}
                 EventList={eventList}
                 buttonState={true}
+                clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 mainOnClickEvent={onClick}
-                noChildren={true}
             >
                 {
                     selectPk !== null ?

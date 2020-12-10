@@ -46,6 +46,7 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
 
         if (res) {
             setIsOpen(false)
+            setFolderName('')
             getFolderList()
         }
         Notiflix.Loading.Remove()
