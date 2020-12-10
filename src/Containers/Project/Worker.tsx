@@ -106,7 +106,6 @@ const WorkerContainer = ({match}: Props) => {
 
     const eventdummy = [
         {
-            Name: '완료하기',
             Width: 80,
             Color: 'white',
             Link: (v) => v.state === '완료됨' ? null : history.push(`/project/history/register/${v.pk}`)
@@ -135,6 +134,7 @@ const WorkerContainer = ({match}: Props) => {
                 titleOnClickEvent={titleEventList}
                 indexList={index}
                 valueList={list}
+                buttonDisappear={true}
                 noChildren={true}
                 EventList={eventList}
                 currentPage={page.current}
