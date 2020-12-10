@@ -76,9 +76,9 @@ const QualityKPI = () => {
         {
           compareView
             ? <>
-              <KPICompareBox type={type} getData={getData} value={selectMenu}
+              <KPICompareBox type={type} getData={getData} value={selectMenu} index={1}
                              subTitleList={subTitleList[selectMenu.api]}/>
-              <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
+              <KPIResultBox onCloseEvent={() => onClose()} data={compareArr}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>
               <button onClick={() => setCompareView(true)}>비교하기</button>
