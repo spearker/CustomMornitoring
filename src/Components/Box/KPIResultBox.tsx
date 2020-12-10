@@ -13,6 +13,7 @@ const KPIResultBox = ({onCloseEvent, data}: IProps) => {
   const [result, setResult] = useState<number>(0)
 
   useEffect(() => {
+    console.log(data)
     setResult(Math.round(((data[0] - data[1]) / (data[0] + data[1])) * 1000) / 10)
   }, [data])
 
