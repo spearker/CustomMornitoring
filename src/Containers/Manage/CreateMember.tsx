@@ -27,6 +27,7 @@ import {API_URLS, postCreateMember} from '../../Api/mes/member'
 import {getMarketing} from '../../Api/mes/marketing'
 import NormalButtonInput from '../../Components/Input/NormalButtonInput'
 import Notiflix from 'notiflix'
+import OldFileInput from "../../Components/Input/OldFileInput";
 
 interface Props {
     match: any
@@ -42,6 +43,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
     const [optional, setOptional] = useState<any[]>([])
 
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
+    const [userImage, setUserImage] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
     const [pk, setPk] = useState<string>('')
 
@@ -99,7 +101,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                     authority: data.authority,
                     profile: null,
                 }
-
+                setUserImage(data.profile)
                 setInputData('all', form)
 
             } else {
@@ -206,7 +208,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                                            disabled={isUpdate}
                                            onClickEvent={() => emailDuplicated()}
                                            onChangeEvent={(input) => setInputData(`email`, input)}
-                                           style={{ width: 'calc(100% - 109px)' }}/>
+                                           style={{width: 'calc(100% - 109px)'}}/>
                         <NormalInput title={'비밀번호'} value={inputData.password} type={'password'}
                                      onChangeEvent={(input) => setInputData(`password`, input)}
                                      description={'비밀번호를 입력해주세요'}/>
@@ -217,8 +219,15 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                         <ListHeader title="선택 항목"/>
                         <NormalFileInput title={'사용자 사진'} name={inputData.profile} thisId={'ProfilePhoto'}
                                          onChangeEvent={(e) => addFiles(e)}
-                                         description={isUpdate ? '' : '기계를 사진으로 찍어 등록해주세요'}
+                                         description={isUpdate ? '' : '사용자 사진을 사진으로 찍어 등록해주세요'}
                                          style={{width: 'calc(100% - 109px)'}}/>
+                        {
+                            isUpdate ?
+                                <OldFileInput title={'기존 첨부 파일'} urlList={[userImage]}
+                                              nameList={['사용자 사진']}
+                                              isImage={true}/>
+                                : null
+                        }
                         {isUpdate ?
                             <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
                                 <TestButton onClick={() => onsubmitFormUpdate()}>

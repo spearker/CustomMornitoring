@@ -29,7 +29,7 @@ const ShipmentContainer = () => {
     const indexList = {
         shipment: {
             customer_name: '거래처 명',
-            material_name: '(품목)품목명',
+            material_name: '품목명',
             amount: '수량',
             date: '출하 날짜'
         }
