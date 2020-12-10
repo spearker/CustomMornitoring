@@ -301,50 +301,6 @@ const ScheduleContainer = () => {
                 {
                     selectPk !== null ?
                         <LineTable title={selectMaterial} titleOnClickEvent={detailTitleEventList}>
-                            <VoucherDropdown pk={'123'} name={'생산 계획 공정'} onClickEvent={() => voucherOnClick(1)}
-                                             clickValue={voucherDropdown}>
-                                <div style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    {detailList.process.length !== 0 ?
-                                        detailList.process.map((v, i) => {
-                                            if (detailList.process.length === i + 1) {
-                                                return (
-                                                    <>
-                                                        <FactoryBox title={v.process_name}
-                                                                    inputMaterial={v.input_material}
-                                                                    productionMaterial={v.output_material}/>
-                                                    </>)
-                                            } else {
-                                                return (
-                                                    <>
-                                                        <FactoryBox title={v.process_name}
-                                                                    inputMaterial={v.input_material}
-                                                                    productionMaterial={v.output_material}/>
-                                                        <img src={next}
-                                                             style={{
-                                                                 width: 47,
-                                                                 height: 17,
-                                                                 marginLeft: 20,
-                                                                 marginTop: 135,
-                                                                 marginRight: 20
-                                                             }}/>
-                                                    </>)
-                                            }
-                                        })
-                                        :
-                                        <p style={{
-                                            marginTop: 20,
-                                            width: '100%',
-                                            textAlign: 'center',
-                                            fontFamily: 'NotoSansCJKkr-Bold',
-                                            fontSize: '17px'
-                                        }}>조회 가능한 데이터가 없습니다.</p>
-                                    }
-                                </div>
-                            </VoucherDropdown>
                             <VoucherDropdown pk={'123'} name={'전표 리스트'} onClickEvent={() => voucherOnClick(2)}
                                              clickValue={voucherDropdown2}>
                                 <LineTable contentTitle={voucherIndex} contentList={voucherList}
