@@ -31,6 +31,7 @@ interface Props {
     mainOnClickEvent?: any
     onClickEvent?: any
     buttonState?: boolean
+    buttonDisappear?: boolean
     currentPage?: number
     totalPage?: number
     pageOnClickEvent?: any
@@ -41,7 +42,7 @@ interface Props {
     endDate?: string
 }
 
-const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
+const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, buttonDisappear, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
 
     const [checked, setChecked] = useState<any[]>([])
 
@@ -273,7 +274,15 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                                     EventList && EventList.map((bv, bi) => {
                                         return (
                                             <div className="p-limits">
-                                                {
+                                                {buttonDisappear ?
+                                                    <ButtonBox onClick={() => bv.Link(v)} style={{
+                                                        cursor: v.state === '작업중' ? 'pointer' : 'default',
+                                                        width: bv.Width,
+                                                        color: v.state === '작업중' ? 'white' : 'white',
+                                                        backgroundColor: v.state === '작업중' ? '#717c90' : '#353b48'
+                                                    }}
+                                                    >{v.state === '작업중' ? '완료 하기' : ''}</ButtonBox>
+                                                    :
                                                     buttonState ?
                                                         <ButtonBox onClick={() => bv.Link(v)} style={{
                                                             width: bv.Width,
