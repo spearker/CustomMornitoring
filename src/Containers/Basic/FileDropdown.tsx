@@ -22,10 +22,13 @@ interface Props {
 const FileDropdown: React.FunctionComponent<Props> = ({title, pk, clickValue, FolderDelete, FolderList, getFolder}) => {
     const [value, setValue] = useState<any>('')
     const [list, setList] = useState<any[]>([])
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isFoloderOpen, setIsFolderOpen] = useState<boolean>(false)
     const [eventList, setEventList] = useState<any[]>([])
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
     const [selectFolder, setSelectFolder] = useState<string>('')
     const [selectFile, setSelectFile] = useState<{ name: string, pk: string }>({name: '', pk: ''})
+    const [deleteFile, setDeleteFile] = useState<string>('')
     const [index, setIndex] = useState({file_name: '파일 명'})
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -61,7 +64,10 @@ const FileDropdown: React.FunctionComponent<Props> = ({title, pk, clickValue, Fo
             Width: '60px',
             Color: 'white',
             buttonWidth: '40px',
-            Link: (v) => FileDelete(v.file_pk)
+            Link: (v) => {
+                setIsOpen(true);
+                setDeleteFile(v.file_pk)
+            }
         },
     ]
 
@@ -81,19 +87,20 @@ const FileDropdown: React.FunctionComponent<Props> = ({title, pk, clickValue, Fo
         }
     }, [list, page, value])
 
-    const FileDelete = useCallback(async (file) => {
+    const FileDelete = useCallback(async () => {
         //TODO: 성공시
 
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['document'].fileDelete}`
-        const res = await excelPost(tempUrl, {file_pk: file})
+        const res = await excelPost(tempUrl, {file_pk: deleteFile})
 
         if (res) {
             getFileList()
         }
+        setIsOpen(false)
         Notiflix.Loading.Remove()
 
-    }, [list, page, value])
+    }, [list, page, value, deleteFile])
 
     const FileMove = useCallback(async () => {
         //TODO: 성공시
@@ -148,7 +155,7 @@ const FileDropdown: React.FunctionComponent<Props> = ({title, pk, clickValue, Fo
                     <p>{title}</p>
                 </div>
                 <div style={{width: '85px'}}>
-                    <ButtonBox onClick={() => FolderDelete(pk)}
+                    <ButtonBox onClick={() => setIsFolderOpen(true)}
                                style={{
                                    width: '70px',
                                    color: 'white',
@@ -219,6 +226,74 @@ const FileDropdown: React.FunctionComponent<Props> = ({title, pk, clickValue, Fo
                                 <BasicColorButton width={'45%'} name={'확인'} onClickEvent={
                                     () => {
                                         FileMove()
+                                    }
+                                }/>
+                            </div>
+                        </div>
+                    </InnerBox>
+                </>
+            }
+            {
+                isOpen && <>
+                    <WrapHoverBox onClick={() => {
+                    }}/>
+                    <InnerBox>
+                        <div style={{
+                            position: 'relative',
+                            backgroundColor: '#F5F6FA',
+                            textAlign: 'center',
+                            width: 320,
+                            maxWidth: 320,
+                            padding: '0px 20px 20px 20px'
+                        }}>
+                            <p style={{
+                                marginTop: 35,
+                                fontSize: 20,
+                                marginBottom: 20,
+                                color: 'black',
+                                whiteSpace: 'pre-line',
+                            }}>{'파일을 정말로 삭제하시겠습니까?'}</p>
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <BasicColorButton color={'#e7e9eb'} width={'45%'} name={'취소'}
+                                                  onClickEvent={() => setIsOpen(false)}/>
+                                <div style={{width: 12}}></div>
+                                <BasicColorButton width={'45%'} name={'확인'} onClickEvent={
+                                    () => {
+                                        FileDelete()
+                                    }
+                                }/>
+                            </div>
+                        </div>
+                    </InnerBox>
+                </>
+            }
+            {
+                isFoloderOpen && <>
+                    <WrapHoverBox onClick={() => {
+                    }}/>
+                    <InnerBox>
+                        <div style={{
+                            position: 'relative',
+                            backgroundColor: '#F5F6FA',
+                            textAlign: 'center',
+                            width: 320,
+                            maxWidth: 320,
+                            padding: '0px 20px 20px 20px'
+                        }}>
+                            <p style={{
+                                marginTop: 35,
+                                fontSize: 20,
+                                marginBottom: 20,
+                                color: 'black',
+                                whiteSpace: 'pre-line',
+                            }}>{'폴더를 정말로 삭제하시겠습니까?'}</p>
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <BasicColorButton color={'#e7e9eb'} width={'45%'} name={'취소'}
+                                                  onClickEvent={() => setIsFolderOpen(false)}/>
+                                <div style={{width: 12}}></div>
+                                <BasicColorButton width={'45%'} name={'확인'} onClickEvent={
+                                    () => {
+                                        FolderDelete(pk)
                                     }
                                 }/>
                             </div>
