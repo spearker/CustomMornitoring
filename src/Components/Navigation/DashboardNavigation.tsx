@@ -150,18 +150,18 @@ const DashboardNavigation = ({select, folding}: Props) => {
           <img src={NAV_HOME}/>
           <p>Home</p>
         </div>
-        <div onClick={() => {
-          // dispatchp({
-          //   type: 'CHANGE_MODE',
-          //   data: {
-          //     mode: 'custom_dashboard'
-          //   }
-          // })
-          history.push('/custom/dashboard')
-        }}>
-          <img src={NAV_DASHBOARD}/>
-          <p style={{fontSize: '5pt'}}>DASHBOARD</p>
-        </div>
+        {/*<div onClick={() => {*/}
+        {/*  // dispatchp({*/}
+        {/*  //   type: 'CHANGE_MODE',*/}
+        {/*  //   data: {*/}
+        {/*  //     mode: 'custom_dashboard'*/}
+        {/*  //   }*/}
+        {/*  // })*/}
+        {/*  history.push('/custom/dashboard')*/}
+        {/*}}>*/}
+        {/*  <img src={NAV_DASHBOARD}/>*/}
+        {/*  <p style={{fontSize: '5pt'}}>DASHBOARD</p>*/}
+        {/*</div>*/}
         <div onClick={() => {
           if (nav.mode !== 'pm') {
             dispatchp({
