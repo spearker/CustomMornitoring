@@ -291,7 +291,7 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const tempUrl = `${API_URLS['stock'].releaseRegister}`
+            const tempUrl = `${API_URLS['stock'].partsReleaseRegister}`
             const res = await postStockRegister(tempUrl, data)
 
             if (res) {

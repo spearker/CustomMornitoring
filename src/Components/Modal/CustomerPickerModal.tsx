@@ -15,10 +15,12 @@ interface IProps {
   select?: { name?: string, pk?: string },
   onClickEvent: any
   text: string
+  inputWidth?: string | number
   buttonWid?: string | number
+  style?: any
 }
 
-const CustomerPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) => {
+const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth, style}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
@@ -57,11 +59,11 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid}: IProps) =>
 
   return (
     <div>
-      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917, ...style}}>
         <BoxWrap onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-          <div style={{display: 'inline-block', height: 32, width: 885}}>
+          <div style={{display: 'inline-block', height: 32, width: inputWidth ? inputWidth : 885}}>
             {
               select && select.name ? <p onClick={() => {
                   setIsOpen(true)

@@ -13,9 +13,11 @@ interface IProps{
     title: string,
     description: string,
     value: string,
-    onChangeEvent: any
+    onChangeEvent: any,
+    style?: any,
+    inputStyle?: any
 }
-const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
+const DateInput = ({title, description, value, onChangeEvent, style, inputStyle}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const ref = useOnclickOutside(() => {
@@ -33,8 +35,8 @@ const DateInput = ({title, description, value, onChangeEvent}: IProps) => {
 
   return (
         <InputContainer title={title} width={170}>
-            <div ref={ref} style={{ width: 'calc(100% - 180px)'}} >
-            <InputBox onClick={()=>handleClickBtn()}>{value === ""|| value === undefined ? "(선택)" : value} </InputBox>
+            <div ref={ref} style={{ width: 'calc(100% - 180px)', ...style}} >
+            <InputBox onClick={()=>handleClickBtn()} style={{...inputStyle}}>{value === ""|| value === undefined ? "(선택)" : value} </InputBox>
             {
                 isOpen ?
                 <div style={{marginTop:11}}>

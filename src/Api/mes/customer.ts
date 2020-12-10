@@ -41,7 +41,7 @@ export const API_URLS = {
         search: `/v1/customer/search`,
         delete: `/v1/customer/delete`,
         update: `/v1/customer/update`,
-        create: `/v1/customer/create`
+        create: `/v1/customer/register`
     },
 
 }

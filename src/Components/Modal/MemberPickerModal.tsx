@@ -16,7 +16,7 @@ interface IProps {
     text: string
     buttonWid?: string | number
     disabled?: boolean
-    width?: number
+    style?: any
 }
 
 const DummyMachine = [
@@ -26,7 +26,7 @@ const DummyMachine = [
     }
 ]
 
-const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width}: IProps) => {
+const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
     const [machineName, setMachineName] = useState('')
@@ -61,7 +61,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, wid
 
     return (
         <div>
-            <div style={{display: 'inline-block', zIndex: 0, width: '100%'}}>
+            <div style={{display: 'inline-block', zIndex: 0, width: '100%', ...style}}>
                 <BoxWrap disabled={disabled} onClick={() => {
                     setIsOpen(true)
                 }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
@@ -104,7 +104,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, wid
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업자 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
+                            <SearchBox placeholder="작업자명을 입력해주세요." style={{flex: 96}}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>

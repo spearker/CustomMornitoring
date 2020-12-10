@@ -37,7 +37,7 @@ export const getStockList = async (url: string) => {
  * @author 정민
  */
 export const postStockRegister = async (url: string, object: object) => {
-    const temp: IServerData = await client.get(url);
+    const temp: IServerData = await client.post(url, object);
 
     if (temp) {
         return temp
@@ -52,6 +52,8 @@ export const API_URLS = {
         loadDetail: `/v1/stock/load/details`,
         warehousingRegister: `/v1/stock/warehousing/register`,
         releaseRegister: `/v1/stock/release/register`,
+        partsWarehousingRegister: `/v1/stock/parts/warehousing/register`,
+        partsReleaseRegister: `/v1/stock/parts/release/register`,
     },
     parts: {
         list: `/v1/stock/parts/list`,

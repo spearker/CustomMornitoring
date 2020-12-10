@@ -216,7 +216,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                         <ListHeader title="선택 항목"/>
                         <NormalFileInput title={'사용자 사진'} name={inputData.profile} thisId={'ProfilePhoto'}
                                          onChangeEvent={(e) => addFiles(e)}
-                                         description={isUpdate ? '' : '기계를 사진으로 찍어 등록해주세요'}
+                                         description={isUpdate ? '' : '사용자을 사진으로 찍어 등록해주세요'}
                                          style={{width: 'calc(100% - 124px)'}}/>
                         {isUpdate ?
                             <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
@@ -249,7 +249,7 @@ const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;
   color: white;
-  background-color: ${BG_COLOR_SUB2}
+  background-color: ${BG_COLOR_SUB2};
 `
 
 

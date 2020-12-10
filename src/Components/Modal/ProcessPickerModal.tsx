@@ -18,9 +18,11 @@ interface IProps {
     text: string
     seg?: boolean
     buttonWid?: string | number
+    style?: any
+    inputWidth?: string | number
 }
 
-const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps) => {
+const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, inputWidth}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [processName, setProcessName] = useState('')
@@ -72,11 +74,11 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid}: IProps
 
     return (
         <div>
-            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917, ...style}}>
                 <BoxWrap onClick={() => {
                     setIsOpen(true)
                 }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display: 'inline-block', height: 32, width: 885}}>
+                    <div style={{display: 'inline-block', height: 32, width: inputWidth ? inputWidth : 885}}>
                         {
                             select && select.name ? <p onClick={() => {
                                     setIsOpen(true)

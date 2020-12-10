@@ -173,6 +173,8 @@ const ProcessRegisterContainer = ({match}: any) => {
                   select={typeList[processData.type]}
                   contents={typeList} text={'타입을 선택해 주세요'}
                   buttonWid={30}
+                  style={{width: '100%'}}
+                  inputStyle={{width: 889}}
                 />
               </td>
             </tr>

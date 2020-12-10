@@ -225,8 +225,10 @@ const BasicDeviceRegister = () => {
                                          description={'장치 이름을 입력하세요'}/>
                             <DropdownInput title={'장치 종류'} target={transferCodeToName('device', type)}
                                            contents={indexList}
-                                           onChangeEvent={(v) => setType(transferStringToCode('device', indexList[v]))}/>
-                            <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}/>
+                                           onChangeEvent={(v) => setType(transferStringToCode('device', indexList[v]))}
+                                           style={{ width: 'calc(100% - 157px)' }} 
+                                           buttonStyle={{ right: 0 }} inputStyle={{ boxSizing: 'border-box' }} selectStyle={{ boxSizing: 'border-box' }}/>
+                            <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate} style={{ width: 'calc(100% - 157px)' }} inputStyle={{ boxSizing: 'border-box' }} />
                             <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo}
                                          description={'제조사가 발급한 제조사 번호를 입력하세요 (장치에 부착되어있음)'}/>
 

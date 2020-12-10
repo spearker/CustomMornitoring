@@ -107,8 +107,8 @@ const OutsourcingRegister = ({match}: any) => {
      * @returns X
      */
     const getData = useCallback(async () => {
-        const tempUrl = `${API_URLS['outsourcing'].load}?pk=${match.params.pk}`
-        const res = await getCustomerData(tempUrl)
+        const tempUrl = `${API_URLS['outsourcing'].load}`
+        const res = await postOutsourcingRegister(tempUrl, {pk: match.params.pk})
 
         if (res) {
             const data = res.results
@@ -128,7 +128,7 @@ const OutsourcingRegister = ({match}: any) => {
             setInfoList(data.info_list)
             setInputData('location', data.address)
             setFax(data.fax)
-            
+
         }
     }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, inputData])
 

@@ -199,7 +199,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const tempUrl = `${API_URLS['stock'].warehousingRegister}`
+            const tempUrl = `${API_URLS['stock'].partsWarehousingRegister}`
             const res = await postStockRegister(tempUrl, data)
 
             if (res) {
