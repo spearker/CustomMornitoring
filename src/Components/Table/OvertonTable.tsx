@@ -44,8 +44,6 @@ interface Props {
 const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
 
     const [checked, setChecked] = useState<any[]>([])
-    const [allChecked, setAllChecked] = useState(false)
-
 
     React.useEffect(() => {
         if (checkOnClickEvent) {

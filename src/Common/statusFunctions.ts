@@ -1,9 +1,9 @@
 export const changeStatusToString = ((status: number | undefined) => {
     if (status === 11) {
         return '진행'
-    }/*else if(status === 'done'){
+    } else if (status === -2) {
         return '완료'
-    }else if(status === 'stop'){
+    }/*else if(status === 'stop'){
         return '중지'
     }else if(status === 'share'){
         return '공유'
@@ -13,7 +13,7 @@ export const changeStatusToString = ((status: number | undefined) => {
         return '꺼짐'
     } */ else if (status === 0) {
         return '에러'
-    }/*else if(status ==='reservation'){
+    }/*else if(status ===){
         return '예약'
     }else if(status ==='ok'){
         return '정상'
