@@ -27,7 +27,7 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
   const [selectMaterial, setSelectMaterial] = useState<{ name: string, pk: string }>()
 
   useEffect(() => {
-    if (value.api !== 'manufacturing_leadTime_reduced_rate') {
+    if (!value || value.api !== 'manufacturing_leadTime_reduced_rate') {
       if (getData) {
         if (type === 'day') {
           getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
@@ -74,7 +74,18 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
       <div>
 
         {
-          value.api !== 'manufacturing_leadTime_reduced_rate' ? <React.Fragment>
+          value && value.api === 'manufacturing_leadTime_reduced_rate' ? <React.Fragment>
+              <div style={{width: 371}}>
+                {
+                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => {
+                    setSelectMaterial(e)
+                  }}
+                                         select={{name: selectMaterial?.name, pk: selectMaterial?.pk}}
+                                         text={'품목을 선택해주세요'}/>
+                }
+              </div>
+            </React.Fragment>
+            : <React.Fragment>
               <FlexBox>
                 <DateTypeCalendar type={type} selectDate={selectDate} selectDates={selectDates}
                                   onChangeSelectDate={(v, type) => {
@@ -110,17 +121,6 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                   </div>
                 }
               </FlexBox>
-            </React.Fragment>
-            : <React.Fragment>
-              <div style={{width: 371}}>
-                {
-                  <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => {
-                    setSelectMaterial(e)
-                  }}
-                                         select={{name: selectMaterial?.name, pk: selectMaterial?.pk}}
-                                         text={'품목을 선택해주세요'}/>
-                }
-              </div>
             </React.Fragment>
         }
 
