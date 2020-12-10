@@ -75,8 +75,9 @@ const ChitRegisterContainer = () => {
             <tr>
               <td>• 등록자</td>
               <td>
-                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
-                                   text={'작업자를 선택해 주세요'} select={selectMember}/>
+              <MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
+                                 text={'작업자를 선택해 주세요'} select={selectMember}
+                                 style={{width: 'calc(99% - 4px)'}} />
               </td>
             </tr>
             <tr>
