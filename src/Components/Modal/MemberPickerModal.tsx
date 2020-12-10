@@ -104,7 +104,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업자 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
+                            <SearchBox placeholder="작업자명을 입력해주세요." style={{flex: 96}}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
