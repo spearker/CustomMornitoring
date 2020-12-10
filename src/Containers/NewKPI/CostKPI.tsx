@@ -16,8 +16,8 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '재공재고 수량', api: '', tip: '제조 원가를 낮출 수 있습니다.1'}, // api key이름
-  {name: '재고비용', api: '', tip: '제조 원가를 낮출 수 있습니다.2'}
+  {name: '재공재고 수량', api: '', tip: '제조 원가를 낮출 수 있습니다.'}, // api key이름
+  {name: '재고비용', api: '', tip: '제조 원가를 낮출 수 있습니다.'}
 ]
 
 const CostKPI = () => {
@@ -43,7 +43,7 @@ const CostKPI = () => {
         {
           compareView
             ? <>
-              <KPICompareBox type={type}/>
+              <KPICompareBox type={type} value={selectMenu}/>
               <KPIResultBox onCloseEvent={() => onClose()} data={data}/>
             </>
             : <KPIBasicBox style={{justifyContent: 'center', alignItems: 'center'}}>

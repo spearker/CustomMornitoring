@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import {uploadTempFile} from '../../Common/fileFuctuons'
-import {API_URLS, getProjectList} from '../../Api/mes/production'
+import {API_URLS, getProjectList, postChitRegister} from '../../Api/mes/production'
 import {getParameter, postRequest} from '../../Common/requestFunctions'
 import {getToken} from '../../Common/tokenFunctions'
 import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
@@ -26,6 +26,7 @@ import HistoryPickerModal from '../../Components/Modal/HistoryPickerModal'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import MemeberPickerModal from '../../Components/Modal/MemberPickerModal'
 import {worker} from "cluster";
+import {postStockRegister} from "../../Api/mes/manageStock";
 
 interface Props {
     match: any;
@@ -173,12 +174,10 @@ const DefectiveRegisterContainer = ({match}: Props) => {
             reason: reason
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/defective/update/`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['defective'].update}`
+        const res = await postChitRegister(tempUrl, data)
 
-        if (res === false) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        } else {
-            //alert('성공적으로 수정 되었습니다')
+        if (res) {
             setIsUpdate(false)
             history.goBack()
         }
@@ -240,18 +239,11 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         }
 
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/defective/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['defective'].register}`
+        const res = await postChitRegister(tempUrl, data)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-
-                history.goBack()
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            history.goBack()
         }
 
     }, [selectHistory, selectMaterial, selectMachine, name, amount, selectDate, reason])

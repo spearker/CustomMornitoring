@@ -31,7 +31,7 @@ client.interceptors.response.use(function (response) {
     if (error.response.status === 401) {
       Notiflix.Report.Failure('요청 실패', '유효한 로그인이 아닙니다 다시 로그인해 주세요.', '닫기', () => window.location.href = '/login')
     } else if (error.response.status === 400) {
-      return Notiflix.Report.Failure('요청 실패', '값을 안넣으신게 있는지 확인 해주세요.', '닫기')
+      return Notiflix.Report.Failure('요청 실패', '입력한 값이 맞는지 확인해 주세요.', '닫기')
     } else if (error.response.status === 500) {
       return Notiflix.Report.Failure('요청 실패', '서버에러입니다. 관리자에게 연락바랍니다.', '닫기')
     }

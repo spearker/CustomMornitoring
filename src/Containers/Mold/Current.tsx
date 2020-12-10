@@ -220,7 +220,7 @@ const CurrentContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 수리 현황'}
+                title={'금형 수리 현황 없음'}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 checkOnClickEvent={checkOnClick}
@@ -228,6 +228,7 @@ const CurrentContainer = () => {
                 valueList={list}
                 EventList={eventList}
                 buttonState={true}
+                clickValue={selectValue}
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}

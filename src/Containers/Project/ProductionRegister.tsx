@@ -101,7 +101,7 @@ const ProductionRegisterContainer = () => {
             segment: modalSelect.segment?.pk
         })
 
-        if (resultData.status === 200) {
+        if (resultData) {
             history.goBack()
         }
     }, [chitData, modalSelect])

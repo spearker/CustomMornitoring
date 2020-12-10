@@ -17,6 +17,7 @@ import useObjectInput from '../../Functions/UseInput'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import {transferStringToCode} from '../../Common/codeTransferFunctions'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {API_URLS, postStockRegister} from "../../Api/mes/manageStock";
 
 
 const typeDummy = [
@@ -290,18 +291,11 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/parts/release/register`, data, getToken(TOKEN_NAME))
+            const tempUrl = `${API_URLS['stock'].partsReleaseRegister}`
+            const res = await postStockRegister(tempUrl, data)
 
-            if (res === false) {
-                //TODO: 에러 처리
-            } else {
-                if (res.status === 200) {
-                    //alert('성공적으로 등록 되었습니다')
-
-                    history.goBack()
-                } else {
-                    //TODO:  기타 오류
-                }
+            if (res) {
+                history.goBack()
             }
         } else {
 
@@ -320,18 +314,11 @@ const ReleaseRegisterContainer = ({match}: Props) => {
                 date: selectDate
             }
 
-            const res = await postRequest(`${SF_ENDPOINT}/api/v1/stock/release/register`, data, getToken(TOKEN_NAME))
+            const tempUrl = `${API_URLS['stock'].releaseRegister}`
+            const res = await postStockRegister(tempUrl, data)
 
-            if (res === false) {
-                //TODO: 에러 처리
-            } else {
-                if (res.status === 200) {
-                    //alert('성공적으로 등록 되었습니다')
-
-                    history.goBack()
-                } else {
-                    //TODO:  기타 오류
-                }
+            if (res) {
+                history.goBack()
             }
         }
     }, [selectType, amount, selectDate])

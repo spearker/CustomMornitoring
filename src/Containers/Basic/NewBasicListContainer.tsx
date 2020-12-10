@@ -73,7 +73,7 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
             Width: '180px',
             Color: 'white',
             buttonWidth: '70px',
-            Link: (v) => onClickDelete(v.pk, pageType)
+            Link: (v) => onClickDelete(v.pk)
         },
     ]
 
@@ -157,7 +157,7 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
      * onClickDelete()
      * 리스트 항목 삭제
      */
-    const onClickDelete = useCallback(async (id, pageType) => {
+    const onClickDelete = useCallback(async (id) => {
 
         const tempUrl = `${API_URLS[pageType].delete}`
         const result = await deleteBasicList(tempUrl, id)

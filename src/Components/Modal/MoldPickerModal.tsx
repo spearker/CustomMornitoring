@@ -46,8 +46,9 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
         const resultData = await getSearchMachine(tempUrl)
-
-        setMachineList(resultData.info_list)
+        if (resultData) {
+            setMachineList(resultData.info_list)
+        }
     }, [searchName])
 
     useEffect(() => {
