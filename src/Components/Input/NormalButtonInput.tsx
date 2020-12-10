@@ -31,14 +31,14 @@ const NormalButtonInput = ({title, description, disabled, value, onChangeEvent, 
                                style={{
                                    textAlign: 'left',
                                    border: 'solid 0.5px #d3d3d3',
-                                   borderRight: 0,
-                                   width: 'calc(100% - 90px)',
+                                   width: disabled ? '100%' : 'calc(100% - 90px)',
                                    padding: 6,
                                    backgroundColor: '#f4f6fa',
                                    paddingLeft: 8,
                                    fontSize: 14
                                }}/>
-                        <label onClick={onClickEvent} style={{
+                        {!disabled &&
+                        < label onClick={onClickEvent} style={{
                             border: 'solid 0.5px #d3d3d3',
                             textAlign: 'center',
                             fontSize: 14,
@@ -50,6 +50,7 @@ const NormalButtonInput = ({title, description, disabled, value, onChangeEvent, 
                             paddingRight: 12,
                             cursor: 'pointer'
                         }}>중복 확인</label>
+                        }
                     </InputWrapBox>
                     {
                         children !== undefined ?

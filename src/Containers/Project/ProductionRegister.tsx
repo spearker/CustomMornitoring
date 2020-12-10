@@ -124,7 +124,7 @@ const ProductionRegisterContainer = () => {
                             <td><RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)}
                                                   select={selectType}
                                                   contents={typeList} text={'타입을 선택해 주세요'} buttonWid={30}
-                                                  style={{width: '100%'}} inputStyle={{width: 891}} /></td>
+                                                  style={{width: '100%'}} inputStyle={{width: 891}}/></td>
                         </tr>
                         <tr>
                             <td>• 계획자</td>
@@ -139,7 +139,7 @@ const ProductionRegisterContainer = () => {
                                                        onClickEvent={(e) => {
                                                            setModalSelect({...modalSelect, production: e})
                                                        }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30}
-                                                       innerStyle={{ width: '100%' }} innerWidth={891} /></td>
+                                                       innerStyle={{width: '100%'}} innerWidth={891}/></td>
                         </tr>
                         <tr>
                             <td>• 생산 계획 일정</td>
@@ -183,7 +183,7 @@ const ProductionRegisterContainer = () => {
                         {/*    <td><Input placeholder="입력해 주세요." onChangeText={(e:string) => setChitData({...chitData, manager: e})}/></td>*/}
                         {/*</tr>*/}
                         <tr>
-                            <td>• 총 수량</td>
+                            <td>• 목표수량</td>
                             <td><Input placeholder="생산 목표 수량은 입력해 주세요 (최대: 2,147,483,647개)" type={'number'}
                                        onChange={(e) => setChitData({...chitData, amount: Number(e.target.value)})}/>
                             </td>
@@ -195,7 +195,7 @@ const ProductionRegisterContainer = () => {
                                                      onClickEvent={(e) => {
                                                          setModalSelect({...modalSelect, factory: e})
                                                      }} text={'거래처를 검색해주세요.'} buttonWid={30}
-                                                     style={{width: '100%'}} inputWidth={891} />
+                                                     style={{width: '100%'}} inputWidth={891}/>
                             </td>
                         </tr>
                         <tr>
@@ -207,7 +207,7 @@ const ProductionRegisterContainer = () => {
                                                     }}
                                                     seg
                                                     text={'공정명을 검색해 주세요'} buttonWid={30}
-                                                    style={{width: '100%'}} inputWidth={891} />
+                                                    style={{width: '100%'}} inputWidth={891}/>
                             </td>
                         </tr>
                         {/*<tr>*/}

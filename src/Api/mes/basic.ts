@@ -98,6 +98,21 @@ export const excelGet = async (url: string) => {
     }
 }
 
+/**
+ * excelGet()
+ * 엑셀 목록 불러오기
+ * @param {string} url 링크 주소
+ * @returns {Array} list
+ * @author 정민
+ */
+export const excelItemsGet = async (url: string) => {
+    const temp: { data: [] } = await excelClient.get(url)
+
+    if (temp) {
+        return temp!
+    }
+}
+
 export const API_URLS = {
     machine: {
         delete: `/v1/machine/delete`,
@@ -180,4 +195,8 @@ export const API_URLS = {
         list: `/v1/barcode/standard/list`,
         load: `/v1/barcode/standard/load`,
     },
+    format: {
+        upload: `/v1/format/upload`,
+        history: '/v1/format/history/list'
+    }
 }

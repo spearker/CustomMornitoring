@@ -10,6 +10,7 @@ import SmallButtonLink from '../../Components/Button/SmallButtonLink'
 import InfoTable from '../../Components/Table/InfoTable'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
 import OptimizedHeaderBox from "../../Components/Box/OptimizedHeaderBox";
+import {API_URLS, getBasicList, excelPost} from "../../Api/mes/basic";
 
 // 표준 기준  정보 리스트
 const BasicStandardList = () => {
@@ -35,30 +36,18 @@ const BasicStandardList = () => {
      */
     const getList = useCallback(async () => {
 
-        const results = await getRequest(`${SF_ENDPOINT}/api/v1/item/list`, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['item'].list}`
+        const results = await getBasicList(tempUrl)
 
 
-        if (results === false) {
-            ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-        } else {
-            if (results.status === 200) {
-                setList(results.results)
-            } else {
-                ////alert('데이터를 불러 올 수 없습니다. 잠시후 이용하세요.')
-            }
+        if (results) {
+            setList(results)
         }
     }, [list, keyword, option])
 
 
     useEffect(() => {
         getList()
-
-    }, [])
-
-
-    const onClickModify = useCallback((id) => {
-
-        window.location.href = `/update/machine?pk=${id}`
 
     }, [])
 
@@ -86,7 +75,7 @@ const BasicStandardList = () => {
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
                 <OptimizedHeaderBox title={`표준 항목 관리`}/>
-                
+
                 <InfoTable indexList={index} type={'machine'} pkKey={'pk'} onClickLinkUrl="/basic/standard/update?pk="
                            contents={list} onClickRemove={onClickDelete}/>
             </InnerBodyContainer>

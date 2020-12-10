@@ -6,6 +6,7 @@ import {getRequest, postRequest} from "../../Common/requestFunctions";
 import {getToken} from "../../Common/tokenFunctions";
 import {TOKEN_NAME} from "../../Common/configset";
 import {SF_ENDPOINT_EXCEL} from "../../Api/SF_endpoint";
+import {API_URLS, excelGet, excelItemsGet, excelPost, getBasicList,} from "../../Api/mes/basic";
 
 interface Props {
     title: string[]
@@ -34,9 +35,13 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=0`, formData, getToken(TOKEN_NAME))
-        alert('업로드 되었습니다.')
-        getList(0)
+
+        const tempUrl = `${API_URLS['format'].upload}?type=0`
+        const temp = await excelPost(tempUrl, formData)
+        if (temp) {
+            alert('업로드 되었습니다.')
+            getList(0)
+        }
     }, [])
 
 
@@ -47,9 +52,14 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=1`, formData, getToken(TOKEN_NAME))
-        alert('업로드 되었습니다.')
-        getList(1)
+
+        const tempUrl = `${API_URLS['format'].upload}?type=1`
+        const temp = await excelPost(tempUrl, formData)
+        if (temp) {
+            alert('업로드 되었습니다.')
+            getList(1)
+        }
+
     }, [])
 
     const subFile = useCallback(async (event: any) => {
@@ -59,9 +69,14 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=2`, formData, getToken(TOKEN_NAME))
-        alert('업로드 되었습니다.')
-        getList(2)
+
+        const tempUrl = `${API_URLS['format'].upload}?type=2`
+        const temp = await excelPost(tempUrl, formData)
+        if (temp) {
+            alert('업로드 되었습니다.')
+            getList(2)
+        }
+
     }, [])
 
     const finishedFile = useCallback(async (event: any) => {
@@ -71,9 +86,13 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=3`, formData, getToken(TOKEN_NAME))
-        alert('업로드 되었습니다.')
-        getList(3)
+
+        const tempUrl = `${API_URLS['format'].upload}?type=3`
+        const temp = await excelPost(tempUrl, formData)
+        if (temp) {
+            alert('업로드 되었습니다.')
+            getList(3)
+        }
     }, [])
 
     const molFile = useCallback(async (event: any) => {
@@ -83,17 +102,50 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
-        const temp = await postRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/upload?type=4`, formData, getToken(TOKEN_NAME))
-        alert('업로드 되었습니다.')
-        getList(4)
+
+        const tempUrl = `${API_URLS['format'].upload}?type=4`
+        const temp = await excelPost(tempUrl, formData)
+        if (temp) {
+            alert('업로드 되었습니다.')
+            getList(4)
+        }
+
     }, [])
 
 
     const getList = useCallback(async (type) => {
         if (type === 'all') {
             title.map(async (value, index) => {
-                const temp = await getRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/list?type=${index}`, getToken(TOKEN_NAME))
-                switch (index) {
+                const tempUrl = `${API_URLS['format'].history}?type=${index}`
+                const temp = await excelItemsGet(tempUrl)
+                if (temp) {
+                    switch (index) {
+                        case 0:
+                            setRawMaterialList(temp.data)
+                            break
+                        case 1:
+                            setSemiProduct(temp.data)
+                            break
+                        case 2:
+                            setSubMaterialList(temp.data)
+                            break
+                        case 3:
+                            setFinishedMaterialList(temp.data)
+                            break
+                        case 4:
+                            setMoldList(temp.data)
+                            break
+                        default:
+                            break
+                    }
+                }
+            })
+        } else {
+            const tempUrl = `${API_URLS['format'].history}?type=${type}`
+            const temp = await excelItemsGet(tempUrl)
+
+            if (temp) {
+                switch (type) {
                     case 0:
                         setRawMaterialList(temp.data)
                         break
@@ -112,27 +164,6 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                     default:
                         break
                 }
-            })
-        } else {
-            const temp = await getRequest(`${SF_ENDPOINT_EXCEL}/api/v1/format/history/list?type=${type}`, getToken(TOKEN_NAME))
-            switch (type) {
-                case 0:
-                    setRawMaterialList(temp.data)
-                    break
-                case 1:
-                    setSemiProduct(temp.data)
-                    break
-                case 2:
-                    setSubMaterialList(temp.data)
-                    break
-                case 3:
-                    setFinishedMaterialList(temp.data)
-                    break
-                case 4:
-                    setMoldList(temp.data)
-                    break
-                default:
-                    break
             }
         }
 

@@ -33,8 +33,8 @@ const ScheduleManageContainer = () => {
             manager_name: '계획자',
             material_name: '품목(품목명)',
             // schedule: '일정', 잘려서 뺌
-            amount: '총 수량',
-            current_amount: '현재 수량',
+            amount: '목표수량',
+            current_amount: '작업수량',
         }
     }
 

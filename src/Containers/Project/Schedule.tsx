@@ -55,7 +55,7 @@ const ScheduleContainer = () => {
             material_name: '품목(품목명)',
             schedule: '일정',
             supplier_name: '납품 업체',
-            amount: '총 수량',
+            amount: '목표수량',
             state: '현황'
         }
     }

@@ -31,7 +31,7 @@ const OrderContainer = () => {
     const indexList = {
         order: {
             customer_name: '거래처 명',
-            material_name: '(품목)품목명',
+            material_name: '품목명',
             amount: '수량',
             date: '수주 날짜',
             finished: '진행 상태',
