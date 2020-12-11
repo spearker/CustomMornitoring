@@ -7,6 +7,7 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getSearchMachine} from '../../Api/mes/process'
+import {transferCodeToName} from '../../Common/codeTransferFunctions'
 
 //드롭다운 컴포넌트
 
@@ -135,7 +136,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
                       return (
                         <tr style={{height: 32}}>
                           <td><span>{v.machine_name}</span></td>
-                          <td><span>{v.machine_type}</span></td>
+                          <td><span>{transferCodeToName('machine', v.machine_type)}</span></td>
                           <td><span>{v.manufacturer}</span></td>
                           <td><span>{v.manufacturer_code}</span></td>
                           <td>
