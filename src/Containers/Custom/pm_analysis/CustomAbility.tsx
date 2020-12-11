@@ -297,7 +297,7 @@ const CustomAbility = () => {
             <div style={{marginTop: 42, marginBottom: 19}}>
                 <p style={{fontSize: 22, fontWeight: "bold", textAlign: "left"}}>프레스 능력</p>
             </div>
-            <CustomPressListCard pressList={pressList} selectMachine={selectMachine}
+            <CustomPressListCard pressList={pressList} selectMachine={selectMachine} onClickMachineName={setMachineName}
                                  onClickMachine={setSelectMachine}/>
             {
                 machineData.machine_name !== '' && <div>

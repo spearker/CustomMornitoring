@@ -4,31 +4,31 @@ import EnrollmentBorderBox from '../Box/EnrollmentBorderBox'
 
 //항목 명도 수정이 가능한 커스텀 인풋
 interface IProps {
-  title: string
-  value: string | number | undefined | null
-  onChangeEvent: (v: any) => void
-  unit?: string
-  placeholder?: string
-  type?: string
+    title: string
+    value: string | number | undefined | null
+    onChangeEvent: (v: any) => void
+    unit?: string
+    placeholder?: string
+    type?: string
 }
 
 const ColorInputWithText = ({type, title, value, onChangeEvent, unit, placeholder}: IProps) => {
 
-  return (
-    <EnrollmentBorderBox>
-      <InputBox>
-        <Dot/>
-        <p>{title}</p>
-        <div>
-          <input type={type ? type : 'text'} placeholder={placeholder ? placeholder : ''}
-                 value={value ? value : ''} onChange={(e) => {
-            onChangeEvent(type === 'number' ? Number(e.target.value) : e.target.value)
-          }}/>
-          {unit && <p>{unit}</p>}
-        </div>
-      </InputBox>
-    </EnrollmentBorderBox>
-  )
+    return (
+        <EnrollmentBorderBox>
+            <InputBox>
+                <Dot/>
+                <p>{title}</p>
+                <div>
+                    <input type={type ? type : 'text'} placeholder={placeholder ? placeholder : ''}
+                           value={value ? value : ''} onChange={(e) => {
+                        onChangeEvent(type === 'number' ? (e.target.value) : e.target.value)
+                    }}/>
+                    {unit && <p>{unit}</p>}
+                </div>
+            </InputBox>
+        </EnrollmentBorderBox>
+    )
 }
 
 const InputBox = Styled.div`
