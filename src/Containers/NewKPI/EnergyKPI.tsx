@@ -51,8 +51,8 @@ const EnergyKPI = () => {
     const resultData = await getKPIData(tempUrl)
     if (resultData) {
       const tmpList = compareArr
-      tmpList[index] = resultData.data
-      setCompareArr(tmpList)
+      tmpList[index] = typeof resultData.data === 'string' ? Number(resultData.data.split(':')[0]) * 3600 + Number(resultData.data.split(':')[1]) * 60 + Number(resultData.data.split(':')[2]) : resultData.data
+      setCompareArr([...tmpList])
       return resultData
     }
     return 0
