@@ -17,6 +17,7 @@ import {API_URLS, getCustomerData, postCustomerDelete} from '../../Api/mes/custo
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import Styled from 'styled-components'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import Notiflix from 'notiflix'
 
 interface Props {
   match: any;
@@ -229,13 +230,13 @@ const CustomerRegister = ({match}: Props) => {
     ////alert(JSON.stringify(infoList))
 
     if (name.trim() === '') {
-      alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
+      Notiflix.Report.Failure('이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
     } else if (ceo.trim() === '') {
-      alert('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
+      Notiflix.Report.Failure('대표자 이름은 필수 항목입니다. 반드시 입력해주세요.')
       return
     } else if (!ckBisNo(String(no))) {
-      console.log('333333')
+      Notiflix.Report.Failure('사업자 번호 10자리를 입력하였는지 확인해 주세요.')
       return
     }
 
