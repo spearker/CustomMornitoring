@@ -17,6 +17,7 @@ interface IProps {
 
 const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IProps) => {
   const [data, setData] = useState<any>({})
+  const [isFirst, setIsFirst] = useState<boolean>(true)
 
   const [selectDate, setSelectDate] = useState<Date>(moment().subtract(1, 'days').toDate())
   const [selectDates, setSelectDates] = useState<{ from: Date, to: Date }>({
@@ -27,20 +28,25 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
   const [selectMaterial, setSelectMaterial] = useState<{ name: string, pk: string }>()
 
   useEffect(() => {
-    if (!value || value.api !== 'manufacturing_leadTime_reduced_rate') {
-      if (getData) {
-        if (type === 'day') {
-          getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
-            setData(ratio)
-          })
-        } else {
-          getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
-            setData(ratio)
-          })
+    if (isFirst) {
+      setIsFirst(false)
+      return
+    } else {
+      if (!value || value.api !== 'manufacturing_leadTime_reduced_rate') {
+        if (getData) {
+          if (type === 'day') {
+            getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
+              setData(ratio)
+            })
+          } else {
+            getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
+              setData(ratio)
+            })
+          }
         }
       }
     }
-  }, [type, selectDate, selectDates, value])
+  }, [selectDate, selectDates, value])
 
   React.useEffect(() => {
     if (type === 'day') {
