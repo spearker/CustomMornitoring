@@ -7,11 +7,12 @@ interface Props {
     pressList: IPressMachineType[]
     selectMachine: string
     onClickMachine: any
+    onClickMachineName?: any
     height?: string
 }
 
 
-const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectMachine, onClickMachine, height}) => {
+const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectMachine, onClickMachineName, onClickMachine, height}) => {
 
     return (
         <div>
@@ -52,7 +53,10 @@ const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectM
                                 </div>
                             </ChartBorderMiniBox>)
                         } else {
-                            return (<ChartMiniBox onClick={() => {
+                            return (<ChartMiniBox onClick={onClickMachineName ? () => {
+                                onClickMachine(v.pk)
+                                onClickMachineName(v.machine_name)
+                            } : () => {
                                 onClickMachine(v.pk)
                             }}>
                                 <div style={{
