@@ -38,7 +38,7 @@ const ProcessListContainer = () => {
     info_list: {
       type: '타입',
       name: '공정명',
-      status: '생산 품목'
+      status: '생산 현황'
     }
   }
 
