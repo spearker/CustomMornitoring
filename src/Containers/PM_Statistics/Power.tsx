@@ -117,15 +117,25 @@ const PowerContainer = () => {
     let tmpArr: { name: string, data: number[] }[] = []
 
     resultData.press_logs?.map(index => {
-      if (tempArray[index.press_name]) {
-        tempArray = {...tempArray, [index.press_name]: [...tempArray[index.press_name], index.press_data]}
+      if (tempArray[index.press_pk]) {
+        tempArray = {
+          ...tempArray, [index.press_pk]: {
+            name: index.press_name,
+            data: [...tempArray[index.press_pk].data, index.press_data]
+          }
+        }
       } else {
-        tempArray = {...tempArray, [index.press_name]: [index.press_data]}
+        tempArray = {
+          ...tempArray, [index.press_pk]: {
+            name: index.press_name,
+            data: [index.press_data]
+          }
+        }
       }
     })
 
     Object.keys(tempArray).map((v, i) => {
-      tmpArr = [...tmpArr, {name: v, data: tempArray[v]}]
+      tmpArr = [...tmpArr, {name: tempArray[v].name, data: tempArray[v].data}]
     })
 
     setData([...tmpArr])
