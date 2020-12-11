@@ -293,7 +293,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                     <div style={{flex: 1, textAlign: 'left'}}>품목타입
                                     </div>
                                     <div style={{flex: 1, textAlign: 'left'}}>투입
-                                      개수
+                                      개수 (단위 중량)
                                     </div>
                                   </div>
                                   {
