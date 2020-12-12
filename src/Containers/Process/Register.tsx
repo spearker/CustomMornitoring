@@ -39,6 +39,7 @@ const ProcessRegisterContainer = ({match}: any) => {
   const [isUpdata] = useState<boolean>(match.params.pk ? true : false)
 
   const validationCheck = () => {
+    console.log(detailMaterialData)
     const {name} = processData
 
     if (name === '') {
@@ -341,7 +342,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                  }}
                                                  value={
                                                    //@ts-ignore
-                                                   detailMaterialData[i].input_materials[index].count
+                                                   detailMaterialData[i].input_materials[index].count ? detailMaterialData[i].input_materials[index].count : 0
                                                  }
                                                  onChange={(e) => {
                                                    const tmpDetailMaterials = detailMaterialData
@@ -426,7 +427,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                     }}>
                                       <input type={'number'} value={
                                         //@ts-ignore
-                                        detailMaterialData[i].output_materials.count
+                                        detailMaterialData[i].output_materials.count ? detailMaterialData[i].output_materials.count : 0
                                       }
                                              style={{
                                                width: '112px',

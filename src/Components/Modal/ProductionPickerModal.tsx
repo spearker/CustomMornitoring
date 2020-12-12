@@ -256,6 +256,12 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
             </CheckButton>
             <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
               if (multiSelect) {
+                selectMaterial.map((v, i) => {
+                  return ({
+                    ...v,
+                    count: 0
+                  })
+                })
                 onClickEvent(selectMaterial)
               } else {
                 if (isAllItem) {
