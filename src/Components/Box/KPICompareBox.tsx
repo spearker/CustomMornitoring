@@ -3,6 +3,7 @@ import Styled from 'styled-components'
 import DateTypeCalendar from '../Modal/DateTypeCalendar'
 import moment from 'moment'
 import ProductionPickerModal from '../Modal/ProductionPickerModal'
+import {Textfit} from 'react-textfit'
 
 // KPI
 interface IProps {
@@ -44,6 +45,8 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             })
           }
         }
+      } else {
+        setData({})
       }
     }
   }, [selectDate, selectDates, value])
@@ -154,11 +157,21 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
         </div>
       </div>
       <div>
-        <p>{
+        <Textfit style={{
+          textAlign: 'right',
+          fontSize: 128,
+          fontWeight: 'bold',
+          // '&>span': {
+          // marginLeft: 20,
+          // fontize: 30,
+          // vertical-align: bottom,
+          // margin-bottom: 30px,
+          // }
+        }}>{
           !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
         }
           {/*<span>{'(가동률)'}</span>*/}
-        </p>
+        </Textfit>
       </div>
     </Container>
   )
@@ -191,17 +204,6 @@ const Container = Styled.div`
         }
         &:nth-child(2){
             padding-right: 60px;
-            &>p{
-                text-align: right;
-                font-size: 128px;
-                font-weight: bold;
-                &>span{
-                    margin-left: 20px;
-                    font-size: 30px;
-                    vertical-align: bottom;
-                    margin-bottom: 30px;
-                }
-            }
         }
     }
 `

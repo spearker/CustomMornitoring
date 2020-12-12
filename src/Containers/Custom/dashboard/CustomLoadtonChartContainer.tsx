@@ -13,8 +13,8 @@ const CustomLoadtonChartContainer: React.FunctionComponent<Props> = ({match}) =>
 
   return (
     <DashboardWrapDiv>
-      <CustomDashboardLoadtonChart id={match.params.press}/>
-      {/*<CustomAnalysisDashboardLoadtonChart id={match.params.press}/>*/}
+      {/*<CustomDashboardLoadtonChart id={match.params.press}/>*/}
+      <CustomAnalysisDashboardLoadtonChart id={match.params.press}/>
     </DashboardWrapDiv>
   )
 
