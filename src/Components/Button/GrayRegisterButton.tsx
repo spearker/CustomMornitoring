@@ -1,26 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import {POINT_COLOR, POINT_COLOR_3} from '../../Common/configset'
 
 //웰컴, 로그인 페이지 네비게이션 컴포넌트
 
 interface IProps {
-    name: any,
-    onPress?: () => void,
+  name: any,
+  onPress?: () => void,
 
 }
 
 const GrayRegisterButton = ({name, onPress}: IProps) => {
-    useEffect(() => {
+  useEffect(() => {
 
-    }, [])
+  }, [])
 
-    return (
-        <div className="p-bold" style={{textAlign: 'center'}} onClick={onPress}>
-            <ButtonBox type="submit">{name}</ButtonBox>
-        </div>
+  return (
+    <div className="p-bold" style={{textAlign: 'center'}}>
+      <ButtonBox onClick={onPress} type="submit">{name}</ButtonBox>
+    </div>
 
-    );
+  )
 }
 
 const ButtonBox = Styled.button`
@@ -45,4 +45,4 @@ const ButtonBox = Styled.button`
 `
 
 
-export default GrayRegisterButton;
+export default GrayRegisterButton
