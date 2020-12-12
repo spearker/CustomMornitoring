@@ -189,70 +189,66 @@ const CustomCapacity = () => {
     const getData = useCallback(async () => {
         if (selectMachine !== '') {
             Notiflix.Loading.Circle()
-            const tempUrl = `${API_URLS['capacity'].load3}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
+            const tempUrl: any = await `${API_URLS['capacity'].load3}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
             const resultData = await getCapacityTimeData(tempUrl)
-            setMachineData(resultData)
+            if (resultData) {
+                let tmp: number[] = []
+                times.map((v, i) => {
+                    let listIndex = machineData.analyze.times.indexOf(v)
+                    if (listIndex !== -1) {
+                        tmp.push(resultData.analyze.productions[listIndex])
+                    } else {
+                        tmp.push(0)
+                    }
+                })
 
-            let tmp: number[] = []
-            times.map((v, i) => {
-                let listIndex = resultData.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmp.push(resultData.productions[listIndex])
-                } else {
-                    tmp.push(0)
-                }
-            })
 
+                let tmpSPM: number[] = []
 
-            let tmpSPM: number[] = []
+                times.map((v, i) => {
+                    let listIndex = machineData.analyze.times.indexOf(v)
+                    if (listIndex !== -1) {
+                        tmpSPM.push(resultData.analyze.max_count[listIndex])
+                    } else {
+                        tmpSPM.push(0)
+                    }
+                })
 
-            times.map((v, i) => {
-                let listIndex = resultData.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmpSPM.push(resultData.max_count[listIndex])
-                } else {
-                    tmpSPM.push(0)
-                }
-            })
+                let tmpUPH: number[] = []
 
-            let tmpUPH: number[] = []
+                times.map((v, i) => {
+                    let listIndex = machineData.analyze.times.indexOf(v)
+                    if (listIndex !== -1) {
+                        tmpUPH.push(resultData.analyze.uph[listIndex])
+                    } else {
+                        tmpUPH.push(0)
+                    }
+                })
 
-            times.map((v, i) => {
-                let listIndex = resultData.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmpUPH.push(resultData.uph[listIndex])
-                } else {
-                    tmpUPH.push(0)
-                }
-            })
+                let tmpMax = maxData(Math.max.apply(null, tmp))
 
-            let tmpMax = maxData(Math.max.apply(null, tmp))
+                let tmpSPMMax = maxData(Math.max.apply(null, tmpSPM))
 
-            let tmpSPMMax = maxData(Math.max.apply(null, tmpSPM))
+                let tmpUPHMax = maxData(Math.max.apply(null, tmpUPH))
 
-            let tmpUPHMax = maxData(Math.max.apply(null, tmpUPH))
-
-            setSeries([
-                {
-                    name: 'UPH',
-                    data: tmpUPH,
-                    max: tmpUPHMax,
-                    type: 'line'
-                }, {
-                    name: 'SPM 최대 생산 가능량',
-                    data: tmpSPM,
-                    max: tmpSPMMax,
-                    type: 'line'
-                }, {
-                    name: '생산량',
-                    data: tmp,
-                    max: tmpMax,
-                    type: 'column'
-                }])
-            setErrorLog([])
-            setTimeLog([])
-            setMoldLog([])
-            setAdvice([])
+                setSeries([
+                    {
+                        name: 'UPH',
+                        data: tmpUPH,
+                        max: tmpUPHMax,
+                        type: 'line'
+                    }, {
+                        name: 'SPM 최대 생산 가능량',
+                        data: tmpSPM,
+                        max: tmpSPMMax,
+                        type: 'line'
+                    }, {
+                        name: '생산량',
+                        data: tmp,
+                        max: tmpMax,
+                        type: 'column'
+                    }])
+            }
             Notiflix.Loading.Remove()
         }
     }, [selectMachine, machineData, series, selectDate, selectMaterial])
@@ -343,16 +339,6 @@ const CustomCapacity = () => {
 
     }, [])
 
-    const getDetail = useCallback(async (hour) => {
-        const tempUrl = `${API_URLS['capacity'].detail}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}&hour=${hour}`
-        const resultData = await getCapacityTimeData(tempUrl)
-        if (resultData) {
-            setAdvice(resultData.advice[0] !== null ? resultData.advice : [])
-            setErrorLog(resultData.error[0])
-            setMoldLog(resultData.mold_change[0])
-            setTimeLog([{runtime: resultData.runtime, stoptime: resultData.stoptime}])
-        }
-    }, [selectMachine, selectDate, selectMaterial])
 
     const getMaterialList = useCallback(async () => {
         if (selectMachine !== '') {
@@ -405,9 +391,14 @@ const CustomCapacity = () => {
         getMaterialList()
     }, [selectMachine, selectDate])
 
-    // useEffect(() => {
-    //     getData()
-    // }, [selectMaterial])
+    useEffect(() => {
+
+        if (selectMaterial === 'All') {
+            getAllData()
+        } else {
+            getData()
+        }
+    }, [selectMaterial])
 
     return (
         <div>

@@ -183,6 +183,7 @@ const ScheduleContainer = () => {
     }, [voucherDropdown, voucherDropdown2])
 
     const onClick = useCallback((segment) => {
+        setDetailPage({...detailPage, current: 1})
         if (segment.pk === selectPk) {
             setSelectPk(null)
             sendPk = ''
@@ -228,7 +229,7 @@ const ScheduleContainer = () => {
 
                 return {...v, state: statement, amount: amount}
             })
-
+            setSelectPk(null)
             setPage({current: res.current_page, total: res.total_page})
             setList([...getprocesses])
         }
@@ -308,7 +309,6 @@ const ScheduleContainer = () => {
                                     flexDirection: 'row',
                                     flexWrap: 'wrap'
                                 }}>
-                                    {console.log(detailList.process)}
                                     {detailList.process.length !== 0 ?
                                         detailList.process.map((v, i) => {
                                             if (detailList.process.length === i + 1) {

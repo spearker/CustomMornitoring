@@ -72,6 +72,7 @@ const MoldMaintenanceContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
+        setSelectPk(null)
     }, [list, page])
 
     useEffect(() => {

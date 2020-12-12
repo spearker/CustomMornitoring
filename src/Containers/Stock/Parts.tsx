@@ -92,6 +92,7 @@ const PartsContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
+        setDetailPage({...detailPage, current: 1})
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -144,7 +145,7 @@ const PartsContainer = () => {
             })
 
             setList(getStock)
-
+            setSelectPk(null)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
