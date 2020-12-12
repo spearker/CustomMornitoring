@@ -89,7 +89,7 @@ const ProductToneContainer = () => {
   }
 
   const onClick = useCallback((product, index) => {
-    console.log(product)
+    setTonPage({...tonPage, current: 1})
     if (selectPk === index) {
       setSelectPk(null)
       setSelectMachine(null)
@@ -233,7 +233,10 @@ const ProductToneContainer = () => {
             mainOnClickEvent={onClick}
             currentPage={materialPage.current}
             totalPage={materialPage.total}
-            pageOnClickEvent={(event, i: number) => setMaterialPage({...materialPage, current: i})}
+            pageOnClickEvent={(event, i: number) => {
+              setTonPage({...tonPage, current: 1})
+              setMaterialPage({...materialPage, current: i})
+            }}
             noChildren={true}>
           </HalfTalbe>
         </div>

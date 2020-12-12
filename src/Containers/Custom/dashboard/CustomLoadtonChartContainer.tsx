@@ -11,6 +11,7 @@ interface Props {
 
 const CustomLoadtonChartContainer: React.FunctionComponent<Props> = ({match}) => {
 
+
     return (
         <DashboardWrapDiv>
             {/*<CustomDashboardLoadtonChart id={match.params.press}/>*/}

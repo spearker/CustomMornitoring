@@ -3,6 +3,7 @@ import Styled from 'styled-components'
 import DateTypeCalendar from '../Modal/DateTypeCalendar'
 import moment from 'moment'
 import ProductionPickerModal from '../Modal/ProductionPickerModal'
+import {Textfit} from 'react-textfit'
 
 // KPI
 interface IProps {
@@ -44,9 +45,16 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             })
           }
         }
+      } else {
+        setData({})
       }
     }
   }, [selectDate, selectDates, value])
+
+  const AddComma = (num) => {
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return num.toString().replace(regexp, ',')
+  }
 
   React.useEffect(() => {
     if (type === 'day') {
@@ -145,7 +153,11 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                     <p style={{
                       textAlign: 'right',
                       fontSize: 20
-                    }}>{!isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]}</p>
+                    }}>
+                      {
+                        !isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]
+                      }
+                    </p>
                   </div>
                 </div>
               )
@@ -154,11 +166,17 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
         </div>
       </div>
       <div>
-        <p>{
-          !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+        <Textfit mode={'single'} style={{
+          textAlign: 'right',
+          fontSize: 128,
+          fontWeight: 'bold',
+        }}>{
+          (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
+            ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
+            : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
         }
           {/*<span>{'(가동률)'}</span>*/}
-        </p>
+        </Textfit>
       </div>
     </Container>
   )
@@ -191,17 +209,6 @@ const Container = Styled.div`
         }
         &:nth-child(2){
             padding-right: 60px;
-            &>p{
-                text-align: right;
-                font-size: 128px;
-                font-weight: bold;
-                &>span{
-                    margin-left: 20px;
-                    font-size: 30px;
-                    vertical-align: bottom;
-                    margin-bottom: 30px;
-                }
-            }
         }
     }
 `

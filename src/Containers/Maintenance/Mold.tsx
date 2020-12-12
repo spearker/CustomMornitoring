@@ -3,9 +3,9 @@ import Styled from 'styled-components'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getMoldData,} from '../../Api/pm/preservation'
-import Notiflix from "notiflix";
+import Notiflix from 'notiflix'
 
-Notiflix.Loading.Init({svgColor: "#1cb9df",});
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const MoldMaintenanceContainer = () => {
 
@@ -68,11 +68,9 @@ const MoldMaintenanceContainer = () => {
         const res = await getMoldData(tempUrl)
         if (res) {
             setList(res.info_list)
-
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
-        setSelectPk(null)
     }, [list, page])
 
     useEffect(() => {
@@ -92,7 +90,10 @@ const MoldMaintenanceContainer = () => {
             clickValue={selectValue}
             currentPage={page.current}
             totalPage={page.total}
-            pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+            pageOnClickEvent={(event, i) => {
+                setSelectPk(null)
+                setPage({...page, current: i})
+            }}
             mainOnClickEvent={onClick}>
             {
                 selectPk !== null ?

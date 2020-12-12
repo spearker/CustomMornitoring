@@ -114,7 +114,11 @@ const OvertonMaintenanceContainer = () => {
       clickValue={selectValue}
       currentPage={page.current}
       totalPage={page.total}
-      pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+      pageOnClickEvent={(event, i) => {
+        setSelectPk(null)
+        setDetailPage({...detailPage, current: 1})
+        setPage({...page, current: i})
+      }}
       mainOnClickEvent={onClick}>
       {
         selectPk !== null ?
