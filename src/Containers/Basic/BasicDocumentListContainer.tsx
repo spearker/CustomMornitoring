@@ -20,6 +20,7 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
     const [folderName, setFolderName] = useState<string>('')
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [uploadOpen, setUploadOpen] = useState<boolean>(false)
+    const [uploadFile, setUploadFile] = useState<string>('')
     const titleeventdummy = [
         {
             Name: '문서 폴더 추가',
@@ -86,6 +87,7 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
 
             return
         }
+      
         if (selectFolder === '') {
             alert('업로드할 폴더를 선택해주세요.')
             return

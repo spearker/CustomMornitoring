@@ -39,8 +39,8 @@ export interface YOUDONG_PRESS_DATA_TYPE {
     preset_count: number
     preset_limit_count: number
     ETC: string
-    mold_name: string
-    material_name: string
+    mold_name?: string
+    material_name?: string
     iotProtocolKey: string
     press_spm: string
     UPH: number
@@ -55,7 +55,6 @@ export interface YOUDONG_LOAD_MONITOR_DATA_TYPE {
     tonnage_limit: number
     ch1_ton: number,
     ch2_ton: number
-    loadton: number
     total_ton: number
     press_power: number
     x_axis_scope: {
@@ -66,6 +65,6 @@ export interface YOUDONG_LOAD_MONITOR_DATA_TYPE {
         to: number
         from: number
     }
-    isAbnormal: boolean
-    criteria_point: CHART_DRAW_TYPE[]
+    isAbnormal?: boolean
+    criteria_point?: CHART_DRAW_TYPE[]
 }
