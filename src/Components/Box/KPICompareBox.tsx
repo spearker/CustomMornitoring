@@ -51,6 +51,11 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
     }
   }, [selectDate, selectDates, value])
 
+  const AddComma = (num) => {
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return num.toString().replace(regexp, ',')
+  }
+
   React.useEffect(() => {
     if (type === 'day') {
       setSelectDate(moment().subtract(1, 'days').toDate())
@@ -148,7 +153,11 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                     <p style={{
                       textAlign: 'right',
                       fontSize: 20
-                    }}>{!isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]}</p>
+                    }}>
+                      {
+                        !isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]
+                      }
+                    </p>
                   </div>
                 </div>
               )
@@ -157,18 +166,14 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
         </div>
       </div>
       <div>
-        <Textfit style={{
+        <Textfit mode={'single'} style={{
           textAlign: 'right',
           fontSize: 128,
           fontWeight: 'bold',
-          // '&>span': {
-          // marginLeft: 20,
-          // fontize: 30,
-          // vertical-align: bottom,
-          // margin-bottom: 30px,
-          // }
         }}>{
-          !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+          (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
+            ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
+            : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
         }
           {/*<span>{'(가동률)'}</span>*/}
         </Textfit>
