@@ -28,7 +28,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
     const [selectMold, setSelectMold] = useState<string>('')
 
 
-    const rawFile = useCallback(async (event: any) => {
+    const rawFile = async (event: any) => {
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
@@ -39,10 +39,11 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         const tempUrl = `${API_URLS['format'].upload}?type=0`
         const temp = await excelPost(tempUrl, formData)
         if (temp) {
+            console.log(temp)
             alert('업로드 되었습니다.')
             getList(0)
         }
-    }, [])
+    }
 
 
     const semiFile = useCallback(async (event: any) => {
