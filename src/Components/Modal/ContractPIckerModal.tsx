@@ -11,7 +11,7 @@ import {API_URLS, getMarketing} from "../../Api/mes/marketing";
 
 //드롭다운 컴포넌트
 
-interface IProps{
+interface IProps {
     select?: {
         pk?: string
         customer_name?: string
@@ -51,27 +51,34 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
     }, [searchName])
 
 
-
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[])
+    }, [])
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+                <BoxWrap onClick={() => {
+                    setIsOpen(true)
+                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                    <div style={{display: 'inline-block', height: 32, width: 885}}>
                         {
-                            select && select.customer_name ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {select.customer_name}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                            select && select.customer_name ? <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5}}>&nbsp; {select.customer_name}</p>
+                                : <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
+                    <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
+                            setIsOpen(true)
+                        }}/>
                     </div>
 
                 </BoxWrap>
@@ -79,16 +86,16 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
             <Modal
                 isOpen={isOpen}
                 style={{
-                    content : {
-                        top                   : '50%',
-                        left                  : '50%',
-                        right                 : 'auto',
-                        bottom                : 'auto',
-                        marginRight           : '-50%',
-                        transform             : 'translate(-50%, -50%)',
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
                         padding: 0
                     },
-                    overlay:{
+                    overlay: {
                         background: 'rgba(0,0,0,.6)',
                         zIndex: 5
                     }
@@ -98,12 +105,14 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 수주리스트 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="거래처 명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="거래처 명을 입력해 주세요." style={{flex: 96}}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY:"scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -114,11 +123,11 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                                     </tr>
                                     {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
-                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                            <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                         </tr>
                                         :
-                                        machineList.map((v,i) => {
-                                            return(
+                                        machineList.map((v, i) => {
+                                            return (
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.customer_name}</span></td>
                                                     <td><span>{v.material_name}</span></td>
@@ -130,7 +139,12 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
 
                                                                 return onClickEvent(v)
                                                             }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            style={{
+                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                                                width: 32,
+                                                                height: 32,
+                                                                margin: 0
+                                                            }}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>
@@ -146,14 +160,16 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                     <div style={{width: 900}}>
                         <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
                             onClickEvent({name: undefined, pk: undefined})
-                            onClickEvent({customer_name: undefined, material_name: undefined,amount: 0 ,pk: ''})
+                            onClickEvent({customer_name: undefined, material_name: undefined, amount: 0, pk: ''})
                             setIsOpen(false)
                         }}>
                             <div>
                                 <span style={{color: '#666d79'}}>취소</span>
                             </div>
                         </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
                             <div>
                                 <span style={{color: 'black'}}>확인</span>
                             </div>

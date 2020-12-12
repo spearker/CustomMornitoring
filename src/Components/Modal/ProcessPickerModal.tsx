@@ -123,7 +123,8 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, 
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 공정 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}}
+                            <SearchBox placeholder="공정명을 입력해 주세요." style={{flex: 96}}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>

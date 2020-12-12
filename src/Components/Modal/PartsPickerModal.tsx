@@ -12,8 +12,8 @@ import {transferCodeToName} from "../../Common/codeTransferFunctions";
 
 //드롭다운 컴포넌트
 
-interface IProps{
-    select?: { name?:string, pk?: string, parts_stock?: string  },
+interface IProps {
+    select?: { name?: string, pk?: string, parts_stock?: string },
     onClickEvent: any
     text: string
     width?: number
@@ -23,7 +23,7 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const [machineName, setMachineName] = useState('')
-    const [selectData, setSelectData] = useState<{ name?:string, pk?: string, parts_stock?: string  }>()
+    const [selectData, setSelectData] = useState<{ name?: string, pk?: string, parts_stock?: string }>()
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     });
@@ -33,7 +33,7 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
         parts_name: '',
         parts_type: '',
         parts_type_name: '',
-        parts_stock:'',
+        parts_stock: '',
         location_pk: '',
         location_name: '',
         parts_cost: '',
@@ -49,40 +49,48 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
         const resultData = await getSearchMachine(tempUrl);
         setMachineList(resultData.info_list)
 
-        setPage({ current: resultData.current_page, total: resultData.total_page })
+        setPage({current: resultData.current_page, total: resultData.total_page})
 
-    }, [searchName,page])
+    }, [searchName, page])
 
     useEffect(() => {
         setSelectData(select)
-    },[select])
+    }, [select])
 
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[page.current])
+    }, [page.current])
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: width ? width : 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: width ? width : 917}}>
+                <BoxWrap onClick={() => {
+                    setIsOpen(true)
+                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                    <div style={{display: 'inline-block', height: 32, width: 885}}>
                         {
-                            selectData ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {selectData.name}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                            selectData ? <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5}}>&nbsp; {selectData.name}</p>
+                                : <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <SearchButton style={{flex: 4}} onClick={()=>{setIsOpen(true)}}>
-                        <img src={IcSearchButton} />
+                    <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                        <SearchButton style={{flex: 4}} onClick={() => {
+                            setIsOpen(true)
+                        }}>
+                            <img src={IcSearchButton}/>
                         </SearchButton>
                     </div>
 
@@ -91,31 +99,33 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
             <Modal
                 isOpen={isOpen}
                 style={{
-                   content : {
-                       top                   : '50%',
-                       left                  : '50%',
-                       right                 : 'auto',
-                       bottom                : 'auto',
-                       marginRight           : '-50%',
-                       transform             : 'translate(-50%, -50%)',
-                       padding: 0
-                   },
-                   overlay:{
-                       background: 'rgba(0,0,0,.6)',
-                       zIndex: 5
-                   }
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        padding: 0
+                    },
+                    overlay: {
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
+                    }
                 }}
             >
                 <div style={{width: 900}}>
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 부품 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="부품명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="부품명을 입력해 주세요." style={{flex: 96}}
+                                       onChange={(e) => setSearchName(e.target.value)}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList()}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -126,13 +136,13 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                         <th style={{width: 100}}>부품원가</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {   machineList !== undefined && machineList.length === 0 ?
+                                    {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
-                                            <td  colSpan={6} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                            <td colSpan={6} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                         </tr>
                                         :
-                                        machineList.map((v,i) => {
-                                            return(
+                                        machineList.map((v, i) => {
+                                            return (
                                                 <tr style={{height: 32}}>
                                                     <td style={{width: 100}}>{v.parts_name}</td>
                                                     <td style={{width: 100}}>{v.parts_type_name}</td>
@@ -141,11 +151,20 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                                     <td style={{width: 100}}>{v.parts_cost}</td>
                                                     <td>
                                                         <button
-                                                          onClick={() => {
-                                                              setMachineName(v.parts_name)
-                                                              return onClickEvent({name: v.parts_name, pk: v.pk, current: v.parts_stock})
-                                                          }}
-                                                          style={{backgroundColor: selectData ? v.pk === selectData.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            onClick={() => {
+                                                                setMachineName(v.parts_name)
+                                                                return onClickEvent({
+                                                                    name: v.parts_name,
+                                                                    pk: v.pk,
+                                                                    current: v.parts_stock
+                                                                })
+                                                            }}
+                                                            style={{
+                                                                backgroundColor: selectData ? v.pk === selectData.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                                                width: 32,
+                                                                height: 32,
+                                                                margin: 0
+                                                            }}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>
@@ -167,7 +186,9 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                 <span style={{color: '#666d79'}}>취소</span>
                             </div>
                         </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
                             <div>
                                 <span style={{color: 'black'}}>확인</span>
                             </div>

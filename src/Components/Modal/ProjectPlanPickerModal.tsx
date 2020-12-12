@@ -11,7 +11,7 @@ import {API_URLS, getProductionSearch} from "../../Api/mes/production";
 
 //드롭다운 컴포넌트
 
-interface IProps{
+interface IProps {
     select?: {
         pk: string,
         manager: string,
@@ -48,31 +48,49 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
         const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=0&page=${page.current}&limit=1000`
         const resultData = await getProductionSearch(tempUrl);
         setMachineList(resultData.info_list)
-        setPage({ current: resultData.current_page, total: resultData.total_page })
+        setPage({current: resultData.current_page, total: resultData.total_page})
     }, [searchName, page])
-
 
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
+    useEffect(() => {
         getList()
-    },[])
+    }, [])
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: inputWidth ? inputWidth : 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
+            <div style={{
+                position: 'relative',
+                display: 'inline-block',
+                zIndex: 0,
+                width: inputWidth ? inputWidth : 917
+            }}>
+                <BoxWrap onClick={() => {
+                    setIsOpen(true)
+                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                    <div style={{display: 'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {machineName}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                            select ? <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5}}>&nbsp; {machineName}</p>
+                                : <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
 
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: buttonWid ? buttonWid : 32, height: buttonWid ? buttonWid : 32}}>
-                        <img src={searchButton} style={{width: '20px', height: '20px', marginTop: '5px'}} onClick={()=>{setIsOpen(true)}}/>
+                    <div style={{
+                        display: 'inline-block',
+                        backgroundColor: POINT_COLOR,
+                        width: buttonWid ? buttonWid : 32,
+                        height: buttonWid ? buttonWid : 32
+                    }}>
+                        <img src={searchButton} style={{width: '20px', height: '20px', marginTop: '5px'}}
+                             onClick={() => {
+                                 setIsOpen(true)
+                             }}/>
                     </div>
 
                 </BoxWrap>
@@ -80,16 +98,16 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
             <Modal
                 isOpen={isOpen}
                 style={{
-                    content : {
-                        top                   : '50%',
-                        left                  : '50%',
-                        right                 : 'auto',
-                        bottom                : 'auto',
-                        marginRight           : '-50%',
-                        transform             : 'translate(-50%, -50%)',
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
                         padding: 0
                     },
-                    overlay:{
+                    overlay: {
                         background: 'rgba(0,0,0,.6)',
                         zIndex: 5
                     }
@@ -99,12 +117,14 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 생산 계획 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="계획자명을 입력해 주세요." style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchBox placeholder="계획자명을 입력해 주세요." style={{flex: 96}}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',overflowY:"scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -113,13 +133,13 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                                         <th style={{width: 250}}>납품업체</th>
                                         <th style={{width: 30}}></th>
                                     </tr>
-                                    {   machineList !== undefined && machineList.length === 0 ?
+                                    {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
-                                            <td  colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                            <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
                                         </tr>
                                         :
-                                        machineList.map((v,i) => {
-                                            return(
+                                        machineList.map((v, i) => {
+                                            return (
                                                 <tr style={{height: 32}}>
                                                     <td><span>{v.manager}</span></td>
                                                     <td><span>{v.material_name}</span></td>
@@ -130,7 +150,12 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                                                                 setMachineName(v.manager)
                                                                 return onClickEvent(v)
                                                             }}
-                                                            style={{backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            style={{
+                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                                                width: 32,
+                                                                height: 32,
+                                                                margin: 0
+                                                            }}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>
@@ -152,7 +177,9 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                                 <span style={{color: '#666d79'}}>취소</span>
                             </div>
                         </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
                             <div>
                                 <span style={{color: 'black'}}>확인</span>
                             </div>

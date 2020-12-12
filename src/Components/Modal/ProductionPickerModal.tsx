@@ -141,7 +141,8 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
             <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}}
-                         onChange={(e) => setSearchName(e.target.value)} 정
+                         onChange={(e) => setSearchName(e.target.value)}
+                         onKeyPress={(event) => event.key === 'Enter' && getList()}
                 // onKeyDown={(e) => {
                 //   if (e.keyCode === 13) {
                 //     getList()
@@ -256,12 +257,6 @@ const ProductionPickerModal = ({select, selectRange, onClickEvent, text, width, 
             </CheckButton>
             <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
               if (multiSelect) {
-                selectMaterial.map((v, i) => {
-                  return ({
-                    ...v,
-                    count: 0
-                  })
-                })
                 onClickEvent(selectMaterial)
               } else {
                 if (isAllItem) {
@@ -403,7 +398,6 @@ const MachineTable = Styled.table`
             padding: 0;
         }
     }
-
 `
 
 export default ProductionPickerModal
