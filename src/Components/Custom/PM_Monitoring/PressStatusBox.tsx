@@ -19,9 +19,9 @@ const PressStatusBox: React.FunctionComponent<Props> = ({title, titleColor, font
                     fontSize: fontSize,
                     whiteSpace: 'pre-line',
                     color: titleColor ? titleColor : '#ffffff'
-                }}>{`폭: ${mold_spec ? mold_spec[0] : ''}
-                    피치: ${mold_spec ? mold_spec[1] : ''}
-                    T: ${mold_spec ? mold_spec[2] : ''}`}</Value>
+                }}>{`가로: ${mold_spec ? mold_spec[0] : ''}
+                    세로: ${mold_spec ? mold_spec[1] : ''}
+                    높이: ${mold_spec ? mold_spec[2] : ''}`}</Value>
                 :
                 <Value style={{
                     fontSize: fontSize,
