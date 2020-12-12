@@ -175,9 +175,9 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                 display: 'flex',
                 flexDirection: 'column',
             }}>
-                {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', {opacity: overTonCheck() ? 1 : .9,}, {fontSize: 72}, overTonCheck() ? '#ed4337' : '#fb9e70')}
-                {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', {marginBottom: 20}, {fontSize: 48}, '#3ad8c5')}
-                {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, {fontSize: 48}, '#5145c6')}
+                {standardInfItem('Total', data ? Math.round(Number(data?.loadton_data.total_ton) * 10) / 10 + 't' : '-', {opacity: overTonCheck() ? 1 : .9,}, {fontSize: 72}, overTonCheck() ? '#ed4337' : '#fb9e70')}
+                {standardInfItem('CH1 (좌)', data ? Math.round(Number(data?.loadton_data.ch1_ton) * 10) / 10 + 't' : '-', {marginBottom: 20}, {fontSize: 48}, '#3ad8c5')}
+                {standardInfItem('CH2 (우)', data ? Math.round(Number(data?.loadton_data.ch2_ton) * 10) + 't' : '-', {}, {fontSize: 48}, '#5145c6')}
                 {standardInfItem('일량', data ? Math.floor(data.loadton_data.press_power * pct) + 'kgf.m' : '-', {
                     opacity: 1,
                     marginTop: 20

@@ -30,7 +30,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
     const rawFile = useCallback(async (event: any) => {
         if (event.target.files[0] === undefined) {
-
+            alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
         }
         const formData = new FormData()
@@ -47,7 +47,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
     const semiFile = useCallback(async (event: any) => {
         if (event.target.files[0] === undefined) {
-
+            alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
         }
         const formData = new FormData()
@@ -64,7 +64,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
     const subFile = useCallback(async (event: any) => {
         if (event.target.files[0] === undefined) {
-
+            alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
         }
         const formData = new FormData()
@@ -81,7 +81,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
     const finishedFile = useCallback(async (event: any) => {
         if (event.target.files[0] === undefined) {
-
+            alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
         }
         const formData = new FormData()
@@ -97,9 +97,10 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
     const molFile = useCallback(async (event: any) => {
         if (event.target.files[0] === undefined) {
-
+            alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
         }
+
         const formData = new FormData()
         formData.append('file', event.target.files[0])
 
