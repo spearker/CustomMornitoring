@@ -51,9 +51,8 @@ const getErrorCase = (code, message) => {
         case '200':
             return false
         default:
-            window.location.reload()
             Notiflix.Loading.Remove(300)
-            return Notiflix.Notify.Failure('요청 실패', message, '닫기')
+            return Notiflix.Report.Failure('요청 실패', message, '닫기', () => window.location.reload())
     }
 }
 export default client
