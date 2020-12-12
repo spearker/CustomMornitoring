@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
+import OptimizedLineTable from '../../Components/Table/OptimizedLineTable'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
@@ -250,9 +251,10 @@ const SegmentListContainer = () => {
         pageOnClickEvent={(event, i) => setPage({...page, current: i})}>
         {
           selectPk !== null ?
-            <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList} objectLine={true}>
-              <Line/>
-            </LineTable>
+            <OptimizedLineTable widthList={[100, 100, 200, 350, 350]} title={'상세보기'} contentTitle={subIndex}
+                                contentList={detailList}
+                                objectLine={true}>
+            </OptimizedLineTable>
             :
             null
         }
@@ -261,11 +263,11 @@ const SegmentListContainer = () => {
   )
 }
 
-const Line = Styled.hr`
-    margin: 10px 20px 12px 0px;
-    border-color: #353b48;
-    height: 1px;
-    background-color: #353b48;
-`
+// const Line = Styled.hr`
+//     margin: 10px 20px 12px 0px;
+//     border-color: #353b48;
+//     height: 1px;
+//     background-color: #353b48;
+// `
 
 export default SegmentListContainer
