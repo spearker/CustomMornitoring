@@ -122,7 +122,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
         } else if (inputData.name === '') {
             alert('유저명을 입력해주세요.')
             return
-        } else if (1 <= inputData.password.length && inputData.password.length < 5) {
+        } else if (1 <= inputData.password.length && inputData.password.length < 4) {
             alert('비밀번호 재설정은 4자리 이상으로 해주세요.')
             return
         }
@@ -161,7 +161,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
         } else if (!idCheck) {
             alert('아이디 중복체크를 해주세요.')
             return
-        } else if (inputData.password.length < 5) {
+        } else if (1 <= inputData.password.length && inputData.password.length < 4) {
             alert('비밀번호를 4자리 이상으로 해주세요.')
             return
         }

@@ -142,7 +142,7 @@ const CreateContainer = () => {
         const res = await getMoldList(tempUrl)
         if (res) {
             setList(res.info_list)
-
+            setSelectPk(null)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }

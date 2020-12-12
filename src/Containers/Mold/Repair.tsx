@@ -126,7 +126,7 @@ const RepairContainer = () => {
 
                 return {...v, status: status}
             })
-
+            setSelectPk(null)
             setList(listStatus)
 
             setPage({current: res.current_page, total: res.total_page})

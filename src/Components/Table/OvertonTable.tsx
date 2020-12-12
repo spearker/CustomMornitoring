@@ -17,6 +17,7 @@ interface Props {
     calendarOnClick?: any
     searchBarChange?: any
     searchButtonOnClick?: any
+    searchValue?: any
     dropDownContents?: any
     dropDownOnClick?: any
     dropDownOption?: any
@@ -42,7 +43,8 @@ interface Props {
     endDate?: string
 }
 
-const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, buttonDisappear, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
+
+const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, searchValue, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, buttonDisappear, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
 
     const [checked, setChecked] = useState<any[]>([])
 
@@ -75,6 +77,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                     {searchButtonOnClick ?
                         <div style={{width: '300px', display: 'flex', flexDirection: 'row', marginRight: 15}}>
                             <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}}
+                                       value={searchValue}
                                        onKeyPress={(event) => event.key === 'Enter' && searchButtonOnClick()}
                                        onChange={(e) => searchBarChange(e.target.value)}/>
                             <SearchButton style={{flex: 10}} onClick={() => searchButtonOnClick()}>
