@@ -18,8 +18,12 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '재공재고 수량', api: 'amount_of_on_process_material', tip: '제조 원가를 낮출 수 있습니다.'}, // api key이름
-  {name: '재고비용', api: 'stock_cost', tip: '제조 원가를 낮출 수 있습니다.'}
+  {
+    name: '재공재고 수량',
+    api: 'amount_of_on_process_material',
+    tip: '재공재고 값이 낮으면 수요가 급증할때 대응하기가 힘듬. 재공재고가 너무 높으면 품질에 문제가있을수 있음. 연간생산량에 대비해서 적정수준을 유지를 권장.'
+  }, // api key이름
+  {name: '재고비용', api: 'stock_cost', tip: '재고비용을 줄이면 재고를 가지고 있는데 소모되는 비용을 감소.'}
 ]
 
 const subTitleList = {
