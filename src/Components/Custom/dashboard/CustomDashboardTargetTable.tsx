@@ -1,87 +1,87 @@
-import React from "react";
-import IcDropDownButton from "../../../Assets/Images/ic_dropdown_white.png";
-import Pagination from "@material-ui/lab/Pagination";
-import Styled from "styled-components";
+import React from 'react'
+import IcDropDownButton from '../../../Assets/Images/ic_dropdown_white.png'
+import Pagination from '@material-ui/lab/Pagination'
+import Styled from 'styled-components'
 
 
 interface Props {
-    selectBoxChange?: any
-    valueList: any[]
-    clickValue?: object
-    mainOnClickEvent?: any
-    onClickEvent?: any
-    currentPage?: number
-    totalPage?: number
-    pageOnClickEvent?: any
+  selectBoxChange?: any
+  valueList: any[]
+  clickValue?: object
+  mainOnClickEvent?: any
+  onClickEvent?: any
+  currentPage?: number
+  totalPage?: number
+  pageOnClickEvent?: any
 }
 
 
 const CustomDashboardTargetTable: React.FunctionComponent<Props> = ({valueList, clickValue, currentPage, totalPage, pageOnClickEvent}) => {
-    return (
-        <div>
-            <div>
-                <TitleBar style={{
-                    width: '400px',
-                    fontSize: "20px",
+  return (
+    <div>
+      <div>
+        <TitleBar style={{
+          width: '400px',
+          fontSize: '20px',
+          fontWeight: 'bold',
+          fontStretch: 'normal',
+          fontStyle: 'normal'
+        }}>
+          <LimitP key={'target'}
+                  style={{
+                    fontFamily: 'NotoSansCJKkr',
+                    fontSize: '20px',
                     fontWeight: 'bold',
-                    fontStretch: 'normal',
-                    fontStyle: 'normal'
-                }}>
-                    <LimitP key={'target'}
-                            style={{
-                                fontFamily: 'NotoSansCJKkr',
-                                fontSize: '20px',
-                                fontWeight: 'bold',
-                                width: '400px',
-                                textAlign: 'center'
-                            }}>달성율</LimitP>
-                </TitleBar>
-                {
-                    valueList !== undefined && valueList.length === 0
-                        ? (
-                            <ValueBar style={{backgroundColor: '#353b48', width: '400px'}}><p
-                                style={{width: '100%', textAlign: 'center'}}>데이터가
-                                없습니다. </p>
-                            </ValueBar>)
-                        : valueList?.map((v, i) => {
-                            return (
-                                <ValueBar key={i}
-                                          style={{backgroundColor: '#353b48', width: '400px',}}>
-                                    <div style={{
-                                        height: '48px',
-                                        borderRadius: '8px',
-                                        backgroundImage: ' linear-gradient(to left, #19b9df, #0f75bf)',
-                                        width: v + '%',
-                                    }}/>
-                                    <div style={{width: '400px', position: 'absolute'}}>
-                                        <LimitP key={`td-${i}-${v}`} style={{
-                                            objectFit: 'contain',
-                                            textShadow: '0 2px 2px rgba(0, 0, 0, 0.5)',
-                                            fontFamily: 'NotoSansCJKkr',
-                                            fontSize: '24px',
-                                            fontWeight: 'bold',
-                                            fontStretch: 'normal',
-                                            fontStyle: 'normal',
-                                            letterSpacing: 'normal',
-                                            textAlign: 'center'
-                                        }}>{v}%</LimitP>
-                                    </div>
-                                </ValueBar>
+                    width: '400px',
+                    textAlign: 'center'
+                  }}>달성률</LimitP>
+        </TitleBar>
+        {
+          valueList !== undefined && valueList.length === 0
+            ? (
+              <ValueBar style={{backgroundColor: '#353b48', width: '400px'}}><p
+                style={{width: '100%', textAlign: 'center'}}>데이터가
+                없습니다. </p>
+              </ValueBar>)
+            : valueList?.map((v, i) => {
+              return (
+                <ValueBar key={i}
+                          style={{backgroundColor: '#353b48', width: '400px',}}>
+                  <div style={{
+                    height: '48px',
+                    borderRadius: '8px',
+                    backgroundImage: ' linear-gradient(to left, #19b9df, #0f75bf)',
+                    width: v + '%',
+                  }}/>
+                  <div style={{width: '400px', position: 'absolute'}}>
+                    <LimitP key={`td-${i}-${v}`} style={{
+                      objectFit: 'contain',
+                      textShadow: '0 2px 2px rgba(0, 0, 0, 0.5)',
+                      fontFamily: 'NotoSansCJKkr',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      fontStretch: 'normal',
+                      fontStyle: 'normal',
+                      letterSpacing: 'normal',
+                      textAlign: 'center'
+                    }}>{v}%</LimitP>
+                  </div>
+                </ValueBar>
 
-                            )
-                        })
-                }
-                {currentPage && totalPage ?
-                    <PaginationBox>
-                        <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
-                                    boundaryCount={1} color={'primary'}/>
-                    </PaginationBox>
-                    :
-                    null
-                }
-            </div>
-        </div>
-    )
+              )
+            })
+        }
+        {currentPage && totalPage ?
+          <PaginationBox>
+            <Pagination count={totalPage ? totalPage : 0} page={currentPage} onChange={pageOnClickEvent}
+                        boundaryCount={1} color={'primary'}/>
+          </PaginationBox>
+          :
+          null
+        }
+      </div>
+    </div>
+  )
 }
 
 
