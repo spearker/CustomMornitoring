@@ -4,7 +4,7 @@ import {getToken} from '../../Common/tokenFunctions';
 import {getRequest} from '../../Common/requestFunctions';
 import AddInput from '../../Components/Input/AddInput';
 import TextList from '../../Components/List/TextList';
-import SearchModalContainer from '../../Containers/SearchModalContainer';
+import SearchModalContainer from '../SearchModalContainer';
 import SearchInput from '../../Components/Input/SearchInput';
 import SearchedList from '../../Components/List/SearchedList';
 

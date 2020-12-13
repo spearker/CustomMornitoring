@@ -34,7 +34,7 @@ Notiflix.Report.Init({
 const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
 
 // 리스트 부분 컨테이너
-const NewBasicListContainer = ({type, onClickRegister}: Props) => {
+const BasicFactoryContainer = () => {
     const history = useHistory()
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -45,13 +45,12 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
     const [option, setOption] = useState(0)
     const [keyword, setKeyword] = useState<string>('')
     // const [page, setPage] = useState<number>(0);
-    const [pageType, setPageType] = useState<string>(type)
 
     const titleEvent = [
         {
             Name: '등록하기',
             Width: 90,
-            Link: () => onClickRegister(),
+            Link: () => history.push('/basic/factory/register'),
         },
         // {
         //     Name: '삭제',
@@ -59,16 +58,10 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
         // }
     ]
 
-    useEffect(() => {
-        setPage({...page, current: 1})
-        setKeyword('')
-        setList([])
-        setPageType(type)
-    }, [type])
 
     useEffect(() => {
-        getList(pageType)
-    }, [pageType])
+        getList()
+    }, [])
 
     const eventdummy = [
         {
@@ -84,31 +77,37 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
      * getList()
      * 목록 불러오기
      */
-    const getList = useCallback(async (pageType, isSearch?: boolean) => {
+    const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
 
-        const tempUrl = `${API_URLS[pageType].list}?page=${isSearch ? 1 : page.current}&keyword=${keyword}&type=${option}&limit=15`
+        const tempUrl = `${API_URLS['factory'].list}?page=${isSearch ? 1 : page.current}&keyword=${keyword}&type=${option}&limit=15`
         const resultList = await getBasicList(tempUrl)
         if (resultList) {
             const getBasic = resultList.info_list.map((v, i) => {
 
-                const Type = transferCodeToName(pageType, v[pageType + '_type'])
-                return {...v, [pageType + '_type']: Type}
+                const Type = transferCodeToName('factory', v['factory' + '_type'])
+                return {...v, ['factory' + '_type']: Type}
             })
 
 
-            if (pageType !== 'factory' && pageType !== 'material' && pageType !== 'mold' && pageType !== 'parts') {
-                setList(getBasic)
-            }
+            const factoryBasic = getBasic.map((factory, index) => {
 
+                const roadAddress = factory.location.roadAddress
+                const postcode = factory.location.postcode
+                const detail = factory.location.detail
+
+                return {...factory, roadAddress: roadAddress, postcode: postcode, detail: detail}
+            })
+            setList(factoryBasic)
+            
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove(300)
         }
-    }, [list, keyword, option, pageType, page])
+    }, [list, keyword, option, page])
 
     useEffect(() => {
         setEventList(eventdummy)
-        getList(pageType)
+        getList()
             .then(() => Notiflix.Loading.Remove(300))
         setTitleEventList(titleEvent)
     }, [page.current])
@@ -119,62 +118,34 @@ const NewBasicListContainer = ({type, onClickRegister}: Props) => {
      */
     const onClickDelete = useCallback(async (id) => {
 
-        const tempUrl = `${API_URLS[pageType].delete}`
+        const tempUrl = `${API_URLS['factory'].delete}`
         const result = await deleteBasicList(tempUrl, id)
         if (result) {
-            getList(pageType).then(() => Notiflix.Loading.Remove(300))
+            getList().then(() => Notiflix.Loading.Remove(300))
         }
 
-    }, [list, pageType])
-
-    /**
-     * getListUrl()
-     * 리스트 항목 클릭했을 때 이동하는 url return
-     * @returns {string} link url
-     */
-    const getListUrl = useCallback(() => {
-
-        if (pageType === '') {
-            return `/basic/standard/barcode/update?pk=`
-        } else {
-            return `/basic/${pageType}/register?pk=`
-        }
-
-    }, [pageType])
+    }, [list])
 
 
     return (
         <>
             <div style={{position: 'relative'}}>
-                <OptimizedHeaderBox title={`${LIST_INDEX[type].title ?? '항목 없음'}`}
+                <OptimizedHeaderBox title={'공장 기본정보'}
                                     searchBarChange={(e) => {
                                         if (!e.match(regExp)) setKeyword(e)
                                     }}
                                     searchBarValue={keyword}
-                                    searchButtonOnClick={() => getList(pageType, true).then(() => Notiflix.Loading.Remove(300))}
+                                    searchButtonOnClick={() => getList(true).then(() => Notiflix.Loading.Remove(300))}
                                     titleOnClickEvent={titleEventList}/>
             </div>
-            {
-                pageType != null &&
-                <OptimizedTable widthList={LIST_INDEX[pageType].width}
-                                indexList={LIST_INDEX[pageType].index}
-                                valueList={list}
-                                EventList={eventList}
-                                mainOnClickEvent={(v) => history.push(`/basic/${pageType}/register?pk=${v.pk}`)}
-                                currentPage={page.current}
-                                totalPage={page.total}
-                                pageOnClickEvent={(event, i) => setPage({...page, current: i})}/>
-            }
-            {/*{*/}
-            {/*    pageType !== null &&*/}
-            {/*    <InfoTable*/}
-            {/*        indexList={LIST_INDEX[pageType].index}*/}
-            {/*        type={type}*/}
-            {/*        pkKey={'pk'}*/}
-            {/*        onClickLinkUrl={getListUrl()}*/}
-            {/*        contents={list}*/}
-            {/*        onClickRemove={onClickDelete}/>*/}
-            {/*}*/}
+            <OptimizedTable widthList={LIST_INDEX['factory'].width}
+                            indexList={LIST_INDEX['factory'].index}
+                            valueList={list}
+                            EventList={eventList}
+                            mainOnClickEvent={(v) => history.push(`/basic/factory/register?pk=${v.pk}`)}
+                            currentPage={page.current}
+                            totalPage={page.total}
+                            pageOnClickEvent={(event, i) => setPage({...page, current: i})}/>
         </>
     )
 }
@@ -265,5 +236,5 @@ export const LIST_INDEX = {
 }
 
 
-export default NewBasicListContainer
+export default BasicFactoryContainer
 

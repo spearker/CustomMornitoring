@@ -10,7 +10,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer'
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
 import ListHeader from '../../Components/Text/ListHeader'
 import * as _ from 'lodash'
-import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
+import BasicSearchContainer from '../../Containers/Old_Basic/BasicSearchContainer'
 import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";

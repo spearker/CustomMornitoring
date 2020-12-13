@@ -11,7 +11,7 @@ import InnerBodyContainer from '../../Containers/InnerBodyContainer';
 import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions';
 import ListHeader from '../../Components/Text/ListHeader';
 import SelectDocumentForm from '../../Containers/Basic/SelectDocumentForm';
-import DocumentFormatInputList from '../../Containers/Basic/DocumentFormatInputList';
+import DocumentFormatInputList from '../../Containers/Old_Basic/DocumentFormatInputList';
 import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import useObjectInput from '../../Functions/UseInput';
 import RadioInput from '../../Components/Input/RadioInput';

@@ -1,48 +1,52 @@
-import React from "react";
-import Styled from 'styled-components';
+import React from 'react'
+import Styled from 'styled-components'
 
 // KPI용 겉 메뉴박스
 
-interface IProps{
-    menuList: Menu[];
-    onChangeEvent: (select:Menu)=>void;
-    value: Menu;
-    children?: any;
+interface IProps {
+  menuList: Menu[];
+  onChangeEvent: (select: Menu) => void;
+  value: Menu;
+  children?: any;
 }
 
-interface Menu{
-    name: string,
-    api: string,
-    tip: string
+interface Menu {
+  name: string,
+  api: string,
+  tip: string
 }
 
-const KPIMenuBox = ({ menuList, onChangeEvent, value, children }: IProps) => {
-    
-    const selectStyle = {backgroundColor: '#19b9df50', borderBottom: '2px solid #19b9df', height: 'calc(100% + 1px)'}
-    
-    return (
+const KPIMenuBox = ({menuList, onChangeEvent, value, children}: IProps) => {
+
+  const selectStyle = {backgroundColor: '#19b9df50', borderBottom: '2px solid #19b9df', height: 'calc(100% + 1px)'}
+
+  return (
+    <div>
+      <MenuHeaderList>
         <div>
-            <MenuHeaderList>
-                <div>
-                    {
-                        menuList.map((v, i) => (
-                            <MenuItem style={
-                                    value.name === v.name ? selectStyle : {}
-                                } key={`menuItem${i}`} onClick={() => onChangeEvent(v)} >
-                                <p style={{fontWeight: value.name === v.name ? 'bold' : 500}}>{v.name}</p>    
-                            </MenuItem>
-                        ))
-                    }
-                </div>
-                <div>
-                    <p>{value.tip}</p>
-                </div>
-            </MenuHeaderList>
-            <div>
-                {children}
-            </div>
+          {
+            menuList.map((v, i) => (
+              <MenuItem style={
+                value.name === v.name ? selectStyle : {}
+              } key={`menuItem${i}`} onClick={() => onChangeEvent(v)}>
+                <p style={{fontWeight: value.name === v.name ? 'bold' : 500}}>{v.name}</p>
+              </MenuItem>
+            ))
+          }
         </div>
-    )
+        <div>
+          {
+            value.api === 'amount_of_on_process_material'
+              ? <p style={{fontSize: 16.5}}>{value.tip}</p>
+              : <p>{value.tip}</p>
+          }
+        </div>
+      </MenuHeaderList>
+      <div>
+        {children}
+      </div>
+    </div>
+  )
 }
 
 const MenuHeaderList = Styled.div`

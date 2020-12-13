@@ -18,9 +18,13 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '납기 준수율', api: 'delivery_compliance_improvement_rate', tip: '제조 원가를 낮출 수 있습니다.'}, // api key이름
-  {name: '수주출하 리드타임', api: 'order_shipment_leadTime_reduced_rate', tip: '제조 원가를 낮출 수 있습니다.'},
-  {name: '재고 정확도', api: 'stock_accuracy_improvement_rate', tip: '제조 원가를 낮출 수 있습니다.'}
+  {name: '납기 준수율', api: 'delivery_compliance_improvement_rate', tip: '준수한 납기건수가 올라갈수록 품질 및 기업신뢰도가 올라감.'}, // api key이름
+  {name: '수주출하 리드타임', api: 'order_shipment_leadTime_reduced_rate', tip: '수주에서 출하까지 걸린 시간의 합계.'},
+  {
+    name: '재고 정확도',
+    api: 'stock_accuracy_improvement_rate',
+    tip: '(재고 오류 수정한 갯수 / 전체 재고량 정확도)가 떨어질수록 재고관리가 제대로 되고있지 않거나 재고 로스 발생될 확률 높음.'
+  }
 ]
 
 const subTitleList = {
