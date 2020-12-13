@@ -86,7 +86,7 @@ import DefectiveRegister from '../Pages/Quality/DefectiveRegister'
 import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory'
 
 import BasicBarcodeList from '../Pages/Old_List/Barcode'
-import BasicBarcodeRegister from '../Pages/Basic/BasicBarcodeRegister'
+import BasicBarcodeRegister from '../Pages/Old_Basic/BasicBarcodeRegister'
 import StockHistory from '../Pages/Stock/Old_History'
 import Old_ProductKpi from '../Pages/Kpi/Old_ProductKpi'
 import Old_QualityKpi from '../Pages/Kpi/Old_QualityKpi'
@@ -134,15 +134,15 @@ import OptimalSPMStatistics from '../Pages/Statistics/OptimalSPMStatistics'
 import FactoryLossSatistics from '../Pages/Statistics/FactoryLossStiatistics'
 import FactoryEnvironmentalAnalysis from '../Pages/Statistics/FactoryEnvironmentalAnalysis'
 import Comingsoon from '../Pages/Common/ComingSoon'
-import BasicDocumentRegister from '../Pages/Basic/BasicDocumentRegister'
-import BasicStandardRegister from '../Pages/Basic/BasicStandardRegister'
+import BasicDocumentRegister from '../Pages/Old_Basic/BasicDocumentRegister'
+import BasicStandardRegister from '../Pages/Old_Basic/BasicStandardRegister'
 import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister'
 
-import BasicListPage from '../Pages/Basic/BasicListPage'
+import BasicListPage from '../Pages/Old_Basic/BasicListPage'
 import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister'
-import BasicSubdividedRegister from '../Pages/Basic/BasicSubdividedRegister'
+import BasicSubdividedRegister from '../Pages/Old_Basic/BasicSubdividedRegister'
 import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister'
-import BasicDeviceRegister from '../Pages/Basic/BasicDeviceRegister'
+import BasicDeviceRegister from '../Pages/Old_Basic/BasicDeviceRegister'
 import Old_OutsourcingCompanyRegister from '../Pages/Outsourcing/Old_OutsourcingCompanyRegister'
 import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister'
 import ReadyTimeStatics from '../Pages/PM_Statistics/ReadyTimeStatics'
@@ -163,6 +163,14 @@ import NewBasicItemList from '../Pages/Basic/NewBasicItemList'
 import NewBasicList from '../Pages/Basic/NewBasicListContainer'
 import NewBasicMaterialRegister from '../Containers/Basic/NewBasicMaterialContainer'
 import NewDashboard from "../Containers/Custom/index/CustomIndex";
+import BasicFactory from "../Pages/Basic/BasicFactory";
+import BasicSubdivided from "../Pages/Basic/BasicSubdivided";
+import BasicMachine from "../Pages/Basic/BasicMachine";
+import BasicDevice from "../Pages/Basic/BasicDevice";
+import BasicMaterial from "../Pages/Basic/BasicMaterial";
+import BasicMold from "../Pages/Basic/BasicMold";
+import BasicParts from "../Pages/Basic/BasicParts";
+import BasicBarcode from "../Pages/Basic/BasicBarcode";
 
 
 const Routers = () => {
@@ -204,7 +212,15 @@ const Routers = () => {
 
                 {/* 2.0 기준정보관리 */}
 
-                <Route exact path="/basic/list/:id" component={NewBasicList}/>
+                <Route exact path="/basic/list/factory" component={BasicFactory}/>
+                <Route exact path="/basic/list/subdivided" component={BasicSubdivided}/>
+                <Route exact path="/basic/list/machine" component={BasicMachine}/>
+                <Route exact path="/basic/list/device" component={BasicDevice}/>
+                <Route exact path="/basic/list/material" component={BasicMaterial}/>
+                <Route exact path="/basic/list/mold" component={BasicMold}/>
+                <Route exact path="/basic/list/parts" component={BasicParts}/>
+                <Route exact path="/basic/list/barcode" component={BasicBarcode}/>
+
                 <Route exact path="/basic/standard/list/item" component={NewBasicItemList}/>
 
                 <Route exact path="/basic/item/register" component={BasicStandardRegister}/>

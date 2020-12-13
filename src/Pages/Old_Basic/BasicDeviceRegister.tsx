@@ -17,7 +17,7 @@ import DateInput from '../../Components/Input/DateInput'
 import moment from 'moment'
 import ListHeader from '../../Components/Text/ListHeader'
 import OldFileInput from '../../Components/Input/OldFileInput'
-import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
+import BasicSearchContainer from '../../Containers/Old_Basic/BasicSearchContainer'
 import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
@@ -226,9 +226,11 @@ const BasicDeviceRegister = () => {
                             <DropdownInput title={'장치 종류'} target={transferCodeToName('device', type)}
                                            contents={indexList}
                                            onChangeEvent={(v) => setType(transferStringToCode('device', indexList[v]))}
-                                           style={{ width: 'calc(100% - 157px)' }} 
-                                           buttonStyle={{ right: 0 }} inputStyle={{ boxSizing: 'border-box' }} selectStyle={{ boxSizing: 'border-box' }}/>
-                            <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate} style={{ width: 'calc(100% - 157px)' }} inputStyle={{ boxSizing: 'border-box' }} />
+                                           style={{width: 'calc(100% - 157px)'}}
+                                           buttonStyle={{right: 0}} inputStyle={{boxSizing: 'border-box'}}
+                                           selectStyle={{boxSizing: 'border-box'}}/>
+                            <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}
+                                       style={{width: 'calc(100% - 157px)'}} inputStyle={{boxSizing: 'border-box'}}/>
                             <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo}
                                          description={'제조사가 발급한 제조사 번호를 입력하세요 (장치에 부착되어있음)'}/>
 

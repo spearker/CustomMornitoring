@@ -63,16 +63,19 @@ const CustomCapacity = () => {
                     //     getDetail(e.dataPointIndex)
                     // } else {
                     //     getDetail('0' + e.dataPointIndex.toString())
-                    // }
-                    const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
-                    const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                    // // }
+                   
+                    if (-1 < e.dataPointIndex && e.dataPointIndex < 24) {
+                        const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                        const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
 
-                    setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
-                    setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
-                    setTimeLog([{runtime: runtime, stoptime: stoptime}])
-                    const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
+                        setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
+                        setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
+                        setTimeLog([{runtime: runtime, stoptime: stoptime}])
+                        const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
 
-                    setAdvice(temp)
+                        setAdvice(temp)
+                    }
                 },
             }
         },
@@ -368,7 +371,8 @@ const CustomCapacity = () => {
     const timeIndexList = {
         time: {
             runtime: '가동시간',
-            stoptime: '비가동시간'
+            stoptime: '비가동시간',
+            error_range: '오차범위 ±0.03%'
         }
     }
 
