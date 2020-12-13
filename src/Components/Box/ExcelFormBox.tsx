@@ -7,6 +7,9 @@ import {getToken} from '../../Common/tokenFunctions'
 import {TOKEN_NAME} from '../../Common/configset'
 import {SF_ENDPOINT_EXCEL} from '../../Api/SF_endpoint'
 import {API_URLS, excelGet, excelItemsGet, excelPost, getBasicList,} from '../../Api/mes/basic'
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 interface Props {
     title: string[]
@@ -29,6 +32,8 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
 
     const rawFile = useCallback(async (event: any) => {
+        Notiflix.Loading.Circle();
+
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
@@ -42,10 +47,14 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
             alert('업로드 되었습니다.')
             getList(0)
         }
+
+        Notiflix.Loading.Remove()
     }, [])
 
 
     const semiFile = useCallback(async (event: any) => {
+        Notiflix.Loading.Circle();
+
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
@@ -60,9 +69,12 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
             getList(1)
         }
 
+        Notiflix.Loading.Remove()
     }, [])
 
     const subFile = useCallback(async (event: any) => {
+        Notiflix.Loading.Circle();
+
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
@@ -77,9 +89,12 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
             getList(2)
         }
 
+        Notiflix.Loading.Remove()
     }, [])
 
     const finishedFile = useCallback(async (event: any) => {
+        Notiflix.Loading.Circle();
+
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
@@ -93,9 +108,13 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
             alert('업로드 되었습니다.')
             getList(3)
         }
+
+        Notiflix.Loading.Remove()
     }, [])
 
     const molFile = useCallback(async (event: any) => {
+        Notiflix.Loading.Circle();
+
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
             return
@@ -111,10 +130,12 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
             getList(4)
         }
 
+        Notiflix.Loading.Remove()
     }, [])
 
 
     const getList = useCallback(async (type) => {
+        Notiflix.Loading.Circle();
         if (type === 'all') {
             title.map(async (value, index) => {
                 const tempUrl = `${API_URLS['format'].history}?type=${index}`
@@ -167,6 +188,8 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
                 }
             }
         }
+
+        Notiflix.Loading.Remove()
 
     }, [moldList])
 

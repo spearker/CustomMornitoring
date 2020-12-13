@@ -21,18 +21,26 @@ const chartOption = {
         type: 'area',
         events: {
             beforeZoom: (e, {xaxis}) => {
-                if (xaxis.min < 0 || xaxis.max > 360) {
+                if (xaxis.min < 120 || xaxis.max > 210) {
                     return {
                         xaxis: {
-                            min: 0,
-                            max: 360
+                            min: 120,
+                            max: 210
                         }
                     }
                 }
             }
         },
         toolbar: {
-            show: false,
+            show: true,
+            tools: {
+                download: false,
+                selection: false,
+                pan: false,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+            }
         },
     },
     colors: ['#bfbfbf55'],
@@ -47,7 +55,7 @@ const chartOption = {
     fill: {
         type: ['gradient', 'gradient'],
         gradient: {
-            type: 'vertical',
+            type: ['vertical', 'vertical', 'vertical'],
             shadeIntensity: 0,
             opacityFrom: 0.6,
             opacityTo: 0.1,
@@ -329,7 +337,11 @@ const CustomAbility = () => {
                                     color: '#ffffff',
                                     paddingLeft: 10,
                                 }} onChange={(e) => setSelectMaterial(e.target.value)}>
-                                    <option value={''} key={`All`}>품목을 선택해주세요.</option>
+                                    {selectMaterial === 'All' ?
+                                        <option value={''} key={`All`}>품목을 선택해주세요.</option>
+                                        :
+                                        null
+                                    }
                                     {
                                         materialList.map((v, i) => {
                                             return (
@@ -368,7 +380,11 @@ const CustomAbility = () => {
                                                 color: '#ffffff',
                                                 border: 0
                                             }} onChange={(e) => setSelectError(e.target.value)}>
-                                                <option value={''} key={`All`}>에러 시간을 선택해주세요.</option>
+                                                {selectError !== '' ?
+                                                    null
+                                                    :
+                                                    <option value={''} key={`All`}>에러 시간을 선택해주세요.</option>
+                                                }
                                                 {
                                                     errorList.map((v, i) => {
                                                         return (
