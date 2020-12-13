@@ -49,13 +49,13 @@ const ErrorContainer = () => {
     },
   }
 
-  const onClick = useCallback((machine, i) => {
+  const onClick = (machine, i) => {
     if (selectIndex === i) {
+      setSelectIndex(null)
       setSelectPk(null)
       setSelectMachine(null)
       setSelectValue(null)
       setDetailPage({...detailPage, current: 1})
-      setSelectIndex(null)
     } else {
       setSelectIndex(i)
       setSelectPk(machine.pressPk)
@@ -70,7 +70,7 @@ const ErrorContainer = () => {
     }
 
 
-  }, [list, selectPk])
+  }
 
   const getData = useCallback(async (pk) => {
     //TODO: 성공시
