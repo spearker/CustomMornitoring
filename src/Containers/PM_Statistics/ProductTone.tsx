@@ -8,6 +8,7 @@ import OvertonTable from '../../Components/Table/OvertonTable'
 import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import Notiflix from 'notiflix'
+import {esES} from '@material-ui/core/locale'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
@@ -201,7 +202,10 @@ const ProductToneContainer = () => {
       <div style={{width: '1107px', height: 30, marginTop: 41, borderRadius: 10, display: 'flex'}}>
         <div style={{marginLeft: '65%'}}>
           <CalendarDropdown type={'single'} select={selectDate}
-                            onClickEvent={(i) => setSelectDate(i)}/>
+                            onClickEvent={(i) => {
+                              setTonPage({...tonPage, current: 1})
+                              setSelectDate(i)
+                            }}/>
         </div>
         <div style={{display: 'flex', marginLeft: 20}}>
           <p style={{marginRight: 10, marginBottom: 2}}>기계 :</p>
@@ -212,7 +216,10 @@ const ProductToneContainer = () => {
             backgroundColor: '#353b48',
             color: '#ffffff',
             paddingLeft: 10,
-          }} onChange={(e) => setMachinePk(e.target.value)}>
+          }} onChange={(e) => {
+            setTonPage({...tonPage, current: 1})
+            setMachinePk(e.target.value)
+          }}>
             <option value={'all'}>전체</option>
             {
               machineList.map((v, i) => {
