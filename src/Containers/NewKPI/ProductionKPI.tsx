@@ -18,10 +18,10 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '설비가동률', api: 'facility_operational_improvement_rate', tip: '제조 원가를 낮출 수 있습니다.'}, // api key이름
-  {name: '제조 리드타임', api: 'manufacturing_leadTime_reduced_rate', tip: '제조 원가를 낮출 수 있습니다.'},
-  {name: '생산 품목', api: 'item_growth_rate', tip: '제조 원가를 낮출 수 있습니다.'},
-  {name: '생산 목표 달성률', api: 'target_attainment_rate', tip: '제조 원가를 낮출 수 있습니다.'}
+  {name: '설비가동률', api: 'facility_operational_improvement_rate', tip: '계획시간동안 얼마나 설비가 효율적으로 가동되었는지 나타내는 지표.'}, // api key이름
+  {name: '제조 리드타임', api: 'manufacturing_leadTime_reduced_rate', tip: '원자재가 투입되는 시점부터 완제품으로 완성될때까지의 소요시간.'},
+  {name: '생산 품목', api: 'item_growth_rate', tip: '해당 기간동안에 생산된 총 품목수.'},
+  {name: '생산 목표 달성률', api: 'target_attainment_rate', tip: '매출목표 달성과 생산 목표달성의 정도를 확인하는 지표.'}
 ]
 
 const subTitleList = {

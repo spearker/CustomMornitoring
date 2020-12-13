@@ -18,7 +18,7 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '전기에너지 사용률', api: 'electric_saving_rate', tip: '제조 원가를 낮출 수 있습니다.'} // api key이름
+  {name: '전기에너지 사용률', api: 'electric_saving_rate', tip: '현 공장에서 사용되는 전기의 총량 에너지 지수를 줄이면 운영 고정비가 감소됨.'} // api key이름
 ]
 
 const subTitleList = {

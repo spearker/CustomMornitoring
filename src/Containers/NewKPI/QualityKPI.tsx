@@ -18,7 +18,7 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '불량률', api: 'defective_items_reduced_rate', tip: '제조 원가를 낮출 수 있습니다.'}
+  {name: '불량률', api: 'defective_items_reduced_rate', tip: '불량률을 줄이면 품질 평가 증가.'}
 ]
 
 const subTitleList = {

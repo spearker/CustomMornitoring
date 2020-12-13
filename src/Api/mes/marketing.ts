@@ -10,9 +10,9 @@ import client from '../configs/basic'
  * @version 0.1
  */
 export const postMarketing = async (url: string, object: object) => {
-    const temp: IServerData = await client.post(url, object)
+  const temp: IServerData = await client.post(url, object)
 
-    return temp.status
+  return temp.status
 }
 
 /**
@@ -24,9 +24,9 @@ export const postMarketing = async (url: string, object: object) => {
  * @version 0.1
  */
 export const getMarketing = async (url: string) => {
-    const temp: IServerData = await client.get(url)
+  const temp: IServerData = await client.get(url)
 
-    return temp.results
+  return temp.results
 }
 
 
@@ -39,8 +39,8 @@ export const getMarketing = async (url: string) => {
  * @author 준희
  */
 export const postContractRegister = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData)
-    return temp
+  const temp: IServerData = await client.post(url, bodyData)
+  return temp
 }
 
 /**
@@ -52,8 +52,8 @@ export const postContractRegister = async (url: string, bodyData: object) => {
  * @author 준희
  */
 export const postContractModify = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData)
-    return temp
+  const temp: IServerData = await client.post(url, bodyData)
+  return temp
 }
 
 /**
@@ -65,8 +65,8 @@ export const postContractModify = async (url: string, bodyData: object) => {
  * @author 준희
  */
 export const postOrderRegister = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData)
-    return temp
+  const temp: IServerData = await client.post(url, bodyData)
+  return temp
 }
 
 /**
@@ -78,25 +78,26 @@ export const postOrderRegister = async (url: string, bodyData: object) => {
  * @author 준희
  */
 export const postOrderModify = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData)
-    return temp
+  const temp: IServerData = await client.post(url, bodyData)
+  return temp
 }
 
 export const API_URLS = {
-    contract: {
-        register: `/v1/marketing/contract/register`,
-        update: `/v1/marketing/contract/update`,
-        load: `/v1/marketing/contract/load`,
-        list: `/v1/marketing/contract/list`,
-        delete: `/v1/marketing/contract/delete`,
-        finish: `/v1/marketing/contract/finish`
-    },
-    shipment: {
-        register: `/v1/marketing/shipment/register`,
-        update: `/v1/marketing/shipment/update`,
-        load: `/v1/marketing/shipment/load`,
-        list: `/v1/marketing/shipment/list`,
-        delete: `/v1/marketing/shipment/delete`,
-        finish: `/v1/marketing/shipment/finish`
-    },
+  contract: {
+    register: `/v1/marketing/contract/register`,
+    update: `/v1/marketing/contract/update`,
+    load: `/v1/marketing/contract/load`,
+    list: `/v1/marketing/contract/list`,
+    delete: `/v1/marketing/contract/delete`,
+    finish: `/v1/marketing/contract/finish`,
+    search: `/v1/marketing/contract/search`
+  },
+  shipment: {
+    register: `/v1/marketing/shipment/register`,
+    update: `/v1/marketing/shipment/update`,
+    load: `/v1/marketing/shipment/load`,
+    list: `/v1/marketing/shipment/list`,
+    delete: `/v1/marketing/shipment/delete`,
+    finish: `/v1/marketing/shipment/finish`
+  },
 }
