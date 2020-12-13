@@ -276,7 +276,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                 {
                   EventList && EventList.map((bv, bi) => {
                     return (
-                      <div style={{padding: '0 20px'}}>
+                      <div className="p-limits">
                         {buttonDisappear ?
                           <ButtonBox onClick={() => bv.Link(v)} style={{
                             cursor: v.state === '작업중' ? 'pointer' : 'default',
