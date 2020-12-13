@@ -368,7 +368,8 @@ const CustomCapacity = () => {
     const timeIndexList = {
         time: {
             runtime: '가동시간',
-            stoptime: '비가동시간'
+            stoptime: '비가동시간',
+            error_range: '오차범위 ±0.03%'
         }
     }
 
