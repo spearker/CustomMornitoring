@@ -195,7 +195,7 @@ const CustomAbility = () => {
     }, [selectMachine, list, selectDate]);
 
     const getData = useCallback(async () => {
-        if (selectMaterial !== '' && selectMachine !== '') {
+        if (selectMaterial !== '' && selectMachine !== '' && selectMaterial !== 'All') {
             Notiflix.Loading.Circle()
 
             const tempUrl = `${API_URLS['ability'].error}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}`
@@ -289,6 +289,8 @@ const CustomAbility = () => {
         setOvertime('')
         getDataList()
         // getData()
+        setSelectError('')
+        setSelectMaterial('All')
     }, [selectMachine, selectDate])
 
     useEffect(() => {
