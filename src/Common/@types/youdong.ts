@@ -53,7 +53,7 @@ export interface YOUDONG_LOAD_MONITOR_DATA_TYPE {
     total_ton_point: CHART_DRAW_TYPE[]
     capacity_point: CHART_DRAW_TYPE[]
     tonnage_limit: number
-    ch1_ton: number,
+    ch1_ton: number
     ch2_ton: number
     total_ton: number
     press_power: number
