@@ -8,6 +8,7 @@ import {getCustomerData} from '../../Api/mes/customer'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
 import {postMoldState} from '../../Api/mes/manageMold'
+import OptimizedLineTable from "../../Components/Table/OptimizedLineTable";
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
@@ -277,9 +278,10 @@ const ContractContainer = () => {
                 mainOnClickEvent={onClick}>
                 {
                     selectPk !== null ?
-                        <LineTable title={'자세히 보기'} contentTitle={subIndex} contentList={detailList}>
+                        <OptimizedLineTable title={'자세히 보기'} contentTitle={subIndex} contentList={detailList}
+                                            widthList={['100px', '100px', '400px', '350px', '50px']}>
                             <Line/>
-                        </LineTable>
+                        </OptimizedLineTable>
                         :
                         null
                 }
