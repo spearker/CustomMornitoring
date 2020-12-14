@@ -41,7 +41,6 @@ const QualityKPI = () => {
   }
 
   const getData = async (from: Date, to: Date, index: number) => {
-    console.log(from, to)
     let tempUrl = ''
     if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
       tempUrl = `${API_URLS['kpi'].quality[selectMenu.api]}`
