@@ -11,7 +11,7 @@ import {onClickSearch} from '../../Functions/SearchList'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
-const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 const QualityTestComplete = () => {
     const [list, setList] = useState<any[]>([])
