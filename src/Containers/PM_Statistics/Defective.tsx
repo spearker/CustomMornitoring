@@ -133,10 +133,10 @@ const DefectiveContainer = () => {
 
     const onClick = useCallback((mold, index) => {
         if (index === selectIndex) {
-            // setSelectPk(null)
-            // setSelectMold(null)
-            // setSelectValue(null)
-            // setSelectIndex(null)
+            setSelectPk(null)
+            setSelectMold(null)
+            setSelectValue(null)
+            setSelectIndex(null)
         } else {
             setSelectPk(mold.pk)
             setSelectMold(mold.mold_name)
@@ -195,9 +195,6 @@ const DefectiveContainer = () => {
         getList()
     }, [page.current])
 
-    useEffect(() => {
-        console.log(series)
-    }, [series])
 
     return (
         <OvertonTable
