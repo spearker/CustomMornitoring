@@ -36,7 +36,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
-            return
+            return Notiflix.Loading.Remove()
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
@@ -46,6 +46,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         if (temp) {
             alert('업로드 되었습니다.')
             getList(0)
+            window.location.reload()
         }
 
         Notiflix.Loading.Remove()
@@ -57,7 +58,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
-            return
+            return Notiflix.Loading.Remove()
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
@@ -67,6 +68,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         if (temp) {
             alert('업로드 되었습니다.')
             getList(1)
+            window.location.reload()
         }
 
         Notiflix.Loading.Remove()
@@ -77,7 +79,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
-            return
+            return Notiflix.Loading.Remove()
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
@@ -87,6 +89,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         if (temp) {
             alert('업로드 되었습니다.')
             getList(2)
+            window.location.reload()
         }
 
         Notiflix.Loading.Remove()
@@ -97,7 +100,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
-            return
+            return Notiflix.Loading.Remove()
         }
         const formData = new FormData()
         formData.append('file', event.target.files[0])
@@ -107,6 +110,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         if (temp) {
             alert('업로드 되었습니다.')
             getList(3)
+            window.location.reload()
         }
 
         Notiflix.Loading.Remove()
@@ -117,7 +121,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
 
         if (event.target.files[0] === undefined) {
             alert('파일을 찾을 수 없습니다. 다시 업로드해주세요.')
-            return
+            return Notiflix.Loading.Remove()
         }
 
         const formData = new FormData()
@@ -128,6 +132,7 @@ const ExcelFormBox: React.FunctionComponent<Props> = ({title,}) => {
         if (temp) {
             alert('업로드 되었습니다.')
             getList(4)
+            window.location.reload()
         }
 
         Notiflix.Loading.Remove()

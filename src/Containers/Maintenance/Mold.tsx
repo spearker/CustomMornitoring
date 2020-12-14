@@ -27,7 +27,7 @@ const MoldMaintenanceContainer = () => {
     const indexList = {
         mold: {
             mold_name: '금형 명',
-            location_name: '제조사 명',
+            location_name: '금형 위치',
             manufacturer_code: '제조 번호',
         }
     }

@@ -31,7 +31,7 @@ Notiflix.Report.Init({
     }
 })
 
-const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 // 리스트 부분 컨테이너
 const BasicFactoryContainer = () => {
@@ -99,7 +99,7 @@ const BasicFactoryContainer = () => {
                 return {...factory, roadAddress: roadAddress, postcode: postcode, detail: detail}
             })
             setList(factoryBasic)
-            
+
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove(300)
         }
