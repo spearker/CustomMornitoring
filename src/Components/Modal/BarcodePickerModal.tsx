@@ -118,7 +118,7 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IP
                     <div style={{width: 860, height: 440, padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 바코드 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
+                            <SearchBox placeholder="바코드명을 입력해주세요." style={{flex: 96}}
                                        onKeyPress={(event) => event.key === 'Enter' && getList()}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList()}>
