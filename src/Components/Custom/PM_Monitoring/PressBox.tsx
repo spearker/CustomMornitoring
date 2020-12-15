@@ -72,7 +72,8 @@ const PressBox: React.FunctionComponent<Props> = ({machineData}) => {
 const BoxContainer = Styled.div`
   margin: 0 16px 16px 0;
   width: 904px;
-  height: 266px;
+  min-height: 266px;
+  max-height: auto;
   border-radius: 6px;
   background-color: #11131950;
   padding: 8px;
