@@ -121,15 +121,12 @@ const ProcessRegisterContainer = ({match}: any) => {
   }
 
   const changeType = async (e: number) => {
-    if (e === 0 || e === 2) {
-      setInitalIndexCnt(1)
-      setDetailMaterialData([{}])
-    } else if (e === 1) {
+    if (e === 1) {
       setInitalIndexCnt(2)
       setDetailMaterialData([{}, {}])
     } else {
-      setInitalIndexCnt(0)
-      setDetailMaterialData([])
+      setInitalIndexCnt(1)
+      setDetailMaterialData([{}])
     }
 
     if (isUpdata && isFirst) {
