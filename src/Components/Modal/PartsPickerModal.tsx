@@ -9,6 +9,8 @@ import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import {API_URLS, getSearchMachine} from "../../Api/mes/process";
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -18,6 +20,8 @@ interface IProps {
     text: string
     width?: number
 }
+
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -44,13 +48,16 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=${page.current}&type=0&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['parts'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&type=0&limit=10`
         const resultData = await getSearchMachine(tempUrl);
-        setMachineList(resultData.info_list)
+        if (resultData) {
+            setMachineList(resultData.info_list)
 
-        setPage({current: resultData.current_page, total: resultData.total_page})
-
+            setPage({current: resultData.current_page, total: resultData.total_page})
+        }
+        Notiflix.Loading.Remove()
     }, [searchName, page])
 
     useEffect(() => {
@@ -61,13 +68,11 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(() => {
-        getList()
-    }, [])
 
     useEffect(() => {
         getList()
     }, [page.current])
+
 
     return (
         <div>
@@ -115,17 +120,17 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 부품 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="부품명을 입력해 주세요." style={{flex: 96}}
                                        onChange={(e) => setSearchName(e.target.value)}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}/>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa'}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -134,7 +139,6 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                         <th style={{width: 200}}>공장명</th>
                                         <th style={{width: 100}}>부품 재고량</th>
                                         <th style={{width: 100}}>부품원가</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
@@ -143,38 +147,33 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                                         :
                                         machineList.map((v, i) => {
                                             return (
-                                                <tr style={{height: 32}}>
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={() => {
+                                                    setMachineName(v.parts_name)
+                                                    return onClickEvent({
+                                                        name: v.parts_name,
+                                                        pk: v.pk,
+                                                        current: v.parts_stock
+                                                    })
+                                                }}>
                                                     <td style={{width: 100}}>{v.parts_name}</td>
                                                     <td style={{width: 100}}>{v.parts_type_name}</td>
                                                     <td style={{width: 200}}>{v.location_name}</td>
                                                     <td style={{width: 100}}>{v.parts_stock}</td>
                                                     <td style={{width: 100}}>{v.parts_cost}</td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.parts_name)
-                                                                return onClickEvent({
-                                                                    name: v.parts_name,
-                                                                    pk: v.pk,
-                                                                    current: v.parts_stock
-                                                                })
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: selectData ? v.pk === selectData.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                width: 32,
-                                                                height: 32,
-                                                                margin: 0
-                                                            }}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                             )
                                         })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -297,6 +296,19 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default PartsPickerModal;

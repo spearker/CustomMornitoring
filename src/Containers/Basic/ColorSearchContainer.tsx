@@ -10,6 +10,7 @@ import SearchedList from '../../Components/List/SearchedList';
 import EnrollmentBorderBox from '../../Components/Box/EnrollmentBorderBox';
 import Styled from 'styled-components';
 import IcSearchButton from '../../Assets/Images/ic_search.png'
+import Pagination from "@material-ui/lab/Pagination";
 
 interface Props {
     listValue: string
@@ -32,7 +33,9 @@ const ColorSearchContainer = ({listValue, placeholder, type, onChangeEvent, titl
     const [keyword, setKeyword] = useState<string>('');
     const [searchedList, setSearchedList] = useState<any>([]);
     const [checkList, setCheckList] = useState<any>([]);
-
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    })
     useEffect(() => {
         onSearchInit()
     }, [isOpen])
@@ -47,7 +50,7 @@ const ColorSearchContainer = ({listValue, placeholder, type, onChangeEvent, titl
      */
     const onClickSearch = useCallback(async (e?) => {
         e.preventDefault()
-        onSearchInit()
+        onSearchInit(true)
 
         // if(keyword  === '' || keyword.length < 2){
         //   //alert('2글자 이상의 키워드를 입력해주세요')
@@ -56,8 +59,8 @@ const ColorSearchContainer = ({listValue, placeholder, type, onChangeEvent, titl
 
     }, [keyword, searchedList])
 
-    const onSearchInit = async () => {
-        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=1`, getToken(TOKEN_NAME))
+    const onSearchInit = async (isSearch?: boolean) => {
+        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=${isSearch ? 1 : page.current}&limit=10`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -66,11 +69,16 @@ const ColorSearchContainer = ({listValue, placeholder, type, onChangeEvent, titl
             if (res.status === 200) {
                 const results = res.results;
                 setSearchedList(results.info_list);
+                setPage({current: results.current_page, total: results.total_page})
             } else {
                 //TODO:  기타 오류
             }
         }
     }
+
+    useEffect(() => {
+        onSearchInit()
+    }, [page.current])
 
 
     return (
@@ -113,32 +121,38 @@ const ColorSearchContainer = ({listValue, placeholder, type, onChangeEvent, titl
                 <form style={{width: '100%', marginTop: 20}} onSubmit={onClickSearch}>
                     {
                         searchedList.map((v: ISearchedList, i) => {
-                            return (
-                                <SearchedList key={i} pk={v.pk} widths={['80%']}
-                                              contents={[v[listValue]]}
-                                              isIconDimmed={false}
-                                              isSelected={checkList.find((k) => k.pk === v.pk) ? true : false}
-                                              onClickEvent={() => {
-                                                  if (!solo) {
-                                                      if (checkList.find((k) => k.pk == v.pk)) {
-                                                          setCheckList(checkList.filter(f => f.pk !== v.pk));
+                            return (<>
+                                    <SearchedList key={i} pk={v.pk} widths={['80%']}
+                                                  contents={[v[listValue]]}
+                                                  isIconDimmed={false}
+                                                  isSelected={checkList.find((k) => k.pk === v.pk) ? true : false}
+                                                  onClickEvent={() => {
+                                                      if (!solo) {
+                                                          if (checkList.find((k) => k.pk == v.pk)) {
+                                                              setCheckList(checkList.filter(f => f.pk !== v.pk));
+                                                          } else {
+                                                              const tempList = [...checkList, v]
+                                                              tempList.push(v)
+                                                              setCheckList(tempList);
+                                                          }
+
                                                       } else {
-                                                          const tempList = [...checkList, v]
-                                                          tempList.push(v)
-                                                          setCheckList(tempList);
+                                                          setCheckList([v])
                                                       }
+                                                  }}
+                                    />
 
-                                                  } else {
-                                                      setCheckList([v])
-                                                  }
-                                              }}
-                                />
-
+                                </>
                             )
                         })
 
                     }
                 </form>
+                <PaginationBox>
+                    <Pagination count={page.total ? page.total : 0} page={page.current}
+                                onChange={(event, i) => setPage({...page, current: i})}
+                                boundaryCount={1} color={'primary'}/>
+                </PaginationBox>
             </SearchModalContainer>
 
         </>
@@ -202,5 +216,17 @@ const Dot = Styled.div`
     border-radius: 50%;
 `
 
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
+`
 
 export default ColorSearchContainer;

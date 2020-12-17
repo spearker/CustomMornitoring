@@ -9,6 +9,8 @@ import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getSearchMachine} from '../../Api/mes/process'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -19,6 +21,8 @@ interface IProps {
     buttonWid?: string | number
     disabled?: boolean
 }
+
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -43,12 +47,15 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['mold'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getSearchMachine(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
+            setPage({current: resultData.current_page, total: resultData.total_page})
         }
+        Notiflix.Loading.Remove()
     }, [searchName])
 
     useEffect(() => {
@@ -59,10 +66,10 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
     const handleClickBtn = () => {
         setIsOpen(!isOpen)
     }
+
     useEffect(() => {
         getList()
-    }, [])
-
+    }, [page.current])
     return (
         <div>
             <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: '100%'}}>
@@ -113,24 +120,28 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 금형 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{
+                            minHeight: 530,
+                            maxHeight: 'auto',
+                            width: 860,
+                            backgroundColor: '#f4f6fa',
+                        }}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 250}}>금형명</th>
                                         <th style={{width: 250}}>타입</th>
                                         <th style={{width: 325}}>공장명</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
@@ -139,32 +150,27 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                                         :
                                         machineList.map((v, i) => {
                                             return (
-                                                <tr style={{height: 32}}>
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={() => {
+                                                    setMachineName(v.mold_name)
+                                                    return onClickEvent({name: v.mold_name, pk: v.pk})
+                                                }}>
                                                     <td><span>{v.mold_name}</span></td>
                                                     <td><span>{transferCodeToName('mold', v.mold_type)}</span></td>
                                                     <td><span>{v.location_name}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.mold_name)
-                                                                return onClickEvent({name: v.mold_name, pk: v.pk})
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                width: 32,
-                                                                height: 32,
-                                                                margin: 0
-                                                            }}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                             )
                                         })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -285,6 +291,19 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default MoldPickerModal
