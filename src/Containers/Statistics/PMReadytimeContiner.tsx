@@ -123,7 +123,36 @@ const PMReadyTimeContainer = () => {
         onChangeEvent={setSelectComponent}
       />
       {
-        selectComponent ? machineData ? <TimeLineBox>
+        selectComponent ? machineData ? machineData.analyze.power_on_time === '00:00:00' ? <TimeLineBox>
+            <div style={{display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+              <div style={{width: '49%'}}>
+                <p style={{paddingLeft: 20}}>{machineData.machine_name}</p>
+              </div>
+              <div style={{width: '50%', marginRight: 10, flexDirection: 'row', display: 'flex'}}>
+                <p style={{
+                  marginLeft: 20,
+                  width: '60%',
+                  fontSize: 12,
+                  textAlign: 'right',
+                  verticalAlign: 'center',
+                  marginTop: 5
+                }}>오차범위
+                  ±0.03%</p>
+                <CalendarDropdown type={'single'} select={selectDate}
+                                  onClickEvent={(date) => setSelectDate(date)}/>
+              </div>
+            </div>
+            <div style={{
+              color: '#666d79',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%'
+            }}>
+              <p>해당 일자에 가동되지 않은 기계입니다.</p>
+            </div>
+          </TimeLineBox> : <TimeLineBox>
             <div style={{display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
               <div style={{width: '49%'}}>
                 <p style={{paddingLeft: 20}}>{machineData.machine_name}</p>
