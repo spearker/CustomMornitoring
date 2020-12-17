@@ -301,15 +301,15 @@ const NewBasicMaterialRegister = () => {
                             <ListHeader title="선택 항목"/>
                             {inputData.material_type !== 0 &&
                             <div>
-                                <NormalInput title={'외경 사이즈'} value={inputData.material_spec_W}
-                                             onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
-                                             description={'외경 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalInput title={'내경 사이즈'} value={inputData.material_spec_H}
-                                             onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
-                                             description={'내경 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalInput title={'T 사이즈'} value={inputData.material_spec_D}
-                                             onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
-                                             description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'가로 사이즈'} value={inputData.material_spec_W}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
+                                                   description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'세로 사이즈'} value={inputData.material_spec_H}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
+                                                   description={'세로 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'높이 사이즈'} value={inputData.material_spec_D}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
+                                                   description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
                             </div>
                             }
                             {inputData.material_type !== 0 && inputData.material_type !== 30 &&
