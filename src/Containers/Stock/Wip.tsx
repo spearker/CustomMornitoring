@@ -84,7 +84,7 @@ const WipContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.material_name}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${encodeURIComponent(v.material_name)}`)
         },
         {
             Name: '출고',
@@ -92,7 +92,7 @@ const WipContainer = () => {
             Color: 'white',
             Link: (v) => {
                 if (Number(v.current_stock.split(',').join('')) > 0) {
-                    history.push(`/stock/release/register/${v.pk}/${v.material_name}`)
+                    history.push(`/stock/release/register/${v.pk}/${encodeURIComponent(v.material_name)}`)
                 } else {
                     alert('출고할 수 있는 재고가 없습니다.')
                 }

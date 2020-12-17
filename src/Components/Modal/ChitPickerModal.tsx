@@ -25,7 +25,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
 
     const [machineList, setMachineList] = useState([{
         pk: '',
-        registerer: '',
+        registerer_name: '',
         supplier_name: '',
         material_name: '',
     }])
@@ -125,14 +125,17 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                                             machineList.map((v, i) => {
                                                 return (
                                                     <tr style={{height: 32}}>
-                                                        <td><span>{v.registerer}</span></td>
+                                                        <td><span>{v.registerer_name}</span></td>
                                                         <td><span>{v.supplier_name}</span></td>
                                                         <td><span>{v.material_name}</span></td>
                                                         <td>
                                                             <button
                                                                 onClick={() => {
-                                                                    setProcessName(v.registerer)
-                                                                    return onClickEvent({name: v.registerer, pk: v.pk})
+                                                                    setProcessName(v.registerer_name)
+                                                                    return onClickEvent({
+                                                                        name: v.registerer_name,
+                                                                        pk: v.pk
+                                                                    })
                                                                 }}
                                                                 style={{
                                                                     backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',

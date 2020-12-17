@@ -321,8 +321,8 @@ const BasicMoldRegister = () => {
                                                 onChangeEvent={(v) => setType(v)} placeholder={'금형 종류를 선택해 주세요'}/>
                             <ColorDateInput title={'제조 일자'} placeholder={'제조 날짜를 선택해주세요'} value={date}
                                             onChangeEvent={setDate}/>
-                            <ColorInputWithText title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo}
-                                                placeholder={'제조번호를 입력해주세요'}/>
+                            <ColorInputWithText title={'금형 품번'} value={madeNo} onChangeEvent={setMadeNo}
+                                                placeholder={'금형품번를 입력해주세요'}/>
                             <ColorInputWithText type={'number'} title={'최대 타수'} value={limit} onChangeEvent={setLimit}
                                                 placeholder={'최대 타수를 입력해주세요'}/>
                             <ColorInputWithText type={'number'} title={'점검 타수'} value={inspect}

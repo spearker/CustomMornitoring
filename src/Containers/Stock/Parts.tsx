@@ -64,7 +64,7 @@ const PartsContainer = () => {
             Name: '입고',
             Width: 60,
             Color: 'white',
-            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${v.parts_name}/${true}`)
+            Link: (v) => history.push(`/stock/warehousing/register/${v.pk}/${encodeURIComponent(v.parts_name)}/${true}`)
         },
         {
             Name: '출고',
@@ -72,7 +72,7 @@ const PartsContainer = () => {
             Color: 'white',
             Link: (v) => {
                 if (v.parts_stock.split(',').join('') > 0) {
-                    history.push(`/stock/release/register/${v.pk}/${v.parts_name}/${true}`)
+                    history.push(`/stock/release/register/${v.pk}/${encodeURIComponent(v.parts_name)}/${true}`)
                 } else {
                     alert('출고할 수 있는 재고가 없습니다.')
                 }
