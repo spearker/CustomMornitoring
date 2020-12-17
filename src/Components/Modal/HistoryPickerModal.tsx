@@ -7,6 +7,8 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getHistorySearch} from '../../Api/mes/production'
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -28,6 +30,8 @@ const DummyMachine = [
     }
 ]
 
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
+
 const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
@@ -48,26 +52,27 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getHistorySearch(tempUrl)
-        setHistoryList(resultData.info_list)
+        if (resultData) {
+            setHistoryList(resultData.info_list)
 
-        setPage({current: resultData.current_page, total: resultData.total_page})
+            setPage({current: resultData.current_page, total: resultData.total_page})
+        }
+        Notiflix.Loading.Remove()
     }, [searchName, page])
 
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen)
     }
-    useEffect(() => {
-        getList()
-    }, [])
-
 
     useEffect(() => {
         getList()
     }, [page.current])
+
 
     return (
         <div>
@@ -118,7 +123,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이력 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}}
@@ -128,7 +133,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -136,7 +141,6 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                                         <th style={{width: 150}}>품목명</th>
                                         <th style={{width: 275}}>작업 시간</th>
                                         <th style={{width: 200}}>총 작업</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {historyList !== undefined && historyList.length === 0 ?
                                         <tr>
@@ -145,37 +149,32 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                                         :
                                         historyList && historyList.map((v, i) => {
                                             return (
-                                                <tr style={{height: 32}}>
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={() => {
+                                                    setWorkerName(v.worker_name)
+                                                    if (isAllItem) {
+                                                        return onClickEvent(v)
+                                                    } else {
+                                                        return onClickEvent({name: v.worker_name, pk: v.pk})
+                                                    }
+                                                }}>
                                                     <td><span>{v.worker_name}</span></td>
                                                     <td><span>{v.material_name}</span></td>
                                                     <td><span>{v.worked}</span></td>
                                                     <td><span>{v.amount}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setWorkerName(v.worker_name)
-                                                                if (isAllItem) {
-                                                                    return onClickEvent(v)
-                                                                } else {
-                                                                    return onClickEvent({name: v.worker_name, pk: v.pk})
-                                                                }
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                width: 32,
-                                                                height: 32,
-                                                                margin: 0
-                                                            }}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                             )
                                         })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -299,6 +298,19 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default HistoryPickerModal

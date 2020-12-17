@@ -7,6 +7,8 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getBasicList} from '../../Api/mes/basic'
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -29,6 +31,8 @@ const DummyMachine = [
     }
 ]
 
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
+
 const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
@@ -41,16 +45,17 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IP
         current: 1,
     })
 
-    // const ref = useOnclickOutside(() => {
-    //     setIsOpen(false);
-    // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['barcode'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['barcode'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getBasicList(tempUrl)
-        setMachineList(resultData.info_list)
+        if (resultData) {
+            setMachineList(resultData.info_list)
+            setPage({current: resultData.current_page, total: resultData.total_page})
+        }
 
-        setPage({current: resultData.current_page, total: resultData.total_page})
+        Notiflix.Loading.Remove()
     }, [searchName, page])
 
 
@@ -60,11 +65,8 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IP
 
     useEffect(() => {
         getList()
-    }, [])
-
-    useEffect(() => {
-        getList()
     }, [page.current])
+
 
     return (
         <div>
@@ -115,17 +117,17 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IP
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 바코드 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="바코드명을 입력해주세요." style={{flex: 96}}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -133,7 +135,6 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IP
                                         <th style={{width: 195}}>품목(품목명)</th>
                                         <th style={{width: 225}}>상세 품목</th>
                                         <th style={{width: 225}}>등록 날짜</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
@@ -142,33 +143,28 @@ const BarcodePickerModal = ({select, onClickEvent, text, buttonWid, notOpen}: IP
                                         :
                                         machineList.map((v, i) => {
                                             return (
-                                                <tr style={{height: 32}}>
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={() => {
+                                                    setMachineName(v.barcode_name)
+                                                    return onClickEvent({name: v.barcode_name, pk: v.pk})
+                                                }}>
                                                     <td><span>{v.barcode_name}</span></td>
                                                     <td><span>{v.main_type}</span></td>
                                                     <td><span>{v.detail_type}</span></td>
                                                     <td><span>{v.registered}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.barcode_name)
-                                                                return onClickEvent({name: v.barcode_name, pk: v.pk})
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                width: 32,
-                                                                height: 32,
-                                                                margin: 0
-                                                            }}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                             )
                                         })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -294,4 +290,15 @@ const MachineTable = Styled.table`
     
 `
 
+const PaginationBox = Styled.div`
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: white;
+    }
+    .MuiPaginationItem-root{
+        color: white;
+    }
+`
 export default BarcodePickerModal

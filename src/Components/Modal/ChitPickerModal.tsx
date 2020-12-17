@@ -7,6 +7,8 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getSearchMachine} from '../../Api/mes/process'
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -17,6 +19,8 @@ interface IProps {
     buttonWid?: string | number
     disabled?: boolean
 }
+
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -37,17 +41,20 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['chit'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getSearchMachine(tempUrl)
-
-        setMachineList(resultData.info_list)
-
+        if (resultData) {
+            setMachineList(resultData.info_list)
+            setPage({current: resultData.currentPage, total: resultData.totalPage})
+        }
+        Notiflix.Loading.Remove()
     }, [searchName])
 
     useEffect(() => {
         getList()
-    }, [])
+    }, [page.current])
 
 
     const handleClickBtn = () => {
@@ -97,24 +104,23 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 전표 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 230}}>등록자명</th>
                                         <th style={{width: 200}}>납품업체명</th>
                                         <th style={{width: 200}}>생산 품목명</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {
                                         machineList === undefined || machineList.length === 0 ?
@@ -124,35 +130,27 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                                             :
                                             machineList.map((v, i) => {
                                                 return (
-                                                    <tr style={{height: 32}}>
+                                                    <tr style={{
+                                                        height: 32,
+                                                        backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                    }} onClick={() => {
+                                                        setProcessName(v.registerer_name)
+                                                        return onClickEvent({name: v.registerer_name, pk: v.pk})
+                                                    }}>
                                                         <td><span>{v.registerer_name}</span></td>
                                                         <td><span>{v.supplier_name}</span></td>
                                                         <td><span>{v.material_name}</span></td>
-                                                        <td>
-                                                            <button
-                                                                onClick={() => {
-                                                                    setProcessName(v.registerer_name)
-                                                                    return onClickEvent({
-                                                                        name: v.registerer_name,
-                                                                        pk: v.pk
-                                                                    })
-                                                                }}
-                                                                style={{
-                                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                    width: 32,
-                                                                    height: 32,
-                                                                    margin: 0
-                                                                }}
-                                                            >
-                                                                <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                            </button>
-                                                        </td>
                                                     </tr>
                                                 )
                                             })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -275,6 +273,18 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default ChitPickerModal

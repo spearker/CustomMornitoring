@@ -8,6 +8,8 @@ import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getSearchMachine} from '../../Api/mes/process'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -30,6 +32,8 @@ const DummyMachine = [
     }
 ]
 
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
+
 const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, width}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
@@ -46,12 +50,15 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getSearchMachine(tempUrl)
-        setMachineList(resultData.info_list)
-
-        setPage({current: resultData.current_page, total: resultData.total_page})
+        if (resultData) {
+            setMachineList(resultData.info_list)
+            setPage({current: resultData.current_page, total: resultData.total_page})
+        }
+        Notiflix.Loading.Remove()
     }, [searchName, page])
 
 
@@ -59,9 +66,6 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
         setIsOpen(!isOpen)
     }
 
-    useEffect(() => {
-        getList()
-    }, [])
 
     useEffect(() => {
         getList()
@@ -109,17 +113,17 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
                                        onChange={(e) => setSearchName(e.target.value)}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}/>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{minHeight: 530, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
@@ -127,7 +131,6 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
                                         <th style={{width: 195}}>기계 종류</th>
                                         <th style={{width: 225}}>제조사</th>
                                         <th style={{width: 225}}>제조번호</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {machineList !== undefined && machineList.length === 0 ?
                                         <tr>
@@ -136,38 +139,33 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
                                         :
                                         machineList.map((v, i) => {
                                             return (
-                                                <tr style={{height: 32}}>
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={() => {
+                                                    setMachineName(v.machine_name)
+                                                    return onClickEvent({
+                                                        name: v.machine_name,
+                                                        type: v.machine_type,
+                                                        pk: v.pk
+                                                    })
+                                                }}>
                                                     <td><span>{v.machine_name}</span></td>
                                                     <td><span>{transferCodeToName('machine', v.machine_type)}</span>
                                                     </td>
                                                     <td><span>{v.manufacturer}</span></td>
                                                     <td><span>{v.manufacturer_code}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.machine_name)
-                                                                return onClickEvent({
-                                                                    name: v.machine_name,
-                                                                    type: v.machine_type,
-                                                                    pk: v.pk
-                                                                })
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                width: 32,
-                                                                height: 32,
-                                                                margin: 0
-                                                            }}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                             )
                                         })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -291,6 +289,19 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default MachinePickerModal

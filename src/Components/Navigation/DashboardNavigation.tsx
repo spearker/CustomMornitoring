@@ -24,6 +24,7 @@ import useOnclickOutside from 'react-cool-onclickoutside'
 import NavGroupList from '../List/NavGroupList'
 import {ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset'
 import {usePopup, usePopupDispatch} from '../../Context/PopupContext'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 //대시보드 네비게이션
 interface Props {
@@ -154,18 +155,21 @@ const DashboardNavigation = ({select, folding}: Props) => {
           <img src={NAV_HOME}/>
           <p>Home</p>
         </div>
-        <div onClick={() => {
-          // dispatchp({
-          //   type: 'CHANGE_MODE',
-          //   data: {
-          //     mode: 'custom_dashboard'
-          //   }
-          // })
-          history.push('/custom/dashboard')
-        }}>
-          <img src={NAV_DASHBOARD}/>
-          <p style={{fontSize: '5pt'}}>DASHBOARD</p>
-        </div>
+        {
+          autoCustomType() !== 'type_no_dashboard'
+          && <div onClick={() => {
+            // dispatchp({
+            //   type: 'CHANGE_MODE',
+            //   data: {
+            //     mode: 'custom_dashboard'
+            //   }
+            // })
+            history.push('/custom/dashboard')
+          }}>
+              <img src={NAV_DASHBOARD}/>
+              <p style={{fontSize: '5pt'}}>DASHBOARD</p>
+          </div>
+        }
         <div onClick={() => {
           setIsSelected(999)
           if (nav.mode !== 'pm') {

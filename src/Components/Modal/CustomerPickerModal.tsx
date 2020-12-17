@@ -5,9 +5,11 @@ import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
 import Modal from 'react-modal'
 import ReactShadowScroll from 'react-shadow-scroll'
 import ic_check from '../../Assets/Images/ic_check.png'
+import Notiflix from 'notiflix'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getCustomerData} from '../../Api/mes/customer'
+import Pagination from "@material-ui/lab/Pagination";
 
 //드롭다운 컴포넌트
 
@@ -19,6 +21,8 @@ interface IProps {
     buttonWid?: string | number
     style?: any
 }
+
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth, style}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -38,8 +42,9 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${page.current}&limit=1000`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=1000`
         const resultData = await getCustomerData(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
@@ -106,7 +111,7 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 거래처 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="거래처 명을 입력해 주세요."
@@ -116,13 +121,12 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 250}}>거래처 명</th>
                                         <th style={{width: 250}}>거래처 대표</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {
                                         machineList !== undefined && machineList.length === 0 ?
@@ -132,31 +136,26 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
                                             :
                                             machineList.map((v, i) => {
                                                 return (
-                                                    <tr style={{height: 32}}>
+                                                    <tr style={{
+                                                        height: 32,
+                                                        backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                    }} onClick={() => {
+                                                        setMachineName(v.name)
+                                                        return onClickEvent({name: v.name, pk: v.pk})
+                                                    }}>
                                                         <td><span>{v.name}</span></td>
                                                         <td><span>{v.ceo_name}</span></td>
-                                                        <td>
-                                                            <button
-                                                                onClick={() => {
-                                                                    setMachineName(v.name)
-                                                                    return onClickEvent({name: v.name, pk: v.pk})
-                                                                }}
-                                                                style={{
-                                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                    width: 32,
-                                                                    height: 32,
-                                                                    margin: 0
-                                                                }}
-                                                            >
-                                                                <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                            </button>
-                                                        </td>
                                                     </tr>
                                                 )
                                             })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -279,6 +278,19 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default CustomerPickerModal

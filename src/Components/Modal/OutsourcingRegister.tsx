@@ -8,6 +8,8 @@ import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from "semantic-ui-react";
 import IcSearchButton from "../../Assets/Images/ic_search.png";
 import {API_URLS, getSearchOutsourcing} from "../../Api/mes/outsourcing";
+import Pagination from "@material-ui/lab/Pagination";
+import Notiflix from 'notiflix'
 
 //드롭다운 컴포넌트
 
@@ -16,6 +18,8 @@ interface IProps {
     onClickEvent: any
     text: string
 }
+
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -37,20 +41,25 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     //     setIsOpen(false);
     // });
 
-    const getList = useCallback(async () => {
-        const tempUrl = searchName === '' ? `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000&keyword=` : `${API_URLS['outsourcing'].search}?page=${page.current}&limit=1000&keyword=${searchName}`
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = searchName === '' ? `${API_URLS['outsourcing'].search}?page=${isSearch ? 1 : page.current}&limit=10&keyword=` : `${API_URLS['outsourcing'].search}?page=${isSearch ? 1 : page.current}&limit=10&keyword=${searchName}`
         const resultData = await getSearchOutsourcing(tempUrl);
-        setMachineList(resultData)
+        if (resultData) {
+            setPage({current: resultData.current_page, total: resultData.total_page})
+            setMachineList(resultData)
+        }
+        Notiflix.Loading.Remove()
     }, [searchName])
 
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
+
     useEffect(() => {
         getList()
-    }, [])
-
+    }, [page.current])
     return (
         <div>
             <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
@@ -95,22 +104,21 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 외주처 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="외주처 명을 입력해 주세요."
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: "scroll"}}>
+                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
                                         <th style={{width: 250}}>외주처 명</th>
-                                        <th style={{width: 30}}></th>
                                     </tr>
                                     {machineList !== undefined && machineList?.info_list.length === 0 ?
                                         <tr>
@@ -119,30 +127,25 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                                         :
                                         machineList?.info_list.map((v, i) => {
                                             return (
-                                                <tr style={{height: 32}}>
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={() => {
+                                                    setMachineName(v.name)
+                                                    return onClickEvent({name: v.name, pk: v.pk})
+                                                }}>
                                                     <td><span>{v.name}</span></td>
-                                                    <td>
-                                                        <button
-                                                            onClick={() => {
-                                                                setMachineName(v.name)
-                                                                return onClickEvent({name: v.name, pk: v.pk})
-                                                            }}
-                                                            style={{
-                                                                backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
-                                                                width: 32,
-                                                                height: 32,
-                                                                margin: 0
-                                                            }}
-                                                        >
-                                                            <img src={ic_check} style={{width: 20, height: 20}}/>
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                             )
                                         })
                                     }
                                 </MachineTable>
                             </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
                         </div>
                     </div>
                     <div style={{width: 900}}>
@@ -265,6 +268,19 @@ const MachineTable = Styled.table`
         }
     }
     
+`
+
+const PaginationBox = Styled.div`
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default OutsourcingPickerModal;

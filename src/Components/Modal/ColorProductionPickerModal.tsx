@@ -6,6 +6,7 @@ import Modal from 'react-modal'
 import ReactShadowScroll from 'react-shadow-scroll'
 import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
+import Notiflix from 'notiflix'
 import {API_URLS, getProductionSearch} from '../../Api/mes/production'
 import EnrollmentBorderBox from '../Box/EnrollmentBorderBox'
 import ColorOnlyDropdown from '../Dropdown/ColorOnlyDropdown'
@@ -41,6 +42,8 @@ const DummyItem = [
     }
 ]
 
+Notiflix.Loading.Init({svgColor: '#1cb9df'})
+
 const ColorProductionPickerModal = ({title, placeholder, value, select, onClickEvent, type, style, innerWidth, buttonWid, disabled, addIsOpen, addInputType, addType, addPlaceholder, addValue, onAddChangeEvent, addUnit, addContents}: IProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
@@ -58,11 +61,12 @@ const ColorProductionPickerModal = ({title, placeholder, value, select, onClickE
     ])
 
     const getList = useCallback(async () => {
-        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=1000`
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${page.current}&limit=10`
         const resultData = await getProductionSearch(tempUrl)
-
-        setProductList(resultData.info_list)
-
+        if (resultData) {
+            setProductList(resultData.info_list)
+        }
     }, [searchName])
 
     useEffect(() => {
@@ -126,7 +130,7 @@ const ColorProductionPickerModal = ({title, placeholder, value, select, onClickE
                 }}
             >
                 <div style={{width: 900}}>
-                    <div style={{width: 860, height: 440, padding: 20}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}}
@@ -135,7 +139,7 @@ const ColorProductionPickerModal = ({title, placeholder, value, select, onClickE
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa', overflowY: 'scroll'}}>
+                        <div style={{minHeight: 530, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
