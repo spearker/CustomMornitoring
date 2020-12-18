@@ -50,7 +50,7 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
             setMachineList(resultData.info_list)
             setPage({current: resultData.current_page, total: resultData.total_page})
         }
-
+        Notiflix.Loading.Remove()
     }, [searchName, page])
 
 

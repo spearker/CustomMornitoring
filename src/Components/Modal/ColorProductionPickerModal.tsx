@@ -67,6 +67,7 @@ const ColorProductionPickerModal = ({title, placeholder, value, select, onClickE
         if (resultData) {
             setProductList(resultData.info_list)
         }
+        Notiflix.Loading.Remove()
     }, [searchName])
 
     useEffect(() => {
