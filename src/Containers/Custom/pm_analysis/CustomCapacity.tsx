@@ -59,23 +59,23 @@ const CustomCapacity = () => {
             },
             events: {
                 click: function (chart, w, e) {
-                    // if (e.dataPointIndex > 9) {
-                    //     getDetail(e.dataPointIndex)
-                    // } else {
-                    //     getDetail('0' + e.dataPointIndex.toString())
-                    // // }
-                   
-                    if (-1 < e.dataPointIndex && e.dataPointIndex < 24) {
-                        const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
-                        const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
-
-                        setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
-                        setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
-                        setTimeLog([{runtime: runtime, stoptime: stoptime}])
-                        const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
-
-                        setAdvice(temp)
+                    if (e.dataPointIndex > 9) {
+                        getDetail(e.dataPointIndex)
+                    } else {
+                        getDetail('0' + e.dataPointIndex.toString())
                     }
+
+                    // if (-1 < e.dataPointIndex && e.dataPointIndex < 24) {
+                    //     const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                    //     const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
+                    //
+                    //     setErrorLog(machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.error.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
+                    //     setMoldLog(machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.mold_change.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : [])
+                    //     setTimeLog([{runtime: runtime, stoptime: stoptime}])
+                    //     const temp = machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.advice.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : []
+                    //
+                    //     setAdvice(temp)
+                    // }
                 },
             }
         },
@@ -252,80 +252,6 @@ const CustomCapacity = () => {
                         type: 'column'
                     }])
             }
-            Notiflix.Loading.Remove()
-        }
-    }, [selectMachine, machineData, series, selectDate, selectMaterial])
-
-    /**
-     * getAllData()
-     * 생산량 분석 데이터 로드
-     * @param {string} pk 프레스 pk
-     * @param {string} date 요청 날짜
-     * @returns X
-     */
-    const getAllData = useCallback(async () => {
-        if (selectMachine !== '') {
-            Notiflix.Loading.Circle()
-            const tempUrl = `${API_URLS['capacity'].load2}?pk=${selectMachine}&date=${selectDate}`
-            const resultData = await getCapacityTimeData(tempUrl)
-            setMachineData(resultData)
-
-            let tmp: number[] = []
-            times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmp.push(resultData.analyze.productions[listIndex])
-                } else {
-                    tmp.push(0)
-                }
-            })
-
-
-            let tmpSPM: number[] = []
-
-            times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmpSPM.push(resultData.analyze.max_count[listIndex])
-                } else {
-                    tmpSPM.push(0)
-                }
-            })
-
-            let tmpUPH: number[] = []
-
-            times.map((v, i) => {
-                let listIndex = resultData.analyze.times.indexOf(v)
-                if (listIndex !== -1) {
-                    tmpUPH.push(resultData.analyze.uph[listIndex])
-                } else {
-                    tmpUPH.push(0)
-                }
-            })
-
-            let tmpMax = maxData(Math.max.apply(null, tmp))
-
-            let tmpSPMMax = maxData(Math.max.apply(null, tmpSPM))
-
-            let tmpUPHMax = maxData(Math.max.apply(null, tmpUPH))
-
-            setSeries([
-                {
-                    name: 'UPH',
-                    data: tmpUPH,
-                    max: tmpUPHMax,
-                    type: 'line'
-                }, {
-                    name: 'SPM 최대 생산 가능량',
-                    data: tmpSPM,
-                    max: tmpSPMMax,
-                    type: 'line'
-                }, {
-                    name: '생산량',
-                    data: tmp,
-                    max: tmpMax,
-                    type: 'column'
-                }])
             setErrorLog([])
             setTimeLog([])
             setMoldLog([])
@@ -333,6 +259,20 @@ const CustomCapacity = () => {
             Notiflix.Loading.Remove()
         }
     }, [selectMachine, machineData, series, selectDate, selectMaterial])
+
+
+    const getDetail = useCallback(async (hour) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['capacity'].detail}?pk=${selectMachine}&date=${selectDate}&material_pk=${selectMaterial}&hour=${hour}`
+        const resultData = await getCapacityTimeData(tempUrl)
+        if (resultData) {
+            setAdvice(resultData.advice[0] !== null ? resultData.advice : [])
+            setErrorLog(resultData.error)
+            setMoldLog(resultData.mold_change[0])
+            setTimeLog([{runtime: resultData.runtime, stoptime: resultData.stoptime, error_range: ''}])
+        }
+        Notiflix.Loading.Remove()
+    }, [selectMachine, selectDate, selectMaterial])
 
     const getList = useCallback(async () => {
         const tempUrl = `${API_URLS['pressList'].list}`
@@ -390,18 +330,17 @@ const CustomCapacity = () => {
     }, [])
 
     useEffect(() => {
-        getAllData()
+        getData()
+        setAdvice([])
+        setErrorLog([])
+        setMoldLog([])
+        setTimeLog([])
         setSelectMaterial('All')
         getMaterialList()
     }, [selectMachine, selectDate])
 
     useEffect(() => {
-
-        if (selectMaterial === 'All') {
-            getAllData()
-        } else {
-            getData()
-        }
+        getData()
     }, [selectMaterial])
 
     return (
