@@ -10,9 +10,9 @@ export const getMachineTypeList = (lang) => {
 export const getSubMachineTypeList = (lang) => {
   switch (lang) {
     case 'kor':
-      return ['(선택없음)', '미스피드', '하사점 검출장치', '로드모니터', '앵글시퀀서', '엔코더', '통과센서']
+      return ['(선택없음)', '미스피드 검출장치', '하사점 검출장치', '로드모니터', '앵글시퀀서', '엔코더', '통과센서']
     default:
-      return ['(선택없음)', '미스피드', '하사점 검출장치', '로드모니터', '앵글시퀀서', '엔코더', '통과센서']
+      return ['(선택없음)', '미스피드 검출장치', '하사점 검출장치', '로드모니터', '앵글시퀀서', '엔코더', '통과센서']
   }
 }
 
