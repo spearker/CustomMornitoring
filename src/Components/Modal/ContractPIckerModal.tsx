@@ -56,6 +56,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
             setMachineList(resultData.info_list)
             setPage({current: resultData.current_page, total: resultData.total_page})
         }
+        Notiflix.Loading.Remove()
     }, [searchName])
 
 
