@@ -24,7 +24,7 @@ interface Props {
 const QualityTestRequest = ({match}: Props) => {
     const history = useHistory()
     const [processData, setProcessData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
-    const [machineData, setMachineData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
+    const [machineData, setMachineData] = useState<{ pk: string | null, name: string | null }>({pk: '', name: ''})
     const [productionData, setProductionData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
     const [total_count, setTotal_count] = useState<string>('')
     const [reason, setReason] = useState<string>('')
@@ -179,7 +179,7 @@ const QualityTestRequest = ({match}: Props) => {
                             <td>
                                 {/*{*/}
                                 {/*    isUpdate ?*/}
-                                <input value={machineData.name}
+                                <input value={machineData.name === null ? '' : machineData.name}
                                        placeholder={'작업 이력을 선택하시면 값이 자동으로 입력됩니다.'}
                                        style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
                                        disabled/>
@@ -225,7 +225,7 @@ const QualityTestRequest = ({match}: Props) => {
                                               width: '97%',
                                               resize: 'none'
                                           }} placeholder="내용을 입력해주세요 (80자 미만)"
-                                          disabled
+                                          disabled={match.params.type !== 'status' ? false : true}
 
                                 >
                                     {reason}
