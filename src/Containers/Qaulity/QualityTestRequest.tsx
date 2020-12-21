@@ -12,6 +12,7 @@ import {API_URLS, postQualityRegister, postQualityRequestDetail} from '../../Api
 import {useHistory} from 'react-router-dom'
 import {getProjectList} from '../../Api/mes/production'
 import MemeberPickerModal from "../../Components/Modal/MemberPickerModal";
+import HistoryPickerModal from "../../Components/Modal/HistoryPickerModal";
 
 const nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
 
@@ -161,7 +162,14 @@ const QualityTestRequest = ({match}: Props) => {
                                                style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
                                                disabled/>
                                         :
-                                        <ProcessPickerModal select={processData} onClickEvent={(e) => setProcessData(e)}
+                                        <HistoryPickerModal select={processData} onClickEvent={(e) => {
+                                            setProcessData({name: e.process_name, pk: e.pk});
+                                            setMachineData({name: e.machine_name, pk: e.machine_pk});
+                                            setProductionData({name: e.material_name, pk: e.material_pk});
+                                            setWorker({name: e.worker_name, pk: e.worker});
+                                            setTotal_count(e.amount)
+                                        }}
+                                                            isAllItem
                                                             text={'공정명을 입력해주세요.'} buttonWid={30}/>
                                 }
                             </td>
@@ -169,37 +177,41 @@ const QualityTestRequest = ({match}: Props) => {
                         <tr>
                             <td>• 기계명</td>
                             <td>
-                                {
-                                    isUpdate ?
-                                        <input value={machineData.name}
-                                               style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
-                                               disabled/>
-                                        :
-                                        <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)}
-                                                            text={'기계명을 입력해주세요.'} buttonWid={30}/>
-                                }
+                                {/*{*/}
+                                {/*    isUpdate ?*/}
+                                <input value={machineData.name}
+                                       placeholder={'작업 이력을 선택하시면 값이 자동으로 입력됩니다.'}
+                                       style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
+                                       disabled/>
+                                {/*        :*/}
+                                {/*        <MachinePickerModal select={machineData} onClickEvent={(e) => setMachineData(e)}*/}
+                                {/*                            disabled*/}
+                                {/*                            text={'기계명을 입력해주세요.'} buttonWid={30}/>*/}
+                                {/*}*/}
                             </td>
                         </tr>
                         <tr>
                             <td>• 품목(품목명)</td>
                             <td>
-                                {
-                                    isUpdate ?
-                                        <input value={productionData.name}
-                                               style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
-                                               disabled/>
-                                        : <ProductionPickerModal select={productionData}
-                                                                 type={-1}
-                                                                 onClickEvent={(e) => setProductionData(e)}
-                                                                 text={'품목을 입력해주세요.'} buttonWid={30}/>
-                                }
+                                {/*{*/}
+                                {/*    isUpdate ?*/}
+                                <input value={productionData.name}
+                                       placeholder={'작업 이력을 선택하시면 값이 자동으로 입력됩니다.'}
+                                       style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
+                                       disabled/>
+                                {/*        : <ProductionPickerModal select={productionData}*/}
+                                {/*                                 disabled*/}
+                                {/*                                 type={-1}*/}
+                                {/*                                 onClickEvent={(e) => null}*/}
+                                {/*                                 text={'품목을 입력해주세요.'} buttonWid={30}/>*/}
+                                {/*}*/}
                             </td>
                         </tr>
                         <tr>
                             <td>• 총 완료 개수</td>
-                            <td><Input placeholder="총 완료 개수를 입력해주세요" type={'number'} value={total_count}
+                            <td><Input placeholder={'작업 이력을 선택하시면 값이 자동으로 입력됩니다.'} type={'number'} value={total_count}
                                        onChange={(e) => setTotal_count(e.target.value)}
-                                       disabled={match.params.type !== 'status' ? false : true}/></td>
+                                       disabled/></td>
                         </tr>
                         <tr>
                             <td>• 요청 내용</td>
@@ -213,7 +225,7 @@ const QualityTestRequest = ({match}: Props) => {
                                               width: '97%',
                                               resize: 'none'
                                           }} placeholder="내용을 입력해주세요 (80자 미만)"
-                                          disabled={match.params.type !== 'status' ? false : true}
+                                          disabled
 
                                 >
                                     {reason}
@@ -223,9 +235,13 @@ const QualityTestRequest = ({match}: Props) => {
                         <tr>
                             <td>• 작업자</td>
                             <td>
-                                <MemeberPickerModal onClickEvent={(e) => setWorker(e)}
-                                                    disabled={match.params.type !== 'status' ? false : true}
-                                                    text={'작업자를 선택해 주세요'} select={worker}/>
+                                <input value={worker.name}
+                                       placeholder={'작업 이력을 선택하시면 값이 자동으로 입력됩니다.'}
+                                       style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
+                                       disabled/>
+                                {/*<MemeberPickerModal onClickEvent={(e) => setWorker(e)}*/}
+                                {/*                    disabled*/}
+                                {/*                    text={'작업자를 선택해 주세요'} select={worker}/>*/}
                             </td>
                         </tr>
 

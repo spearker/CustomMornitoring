@@ -1,5 +1,6 @@
 import React from "react";
 import Styled from "styled-components";
+import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
 
 interface Props {
     title: string
@@ -15,13 +16,33 @@ const PressStatusBox: React.FunctionComponent<Props> = ({title, titleColor, font
         <BoxContainer style={{backgroundColor: valueColor ? valueColor : '#353b48'}}>
             <Title style={{color: titleColor ? titleColor : '#ffffff'}}>{title}</Title>
             {mold_spec ?
-                <Value style={{
-                    fontSize: fontSize,
-                    whiteSpace: 'pre-line',
-                    color: titleColor ? titleColor : '#ffffff'
-                }}>{`가로: ${mold_spec ? mold_spec[0] : ''}
-                    세로: ${mold_spec ? mold_spec[1] : ''}
-                    높이: ${mold_spec ? mold_spec[2] : ''}`}</Value>
+                autoCustomType() === 'jaewoo_material_trans'
+                    ?
+                    <Value style={{
+                        fontSize: fontSize,
+                        whiteSpace: 'pre-line',
+                        color: titleColor ? titleColor : '#ffffff'
+                    }}>{`폭: ${mold_spec ? mold_spec[0] : ''}
+                    피치: ${mold_spec ? mold_spec[1] : ''}
+                    T: ${mold_spec ? mold_spec[2] : ''}`}</Value>
+                    :
+                    autoCustomType() === 'seain_material_trans'
+                        ?
+                        <Value style={{
+                            fontSize: fontSize,
+                            whiteSpace: 'pre-line',
+                            color: titleColor ? titleColor : '#ffffff'
+                        }}>{`외경: ${mold_spec ? mold_spec[0] : ''}
+                            내경: ${mold_spec ? mold_spec[1] : ''}
+                            T: ${mold_spec ? mold_spec[2] : ''}`}</Value>
+                        :
+                        <Value style={{
+                            fontSize: fontSize,
+                            whiteSpace: 'pre-line',
+                            color: titleColor ? titleColor : '#ffffff'
+                        }}>{`가로: ${mold_spec ? mold_spec[0] : ''}
+                            세로: ${mold_spec ? mold_spec[1] : ''}
+                            높이: ${mold_spec ? mold_spec[2] : ''}`}</Value>
                 :
                 <Value style={{
                     fontSize: fontSize,
