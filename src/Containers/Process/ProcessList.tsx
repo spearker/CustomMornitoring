@@ -14,6 +14,8 @@ import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+
 const ProcessListContainer = () => {
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
@@ -26,7 +28,7 @@ const ProcessListContainer = () => {
   const [detailList, setDetailList] = useState<any>([])
   const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
   const [index, setIndex] = useState({type: '타입'})
-  const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
+  const [searchValue, setSearchValue] = useState<string>()
   const [selectPk, setSelectPk] = useState<any>(null)
   const [selectProcess, setSelectProcess] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
@@ -139,10 +141,10 @@ const ProcessListContainer = () => {
 
   }, [detailList])
 
-  const getList = useCallback(async () => { // useCallback
+  const getList = async (isSearch?: boolean) => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['process'].list + '?page='}${page.current}&limit=15`
+    const tempUrl = `${API_URLS['process'].list + '?page='}${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue ? searchValue : ''}`
     const res = await getProcessList(tempUrl)
     if (res) {
       const getprocesses = res.info_list.map((v, i) => {
@@ -154,7 +156,7 @@ const ProcessListContainer = () => {
       setList(getprocesses)
     }
     Notiflix.Loading.Remove()
-  }, [list, page])
+  }
 
   useEffect(() => {
     // getList()
@@ -174,6 +176,13 @@ const ProcessListContainer = () => {
       <OptimizedHeaderBox
         title={'공정 리스트'}
         titleOnClickEvent={titleEventList}
+        searchBarValue={searchValue}
+        searchBarChange={(e) => {
+          if (!e.match(regExp)) setSearchValue(e)
+        }}
+        searchButtonOnClick={() => {
+          getList(true)
+        }}
       />
       <OptimizedTable
         allCheckOnClickEvent={allCheckOnClick}
