@@ -29,6 +29,7 @@ import FullAddInput from '../../Components/Input/FullAddInput'
 import Notiflix from 'notiflix'
 import * as _ from 'lodash'
 import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
+import autoCustomType from "../../AutoCustomSetting/autoCustomConfig";
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -299,17 +300,43 @@ const NewBasicMaterialRegister = () => {
                             </InputContainer>
                             <br/>
                             <ListHeader title="선택 항목"/>
-                            {inputData.material_type !== 0 &&
+                            {inputData.material_type !== 0 && autoCustomType() === 'jaewoo_material_trans' &&
                             <div>
-                                <NormalInput title={'가로 사이즈'} value={inputData.material_spec_W}
+                                <NormalNumberInput title={'폭 사이즈'} value={inputData.material_spec_W}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
+                                                   description={'폭 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'피치 사이즈'} value={inputData.material_spec_H}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
+                                                   description={'피치 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'T 사이즈'} value={inputData.material_spec_D}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
+                                                   description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
+                            </div>
+                            }
+                            {inputData.material_type !== 0 && autoCustomType() === 'seain_material_trans' &&
+                            <div>
+                                <NormalInput title={'외경 사이즈'} value={inputData.material_spec_W}
                                              onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
-                                             description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalInput title={'세로 사이즈'} value={inputData.material_spec_H}
+                                             description={'외경 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalInput title={'내경 사이즈'} value={inputData.material_spec_H}
                                              onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
-                                             description={'세로 사이즈를 입력해주세요 (단위 : mm)'}/>
-                                <NormalInput title={'높이 사이즈'} value={inputData.material_spec_D}
+                                             description={'내경 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalInput title={'T 사이즈'} value={inputData.material_spec_D}
                                              onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
-                                             description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                             description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
+                            </div>
+                            }
+                            {inputData.material_type !== 0 && autoCustomType() !== 'jaewoo_material_trans' && autoCustomType() !== 'seain_material_trans' &&
+                            <div>
+                                <NormalNumberInput title={'가로 사이즈'} value={inputData.material_spec_W}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
+                                                   description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'세로 사이즈'} value={inputData.material_spec_H}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
+                                                   description={'세로 사이즈를 입력해주세요 (단위 : mm)'}/>
+                                <NormalNumberInput title={'높이 사이즈'} value={inputData.material_spec_D}
+                                                   onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
+                                                   description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
                             </div>
                             }
                             {inputData.material_type !== 0 && inputData.material_type !== 30 &&
