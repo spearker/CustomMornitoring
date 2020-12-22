@@ -158,6 +158,16 @@ const DefectiveContainer = () => {
     }
   }, [selectDate, selectValue])
 
+  useEffect(() => {
+    if (selectValue) {
+      console.log(selectValue)
+      setSelectDate({
+        start: moment(selectValue.date).subtract(1, 'days').format('YYYY-MM-DD'),
+        end: moment(selectValue.date).format('YYYY-MM-DD')
+      })
+    }
+  }, [selectValue])
+
   const getData = useCallback(async (pk) => {
     //TODO: 성공시
     const tempUrl = `${API_URLS['defective'].load}?pk=${pk}&from=${selectDate.start}&to=${selectDate.end}`
