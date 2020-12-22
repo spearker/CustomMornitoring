@@ -23,6 +23,7 @@ interface IProps {
 const DummyMachine = [
     {
         pk: '',
+        process_pk: '',
         worker_name: '',
         material_name: '',
         worked: '',
@@ -40,6 +41,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
         current: 1,
     })
     const [historyList, setHistoryList] = useState<{
+        process_pk: string,
         pk: string,
         worker_name: string,
         material_name: string,
@@ -148,9 +150,11 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                                         </tr>
                                         :
                                         historyList && historyList.map((v, i) => {
+                                            console.log()
                                             return (
                                                 <tr style={{
                                                     height: 32,
+
                                                     backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
                                                 }} onClick={() => {
                                                     setWorkerName(v.worker_name)

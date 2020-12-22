@@ -23,6 +23,7 @@ interface Props {
 
 const QualityTestRequest = ({match}: Props) => {
     const history = useHistory()
+    const [historyData, setHistoryData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
     const [processData, setProcessData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
     const [machineData, setMachineData] = useState<{ pk: string | null, name: string | null }>({pk: '', name: ''})
     const [productionData, setProductionData] = useState<{ pk: string, name: string }>({pk: '', name: ''})
@@ -162,8 +163,9 @@ const QualityTestRequest = ({match}: Props) => {
                                                style={{textAlign: 'left', fontSize: '15px', fontWeight: 'bold'}}
                                                disabled/>
                                         :
-                                        <HistoryPickerModal select={processData} onClickEvent={(e) => {
-                                            setProcessData({name: e.process_name, pk: e.pk});
+                                        <HistoryPickerModal select={historyData} onClickEvent={(e) => {
+                                            setHistoryData({name: e.process_name, pk: e.pk})
+                                            setProcessData({name: e.process_name, pk: e.process_pk});
                                             setMachineData({name: e.machine_name, pk: e.machine_pk});
                                             setProductionData({name: e.material_name, pk: e.material_pk});
                                             setWorker({name: e.worker_name, pk: e.worker});
