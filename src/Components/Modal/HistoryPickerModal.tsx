@@ -23,7 +23,6 @@ interface IProps {
 const DummyMachine = [
     {
         pk: '',
-        process_pk: '',
         worker_name: '',
         material_name: '',
         worked: '',
@@ -41,7 +40,6 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
         current: 1,
     })
     const [historyList, setHistoryList] = useState<{
-        process_pk: string,
         pk: string,
         worker_name: string,
         material_name: string,
@@ -129,9 +127,9 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이력 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList()}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList()}>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
@@ -150,11 +148,9 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                                         </tr>
                                         :
                                         historyList && historyList.map((v, i) => {
-                                            console.log()
                                             return (
                                                 <tr style={{
                                                     height: 32,
-
                                                     backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
                                                 }} onClick={() => {
                                                     setWorkerName(v.worker_name)
