@@ -8,90 +8,91 @@ import Modal from 'react-modal'
 import {useHistory} from 'react-router-dom'
 
 const CustomErrorLogDashBoard: React.FunctionComponent = () => {
-  const [state, setState] = React.useState<YOUDONG_ERROR_DASHBOARD[]>()
-  const [isFirstLoad, setIsFirstLoad] = React.useState(true)
+    const [state, setState] = React.useState<YOUDONG_ERROR_DASHBOARD[]>()
+    const [isFirstLoad, setIsFirstLoad] = React.useState(true)
 
-  useEffect(() => {
-    const documentEvent: any = document
+    useEffect(() => {
+        const documentEvent: any = document
 
-    documentEvent.body.style.zoom = .6
-  }, [])
+        documentEvent.body.style.zoom = .6
+    }, [])
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      getData().then(() => console.log('load success'))
-    }, 30000)
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            getData().then(() => console.log('load success'))
+        }, 30000)
 
-    return () => {
-      clearTimeout(interval)
-    }
-  }, [state])
-
-  React.useEffect(() => {
-    getData().then(() => console.log('load success'))
-  }, [])
-
-  const history = useHistory()
-
-  const getData = async () => {
-    try {
-      const response = await getYoodongErrorDashboard()
-
-      if (response !== null && response) {
-        if (response.status === 401) {
-          return history.push('/login?type=back')
-        } else if (response.status === 200) {
-          setIsFirstLoad(false)
-          setState(response.data)
+        return () => {
+            clearTimeout(interval)
         }
-      }
-    } catch (error) {
-      console.log('catched error', error)
-    }
-  }
+    }, [state])
 
-  return (
-    <DashboardWrapDiv>
-      {
-        isFirstLoad && <Modal
-            isOpen={isFirstLoad}
-            style={{
-              content: {
-                backgroundColor: 'rgba(255, 255, 255, 0)',
-                border: 'none',
-                top: '45%',
-                left: '50%',
-                right: 'auto',
-                width: 300,
-                height: 300,
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)',
-                padding: 100
-              },
-              overlay: {
-                background: 'rgba(0,0,0,.6)',
-                zIndex: 5
-              }
-            }}
-        >
-            <div>
-                <RotateSpinner size={208} color={'rgba(255, 255, 255, .8)'} loading={isFirstLoad}/>
-            </div>
-        </Modal>
-      }
-      {
-        state && state.map((data: YOUDONG_ERROR_DASHBOARD) => <CustomErrorLogItem data={data}
-                                                                                  key={data.iotProtocolKey}/>)
-      }
-    </DashboardWrapDiv>
-  )
+    React.useEffect(() => {
+        getData().then(() => console.log('load success'))
+    }, [])
+
+    const history = useHistory()
+
+    const getData = async () => {
+        try {
+            const response = await getYoodongErrorDashboard()
+
+            if (response !== null && response) {
+                if (response.status === 401) {
+                    return history.push('/login?type=back')
+                } else if (response.status === 200) {
+                    setIsFirstLoad(false)
+                    setState(response.data)
+                }
+            }
+        } catch (error) {
+            console.log('catched error', error)
+        }
+    }
+
+    return (
+        <DashboardWrapDiv>
+            {
+                isFirstLoad && <Modal
+                    isOpen={isFirstLoad}
+                    style={{
+                        content: {
+                            backgroundColor: 'rgba(255, 255, 255, 0)',
+                            border: 'none',
+                            top: '45%',
+                            left: '50%',
+                            right: 'auto',
+                            width: 300,
+                            height: 300,
+                            bottom: 'auto',
+                            marginRight: '-50%',
+                            transform: 'translate(-50%, -50%)',
+                            padding: 100
+                        },
+                        overlay: {
+                            background: 'rgba(0,0,0,.6)',
+                            zIndex: 5
+                        }
+                    }}
+                >
+                    <div>
+                        <RotateSpinner size={208} color={'rgba(255, 255, 255, .8)'} loading={isFirstLoad}/>
+                    </div>
+                </Modal>
+            }
+            {
+                state && state.map((data: YOUDONG_ERROR_DASHBOARD) => <CustomErrorLogItem data={data}
+                                                                                          key={data.iotProtocolKey}/>)
+            }
+        </DashboardWrapDiv>
+    )
 }
 
 const DashboardWrapDiv = Styled.div`
     width: 99%;
     height: 100vh;
     display: flex;
+    flex-wrap: wrap;
     margin-left: 24px;
     background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
 `

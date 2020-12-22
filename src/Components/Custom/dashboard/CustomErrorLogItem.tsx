@@ -76,11 +76,12 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({data}) => {
 }
 
 const Container = Styled.div`
-  width: 600px;
-  height: 1650px;
+  width: 580px;
+  min-height: 1650px;
+  max-height: auto;
   padding: 10px;
   margin-right: 24px;
-}
+  margin-bottom: 240px;
 `
 
 const PressTitle = Styled.p`
@@ -114,7 +115,8 @@ const PressSub = Styled.span`
 
 const Content = Styled.div`
   background-color: rgba(17, 19, 25, .5);
-    height: 100%;
+  min-height: 100%;
+  max-height: auto;
   border-radius: 6px;
   padding-left: 24px;
   padding-right: 24px;
