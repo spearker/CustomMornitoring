@@ -53,7 +53,7 @@ const chartOption = {
         width: 3
     },
     fill: {
-        type: ['gradient', 'gradient'],
+        type: ['solid', 'solid', 'solid'],
         gradient: {
             type: ['vertical', 'vertical', 'vertical'],
             shadeIntensity: 0,
