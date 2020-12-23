@@ -151,6 +151,12 @@ const ScheduleContainer = () => {
     }
   }
 
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
   const calendarOnClick = useCallback(async (start, end) => {
     setSelectDate({start: start, end: end ? end : ''})
 
@@ -159,7 +165,7 @@ const ScheduleContainer = () => {
     if (res) {
       const getprocesses = res.info_list.map((v, i) => {
 
-        const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        const amount = AddComma(v.amount)
         const statement = v.state ? '배포됨' : '배포전'
 
         return {...v, state: statement, amount: amount}
@@ -209,8 +215,8 @@ const ScheduleContainer = () => {
     if (res) {
       setDetailList(res)
       const getSchedule = res.chit_list.info_list.map((v, i) => {
-        const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        const goal = v.goal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        const current_amount = AddComma(v.current_amount)
+        const goal = AddComma(v.goal)
         return {...v, current_amount: current_amount, goal: goal}
       })
       setDetailPage({current: res.chit_list.current_page, total: res.chit_list.total_page})
@@ -226,7 +232,7 @@ const ScheduleContainer = () => {
     if (res) {
       const getprocesses = res.info_list.map((v, i) => {
 
-        const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        const amount = AddComma(v.amount)
         const statement = v.state ? '배포됨' : '배포전'
 
         return {...v, state: statement, amount: amount}

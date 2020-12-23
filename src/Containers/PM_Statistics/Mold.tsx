@@ -80,6 +80,12 @@ const MoldContainer = () => {
     }
   }, [list, page.current])
 
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
   useEffect(() => {
     getList()
     setIndex(indexList['mold'])
@@ -133,7 +139,7 @@ const MoldContainer = () => {
 
                         const value = v *= (detailList.max_life / 5)
                         return (
-                          <span>{value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                          <span>{AddComma(value.toFixed(0))}</span>
                         )
                       })}
                     </CountingNum>
@@ -155,7 +161,7 @@ const MoldContainer = () => {
               <div style={{paddingTop: 30, paddingBottom: 22}}>
                 <BottomBox>
                   <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <p>{(detailList.accumulate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                    <p>{AddComma(detailList.accumulate)}</p>
                     <p style={{marginTop: 22, paddingLeft: 7}}>회</p>
                   </div>
                 </BottomBox>
@@ -165,7 +171,7 @@ const MoldContainer = () => {
               <div style={{paddingTop: 30, paddingBottom: 22}}>
                 <BottomBox>
                   <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <p>{(detailList.yesterday_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}</p>
+                    <p>{AddComma(detailList.yesterday_count)}</p>
                     <p style={{marginTop: 22, paddingLeft: 7}}>회</p>
                   </div>
                 </BottomBox>
@@ -175,7 +181,7 @@ const MoldContainer = () => {
               <div style={{paddingTop: 30, paddingBottom: 22}}>
                 <BottomBox>
                   <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <p>{(detailList.mold_life).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                    <p>{AddComma(detailList.mold_life)}</p>
                     <p style={{marginTop: 22, paddingLeft: 7}}>회</p>
                   </div>
                 </BottomBox>

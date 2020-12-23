@@ -18,7 +18,7 @@ interface Menu {
 
 const KPIMenuBox = ({menuList, onChangeEvent, value, children}: IProps) => {
 
-  const selectStyle = {backgroundColor: '#19b9df50', borderBottom: '2px solid #19b9df', height: 'calc(100% + 1px)'}
+  const selectStyle = {backgroundColor: '#19b9df50', borderBottom: '2px solid #19b9df', height: '51px'}
 
   return (
     <div>
@@ -34,12 +34,14 @@ const KPIMenuBox = ({menuList, onChangeEvent, value, children}: IProps) => {
             ))
           }
         </div>
-        <div>
+        <div style={{height: 'auto'}}>
+          <pre>
           {
             value.api === 'amount_of_on_process_material'
               ? <p style={{fontSize: 16.5}}>{value.tip}</p>
               : <p>{value.tip}</p>
           }
+          </pre>
         </div>
       </MenuHeaderList>
       <div>
@@ -51,7 +53,7 @@ const KPIMenuBox = ({menuList, onChangeEvent, value, children}: IProps) => {
 
 const MenuHeaderList = Styled.div`
     width: 100%;
-    height: 100px;
+    height: auto;
     background-color: #353b48;
     border-radius: 6px 6px 0px 0px;
     padding: 0 16px;
@@ -64,20 +66,23 @@ const MenuHeaderList = Styled.div`
         }
         &:nth-child(2){
             text-align: left;
-            padding: 10px 0 0 0;
-            &>p{
-                font-size: 20px;
-                color: #19b9df;
-                font-weight: bold;
-                margin: 0;
-                padding: 0;
+            pre{
+              padding: 10px;
+              &>p{
+                  font-size: 20px;
+                  font-family: Noto Sans Kr;
+                  color: #19b9df;
+                  font-weight: bold;
+                  margin: 0;
+                  padding: 0;
+              }
             }
         }
     }
 `
 const MenuItem = Styled.div`
     cursor: pointer;
-    height: 100%;
+    height: 50px;
     padding: 0 16px;
     display: flex;
     align-items: center;
