@@ -12,7 +12,7 @@ import {RotateSpinner} from 'react-spinners-kit'
 import {useHistory} from 'react-router-dom'
 import CustomAnalysisMonitoringCard from "../loadton/CustomAnalysisMonitoringCard";
 import CustomAnalysisLoadTon from "../loadton/CustomAnalysisLoadtonCard";
-
+import Notiflix from 'notiflix'
 
 interface Props {
     id: string
@@ -21,6 +21,14 @@ interface Props {
         api: boolean
     }
 }
+
+Notiflix.Notify.Init({
+    width: '400px',
+    height: '300px',
+    fontSize: '26px',
+    fontFamily: 'NotoSansCJKkr-Bold',
+    messageColor: '#000000'
+})
 
 const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id, first}) => {
     const [isFirst, setIsFirst] = React.useState({
@@ -68,7 +76,12 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                     if (response.status === 401) {
                         return history.push('/login?type=back')
                     } else if (response.status === 200) {
+
                         setData(response.data)
+
+                        if (response.data.loadton_data.isAbnormal) {
+                            Notiflix.Notify.Warning('제품 평균 톤수보다 높습니다. ')
+                        }
 
                         if (isFirst.api) {
                             setTonnageLimit(response.data.loadton_data.tonnage_limit)
