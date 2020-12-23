@@ -18,7 +18,7 @@ const menuList: {
   api: string,
   tip: string
 }[] = [
-  {name: '납기 준수율', api: 'delivery_compliance_improvement_rate', tip: '준수한 납기건수가 올라갈수록 품질 및 기업신뢰도가 올라감.'}, // api key이름
+  {name: '납기 준수율', api: 'delivery_compliance_improvement_rate', tip: '준수한 납기 건수가 올라갈수록 품질 및 기업 신뢰도가 올라감.'}, // api key이름
   {name: '수주출하 리드타임', api: 'order_shipment_leadTime_reduced_rate', tip: '수주에서 출하까지 걸린 시간의 합계.'},
   {
     name: '재고 정확도',

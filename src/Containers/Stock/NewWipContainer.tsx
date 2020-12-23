@@ -86,6 +86,12 @@ const NewWipContainer = () => {
 
   }, [detailList, detailPage])
 
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
@@ -94,8 +100,8 @@ const NewWipContainer = () => {
 
     const getStock = res.info_list.map((v, i) => {
       const material_type = transferCodeToName('material', v.material_type)
-      const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      const current_stock = AddComma(v.current_stock)
+      const safe_stock = AddComma(v.safe_stock)
 
       return {...v, material_type: material_type, current_stock: current_stock, safe_stock: safe_stock}
     })

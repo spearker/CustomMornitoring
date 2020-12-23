@@ -16,6 +16,11 @@ interface IProps {
   subTitleList?: { total?: string, comply?: string, error?: string }
 }
 
+const unitArray = {
+  percent: ['target_attainment_rate', 'facility_operational_improvement_rate', 'defective_items_reduced_rate', 'delivery_compliance_improvement_rate', 'stock_accuracy_improvement_rate',],
+  kw: ['electric_saving_rate']
+}
+
 const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IProps) => {
   const [data, setData] = useState<any>({})
   const [isFirst, setIsFirst] = useState<boolean>(true)
@@ -52,8 +57,9 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
   }, [selectDate, selectDates, value])
 
   const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
     let regexp = /\B(?=(\d{3})+(?!\d))/g
-    return num.toString().replace(regexp, ',')
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
   }
 
   React.useEffect(() => {
@@ -178,7 +184,14 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
             : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
         }
-          {/*<span>{'(가동률)'}</span>*/}
+          <span style={{fontSize: 40, paddingLeft: '4pt'}}>
+            {
+              unitArray.percent.indexOf(value.api) !== -1 && '%'
+            }
+            {
+              unitArray.kw.indexOf(value.api) !== -1 && 'KW'
+            }
+          </span>
         </Textfit>
       </div>
     </Container>

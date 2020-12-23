@@ -139,6 +139,12 @@ const OrderContainer = () => {
     getList()
   }, [deletePk])
 
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
@@ -147,7 +153,7 @@ const OrderContainer = () => {
     if (res) {
       const orderList = res.info_list.map((v) => {
         const finished = v.finished === true ? '완료' : '진행중'
-        const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        const amount = AddComma(v.amount)
 
         return {...v, finished: finished, amount: amount}
       })
