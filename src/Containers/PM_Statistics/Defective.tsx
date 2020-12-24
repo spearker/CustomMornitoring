@@ -114,6 +114,8 @@ const DefectiveContainer = () => {
   const [selectMold, setSelectMold] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
 
+  const [max, setMax] = useState<number>(100)
+
   const [selectDate, setSelectDate] = useState({
     start: moment().subtract(1, 'days').format('YYYY-MM-DD'),
     end: moment().format('YYYY-MM-DD')
@@ -189,7 +191,9 @@ const DefectiveContainer = () => {
         tmpSeries.push({x: String(v), y: res.amounts[i]})
       })
 
-      console.log(tmpSeries)
+      console.log(res.amounts)
+
+      setMax(Math.pow(10, Math.max.apply(null, res.amounts).toString().length))
 
       setNewSeries([...tmpSeries])
     }
@@ -293,7 +297,7 @@ const DefectiveContainer = () => {
                               'data': newSeries
                             }
                           ]
-                        }/>
+                        } max={max}/>
                       }
                     </div>
                   </div>
