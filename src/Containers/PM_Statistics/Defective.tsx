@@ -6,6 +6,8 @@ import moment from 'moment'
 import ReactApexChart from 'react-apexcharts'
 import {API_URLS, getDefectiveData} from '../../Api/pm/statistics'
 import Notiflix from 'notiflix'
+import {ResponsiveLine} from '@nivo/line'
+import {MyResponsiveLine} from '../../Components/LineChart/MyResponsiveLine'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
@@ -103,6 +105,7 @@ const DefectiveContainer = () => {
   const [index, setIndex] = useState({material_name: '품목(품목명)'})
   const [labels, setLabels] = useState([])
   const [series, setSeries] = useState([])
+  const [newSeries, setNewSeries] = useState<{ x: string, y: number }[]>([])
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
@@ -180,6 +183,15 @@ const DefectiveContainer = () => {
       setLabels([...res.dates])
       //@ts-ignore
       setSeries([...res.amounts])
+
+      let tmpSeries: { x: string, y: number }[] = []
+      res.dates.map((v, i) => {
+        tmpSeries.push({x: String(v), y: res.amounts[i]})
+      })
+
+      console.log(tmpSeries)
+
+      setNewSeries([...tmpSeries])
     }
 
   }, [detailList, selectValue, selectDate])
@@ -208,76 +220,91 @@ const DefectiveContainer = () => {
   }, [page.current])
 
   return (
-    <OvertonTable
-      title={'프레스 불량률'}
-      indexList={index}
-      valueList={list}
-      clickValue={selectValue}
-      currentPage={page.current}
-      totalPage={page.total}
-      pageOnClickEvent={(event, i) => {
-        setSelectPk(null)
-        setPage({...page, current: i})
-      }}
-      mainOnClickEvent={onClick}>
-      {
-        selectPk !== null ?
-          <div style={{display: 'flex', flexDirection: 'row'}}>
-            <div>
-              <LineContainer>
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingTop: 10
-                }}>
-                  <p>생산량</p>
-                  <p>{detailList.total_production}<span>ea</span></p>
-                </div>
-              </LineContainer>
-              <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
-                <div>
-                  <p>전체 불량률</p>
-                  <p>{detailList.defect_percentage}%</p>
-                </div>
-                <div>
-                  <p>전체 불량 갯수</p>
-                  <p>{detailList.defect_amount}ea</p>
-                </div>
-              </CapacityContainer>
-            </div>
-            <GraphContainer>
-              {
-
-                <div>
+    <>
+      <OvertonTable
+        title={'프레스 불량률'}
+        indexList={index}
+        valueList={list}
+        clickValue={selectValue}
+        currentPage={page.current}
+        totalPage={page.total}
+        pageOnClickEvent={(event, i) => {
+          setSelectPk(null)
+          setPage({...page, current: i})
+        }}
+        mainOnClickEvent={onClick}>
+        {
+          selectPk !== null ?
+            <div style={{display: 'flex', flexDirection: 'row', zIndex: 0}}>
+              <div>
+                <LineContainer>
                   <div style={{
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    marginLeft: 30,
-                    marginRight: 30,
-                    paddingTop: 25
+                    paddingTop: 10
                   }}>
-                    <div style={{alignSelf: 'center', width: '40%'}}>
-                      <p>{selectValue.material_name} 불량률</p>
-                    </div>
-                    <CalendarDropdown type={'range'} selectRange={selectDate}
-                                      onClickEvent={(start, end) => setSelectDate({
-                                        start: start,
-                                        end: end ? end : ''
-                                      })} toDayLimit={true}></CalendarDropdown>
+                    <p>생산량</p>
+                    <p>{detailList.total_production}<span>ea</span></p>
                   </div>
-                  <ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}
-                                  type={'area'} height={444} width={630}
-                                  series={[{name: 'data', data: series}]}/>
-                </div>
-              }
-            </GraphContainer>
-          </div>
-          :
-          null
-      }
-    </OvertonTable>
+                </LineContainer>
+                <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
+                  <div>
+                    <p>전체 불량률</p>
+                    <p>{detailList.defect_percentage}%</p>
+                  </div>
+                  <div>
+                    <p>전체 불량 갯수</p>
+                    <p>{detailList.defect_amount}ea</p>
+                  </div>
+                </CapacityContainer>
+              </div>
+              <GraphContainer>
+                {
+
+                  <div>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginLeft: 30,
+                      marginRight: 30,
+                      paddingTop: 25
+                    }}>
+                      <div style={{alignSelf: 'center', width: '40%'}}>
+                        <p>{selectValue.material_name} 불량률</p>
+                      </div>
+                      <CalendarDropdown type={'range'} selectRange={selectDate}
+                                        onClickEvent={(start, end) => setSelectDate({
+                                          start: start,
+                                          end: end ? end : ''
+                                        })} toDayLimit={true}></CalendarDropdown>
+                    </div>
+                    {/*<ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}*/}
+                    {/*                type={'area'} height={444} width={630}*/}
+                    {/*                series={[{name: 'data', data: series}]}/>*/}
+                    <div style={{width: 650, height: 440}}>
+                      {
+                        newSeries.length !== 0 && <MyResponsiveLine data={
+                          [
+                            {
+                              'id': '불량률',
+                              'color': 'hsl(102, 70%, 50%)',
+                              'data': newSeries
+                            }
+                          ]
+                        }/>
+                      }
+                    </div>
+                  </div>
+                }
+              </GraphContainer>
+            </div>
+            :
+            null
+        }
+      </OvertonTable>
+    </>
   )
 }
 
