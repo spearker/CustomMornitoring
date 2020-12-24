@@ -19,7 +19,7 @@ interface IProps {
   buttonWid?: string | number
   disabled?: boolean
   style?: any
-  type?: 'planner'
+  type?: 'planner' | 'register'
 }
 
 const DummyMachine = [
@@ -111,9 +111,10 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
               fontSize: 18,
               fontFamily: 'NotoSansCJKkr',
               fontWeight: 'bold'
-            }}>• {type ? '계획자' : '작업자'} 검색</p>
+            }}>• {type ? type === 'register' ? '등록자' : '계획자' : '작업자'} 검색</p>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-              <SearchBox placeholder={type ? '계획자명을 입력해주세요.' : '작업자명을 입력해주세요.'} style={{flex: 96}}
+              <SearchBox placeholder={type ? type === 'register' ? '등록자명을 입력해주세요.' : '계획자명을 입력해주세요.' : '작업자명을 입력해주세요.'}
+                         style={{flex: 96}}
                          onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                          onChange={(e) => setSearchName(e.target.value)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
