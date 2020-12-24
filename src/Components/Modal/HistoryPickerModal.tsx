@@ -133,7 +133,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem}: 
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
-                        <div style={{height: 310, width: 860, backgroundColor: '#f4f6fa',}}>
+                        <div style={{minHeight: 310, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
                             <ReactShadowScroll>
                                 <MachineTable>
                                     <tr>
