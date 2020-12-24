@@ -18,6 +18,7 @@ import moment from 'moment'
 import {transferStringToCode} from '../../Common/codeTransferFunctions'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import {API_URLS, postStockRegister, getStockList} from '../../Api/mes/manageStock'
+import DateInput from '../../Components/Input/DateInput'
 
 const typeDummy = [
   '정상 입고',
@@ -59,6 +60,7 @@ const WarehousingRegisterContainer = ({match}: Props) => {
   const [typeList, setTypelist] = useState<string[]>(typeDummy)
   const [stockList, setStockList] = useState<string[]>(StockDummy)
   const [selectType, setSelectType] = useState<string>()
+  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
   const [paths, setPaths] = useState<any[1]>([null])
   const [oldPaths, setOldPaths] = useState<any[1]>([null])
@@ -255,29 +257,8 @@ const WarehousingRegisterContainer = ({match}: Props) => {
         <NormalNumberInput title={'입고 수량'} width={120} value={amount}
                            onChangeEvent={(input) => setAmount(input)}
                            description={'입고 수량을 입력해주세요'}/>
-        <InputContainer title={'입고 날짜'} width={120}>
-          <div style={{
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'row',
-            backgroundColor: '#f4f6fa',
-            border: '0.5px solid #b3b3b3',
-            height: 32
-          }}>
-            <div style={{width: 'calc(100% - 100px)', display: 'table-cell'}}>
-              <div style={{marginTop: 5}}>
-                {
-                  selectDate === ''
-                    ? <InputText>&nbsp; 입고 날짜를 선택해 주세요.</InputText>
-                    : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
-                }
-              </div>
-            </div>
-            <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
-              setSelectDate(select)
-            }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
-          </div>
-        </InputContainer>
+        <DateInput title={'입고 날짜'} description={''} value={date} onChangeEvent={setDate} width={135}
+                   style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
         {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
               const tempInfo = infoList.slice();
