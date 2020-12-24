@@ -59,12 +59,13 @@ const CustomCapacity = () => {
             },
             events: {
                 click: function (chart, w, e) {
-                    if (e.dataPointIndex > 9) {
-                        getDetail(e.dataPointIndex)
-                    } else {
-                        getDetail('0' + e.dataPointIndex.toString())
+                    if (-1 < e.dataPointIndex && e.dataPointIndex < 24) {
+                        if (e.dataPointIndex > 9) {
+                            getDetail(e.dataPointIndex)
+                        } else {
+                            getDetail('0' + e.dataPointIndex.toString())
+                        }
                     }
-
                     // if (-1 < e.dataPointIndex && e.dataPointIndex < 24) {
                     //     const runtime = machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.runtime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
                     //     const stoptime = machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] !== null ? machineData.analyze.stoptime.slice(e.dataPointIndex, e.dataPointIndex + 1)[0] : ''
