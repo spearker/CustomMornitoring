@@ -8,11 +8,14 @@ import {API_URLS, postChitRegister} from '../../Api/mes/production'
 import ProjectPlanPickerModal from '../../Components/Modal/ProjectPlanPickerModal'
 import {useHistory} from 'react-router-dom'
 import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
+import Notiflix from 'notiflix'
 
 interface modalData {
   name?: string,
   pk?: string
 }
+
+const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
 const ChitRegisterContainer = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -44,6 +47,9 @@ const ChitRegisterContainer = () => {
       return
     } else if (Number(chitData.goal) <= 0) {
       alert('생산 목표 수량은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (selectDate.match(regExp)) {
+      alert('납기일의 형식이 잘못되었습니다.')
       return
     }
 
@@ -89,7 +95,7 @@ const ChitRegisterContainer = () => {
                                           })} inputWidth={'calc(99% - 4px)'} buttonWid={30}/></td>
             </tr>
             <tr>
-              <td>• 납기일/생산일</td>
+              <td>• 납기일</td>
               <td>
                 <div style={{
                   display: 'flex',
@@ -99,7 +105,14 @@ const ChitRegisterContainer = () => {
                   margin: '0 auto'
                 }}>
                   <InputBox style={{flex: 95}}>
-                    <Input style={{width: '100%'}} disabled placeholder="YYYY-MM-DD"
+                    <Input style={{width: '100%'}} placeholder="YYYY-MM-DD"
+                           onChange={(e) => {
+                             setSelectDate(e.target.value)
+                           }} onBlur={() => {
+                      if (!selectDate.match(regExp)) {
+                        Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                      }
+                    }}
                            value={selectDate}/>
                   </InputBox>
                   <ColorCalendarDropdown unLimit select={selectDate} onClickEvent={(select) => {
