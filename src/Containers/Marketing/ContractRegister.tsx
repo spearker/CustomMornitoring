@@ -157,7 +157,7 @@ const ContractRegisterContainer = () => {
                       }
                     </div>
                   </div>
-                  <ColorCalendarDropdown unLimit={true} select={selectDate} onClickEvent={(select) => {
+                  <ColorCalendarDropdown unLimit={true} select={finishDate} onClickEvent={(select) => {
                     setFinishDate(select)
                     setContractData({...contractData, deadline: select})
                   }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0, zIndex: 0}}/>

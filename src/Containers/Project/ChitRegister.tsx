@@ -48,7 +48,7 @@ const ChitRegisterContainer = () => {
     } else if (Number(chitData.goal) <= 0) {
       alert('생산 목표 수량은 필수 항목입니다. 반드시 입력해주세요.')
       return
-    } else if (selectDate.match(regExp)) {
+    } else if (!selectDate.match(regExp)) {
       alert('납기일의 형식이 잘못되었습니다.')
       return
     }

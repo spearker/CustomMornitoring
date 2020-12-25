@@ -47,9 +47,6 @@ const DateInput = ({title, description, value, onChangeEvent, style, inputStyle,
         <InputBox onClick={() => handleClickBtn()}
                   onChange={(e) => {
                     onChangeEvent(e.target.value)
-                    if (e.target.value.match(regExp)) {
-
-                    }
                   }}
                   style={{...inputStyle}} value={value === undefined ? '(선택)' : value}></InputBox>
         {
