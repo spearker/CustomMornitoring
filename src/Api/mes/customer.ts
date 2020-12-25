@@ -10,12 +10,10 @@ import client from '../configs/basic';
 
 export const getCustomerData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results;
     }
-    return temp.results;
 }
 
 /**
@@ -29,12 +27,10 @@ export const getCustomerData = async (url: string) => {
 
 export const postCustomerDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results;
     }
-    return temp.results;
 }
 
 
@@ -45,6 +41,7 @@ export const API_URLS = {
         search: `/v1/customer/search`,
         delete: `/v1/customer/delete`,
         update: `/v1/customer/update`,
+        create: `/v1/customer/register`
     },
 
 }

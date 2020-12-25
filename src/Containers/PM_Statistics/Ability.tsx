@@ -36,10 +36,10 @@ const chartOption = {
     tickAmount: 24,
     labels: {
       formatter: (value, index) => {
-        if (index === 24) {
+        if (index === 23) {
           return '(ton)'
         } else {
-          if (value % 50 === 0) {
+          if (index % 4 === 0) {
             return Math.floor(value)
           } else {
             return
@@ -110,8 +110,9 @@ const AbilityContainer = () => {
     y_ton: []
   })
   const [pressName, setPressName] = React.useState('')
-  const [series, setSeries] = React.useState([{type: 'line', data: [[0, 0]]}])
+  const [series, setSeries] = React.useState([{name: '이름', type: 'line', data: [[0, 0]]}])
   const [loading, setLoading] = React.useState<boolean>(false)
+  const [pressLoading, setPressLoading] = React.useState<boolean>(false)
 
   const [selectComponent, setSelectComponent] = useState<string>('')
 
@@ -119,13 +120,11 @@ const AbilityContainer = () => {
 
   const getData = useCallback(async () => {
     setLoading(true)
-
-    console.log('ap')
+    setPressLoading(true)
 
     const tempUrl = `${API_URLS['ability'].load}?pk=${selectComponent}&date=${selectDate}`
     const resultData = await getAbilityList(tempUrl)
 
-    console.log(resultData)
     setData(resultData.results)
 
     let dummylineList: number[][] = []
@@ -136,17 +135,17 @@ const AbilityContainer = () => {
       return null
     })
 
-    console.log(dummylineList)
 
-    resultData.x_degree.map((v, i) => {
+    await resultData.x_degree.map((v, i) => {
       dummyroundList.push([Number(v), Number(resultData.y_ton[i])])
       return null
     })
 
-    setSeries([{type: 'line', data: dummylineList}, {type: 'area', data: dummyroundList}])
+    setSeries([{name: '능력 선도', type: 'line', data: dummylineList}, {name: '평균 값', type: 'area', data: dummyroundList}])
     setPressName(resultData.pressName)
 
     setLoading(false)
+    setPressLoading(false)
     // setSeries()
 
   }, [data, selectComponent, selectDate])
@@ -180,7 +179,7 @@ const AbilityContainer = () => {
         type={1}//0: 모니터링 1:통계/분석
         url={URLS_MAP.press.statics}
         select={selectComponent} //pk
-        onChangeEvent={setSelectComponent}
+        onChangeEvent={pressLoading ? undefined : setSelectComponent}
       />
       {
         selectComponent
@@ -193,7 +192,7 @@ const AbilityContainer = () => {
                 </div>
                 <div style={{marginRight: 30, paddingTop: 25,}}>
                   <CalendarDropdown type={'single'} select={selectDate}
-                                    onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
+                                    onClickEvent={(i) => setSelectDate(i)}/>
                 </div>
               </div>
               <div style={{marginTop: 30}}>
@@ -225,6 +224,9 @@ const BlackContainer = Styled.div`
             text-Align: left;
             margin-left: 20px;
         }
+    }
+    .apexcharts-tooltip{
+        color: #000000;
     }
 `
 

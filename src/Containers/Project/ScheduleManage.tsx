@@ -4,7 +4,9 @@ import {API_URLS, getProjectList, postProjectDelete} from '../../Api/mes/product
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import moment from 'moment'
 import {useHistory} from 'react-router-dom'
+import Notiflix from 'notiflix'
 
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const ScheduleManageContainer = () => {
   const [page, setPage] = useState<PaginationInfo>({
@@ -18,8 +20,8 @@ const ScheduleManageContainer = () => {
   const [index, setIndex] = useState({manager_name: '계획자명'})
   const [selectValue, setSelectValue] = useState<any>(null)
   const [selectDate, setSelectDate] = useState({
-    start: moment().format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD')
+    start: moment().startOf('month').format('YYYY-MM-DD'),
+    end: moment().endOf('month').format('YYYY-MM-DD')
   })
   const [selectPk, setSelectPk] = useState<any>(null)
   const [selectMold, setSelectMold] = useState<any>(null)
@@ -31,48 +33,11 @@ const ScheduleManageContainer = () => {
       manager_name: '계획자',
       material_name: '품목(품목명)',
       // schedule: '일정', 잘려서 뺌
-      amount: '총 수량',
-      current_amount: '현재 수량',
+      amount: '목표수량',
+      current_amount: '작업수량',
     }
   }
 
-  const dummy = [
-    {
-      manager_name: '홍길동',
-      material_name: '품목(품목명)',
-      schedule: '2000.00.00~2000.00.00',
-      amount: '99,999,999',
-      current_amount: '1,000,000',
-    },
-    {
-      manager_name: '계획자',
-      material_name: '품목(품목명)',
-      schedule: '일정',
-      amount: '총 수량',
-      current_amount: '현재 수량',
-    },
-    {
-      manager_name: '계획자',
-      material_name: '품목(품목명)',
-      schedule: '일정',
-      amount: '총 수량',
-      current_amount: '현재 수량',
-    },
-    {
-      manager_name: '계획자',
-      material_name: '품목(품목명)',
-      schedule: '일정',
-      amount: '총 수량',
-      current_amount: '현재 수량',
-    },
-    {
-      manager_name: '계획자',
-      material_name: '품목(품목명)',
-      schedule: '일정',
-      amount: '총 수량',
-      current_amount: '현재 수량',
-    },
-  ]
 
   const titleeventdummy = [
     // {
@@ -96,7 +61,6 @@ const ScheduleManageContainer = () => {
   ]
 
   const onClick = useCallback((mold) => {
-    console.log('dsfewfewf', mold.pk, mold.mold_name)
     if (mold.pk === selectPk) {
       setSelectPk(null)
       setSelectMold(null)
@@ -122,42 +86,50 @@ const ScheduleManageContainer = () => {
     }
   }, [deletePk])
 
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
 
   const calendarOnClick = useCallback(async (start, end) => {
     setSelectDate({start: start, end: end ? end : ''})
 
     const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}&limit=15`
     const res = await getProjectList(tempUrl)
-    const getScheduleMange = res.info_list.map((v, i) => {
+    if (res) {
+      const getScheduleMange = res.info_list.map((v, i) => {
 
-      const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      return {...v, amount: amount, current_amount: current_amount}
-    })
+        const amount = AddComma(v.amount)
+        const current_amount = AddComma(v.current_amount)
+        return {...v, amount: amount, current_amount: current_amount}
+      })
 
-    setPage({current: res.current_page, total: res.total_page})
+      setPage({current: res.current_page, total: res.total_page})
 
-    setList(getScheduleMange)
+      setList(getScheduleMange)
+    }
   }, [selectDate, page])
 
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
-
+    Notiflix.Loading.Circle()
     const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=15`
 
     const res = await getProjectList(tempUrl)
+    if (res) {
+      const getScheduleMange = res.info_list.map((v, i) => {
 
-    const getScheduleMange = res.info_list.map((v, i) => {
+        const amount = AddComma(v.amount)
+        const current_amount = AddComma(v.current_amount)
+        return {...v, amount: amount, current_amount: current_amount}
+      })
 
-      const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      const current_amount = v.current_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      return {...v, amount: amount, current_amount: current_amount}
-    })
+      setPage({current: res.current_page, total: res.total_page})
 
-    setPage({current: res.current_page, total: res.total_page})
-
-    setList(getScheduleMange)
-
+      setList(getScheduleMange)
+      Notiflix.Loading.Remove()
+    }
   }, [list, page])
 
   const postDelete = useCallback(async () => {
@@ -167,7 +139,6 @@ const ScheduleManageContainer = () => {
     }
     const tempUrl = `${API_URLS['production'].delete}`
     const res = await postProjectDelete(tempUrl, deletePk)
-    console.log(res)
 
     getList()
   }, [deletePk])

@@ -9,7 +9,9 @@ import IcX from '../../Assets/Images/ic_alert_x.png'
 import BasicColorButton from '../../Components/Button/BasicColorButton'
 import Styled from 'styled-components'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import Notiflix from 'notiflix'
 
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const OrderContainer = () => {
   const [list, setList] = useState<any[]>([])
@@ -29,8 +31,10 @@ const OrderContainer = () => {
   const indexList = {
     order: {
       customer_name: '거래처 명',
-      material_name: '(품목)품목명',
-      amount: '수량',
+      material_name: '품목명',
+      amount: '계약 수량',
+      shipped: '출하 수량',
+      left: '미납 수량',
       date: '수주 날짜',
       finished: '진행 상태',
     }
@@ -69,7 +73,6 @@ const OrderContainer = () => {
             deletePk.pk.shift()
           }
 
-          console.log('deletePk.pk', deletePk.pk)
         })
     }
   }, [deletePk])
@@ -85,12 +88,11 @@ const OrderContainer = () => {
   }, [deletePk])
 
   const getFinish = async (pk) => {
-    const tempUrl = `${API_URLS['shipment'].finish}`
+    const tempUrl = `${API_URLS['contract'].finish}`
     const res = await postMarketing(tempUrl, {
       key: pk
     })
 
-    console.log(res)
     getList()
 
   }
@@ -137,19 +139,29 @@ const OrderContainer = () => {
     getList()
   }, [deletePk])
 
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
+    Notiflix.Loading.Circle()
     const tempUrl = `${API_URLS['contract'].list}?page=${page.current}&limit=15`
     const res = await getMarketing(tempUrl)
+    if (res) {
+      const orderList = res.info_list.map((v) => {
+        const finished = v.finished === true ? '완료' : '진행중'
+        const amount = AddComma(v.amount)
 
-    const orderList = res.info_list.map((v) => {
-      const finished = v.finished === true ? '완료' : '진행중'
+        return {...v, finished: finished, amount: amount}
+      })
+      setList(orderList)
 
-      return {...v, finished: finished}
-    })
-    setList(orderList)
-
-    setPage({current: res.current_page, total: res.total_page})
+      setPage({current: res.current_page, total: res.total_page})
+      Notiflix.Loading.Remove()
+    }
   }, [list, page])
 
   useEffect(() => {

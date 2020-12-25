@@ -61,24 +61,18 @@ const RegisterMachine = () => {
      * @returns X
      */
     const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0]);
-        console.log(index)
         if (event.target.files[0] === undefined) {
 
             return;
         }
-        console.log(event.target.files[0].type);
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
             const tempFile = event.target.files[0];
-            console.log(tempFile)
             const res = await uploadTempFile(event.target.files[0]);
 
             if (res !== false) {
-                console.log(res)
                 const tempPatchList = paths.slice()
                 tempPatchList[index] = res;
-                console.log(tempPatchList)
                 setPaths(tempPatchList)
                 return
             } else {

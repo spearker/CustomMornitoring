@@ -5,7 +5,9 @@ import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getBarcode, postBarcode} from '../../Api/mes/barcode'
 import {useHistory} from 'react-router-dom'
 import {postProjectDelete} from '../../Api/mes/production'
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const BarcodeListContainer = () => {
 
@@ -55,44 +57,6 @@ const BarcodeListContainer = () => {
         }
     }
 
-    const dummy = [
-        {
-            item_name: '품목명',
-            item_type: '완제품',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '원자재',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '원자재',
-            barcode_num: 'A123456789B',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '완제품',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-        {
-            item_name: '품목명',
-            item_type: '완제품',
-            barcode_num: '1111-111-11-1234567',
-            basic_barcode: '1111-111-11',
-            registered: '2020.06.16',
-        },
-    ]
-
     const titleeventdummy = [
         {
             Name: '등록하기',
@@ -117,7 +81,6 @@ const BarcodeListContainer = () => {
 
 
     const onClick = useCallback((barcode) => {
-        console.log('dsfewfewf', barcode.pk, barcode.barcode_name)
         if (barcode.pk === selectPk) {
             setSelectPk(null)
             setSelectBarcode(null)
@@ -164,7 +127,6 @@ const BarcodeListContainer = () => {
                         deletePk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk)
                 })
         }
     }, [deletePk])
@@ -187,7 +149,6 @@ const BarcodeListContainer = () => {
         }
         const tempUrl = `${API_URLS['barcode'].delete}`
         const res = await postProjectDelete(tempUrl, deletePk)
-        console.log(res)
 
         arrayDelete()
         getList()
@@ -199,19 +160,22 @@ const BarcodeListContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['barcode'].detailInfo}?pk=${pk}`
         const res = await getBarcode(tempUrl)
-
-        setDetailList(res)
-
+        if (res) {
+            setDetailList(res)
+        }
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=15`
         const res = await getBarcode(tempUrl)
-
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
+        if (res) {
+            setList(res.info_list)
+            setSelectPk(null)
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

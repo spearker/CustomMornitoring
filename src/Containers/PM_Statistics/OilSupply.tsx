@@ -103,11 +103,11 @@ const OilSupplyContainer = () => {
   const [date, setDate] = React.useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
   const [selectComponent, setSelectComponent] = useState<string>('')
+  const [pressLoading, setPressLoading] = useState<boolean>(false)
 
   const getData = useCallback(async () => {
-
+    setPressLoading(true)
     const tempUrl = `${API_URLS['oilSupply'].load}?pk=${selectComponent}&date=${date}`
-    console.log(tempUrl)
     const resultData = await getOilSupplyData(tempUrl)
     let XaxisData = resultData.insert_oil_time.Xaxis
 
@@ -121,6 +121,7 @@ const OilSupplyContainer = () => {
       }
     })
 
+    setPressLoading(false)
   }, [data, selectComponent, date])
 
 
@@ -142,7 +143,7 @@ const OilSupplyContainer = () => {
         type={1}//0: 모니터링 1:통계/분석
         url={URLS_MAP.press.statics}
         select={selectComponent} //pk
-        onChangeEvent={setSelectComponent}
+        onChangeEvent={pressLoading ? undefined : setSelectComponent}
       />
       {
         data
@@ -161,7 +162,8 @@ const OilSupplyContainer = () => {
                 <CalendarDropdown select={date} type={'single'} onClickEvent={(e) => setDate(e)}/>
               </div>
             </div>
-            <ReactApexChart options={{...chartOption, labels: [...data.insert_oil_time.Xaxis]}} type={'area'} height={414}
+            <ReactApexChart options={{...chartOption, labels: [...data.insert_oil_time.Xaxis]}} type={'area'}
+                            height={414}
                             series={[{name: 'data', data: data.insert_oil_time.Yaxis}]}/>
           </BlackContainer>
           : <NoDataCard contents={'기계를 선택해 주세요'} height={504}/>

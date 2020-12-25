@@ -194,7 +194,6 @@ const FactoryEnvironmentalAnalysis: React.FunctionComponent = () => {
           <Span2>금형 명칭</Span2>
         </ListTitleDiv>
 
-        {console.log(choice)}
         {moldList.map((mold, index) =>
           moldList.length > 0 ? (
             <div

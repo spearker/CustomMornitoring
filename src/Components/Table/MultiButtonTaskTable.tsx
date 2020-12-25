@@ -21,9 +21,6 @@ const MultiButtonTaskTable = ({events, indexList,target,subIndexList, contents, 
 
 
   const tCors = Object.keys(indexList).length  + 1;
-  useEffect(()=>{
-   console.log(Object.keys(indexList))
-  },[])
 
   return (
     <TableWrap>

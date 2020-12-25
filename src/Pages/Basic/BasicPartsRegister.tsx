@@ -6,7 +6,7 @@ import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import ListHeader from '../../Components/Text/ListHeader'
 import NormalInput from '../../Components/Input/NormalInput'
 import DropdownInput from '../../Components/Input/DropdownInput'
-import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
+import BasicSearchContainer from '../../Containers/Old_Basic/BasicSearchContainer'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import useObjectInput from '../../Functions/UseInput'
@@ -16,6 +16,8 @@ import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import SmallButton from '../../Components/Button/SmallButton'
 import Styled from 'styled-components'
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {setInterval} from "timers";
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 
 const BasicPartsRegister = () => {
@@ -35,6 +37,7 @@ const BasicPartsRegister = () => {
     const [type, setType] = useState<number>(0)
     const [location, setLocation] = useState<any[]>([])
     const [cost, setCost] = useState<number>()
+    const [quantity, setQuantity] = useState<number>()
 
 
     const [inputData, setInputData] = useObjectInput('CHANGE', {
@@ -60,60 +63,49 @@ const BasicPartsRegister = () => {
 
     const partsListLoad = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/parts/type/list`, getToken(TOKEN_NAME))
-
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-
-                const list = res.results.info_list.map((v) => {
-                    return v.name
-                })
-                list.push('부품 등록하기')
-                const pk = res.results.info_list.map((v => {
-                    return v.pk
-                }))
-
-                setPartsPkList(pk)
-                setPartsList(list)
+        const tempUrl = `${API_URLS['parts'].typeList}`
+        const res = await getBasicList(tempUrl)
 
 
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+
+            const list = res.info_list.map((v) => {
+                return v.name
+            })
+            list.push('부품 등록하기')
+            const pk = res.info_list.map((v => {
+                return v.pk
+            }))
+
+            setPartsPkList(pk)
+            setPartsList(list)
+
+
         }
 
     }, [partsList, partsPkList])
 
     const getData = useCallback(async () => {
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/parts/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200 || res.status === '200') {
-                const data = res.results
 
-                setPk(data.pk)
-                setLocation([{pk: data.location_pk, name: data.location_name}])
-                setCost(data.parts_cost)
-                setName(data.parts_name)
-                console.log(data.parts_type_name)
-                setPartsName(data.parts_type_name)
-                console.log(partsPkList)
-                console.log(partsList.indexOf(data.parts_type_name))
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            const data = res
+
+            setPk(data.pk)
+            setLocation([{pk: data.location_pk, name: data.location_name}])
+            setCost(data.parts_cost)
+            setName(data.parts_name)
+            setPartsName(data.parts_type_name)
+            setQuantity(data.parts_stock)
+
         }
     }, [pk, partsList, essential, inputData, partsPkList, type, partsName])
 
 
     const onsubmitFormUpdate = useCallback(async () => {
-        console.log(type)
 
         if (name.trim() === '') {
             alert('부품 이름은 필수 항목입니다. 반드시 입력해주세요.')
@@ -124,33 +116,33 @@ const BasicPartsRegister = () => {
         } else if (location === undefined || location[0]?.pk === undefined || location[0]?.pk === '') {
             alert('공장 정보는 필수 항목입니다. 반드시 선택해주세요.')
             return
-        } else if (cost === null || cost === undefined || String(cost).trim() === '' || cost === 0) {
+        } else if (cost === null || cost === undefined || String(cost).trim() === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
+            return
+        } else if (quantity === null || quantity === undefined || String(quantity).trim() === '') {
+            alert('재고는 필수 항목입니다. 반드시 입력해주세요.')
             return
         }
 
         const data = {
             pk: getParameter('pk'),
-            parts_name: name,
+            parts_name: name.trim(),
             parts_type: partsPkList[type],
             location: location[0].pk,
-            parts_cost: cost
+            parts_cost: cost,
+            parts_stock: quantity
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/update`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/parts')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            history.push('/basic/list/parts')
         }
 
-    }, [pk, location, name, type, cost, partsPkList])
+
+    }, [pk, location, name, type, cost, partsPkList, quantity])
 
     const onsubmitForm = useCallback(async () => {
         if (name.trim() === '') {
@@ -165,29 +157,29 @@ const BasicPartsRegister = () => {
         } else if (cost === null || cost === undefined || String(cost).trim() === '') {
             alert('원가는 필수 항목입니다. 반드시 입력해주세요.')
             return
+        } else if (quantity === null || quantity === undefined || String(quantity).trim() === '') {
+            alert('재고는 필수 항목입니다. 반드시 입력해주세요.')
+            return
         }
 
         const data = {
-            parts_name: name,
+            parts_name: name.trim(),
             parts_type: partsPkList[type],
             location: location[0].pk,
-            parts_cost: cost
+            parts_cost: cost,
+            parts_stock: quantity
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/register`, data, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                history.push('/basic/list/parts')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        const tempUrl = `${API_URLS['parts'].create}`
+        const res = await registerBasicItem(tempUrl, data)
+
+
+        if (res) {
+            history.push('/basic/list/parts')
         }
 
-    }, [name, type, location, cost])
+    }, [name, partsPkList, type, location, cost, quantity])
 
 
     const partsRegister = useCallback(async () => {
@@ -200,17 +192,12 @@ const BasicPartsRegister = () => {
             name: partsName
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/type/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeCreate}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            partsListLoad()
         }
 
     }, [partsList, partsPkList, partsName])
@@ -221,18 +208,12 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type]
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/type/delete`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeDelete}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
-                setType(0)
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            partsListLoad()
+            setType(0)
         }
 
     }, [partsList, partsPkList, type])
@@ -251,17 +232,13 @@ const BasicPartsRegister = () => {
             pk: partsPkList[type],
             name: partsName
         }
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/parts/type/update`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['parts'].typeUpdate}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        if (res === false) {
-            // //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-                partsListLoad()
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            await partsListLoad()
+            setType(partsList.length - 2)
         }
     }, [partsList, partsPkList, type, partsName])
 
@@ -278,16 +255,13 @@ const BasicPartsRegister = () => {
     }, [type])
 
     useEffect(() => {
-        if (partsList[type] !== '부품 등록하기' || partsList[type] === undefined) {
-            // setType(partsList.indexOf(partsName))
+        if (partsList[type] !== '부품 등록하기' && partsList[type] === undefined) {
+            setType(partsList.indexOf(partsName))
         } else {
             return
         }
     }, [partsList, partsName])
 
-    useEffect(() => {
-        console.log(type)
-    }, [type])
 
     return (
         <DashboardWrapContainer index={'basic'}>
@@ -297,20 +271,18 @@ const BasicPartsRegister = () => {
                     {
                         <>
                             <ListHeader title="필수 항목"/>
-                            <NormalInput title={'부품 이름'} value={name} onChangeEvent={(input) => setName(input)}
-                                         description={'이름을 입력해주세요.'}/>
+                            <NormalInput title={'부품명'} value={name} onChangeEvent={(input) => setName(input)}
+                                         description={'부품명을 입력해주세요.'}/>
                             <div style={{width: '100%', display: 'flex', alignItems: 'center'}}>
                                 <div style={{width: '60%', marginRight: 20}}>
                                     <DropdownInput title={'부품 종류'} target={partsList[type]} contents={partsList}
                                                    onChangeEvent={(input) => setType(input)}/>
                                 </div>
-                                {console.log(partsList[type])}
-                                <NormalInput title={'부품 이름'}
+                                <NormalInput title={'부품 종류명'}
                                              width={partsList[type] === '부품 등록하기' || partsList[type] === undefined ? 140 : 80}
                                              value={partsName} onChangeEvent={(input) => {
-                                    console.log(input)
                                     setPartsName(input)
-                                }} description={'부품명을 입력하세요'}/>
+                                }} description={'부품 종류명을 입력하세요'}/>
                                 <div
                                     style={{marginLeft: partsList[type] === '부품 등록하기' || partsList[type] === undefined ? 30 : 10}}>
                                     {partsList[type] === undefined || partsList[type] === '부품 등록하기' ?
@@ -342,6 +314,9 @@ const BasicPartsRegister = () => {
                             <NormalNumberInput title={'원가'} value={cost} onChangeEvent={(input) => setCost(input)}
                                                description={'원가를 입력해주세요.'}/>
 
+                            <NormalNumberInput title={'재고'} value={quantity}
+                                               onChangeEvent={isUpdate ? null : (input) => setQuantity(input)}
+                                               description={'재고를 입력해주세요.'}/>
                             {/*<br/>*/}
                             {/*<ListHeader title="선택 항목"/>*/}
                             {/*<NormalInput title={'품목 스펙'}  value={inputData.material_spec} onChangeEvent={(input)=>setInputData(`material_spec`, input)} description={'이름을 입력해주세요.'}/>*/}

@@ -50,7 +50,6 @@ const DefectiveRegister = () => {
      * @returns X
      */
     const addFile = async (event: any): Promise<void> => {
-        console.log(event.target.files[0]);
 
         if (event.target.files[0] === undefined) {
             setFile(null)
@@ -58,14 +57,11 @@ const DefectiveRegister = () => {
             setPhotoName("")
             return;
         }
-        console.log(event.target.files[0].type);
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
             setFile(event.target.files[0])
             setPhotoName(event.target.files[0].name)
-            console.log(file)
             const temp = await uploadTempFile(event.target.files[0]);
             if (temp === false) {
-                console.log(temp)
 
                 setFile(null)
                 setPhotoName('')
@@ -178,9 +174,7 @@ const DefectiveRegister = () => {
      */
     const onsubmitForm = useCallback(async (e) => {
         e.preventDefault();
-        console.log(infoList)
         ////alert(JSON.stringify(infoList))
-        console.log(JSON.stringify(infoList))
         if (name === "") {
             //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
             return;

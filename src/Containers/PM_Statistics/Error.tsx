@@ -3,7 +3,10 @@ import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getErrorData} from '../../Api/pm/statistics'
 import Styled from 'styled-components'
+import Notiflix from 'notiflix'
+import OptimizedLineTable from '../../Components/Table/OptimizedLineTable'
 
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const ErrorContainer = () => {
 
@@ -46,14 +49,13 @@ const ErrorContainer = () => {
     },
   }
 
-  const onClick = useCallback((machine, i) => {
-    console.log(machine.pressPk, machine.pressName)
+  const onClick = (machine, i) => {
     if (selectIndex === i) {
+      setSelectIndex(null)
       setSelectPk(null)
       setSelectMachine(null)
       setSelectValue(null)
       setDetailPage({...detailPage, current: 1})
-      setSelectIndex(null)
     } else {
       setSelectIndex(i)
       setSelectPk(machine.pressPk)
@@ -68,25 +70,33 @@ const ErrorContainer = () => {
     }
 
 
-  }, [list, selectPk])
+  }
 
   const getData = useCallback(async (pk) => {
     //TODO: 성공시
-    const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=7`
-    const res = await getErrorData(tempUrl)
+    if (pk !== undefined && pk !== null) {
+      Notiflix.Loading.Circle()
+      const tempUrl = `${API_URLS['error'].load}?pk=${pk}&page=${detailPage.current}&limit=7`
+      const res = await getErrorData(tempUrl)
+      if (res) {
+        setDetailList(res.errorList)
 
-    setDetailList(res.errorList)
-
-    setDetailPage({current: res.current_page, total: res.total_page})
+        setDetailPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
+      }
+    }
   }, [detailList, detailPage])
 
 
   const getList = useCallback(async () => { // useCallback
+    Notiflix.Loading.Circle()
     const tempUrl = `${API_URLS['error'].list}?page=${page.current}&limit=5`
     const res = await getErrorData(tempUrl)
-
-    setList(res.info_list)
-    setPage({current: res.current_page, total: res.total_page})
+    if (res) {
+      setList(res.info_list)
+      setPage({current: res.current_page, total: res.total_page})
+      Notiflix.Loading.Remove()
+    }
   }, [list, page])
 
   useEffect(() => {
@@ -111,19 +121,27 @@ const ErrorContainer = () => {
       valueList={list}
       currentPage={page.current}
       totalPage={page.total}
-      pageOnClickEvent={(event, i: number) => setPage({...page, current: i})}
+      pageOnClickEvent={(event, i: number) => {
+        setSelectPk(null)
+        setDetailPage({...detailPage, current: 1})
+        setPage({...page, current: i})
+      }}
       clickValue={selectValue}
       mainOnClickEvent={onClick}>
       {
         selectPk !== null ?
-          <LineTable title={selectMachine + ' 상세 에러 로그'}
-                     contentTitle={subIndex}
-                     contentList={detailList}
-                     currentPage={detailPage.current}
-                     totalPage={detailPage.total}
-                     pageOnClickEvent={(event, i: number) => setDetailPage({...detailPage, current: i})}>
+          <OptimizedLineTable title={selectMachine + ' 상세 에러 로그'}
+                              contentTitle={subIndex}
+                              contentList={detailList}
+                              currentPage={detailPage.current}
+                              totalPage={detailPage.total}
+                              pageOnClickEvent={(event, i: number) => setDetailPage({
+                                ...detailPage,
+                                current: i
+                              })}
+                              widthList={[170, 100, 130, 350, 150, 150]}>
             <Line/>
-          </LineTable>
+          </OptimizedLineTable>
           :
           null
       }
@@ -132,7 +150,7 @@ const ErrorContainer = () => {
 }
 
 const Line = Styled.hr`
-    margin: 10px 20px 12px 0px;
+    margin: 10px 20px 0px 0px;
     border-color: #353b48;
     height: 1px;
     background-color: #353b48;

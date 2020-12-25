@@ -3,6 +3,9 @@ import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getOvertoneData} from '../../Api/pm/preservation'
 import Styled from 'styled-components'
+import Notiflix from 'notiflix'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 
 const OvertonMaintenanceContainer = () => {
@@ -43,7 +46,6 @@ const OvertonMaintenanceContainer = () => {
   }
 
   const onClick = useCallback(machine => {
-    console.log(machine.pk, machine.machine_name)
     if (machine.pk === selectPk) {
       setSelectPk(null)
       setSelectMachine(null)
@@ -63,23 +65,30 @@ const OvertonMaintenanceContainer = () => {
     //TODO: 성공시
 
     if (pk) {
+      console.log(detailPage.current)
+      Notiflix.Loading.Circle()
       const tempUrl = `${API_URLS['overtone'].load}?pk=${pk}&page=${detailPage.current}&limit=15`
       const res = await getOvertoneData(tempUrl)
+      if (res) {
+        setDetailList(res.info_list)
 
-      setDetailList(res.info_list)
-
-      setDetailPage({current: res.current_page, total: res.total_page})
+        setDetailPage({current: res.current_page, total: res.total_page})
+        Notiflix.Loading.Remove()
+      }
     }
-  }, [detailList, selectPk])
+  }, [detailList, selectPk, detailPage])
 
 
   const getList = useCallback(async () => { // useCallback
-    const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=15`
+    Notiflix.Loading.Circle()
+    const tempUrl = `${API_URLS['overtone'].list}?page=${page.current}&limit=5`
     const res = await getOvertoneData(tempUrl)
+    if (res) {
+      setList(res.info_list)
 
-    setList(res.info_list)
-
-    setPage({current: res.current_page, total: res.total_page})
+      setPage({current: res.current_page, total: res.total_page})
+      Notiflix.Loading.Remove()
+    }
   }, [list, page])
 
   useEffect(() => {
@@ -95,7 +104,7 @@ const OvertonMaintenanceContainer = () => {
 
   useEffect(() => {
     getData(selectPk)
-  }, [page.current])
+  }, [detailPage.current])
 
   return (
     <OvertonTable
@@ -105,7 +114,11 @@ const OvertonMaintenanceContainer = () => {
       clickValue={selectValue}
       currentPage={page.current}
       totalPage={page.total}
-      pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+      pageOnClickEvent={(event, i) => {
+        setSelectPk(null)
+        setDetailPage({...detailPage, current: 1})
+        setPage({...page, current: i})
+      }}
       mainOnClickEvent={onClick}>
       {
         selectPk !== null ?
@@ -114,7 +127,7 @@ const OvertonMaintenanceContainer = () => {
                      contentList={detailList}
                      currentPage={detailPage.current}
                      totalPage={detailPage.total}
-                     pageOnClickEvent={(i: number) => setDetailPage({...detailPage, current: i})}>
+                     pageOnClickEvent={(i: any, v: number) => setDetailPage({...detailPage, current: v})}>
             <Line/>
           </LineTable>
           :
@@ -125,10 +138,10 @@ const OvertonMaintenanceContainer = () => {
 }
 
 const Line = Styled.hr`
-    margin: 10px 20px 12px 0px;
-    border-color: #353b48;
-    height: 1px;
-    background-color: #353b48;
-`
+        margin: 10px 20px 12px 0px;
+        border-color: #353b48;
+        height: 1px;
+        background-color: #353b48;
+        `
 
 export default OvertonMaintenanceContainer

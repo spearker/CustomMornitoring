@@ -8,6 +8,7 @@ import useObjectInput from "../../hooks/UseInput";
 import RegisterDropdown from "../../Components/Dropdown/RegisterDropdown";
 import {useHistory} from "react-router-dom";
 import {API_URLS, postQualityRequestDetail} from "../../Api/mes/quality";
+import MemeberPickerModal from "../../Components/Modal/MemberPickerModal";
 
 const initialInputValue = {
     customer_name: '',
@@ -17,7 +18,8 @@ const initialInputValue = {
     material_name: '',
     request_time: '',
     request_reason: '',
-    inspector_name: '',
+    worker: {pk: '', name: ''},
+    inspector_name: {pk: '', name: ''},
     request_complete_time: '',
     test_reason: '',
     total_count: '',
@@ -31,7 +33,6 @@ const QualityDetailListContainer = ({match}) => {
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
 
     useEffect(() => {
-        console.log(match.params.pk)
         if (match.params.pk) {
             // alert(`수정 페이지 진입 - pk :` + match.params.pk)
             getData()
@@ -54,7 +55,8 @@ const QualityDetailListContainer = ({match}) => {
             setInputData('material_name', res.results.material_name)
             setInputData('request_time', res.results.request_time)
             setInputData('request_reason', res.results.request_description)
-            setInputData('inspector_name', res.results.worker)
+            setInputData('worker', {pk: res.results.worker_pk, name: res.results.worker})
+            setInputData('inspector_name', {pk: res.results.writer_pk, name: res.results.writer})
             setInputData('request_complete_time', res.results.response_time)
             setInputData('test_reason', res.results.response_description)
             setInputData('total_count', res.results.amount)
@@ -126,11 +128,6 @@ const QualityDetailListContainer = ({match}) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>• 검사자</td>
-                            <td><input value={inputData.inspector_name} placeholder="검사자"
-                                       onChange={(e) => setInputData('inspector_name', e.target.value)} disabled/></td>
-                        </tr>
-                        <tr>
                             <td>• 검사 완료 시간</td>
                             <td><input value={inputData.request_complete_time} placeholder="검사 완료 시간"
                                        onChange={(e) => setInputData('request_complete_time', e.target.value)}
@@ -160,6 +157,12 @@ const QualityDetailListContainer = ({match}) => {
                                        onChange={(e) => setInputData('total_count', e.target.value)} disabled/></td>
                         </tr>
                         <tr>
+                            <td>• 작업자</td>
+                            <td><MemeberPickerModal onClickEvent={(e) => setInputData('worker', e)}
+                                                    disabled
+                                                    text={'작업자를 선택해 주세요'} select={inputData.worker}/></td>
+                        </tr>
+                        <tr>
                             <td>• 적격 개수</td>
                             <td><input value={inputData.defective_count} placeholder="적격 개수"
                                        onChange={(e) => setInputData('defective_count', e.target.value)} disabled/></td>
@@ -176,6 +179,12 @@ const QualityDetailListContainer = ({match}) => {
                                                   onClickEvent={(e: string) => false && setInputData('whether', e)}
                                                   select={inputData.whether} contents={[]}
                                                   text={'적격 여부를 선택해 주세요.'}/></td>
+                        </tr>
+                        <tr>
+                            <td>• 검사자</td>
+                            <td><MemeberPickerModal onClickEvent={(e) => setInputData('inspector_name', e)}
+                                                    disabled
+                                                    text={'검사자를 선택해 주세요'} select={inputData.inspector_name}/></td>
                         </tr>
                     </table>
                 </div>

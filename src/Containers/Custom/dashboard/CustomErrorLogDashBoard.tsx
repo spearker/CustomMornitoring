@@ -1,21 +1,20 @@
 import React, {useEffect} from 'react'
-import Styled from "styled-components";
-import CustomErrorLogItem from "../../../Components/Custom/dashboard/CustomErrorLogItem";
-import getYoodongErrorDashboard from "../../../Api/custom/getYoodongErrorDashboard";
-import {YOUDONG_ERROR_DASHBOARD} from "../../../Common/@types/youdong";
-import {RotateSpinner} from "react-spinners-kit";
-import Modal from "react-modal";
-import {useHistory} from "react-router-dom";
+import Styled from 'styled-components'
+import CustomErrorLogItem from '../../../Components/Custom/dashboard/CustomErrorLogItem'
+import getYoodongErrorDashboard from '../../../Api/custom/getYoodongErrorDashboard'
+import {YOUDONG_ERROR_DASHBOARD} from '../../../Common/@types/youdong'
+import {RotateSpinner} from 'react-spinners-kit'
+import Modal from 'react-modal'
+import {useHistory} from 'react-router-dom'
 
 const CustomErrorLogDashBoard: React.FunctionComponent = () => {
-    const [state, setState] = React.useState<YOUDONG_ERROR_DASHBOARD[]>();
-    const [isFirstLoad, setIsFirstLoad] = React.useState(true);
+    const [state, setState] = React.useState<YOUDONG_ERROR_DASHBOARD[]>()
+    const [isFirstLoad, setIsFirstLoad] = React.useState(true)
 
     useEffect(() => {
         const documentEvent: any = document
 
-        documentEvent.body.style.zoom = .6;
-        getData().then(() => console.log('load success'))
+        documentEvent.body.style.zoom = .6
     }, [])
 
     React.useEffect(() => {
@@ -24,10 +23,13 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
         }, 30000)
 
         return () => {
-            console.log('-- monitoring end -- ')
-            clearTimeout(interval);
+            clearTimeout(interval)
         }
     }, [state])
+
+    React.useEffect(() => {
+        getData().then(() => console.log('load success'))
+    }, [])
 
     const history = useHistory()
 
@@ -47,8 +49,6 @@ const CustomErrorLogDashBoard: React.FunctionComponent = () => {
             console.log('catched error', error)
         }
     }
-
-    console.log('isFirstLoad', isFirstLoad)
 
     return (
         <DashboardWrapDiv>
@@ -92,6 +92,7 @@ const DashboardWrapDiv = Styled.div`
     width: 99%;
     height: 100vh;
     display: flex;
+    flex-wrap: wrap;
     margin-left: 24px;
     background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
 `

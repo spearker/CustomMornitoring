@@ -65,22 +65,18 @@ const MapList = () => {
     const getData = useCallback(async () => {
 
         const resultList = await getAdminData(API_URLSADMIN[`company`].load);
-        console.log(resultList.results[0])
         setPk(resultList.results[0].pk)
 
     }, [pk])
 
     const getMapData = useCallback(async () => {
 
-        console.log(pk)
         const resultList = await getAdminData(API_URLSADMIN[`map`].list + '?pk=' + pk);
-        console.log(resultList.results)
         setList(resultList.results)
 
     }, [pk])
 
     const getMapDelete = useCallback(async () => {
-        console.log(mapPk)
         const resultList = await postMapDeleteData(API_URLSADMIN[`map`].delete + '?pk=' + mapPk);
 
     }, [mapPk])
@@ -130,11 +126,9 @@ const MapList = () => {
 
     React.useEffect(() => {
         getMapData()
-        console.log(pk, list)
     }, [pk])
 
     const onClick = useCallback(map => {
-        console.log(map);
         if (map.pressPk === pk) {
             setPk(null);
             setSelectValue(null);
@@ -143,7 +137,6 @@ const MapList = () => {
             setPk(map.pk);
             setMapPk(map.map_pk)
             setSelectValue(map)
-            console.log(map.map_pk)
         }
 
     }, []);

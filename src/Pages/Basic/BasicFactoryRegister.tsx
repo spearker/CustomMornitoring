@@ -14,6 +14,7 @@ import NormalAddressInput from '../../Components/Input/NormalAddressInput';
 import {JsonStringifyList} from '../../Functions/JsonStringifyList';
 import {useHistory} from 'react-router-dom';
 import {SF_ENDPOINT} from "../../Api/SF_endpoint";
+import {API_URLS, getBasicList, registerBasicItem} from "../../Api/mes/basic";
 
 // 공장 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -48,21 +49,14 @@ const BasicFactoryRegister = () => {
     }, [])
 
     const getData = useCallback(async () => {
+        const tempUrl = `${API_URLS['factory'].load}?pk=${getParameter('pk')}`
+        const res = await getBasicList(tempUrl)
 
-        const res = await getRequest(`${SF_ENDPOINT}/api/v1/factory/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
-
-        if (res === false) {
-            //TODO: 에러 처리
-
-        } else {
-            if (res.status === 200 || res.status === "200") {
-                const data = res.results;
-                setInputData('name', data.name)
-                setInputData('location', data.location)
-                setInputData('description', data.description)
-            } else {
-                //TODO:  기타 오류
-            }
+        if (res) {
+            const data = res
+            setInputData('name', data.name)
+            setInputData('location', data.location)
+            setInputData('description', data.description)
         }
     }, [pk, optional, essential, inputData])
 
@@ -87,18 +81,14 @@ const BasicFactoryRegister = () => {
             description: inputData.description,
             info_list: JsonStringifyList(essential, optional)
         };
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/factory/update`, data, getToken(TOKEN_NAME))
 
-        if (res === false) {
-            ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
+        const tempUrl = `${API_URLS['factory'].update}`
+        const res = await registerBasicItem(tempUrl, data)
 
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 수정 되었습니다');
-                history.goBack()
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+
+        if (res) {
+            //alert('성공적으로 수정 되었습니다');
+            history.goBack()
         }
 
     }, [pk, optional, essential, inputData])
@@ -124,19 +114,13 @@ const BasicFactoryRegister = () => {
             info_list: JsonStringifyList(essential, optional)
         };
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/factory/register`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['factory'].create}`
+        const res = await registerBasicItem(tempUrl, data)
 
 
-        if (res === false) {
-            ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
-
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다');
-                history.push('/basic/list/factory')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+            //alert('성공적으로 등록 되었습니다');
+            history.push('/basic/list/factory')
         }
 
     }, [pk, optional, essential, inputData, document])

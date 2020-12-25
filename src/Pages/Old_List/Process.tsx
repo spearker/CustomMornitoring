@@ -126,7 +126,6 @@ const ProcessList = () => {
 
     const onClickModify = useCallback((id) => {
 
-        console.log('--select id : ' + id)
         window.location.href = `/update/line?pk=${id}`
 
     }, [])

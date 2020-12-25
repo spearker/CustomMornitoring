@@ -11,11 +11,7 @@ import client from '../configs/basic'
  */
 export const postMarketing = async (url: string, object: object) => {
   const temp: IServerData = await client.post(url, object)
-  console.log(temp.status)
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
-  }
+
   return temp.status
 }
 
@@ -29,11 +25,7 @@ export const postMarketing = async (url: string, object: object) => {
  */
 export const getMarketing = async (url: string) => {
   const temp: IServerData = await client.get(url)
-  console.log(temp.results)
-  if (temp.status === 400) {
-    alert('요청이 잘못되었습니다.')
-    return
-  }
+
   return temp.results
 }
 
@@ -97,7 +89,8 @@ export const API_URLS = {
     load: `/v1/marketing/contract/load`,
     list: `/v1/marketing/contract/list`,
     delete: `/v1/marketing/contract/delete`,
-    finish: `/v1/marketing/contract/finish`
+    finish: `/v1/marketing/contract/finish`,
+    search: `/v1/marketing/contract/search`
   },
   shipment: {
     register: `/v1/marketing/shipment/register`,

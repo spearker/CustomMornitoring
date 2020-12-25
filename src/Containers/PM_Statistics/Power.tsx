@@ -111,22 +111,31 @@ const PowerContainer = () => {
 
     const tempUrl = `${API_URLS['power'].list}?startDate=${selectDate.start}&endDate=${selectDate.end}`
     const resultData = await getPowerList(tempUrl)
-    console.log(resultData)
     setLabels(resultData.dates)
 
     let tempArray: any = {}
     let tmpArr: { name: string, data: number[] }[] = []
 
     resultData.press_logs?.map(index => {
-      if (tempArray[index.press_name]) {
-        tempArray = {...tempArray, [index.press_name]: [...tempArray[index.press_name], index.press_data]}
+      if (tempArray[index.press_pk]) {
+        tempArray = {
+          ...tempArray, [index.press_pk]: {
+            name: index.press_name,
+            data: [...tempArray[index.press_pk].data, index.press_data]
+          }
+        }
       } else {
-        tempArray = {...tempArray, [index.press_name]: [index.press_data]}
+        tempArray = {
+          ...tempArray, [index.press_pk]: {
+            name: index.press_name,
+            data: [index.press_data]
+          }
+        }
       }
     })
 
     Object.keys(tempArray).map((v, i) => {
-      tmpArr = [...tmpArr, {name: v, data: tempArray[v]}]
+      tmpArr = [...tmpArr, {name: tempArray[v].name, data: tempArray[v].data}]
     })
 
     setData([...tmpArr])
@@ -138,9 +147,6 @@ const PowerContainer = () => {
     getData()
   }, [])
 
-  useEffect(() => {
-    console.log(visible)
-  }, [visible])
 
   return (
     <div>
@@ -160,16 +166,23 @@ const PowerContainer = () => {
                 <div className={'itemDiv'} style={{float: 'left', display: 'inline-block'}}>
                   <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>기간별 프레스 전력 비교</p>
                 </div>
-                <div style={{marginRight: 30, width: 620, display: 'flex', flexDirection: 'row', marginTop: 30}}>
-                  <ListRadioButton nameList={['일']} data={selectType} onClickEvent={(i) => {
-                    if (i === 0) {
-                      setSelectType([true, false])
-                    } else {
-                      setSelectType([false, true])
-                    }
-                  }}/>
+                <div style={{
+                  marginRight: 30,
+                  width: 620,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginTop: 30
+                }}>
+                  {/*<ListRadioButton nameList={['일']} data={selectType} onClickEvent={(i) => {*/}
+                  {/*    if (i === 0) {*/}
+                  {/*        setSelectType([true, false])*/}
+                  {/*    } else {*/}
+                  {/*        setSelectType([false, true])*/}
+                  {/*    }*/}
+                  {/*}}/>*/}
                   <div>
-                    <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
+                    <CalendarDropdown type={'single'} selectRange={selectDate}
+                                      limitType={'electric'}
                                       onClickEvent={(date) => setSelectDate({
                                         start: moment(date).subtract(2, 'days').format('YYYY-MM-DD'),
                                         end: date
@@ -188,20 +201,28 @@ const PowerContainer = () => {
           </BlackContainer>
           :
           <div>
-            <div style={{display: 'flex', flexDirection: 'row', height: 30, float: 'right', marginBottom: 20}}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              height: 30,
+              float: 'right',
+              marginBottom: 20
+            }}>
               <CalendarDropdown type={'single'} selectRange={selectDate} limitType={'electric'}
                                 onClickEvent={(date) => setSelectDate({
                                   start: moment(date).subtract(2, 'days').format('YYYY-MM-DD'),
                                   end: date
                                 })}/>
-              <BasicGrayButtonLink width={'80px'} name={'검색'} onClick={() => setVisible(true)}></BasicGrayButtonLink>
+              <BasicGrayButtonLink width={'80px'} name={'검색'}
+                                   onClick={() => setVisible(true)}></BasicGrayButtonLink>
             </div>
             <NoDataCard contents={'데이터를 불러오는 중입니다..'} height={740}/>
           </div>
       }
       {
-        visible && <AlertModal onClickClose={() => setVisible(false)} type={'normal'} contents={'해당 기간의 데이터를 검색하시겠습니까?'}
-                               okFunc={() => getData()}></AlertModal>
+        visible &&
+        <AlertModal onClickClose={() => setVisible(false)} type={'normal'} contents={'해당 기간의 데이터를 검색하시겠습니까?'}
+                    okFunc={() => getData()}></AlertModal>
       }
     </div>
   )

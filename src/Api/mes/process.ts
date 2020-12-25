@@ -1,4 +1,4 @@
-import client from '../configs/basic';
+import client from '../configs/basic'
 
 /**
  * postProcessDelete()
@@ -10,13 +10,11 @@ import client from '../configs/basic';
  * @version 0.1
  */
 export const postProcessDelete = async (url: string, object: object) => {
-    const temp: IServerData = await client.post(url, object);
-    console.log(temp.status);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.post(url, object)
+
+    if (temp) {
+        return temp.status
     }
-    return temp.status;
 }
 
 /**
@@ -28,13 +26,11 @@ export const postProcessDelete = async (url: string, object: object) => {
  * @version 0.1
  */
 export const getProcessList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results
     }
-    return temp.results;
 }
 
 
@@ -47,13 +43,11 @@ export const getProcessList = async (url: string) => {
  * @version 0.1
  */
 export const getSegmentList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results
     }
-    return temp.results;
 }
 
 /**
@@ -66,13 +60,11 @@ export const getSegmentList = async (url: string) => {
  * @version 0.1
  */
 export const postSegmentDelete = async (url: string, object: object) => {
-    const temp: IServerData = await client.post(url, object);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.post(url, object)
+
+    if (temp) {
+        return temp.results
     }
-    return temp.results;
 }
 
 
@@ -85,7 +77,22 @@ export const postSegmentDelete = async (url: string, object: object) => {
  * @author 준희
  */
 export const postProcessRegister = async (url: string, bodyData: object) => {
-    const temp: IServerData = await client.post(url, bodyData);
+    const temp: IServerData = await client.post(url, bodyData)
+    return temp
+}
+
+/**
+ * getSearchMachine()
+ * 공정 검색하기
+ * @param {string} url 링크 주소
+ * @param {Object} keyword 공정명
+ * @returns {Object} 기게정보 리스트
+ * @author 준희
+ */
+
+export const getSearchProcess = async (url: string) => {
+    const temp: IServerData = await client.get(url)
+
     return temp
 }
 
@@ -99,27 +106,27 @@ export const postProcessRegister = async (url: string, bodyData: object) => {
  */
 
 export const getSearchMachine = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results
     }
-    return temp.results
 }
 
 /**
- * getSearchMachine()
- * 공정 검색하기
- * @param {string} url 링크 주소
- * @param {Object} keyword 공정명
- * @returns {Object} 기게정보 리스트
+ * getSearchDetail()
+ * 공정 디테일
+ * @param {string} 공정 pk
+ * @returns {Object} 공정 디테일 객체
  * @author 준희
  */
 
-export const getSearchProcess = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-
-    return temp
+export const getSearchDetail = async (url: string) => {
+    const temp: IServerData = await client.get(url)
+    
+    if (temp) {
+        return temp.results
+    }
 }
 
 export const API_URLS = {

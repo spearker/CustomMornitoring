@@ -5,6 +5,9 @@ import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getMoldData,} from '../../Api/pm/statistics'
 import LoadtoneBox from '../../Components/Box/LoadtoneBox'
 import icCurrentValue from '../../Assets/Images/ic_current_down.png'
+import Notiflix from 'notiflix'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const MoldContainer = () => {
 
@@ -31,42 +34,6 @@ const MoldContainer = () => {
       manufacturer_number: '제조 번호',
     }
   }
-
-  // const dummy = [
-  //     {
-  //         mold_name: '금형 01',
-  //         location_name: '(주)시즐',
-  //         mold_number: '1234-123-1349(제조번호)',
-  //     },
-  //     {
-  //         mold_name: '금형 02',
-  //         location_name: '(주)시즐',
-  //         mold_number: '1234-143-1349(제조번호)',
-  //     },
-  //     {
-  //         mold_name: '금형 03',
-  //         location_name: '(주)시즐',
-  //         mold_number: '1234-153-1349(제조번호)',
-  //     },
-  //     {
-  //         mold_name: '금형 04',
-  //         location_name: '(주)시즐',
-  //         mold_number: '1234-323-1349(제조번호)',
-  //     },
-  //     {
-  //         mold_name: '금형 05',
-  //         location_name: '(주)시즐',
-  //         mold_number: '1234-523-1349(제조번호)',
-  //     },
-  // ]
-
-  // const detaildummy = [
-  //     {
-  //         max_count: 50000,
-  //         today_count: 1000,
-  //         current_count: 38898
-  //     },
-  // ]
 
   const onClick = useCallback((mold) => {
     setDetailList({
@@ -95,20 +62,29 @@ const MoldContainer = () => {
     //TODO: 성공시
     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
     const res = await getMoldData(tempUrl)
-
-    setDetailList(res)
-
+    if (res) {
+      setDetailList(res)
+    }
   }, [])
 
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
-    console.log(page.current)
+    Notiflix.Loading.Circle()
     const tempUrl = `${API_URLS['mold'].list}?page=${page.current}&limit=5`
     const res = await getMoldData(tempUrl)
-    setList(res.info_list)
+    if (res) {
+      setList(res.info_list)
 
-    setPage({current: res.current_page, total: res.total_page})
+      setPage({current: res.current_page, total: res.total_page})
+      Notiflix.Loading.Remove()
+    }
   }, [list, page.current])
+
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
 
   useEffect(() => {
     getList()
@@ -132,7 +108,10 @@ const MoldContainer = () => {
         clickValue={selectValue}
         currentPage={page.current}
         totalPage={page.total}
-        pageOnClickEvent={(event, i) => setPage({...page, current: i})}
+        pageOnClickEvent={(event, i) => {
+          setSelectPk(null)
+          setPage({...page, current: i})
+        }}
         mainOnClickEvent={onClick}>
         {
           selectPk !== null ?
@@ -160,7 +139,7 @@ const MoldContainer = () => {
 
                         const value = v *= (detailList.max_life / 5)
                         return (
-                          <span>{value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                          <span>{AddComma(value.toFixed(0))}</span>
                         )
                       })}
                     </CountingNum>
@@ -182,7 +161,7 @@ const MoldContainer = () => {
               <div style={{paddingTop: 30, paddingBottom: 22}}>
                 <BottomBox>
                   <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <p>{(detailList.accumulate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                    <p>{AddComma(detailList.accumulate)}</p>
                     <p style={{marginTop: 22, paddingLeft: 7}}>회</p>
                   </div>
                 </BottomBox>
@@ -192,7 +171,7 @@ const MoldContainer = () => {
               <div style={{paddingTop: 30, paddingBottom: 22}}>
                 <BottomBox>
                   <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <p>{(detailList.yesterday_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}</p>
+                    <p>{AddComma(detailList.yesterday_count)}</p>
                     <p style={{marginTop: 22, paddingLeft: 7}}>회</p>
                   </div>
                 </BottomBox>
@@ -202,7 +181,7 @@ const MoldContainer = () => {
               <div style={{paddingTop: 30, paddingBottom: 22}}>
                 <BottomBox>
                   <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <p>{(detailList.mold_life).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                    <p>{AddComma(detailList.mold_life)}</p>
                     <p style={{marginTop: 22, paddingLeft: 7}}>회</p>
                   </div>
                 </BottomBox>

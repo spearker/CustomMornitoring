@@ -39,10 +39,8 @@ const SuperList = () => {
         // 리슽트 받기
         Axios.get(`${SF_ENDPOINT}/api/v2/super/company/load`)
             .then(function (res: IServerResponse) {
-                console.log(res);
                 if (res.data.status === 200) {
                     //welcome/auth로 이동
-                    console.log(res.data.results)
                     setCompanyList(res.data.results)
                 } else {
                     //기타 에러처리
@@ -57,8 +55,6 @@ const SuperList = () => {
 
     }, [])
     const onClickModify = useCallback((id) => {
-
-        console.log('--select id : ' + id)
 
     }, [])
     return (

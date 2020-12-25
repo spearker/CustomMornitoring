@@ -76,22 +76,23 @@ const CustomErrorLogItem: React.FunctionComponent<Props> = ({data}) => {
 }
 
 const Container = Styled.div`
-  width: 600px;
-  height: 1650px;
+  width: 580px;
+  min-height: 1650px;
+  max-height: auto;
   padding: 10px;
   margin-right: 24px;
-}
+  margin-bottom: 240px;
 `
 
-const PressTitle = Styled.span`
+const PressTitle = Styled.p`
   font-family: NotoSansCJKkr;
-  font-size: 48px;
+  font-size: 38px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 4.55;
   letter-spacing: 0.44px;
-  text-align: left;
+  text-align: center;
   color: #ffffff;
 `
 
@@ -114,11 +115,13 @@ const PressSub = Styled.span`
 
 const Content = Styled.div`
   background-color: rgba(17, 19, 25, .5);
-    height: 100%;
+  min-height: 100%;
+  max-height: auto;
   border-radius: 6px;
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 16px;
+  margin-bottom: 70px;
 `
 
 const ContentContainer = Styled.div`

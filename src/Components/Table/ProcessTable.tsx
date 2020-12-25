@@ -8,7 +8,7 @@ import SmallButton from '../Button/SmallButton';
 import {postRequest} from '../../Common/requestFunctions';
 import {getToken} from '../../Common/tokenFunctions';
 
-interface IProps{
+interface IProps {
     indexList: string[],
     contents: IProcess[],
     onClickModify?: any,
@@ -20,213 +20,226 @@ interface IProps{
 }
 
 
+const ProcessTable = ({indexList, contents, pk, select, widthList, onClickModify, onClickSelect, onClickSearch}: IProps) => {
 
-const ProcessTable = ({indexList, contents,pk, select,widthList, onClickModify, onClickSelect, onClickSearch}: IProps) => {
+    const [openTarget, setOpenTarget] = useState<string>('');
+    const [task, setTask] = useState<any>('');
+    const [replyList, setReplyList] = useState<IReply[]>([]);
 
-  const [openTarget, setOpenTarget] = useState<string>('');
-  const [task, setTask]= useState<any>('');
-  const [replyList, setReplyList]= useState<IReply[]>([]);
+    const changeStatusToString = useCallback((status: string | undefined) => {
+        if (status === 'active') {
+            return '진행'
+        } else if (status === 'done') {
+            return '완료'
+        } else if (status === 'stop') {
+            return '중지'
+        } else if (status === 'share') {
+            return '공유'
+        } else if (status === 'ready') {
+            return '대기'
+        } else if (status === 'off') {
+            return '꺼짐'
+        } else if (status === 'error') {
+            return '에러'
+        } else if (status === 'reservation') {
+            return '예약'
+        } else {
+            return '대기'
+        }
 
-  const changeStatusToString = useCallback((status: string | undefined)=>{
-    if(status === 'active'){
-        return '진행'
-    }else if(status === 'done'){
-        return '완료'
-    }else if(status === 'stop'){
-        return '중지'
-    }else if(status === 'share'){
-        return '공유'
-    }else if(status === 'ready'){
-        return '대기'
-    }else if(status === 'off'){
-        return '꺼짐'
-    } else if(status === 'error'){
-        return '에러'
-    }else if(status ==='reservation'){
-        return '예약'
-    }else{
-        return '대기'
-    }
+    }, [])
 
-},[])
+    const changeStatusToColor = useCallback((status: string | undefined) => {
+        if (status === 'active') {
+            return '#25b4b4'
+        } else if (status === 'done') {
+            return '#2760ff'
+        } else if (status === 'stop') {
+            return '#fd6b00'
+        } else if (status === 'error') {
+            return '#ff461a'
+        } else if (status === 'share') {
+            return '#683be5'
+        } else if (status === 'ready') {
+            return '#717c90'
+        } else if (status === 'reservation') {
+            return '#f8a506'
+        } else {
+            return '#717c90'
+        }
 
-const changeStatusToColor = useCallback((status: string| undefined)=>{
-    if(status === 'active'){
-        return '#25b4b4'
-    }else if(status === 'done'){
-        return '#2760ff'
-    }else if(status === 'stop'){
-        return '#fd6b00'
-    }else if(status === 'error'){
-        return '#ff461a'
-    }else if(status === 'share'){
-        return '#683be5'
-    }else if(status === 'ready'){
-        return '#717c90'
-    }else if(status === 'reservation'){
-        return '#f8a506'
-    }else{
-        return '#717c90'
-    }
+    }, [])
 
-},[])
-
-/**
-   * onClickDeleteComment()
-   * 댓글 삭제
-   * @param {string} pk 댓글 pk
-   * @returns X
-   */
-  const onClickDeleteComment = useCallback(async(pk: string)=>{
-
-
-    //alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
-    return;
-    const data = {
-      pk: pk,
-
-    }
-    const results = await postRequest(BASE_URL + '', data, getToken(TOKEN_NAME))
-
-    if(results === false){
-      //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[])
+    /**
+     * onClickDeleteComment()
+     * 댓글 삭제
+     * @param {string} pk 댓글 pk
+     * @returns X
+     */
+    const onClickDeleteComment = useCallback(async (pk: string) => {
 
 
+        //alert(`삭제 테스트 : 댓글 pk: ${pk} ` )
+        return;
+        const data = {
+            pk: pk,
 
+        }
+        const results = await postRequest(BASE_URL + '', data, getToken(TOKEN_NAME))
 
-  /**
-   * onClickOpenTask()
-   * 작업지시서 열기
-   * @param {string} pk 작업지시서 pk
-   * @returns X
-   */
-  const onClickOpenTask = useCallback(async(pk: string)=>{
-    setOpenTarget(pk)
-    console.log(`오픈 테스트 : 댓글 pk: ${pk} ` )
-    return;
-    const data = {
-      pk: pk,
+        if (results === false) {
+            //TODO: 에러 처리
+        } else {
+            if (results.status === 200) {
 
-    }
-    const results = await postRequest(BASE_URL + '', data,getToken(TOKEN_NAME))
-
-    if(results === false){
-      //TODO: 에러 처리
-    }else{
-      if(results.status === 200){
-
-      }else if(results.status === 1001 || results.data.status === 1002){
-        //TODO:  아이디 존재 확인
-      }else{
-        //TODO:  기타 오류
-      }
-    }
-  },[]);
-
-  useEffect(()=>{
-   console.log(Object.keys(indexList))
-  },[])
-
-  return (
-    <div style={{width:'100%',  backgroundColor:'#e7e9eb', borderRadius:5, paddingBottom:12}}>
-      {
-        onClickModify == undefined && select !== undefined ?
-        <div style={{padding:24, paddingBottom:0, marginTop:18}}>
-          <span className="p-bold" style={{fontSize:24}}>{'추천 ' + (Number(pk) + 1)  }</span>
-          <div style={{float:'right'}}>
-            {
-                select !== undefined && String(select) === pk ?
-                <SmallButton name={'+ 선택하기'} onClickEvent={()=>{onClickSelect(Number(pk))}}/>
-                :
-                <SmallButton name={'+ 선택하기'} color={'#d3d3d3'} onClickEvent={()=>{onClickSelect(Number(pk))}}/>
+            } else if (results.status === 1001 || results.data.status === 1002) {
+                //TODO:  아이디 존재 확인
+            } else {
+                //TODO:  기타 오류
             }
-
-          </div>
-        </div>
-        :
-        <div style={{padding:24, paddingBottom:0, marginTop:18}}>
-          <span style={{color:'#ff461a', fontSize:14}}>* 버튼을 눌러서 공정 추가 및 순서 변경이 가능합니다.</span>
-          <div style={{float:'right'}}>
-              {onClickSearch !== undefined ?
-                <SmallButton name={'+ 추가하기'} onClickEvent={onClickSearch} color={'#d3d3d3'}  />
-                :
-                null
-                }
+        }
+    }, [])
 
 
-          </div>
-        </div>
-      }
-    <TableWrap>
-      <table>
-        <tbody>
-          <tr>
-            {
-              indexList.map((v,i)=>{
-                return(
-                  <th className="p-limit" style={{width:widthList[i]}}>
-                    {v === "" ? " " : `· ${v}`}
-                  </th>
-                )
-              })
+    /**
+     * onClickOpenTask()
+     * 작업지시서 열기
+     * @param {string} pk 작업지시서 pk
+     * @returns X
+     */
+    const onClickOpenTask = useCallback(async (pk: string) => {
+        setOpenTarget(pk)
+        return;
+        const data = {
+            pk: pk,
+
+        }
+        const results = await postRequest(BASE_URL + '', data, getToken(TOKEN_NAME))
+
+        if (results === false) {
+            //TODO: 에러 처리
+        } else {
+            if (results.status === 200) {
+
+            } else if (results.status === 1001 || results.data.status === 1002) {
+                //TODO:  아이디 존재 확인
+            } else {
+                //TODO:  기타 오류
             }
-          </tr>
+        }
+    }, []);
 
-          {/*
+
+    return (
+        <div style={{width: '100%', backgroundColor: '#e7e9eb', borderRadius: 5, paddingBottom: 12}}>
+            {
+                onClickModify == undefined && select !== undefined ?
+                    <div style={{padding: 24, paddingBottom: 0, marginTop: 18}}>
+                        <span className="p-bold" style={{fontSize: 24}}>{'추천 ' + (Number(pk) + 1)}</span>
+                        <div style={{float: 'right'}}>
+                            {
+                                select !== undefined && String(select) === pk ?
+                                    <SmallButton name={'+ 선택하기'} onClickEvent={() => {
+                                        onClickSelect(Number(pk))
+                                    }}/>
+                                    :
+                                    <SmallButton name={'+ 선택하기'} color={'#d3d3d3'} onClickEvent={() => {
+                                        onClickSelect(Number(pk))
+                                    }}/>
+                            }
+
+                        </div>
+                    </div>
+                    :
+                    <div style={{padding: 24, paddingBottom: 0, marginTop: 18}}>
+                        <span style={{color: '#ff461a', fontSize: 14}}>* 버튼을 눌러서 공정 추가 및 순서 변경이 가능합니다.</span>
+                        <div style={{float: 'right'}}>
+                            {onClickSearch !== undefined ?
+                                <SmallButton name={'+ 추가하기'} onClickEvent={onClickSearch} color={'#d3d3d3'}/>
+                                :
+                                null
+                            }
+
+
+                        </div>
+                    </div>
+            }
+            <TableWrap>
+                <table>
+                    <tbody>
+                    <tr>
+                        {
+                            indexList.map((v, i) => {
+                                return (
+                                    <th className="p-limit" style={{width: widthList[i]}}>
+                                        {v === "" ? " " : `· ${v}`}
+                                    </th>
+                                )
+                            })
+                        }
+                    </tr>
+
+                    {/*
 
 
           */}
-          {/* 테이블 바디 */}
-          {
-            contents.map((v:IProcess, i)=>{
-              return(
-              <tr key={i} >
-                {
-                  onClickModify == undefined ?
-                  <td style={{width:widthList[0]}}></td>
-                  :
-                  <td style={{width:widthList[0]}}>
-                        <a onClick={()=>onClickModify('UP', i)}><img style={{height:28, margin:'6px 3px 3px 0px'}} src={BTN_UP} /></a>
-                        <a onClick={()=>onClickModify('DOWN', i)}><img src={BTN_DOWN} style={{width:28, margin:'6px 3px 3px 3px'}}/></a>
-                        <a onClick={()=>onClickModify('DELETE', i)}><img src={BTN_DELETE} style={{width:28, margin:'6px 3px 3px 3px'}}/></a>
-                  </td>
-                }
-                <td className="p-limit" style={{width:widthList[1]}}>
-                    {v.name}
-                </td>
-                <td className="p-limit" style={{width:widthList[2]}}>
-                    <span style={{padding:'11px 18px 11px 18px',backgroundColor:changeStatusToColor(v.machine.status), color:'white', borderRadius:6, marginRight:9, minWidth:'100px', width:100}}>{changeStatusToString(v.machine.status)}</span>
-                  {v.machine.machine_name}
-                </td>
-                <td className="p-limit" style={{width:widthList[3]}}>
-                    | {v.mold_name}
-                </td>
-                <td className="p-limit" style={{width:widthList[4]}}>
-                    | {v.output.material_name}
-                    <span className="p-eng-r" style={{float:'right'}}>{v.output.stock} 개</span>
-                </td>
+                    {/* 테이블 바디 */}
+                    {
+                        contents.map((v: IProcess, i) => {
+                            return (
+                                <tr key={i}>
+                                    {
+                                        onClickModify == undefined ?
+                                            <td style={{width: widthList[0]}}></td>
+                                            :
+                                            <td style={{width: widthList[0]}}>
+                                                <a onClick={() => onClickModify('UP', i)}><img
+                                                    style={{height: 28, margin: '6px 3px 3px 0px'}} src={BTN_UP}/></a>
+                                                <a onClick={() => onClickModify('DOWN', i)}><img src={BTN_DOWN} style={{
+                                                    width: 28,
+                                                    margin: '6px 3px 3px 3px'
+                                                }}/></a>
+                                                <a onClick={() => onClickModify('DELETE', i)}><img src={BTN_DELETE}
+                                                                                                   style={{
+                                                                                                       width: 28,
+                                                                                                       margin: '6px 3px 3px 3px'
+                                                                                                   }}/></a>
+                                            </td>
+                                    }
+                                    <td className="p-limit" style={{width: widthList[1]}}>
+                                        {v.name}
+                                    </td>
+                                    <td className="p-limit" style={{width: widthList[2]}}>
+                                        <span style={{
+                                            padding: '11px 18px 11px 18px',
+                                            backgroundColor: changeStatusToColor(v.machine.status),
+                                            color: 'white',
+                                            borderRadius: 6,
+                                            marginRight: 9,
+                                            minWidth: '100px',
+                                            width: 100
+                                        }}>{changeStatusToString(v.machine.status)}</span>
+                                        {v.machine.machine_name}
+                                    </td>
+                                    <td className="p-limit" style={{width: widthList[3]}}>
+                                        | {v.mold_name}
+                                    </td>
+                                    <td className="p-limit" style={{width: widthList[4]}}>
+                                        | {v.output.material_name}
+                                        <span className="p-eng-r" style={{float: 'right'}}>{v.output.stock} 개</span>
+                                    </td>
 
-              </tr>
-              )
-            })
-          }
+                                </tr>
+                            )
+                        })
+                    }
 
-        </tbody>
-      </table>
-    </TableWrap>
-    </div>
+                    </tbody>
+                </table>
+            </TableWrap>
+        </div>
 
-  );
+    );
 }
 
 const TableWrap = Styled.div`

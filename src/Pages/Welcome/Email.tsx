@@ -41,7 +41,6 @@ const Email = () => {
         }
 
         const results = await postRequestWithNoToken(`${SF_ENDPOINT}/email/send`, data)
-        console.log(results)
         if (results === false) {
             //TODO: 에러 처리
         } else {

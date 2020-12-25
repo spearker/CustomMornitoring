@@ -35,7 +35,6 @@ const NavGroupList = ({contents, selected, onClickMode, onClickEvent}: Props) =>
                 <ListInnderDiv key={`list-${i}`} onClick={onClickMode}>
                   <p onClick={() => {
                     window.scrollTo(0, 0)
-                    console.log(v.name)
                     if (v.name === '전력') {
                       window.location.href = v.url
                     } else {

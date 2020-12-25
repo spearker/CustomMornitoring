@@ -11,12 +11,10 @@ import client from '../configs/basic';
  */
 export const postOutsourcingDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.status);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.status;
     }
-    return temp.status;
 }
 
 /**
@@ -29,12 +27,10 @@ export const postOutsourcingDelete = async (url: string, object: object) => {
  */
 export const getOutsourcingList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results;
     }
-    return temp.results;
 }
 
 /**
@@ -48,12 +44,10 @@ export const getOutsourcingList = async (url: string) => {
  */
 export const postOutsourcingList = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results;
     }
-    console.log(temp.results);
-    return temp.results;
 }
 
 
@@ -67,12 +61,10 @@ export const postOutsourcingList = async (url: string, object: object) => {
  */
 export const getSegmentList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results;
     }
-    return temp.results;
 }
 
 /**
@@ -86,12 +78,10 @@ export const getSegmentList = async (url: string) => {
  */
 export const postSegmentDelete = async (url: string, object: object) => {
     const temp: IServerData = await client.post(url, object);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results;
     }
-    return temp.results;
 }
 
 
@@ -105,10 +95,7 @@ export const postSegmentDelete = async (url: string, object: object) => {
  */
 export const postOutsourcingRegister = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
@@ -123,10 +110,7 @@ export const postOutsourcingRegister = async (url: string, bodyData: object) => 
 
 export const getSearchMachine = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp
 }
 
@@ -141,11 +125,10 @@ export const getSearchMachine = async (url: string) => {
 
 export const getSearchOutsourcing = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results
     }
-    return temp.results
 }
 
 export const API_URLS = {

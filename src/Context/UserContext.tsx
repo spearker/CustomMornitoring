@@ -36,7 +36,6 @@ const UserDispatchContext = createContext<UserDispatch | undefined>(
 function UserReducer(state: User, action: Action): User {
     switch (action.type) {
       case 'SET_USER':
-        console.log(`SET_USER : ${action.data.name}`)
         return {
             ...state,
             email: action.data.email,
@@ -49,7 +48,6 @@ function UserReducer(state: User, action: Action): User {
             company_name: action.data.company_name,
         }
     case 'LOGOUT_USER':
-        console.log(`LOGOUT_USER`)
         return {
             ...state,
             email: '',

@@ -17,12 +17,14 @@ import Icon from '../../Assets/Images/btn_menu_2.png'
 import NAV_HOME from '../../Assets/Images/btn_nav_home.svg'
 import NAV_MES from '../../Assets/Images/btn_nav_setting.svg'
 import NAV_PRESS from '../../Assets/Images/btn_nav_press.svg'
+import NAV_DASHBOARD from '../../Assets/Images/ic_dashboard.png'
 import NavList from './NavList'
 import {useUserDispatch, useUser} from '../../Context/UserContext'
 import useOnclickOutside from 'react-cool-onclickoutside'
 import NavGroupList from '../List/NavGroupList'
 import {ROUTER_MENU_LIST, PM_MENU_LIST, MES_MENU_LIST} from '../../Common/routerset'
 import {usePopup, usePopupDispatch} from '../../Context/PopupContext'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 //대시보드 네비게이션
 interface Props {
@@ -69,13 +71,15 @@ const DashboardNavigation = ({select, folding}: Props) => {
 
                         }
                     }}
-                    onClickMode={() => dispatchp({
-                        type: 'CHANGE_MODE',
-                        data: {
-                            mode: 'pm',
+                    onClickMode={() => {
+                        dispatchp({
+                            type: 'CHANGE_MODE',
+                            data: {
+                                mode: 'pm',
 
-                        }
-                    })}
+                            }
+                        })
+                    }}
                     selected={isSelected === i || select == v ? true : false} contents={PM_MENU_LIST[v]}/>
             )
         })
@@ -96,13 +100,15 @@ const DashboardNavigation = ({select, folding}: Props) => {
 
                         }
                     }}
-                    onClickMode={() => dispatchp({
-                        type: 'CHANGE_MODE',
-                        data: {
-                            mode: 'mes',
+                    onClickMode={() => {
+                        dispatchp({
+                            type: 'CHANGE_MODE',
+                            data: {
+                                mode: 'mes',
 
-                        }
-                    })}
+                            }
+                        })
+                    }}
                     selected={isSelected === i || select == v ? true : false} contents={MES_MENU_LIST[v]}/>
             )
         })
@@ -158,10 +164,11 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     // })
                     history.push('/custom/dashboard')
                 }}>
-                    <img src={NAV_HOME}/>
+                    <img src={NAV_DASHBOARD}/>
                     <p style={{fontSize: '5pt'}}>DASHBOARD</p>
                 </div>
                 <div onClick={() => {
+                    setIsSelected(999)
                     if (nav.mode !== 'pm') {
                         dispatchp({
                             type: 'CHANGE_MODE',
@@ -179,9 +186,10 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     }
                 }} style={nav.mode == 'pm' ? {backgroundColor: POINT_COLOR} : {}}>
                     <img src={NAV_PRESS}/>
-                    <p>PM</p>
+                    <p>PMS</p>
                 </div>
                 <div onClick={() => {
+                    setIsSelected(999)
                     if (nav.mode !== 'mes') {
                         dispatchp({
                             type: 'CHANGE_MODE',

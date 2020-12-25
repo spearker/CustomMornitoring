@@ -12,7 +12,7 @@ interface indexList {
 }
 
 const MapEditTable = ({indexList, valueList}: Props) => {
-    
+
     return (
         <div>
             <Title>

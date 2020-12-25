@@ -11,12 +11,10 @@ import client from '../configs/basic';
 
 export const getMoldData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results!;
     }
-    console.log(temp.results);
-    return temp.results!;
 }
 
 /**
@@ -30,12 +28,10 @@ export const getMoldData = async (url: string) => {
 
 export const getOvertoneData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results!;
     }
-    console.log(temp.results);
-    return temp.results!;
 }
 
 /**
@@ -47,12 +43,10 @@ export const getOvertoneData = async (url: string) => {
  */
 export const getCluchData = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results!;
     }
-    console.log(temp.results);
-    return temp.results!;
 }
 
 /**
@@ -64,12 +58,10 @@ export const getCluchData = async (url: string, bodyData: object) => {
  */
 export const getOilData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results!;
     }
-    console.log(temp.results);
-    return temp.results!;
 }
 
 

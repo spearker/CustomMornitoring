@@ -5,6 +5,9 @@ import OvertonTable from "../../Components/Table/OvertonTable";
 import LineTable from "../../Components/Table/LineTable";
 import Styled from "styled-components";
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
+import Notiflix from "notiflix";
+
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const QualityTestCompleteWorker = () => {
     const [list, setList] = useState<any[]>([]);
@@ -29,18 +32,11 @@ const QualityTestCompleteWorker = () => {
             material_name: "품목(품목명)",
             request_time: "요청 시간",
             whether: "적격 여부",
+            writer: '검사자',
+            writer_pk: '검사자 ID'
         }
     }
 
-
-    const detailTitle = {
-        quality: {
-            worker: '작업자',
-            total_count: '총 완료 개수',
-            defective_count: '불량 개수',
-            description: '요청 내용'
-        },
-    }
 
     const detaildummy = [
         {
@@ -92,13 +88,15 @@ const QualityTestCompleteWorker = () => {
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['request'].completeList}?page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
+        if (res) {
+            setList(res.info_list)
 
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
-
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {

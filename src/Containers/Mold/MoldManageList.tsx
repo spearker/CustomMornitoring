@@ -4,10 +4,13 @@ import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getMoldList} from '../../Api/mes/manageMold'
 import {postCustomerDelete} from '../../Api/mes/customer'
+import Notiflix from "notiflix";
+import {useHistory} from "react-router-dom";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const CreateContainer = () => {
-
+    const history = useHistory()
     const [list, setList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [eventList, setEventList] = useState<any[]>([])
@@ -28,7 +31,6 @@ const CreateContainer = () => {
             mold_name: '금형명',
             manufacturing_date: '제조일',
             site: '창고위치',
-            production: '생산품목',
             registered: '등록날짜',
         }
     }
@@ -50,6 +52,11 @@ const CreateContainer = () => {
     // ]
 
     const titleeventdummy = [
+        {
+            Name: '등록하기',
+            Link: () => history.push('/mold/manage/register'),
+            Width: 80
+        },
         {
             Name: '삭제',
             Link: () => postDelete()
@@ -89,7 +96,6 @@ const CreateContainer = () => {
                         deletePk.pk.shift()
                     }
 
-                    console.log('deletePk.pk', deletePk.pk)
                 })
         }
     }, [deletePk])
@@ -105,7 +111,6 @@ const CreateContainer = () => {
     }, [deletePk])
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name)
         if (mold.pk === selectPk) {
             setSelectPk(null)
             setSelectMold(null)
@@ -125,19 +130,22 @@ const CreateContainer = () => {
         //TODO: 성공시
         const tempUrl = `${API_URLS['manage'].detail}?pk=${pk}`
         const res = await getMoldList(tempUrl)
-
-        setDetailList([res])
-
+        if (res) {
+            setDetailList([res])
+        }
     }, [detailList])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['manage'].list}?page=${page.current}&keyword=&type=0&limit=5`
         const res = await getMoldList(tempUrl)
-
-        setList(res.info_list)
-
-        setPage({current: res.current_page, total: res.total_page})
+        if (res) {
+            setList(res.info_list)
+            setSelectPk(null)
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     const postDelete = useCallback(async () => {
@@ -168,7 +176,7 @@ const CreateContainer = () => {
     return (
         <div>
             <OvertonTable
-                title={'금형 관리 리스트'}
+                title={'금형 관리 현황'}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 checkOnClickEvent={checkOnClick}

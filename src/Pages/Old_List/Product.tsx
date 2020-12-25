@@ -80,7 +80,6 @@ const ProductList = () => {
 
     const onClickModify = useCallback((id) => {
 
-        console.log('--select id : ' + id)
         window.location.href = `/update/product?pk=${id}`
 
     }, [])

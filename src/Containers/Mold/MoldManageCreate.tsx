@@ -38,8 +38,6 @@ const MoldManageCreate = () => {
                 max_stroke: resultData.max_stroke,
                 manufacturing_date: resultData.manufacturing_date,
                 site: resultData.site,
-                input_item_name: resultData.input_item_name,
-                production_name: resultData.production_name
             })
         }
     }, [selectMold, moldData])
@@ -60,14 +58,10 @@ const MoldManageCreate = () => {
             contents: reason
         })
         if (resultData.status === 200) {
-            alert('성공적으로 등록되었습니다.')
             history.push('/mold/manage/list')
         }
     }, [moldData, reason])
 
-    useEffect(() => {
-        console.log(selectMold)
-    }, [selectMold])
 
     return (
         <div>
@@ -98,14 +92,6 @@ const MoldManageCreate = () => {
                         <tr>
                             <td>• 창고위치</td>
                             <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.site}/></td>
-                        </tr>
-                        <tr>
-                            <td>• 투입품목</td>
-                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.input_item_name}/></td>
-                        </tr>
-                        <tr>
-                            <td>• 생산품목</td>
-                            <td><input disabled placeholder="금형을 선택해 주세요." value={selectMold.production_name}/></td>
                         </tr>
                         <tr>
                             <td>• 관리 내용</td>

@@ -8,6 +8,9 @@ import {API_URLS, getLoadTonList, postLoadTonList} from '../../Api/pm/monitoring
 import {API_URLS as URLS_MAP, getMonitoringMapData} from '../../Api/pm/map'
 import FactorySelector from '../../Components/Map/FactorySelector'
 import NoDataCard from '../../Components/Card/NoDataCard'
+import Notiflix from 'notiflix'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 interface PressInitData {
   machines: {
@@ -21,7 +24,7 @@ interface PressInitData {
   current_factory: string
 }
 
-const initStartArray = new Array(150).fill(0)
+const initStartArray = new Array(120).fill(0)
 const initEndArray = new Array(40).fill(0)
 
 // 로드톤 모니터링
@@ -49,7 +52,6 @@ const LoadtonMonitoring = () => {
     //setSelectFactory({pk: '2', name: '공장 2'});
     //setFactories(dummy_factory)
     const results = await getMonitoringMapData(URLS_MAP.factory.list)
-    console.log(results)
     setFactories(results)
 
     if (results.length <= 0) {
@@ -73,17 +75,14 @@ const LoadtonMonitoring = () => {
   const getDataInit = async () => {
     const tempUrl = `${API_URLS['loadTon'].predata}?factory=${selectFactory.pk}`
     const resultData = await getLoadTonList(tempUrl)
-    console.log(resultData)
     setInitData(resultData)
     const count = resultData.machines.map((value, index) => {
       return value.pk
     })
-    console.log(count)
     setMachineCount([...count])
   }
 
   const getData = async () => {
-    console.log(machineCount)
     const tempUrl = `${API_URLS['loadTon'].list}`
     const resultData = await postLoadTonList(tempUrl, {pk: machineCount})
 
@@ -96,6 +95,7 @@ const LoadtonMonitoring = () => {
         total_ton: [...initStartArray, ...value.total_ton, ...initEndArray]
       }
     })
+
 
     setList({
       ...initData,
@@ -111,13 +111,13 @@ const LoadtonMonitoring = () => {
           getData()
         }, 3000)
         return () => {
-          console.log('-- monitoring end -- ')
           clearTimeout(interval)
           //setTimer(null)
         }
       }
     }
   }, [machineCount])
+
 
   useEffect(() => {
     if (selectFactory.pk) {

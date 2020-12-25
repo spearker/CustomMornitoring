@@ -80,8 +80,6 @@ const ProductStock = () => {
     }, [])
 
     const onClickModify = useCallback(async (id, stock) => {
-
-        console.log('--select id : ' + id + '/' + stock)
         const results = await postRequest(BASE_URL + '/api/v1/product/stock/', {
             pk: id,
             stock: stock

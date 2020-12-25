@@ -16,10 +16,6 @@ interface IProps{
 
 const MonitoringTable = ({indexList, contents, keyName}: IProps) => {
 
-  useEffect(()=>{
-   console.log(Object.keys(indexList))
-  },[])
-
   return (
     <TableWrap>
       <table>

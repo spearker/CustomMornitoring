@@ -6,14 +6,15 @@ import {Link} from 'react-router-dom'
 
 interface IProps {
   name: string,
-  width?: string,
+  width?: string | number,
+  height?: string | number,
   to?: string,
   color?: string,
   style?: object,
   onClick?: () => void
 }
 
-const BasicGrayButtonLink = ({name, width, to, color, style, onClick}: IProps) => {
+const BasicGrayButtonLink = ({name, width, to, color, style, onClick, height}: IProps) => {
 
   const ButtonWrap = Styled.button`
     padding: ${to ? '12px' : '3px'};
@@ -22,7 +23,8 @@ const BasicGrayButtonLink = ({name, width, to, color, style, onClick}: IProps) =
     color: black;
     background-color: ${color ? color : '#e7e9eb'};
     border: none;
-    width: ${width};
+    width: ${typeof width === 'number' ? width + 'px' : width};
+    height: ${typeof height === 'number' ? height + 'px' : height};
     font-size: 18px;
     font-weight: bold;
     ${style && style.toString()}

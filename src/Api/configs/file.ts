@@ -1,50 +1,57 @@
 import axios from 'axios';
+import Notiflix from 'notiflix'
+import {SF_ENDPOINT_FILE} from '../SF_endpoint'
 
 const TOKEN_NAME = 'sizl_auth'
+
 
 /**
  *
  * axios 인스턴스 기본 설정
  * - 파일데이터
  */
-const client = axios.create();
+const client = axios.create()
 
-client.defaults.baseURL = 'http://211.208.115.66:8099';
+client.defaults.baseURL = SF_ENDPOINT_FILE
 
 //client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME);
-
 client.interceptors.response.use(function (response) {
-    //console.log(response.data.status)
-    const returnError = getErrorCase(response.data.status)
+    const returnError = getErrorCase(response.data.status, response.data.message)
 
-    if(returnError){
-      alert(returnError)
-      Promise.reject();
-    }else{
-      return response.data
+    if (returnError) {
+        return Promise.reject(returnError)
+    } else {
+        return response.data
+    }
+}, function (error) {
+    Notiflix.Loading.Remove(300)
+    if (error.response.status) {
+        if (error.response.status === 401) {
+            Notiflix.Report.Failure('요청 실패', '유효한 로그인이 아닙니다 다시 로그인해 주세요.', '닫기', () => window.location.href = '/login')
+        } else if (error.response.status === 400) {
+            return Notiflix.Report.Failure('요청 실패', '값을 안넣으신게 있는지 확인 해주세요.', '닫기')
+        } else if (error.response.status === 500) {
+            return Notiflix.Report.Failure('요청 실패', '서버에러입니다. 관리자에게 연락바랍니다.', '닫기')
+        }
+    } else {
+        return Notiflix.Report.Failure('요청 실패', '알수 없는 에러입니다.', '닫기')
     }
 
-  }, function (error) {
-    console.error(error)
-   //alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')
-    return Promise.reject(error);
+    // alert('[ERROR] 요청을 처리 할 수 없습니다.')
+    return Promise.reject(error)
 
-});
+})
 
-const getErrorCase = (code: any) => {
-  switch(code){
-    case 2000:
-      return '[삭제 불가] 해당 데이터를 참조하는 데이터가 있습니다';
-    case 2000:
-      return '[조회 불가] 해당 ID를 지닌 데이터가 없습니다';
-    case 1011:
-      return '[삭제 불가] 해당 데이터를 참조하는 표준 문서가 존재합니다';
-    case 200:
-      return false
-    case '200':
-      return false
-    default:
-      return '[RESPONSE ERROR] 요청을 처리 할 수 없습니다.'
-  }
+const getErrorCase = (code, message) => {
+    switch (code) {
+        case 200:
+            return false
+        case '200':
+            return false
+        default:
+            Notiflix.Loading.Remove(300)
+            return Notiflix.Report.Failure('요청 실패', message, '닫기')
+    }
 }
-export default client;
+
+export default client

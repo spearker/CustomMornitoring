@@ -1,47 +1,45 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
-import {API_URLS, getQualityList} from "../../Api/mes/quality";
-import OvertonTable from "../../Components/Table/OvertonTable";
-import LineTable from "../../Components/Table/LineTable";
-import Styled from "styled-components";
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation';
+import React, {useCallback, useEffect, useState} from 'react'
+import {useHistory} from 'react-router-dom'
+import {API_URLS, getQualityList} from '../../Api/mes/quality'
+import OvertonTable from '../../Components/Table/OvertonTable'
+import LineTable from '../../Components/Table/LineTable'
+import Styled from 'styled-components'
+import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import Notiflix from 'notiflix'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
+
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 const QualityTestListWorker = () => {
-    const [list, setList] = useState<any[]>([]);
-    const [titleEventList, setTitleEventList] = useState<any[]>([]);
-    const [eventList, setEventList] = useState<any[]>([]);
-    const [detailList, setDetailList] = useState<any[]>([]);
-    const [index, setIndex] = useState({process_name: "공정명"});
+    const [list, setList] = useState<any[]>([])
+    const [titleEventList, setTitleEventList] = useState<any[]>([])
+    const [eventList, setEventList] = useState<any[]>([])
+    const [detailList, setDetailList] = useState<any[]>([])
+    const [index, setIndex] = useState({process_name: '공정명'})
     const [subIndex, setSubIndex] = useState({worker: '작업자'})
     const [filter, setFilter] = useState(-1)
-    const [selectPk, setSelectPk] = useState<any>(null);
-    const [selectMold, setSelectMold] = useState<any>(null);
-    const [selectValue, setSelectValue] = useState<any>(null);
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMold, setSelectMold] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
-    });
-    const [searchValue, setSearchValue] = useState<any>('');
-    const history = useHistory();
+    })
+    const [searchValue, setSearchValue] = useState<any>('')
+    const history = useHistory()
 
     const indexList = {
         request: {
-            process_name: "공정명",
-            machine_name: "기계명",
-            material_name: "품목(품목명)",
-            request_time: "요청 시간",
-            statement: "상태"
+            process_name: '공정명',
+            machine_name: '기계명',
+            material_name: '품목(품목명)',
+            request_time: '요청 시간',
+            statement: '상태',
+            worker: '작업자',
+            worker_pk: '작업자 ID'
         }
     }
 
-
-    const detailTitle = {
-        quality: {
-            worker: '작업자',
-            total_count: '총 완료 개수',
-            defective_count: '불량 개수',
-            description: '요청 내용'
-        },
-    }
 
     const detaildummy = [
         {
@@ -84,18 +82,12 @@ const QualityTestListWorker = () => {
     }, [searchValue])
 
     const searchOnClick = useCallback(async () => {
-
-        const tempUrl = `${API_URLS['request'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
-        const res = await getQualityList(tempUrl)
-
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
-
+        getList(true)
     }, [searchValue, page])
 
     const onClick = useCallback((obj) => {
         history.push(`/quality/test/request/request/${obj.request_pk}`)
-    }, []);
+    }, [])
     // const getData = useCallback( async(pk)=>{
     //     //TODO: 성공시
     //     const tempUrl = `${API_URLS['mold'].load}?pk=${pk}`
@@ -105,19 +97,21 @@ const QualityTestListWorker = () => {
     //
     // },[detailList])
 
-    const getList = useCallback(async () => { // useCallback
+    const getList = useCallback(async (isSearch?: boolean) => { // useCallback
         //TODO: 성공시
-        const tempUrl = `${API_URLS['request'].list}?page=${page.current}&limit=15`
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['request'].list}?page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getQualityList(tempUrl)
-
-        setList(res.info_list)
-        setPage({current: res.current_page, total: res.total_page})
-
+        if (res) {
+            setList(res.info_list)
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
     useEffect(() => {
         getList()
-        setIndex(indexList["request"])
+        setIndex(indexList['request'])
         // setList(dummy)
         setDetailList(detaildummy)
         setEventList(eventdummy)
@@ -139,7 +133,10 @@ const QualityTestListWorker = () => {
                 currentPage={page.current}
                 totalPage={page.total}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-                searchBarChange={searchChange}
+                searchBarChange={(e) => {
+                    if (!e.match(regExp)) setSearchValue(e)
+                }}
+                searchValue={searchValue}
                 searchButtonOnClick={searchOnClick}>
                 {
                     selectPk !== null ?

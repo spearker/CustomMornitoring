@@ -6,6 +6,13 @@ import {API_URLS, getOutsourcingList, postOutsourcingDelete, postOutsourcingList
 import {useHistory} from 'react-router-dom'
 import {getCustomerData} from '../../Api/mes/customer'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import Notiflix from 'notiflix'
+import {postMoldState} from '../../Api/mes/manageMold'
+import OptimizedLineTable from '../../Components/Table/OptimizedLineTable'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
+
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 const ContractContainer = () => {
 
@@ -51,44 +58,6 @@ const ContractContainer = () => {
     },
   }
 
-  const dummy = [
-    {
-      name: '외주처 01',
-      material_name: '제품명은 길어질수도',
-      quantity: '1,000,000',
-      ceo_name: '김대표',
-      registered: '2020.06.16',
-    },
-    {
-      name: '외주처 02',
-      material_name: '제품명은 길어질수도',
-      quantity: '1,000,000',
-      ceo_name: '김대표',
-      registered: '2020.06.16',
-    },
-    {
-      name: '외주처 03',
-      material_name: '제품명은 길어질수도',
-      quantity: '1,000,000',
-      ceo_name: '김대표',
-      registered: '2020.06.16',
-    },
-    {
-      name: '외주처 04',
-      material_name: '제품명은 길어질수도',
-      quantity: '1,000,000',
-      ceo_name: '김대표',
-      registered: '2020.06.16',
-    },
-    {
-      name: '외주처 05',
-      material_name: '제품명은 길어질수도',
-      quantity: '1,000,000',
-      ceo_name: '김대표',
-      registered: '2020.06.16',
-    },
-  ]
-
   const detaildummy = [
     {
       writer: '김담당',
@@ -108,9 +77,6 @@ const ContractContainer = () => {
     }
   }
 
-  useEffect(() => {
-    console.log('deletePk.pk', deletePk.pk)
-  })
 
   const allCheckOnClick = useCallback((list) => {
     let tmpPk: string[] = []
@@ -136,7 +102,6 @@ const ContractContainer = () => {
             deletePk.pk.shift()
           }
 
-          console.log('deletePk.pk', deletePk.pk)
         })
     }
   }, [deletePk])
@@ -153,31 +118,15 @@ const ContractContainer = () => {
 
   const optionChange = useCallback(async (filter: number) => {
     setOption(filter)
-    const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter}&page=${page.current}&limit=15`
-    const res = await getCustomerData(tempUrl)
-
-    setList(res.info_list)
-    setPage({current: res.current_page, total: res.total_page})
+    getList(filter)
   }, [option, searchValue, page])
 
 
-  const searchChange = useCallback(async (search) => {
-    setSearchValue(search)
-
-  }, [searchValue])
-
   const searchOnClick = useCallback(async () => {
-
-    const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
-    const res = await getCustomerData(tempUrl)
-
-    setList(res.info_list)
-    setPage({current: res.current_page, total: res.total_page})
-
+    getList(undefined, true)
   }, [searchValue, option, page])
 
   const onClick = useCallback((mold) => {
-    console.log('dsfewfewf', mold.pk, mold.mold_name)
     if (mold.pk === selectPk) {
       setSelectPk(null)
       setSelectMold(null)
@@ -198,6 +147,11 @@ const ContractContainer = () => {
       Width: 60,
       Color: 'white',
       Link: (v) => history.push(`/outsourcing/contract/register/${v.pk}`)
+    },
+    {
+      buttonState: true,
+      Width: 98,
+      Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
     }
   ]
 
@@ -220,6 +174,26 @@ const ContractContainer = () => {
     },
   ]
 
+  const getComplete = useCallback(async (pk) => {
+    //TODO: 성공시
+    const tempUrl = `${API_URLS['contract'].complete}`
+    const res = await postMoldState(tempUrl, {pk: pk})
+
+    setSelectPk(null)
+    setSelectValue(null)
+    getList()
+  }, [selectPk, selectValue])
+
+  const getCancel = useCallback(async (pk) => {
+    //TODO: 성공시
+    const tempUrl = `${API_URLS['contract'].cancel}`
+    const res = await postMoldState(tempUrl, {pk: pk})
+
+    setSelectPk(null)
+    setSelectValue(null)
+    getList()
+  }, [selectPk, selectValue])
+
   const postDelete = useCallback(async () => {
     if (deletePk.pk.length <= 0) {
       alert('삭제하실 항목을 선택해 주세요.')
@@ -241,13 +215,32 @@ const ContractContainer = () => {
 
   }, [detailList])
 
-  const getList = useCallback(async () => { // useCallback
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
+  const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
     //TODO: 성공시
-    const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${option}&page=${page.current}&limit=15`
+    Notiflix.Loading.Circle()
+    const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
     const res = await getOutsourcingList(tempUrl)
+    if (res) {
+      const contractList = res.info_list.map((v) => {
 
-    setList(res.info_list)
+        const quantity = AddComma(v.quantity)
+        const unpaid = AddComma(v.unpaid)
+        const status = v.status === 'WAIT' ? '진행중' : '완료'
 
+        return {...v, quantity: quantity, unpaid: unpaid, status: status}
+      })
+
+      setList(contractList)
+      setPage({current: res.current_page, total: res.total_page})
+      setSelectPk(null)
+      Notiflix.Loading.Remove()
+    }
   }, [list])
 
   useEffect(() => {
@@ -274,11 +267,14 @@ const ContractContainer = () => {
         allCheckOnClickEvent={allCheckOnClick}
         dropDownContents={contentsList}
         dropDownOption={option}
-        dropDownOnClick={optionChange}
-        searchBarChange={searchChange}
+        searchBarChange={(e) => {
+          if (!e.match(regExp)) setSearchValue(e)
+        }}
+        searchValue={searchValue}
         searchButtonOnClick={searchOnClick}
         indexList={index}
         valueList={list}
+        buttonState={true}
         EventList={eventList}
         currentPage={page.current}
         totalPage={page.total}
@@ -288,9 +284,10 @@ const ContractContainer = () => {
         mainOnClickEvent={onClick}>
         {
           selectPk !== null ?
-            <LineTable title={'자세히 보기'} contentTitle={subIndex} contentList={detailList}>
+            <OptimizedLineTable title={'자세히 보기'} contentTitle={subIndex} contentList={detailList}
+                                widthList={['100px', '100px', '400px', '350px', '50px']}>
               <Line/>
-            </LineTable>
+            </OptimizedLineTable>
             :
             null
         }

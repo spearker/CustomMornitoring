@@ -21,7 +21,6 @@ const MonitoringVerticalTable = ({contents, filterList, operation}: IProps) => {
 
     useEffect(() => {
         if (operation !== -1) {
-            console.log('change')
             setList(contents.filter(v => v.operation === operation))
         } else {
             setList(contents)

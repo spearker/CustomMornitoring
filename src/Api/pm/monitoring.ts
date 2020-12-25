@@ -10,22 +10,16 @@ import client from '../configs/monitoring'
  */
 export const getLoadTonList = async (url: string) => {
     const temp: IServerData = await client.get(url)
-    console.log(temp.results)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    if (temp) {
+        return temp.results!
     }
-    return temp.results!
 }
 
 export const postLoadTonList = async (url: string, bodyData: object) => {
     const temp: IServerData = await client.post(url, bodyData)
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    if (temp) {
+        return temp.results!
     }
-    console.log(temp.results)
-    return temp.results!
 }
 
 
@@ -35,12 +29,16 @@ export const API_URLS = {
         predata: `/v1/monitoring/loadton/predetail`
     },
     press: {
+        status: `/v1/monitoring/press/status`,
         monitoring: `/v1/monitoring/press/details`
     },
     power: {
         monitoring: `v1/monitoring/cms/map`
+    },
+    project: {
+        list: `/v1/monitoring/project`,
+        dropdown: `/v1/monitoring/project/dropdown`
     }
-
 }
 
 

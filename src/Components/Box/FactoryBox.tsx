@@ -4,26 +4,44 @@ import next from '../../Assets/Images/ic_next_process.png'
 
 interface Props {
   title: string
-  inputMaterial?: string
+  inputMaterial?: any[]
   productionMaterial?: string
   children?: any
 }
 
 const FactoryBox = ({title, inputMaterial, productionMaterial, children}: Props) => {
+
+  const changeCount = (item: any[] | any | undefined, type: 'in' | 'out') => {
+    if (item) {
+      if (item.length > 1) {
+        return `${item[0].material_name} ${item[0].count}${item[0].material_type === 0 ? 'kg' : '개'} 외 ${item.length - 1}개`
+      } else if (item.length > 0) {
+        return `${item[0].material_name} ${item[0].count}${item[0].material_type === 0 ? 'kg' : '개'}`
+      } else {
+        return `${item.material_name} ${item.count}${item.material_type === 0 ? 'kg' : '개'}`
+      }
+    }
+
+    return type === 'in' ? '투입자재 없음' : '생산품목 없음'
+  }
+
   return (
     <TopBlackBox>
       <p>{title}</p>
       <p>투입자재</p>
-      <div style={{width: '97%'}}>
-        <span
-          style={{color: inputMaterial !== null && inputMaterial !== undefined ? '#ffffff' : '#babcbf'}}>{inputMaterial !== null && inputMaterial !== undefined ? inputMaterial : '품목 선택'}</span>
+      <div style={{width: '97%', height: 'auto'}}>
+            <span
+              style={{color: inputMaterial !== null && inputMaterial !== undefined ? '#ffffff' : '#babcbf'}}>{changeCount(inputMaterial, 'in')}
+            </span>
       </div>
       <p>생산자재</p>
-      <div style={{width: '97%'}}>
-        <span
-          style={{color: productionMaterial !== null && productionMaterial !== undefined ? '#ffffff' : '#babcbf'}}>{productionMaterial !== null && productionMaterial !== undefined ? productionMaterial : '품목 선택'}</span>
+      <div style={{width: '97%', height: 'auto'}}>
+            <span
+              style={{color: productionMaterial !== null && productionMaterial !== undefined ? '#ffffff' : '#babcbf'}}>{changeCount(productionMaterial, 'out')}
+            </span>
       </div>
-      {/*<ProductionReg style={{backgroundColor:  productionMaterial !== null &&  productionMaterial !== undefined ?  '#bbbbbb' : '#19b9df' }}>*/}
+      {/*<ProductionReg*/}
+      {/*    style={{backgroundColor: productionMaterial !== null && productionMaterial !== undefined ? '#bbbbbb' : '#19b9df'}}>*/}
       {/*    <p>{productionMaterial !== undefined && productionMaterial !== null ? '품목수정' : '품목등록'}</p>*/}
       {/*</ProductionReg>*/}
     </TopBlackBox>
@@ -32,7 +50,7 @@ const FactoryBox = ({title, inputMaterial, productionMaterial, children}: Props)
 
 const TopBlackBox = Styled.div`
     width: 140px;
-    height: 230px;
+    min-height: 230px;
     margin-top: 30px;
     border-radius: 6px;
     padding: 0 9px 0 9px;
@@ -66,6 +84,7 @@ const TopBlackBox = Styled.div`
 
 const ProductionReg = Styled.button`
      margin-top: 12px;
+     margin-bottom: 12px;
      width: 140px;
      height: 30px;
      border-radius: 6px;

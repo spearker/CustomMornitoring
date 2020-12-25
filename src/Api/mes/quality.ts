@@ -40,10 +40,7 @@ export const postQualityRegister = async (url: string, bodyData: object) => {
 
 export const getQualityList = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+
     return temp.results
 }
 

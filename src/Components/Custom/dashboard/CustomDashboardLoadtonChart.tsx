@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import InnerBodyContainer from '../../../Containers/InnerBodyContainer'
 import Styled from 'styled-components'
-import CustomLoadTon from '../loadton/CustomLoadTonCard'
+import CustomLoadTon from '../loadton/CustomLoadtonCard'
 import CustomMainMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart'
 import CustomSlideMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart'
 import getYoodongDashboard from '../../../Api/custom/getYoodongDashboard'
@@ -13,9 +13,13 @@ import {useHistory} from 'react-router-dom'
 
 interface Props {
   id: string
+  first?: {
+    loading: boolean,
+    api: boolean
+  }
 }
 
-const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
+const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id, first}) => {
   const [isFirst, setIsFirst] = React.useState({
     loading: true,
     api: true
@@ -26,7 +30,7 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
   const history = useHistory()
 
   const getYoudongCustomDashboardData = async () => {
-    if (id) {
+    if (id && first) {
       try {
         const response = await getYoodongDashboard(id, isFirst.api)
 
@@ -46,6 +50,33 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
             }
           } else {
             return
+          }
+        }
+      } catch (error) {
+        console.log('catched error', error)
+      }
+    } else {
+      try {
+        const response = await getYoodongDashboard(id, isFirst.api)
+
+        if (response !== null) {
+          if (response.status === 401) {
+            return history.push('/login?type=back')
+          } else if (response.status === 200) {
+            setData(response.data)
+
+            if (isFirst.api) {
+              setTonnageLimit(response.data.loadton_data.tonnage_limit)
+
+              setIsFirst({
+                loading: false,
+                api: false
+              })
+            }
+          } else {
+            setTimeout(() => {
+              getYoudongCustomDashboardData()
+            }, 1000)
           }
         }
       } catch (error) {
@@ -139,10 +170,10 @@ const CustomDashboardLoadtonChart: React.FunctionComponent<Props> = ({id}) => {
         display: 'flex',
         flexDirection: 'column',
       }}>
-        {standardInfItem('Total', data ? data?.loadton_data.total_ton + 't' : '-', {opacity: overTonCheck() ? 1 : .9}, {fontSize: 72}, overTonCheck() ? '#ed4337' : 'white')}
-        {standardInfItem('CH1 (좌)', data ? data.loadton_data.ch1_ton + 't' : '-', {marginBottom: 20}, {fontSize: 48}, 'white')}
-        {standardInfItem('CH2 (우)', data ? data.loadton_data.ch2_ton + 't' : '-', {}, {fontSize: 48}, 'white')}
-        {standardInfItem('일량', data ? data.loadton_data.press_power + 'kgf.m' : '-', {
+        {standardInfItem('Total', data ? Math.round(Number(data?.loadton_data.total_ton) * 10) / 10 + 't' : '-', {opacity: overTonCheck() ? 1 : .9}, {fontSize: 72}, overTonCheck() ? '#ed4337' : 'white')}
+        {standardInfItem('CH1 (좌)', data ? Math.round(Number(data.loadton_data.ch1_ton) * 10) / 10 + 't' : '-', {marginBottom: 20}, {fontSize: 48}, 'white')}
+        {standardInfItem('CH2 (우)', data ? Math.round(Number(data.loadton_data.ch2_ton) * 10) / 10 + 't' : '-', {}, {fontSize: 48}, 'white')}
+        {standardInfItem('일량', data ? Math.round(Number(data.loadton_data.press_power) * 10) / 10 + 'kgf.m' : '-', {
           opacity: 1,
           marginTop: 20
         }, {fontSize: 84})}

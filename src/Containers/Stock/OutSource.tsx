@@ -5,7 +5,9 @@ import LineTable from "../../Components/Table/LineTable";
 import {API_URLS, getStockList} from "../../Api/mes/manageStock";
 import {useHistory} from "react-router-dom"
 import {transferCodeToName} from "../../Common/codeTransferFunctions";
+import Notiflix from "notiflix";
 
+Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
 const OutSourceContainer = () => {
 
@@ -84,7 +86,7 @@ const OutSourceContainer = () => {
     ]
 
     const onClick = useCallback((mold) => {
-        console.log('dsfewfewf', mold.pk, mold.mold_name);
+        setDetailPage({...detailPage, current: 1})
         if (mold.pk === selectPk) {
             setSelectPk(null);
             setSelectMold(null);
@@ -108,28 +110,39 @@ const OutSourceContainer = () => {
 
         const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const amount = v.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const before_amount = v.before_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        setDetailList(res.info_list)
+                return {...v, amount: amount, before_amount: before_amount,}
+            })
 
-        setDetailPage({current: res.current_page, total: res.total_page})
+            setDetailList(getStock)
 
+            setDetailPage({current: res.current_page, total: res.total_page})
+        }
     }, [detailList, detailPage])
 
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
+        Notiflix.Loading.Circle();
         const tempUrl = `${API_URLS['stock'].outsourcelist}?page=${page.current}&limit=5`
         const res = await getStockList(tempUrl)
+        if (res) {
+            const getStock = res.info_list.map((v, i) => {
+                const material_type = transferCodeToName('material', v.material_type)
+                const safe_stock = v.safe_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                const current_stock = v.current_stock.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-        const getStock = res.info_list.map((v, i) => {
-            const material_type = transferCodeToName('material', v.material_type)
+                return {...v, material_type: material_type, safe_stock: safe_stock, current_stock: current_stock}
+            })
 
-            return {...v, material_type: material_type}
-        })
-
-        setList(getStock)
-
-        setPage({current: res.current_page, total: res.total_page})
-
+            setList(getStock)
+            setSelectPk(null)
+            setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
+        }
     }, [list, page])
 
 

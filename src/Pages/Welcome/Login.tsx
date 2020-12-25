@@ -48,9 +48,6 @@ const Login = () => {
                     if (window.location.search) {
                         const type = window.location.search.split('type=')
 
-                        console.log('type1', type[1])
-
-
                         if (type[1] === 'dashboard') {
                             window.location.href = '/custom/dashboard'
                         } else if (type[1] === 'back') {

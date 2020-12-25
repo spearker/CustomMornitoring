@@ -17,6 +17,7 @@ interface Props {
   calendarOnClick?: any
   searchBarChange?: any
   searchButtonOnClick?: any
+  searchValue?: any
   dropDownContents?: any
   dropDownOnClick?: any
   dropDownOption?: any
@@ -31,6 +32,7 @@ interface Props {
   mainOnClickEvent?: any
   onClickEvent?: any
   buttonState?: boolean
+  buttonDisappear?: boolean
   currentPage?: number
   totalPage?: number
   pageOnClickEvent?: any
@@ -41,15 +43,13 @@ interface Props {
   endDate?: string
 }
 
-const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
+
+const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, searchValue, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, buttonDisappear, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
 
   const [checked, setChecked] = useState<any[]>([])
-  const [allChecked, setAllChecked] = useState(false)
-
 
   React.useEffect(() => {
     if (checkOnClickEvent) {
-      console.log('valueList', valueList)
       let tmpArr: boolean[] = []
       const arrData = valueList.map((v, i) => {
         tmpArr.push(false)
@@ -77,6 +77,8 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
           {searchButtonOnClick ?
             <div style={{width: '300px', display: 'flex', flexDirection: 'row', marginRight: 15}}>
               <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 90}}
+                         value={searchValue}
+                         onKeyPress={(event) => event.key === 'Enter' && searchButtonOnClick()}
                          onChange={(e) => searchBarChange(e.target.value)}/>
               <SearchButton style={{flex: 10}} onClick={() => searchButtonOnClick()}>
                 <img src={IcSearchButton}/>
@@ -112,7 +114,6 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
               <input type="checkbox" id={'all'}
                      checked={valueList.length > 0 && valueList.length === checked.filter(f => f === true).length}
                      onChange={(e) => {
-                       console.log('움직임')
                        if (valueList.length > 0 && valueList.length !== checked.filter(f => f === true).length) {
                          allCheckOnClickEvent(valueList)
                          let tmpArr: boolean[] = checked
@@ -276,20 +277,30 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                   EventList && EventList.map((bv, bi) => {
                     return (
                       <div className="p-limits">
-                        {buttonState ?
+                        {buttonDisappear ?
                           <ButtonBox onClick={() => bv.Link(v)} style={{
+                            cursor: v.state === '작업중' ? 'pointer' : 'default',
                             width: bv.Width,
-                            color: v.status === '진행중' ? 'white' : 'white',
-                            backgroundColor: v.status === '진행중' ? '#717c90' : '#19b9df'
+                            color: v.state === '작업중' ? 'white' : 'white',
+                            backgroundColor: v.state === '작업중' ? '#717c90' : '#353b48'
                           }}
-                          >{v.status === '진행중' ? '완료 하기' : '취소 하기'}</ButtonBox>
+                          >{v.state === '작업중' ? '완료 하기' : ''}</ButtonBox>
                           :
-                          <ButtonBox disabled={(v.finished === '완료' && bv.Name !== '수정')} onClick={() => bv.Link(v)}
-                                     style={{
-                                       width: bv.Width,
-                                       color: bv.Color,
-                                       backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
-                                     }}>{bv.Name}</ButtonBox>
+                          buttonState ?
+                            <ButtonBox onClick={() => bv.Link(v)} style={{
+                              width: bv.Width,
+                              color: bv.buttonState === true ? v.status === '진행중' ? 'white' : 'white' : bv.Color,
+                              backgroundColor: bv.buttonState === true ? v.status === '진행중' ? '#717c90' : '#19b9df' : '#717c90'
+                            }}
+                            >{bv.buttonState === true ? v.status === '진행중' ? '완료 하기' : '취소 하기' : bv.Name}</ButtonBox>
+                            :
+                            <ButtonBox disabled={(v.finished === '완료')}
+                                       onClick={() => bv.Link(v)}
+                                       style={{
+                                         width: bv.Width,
+                                         color: bv.Color,
+                                         backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
+                                       }}>{bv.Name}</ButtonBox>
                         }
                       </div>
                     )

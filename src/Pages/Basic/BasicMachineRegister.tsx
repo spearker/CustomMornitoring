@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
@@ -17,11 +17,12 @@ import DateInput from '../../Components/Input/DateInput'
 import moment from 'moment'
 import ListHeader from '../../Components/Text/ListHeader'
 import OldFileInput from '../../Components/Input/OldFileInput'
-import BasicSearchContainer from '../../Containers/Basic/BasicSearchContainer'
+import BasicSearchContainer from '../../Containers/Old_Basic/BasicSearchContainer'
 import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
 
 const docDummy = [
   {pk: 'qfqwf', name: '도큐먼트 1'},
@@ -32,6 +33,9 @@ const docDummy = [
 ]
 // 기계 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
+
+const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
+
 const BasicMachineRegister = () => {
   const history = useHistory()
 
@@ -64,6 +68,7 @@ const BasicMachineRegister = () => {
 
     if (getParameter('pk') !== '') {
       setPk(getParameter('pk'))
+
       ////alert(`수정 페이지 진입 - pk :` + param)
       setIsUpdate(true)
       getData()
@@ -79,24 +84,19 @@ const BasicMachineRegister = () => {
    * @returns X
    */
   const addFiles = async (event: any, index: number): Promise<void> => {
-    console.log(event.target.files[0])
-    console.log(index)
     if (event.target.files[0] === undefined) {
 
       return
     }
-    console.log(event.target.files[0].type)
+
     if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
       const tempFile = event.target.files[0]
-      console.log(tempFile)
       const res = await uploadTempFile(event.target.files[0])
 
       if (res !== false) {
-        console.log(res)
         const tempPatchList = paths.slice()
         tempPatchList[index] = res
-        console.log(tempPatchList)
         setPaths(tempPatchList)
         return
       } else {
@@ -113,40 +113,32 @@ const BasicMachineRegister = () => {
 
   const getData = useCallback(async () => {
 
-    const res = await getRequest(`${SF_ENDPOINT}/api/v1/machine/load?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
 
-    if (res === false) {
-      //TODO: 에러 처리
-    } else {
-      if (res.status === 200 || res.status === '200') {
-        const data = res.results
-        setName(data.machine_name)
-        setMade(data.manufacturer)
-        setPhotoName(data.photo)
-        setDate(data.manufactured_at)
-        setPk(data.pk)
-        setFactory([{pk: data.location_pk, name: data.location_name}])
-        setMadeNo(data.manufacturer_code)
-        setType(Number(data.machine_type))
-        setInfoList(data.info_list)
-        setVolt(data.volt ?? 0)
-        setTons(data.tons ?? 0)
-        const tempList = oldPaths.slice()
-        tempList[0] = data.photo
-        tempList[1] = data.qualification
-        tempList[2] = data.capacity
-        setOldPaths(tempList)
+    const tempUrl = `${API_URLS['machine'].load}?pk=${getParameter('pk')}`
+    const res = await getBasicList(tempUrl)
 
-
-      } else {
-        //TODO:  기타 오류
-      }
+    if (res) {
+      setName(res.machine_name)
+      setMade(res.manufacturer)
+      setPhotoName(res.photo)
+      setDate(res.manufactured_at)
+      setPk(res.pk)
+      setFactory([{pk: res.location_pk, name: res.location_name}])
+      setMadeNo(res.manufacturer_code)
+      setType(Number(res.machine_type))
+      setInfoList(res.info_list)
+      setVolt(res.volt ?? 0)
+      setTons(res.tons ?? 0)
+      const tempList = oldPaths.slice()
+      tempList[0] = res.photo
+      tempList[1] = res.qualification
+      tempList[2] = res.capacity
+      setOldPaths(tempList)
     }
   }, [pk, made, madeNo, date, volt, tons, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory])
 
 
-  const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault()
+  const onsubmitFormUpdate = useCallback(async () => {
 
     if (name.trim() === '') {
       alert('이름은 필수 항목입니다. 반드시 입력해주세요.')
@@ -186,17 +178,12 @@ const BasicMachineRegister = () => {
 
     }
 
-    const res = await postRequest(`${SF_ENDPOINT}/api/v1/machine/update/`, data, getToken(TOKEN_NAME))
+    const tempUrl = `${API_URLS['machine'].update}`
+    const res = await registerBasicItem(tempUrl, data)
 
-    if (res === false) {
-      ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 수정 되었습니다')
-        history.push(`/basic/list/machine`)
-      } else {
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
+    if (res) {
+      //alert('성공적으로 수정 되었습니다')
+      history.push(`/basic/list/machine`)
     }
 
   }, [pk, made, madeNo, name, volt, tons, type, date, madeNo, infoList, paths, essential, optional, factory])
@@ -205,10 +192,8 @@ const BasicMachineRegister = () => {
    * onsubmitForm()
    * 기계 정보 등록
    */
-  const onsubmitForm = useCallback(async (e) => {
-    e.preventDefault()
+  const onsubmitForm = useCallback(async () => {
 
-    console.log('name trim', name.trim())
     //console.log(infoList)
     ////alert(JSON.stringify(infoList))
     //console.log(JSON.stringify(infoList))
@@ -248,22 +233,15 @@ const BasicMachineRegister = () => {
       volt: volt,
     }
 
+    const tempUrl = `${API_URLS['machine'].create}`
+    const res = await registerBasicItem(tempUrl, data)
 
-    const res = await postRequest(`${SF_ENDPOINT}/api/v1/machine/register`, data, getToken(TOKEN_NAME))
 
-    if (res === false) {
-      //TODO: 에러 처리
-      ////alert('////alert('[SERVER ERROR] 요청을 처리 할 수 없습니다.')')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 등록 되었습니다')
-        history.push(`/basic/list/machine`)
-
-      } else {
-        //TODO:  기타 오류
-        // //alert('요청을 처리 할 수 없습니다.')
-      }
+    if (res) {
+      //alert('성공적으로 등록 되었습니다')
+      history.push(`/basic/list/machine`)
     }
+
   }, [pk, made, madeNo, volt, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory])
 
 
@@ -275,14 +253,17 @@ const BasicMachineRegister = () => {
         <WhiteBoxContainer>
           {
             // document.pk !== '' || isUpdate == true?
-            <form onSubmit={isUpdate ? onsubmitFormUpdate : onsubmitForm}>
+            <div>
               <ListHeader title="필수 항목"/>
               <NormalInput title={'기계 이름'} value={name} onChangeEvent={setName}
                            description={'고객사가 보유한 기계의 이름을 입력하세요'}/>
               <DropdownInput title={'기계 종류'} target={indexList[type]} contents={indexList}
-                             onChangeEvent={(v) => setType(v)}/>
+                             onChangeEvent={(v) => setType(v)} style={{width: 'calc(100% - 157px)'}}
+                             buttonStyle={{right: 0}} inputStyle={{boxSizing: 'border-box'}}
+                             selectStyle={{boxSizing: 'border-box'}}/>
 
-              <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}/>
+              <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}
+                         style={{width: 'calc(100% - 157px)'}} inputStyle={{boxSizing: 'border-box'}}/>
               <NormalInput title={'제조(제품) 번호'} value={madeNo} onChangeEvent={setMadeNo}
                            description={'기계의 제조사가 발급한 제조사 번호를 입력하세요 (기계에 부착되어있음)'}/>
 
@@ -332,9 +313,7 @@ const BasicMachineRegister = () => {
                   <OldFileInput title={'기존 첨부 파일'} urlList={oldPaths}
                                 nameList={['기계사진', '스펙명판', '능력명판']}
                                 isImage={true}/>
-
-                  :
-                  null
+                  : null
               }
               <br/>
               {/*<DocumentFormatInputList*/}
@@ -344,8 +323,28 @@ const BasicMachineRegister = () => {
               {/*  />*/}
 
 
-              <RegisterButton name={isUpdate ? '수정하기' : '등록하기'}/>
-            </form>
+              {isUpdate ?
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                  <ButtonWrap onClick={async () => {
+                    await onsubmitFormUpdate()
+                  }}>
+                    <div style={{}}>
+                      <p style={{fontSize: 18}}>수정하기</p>
+                    </div>
+                  </ButtonWrap>
+                </div>
+                :
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                  <ButtonWrap onClick={async () => {
+                    await onsubmitForm()
+                  }}>
+                    <div style={{}}>
+                      <p style={{fontSize: 18}}>등록하기</p>
+                    </div>
+                  </ButtonWrap>
+                </div>
+              }
+            </div>
             // :
             // <SelectDocumentForm category={0} onChangeEvent={setDocument}/>
 
@@ -362,8 +361,27 @@ const FullPageDiv = Styled.div`
   width: 100%;
   height: 100%;
   color: white;
-  background-color: ${BG_COLOR_SUB2}
+  background-color: ${BG_COLOR_SUB2};
 `
 
+
+const ButtonWrap = Styled.button`
+    margin-top: 30px;
+    padding: 4px 12px 4px 12px;
+    border-radius: 5px;
+    color: black;
+    background-color: ${POINT_COLOR};
+    border: none;
+    font-weight: bold;
+    font-size: 13px;
+    width: 360px;
+    height: 46px;
+    box-sizing: border-box;
+    img {
+      margin-right: 7px;
+      width: 14px;
+      height: 14px;
+    }
+  `
 
 export default BasicMachineRegister

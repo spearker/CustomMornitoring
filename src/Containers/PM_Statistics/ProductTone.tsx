@@ -1,20 +1,22 @@
 import React, {useCallback, useEffect, useState,} from 'react'
 import Styled from 'styled-components'
-import {API_URLS, getProductData} from '../../Api/pm/statistics'
+import {API_URLS, getProductData, postProductData} from '../../Api/pm/statistics'
 import HalfTalbe from '../../Components/Table/HalfTable'
 import {API_URLS as MACHINE_URLS, getSearchMachine} from '../../Api/mes/process'
 import moment from 'moment'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import Notiflix from 'notiflix'
+import {esES} from '@material-ui/core/locale'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
+
 
 const DummyMachine = [
   {
     pk: '',
-    machine_name: '',
-    machine_type: '',
-    manufacturer: '',
-    manufacturer_code: ''
+    name: ''
   }
 ]
 
@@ -23,7 +25,7 @@ const ProductToneContainer = () => {
   const [list, setList] = useState<any[]>([])
   const [detailList, setDetailList] = useState<any[]>([])
   const [detailTonList, setDetailTonList] = useState<any[]>([])
-  const [index, setIndex] = useState({product_name: '품목'})
+  const [index, setIndex] = useState({material_name: '품목명'})
   const [subIndex, setSubIndex] = useState({low: '최저'})
   const [sub2Index, setSub2Index] = useState({ton: '톤'})
   const [machinePk, setMachinePk] = useState<string>('all')
@@ -37,8 +39,9 @@ const ProductToneContainer = () => {
     current: 1,
   })
   const [selectPk, setSelectPk] = useState<any>(null)
-  const [selectMold, setSelectMold] = useState<any>(null)
+  const [selectMachine, setSelectMachine] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
+  const [historyArr, setHistoryArr] = useState<string[]>([])
 
   const [machineList, setMachineList] = useState(DummyMachine)
   const [searchName, setSearchName] = useState<string>('')
@@ -51,21 +54,22 @@ const ProductToneContainer = () => {
   //     setIsOpen(false);
   // });
 
-  const getMachineList = useCallback(async () => {
-    const tempUrl = `${MACHINE_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
-    const resultData = await getSearchMachine(tempUrl)
-    setMachineList(resultData.info_list)
-  }, [searchName])
-
-  useEffect(() => {
-    getMachineList()
-  }, [])
+  // const getMachineList = useCallback(async () => {
+  //   const tempUrl = `${MACHINE_URLS['machine'].list}?keyword=${searchName}&page=${page.current}&limit=1000`
+  //   const resultData = await getSearchMachine(tempUrl)
+  //   setMachineList(resultData.info_list)
+  //   console.log(resultData.info_list)
+  // }, [searchName])
+  //
+  // useEffect(() => {
+  //   getMachineList()
+  // }, [])
 
   const indexList = {
     productTone: {
-      product_name: '품목(품목명)',
-      machine_name: '기계명',
-      process_name: '공정명',
+      material_name: '품목명',
+      material_code: '품번',
+      location_name: '기본 위치',
     }
   }
 
@@ -80,30 +84,23 @@ const ProductToneContainer = () => {
   const sub2IndexList = {
     productTone: {
       ton: '톤',
-      date: '날짜'
+      date: '날짜',
+      machine_name: '기계명'
     }
   }
-  //
-  // const detaildummy = [
-  //     {
-  //         settingTone: 97,
-  //         normalTone: 99,
-  //         maxTone: 120,
-  //         minTone: 93
-  //     }
-  // ]
-
 
   const onClick = useCallback((product, index) => {
-    // console.log('dsfewfewf',product.pk,product.mold_name);
+    setTonPage({...tonPage, current: 1})
     if (selectPk === index) {
       setSelectPk(null)
-      setSelectMold(null)
+      setSelectMachine(null)
       setSelectValue(null)
+      setHistoryArr([])
     } else {
       setSelectPk(index)
-      setSelectMold(product.mold_name)
+      setSelectMachine(product.mold_name)
       setSelectValue(product)
+      setHistoryArr([...product.histories])
       // TODO: api 요청
       // getData(product.mold_pk, product.process_pk, product.product_pk)
     }
@@ -115,28 +112,7 @@ const ProductToneContainer = () => {
     const tempUrl = `${API_URLS['product'].load}?mold_pk=${mold}&product_pk=${product}&process_pk=${process}&date=${selectDate}&page=${tonPage.current}&limit=15`
     const res = await getProductData(tempUrl)
 
-
-    const getTonDetail = {
-      avg: res.avg ? res.avg.toFixed(1) : 0,
-      current_page: res.current_page,
-      high: res.high,
-      info_list: res.info_list,
-      low: res.low,
-      total_number: res.total_number,
-      total_page: res.total_page,
-    }
-
-    setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
-    setTonPage({current: res.current_page, total: res.total_page})
-    setDetailTonList(res.info_list)
-  }
-
-  const getDataPaginatoin = async () => {
-    //TODO: 성공시
-    if (selectValue !== null && selectValue.mold_pk !== null && selectValue.product_pk !== null && selectValue.process_pk !== null) {
-      const tempUrl = `${API_URLS['product'].load}?mold_pk=${selectValue.mold_pk}&product_pk=${selectValue.product_pk}&process_pk=${selectValue.process_pk}&date=${selectDate}&page=${tonPage.current}&limit=15`
-      const res = await getProductData(tempUrl)
-
+    if (res) {
       const getTonDetail = {
         avg: res.avg ? res.avg.toFixed(1) : 0,
         current_page: res.current_page,
@@ -147,21 +123,53 @@ const ProductToneContainer = () => {
         total_page: res.total_page,
       }
 
-
-      setDetailList((res.low === undefined || res.low === null) ? [] : [getTonDetail])
+      setDetailList(!res.low ? [] : [getTonDetail])
       setTonPage({current: res.current_page, total: res.total_page})
       setDetailTonList(res.info_list)
     }
   }
 
+  const getDataPaginatoin = async () => {
+    //TODO: 성공시
+    if (selectValue !== null && selectValue.mold_pk !== null && selectValue.product_pk !== null && selectValue.process_pk !== null) {
+      Notiflix.Loading.Circle()
+      const tempUrl = `${API_URLS['product'].load}?filter=${machinePk}&date=${selectDate}&page=${tonPage.current}&limit=15`
+      const res = await postProductData(tempUrl, {histories: historyArr})
+      if (res) {
+        console.log(res)
+        const getTonDetail = {
+          avg: res.avg ? res.avg.toFixed(1) : 0,
+          current_page: res.current_page,
+          high: res.max,
+          info_list: res.info_list,
+          low: res.min,
+          total_number: res.total_number,
+          total_page: res.total_page,
+        }
+
+
+        setDetailList([getTonDetail])
+        setTonPage({current: res.current_page, total: res.total_page})
+        setDetailTonList(res.info_list)
+        Notiflix.Loading.Remove()
+      }
+    }
+  }
+
   const getList = useCallback(async (pk) => { // useCallback
     //TODO: 성공시
+    Notiflix.Loading.Circle()
     const tempUrl = `${API_URLS['product'].list}?filter=${pk}&page=${materialPage.current}&limit=15`
     const res = await getProductData(tempUrl)
+    if (res) {
+      setList(res.info_list)
+      console.log(res)
 
-    setList(res.info_list)
+      setMachineList([...res.machines])
 
-    setMaterialPage({current: res.current_page, total: res.total_page})
+      setMaterialPage({current: res.current_page, total: res.total_page})
+      Notiflix.Loading.Remove()
+    }
   }, [machinePk, materialPage])
 
   useEffect(() => {
@@ -175,17 +183,18 @@ const ProductToneContainer = () => {
 
   useEffect(() => {
     getList(machinePk)
-  }, [machinePk, materialPage.current])
+  }, [materialPage.current])
 
   useEffect(() => {
-    if (selectValue !== null && selectValue !== undefined) {
+    if (selectValue) {
       getDataPaginatoin()
     }
-  }, [tonPage.current, selectDate, selectValue])
+  }, [tonPage.current, selectDate, selectValue, machinePk])
 
   useEffect(() => {
     setDetailList([])
     setDetailTonList([])
+    console.log(selectValue)
   }, [selectValue])
 
   return (
@@ -193,7 +202,10 @@ const ProductToneContainer = () => {
       <div style={{width: '1107px', height: 30, marginTop: 41, borderRadius: 10, display: 'flex'}}>
         <div style={{marginLeft: '65%'}}>
           <CalendarDropdown type={'single'} select={selectDate}
-                            onClickEvent={(i) => setSelectDate(i)}/>
+                            onClickEvent={(i) => {
+                              setTonPage({...tonPage, current: 1})
+                              setSelectDate(i)
+                            }}/>
         </div>
         <div style={{display: 'flex', marginLeft: 20}}>
           <p style={{marginRight: 10, marginBottom: 2}}>기계 :</p>
@@ -204,12 +216,15 @@ const ProductToneContainer = () => {
             backgroundColor: '#353b48',
             color: '#ffffff',
             paddingLeft: 10,
-          }} onChange={(e) => setMachinePk(e.target.value)}>
+          }} onChange={(e) => {
+            setTonPage({...tonPage, current: 1})
+            setMachinePk(e.target.value)
+          }}>
             <option value={'all'}>전체</option>
             {
               machineList.map((v, i) => {
                 return (
-                  <option value={v.pk} key={`${v.pk}machine${i}`}>{v.machine_name}</option>
+                  <option value={v.pk} key={`${v.pk}machine${i}`}>{v.name}</option>
                 )
               })}
           </select>
@@ -225,7 +240,10 @@ const ProductToneContainer = () => {
             mainOnClickEvent={onClick}
             currentPage={materialPage.current}
             totalPage={materialPage.total}
-            pageOnClickEvent={(event, i: number) => setMaterialPage({...materialPage, current: i})}
+            pageOnClickEvent={(event, i: number) => {
+              setTonPage({...tonPage, current: 1})
+              setMaterialPage({...materialPage, current: i})
+            }}
             noChildren={true}>
           </HalfTalbe>
         </div>

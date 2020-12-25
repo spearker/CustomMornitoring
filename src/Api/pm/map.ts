@@ -9,12 +9,10 @@ import client from '../configs/map';
  */
 export const getMonitoringMapData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+
+    if (temp) {
+        return temp.results!;
     }
-    console.log(temp.results);
-    return temp.results!;
 }
 
 /**
@@ -26,12 +24,10 @@ export const getMonitoringMapData = async (url: string) => {
  */
 export const getMapListData = async (url: string) => {
     const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    
+    if (temp) {
+        return temp.results!;
     }
-    console.log(temp.results);
-    return temp.results!;
 }
 
 

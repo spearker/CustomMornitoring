@@ -17,6 +17,8 @@ import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import useObjectInput from '../../Functions/UseInput'
 import Styled from 'styled-components'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import {API_URLS, postOutsourcingRegister} from "../../Api/mes/outsourcing";
+import {getCustomerData} from "../../Api/mes/customer";
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -71,24 +73,18 @@ const OutsourcingRegister = ({match}: any) => {
      * @returns X
      */
     const addFiles = async (event: any, index: number): Promise<void> => {
-        console.log(event.target.files[0])
-        console.log(index)
         if (event.target.files[0] === undefined) {
 
             return
         }
-        console.log(event.target.files[0].type)
         if (event.target.files[0].type.includes('image')) { //이미지인지 판별
 
             const tempFile = event.target.files[0]
-            console.log(tempFile)
             const res = await uploadTempFile(event.target.files[0])
 
             if (res !== false) {
-                console.log(res)
                 const tempPatchList = paths.slice()
                 tempPatchList[index] = res
-                console.log(tempPatchList)
                 setPaths(tempPatchList)
                 return
             } else {
@@ -111,34 +107,28 @@ const OutsourcingRegister = ({match}: any) => {
      * @returns X
      */
     const getData = useCallback(async () => {
+        const tempUrl = `${API_URLS['outsourcing'].load}`
+        const res = await postOutsourcingRegister(tempUrl, {pk: match.params.pk})
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/load`, {pk: match.params.pk}, getToken(TOKEN_NAME))
+        if (res) {
+            const data = res.results
+            setName(data.name)
+            setPk(data.pk)
+            setNo(data.number)
+            setType(data.type)
+            setPk(data.pk)
+            setCeo(data.ceo_name)
+            setPaths([data.photo_url === '-' ? null : data.photo_url])
+            setPhone(data.telephone)
+            setEmailM(data.manager_email)
+            setPhoneM(data.manager_phone)
+            setManager(data.manager)
+            setEmail(data.ceo_email)
 
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200) {
-                const data = res.results
-                setName(data.name)
-                setPk(data.pk)
-                setNo(data.number)
-                setType(data.type)
-                setPk(data.pk)
-                setCeo(data.ceo_name)
-                setPaths([data.photo_url === '-' ? null : data.photo_url])
-                setPhone(data.telephone)
-                setEmailM(data.manager_email)
-                setPhoneM(data.manager_phone)
-                setManager(data.manager)
-                setEmail(data.ceo_email)
+            setInfoList(data.info_list)
+            setInputData('location', data.address)
+            setFax(data.fax)
 
-                setInfoList(data.info_list)
-                setInputData('location', data.address)
-                setFax(data.fax)
-
-            } else {
-                //TODO:  기타 오류
-            }
         }
     }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, inputData])
 
@@ -170,8 +160,6 @@ const OutsourcingRegister = ({match}: any) => {
         }
 
 
-        console.log(inputData.location.postcode, inputData.location.roadAddress, inputData.location.detail)
-
         const data = {
             pk: match.params.pk,
             name: name,
@@ -184,24 +172,20 @@ const OutsourcingRegister = ({match}: any) => {
             manager: manager === '' ? null : manager,
             manager_phone: phoneM === '' ? null : phoneM,
             manager_email: emailM === '' ? null : emailM,
-            address: inputData.location.postcode === undefined && inputData.location.roadAddress === undefined && inputData.location.detail === undefined ? null : inputData.location,
+            address: inputData === null && inputData.location.postcode === undefined && inputData.location.roadAddress === undefined && inputData.location.detail === undefined ? null : inputData.location,
             fax: fax === '' ? null : fax,
             //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
         }
 
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/update/`, data, getToken(TOKEN_NAME))
+        const tempUrl = `${API_URLS['outsourcing'].update}`
+        const res = await postOutsourcingRegister(tempUrl, data)
 
-        if (res === false) {
-            ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 수정 되었습니다')
-                setIsUpdate(false)
-                history.push('/outsourcing/current/list')
-            } else {
-                ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-            }
+        if (res) {
+
+            setIsUpdate(false)
+            history.push('/outsourcing/current/list')
+
         }
 
 
@@ -221,52 +205,47 @@ const OutsourcingRegister = ({match}: any) => {
      */
     const onsubmitForm = useCallback(async () => {
 
-        console.log(no)
-        if (name === '') {
-            alert('사업장은 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (ceo === '') {
-            alert('대표자는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (no === null || no === undefined || no === 0 || no.toString() === '') {
-            alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        }
-
-        const data = {
-
-            name: name,
-            number: no.toString(),
-            type: type.toString(),
-            ceo_name: ceo,
-            photo: paths[0],
-            telephone: phone === '' ? null : phone,
-            ceo_email: email === '' ? null : email,
-            manager: manager === '' ? null : manager,
-            manager_phone: phoneM === '' ? null : phoneM,
-            manager_email: emailM === '' ? null : emailM,
-            address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
-            fax: fax === '' ? null : fax,
-            // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-
-        }
-
-
-        const res = await postRequest(`${SF_ENDPOINT}/api/v1/outsourcing/register`, data, getToken(TOKEN_NAME))
-
-        if (res === false) {
-            //TODO: 에러 처리
-        } else {
-            if (res.status === 200) {
-                //alert('성공적으로 등록 되었습니다')
-
-                history.push('/outsourcing/current/list')
-            } else {
-                //TODO:  기타 오류
+            if (name === '') {
+                alert('사업장은 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (ceo === '') {
+                alert('대표자는 필수 항목입니다. 반드시 입력해주세요.')
+                return
+            } else if (no === null || no === undefined || no === 0 || no.toString() === '') {
+                alert('사업자 번호는 필수 항목입니다. 반드시 입력해주세요.')
+                return
             }
-        }
 
-    }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData])
+            const data = {
+
+                name: name,
+                number: no.toString(),
+                type: type.toString(),
+                ceo_name: ceo,
+                photo: paths[0],
+                telephone: phone === '' ? null : phone,
+                ceo_email: email === '' ? null : email,
+                manager: manager === '' ? null : manager,
+                manager_phone: phoneM === '' ? null : phoneM,
+                manager_email: emailM === '' ? null : emailM,
+                address: inputData.location.postcode === '' && inputData.location.roadAddress === '' && inputData.location.detail === '' ? null : inputData.location,
+                fax: fax === '' ? null : fax,
+                // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
+
+            }
+
+            const tempUrl = `${API_URLS['outsourcing'].register}`
+            const res = await postOutsourcingRegister(tempUrl, data)
+
+
+            if (res) {
+                //TODO: 에러 처리
+                history.push('/outsourcing/current/list')
+
+            }
+
+        }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, inputData]
+    )
 
 
     return (

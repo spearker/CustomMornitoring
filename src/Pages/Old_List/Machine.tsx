@@ -111,7 +111,6 @@ const MachineList = () => {
 
     const onClickModify = useCallback((id) => {
 
-        console.log('--select id : ' + id)
         window.location.href = `/update/machine?pk=${id}`
 
     }, [])
@@ -121,7 +120,6 @@ const MachineList = () => {
 
         const results = await postRequest('http://255.255.255.255:8299/api/v1/machine/delete', {pk: id}, getToken(TOKEN_NAME))
         const tg = id
-        console.log('--select id : ' + id)
         if (results === false) {
             //alert('요청을 처리 할 수없습니다. 잠시후 다시 이용하세요.')
         } else {
@@ -151,7 +149,6 @@ const MachineList = () => {
                     description={'검색어 입력'}
                     value={keyword}
                     onChangeEvent={(e) => {
-                        console.log('load...')
                         setKeyword(e.target.value)
                     }}
                     onClickEvent={getSearchList}

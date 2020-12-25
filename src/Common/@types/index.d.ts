@@ -274,6 +274,9 @@ interface IPressReadyTimeAnalysis {
     power_off_time: string
     runtime: number | string
     runtime_time: string
+    power_on_time: string
+    powered_on_at: string
+    powered_off_at: string
     downtime: {
       total: number
       total_time: string
@@ -401,6 +404,23 @@ interface IProcessRegister {
     mold_pk?: string | null
   }[]
   description: string
+}
+
+interface IProcessDetailData {
+  machine?: string
+  machine_type?: number
+  machine_name?: string
+  mold?: string
+  mold_name?: string
+  input_materials?: IMaterialData[]
+  output_materials?: IMaterialData
+}
+
+interface IMaterialData {
+  material_pk: string
+  material_name: string
+  material_type: number
+  count: number
 }
 
 interface OutsourcingName {

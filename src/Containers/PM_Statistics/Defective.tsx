@@ -5,10 +5,16 @@ import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 import moment from 'moment'
 import ReactApexChart from 'react-apexcharts'
 import {API_URLS, getDefectiveData} from '../../Api/pm/statistics'
+import Notiflix from 'notiflix'
+import {ResponsiveLine} from '@nivo/line'
+import {MyResponsiveLine} from '../../Components/LineChart/MyResponsiveLine'
+
+Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 
 const chartOption = {
   chart: {
+    id: 'customChart',
     type: 'area',
     height: 350,
     toolbar: {
@@ -99,6 +105,7 @@ const DefectiveContainer = () => {
   const [index, setIndex] = useState({material_name: '품목(품목명)'})
   const [labels, setLabels] = useState([])
   const [series, setSeries] = useState([])
+  const [newSeries, setNewSeries] = useState<{ x: string, y: number }[]>([])
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
@@ -106,6 +113,8 @@ const DefectiveContainer = () => {
   const [selectIndex, setSelectIndex] = useState<number | null>(null)
   const [selectMold, setSelectMold] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
+
+  const [max, setMax] = useState<number>(100)
 
   const [selectDate, setSelectDate] = useState({
     start: moment().subtract(1, 'days').format('YYYY-MM-DD'),
@@ -129,12 +138,13 @@ const DefectiveContainer = () => {
   ]
 
   const onClick = useCallback((mold, index) => {
-    console.log('dsfewfewf', index, selectIndex)
     if (index === selectIndex) {
-      // setSelectPk(null)
-      // setSelectMold(null)
-      // setSelectValue(null)
-      // setSelectIndex(null)
+      setLabels([])
+      setSeries([])
+      setSelectPk(null)
+      setSelectMold(null)
+      setSelectValue(null)
+      setSelectIndex(null)
     } else {
       setSelectPk(mold.pk)
       setSelectMold(mold.mold_name)
@@ -148,48 +158,59 @@ const DefectiveContainer = () => {
   }, [list, selectPk, selectIndex])
 
   useEffect(() => {
-    console.log(selectValue, selectDate)
     if (selectValue) {
       getData(selectValue.material_pk)
     }
   }, [selectDate, selectValue])
+
+  useEffect(() => {
+    if (selectValue) {
+      console.log(selectValue)
+      setSelectDate({
+        start: moment(selectValue.date).subtract(1, 'days').format('YYYY-MM-DD'),
+        end: moment(selectValue.date).format('YYYY-MM-DD')
+      })
+    }
+  }, [selectValue])
 
   const getData = useCallback(async (pk) => {
     //TODO: 성공시
     const tempUrl = `${API_URLS['defective'].load}?pk=${pk}&from=${selectDate.start}&to=${selectDate.end}`
     const res = await getDefectiveData(tempUrl)
 
-    console.log(res)
+    if (res) {
+      setDetailList(res)
 
-    setDetailList(res)
+      //@ts-ignore
+      setLabels([...res.dates])
+      //@ts-ignore
+      setSeries([...res.amounts])
 
-    let tmpArray = res.amounts.map((v) => {
-      console.log(v)
-      let value = 0
-      if (v !== 0 && res.total_production !== 0) {
-        value = Math.round(v / res.total_production * 10000) / 100
-      }
+      let tmpSeries: { x: string, y: number }[] = []
+      res.dates.map((v, i) => {
+        tmpSeries.push({x: String(v), y: res.amounts[i]})
+      })
 
-      return value
-    })
+      console.log(res.amounts)
 
-    console.log(tmpArray)
+      setMax(Math.pow(10, Math.max.apply(null, res.amounts).toString().length))
 
-    //@ts-ignore
-    setLabels([...res.dates])
-    //@ts-ignore
-    setSeries([...tmpArray])
+      setNewSeries([...tmpSeries])
+    }
 
   }, [detailList, selectValue, selectDate])
 
   const getList = useCallback(async () => { // useCallback
     //TODO: 성공시
-    const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
+    Notiflix.Loading.Circle()
+    const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=5`
     const res = await getDefectiveData(tempUrl)
+    if (res) {
+      setList(res.info_list)
 
-    setList(res.info_list)
-
-    setPage({current: res.current_page, total: res.total_page})
+      setPage({current: res.current_page, total: res.total_page})
+      Notiflix.Loading.Remove()
+    }
   }, [list, page])
 
   useEffect(() => {
@@ -203,68 +224,91 @@ const DefectiveContainer = () => {
   }, [page.current])
 
   return (
-    <OvertonTable
-      title={'프레스 불량률'}
-      indexList={index}
-      valueList={list}
-      clickValue={selectValue}
-      currentPage={page.current}
-      totalPage={page.total}
-      pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-      mainOnClickEvent={onClick}>
-      {
-        selectPk !== null ?
-          <div style={{display: 'flex', flexDirection: 'row'}}>
-            <div>
-              <LineContainer>
-                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10}}>
-                  <p>생산량</p>
-                  <p>{detailList.total_production}<span>ea</span></p>
-                </div>
-              </LineContainer>
-              <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
-                <div>
-                  <p>전체 불량률</p>
-                  <p>{detailList.defect_percentage}%</p>
-                </div>
-                <div>
-                  <p>전체 불량 갯수</p>
-                  <p>{detailList.defect_amount}ea</p>
-                </div>
-              </CapacityContainer>
-            </div>
-            <GraphContainer>
-              {
-
-                <div>
+    <>
+      <OvertonTable
+        title={'프레스 불량률'}
+        indexList={index}
+        valueList={list}
+        clickValue={selectValue}
+        currentPage={page.current}
+        totalPage={page.total}
+        pageOnClickEvent={(event, i) => {
+          setSelectPk(null)
+          setPage({...page, current: i})
+        }}
+        mainOnClickEvent={onClick}>
+        {
+          selectPk !== null ?
+            <div style={{display: 'flex', flexDirection: 'row', zIndex: 0}}>
+              <div>
+                <LineContainer>
                   <div style={{
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    marginLeft: 30,
-                    marginRight: 30,
-                    paddingTop: 25
+                    paddingTop: 10
                   }}>
-                    <div style={{alignSelf: 'center', width: '40%'}}>
-                      <p>{selectValue.material_name} 불량률</p>
-                    </div>
-                    <CalendarDropdown type={'range'} selectRange={selectDate}
-                                      onClickEvent={(start, end) => setSelectDate({
-                                        start: start,
-                                        end: end ? end : ''
-                                      })} toDayLimit={true}></CalendarDropdown>
+                    <p>생산량</p>
+                    <p>{detailList.total_production}<span>ea</span></p>
                   </div>
-                  <ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}
-                                  type={'area'} height={444} width={630}
-                                  series={[{name: 'data', data: series}]}/>
-                </div>
-              }
-            </GraphContainer>
-          </div>
-          :
-          null
-      }
-    </OvertonTable>
+                </LineContainer>
+                <CapacityContainer style={{paddingTop: 30, paddingBottom: 20}}>
+                  <div>
+                    <p>전체 불량률</p>
+                    <p>{detailList.defect_percentage}%</p>
+                  </div>
+                  <div>
+                    <p>전체 불량 갯수</p>
+                    <p>{detailList.defect_amount}ea</p>
+                  </div>
+                </CapacityContainer>
+              </div>
+              <GraphContainer>
+                {
+
+                  <div>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginLeft: 30,
+                      marginRight: 30,
+                      paddingTop: 25
+                    }}>
+                      <div style={{alignSelf: 'center', width: '40%'}}>
+                        <p>{selectValue.material_name} 불량률</p>
+                      </div>
+                      <CalendarDropdown type={'range'} selectRange={selectDate}
+                                        onClickEvent={(start, end) => setSelectDate({
+                                          start: start,
+                                          end: end ? end : ''
+                                        })} toDayLimit={true}></CalendarDropdown>
+                    </div>
+                    {/*<ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}*/}
+                    {/*                type={'area'} height={444} width={630}*/}
+                    {/*                series={[{name: 'data', data: series}]}/>*/}
+                    <div style={{width: 650, height: 440}}>
+                      {
+                        newSeries.length !== 0 && <MyResponsiveLine data={
+                          [
+                            {
+                              'id': '불량률',
+                              'color': 'hsl(102, 70%, 50%)',
+                              'data': newSeries
+                            }
+                          ]
+                        } max={max}/>
+                      }
+                    </div>
+                  </div>
+                }
+              </GraphContainer>
+            </div>
+            :
+            null
+        }
+      </OvertonTable>
+    </>
   )
 }
 

@@ -15,7 +15,7 @@ interface Props {
   allCheckbox?: boolean
   checkBox?: boolean
   pkKey?: string
-  clickValue?: object
+  clickValue?: any
   mainOnClickEvent?: any
   onClickEvent?: any
   currentPage?: number
@@ -37,7 +37,6 @@ const HalfTalbe: React.FunctionComponent<Props> = ({title, calendar, titleOnClic
 
   React.useEffect(() => {
     if (checkBox === true) {
-      console.log('valueList', valueList)
       let tmpArr: boolean[] = []
       const arrData = valueList.map((v, i) => {
         tmpArr.push(false)
@@ -99,7 +98,6 @@ const HalfTalbe: React.FunctionComponent<Props> = ({title, calendar, titleOnClic
                   tmpArr = tmpArr.map(() => false)
                   // console.log('asldfjlkasdjflksajdflkjadsklf', tmpArr)
                   setChecked(tmpArr)
-                  console.log(checked)
                   setAllChecked(false)
                   return false
                 }
@@ -130,7 +128,6 @@ const HalfTalbe: React.FunctionComponent<Props> = ({title, calendar, titleOnClic
             )
           })
         }
-        {console.log(valueList)}
       </TitleBar>
       {
         valueList && valueList.length === 0
@@ -149,9 +146,10 @@ const HalfTalbe: React.FunctionComponent<Props> = ({title, calendar, titleOnClic
                 more_Action: false
             },
             */
+
             return (
               <ValueBar key={i} style={{
-                backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
+                backgroundColor: clickValue && clickValue.material_name == v.material_name ? '#19b9df' : '#353b48',
                 cursor: 'pointer'
               }}>
                 {

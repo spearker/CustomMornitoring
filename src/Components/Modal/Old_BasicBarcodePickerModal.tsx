@@ -9,8 +9,8 @@ import {Input} from "semantic-ui-react";
 
 //드롭다운 컴포넌트
 
-interface IProps{
-    select?: { name?:string, type?: string, pk?: string },
+interface IProps {
+    select?: { name?: string, type?: string, pk?: string },
     onClickEvent: any
     text: string
 }
@@ -60,22 +60,28 @@ const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
     const handleClickBtn = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(()=>{
-        console.log(select)
-    },[select])
+
 
     return (
         <div>
-            <div style={{position:'relative', display:'inline-block', zIndex:0, width: 917}}>
-                <BoxWrap onClick={()=>{setIsOpen(true)}} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display:'inline-block', height: 32, width: 885}}>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+                <BoxWrap onClick={() => {
+                    setIsOpen(true)
+                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                    <div style={{display: 'inline-block', height: 32, width: 885}}>
                         {
-                            select ? <p onClick={()=>{setIsOpen(true)}} style={{marginTop: 5}}>&nbsp; {basicBarcodeName}</p>
-                                : <p onClick={()=>{setIsOpen(true)}} style={{marginTop:5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                            select ? <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5}}>&nbsp; {basicBarcodeName}</p>
+                                : <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
                         }
                     </div>
-                    <div style={{display:'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                        <img style={{ width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={()=>{setIsOpen(true)}}/>
+                    <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
+                            setIsOpen(true)
+                        }}/>
                     </div>
 
                 </BoxWrap>
@@ -83,19 +89,19 @@ const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
             <Modal
                 isOpen={isOpen}
                 style={{
-                   content : {
-                       top                   : '50%',
-                       left                  : '50%',
-                       right                 : 'auto',
-                       bottom                : 'auto',
-                       marginRight           : '-50%',
-                       transform             : 'translate(-50%, -50%)',
-                       padding: 0
-                   },
-                   overlay:{
-                       background: 'rgba(0,0,0,.6)',
-                       zIndex: 5
-                   }
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        padding: 0
+                    },
+                    overlay: {
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
+                    }
                 }}
             >
                 <div style={{width: 900}}>
@@ -117,8 +123,8 @@ const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
                                         <th style={{width: 30}}></th>
                                     </tr>
                                     {
-                                        DummyItem.map((v,i) => {
-                                            return(
+                                        DummyItem.map((v, i) => {
+                                            return (
                                                 <tr style={{height: 32}}>
                                                     <td><span>&nbsp; {v.basic_barcode_name}</span></td>
                                                     <td><span>{v.basic_barcode_num}</span></td>
@@ -127,9 +133,17 @@ const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
                                                         <button
                                                             onClick={() => {
                                                                 setBasicBarcodeName(v.basic_barcode_name)
-                                                                return onClickEvent({name: v.basic_barcode_name, pk: v.basic_barcode_pk})
+                                                                return onClickEvent({
+                                                                    name: v.basic_barcode_name,
+                                                                    pk: v.basic_barcode_pk
+                                                                })
                                                             }}
-                                                            style={{backgroundColor: select ? v.basic_barcode_pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf', width: 32, height: 32, margin: 0}}
+                                                            style={{
+                                                                backgroundColor: select ? v.basic_barcode_pk === select.pk ? POINT_COLOR : '#dfdfdf' : '#dfdfdf',
+                                                                width: 32,
+                                                                height: 32,
+                                                                margin: 0
+                                                            }}
                                                         >
                                                             <img src={ic_check} style={{width: 20, height: 20}}/>
                                                         </button>
@@ -151,7 +165,9 @@ const Old_BasicBarcodePickerModal = ({select, onClickEvent, text}: IProps) => {
                                 <span style={{color: '#666d79'}}>취소</span>
                             </div>
                         </CheckButton>
-                        <CheckButton style={{right:0, backgroundColor: POINT_COLOR}} onClick={() => {setIsOpen(false)}}>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
                             <div>
                                 <span style={{color: 'black'}}>확인</span>
                             </div>

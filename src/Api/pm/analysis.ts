@@ -1,4 +1,4 @@
-import client from '../configs/basic';
+import client from '../configs/basic'
 
 /**
  * getPowerList()
@@ -9,13 +9,11 @@ import client from '../configs/basic';
  * @version 0.1
  */
 export const getAnalysisReadyTime = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+    const temp: IServerData = await client.get(url)
 
-    return temp.results!;
+    if (temp) {
+        return temp.results!
+    }
 }
 
 /**
@@ -27,13 +25,11 @@ export const getAnalysisReadyTime = async (url: string) => {
  * @version 0.1
  */
 export const getCapacityTimeData = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results!
     }
-    return temp.results!;
 }
 
 /**
@@ -45,13 +41,11 @@ export const getCapacityTimeData = async (url: string) => {
  * @version 0.1
  */
 export const getDefectiveData = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results!
     }
-    return temp.results!;
 }
 
 /**
@@ -63,13 +57,11 @@ export const getDefectiveData = async (url: string) => {
  * @version 0.1
  */
 export const getAbilityList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    console.log(temp.results);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results!
     }
-    return temp.results!;
 }
 
 export const API_URLS = {
@@ -77,9 +69,12 @@ export const API_URLS = {
         load: `/v1/analysis/press/downtime`
     },
     capacity: {
-        load: `/v1/analysis/press/production`
+        list: `/v1/analysis/press/material/list`,
+        load: `/v1/analysis/press/production`,
+        load2: `/v1/analysis/press/productions`,
+        load3: `/v1/analysis/press/material/production`,
+        detail: `/v1/analysis/press/material/detail`
     },
-
     pressList: {
         list: '/v1/analysis/press/list'
     },
@@ -88,8 +83,15 @@ export const API_URLS = {
         load: '/v1/analysis/press/defective'
     },
     ability: {
-        load: `/v1/analysis/press/capacity`
+        load: `/v1/analysis/press/capacity`,
+        list: `/v1/analysis/press/temp/capacity/list`,
+        load2: `/v1/analysis/press/temp/capacity/detail`,
+        error: `/v1/analysis/press/capacity/error`,
+        detail: `v1/analysis/press/capacity/detail`
     },
+    error: {
+        detail: `/v1/analysis/press/error/detail`
+    }
 }
 
 

@@ -1,4 +1,5 @@
-import client from '../configs/basic';
+import client from '../configs/basic'
+import excelClient from '../configs/excel'
 
 /**
  * getBasicList()
@@ -8,16 +9,11 @@ import client from '../configs/basic';
  * @author 수민
  */
 export const getBasicList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    console.log({
-        url,
-        temp
-    });
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results!
     }
-    return temp.results!;
 }
 
 /**
@@ -28,11 +24,8 @@ export const getBasicList = async (url: string) => {
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  */
 export const deleteBasicList = async (url: string, id: string) => {
-    const temp: IServerData = await client.post(url, {pk: id});
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
+    const temp: IServerData = await client.post(url, {pk: id})
+
     if (temp) {
         return true
     } else {
@@ -48,12 +41,9 @@ export const deleteBasicList = async (url: string, id: string) => {
  * @returns {Boolean} 성공 실패 여부 true/false 리턴
  */
 export const registerBasicItem = async (url: string, data: any) => {
-    const temp: IServerData = await client.post(url, data);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
-    }
-    if (temp) {
+    const temp: IServerData = await client.post(url, data)
+
+    if (temp.status === 200) {
         return true
     } else {
         return false
@@ -67,14 +57,61 @@ export const registerBasicItem = async (url: string, data: any) => {
  * @returns {any} 조회 데이터
  */
 export const loadBasicItem = async (url: string) => {
-    const temp: IServerData = await client.get(url);
-    if (temp.status === 400) {
-        alert('요청이 잘못되었습니다.')
-        return
+    const temp: IServerData = await client.get(url)
+
+    if (temp) {
+        return temp.results
     }
-    return temp.results
 }
 
+
+/**
+ * excelPost()
+ * 엑셀 정보 항목 등록
+ * @param {string} url
+ * @param {any} data 등록 데이터
+ * @returns {Boolean} 성공 실패 여부 true/false 리턴
+ * @author 정민
+ */
+export const excelPost = async (url: string, data: any) => {
+    const temp: IServerData = await excelClient.post(url, data)
+
+    if (temp.status === 200) {
+        return true
+    } else {
+        return false
+    }
+}
+
+/**
+ * excelGet()
+ * 엑셀 목록 불러오기
+ * @param {string} url 링크 주소
+ * @returns {Array} list
+ * @author 정민
+ */
+export const excelGet = async (url: string) => {
+    const temp: IServerData = await excelClient.get(url)
+
+    if (temp) {
+        return temp.results!
+    }
+}
+
+/**
+ * excelGet()
+ * 엑셀 목록 불러오기
+ * @param {string} url 링크 주소
+ * @returns {Array} list
+ * @author 정민
+ */
+export const excelItemsGet = async (url: string) => {
+    const temp: { data: [] } = await excelClient.get(url)
+
+    if (temp) {
+        return temp!
+    }
+}
 
 export const API_URLS = {
     machine: {
@@ -82,6 +119,7 @@ export const API_URLS = {
         create: `/v1/machine/register`,
         update: `/v1/machine/update`,
         list: `/v1/machine/list`,
+        load: `/v1/machine/load`,
     },
     device: {
         delete: `/v1/device/delete`,
@@ -110,6 +148,7 @@ export const API_URLS = {
         update: `/v1/factory/update`,
         list: `/v1/factory/list`,
         load: `/v1/factory/load`,
+        search: `/v1/factory/search`
     },
     subdivided: {
         delete: `/v1/subdivided/delete`,
@@ -121,6 +160,10 @@ export const API_URLS = {
     parts: {
         delete: `/v1/parts/delete`,
         create: `/v1/parts/register`,
+        typeCreate: `/v1/parts/type/register`,
+        typeDelete: `/v1/parts/type/delete`,
+        typeUpdate: `/v1/parts/type/update`,
+        typeList: `/v1/parts/type/list`,
         update: `/v1/parts/update`,
         list: `/v1/parts/list`,
         load: `/v1/parts/load`,
@@ -134,9 +177,15 @@ export const API_URLS = {
     },
     document: {
         delete: `/v1/document/delete`,
-        create: `/v1/document/register`,
-        update: `/v1/document/update`,
-        list: `/v1/document/list`,
+        create: `/v1/document/folder/register`,
+        update: `/v1/document/folder/update`,
+        fileDelete: `/v1/document/file/delete`,
+        fileMove: `/v1/document/file/change`,
+        upload: `/v1/document/file/upload`,
+        folderList: `/v1/document/folder/list`,
+        folderDelete: `/v1/document/folder/delete`,
+        fileList: `/v1/document/file/list`,
+        logList: `/v1/document/log/list`,
         load: `/v1/document/load`,
     },
     barcode: {
@@ -146,4 +195,8 @@ export const API_URLS = {
         list: `/v1/barcode/standard/list`,
         load: `/v1/barcode/standard/load`,
     },
+    format: {
+        upload: `/v1/format/upload`,
+        history: '/v1/format/history/list'
+    }
 }

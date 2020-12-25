@@ -11,6 +11,9 @@ import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import {useHistory} from 'react-router-dom'
+import Notiflix from 'notiflix'
+
+const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
 const ContractRegisterContainer = () => {
   const history = useHistory()
@@ -51,6 +54,9 @@ const ContractRegisterContainer = () => {
       return
     } else if (contractData.date === '') {
       alert('완료 예정일은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (!contractData.date.match(regExp) || !contractData.deadline.match(regExp)) {
+      alert('날짜 형식이 올바르지 않습니다.')
       return
     }
 
@@ -100,22 +106,28 @@ const ContractRegisterContainer = () => {
                   flex: 1,
                   flexDirection: 'row',
                   backgroundColor: '#f4f6fa',
-                  border: '0.5px solid #b3b3b3',
                   height: 32
                 }}>
                   <div style={{width: 817, display: 'table-cell'}}>
-                    <div style={{marginTop: 5}}>
+                    <div>
                       {
                         selectDate === ''
-                          ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                          : <InputText style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                          ? <InputText value={'거래처를 선택해 주세요'}></InputText>
+                          : <InputText onBlur={() => {
+                            if (!selectDate.match(regExp)) {
+                              Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                            }
+                          }} style={{color: '#111319'}} onChange={(e) => {
+                            setSelectDate(e.target.value)
+                            setContractData({...contractData, date: e.target.value})
+                          }} value={selectDate}></InputText>
                       }
                     </div>
                   </div>
-                  <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                  <ColorCalendarDropdown unLimit={true} select={selectDate} onClickEvent={(select) => {
                     setSelectDate(select)
                     setContractData({...contractData, date: select})
-                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0, zIndex: 1}}/>
                 </div>
               </td>
             </tr>
@@ -127,22 +139,28 @@ const ContractRegisterContainer = () => {
                   flex: 1,
                   flexDirection: 'row',
                   backgroundColor: '#f4f6fa',
-                  border: '0.5px solid #b3b3b3',
                   height: 32
                 }}>
                   <div style={{width: 817, display: 'table-cell'}}>
-                    <div style={{marginTop: 5}}>
+                    <div>
                       {
                         selectDate === ''
-                          ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                          : <InputText style={{color: '#111319'}}>&nbsp; {finishDate}</InputText>
+                          ? <InputText value={'&nbsp; 거래처를 선택해 주세요'}></InputText>
+                          : <InputText style={{color: '#111319'}} value={finishDate} onBlur={() => {
+                            if (!finishDate.match(regExp)) {
+                              Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                            }
+                          }} onChange={(e) => {
+                            setFinishDate(e.target.value)
+                            setContractData({...contractData, date: e.target.value})
+                          }}></InputText>
                       }
                     </div>
                   </div>
-                  <ColorCalendarDropdown select={selectDate} onClickEvent={(select) => {
+                  <ColorCalendarDropdown unLimit={true} select={finishDate} onClickEvent={(select) => {
                     setFinishDate(select)
                     setContractData({...contractData, deadline: select})
-                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0, zIndex: 0}}/>
                 </div>
               </td>
             </tr>
@@ -237,7 +255,8 @@ const ButtonWrap = Styled.button`
     }
 `
 
-const InputText = Styled.p`
+const InputText = Styled.input`
+    padding-left: 5px;
     color: #b3b3b3;
     font-size: 15px;
     text-align: left;
