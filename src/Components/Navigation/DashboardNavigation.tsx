@@ -207,7 +207,7 @@ const DashboardNavigation = ({select, folding}: Props) => {
                     }
                 }} style={nav.mode == 'mes' ? {backgroundColor: POINT_COLOR} : {}}>
                     <img src={NAV_MES}/>
-                    <p>PM-R</p>
+                    <p>MES</p>
                 </div>
                 {/*<div onClick={() => history.push('/admin/map/list')}>*/}
                 {/*    <img src={NAV_MES}/>*/}

@@ -300,11 +300,14 @@ const MachineTable = Styled.table`
     
 `
 
+
 const PaginationBox = Styled.div`
+    height: 60px;
     padding-top: 5px;
     background-color: #ffffff;
     display: flex;
     justify-content: center;
+    position:relative;
     .MuiButtonBase-root {
         color: black;
     }
