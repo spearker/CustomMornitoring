@@ -101,7 +101,7 @@ const CurrentContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        getList(filter)
+        getList(filter, true)
     }, [option, searchValue, page])
 
 
@@ -171,13 +171,14 @@ const CurrentContainer = () => {
 
         arrayDelete()
 
-        getList()
+        getList(undefined, true)
     }, [deletePk])
 
-    const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
+    const getList = async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['outsourcing'].list}?keyword=${searchValue}&type=${filter ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
+
+        const tempUrl = `${API_URLS['outsourcing'].list}?keyword=${searchValue}&type=${filter !== undefined ? filter : option}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
         if (res) {
             setList(res.info_list)
@@ -185,7 +186,7 @@ const CurrentContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, page])
+    }
 
     useEffect(() => {
         getList()
@@ -213,6 +214,7 @@ const CurrentContainer = () => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
                 searchButtonOnClick={searchOnClick}
+                searchValue={searchValue}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}
