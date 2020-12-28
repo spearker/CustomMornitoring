@@ -19,7 +19,19 @@ interface Props {
 }
 
 
-const CustomDashboardTable: React.FunctionComponent<Props> = ({selectBoxChange, entiretyWidth, widthList, alignList, indexList, valueList, clickValue, mainOnClickEvent, currentPage, totalPage, pageOnClickEvent}) => {
+const CustomDashboardTable: React.FunctionComponent<Props> = ({
+                                                                  selectBoxChange,
+                                                                  entiretyWidth,
+                                                                  widthList,
+                                                                  alignList,
+                                                                  indexList,
+                                                                  valueList,
+                                                                  clickValue,
+                                                                  mainOnClickEvent,
+                                                                  currentPage,
+                                                                  totalPage,
+                                                                  pageOnClickEvent
+                                                              }) => {
     return (
         <div>
             <TitleBar style={{
