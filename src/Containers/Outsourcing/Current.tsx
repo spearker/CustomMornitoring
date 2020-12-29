@@ -134,7 +134,7 @@ const CurrentContainer = () => {
     const eventdummy = [
         {
             Name: '수정',
-            Width: 60,
+            buttonWidth: 60,
             Color: 'white',
             Link: (v) => history.push(`/outsourcing/register/${v.pk}`)
         },

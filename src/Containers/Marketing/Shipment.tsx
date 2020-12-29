@@ -106,13 +106,13 @@ const ShipmentContainer = () => {
     const eventdummy = [
         {
             Name: '수정',
-            Width: 60,
+            buttonWidth: 60,
             Color: 'white',
             Link: (v) => history.push(`/marketing/order/modify/${v.pk}`)
         },
         {
             Name: '완료',
-            Width: 60,
+            buttonWidth: 60,
             Color: 'white',
             Link: (v) => {
                 setSelectPk(v.pk)
