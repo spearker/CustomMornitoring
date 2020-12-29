@@ -47,7 +47,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
         const resultData = await getSearchMachine(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
-            setPage({current: resultData.currentPage, total: resultData.totalPage})
+            setPage({current: resultData.current_page, total: resultData.total_page})
         }
         Notiflix.Loading.Remove()
     }, [searchName])

@@ -20,6 +20,7 @@ interface IProps {
     disabled?: boolean
     style?: any
     type?: 'planner' | 'register'
+    auth?: number
 }
 
 const DummyMachine = [
@@ -31,7 +32,7 @@ const DummyMachine = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
-const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type}: IProps) => {
+const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, auth}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
     const [machineName, setMachineName] = useState('')
@@ -45,20 +46,23 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+        const tempUrl = auth !== undefined ? `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10&auth=${auth}` : `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getMemberList(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
             setPage({current: resultData.current_page, total: resultData.total_page})
         }
         Notiflix.Loading.Remove()
-    }, [searchName, page])
+    }, [searchName, page, auth])
 
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen)
     }
 
+    useEffect(() => {
+        getList(true)
+    }, [auth])
 
     useEffect(() => {
         getList()

@@ -16,6 +16,8 @@ import OptimizedTable from '../../Components/Table/OptimizedTable'
 import OptimizedLineTable from '../../Components/Table/OptimizedLineTable'
 import CustomDashboardTable from "../../Components/Custom/dashboard/CustomDashboardTable";
 
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const ScheduleContainer = () => {
@@ -44,7 +46,9 @@ const ScheduleContainer = () => {
     const [voucherDropdown2, setVoucherDropdown2] = useState<string>('')
     const [voucherIndex, setVoucherIndex] = useState({registerer_name: '등록자'})
     const [voucherList, setVoucherList] = useState<any[]>([])
-    const [process, setProcess] = useState<any[]>([])
+    const [contentsList, setContentsList] = useState<any[]>(['계획자명', '생산 품목명', '납품 업체명'])
+    const [option, setOption] = useState<number>(0)
+    const [searchValue, setSearchValue] = useState<any>('')
     const [selectPk, setSelectPk] = useState<any>(null)
     let sendPk = ''
     const [selectMaterial, setSelectMaterial] = useState<any>(null)
@@ -158,6 +162,11 @@ const ScheduleContainer = () => {
         return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
     }
 
+    const optionChange = useCallback(async (filter: number) => {
+        setOption(filter)
+        getList(filter, true)
+    }, [option, searchValue, page])
+
     const calendarOnClick = useCallback(async (start, end) => {
         setSelectDate({start: start, end: end ? end : ''})
 
@@ -225,10 +234,10 @@ const ScheduleContainer = () => {
         }
     }, [selectPk, detailList, detailPage])
 
-    const getList = async () => { // useCallback
+    const getList = async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=5`
+        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${isSearch ? 1 : page.current}&keyword=${searchValue}&limit=5&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getprocesses = res.info_list.map((v, i) => {
@@ -242,10 +251,16 @@ const ScheduleContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             setList([...getprocesses])
         }
+        Notiflix.Loading.Remove()
     }
 
+    const searchOnClick = useCallback(async () => {
+        getList(undefined, true)
+
+    }, [searchValue, option, page])
+    
     useEffect(() => {
-        getList().then(() => Notiflix.Loading.Remove())
+        getList()
     }, [page.current])
 
     const getDistribute = async () => {
@@ -284,7 +299,6 @@ const ScheduleContainer = () => {
         setIndex(indexList['schedule'])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
-        setProcess(detailDummy)
         setDetailTitleEventList(detailTitleEvent)
         // setDetailList(detaildummy)
         setVoucherIndex(voucherIndexList['schedule'])
@@ -295,6 +309,14 @@ const ScheduleContainer = () => {
         <div>
             <OvertonTable
                 title={'생산 계획 리스트'}
+                dropDownContents={contentsList}
+                dropDownOption={option}
+                dropDownOnClick={optionChange}
+                searchValue={searchValue}
+                searchButtonOnClick={searchOnClick}
+                searchBarChange={(e) => {
+                    if (!e.match(regExp)) setSearchValue(e)
+                }}
                 selectDate={selectDate}
                 calendarOnClick={calendarOnClick}
                 titleOnClickEvent={titleEventList}
