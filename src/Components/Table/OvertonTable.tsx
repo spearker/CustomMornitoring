@@ -322,14 +322,14 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                     return (
                       <div className="p-limits" style={{width: bv.Width ? bv.Width : '100%'}}>
                         {
-                          bv.Text(v) ? <p key={`td-${i}-e`}
-                                          className="p-limits"
-                                          style={{
-                                            width: '100%',
-                                            textAlign: 'center',
-                                            padding: 0
-                                          }}
-                                          onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
+                          bv.Text && bv.Text(v) ? <p key={`td-${i}-e`}
+                                                     className="p-limits"
+                                                     style={{
+                                                       width: '100%',
+                                                       textAlign: 'center',
+                                                       padding: 0
+                                                     }}
+                                                     onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                           > {bv.Text(v)} </p> : buttonDisappear ?
                             <ButtonBox onClick={() => bv.Link(v)} style={{
                               cursor: v.state === '작업중' ? 'pointer' : 'default',
