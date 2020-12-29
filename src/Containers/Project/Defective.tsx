@@ -165,7 +165,7 @@ const DefectiveContainer = () => {
             setList(getWorker)
             Notiflix.Loading.Remove()
         }
-    }, [list, page.current])
+    }, [list, page.current, searchValue, option])
 
     useEffect(() => {
         // getList()
