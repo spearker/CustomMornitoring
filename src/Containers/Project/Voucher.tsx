@@ -25,12 +25,12 @@ const VoucherContainer = ({match}: Props) => {
     const [BOMlist, setBOMList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [eventList, setEventList] = useState<any[]>([])
-
+    const [contentsList, setContentsList] = useState<any[]>(['등록자명', '납품 업체명', '품목명'])
     const [searchValue, setSearchValue] = useState<any>('')
     const [detailList, setDetailList] = useState<any>({})
     const [index, setIndex] = useState({registerer_name: '등록자'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
-
+    const [option, setOption] = useState<number>(0)
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
@@ -107,7 +107,7 @@ const VoucherContainer = ({match}: Props) => {
     ]
 
     const searchOnClick = useCallback(async () => {
-        getList(true)
+        getList(undefined, true)
 
     }, [searchValue, page])
 
@@ -126,6 +126,11 @@ const VoucherContainer = ({match}: Props) => {
         }
 
     }, [list, selectPk])
+
+    const optionChange = useCallback(async (filter: number) => {
+        setOption(filter)
+        getList(filter, true)
+    }, [option, searchValue, page])
 
     const arrayDelete = () => {
         while (true) {
@@ -183,10 +188,12 @@ const VoucherContainer = ({match}: Props) => {
         }
     }, [detailList])
 
-    const getList = useCallback(async (isSearch?: boolean) => { // useCallback
+    const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = match.params.pk !== undefined ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${isSearch ? 1 : page.current}&limit=5&keyword=${searchValue}` : `${API_URLS['chit'].list}?pk=&page=${isSearch ? 1 : page.current}&limit=5&keyword=${searchValue}`
+        const tempUrl = match.params.pk !== undefined
+            ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
+            : `${API_URLS['chit'].list}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getVoucher = res.info_list.map((v, i) => {
@@ -200,7 +207,7 @@ const VoucherContainer = ({match}: Props) => {
             setList(getVoucher)
             Notiflix.Loading.Remove()
         }
-    }, [list, page, match.params.pk, searchValue])
+    }, [list, page, match.params.pk, searchValue, option])
 
     useEffect(() => {
         getList()
@@ -234,8 +241,11 @@ const VoucherContainer = ({match}: Props) => {
         <div>
             <OvertonTable
                 title={'전표 리스트'}
+                dropDownContents={contentsList}
+                dropDownOption={option}
+                dropDownOnClick={optionChange}
                 searchValue={searchValue}
-                // searchButtonOnClick={searchOnClick}
+                searchButtonOnClick={searchOnClick}
                 searchBarChange={(e) => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
