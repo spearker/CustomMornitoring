@@ -7,6 +7,7 @@ import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 const DefectiveContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
@@ -15,6 +16,9 @@ const DefectiveContainer = () => {
 
     const [list, setList] = useState<any[]>([])
     const [index, setIndex] = useState({checker_name: '검수자명'})
+    const [contentsList, setContentsList] = useState<any[]>(['검수자명', '품목명'])
+    const [searchValue, setSearchValue] = useState<any>('')
+    const [option, setOption] = useState<number>(0)
     const [eventList, setEventList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [selectPk, setSelectPk] = useState<any>(null)
@@ -91,6 +95,11 @@ const DefectiveContainer = () => {
         }
     }, [deletePk])
 
+    const optionChange = useCallback(async (filter: number) => {
+        setOption(filter)
+        getList(filter, true)
+    }, [option, searchValue, page])
+
     const checkOnClick = useCallback((Data) => {
         let IndexPk = deletePk.pk.indexOf(Data.pk)
         {
@@ -115,6 +124,11 @@ const DefectiveContainer = () => {
         // selectPk(null)
     }, [deletePk])
 
+    const searchOnClick = useCallback(async () => {
+        getList(undefined, true)
+
+    }, [searchValue, page])
+
     const onClick = useCallback((mold) => {
         if (mold.pk === selectPk) {
             setSelectPk(null)
@@ -134,10 +148,10 @@ const DefectiveContainer = () => {
         return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
     }
 
-    const getList = useCallback(async () => { // useCallback
+    const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['defective'].list}?page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['defective'].list}?page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getWorker = res.info_list.map((v, i) => {
@@ -170,6 +184,14 @@ const DefectiveContainer = () => {
         <div>
             <OvertonTable
                 title={'불량 이력'}
+                dropDownContents={contentsList}
+                dropDownOption={option}
+                dropDownOnClick={optionChange}
+                searchValue={searchValue}
+                searchButtonOnClick={searchOnClick}
+                searchBarChange={(e) => {
+                    if (!e.match(regExp)) setSearchValue(e)
+                }}
                 titleOnClickEvent={titleEventList}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
