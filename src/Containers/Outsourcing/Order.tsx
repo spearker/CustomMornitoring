@@ -149,13 +149,13 @@ const OrderContainer = () => {
     const eventdummy = [
         {
             Name: '수정',
-            Width: 60,
+            buttonWidth: 60,
             Color: 'white',
             Link: (v) => history.push(`/outsourcing/order/register/${v.pk}`)
         },
         {
             buttonState: true,
-            Width: 98,
+            buttonWidth: 98,
             Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
         }
     ]
