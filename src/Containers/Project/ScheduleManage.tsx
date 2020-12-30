@@ -111,7 +111,7 @@ const ScheduleManageContainer = () => {
     const calendarOnClick = useCallback(async (start, end) => {
         setSelectDate({start: start, end: end ? end : ''})
 
-        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=1&keyword=${searchValue}&limit=5&type=${option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getScheduleMange = res.info_list.map((v, i) => {
@@ -125,7 +125,7 @@ const ScheduleManageContainer = () => {
 
             setList(getScheduleMange)
         }
-    }, [selectDate, page])
+    }, [selectDate, page, searchValue, option])
 
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시

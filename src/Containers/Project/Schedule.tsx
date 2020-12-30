@@ -169,8 +169,7 @@ const ScheduleContainer = () => {
 
     const calendarOnClick = useCallback(async (start, end) => {
         setSelectDate({start: start, end: end ? end : ''})
-
-        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=1&keyword=${searchValue}&limit=5&type=${option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getprocesses = res.info_list.map((v, i) => {
@@ -184,7 +183,7 @@ const ScheduleContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             setList(getprocesses)
         }
-    }, [selectDate, page])
+    }, [selectDate, page, searchValue, option])
 
     const voucherOnClick = useCallback((voucher) => {
         if (voucher === 1) {
@@ -258,7 +257,7 @@ const ScheduleContainer = () => {
         getList(undefined, true)
 
     }, [searchValue, option, page])
-    
+
     useEffect(() => {
         getList()
     }, [page.current])
