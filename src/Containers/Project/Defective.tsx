@@ -97,6 +97,7 @@ const DefectiveContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
+        setSearchValue('')
         getList(filter, true)
     }, [option, searchValue, page])
 
@@ -151,7 +152,7 @@ const DefectiveContainer = () => {
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['defective'].list}?page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
+        const tempUrl = `${API_URLS['defective'].list}?page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getWorker = res.info_list.map((v, i) => {

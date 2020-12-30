@@ -99,6 +99,7 @@ const ScheduleManageContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
+        setSearchValue('')
         getList(filter, true)
     }, [option, searchValue, page])
 
@@ -130,7 +131,7 @@ const ScheduleManageContainer = () => {
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${isSearch ? 1 : page.current}&keyword=${searchValue}&limit=15&type=${filter !== undefined ? filter : option}`
+        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${isSearch ? 1 : page.current}&keyword=${filter !== undefined ? '' : searchValue}&limit=15&type=${filter !== undefined ? filter : option}`
 
         const res = await getProjectList(tempUrl)
         if (res) {
