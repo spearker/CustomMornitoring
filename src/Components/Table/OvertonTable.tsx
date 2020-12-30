@@ -303,6 +303,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                         :
                         <p key={`td-${i}-${mv}`} data-tip
                            data-for={`p${i}${mi}`}
+                           className="p-limits"
                            style={{
                              cursor: mainOnClickEvent ? 'pointer' : 'default',
                              width: widthList !== undefined ? widthList[mi] : '100%',
