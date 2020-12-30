@@ -150,6 +150,29 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             Object.keys(data).map((v) => {
               if (v === 'data') {
                 return
+              } else if (v === 'materials') {
+                return (
+                  <div style={{height: 100, width: 400, marginRight: 16}}>
+                    <div style={{width: 400, height: 20}}>
+                      <p
+                        style={{fontSize: 14, textAlign: 'left', paddingLeft: 10}}>{subTitleList && subTitleList[v]}</p>
+                    </div>
+                    <div style={{width: 400, height: 80, overflow: 'scroll'}}>
+                      {
+                        data[v].map((v, i) => {
+                          return (
+                            <>
+                              <p style={{
+                                textAlign: 'right',
+                                fontSize: 20,
+                              }}>{v}</p>
+                            </>
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                )
               }
               return (
                 <div style={{height: 65, width: 160, marginRight: 16}}>

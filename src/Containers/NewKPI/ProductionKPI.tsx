@@ -30,7 +30,9 @@ const subTitleList = {
     total: '총 리드타임',
     worked: '총 작업 이력 건 순'
   },
-  item_growth_rate: {},
+  item_growth_rate: {
+    materials: '생산 품목 리스트'
+  },
   target_attainment_rate: {
     total: '총 생산목표 수량',
     produced: '총 생산된 수량',
