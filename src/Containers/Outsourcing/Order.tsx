@@ -116,6 +116,7 @@ const OrderContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
+        setSearchValue('')
         getList(filter, true)
     }, [option, searchValue])
 
@@ -230,7 +231,7 @@ const OrderContainer = () => {
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['order'].list}?keyword=${searchValue}&type=${filter !== undefined ? filter : option}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['order'].list}?keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
         if (res) {
             const orderList = res.info_list.map((v) => {
