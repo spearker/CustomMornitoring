@@ -10,6 +10,8 @@ import IcSearchButton from '../../Assets/Images/ic_search.png'
 import IcDropDownButton from '../../Assets/Images/ic_dropdown_white.png'
 import {Input} from 'semantic-ui-react'
 import Pagination from '@material-ui/lab/Pagination'
+import IcFile from '../../Assets/Images/ic_file.png'
+import ReactTooltip from 'react-tooltip'
 
 interface Props {
   title: string
@@ -299,19 +301,26 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                           }
                         </select>
                         :
-                        <p key={`td-${i}-${mv}`}
-                           className="p-limits"
+                        <p key={`td-${i}-${mv}`} data-tip
+                           data-for={`p${i}${mi}`}
                            style={{
+                             cursor: mainOnClickEvent ? 'pointer' : 'default',
                              width: widthList !== undefined ? widthList[mi] : '100%',
-                             textAlign: alignList !== undefined ? alignList[mi] : 'left',
+                             fontFamily: 'NotoSansCJKkr',
+                             fontSize: '14px'
                            }}
                            onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                         >
+
                           {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
                             ''
                             :
                             v[mv]
                           }
+                          <ReactTooltip id={`p${i}${mi}`}>
+                            {console.log(v[mv])}
+                            <span>{v[mv]}</span>
+                          </ReactTooltip>
                         </p>
 
                     )
