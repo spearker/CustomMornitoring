@@ -129,6 +129,7 @@ const VoucherContainer = ({match}: Props) => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
+        setSearchValue('')
         getList(filter, true)
     }, [option, searchValue, page])
 
@@ -192,8 +193,8 @@ const VoucherContainer = ({match}: Props) => {
         //TODO: 성공시
         Notiflix.Loading.Circle()
         const tempUrl = match.params.pk !== undefined
-            ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
-            : `${API_URLS['chit'].list}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
+            ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}`
+            : `${API_URLS['chit'].list}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getVoucher = res.info_list.map((v, i) => {

@@ -181,7 +181,7 @@ const TodayVoucherContainer = () => {
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['chit'].todayList}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue}&type=${filter !== undefined ? filter : option}`
+        const tempUrl = `${API_URLS['chit'].todayList}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getVoucher = res.info_list.map((v, i) => {
@@ -208,6 +208,7 @@ const TodayVoucherContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
+        setSearchValue('')
         getList(filter, true)
     }, [option, searchValue, page])
 
