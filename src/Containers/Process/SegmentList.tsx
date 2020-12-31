@@ -244,6 +244,7 @@ const SegmentListContainer = () => {
         title={'프로세스 리스트(공정별 세분화)'}
         allCheckOnClickEvent={allCheckOnClick}
         searchButtonOnClick={() => {
+          setSelectPk(null)
           getList(true)
         }}
         searchBarChange={(e) => {
