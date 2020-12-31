@@ -7,11 +7,20 @@ interface Props {
     titleColor?: string
     fontSize: string | number
     value: string | number
+    align?: any
     valueColor?: string
     mold_spec?: any[]
 }
 
-const PressStatusBox: React.FunctionComponent<Props> = ({title, titleColor, fontSize, value, valueColor, mold_spec}) => {
+const PressStatusBox: React.FunctionComponent<Props> = ({
+                                                            title,
+                                                            titleColor,
+                                                            fontSize,
+                                                            value,
+                                                            align,
+                                                            valueColor,
+                                                            mold_spec
+                                                        }) => {
     return (
         <BoxContainer style={{backgroundColor: valueColor ? valueColor : '#353b48'}}>
             <Title style={{color: titleColor ? titleColor : '#ffffff'}}>{title}</Title>
@@ -45,6 +54,7 @@ const PressStatusBox: React.FunctionComponent<Props> = ({title, titleColor, font
                             높이: ${mold_spec ? mold_spec[2] : ''}`}</Value>
                 :
                 <Value style={{
+                    textAlign: align ? align : 'left',
                     fontSize: fontSize,
                     color: titleColor ? titleColor : '#ffffff',
                 }}>{value}</Value>
