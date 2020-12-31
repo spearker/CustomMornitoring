@@ -157,13 +157,34 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                       <p
                         style={{fontSize: 14, textAlign: 'left', paddingLeft: 10}}>{subTitleList && subTitleList[v]}</p>
                     </div>
-                    <div style={{width: 400, height: 80, overflow: 'scroll'}}>
+                    <div
+                      style={{
+                        width: 400,
+                        height: 80,
+                        overflow: 'scroll',
+                        border: '0.5px solid #b3b3b3',
+                        marginLeft: 10,
+                        marginTop: 10,
+                        padding: 5
+                      }}>
                       {
                         data[v].map((v, i) => {
                           return (
                             <>
                               <p style={{
-                                textAlign: 'right',
+                                textAlign: 'left',
+                                fontSize: 20,
+                              }}>{v}</p>
+                              <p style={{
+                                textAlign: 'left',
+                                fontSize: 20,
+                              }}>{v}</p>
+                              <p style={{
+                                textAlign: 'left',
+                                fontSize: 20,
+                              }}>{v}</p>
+                              <p style={{
+                                textAlign: 'left',
                                 fontSize: 20,
                               }}>{v}</p>
                             </>
