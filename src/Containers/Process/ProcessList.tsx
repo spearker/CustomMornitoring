@@ -181,6 +181,7 @@ const ProcessListContainer = () => {
           if (!e.match(regExp)) setSearchValue(e)
         }}
         searchButtonOnClick={() => {
+          setSelectPk(null)
           getList(true)
         }}
       />
