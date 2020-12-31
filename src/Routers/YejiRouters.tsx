@@ -10,6 +10,7 @@ import NewQualityKPI from '../Pages/NewKPI/NewQualityKPI';
 import NewCostKPI from '../Pages/NewKPI/NewCostKPI';
 import NewDuedateKPI from '../Pages/NewKPI/NewDuedateKPI';
 import NewEnergyKPI from '../Pages/NewKPI/NewEnergyKPI';
+import NewPowerStatistics from '../Pages/PM_Statistics/NewPowerStatistics';
 // import ProcessList from '../Pages/ProcessManagement/ProcessList';
 
 const  YejiRouters = () => {
@@ -26,6 +27,9 @@ const  YejiRouters = () => {
             <Route exact path="/quality/test/request/:type/:pk" component={QualityTestRequest}/>
             <Route exact path="/quality/test/detail/:type/:pk" component={QualityTestRequestInspector}/>
             <Route exact path="/quality/current/detail/:pk" component={QualityDetailList}/>
+
+            {/* 프레스 데이터 통계 */}
+            <Route exact path="/new/pm/statistics/power" component={NewPowerStatistics}/>
 
             {/* KPI */}
             <Route exact path="/new/kpi/production" component={NewProductionKPI}/>
