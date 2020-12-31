@@ -23,9 +23,9 @@ client.interceptors.response.use(function (response) {
   }
 }, function (error) {
   Notiflix.Loading.Remove(300)
-  if (error.response.status) {
+  if (error && error.response && error.response.status) {
     if (error.response.status === 401) {
-      Notiflix.Report.Failure('요청 실패', '유효한 로그인이 아닙니다 다시 로그인해 주세요.', '닫기', () => window.location.href = '/login')
+      return Notiflix.Report.Failure('요청 실패', '유효한 로그인이 아닙니다 다시 로그인해 주세요.', '닫기', () => window.location.href = '/login')
     } else if (error.response.status === 400) {
       return Notiflix.Report.Failure('요청 실패', '값을 안넣으신게 있는지 확인 해주세요.', '닫기')
     } else if (error.response.status === 500) {

@@ -27,7 +27,19 @@ interface Props {
 }
 
 // 검색해서 pk 를 담는 input container
-const ColorSearchContainer = ({listValue, placeholder, type, onChangeEvent, title, list, searchUrl, option, solo, key, value}: Props) => {
+const ColorSearchContainer = ({
+                                  listValue,
+                                  placeholder,
+                                  type,
+                                  onChangeEvent,
+                                  title,
+                                  list,
+                                  searchUrl,
+                                  option,
+                                  solo,
+                                  key,
+                                  value
+                              }: Props) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
@@ -216,11 +228,14 @@ const Dot = Styled.div`
     border-radius: 50%;
 `
 
+
 const PaginationBox = Styled.div`
+    height: 60px;
     padding-top: 5px;
     background-color: #ffffff;
     display: flex;
     justify-content: center;
+    position:relative;
     .MuiButtonBase-root {
         color: black;
     }

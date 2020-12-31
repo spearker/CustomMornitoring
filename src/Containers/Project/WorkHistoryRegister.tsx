@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import moment from 'moment'
 import {POINT_COLOR} from '../../Common/configset'
@@ -13,6 +13,7 @@ import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import Notiflix from 'notiflix'
 import MemeberPickerModal from '../../Components/Modal/MemberPickerModal'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import RadioInput from "../../Components/Input/RadioInput";
 
 interface modalData {
     name?: string,
@@ -32,6 +33,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
     })
 
     const [selectMember, setSelectMember] = useState<modalData>({})
+    const [memberType, setMemberType] = useState(-1)
 
     const [processList, setProcessList] = useState<{
         pk: string,
@@ -158,6 +160,10 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
             getWorkHistory()
         }
     }, [])
+    
+    useEffect(() => {
+        setSelectMember({})
+    }, [memberType])
 
     React.useEffect(() => {
         getChitSelect()
@@ -249,13 +255,22 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                             </td>
                         </tr>
                         <tr>
+                            <td colSpan={2}>
+                                <RadioInput title={''} target={memberType}
+                                            onChangeEvent={(e) => setMemberType(e)}
+                                            contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
+                                                value: 1, title: '작업자'
+                                            }]}/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>• 작업자명</td>
                             <td>
                                 {
                                     isUpdate
                                         ? <InputBox disabled={isUpdate} value={selectMember && selectMember.name}
                                                     placeholder={'총 작업량을 입력해 주세요'}></InputBox>
-                                        : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)}
+                                        : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} auth={memberType}
                                                               text={'작업자를 선택해 주세요'} select={selectMember}/>
                                 }
                             </td>

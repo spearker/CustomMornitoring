@@ -6,6 +6,8 @@ const autoCustomType = () => {
             return 'jaewoo_material_trans'
         case '106.248.33.213':
             return 'seain_material_trans'
+        case '192.168.0.149':
+            return 'DS_trans'
         default:
             return ''
     }

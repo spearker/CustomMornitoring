@@ -99,7 +99,7 @@ const CreateContainer = () => {
     const eventdummy = [
         {
             buttonState: true,
-            Width: 98,
+            buttonWidth: 98,
             Link: (v) => v.status === '진행중' ? getComplete(v.pk) : getCancel(v.pk)
         },
     ]

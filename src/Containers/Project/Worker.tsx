@@ -6,6 +6,7 @@ import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import moment from 'moment'
 import Notiflix from 'notiflix'
 
+const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 interface Props {
@@ -26,6 +27,8 @@ const WorkerContainer = ({match}: Props) => {
     end: moment().format('YYYY-MM-DD')
   })
   const [eventList, setEventList] = useState<any[]>([])
+  const [option, setOption] = useState<number>(0)
+  const [searchValue, setSearchValue] = useState<any>('')
   const [selectPk, setSelectPk] = useState<any>(null)
   const [selectMold, setSelectMold] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
@@ -72,10 +75,10 @@ const WorkerContainer = ({match}: Props) => {
 
   }, [list, selectPk])
 
-  const calendarOnClick = useCallback(async (start, end) => {
+  const calendarOnClick = useCallback(async (start, end, isSearch?: boolean) => {
     setSelectDate({start: start, end: end ? end : ''})
-
-    const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${start}&to=${end}&page=${page.current}&limit=15`
+    Notiflix.Loading.Circle()
+    const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${start}&to=${end}&limit=15&page=${isSearch ? 1 : page.current}&keyword=${searchValue}`
     const res = await getProjectList(tempUrl)
     if (res) {
       const getWorker = res.info_list.map((v, i) => {
@@ -86,14 +89,19 @@ const WorkerContainer = ({match}: Props) => {
       })
       setPage({current: res.current_page, total: res.total_page})
       setList(getWorker)
+      Notiflix.Loading.Remove()
     }
-  }, [selectDate, match.params.pk])
+  }, [selectDate, match.params.pk, searchValue, page, option])
 
+  const searchOnClick = useCallback(async () => {
+    getList(true)
 
-  const getList = useCallback(async () => { // useCallback
+  }, [searchValue, option, page])
+
+  const getList = useCallback(async (isSearch?: boolean) => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${selectDate.start}&to=${selectDate.end}&page=${page.current}&limit=15`
+    const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${selectDate.start}&to=${selectDate.end}&limit=15&page=${isSearch ? 1 : page.current}&keyword=${searchValue}`
     const res = await getProjectList(tempUrl)
     if (res) {
       const getWorker = res.info_list.map((v, i) => {
@@ -108,13 +116,15 @@ const WorkerContainer = ({match}: Props) => {
       setList(getWorker)
       Notiflix.Loading.Remove()
     }
-  }, [list, selectDate, page, match.params.pk])
+  }, [list, selectDate, page, match.params.pk, option, searchValue])
 
   const eventdummy = [
     {
-      Width: 80,
+      buttonWidth: 80,
       Color: 'white',
-      Link: (v) => v.state === '완료됨' ? null : history.push(`/project/history/register/${v.pk}`)
+      Link: (v) => v.state === '완료됨' ? null : history.push(`/project/history/register/${v.pk}`),
+      Text: (v) => v.state === '완료됨' ? v.scheduled.split('~')[1] : undefined
+
     },
   ]
 
@@ -136,10 +146,16 @@ const WorkerContainer = ({match}: Props) => {
       <OvertonTable
         title={'작업 이력'}
         selectDate={selectDate}
+        searchValue={searchValue}
+        searchButtonOnClick={searchOnClick}
+        searchBarChange={(e) => {
+          if (!e.match(regExp)) setSearchValue(e)
+        }}
         calendarOnClick={calendarOnClick}
         titleOnClickEvent={titleEventList}
         indexList={index}
         valueList={list}
+        eventTitle={'작업 완료 시간'}
         buttonDisappear={true}
         noChildren={true}
         EventList={eventList}

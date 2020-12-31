@@ -10,6 +10,8 @@ import IcSearchButton from '../../Assets/Images/ic_search.png'
 import IcDropDownButton from '../../Assets/Images/ic_dropdown_white.png'
 import {Input} from 'semantic-ui-react'
 import Pagination from '@material-ui/lab/Pagination'
+import IcFile from '../../Assets/Images/ic_file.png'
+import ReactTooltip from 'react-tooltip'
 
 interface Props {
   title: string
@@ -25,6 +27,8 @@ interface Props {
   titleOnClickEvent?: any
   indexList: any
   valueList: any[]
+  alignList?: any[]
+  widthList?: string[] | number[]
   EventList?: any[]
   allCheckOnClickEvent?: any
   checkOnClickEvent?: any
@@ -41,10 +45,41 @@ interface Props {
   calendarState?: boolean
   startDate?: string
   endDate?: string
+  eventTitle?: string
 }
 
 
-const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calendarOnClick, searchBarChange, searchButtonOnClick, searchValue, dropDownContents, dropDownOnClick, dropDownOption, selectBoxChange, titleOnClickEvent, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, buttonDisappear, clickValue, mainOnClickEvent, noChildren, calendarState, children, currentPage, totalPage, pageOnClickEvent}: Props) => {
+const OvertonTable: React.FunctionComponent<Props> = ({
+                                                        title,
+                                                        selectDate,
+                                                        calendarOnClick,
+                                                        searchBarChange,
+                                                        searchButtonOnClick,
+                                                        searchValue,
+                                                        dropDownContents,
+                                                        dropDownOnClick,
+                                                        dropDownOption,
+                                                        selectBoxChange,
+                                                        titleOnClickEvent,
+                                                        widthList,
+                                                        indexList,
+                                                        alignList,
+                                                        valueList,
+                                                        EventList,
+                                                        allCheckOnClickEvent,
+                                                        checkOnClickEvent,
+                                                        buttonState,
+                                                        buttonDisappear,
+                                                        clickValue,
+                                                        mainOnClickEvent,
+                                                        noChildren,
+                                                        calendarState,
+                                                        children,
+                                                        currentPage,
+                                                        totalPage,
+                                                        pageOnClickEvent,
+                                                        eventTitle
+                                                      }: Props) => {
 
   const [checked, setChecked] = useState<any[]>([])
 
@@ -150,12 +185,13 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
               typeof indexList[v] === 'object' ?
                 <select className="p-limits"
                         style={{
+                          width: widthList !== undefined ? widthList[i] : '70%',
                           cursor: 'pointer',
                           backgroundColor: '#111319',
                           borderColor: '#111319',
                           color: 'white',
+                          textAlign: alignList !== undefined ? alignList[i] : 'left',
                           fontSize: '14px',
-                          width: '70%',
                           marginRight: 30,
                           background: `url(${IcDropDownButton}) no-repeat 95% 50%`
                         }}
@@ -177,14 +213,18 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                   }
                 </select>
                 :
-                <p key={v} className="p-limits">{indexList[v]}</p>
+                <p key={v} className="p-limits"
+                   style={{
+                     width: widthList !== undefined ? widthList[i] : '100%',
+                     textAlign: alignList !== undefined ? alignList[i] : 'left',
+                   }}>{indexList[v]}</p>
             )
           })
         }
         {
           EventList && EventList.map((bv, bi) => {
             return (
-              <p className="p-limits"></p>
+              <p className="p-limits" style={{textAlign: 'center'}}>{eventTitle ? eventTitle : ''}</p>
             )
           })
         }
@@ -246,6 +286,8 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                     return (
                       typeof v[mv] === 'object' ?
                         <select className="p-limits" style={{
+                          width: widthList !== undefined ? widthList[mi] : '100%',
+                          textAlign: alignList !== undefined ? alignList[mi] : 'left',
                           backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
                           borderColor: clickValue === v ? '#19b9df' : '#353b48'
                         }}>
@@ -259,15 +301,27 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                           }
                         </select>
                         :
-                        <p key={`td-${i}-${mv}`}
+                        <p key={`td-${i}-${mv}`} data-tip
+                           data-for={`p${i}${mi}`}
                            className="p-limits"
+                           style={{
+                             textAlign: alignList !== undefined ? alignList[mi] : 'left',
+                             cursor: mainOnClickEvent ? 'pointer' : 'default',
+                             width: widthList !== undefined ? widthList[mi] : '100%',
+                             fontFamily: 'NotoSansCJKkr',
+                             fontSize: '14px'
+                           }}
                            onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                         >
+
                           {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
                             ''
                             :
                             v[mv]
                           }
+                          <ReactTooltip id={`p${i}${mi}`}>
+                            <span>{v[mv]}</span>
+                          </ReactTooltip>
                         </p>
 
                     )
@@ -276,31 +330,40 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
                 {
                   EventList && EventList.map((bv, bi) => {
                     return (
-                      <div className="p-limits">
-                        {buttonDisappear ?
-                          <ButtonBox onClick={() => bv.Link(v)} style={{
-                            cursor: v.state === '작업중' ? 'pointer' : 'default',
-                            width: bv.Width,
-                            color: v.state === '작업중' ? 'white' : 'white',
-                            backgroundColor: v.state === '작업중' ? '#717c90' : '#353b48'
-                          }}
-                          >{v.state === '작업중' ? '완료 하기' : ''}</ButtonBox>
-                          :
-                          buttonState ?
+                      <div className="p-limits" style={{width: bv.Width ? bv.Width : '100%'}}>
+                        {
+                          bv.Text && bv.Text(v) ? <p key={`td-${i}-e`}
+                                                     className="p-limits"
+                                                     style={{
+                                                       width: '100%',
+                                                       textAlign: 'center',
+                                                       padding: 0
+                                                     }}
+                                                     onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
+                          > {bv.Text(v)} </p> : buttonDisappear ?
                             <ButtonBox onClick={() => bv.Link(v)} style={{
-                              width: bv.Width,
-                              color: bv.buttonState === true ? v.status === '진행중' ? 'white' : 'white' : bv.Color,
-                              backgroundColor: bv.buttonState === true ? v.status === '진행중' ? '#717c90' : '#19b9df' : '#717c90'
+                              cursor: v.state === '작업중' ? 'pointer' : 'default',
+                              width: bv.buttonWidth,
+                              color: v.state === '작업중' ? 'white' : 'white',
+                              backgroundColor: v.state === '작업중' ? '#717c90' : '#353b48'
                             }}
-                            >{bv.buttonState === true ? v.status === '진행중' ? '완료 하기' : '취소 하기' : bv.Name}</ButtonBox>
+                            >{v.state === '작업중' ? '완료 하기' : ''}</ButtonBox>
                             :
-                            <ButtonBox disabled={(v.finished === '완료')}
-                                       onClick={() => bv.Link(v)}
-                                       style={{
-                                         width: bv.Width,
-                                         color: bv.Color,
-                                         backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
-                                       }}>{bv.Name}</ButtonBox>
+                            buttonState ?
+                              <ButtonBox onClick={() => bv.Link(v)} style={{
+                                width: bv.buttonWidth,
+                                color: bv.buttonState === true ? v.status === '진행중' ? 'white' : 'white' : bv.Color,
+                                backgroundColor: bv.buttonState === true ? v.status === '진행중' ? '#717c90' : '#19b9df' : '#717c90'
+                              }}
+                              >{bv.buttonState === true ? v.status === '진행중' ? '완료 하기' : '취소 하기' : bv.Name}</ButtonBox>
+                              :
+                              <ButtonBox disabled={(v.finished === '완료')}
+                                         onClick={() => bv.Link(v)}
+                                         style={{
+                                           width: bv.buttonWidth,
+                                           color: bv.Color,
+                                           backgroundColor: (v.finished === '완료' && bv.Name !== '수정') ? '#19b9df' : '#717c90'
+                                         }}>{bv.Name}</ButtonBox>
                         }
                       </div>
                     )
@@ -332,129 +395,129 @@ const OvertonTable: React.FunctionComponent<Props> = ({title, selectDate, calend
 }
 
 const Title = Styled.div`
-   text-align: left;
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   margin-bottom: 15px;
-   margin-top: 87px;
-`
+                    text-align: left;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    margin-bottom: 15px;
+                    margin-top: 87px;
+                    `
 
 const TitleBar = Styled.div`
-    display: flex;
-    flex-direction: row;
-    border-radius: 8px;
-    background-color: #111319;
-    width: 100%;
-    max-height: 40px;
-    min-height: 40px;
-    align-items: center;
-    p {
-    text-align: left;
-    color: #ffffff;
-    font-size: 14px;
-      &:first-child{
-        padding-left: 20px;
-      }
-    }
-`
+                    display: flex;
+                    flex-direction: row;
+                    border-radius: 8px;
+                    background-color: #111319;
+                    width: 100%;
+                    max-height: 40px;
+                    min-height: 40px;
+                    align-items: center;
+                    p {
+                    text-align: left;
+                    color: #ffffff;
+                    font-size: 14px;
+                    &:first-child{
+                    padding-left: 20px;
+                }
+                }
+                    `
 
 const BlackBg = Styled.div`
-    padding: 20px 20px 30px 20px;
-    border-radius: 6px;
-    background-color: #111319;
-    margin-top: 20px;
-`
+                    padding: 20px 20px 30px 20px;
+                    border-radius: 6px;
+                    background-color: #111319;
+                    margin-top: 20px;
+                    `
 
 const ValueBar = Styled.div`
-    margin-top: 12px;
-    display: flex;
-    flex-direction: row;
-    border-radius: 8px;
-    background-color: #353b48;
-    width: 100%;
-    max-height: 40px;
-    min-height: 40px;
-    align-items: center;
-    select {
-     height: 40px;
-     background-color: #353b48;
-     border-color: #353b48;
-     text-align: left;
-     color: #ffffff;
-     font-size: 14px;
-    }
-    p {
-    text-align: left;
-    color: #ffffff;
-    font-size: 14px;
-      &:first-child{
-        padding-left: 20px;
-      }
-    }
-`
+                    margin-top: 12px;
+                    display: flex;
+                    flex-direction: row;
+                    border-radius: 8px;
+                    background-color: #353b48;
+                    width: 100%;
+                    max-height: 40px;
+                    min-height: 40px;
+                    align-items: center;
+                    select {
+                    height: 40px;
+                    background-color: #353b48;
+                    border-color: #353b48;
+                    text-align: left;
+                    color: #ffffff;
+                    font-size: 14px;
+                }
+                    p {
+                    text-align: left;
+                    color: #ffffff;
+                    font-size: 14px;
+                    &:first-child{
+                    padding-left: 20px;
+                }
+                }
+                    `
 
 const TitleButtonBox = Styled.button`
-    color: white;
-    border-radius: 5px;
-    background-color: #717c90;
-    border: 0;
-    font-size: 14px;
-    font-weight: bold;
-    width: 70px;
-    height: 30px;
-`
+                    color: white;
+                    border-radius: 5px;
+                    background-color: #717c90;
+                    border: 0;
+                    font-size: 14px;
+                    font-weight: bold;
+                    width: 70px;
+                    height: 30px;
+                    `
 
 const ButtonBox = Styled.button`
-    color: black;
-    border-radius: 5px;
-    background-color: #717c90;
-    border: 0;
-    font-size: 14px;
-    font-weight: bold;
-    width: 112px;
-    height: 30px;
-`
+                    color: black;
+                    border-radius: 5px;
+                    background-color: #717c90;
+                    border: 0;
+                    font-size: 14px;
+                    font-weight: bold;
+                    width: 112px;
+                    height: 30px;
+                    `
 
 const SearchBox = Styled(Input)`
-    input{
-        padding-left: 8px;
-        font-family: NotoSansCJKkr;
-        height: 28px;
-        border: 0.5px solid #b3b3b3;
-        border-radius: 10px 0 0px 10px;
-        width: 100%;
-        margin-right: -10%;
-        background-color: #f4f6fa;
-        font-size: 15px;
-        &::placeholder:{
-            color: #b3b3b3;
-        };
-     }
-`
+                    input{
+                    padding-left: 8px;
+                    font-family: NotoSansCJKkr;
+                    height: 28px;
+                    border: 0.5px solid #b3b3b3;
+                    border-radius: 10px 0 0px 10px;
+                    width: 100%;
+                    margin-right: -10%;
+                    background-color: #f4f6fa;
+                    font-size: 15px;
+                    &::placeholder:{
+                    color: #b3b3b3;
+                };
+                }
+                    `
 
 const SearchButton = Styled.button`
-    width: 55px;
-    height: 32px;
-    border-radius: 5px 5px 5px 5px;
-    background-color: ${POINT_COLOR};
-    img{
-        width: 20px;
-        height: 20px;
-        margin-top: 5px;
-    }
-`
+                    width: 55px;
+                    height: 32px;
+                    border-radius: 5px 5px 5px 5px;
+                    background-color: ${POINT_COLOR};
+                    img{
+                    width: 20px;
+                    height: 20px;
+                    margin-top: 5px;
+                }
+                    `
 
 const PaginationBox = Styled.div`
-    padding-top: 10pt;
-    display: flex;
-    justify-content: center;
-    .MuiButtonBase-root {
-        color: white;
-    }
-    .MuiPaginationItem-root{
-        color: white;
-    }
-`
+                    padding-top: 10pt;
+                    display: flex;
+                    justify-content: center;
+                    .MuiButtonBase-root {
+                    color: white;
+                }
+                    .MuiPaginationItem-root{
+                    color: white;
+                }
+                    `
 
 export default OvertonTable

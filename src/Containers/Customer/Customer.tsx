@@ -87,7 +87,8 @@ const ClientContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        getList(filter)
+        setSearchValue('')
+        getList(filter, true)
     }, [option, searchValue, page])
 
 
@@ -98,7 +99,7 @@ const ClientContainer = () => {
     const eventdummy = [
         {
             Name: '수정',
-            Width: 60,
+            buttonWidth: 60,
             Color: 'white',
             Link: (v) => history.push(`/customer/register/${v.pk}`)
         },
@@ -125,13 +126,13 @@ const ClientContainer = () => {
         const res = await postCustomerDelete(tempUrl, deletePk)
 
         arrayDelete()
-        getList()
+        getList(undefined, true)
     }, [deletePk])
 
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${filter ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
         if (res) {
             setList(res.info_list)
