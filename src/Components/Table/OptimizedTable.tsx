@@ -229,7 +229,6 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitl
                             v[mv]
                           }
                           <ReactTooltip id={`p${i}${mi}`}>
-                            {console.log(v[mv])}
                             <span>{v[mv]}</span>
                           </ReactTooltip>
                         </LimitP>
