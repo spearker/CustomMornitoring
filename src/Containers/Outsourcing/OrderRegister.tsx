@@ -256,7 +256,7 @@ const OutsourcingRegister = ({match}: Props) => {
                            description={'미납 수량을 입력하세요.'} width={120}/>
         <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
                      description={'대금 지불조건을 입력해 주세요.'} width={120}/>
-        <DateInput title={'납기일'} description={''} value={date} onChangeEvent={setDate} width={135}
+        <DateInput title={'납기일'} description={''} value={selectDate} onChangeEvent={setSelectDate} width={135}
                    style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
         <NormalAddressInput title={'공장 주소'} value={inputData.location}
                             onChangeEvent={(input) => setInputData(`location`, input)}/>
