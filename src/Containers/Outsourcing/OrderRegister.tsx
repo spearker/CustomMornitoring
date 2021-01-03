@@ -32,7 +32,7 @@ interface Props {
 const OutsourcingRegister = ({match}: Props) => {
   const history = useHistory()
 
-  const [selectDate, setSelectDate] = useState<string>('')
+  const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [pk, setPk] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [no, setNo] = useState<number>()
