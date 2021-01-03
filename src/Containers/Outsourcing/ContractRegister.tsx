@@ -58,7 +58,6 @@ const ContractRegister = ({match}: Props) => {
   const [quantity, setQuantity] = useState<number>()
   const [unpaid, setUnpaid] = useState<number>()
   const [paymentCondition, setPaymentCondition] = useState('')
-  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
   //생산품 검색
   const [isPoupup, setIsPoupup] = useState<boolean>(false)
@@ -333,7 +332,7 @@ const ContractRegister = ({match}: Props) => {
                            width={120}/>
         <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
                      description={'대금 지불조건을 입력해 주세요.'} width={120}/>
-        <DateInput title={'납기일'} description={''} value={date} onChangeEvent={setDate}
+        <DateInput title={'납기일'} description={''} value={selectDate} onChangeEvent={setSelectDate}
                    style={{width: 'calc(100% - 157px)'}} inputStyle={{boxSizing: 'border-box'}}/>
         <NormalAddressInput title={'공장 주소'} value={inputData.location}
                             onChangeEvent={(input) => setInputData(`location`, input)}/>
