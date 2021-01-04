@@ -305,6 +305,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                            data-for={`p${i}${mi}`}
                            className="p-limits"
                            style={{
+                             textAlign: alignList !== undefined ? alignList[mi] : 'left',
                              cursor: mainOnClickEvent ? 'pointer' : 'default',
                              width: widthList !== undefined ? widthList[mi] : '100%',
                              fontFamily: 'NotoSansCJKkr',
@@ -319,7 +320,6 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                             v[mv]
                           }
                           <ReactTooltip id={`p${i}${mi}`}>
-                            {console.log(v[mv])}
                             <span>{v[mv]}</span>
                           </ReactTooltip>
                         </p>

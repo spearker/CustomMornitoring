@@ -175,18 +175,6 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                                 textAlign: 'left',
                                 fontSize: 20,
                               }}>{v}</p>
-                              <p style={{
-                                textAlign: 'left',
-                                fontSize: 20,
-                              }}>{v}</p>
-                              <p style={{
-                                textAlign: 'left',
-                                fontSize: 20,
-                              }}>{v}</p>
-                              <p style={{
-                                textAlign: 'left',
-                                fontSize: 20,
-                              }}>{v}</p>
                             </>
                           )
                         })
