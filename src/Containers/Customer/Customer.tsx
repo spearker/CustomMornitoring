@@ -21,6 +21,7 @@ const ClientContainer = () => {
     const [list, setList] = useState<any[]>([])
     const [eventList, setEventList] = useState<any[]>([])
     const [index, setIndex] = useState({name: '거래처 명'})
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [option, setOption] = useState<number>(0)
     const [contentsList, setContentsList] = useState<any[]>(['거래처명', '대표자명'])
@@ -135,6 +136,7 @@ const ClientContainer = () => {
         const tempUrl = `${API_URLS['customer'].list}?keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
         if (res) {
+            setIsFirst(true)
             setList(res.info_list)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
@@ -143,7 +145,9 @@ const ClientContainer = () => {
 
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     useEffect(() => {

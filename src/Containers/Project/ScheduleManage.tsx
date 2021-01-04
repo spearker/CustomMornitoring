@@ -30,6 +30,7 @@ const ScheduleManageContainer = () => {
     const [searchValue, setSearchValue] = useState<any>('')
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
 
     const history = useHistory()
 
@@ -143,7 +144,7 @@ const ScheduleManageContainer = () => {
             })
 
             setPage({current: res.current_page, total: res.total_page})
-
+            setIsFirst(true)
             setList(getScheduleMange)
             Notiflix.Loading.Remove()
         }
@@ -161,7 +162,9 @@ const ScheduleManageContainer = () => {
     }, [deletePk])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
 

@@ -23,6 +23,7 @@ const QualityTestComplete = () => {
     const [filter, setFilter] = useState(-1)
     const [selectPk, setSelectPk] = useState<any>(null)
     const [isSearch, setIsSearch] = useState<boolean>(false)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
@@ -117,6 +118,7 @@ const QualityTestComplete = () => {
 
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
+            setIsFirst(true)
         }
     }, [list, page])
 
@@ -133,7 +135,9 @@ const QualityTestComplete = () => {
         if (isSearch) {
             searchOnClick()
         } else {
-            getList()
+            if (isFirst) {
+                getList()
+            }
         }
     }, [page.current])
 

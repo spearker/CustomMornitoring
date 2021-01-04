@@ -16,6 +16,7 @@ const CreateContainer = () => {
     const [eventList, setEventList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any[]>([])
     const [index, setIndex] = useState({mold_name: '금형 이름'})
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [subIndex, setSubIndex] = useState({contents: '관리 내용'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [selectPk, setSelectPk] = useState<any>(null)
@@ -141,6 +142,7 @@ const CreateContainer = () => {
         const tempUrl = `${API_URLS['manage'].list}?page=${page.current}&keyword=&type=0&limit=5`
         const res = await getMoldList(tempUrl)
         if (res) {
+            setIsFirst(true)
             setList(res.info_list)
             setSelectPk(null)
             setPage({current: res.current_page, total: res.total_page})
@@ -161,7 +163,9 @@ const CreateContainer = () => {
     }, [deletePk])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     useEffect(() => {

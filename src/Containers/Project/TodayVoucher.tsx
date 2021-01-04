@@ -32,7 +32,7 @@ const TodayVoucherContainer = () => {
     const [detailList, setDetailList] = useState<any>({})
     const [index, setIndex] = useState({registerer_name: '등록자'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
-
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
@@ -190,7 +190,7 @@ const TodayVoucherContainer = () => {
                 return {...v, current_amount: current_amount, goal: goal}
             })
 
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             setList(getVoucher)
             Notiflix.Loading.Remove()
@@ -198,7 +198,9 @@ const TodayVoucherContainer = () => {
     }, [list, page, searchValue, option])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     const searchOnClick = useCallback(async () => {

@@ -43,6 +43,7 @@ const BasicBarcodeContainer = () => {
     const [list, setList] = useState<any>([])
     const [eventList, setEventList] = useState<any[]>([])
     const [option, setOption] = useState(0)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [keyword, setKeyword] = useState<string>('')
     // const [page, setPage] = useState<number>(0);
 
@@ -58,9 +59,10 @@ const BasicBarcodeContainer = () => {
         // }
     ]
 
-
     useEffect(() => {
         getList()
+        setTitleEventList(titleEvent)
+        setEventList(eventdummy)
     }, [])
 
     const eventdummy = [
@@ -90,18 +92,17 @@ const BasicBarcodeContainer = () => {
             })
 
             setList(getBasic)
+            setIsFirst(true)
             setPage({current: resultList.current_page, total: resultList.total_page})
-            Notiflix.Loading.Remove(300)
+            Notiflix.Loading.Remove()
         }
     }, [list, keyword, option, page])
 
     useEffect(() => {
-        setEventList(eventdummy)
-        getList()
-            .then(() => Notiflix.Loading.Remove(300))
-        setTitleEventList(titleEvent)
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
-
     /**
      * onClickDelete()
      * 리스트 항목 삭제

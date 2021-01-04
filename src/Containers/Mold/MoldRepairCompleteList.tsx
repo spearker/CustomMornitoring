@@ -18,6 +18,7 @@ const MoldRepairCompleteListContainer = () => {
     const [eventList, setEventList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any[]>([])
     const [index, setIndex] = useState({mold_name: '금형 이름'})
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [subIndex, setSubIndex] = useState({part_name: '부품명'})
     const [selectPk, setSelectPk] = useState<any>(null)
@@ -129,14 +130,16 @@ const MoldRepairCompleteListContainer = () => {
             })
 
             setList(Detail)
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
     }, [list, page])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     useEffect(() => {
