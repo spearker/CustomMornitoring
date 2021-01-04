@@ -87,11 +87,19 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
 
             return
         }
-      
-        if (selectFolder === '') {
-            alert('업로드할 폴더를 선택해주세요.')
+
+        if (event.target.files[0].size > 209715200) {
+            Notiflix.Report.Failure('업로드 실패', '파일 용량이 200MB 이상 입니다.', '닫기', () => window.location.reload())
             return
         }
+
+        if (selectFolder === '') {
+            alert('업로드할 폴더를 선택해주세요.')
+            window.location.reload();
+            return
+        }
+
+        Notiflix.Loading.Circle()
 
         const formData = new FormData()
         formData.append('file', event.target.files[0])
@@ -104,6 +112,7 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
             getFolderList()
             setUploadOpen(false)
         }
+        Notiflix.Loading.Remove()
     }, [selectFolder])
 
     useEffect(() => {
@@ -174,11 +183,11 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
                         }}>
                             <p style={{
                                 marginTop: 35,
-                                fontSize: 20,
+                                fontSize: 18,
                                 marginBottom: 20,
                                 color: 'black',
                                 whiteSpace: 'pre-line',
-                            }}>{'폴더명을 선택해주시고 \n 파일을 업로드 해주세요.'}</p>
+                            }}>{'폴더명을 선택해주시고 \n 파일을 업로드 해주세요. (최대 200MB)'}</p>
                             <select style={{
                                 width: '300px',
                                 height: '28px',
