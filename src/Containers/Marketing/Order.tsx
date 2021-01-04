@@ -19,6 +19,7 @@ const OrderContainer = () => {
     const [eventList, setEventList] = useState<any[]>([])
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [index, setIndex] = useState({customer_name: '거래처 명'})
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
@@ -158,7 +159,7 @@ const OrderContainer = () => {
                 return {...v, finished: finished, amount: amount}
             })
             setList(orderList)
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
@@ -172,7 +173,9 @@ const OrderContainer = () => {
     }, [])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
 

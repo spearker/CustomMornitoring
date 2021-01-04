@@ -24,6 +24,7 @@ const DefectiveContainer = () => {
     const [selectPk, setSelectPk] = useState<any>(null)
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [selectValue, setSelectValue] = useState<any>(null)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const history = useHistory()
 
     const indexList = {
@@ -161,7 +162,7 @@ const DefectiveContainer = () => {
 
                 return {...v, amount: amount}
             })
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             setList(getWorker)
             Notiflix.Loading.Remove()
@@ -178,7 +179,9 @@ const DefectiveContainer = () => {
     }, [])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     return (

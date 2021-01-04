@@ -17,6 +17,7 @@ const MoldCreateCompleteListContainer = () => {
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [eventList, setEventList] = useState<any[]>([])
     const [detailList, setDetailList] = useState<any[]>([])
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [index, setIndex] = useState({mold_name: '금형 이름'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [subIndex, setSubIndex] = useState({part_name: '부품명'})
@@ -155,14 +156,16 @@ const MoldCreateCompleteListContainer = () => {
             })
 
             setList(Detail)
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
     }, [list, page])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     useEffect(() => {

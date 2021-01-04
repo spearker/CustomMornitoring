@@ -35,6 +35,7 @@ const VoucherContainer = ({match}: Props) => {
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const history = useHistory()
 
     const AddComma = (num) => {
@@ -203,7 +204,7 @@ const VoucherContainer = ({match}: Props) => {
                 return {...v, current_amount: current_amount, goal: goal}
             })
 
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             setList(getVoucher)
             Notiflix.Loading.Remove()
@@ -211,7 +212,9 @@ const VoucherContainer = ({match}: Props) => {
     }, [list, page, match.params.pk, searchValue, option])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     const postDelete = useCallback(async () => {

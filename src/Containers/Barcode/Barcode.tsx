@@ -14,6 +14,7 @@ const BarcodeListContainer = () => {
     const [list, setList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [eventList, setEventList] = useState<any[]>([])
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [detailList, setDetailList] = useState<{
         pk: string,
         barcode_name: string,
@@ -171,6 +172,7 @@ const BarcodeListContainer = () => {
         const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=15`
         const res = await getBarcode(tempUrl)
         if (res) {
+            setIsFirst(true)
             setList(res.info_list)
             setSelectPk(null)
             setPage({current: res.current_page, total: res.total_page})
@@ -179,7 +181,9 @@ const BarcodeListContainer = () => {
     }, [list, page])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
 
     useEffect(() => {

@@ -17,6 +17,7 @@ const QualityTestCompleteWorker = () => {
     const [index, setIndex] = useState({process_name: "공정명"});
     const [subIndex, setSubIndex] = useState({worker: '작업자'})
     const [filter, setFilter] = useState(-1)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [selectPk, setSelectPk] = useState<any>(null);
     const [selectMold, setSelectMold] = useState<any>(null);
     const [selectValue, setSelectValue] = useState<any>(null);
@@ -93,7 +94,7 @@ const QualityTestCompleteWorker = () => {
         const res = await getQualityList(tempUrl)
         if (res) {
             setList(res.info_list)
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
@@ -109,8 +110,10 @@ const QualityTestCompleteWorker = () => {
     }, [])
 
     useEffect(() => {
-        getList()
-    }, [])
+        if (isFirst) {
+            getList()
+        }
+    }, [page.current])
 
     return (
         <div>

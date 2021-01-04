@@ -18,6 +18,7 @@ const ShipmentContainer = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [index, setIndex] = useState({customer_name: '거래처 명'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
@@ -146,7 +147,7 @@ const ShipmentContainer = () => {
             })
 
             setList(shipmentList)
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove();
         }
@@ -162,8 +163,11 @@ const ShipmentContainer = () => {
 
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
+
     return (
         <div>
             <OvertonTable
