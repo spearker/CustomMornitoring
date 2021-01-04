@@ -21,8 +21,11 @@ const WipContainer = () => {
   const [filter, setFilter] = useState(-1)
   const [type, setType] = useState(10)
   const [selectPk, setSelectPk] = useState<any>(null)
+  const [option, setOption] = useState<number>(0)
   const [selectMold, setSelectMold] = useState<any>(null)
+  const [keyword, setKeyword] = useState<string>('')
   const [selectValue, setSelectValue] = useState<any>(null)
+  const [contentsList, setContentsList] = useState<any[]>(['품목명', '품번', '보관장소'])
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
     total: 2
@@ -35,6 +38,7 @@ const WipContainer = () => {
   const indexList = {
     wip: {
       material_name: '품목(품목명)',
+      material_code: '품번',
       material_type: ['자재 종류', '반제품', /*'공정품'*/],
       current_stock: '재고량',
       location_name: '보관장소',
@@ -148,10 +152,10 @@ const WipContainer = () => {
     }
   }, [detailList, detailPage])
 
-  const getList = useCallback(async (isSearch?: boolean) => { // useCallback
+  const getList = useCallback(async (isSearch?: boolean, searchOption?: number) => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=5`
+    const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=5&keyword=${searchOption !== undefined ? '' : keyword}&st=${searchOption ? searchOption : option}`
     const res = await getStockList(tempUrl)
     if (res) {
       const getStock = res.info_list.map((v, i) => {
@@ -167,7 +171,13 @@ const WipContainer = () => {
       setPage({current: res.current_page, total: res.total_page})
       Notiflix.Loading.Remove()
     }
-  }, [list, type, filter, page])
+  }, [list, type, filter, page, keyword])
+
+  const optionChange = useCallback(async (filter: number) => {
+    setOption(filter)
+    setKeyword('')
+    getList(true, filter)
+  }, [option, keyword, page])
 
   useEffect(() => {
     getList(true)
@@ -191,6 +201,10 @@ const WipContainer = () => {
     setSubIndex(detailTitle['wip'])
   }, [])
 
+  const searchOnClick = useCallback(async () => {
+    getList(true)
+  }, [keyword, option, page])
+
   return (
     <div>
       <OvertonTable
@@ -199,6 +213,12 @@ const WipContainer = () => {
         valueList={list}
         EventList={eventList}
         selectBoxChange={selectBox}
+        dropDownContents={contentsList}
+        dropDownOnClick={optionChange}
+        dropDownOption={option}
+        searchValue={keyword}
+        searchBarChange={(e) => setKeyword(e)}
+        searchButtonOnClick={searchOnClick}
         clickValue={selectValue}
         mainOnClickEvent={onClick}
         currentPage={page.current}
