@@ -300,7 +300,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         <NormalNumberInput title={'불량 개수'} value={amount} onChangeEvent={setAmount}
                            description={'불량 개수를 입력하세요.'}
                            width={120}/>
-        <DateInput title={'납기일'} description={''} value={selectDate} onChangeEvent={setSelectDate} width={135}
+        <DateInput title={'검수일'} description={''} value={selectDate} onChangeEvent={setSelectDate} width={135}
                    style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
         <InputContainer title={'불량 사유'} width={120}>
             <textarea maxLength={160} ref={textBoxRef} onChange={(e) => setReason(e.target.value)}

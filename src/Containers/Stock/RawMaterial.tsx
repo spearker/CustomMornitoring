@@ -20,11 +20,15 @@ const RawMaterialContainer = () => {
   const [filter, setFilter] = useState(-1)
   const [type, setType] = useState(0)
   const [selectPk, setSelectPk] = useState<any>(null)
+  const [contentsList, setContentsList] = useState<any[]>(['품목명', '품번', '보관장소'])
+  const [searchValue, setSearchValue] = useState<any>('')
+  const [option, setOption] = useState<number>(0)
   const [selectMold, setSelectMold] = useState<any>(null)
+  const [keyword, setKeyword] = useState<string>('')
 
   const [selectValue, setSelectValue] = useState<any>(null)
   const [page, setPage] = useState<PaginationInfo>({
-    current: 1,
+    current: 1
   })
   const [detailPage, setDetailPage] = useState<PaginationInfo>({
     current: 1
@@ -34,6 +38,7 @@ const RawMaterialContainer = () => {
   const indexList = {
     rawmaterial: {
       material_name: '품목(품목명)',
+      material_code: '품번',
       material_type: ['자재 종류', '원자재', '부자재'],
       current_stock: '재고량',
       location_name: '보관장소',
@@ -95,6 +100,10 @@ const RawMaterialContainer = () => {
     }
   ]
 
+  const searchOnClick = useCallback(async () => {
+    getList(true)
+  }, [keyword, option, page])
+
   const onClick = useCallback((mold) => {
     setDetailPage({...detailPage, current: 1})
     if (mold.pk === selectPk) {
@@ -150,10 +159,16 @@ const RawMaterialContainer = () => {
 
   }, [filter])
 
-  const getList = useCallback(async (isSearch?: boolean) => { // useCallback
+  const optionChange = useCallback(async (filter: number) => {
+    setOption(filter)
+    setKeyword('')
+    getList(true, filter)
+  }, [option, searchValue, page])
+
+  const getList = useCallback(async (isSearch?: boolean, searchOption?: number) => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=5`
+    const tempUrl = `${API_URLS['stock'].list}?type=${type}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=5&keyword=${searchOption !== undefined ? '' : keyword}&st=${searchOption ? searchOption : option}`
     const res = await getStockList(tempUrl)
     if (res) {
       const getStock = res.info_list.map((v, i) => {
@@ -170,14 +185,18 @@ const RawMaterialContainer = () => {
       Notiflix.Loading.Remove()
       setSelectPk(null)
     }
-  }, [list, type, filter, page])
+  }, [list, type, filter, page.current, keyword])
 
   useEffect(() => {
-    getList(true)
+    if (page.current) {
+      getList(true)
+    }
   }, [filter])
 
   useEffect(() => {
-    getList()
+    if (page.current) {
+      getList()
+    }
   }, [page.current])
 
   useEffect(() => {
@@ -185,7 +204,7 @@ const RawMaterialContainer = () => {
   }, [detailPage.current])
 
   useEffect(() => {
-    getList()
+    getList(true)
     setIndex(indexList['rawmaterial'])
     // setList(dummy)
     setDetailList(detaildummy)
@@ -202,6 +221,12 @@ const RawMaterialContainer = () => {
         valueList={list}
         EventList={eventList}
         clickValue={selectValue}
+        dropDownContents={contentsList}
+        dropDownOnClick={optionChange}
+        dropDownOption={option}
+        searchValue={keyword}
+        searchBarChange={(e) => setKeyword(e)}
+        searchButtonOnClick={searchOnClick}
         selectBoxChange={selectBox}
         mainOnClickEvent={onClick}
         currentPage={page.current}

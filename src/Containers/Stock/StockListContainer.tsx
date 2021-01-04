@@ -11,7 +11,6 @@ import Notiflix from 'notiflix'
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const StockListContainer = () => {
-
   const [list, setList] = useState<any[]>([])
   const [titleEventList, setTitleEventList] = useState<any[]>([])
   const [detailList, setDetailList] = useState<any>({
@@ -19,11 +18,15 @@ const StockListContainer = () => {
     machine_name: '',
     recommend: 0
   })
+  const [contentsList, setContentsList] = useState<any[]>(['품목명', '품번', '보관장소'])
   const [index, setIndex] = useState({material_name: '품목(품목명)'})
   const [selectPk, setSelectPk] = useState<any>(null)
   const [selectStock, setSelectStock] = useState<any>(null)
   const [selectValue, setSelectValue] = useState<any>(null)
+  const [filter, setFilter] = useState<number>(-1)
   const [subIndex, setSubIndex] = useState({writer: '작성자'})
+  const [keyword, setKeyword] = useState<string>('')
+  const [option, setOption] = useState<number>(0)
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
@@ -32,7 +35,8 @@ const StockListContainer = () => {
   const indexList = {
     stock_list: {
       material_name: '품목(품목명)',
-      material_type: '자재 종류',
+      material_code: '품번',
+      material_type: ['자재 종류', '원자재', '부자재', '반제품', '완제품'],
       current_stock: '재고량',
       location_name: '보관장소',
       safe_stock: '안전재고',
@@ -90,10 +94,10 @@ const StockListContainer = () => {
     return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
   }
 
-  const getList = useCallback(async () => { // useCallback
+  const getList = useCallback(async (isSearch?: boolean, searchOption?: number) => { // useCallback
     //TODO: 성공시
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=-1&page=${page.current}&limit=15`
+    const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchOption !== undefined ? '' : keyword}&st=${searchOption ? searchOption : option}`
     const res = await getStockList(tempUrl)
     if (res) {
       const getStock = res.info_list.map((v, i) => {
@@ -109,7 +113,26 @@ const StockListContainer = () => {
       setPage({current: res.current_page, total: res.total_page})
       Notiflix.Loading.Remove()
     }
-  }, [list, page])
+  }, [list, page, filter, keyword])
+
+  const selectBox = useCallback((value) => {
+    if (value === '원자재') {
+      setFilter(0)
+    } else if (value === '부자재') {
+      setFilter(1)
+    } else if (value === '반제품') {
+      setFilter(10)
+    } else if (value === '완제품') {
+      setFilter(30)
+    } else if (value === '자재 종류') {
+      setFilter(-1)
+    }
+
+  }, [filter])
+
+  useEffect(() => {
+    getList(true)
+  }, [filter])
 
   useEffect(() => {
     getList()
@@ -123,6 +146,16 @@ const StockListContainer = () => {
     getList()
   }, [page.current])
 
+  const searchOnClick = useCallback(async () => {
+    getList(true)
+  }, [keyword, option, page])
+
+  const optionChange = useCallback(async (filter: number) => {
+    setOption(filter)
+    setKeyword('')
+    getList(true, filter)
+  }, [option, keyword, page])
+
   return (
     <div>
       <OvertonTable
@@ -132,6 +165,13 @@ const StockListContainer = () => {
         valueList={list}
         currentPage={page.current}
         totalPage={page.total}
+        dropDownContents={contentsList}
+        dropDownOnClick={optionChange}
+        dropDownOption={option}
+        searchValue={keyword}
+        searchBarChange={(e) => setKeyword(e)}
+        searchButtonOnClick={searchOnClick}
+        selectBoxChange={selectBox}
         pageOnClickEvent={(event, i) => setPage({...page, current: i})}
         noChildren={true}>
         {
