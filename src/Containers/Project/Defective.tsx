@@ -170,7 +170,7 @@ const DefectiveContainer = () => {
     }, [list, page.current, searchValue, option])
 
     useEffect(() => {
-        // getList()
+        getList()
         setTitleEventList(titleeventdummy)
         setEventList(eventdummy)
         setIndex(indexList['defective'])

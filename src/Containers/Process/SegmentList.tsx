@@ -227,7 +227,7 @@ const SegmentListContainer = () => {
     }
 
     useEffect(() => {
-        // getList()
+        getList()
         setIndex(indexList['segment'])
         // setList(dummy)
         setTitleEventList(titleeventdummy)
