@@ -19,6 +19,7 @@ const QualityTestListWorker = () => {
     const [index, setIndex] = useState({process_name: '공정명'})
     const [subIndex, setSubIndex] = useState({worker: '작업자'})
     const [filter, setFilter] = useState(-1)
+    const [isSearch, setIsSearch] = useState<boolean>(false)
     const [isFirst, setIsFirst] = useState<boolean>(false)
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
@@ -83,7 +84,14 @@ const QualityTestListWorker = () => {
     }, [searchValue])
 
     const searchOnClick = useCallback(async () => {
-        getList(true)
+        setIsSearch(true)
+        const tempUrl = `${API_URLS['request'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
+        const res = await getQualityList(tempUrl)
+        if (res) {
+            setList(res.info_list)
+
+            setPage({current: res.current_page, total: res.total_page})
+        }
     }, [searchValue, page])
 
     const onClick = useCallback((obj) => {
@@ -121,8 +129,12 @@ const QualityTestListWorker = () => {
     }, [])
 
     useEffect(() => {
-        if (isFirst) {
-            getList()
+        if (isSearch) {
+            searchOnClick()
+        } else {
+            if (isFirst) {
+                getList()
+            }
         }
     }, [page.current])
 
