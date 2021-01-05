@@ -141,7 +141,7 @@ const DropBoxContainer = Styled.div`
     margin-left:10px; min-width: 100px;
     position:relative;
     display: inline-block;
-    z-index:100;
+    z-index:1;
     float: right;
 `
 
