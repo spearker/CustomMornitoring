@@ -111,6 +111,7 @@ const BasicDocumentListContainer: React.FunctionComponent = () => {
         if (temp) {
             getFolderList()
             setUploadOpen(false)
+            setSelectFolder('')
         }
         Notiflix.Loading.Remove()
     }, [selectFolder])
