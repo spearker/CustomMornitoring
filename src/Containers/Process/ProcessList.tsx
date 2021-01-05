@@ -160,7 +160,7 @@ const ProcessListContainer = () => {
     }
 
     useEffect(() => {
-        // getList()
+        getList()
         setIndex(indexList['info_list'])
         setTitleEventList(titleeventdummy)
         // setList(dummy)
