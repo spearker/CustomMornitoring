@@ -41,6 +41,7 @@ export const API_URLS = {
       manufacturing_leadTime_reduced_rate: '/v1/kpi/production/manufacturing-leadTime-reduced-rate',
       item_growth_rate: '/v1/kpi/production/item-growth-rate',
       target_attainment_rate: '/v1/kpi/production/target-attainment-rate',
+      average_production_per_hour: '/v1/kpi/production/average-production-per-hour'
     },
     delivery: {
       delivery_compliance_improvement_rate: '/v1/kpi/delivery/delivery-compliance-improvement-rate',
