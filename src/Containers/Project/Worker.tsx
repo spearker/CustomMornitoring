@@ -130,7 +130,7 @@ const WorkerContainer = ({match}: Props) => {
     ]
 
     useEffect(() => {
-        // getList()
+        getList()
         setTitleEventList(titleeventdummy)
         setIndex(indexList['worker'])
         setEventList(eventdummy)
