@@ -35,19 +35,39 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
 
   useEffect(() => {
     if (isFirst) {
+      setSelectMaterial(undefined)
       setIsFirst(false)
       return
     } else {
+      console.log(value)
       if (!value || value.api !== 'manufacturing_leadTime_reduced_rate') {
-        if (getData) {
-          if (type === 'day') {
-            getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
-              setData(ratio)
-            })
+        if (value.api === 'average_production_per_hour') {
+          if (selectMaterial) {
+            if (getData) {
+              if (type === 'day') {
+                getData(selectDate, selectDate, index ? index : 0, selectMaterial.pk).then((ratio) => {
+                  setData(ratio)
+                })
+              } else {
+                getData(selectDates.from, selectDates.to, index ? index : 0, selectMaterial.pk).then((ratio) => {
+                  setData(ratio)
+                })
+              }
+            }
           } else {
-            getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
-              setData(ratio)
-            })
+            setData({})
+          }
+        } else {
+          if (getData) {
+            if (type === 'day') {
+              getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
+                setData(ratio)
+              })
+            } else {
+              getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
+                setData(ratio)
+              })
+            }
           }
         }
       } else {
@@ -147,84 +167,107 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
 
         <div style={{display: 'flex', justifyContent: 'row'}}>
           {
-            Object.keys(data).map((v) => {
-              if (v === 'data') {
-                return
-              } else if (v === 'materials') {
-                return (
-                  <div style={{height: 100, width: 400, marginRight: 16}}>
-                    <div style={{width: 400, height: 20}}>
-                      <p
-                        style={{fontSize: 14, textAlign: 'left', paddingLeft: 10}}>{subTitleList && subTitleList[v]}</p>
+            value.api === 'average_production_per_hour'
+              ? <div style={{height: 100, paddingLeft: 20}}>
+                <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => {
+                  setSelectMaterial(e)
+                }}
+                                       select={{name: selectMaterial?.name, pk: selectMaterial?.pk}}
+                                       text={'품목을 선택해주세요'}/>
+              </div>
+              : Object.keys(data).map((v) => {
+                if (v === 'data') {
+                  return
+                } else if (v === 'materials') {
+                  return (
+                    <div style={{height: 100, width: 400, marginRight: 16}}>
+                      <div style={{width: 400, height: 20}}>
+                        <p
+                          style={{
+                            fontSize: 14,
+                            textAlign: 'left',
+                            paddingLeft: 10
+                          }}>{subTitleList && subTitleList[v]}</p>
+                      </div>
+                      <div
+                        style={{
+                          width: 400,
+                          height: 80,
+                          overflow: 'scroll',
+                          border: '0.5px solid #b3b3b3',
+                          marginLeft: 10,
+                          marginTop: 10,
+                          padding: 5
+                        }}>
+                        {
+                          data[v].map((v, i) => {
+                            return (
+                              <>
+                                <p style={{
+                                  textAlign: 'left',
+                                  fontSize: 20,
+                                }}>{v}</p>
+                              </>
+                            )
+                          })
+                        }
+                      </div>
                     </div>
-                    <div
-                      style={{
-                        width: 400,
-                        height: 80,
-                        overflow: 'scroll',
-                        border: '0.5px solid #b3b3b3',
-                        marginLeft: 10,
-                        marginTop: 10,
-                        padding: 5
+                  )
+                }
+                return (
+                  <div style={{height: 65, width: 160, marginRight: 16}}>
+                    <div style={{width: 112, height: 20}}>
+                      <p style={{fontSize: 14}}>{subTitleList && subTitleList[v]}</p>
+                    </div>
+                    <div style={{width: 160, height: 41}}>
+                      <p style={{
+                        textAlign: 'right',
+                        fontSize: 20
                       }}>
-                      {
-                        data[v].map((v, i) => {
-                          return (
-                            <>
-                              <p style={{
-                                textAlign: 'left',
-                                fontSize: 20,
-                              }}>{v}</p>
-                            </>
-                          )
-                        })
-                      }
+                        {
+                          !isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]
+                        }
+                      </p>
                     </div>
                   </div>
                 )
-              }
-              return (
-                <div style={{height: 65, width: 160, marginRight: 16}}>
-                  <div style={{width: 112, height: 20}}>
-                    <p style={{fontSize: 14}}>{subTitleList && subTitleList[v]}</p>
-                  </div>
-                  <div style={{width: 160, height: 41}}>
-                    <p style={{
-                      textAlign: 'right',
-                      fontSize: 20
-                    }}>
-                      {
-                        !isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]
-                      }
-                    </p>
-                  </div>
-                </div>
-              )
-            })
+              })
           }
         </div>
       </div>
       <div>
-        <Textfit mode={'single'} style={{
-          textAlign: 'right',
-          fontSize: 128,
-          fontWeight: 'bold',
-        }}>{
-          (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
-            ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
-            : (value.api === 'defective_items_reduced_rate' || value.api === 'target_attainment_rate')
-            ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
-            : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+        {
+          value.api === 'average_production_per_hour' && selectMaterial &&
+          <div style={{height: 30}}>
+              <p>{selectMaterial.name}</p>
+              <p>오차율() (공회전, 초품검사)</p>
+          </div>
         }
-          <span style={{fontSize: 40, paddingLeft: '4pt'}}>
-            {
-              unitArray.percent.indexOf(value.api) !== -1 && '%'
-            }
-            {
-              unitArray.kw.indexOf(value.api) !== -1 && 'KW'
-            }
-          </span>
-        </Textfit>
+        <div>
+          <Textfit mode={'single'} style={{
+            textAlign: 'right',
+            fontSize: 128,
+            fontWeight: 'bold',
+          }}>{
+            (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
+              ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
+              : (value.api === 'defective_items_reduced_rate' || value.api === 'target_attainment_rate')
+              ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
+              : (value.api !== 'average_production_per_hour')
+                ? data.data
+                : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+          }
+            <span style={{fontSize: 40, paddingLeft: '4pt'}}>
+              {
+                unitArray.percent.indexOf(value.api) !== -1 && '%'
+              }
+              {
+                unitArray.kw.indexOf(value.api) !== -1 && 'KW'
+              }
+            </span>
+          </Textfit>
+        </div>
       </div>
     </Container>
   )
