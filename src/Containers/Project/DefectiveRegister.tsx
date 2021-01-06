@@ -208,10 +208,12 @@ const DefectiveRegisterContainer = ({match}: Props) => {
     } else if (selectMaterial.pk === '' || selectMaterial.pk == undefined) {
       alert('품목(품목명)은 필수 항목입니다. 반드시 선택해주세요.')
       return
-    } else if (selectMachine.pk === '' || selectMachine.pk == undefined) {
-      alert('기계은 필수 항목입니다. 반드시 선택해주세요.')
-      return
-    } else if (selectMember.pk === '' || selectMember.pk == undefined) {
+    }
+      // else if (selectMachine.pk === '' || selectMachine.pk == undefined) {
+      // alert('기계은 필수 항목입니다. 반드시 선택해주세요.')
+      // return
+    // }
+    else if (selectMember.pk === '' || selectMember.pk == undefined) {
       alert('검수자는 필수 항목입니다. 반드시 입력해주세요.')
       return
     } else if (amount === null || amount == undefined) {
