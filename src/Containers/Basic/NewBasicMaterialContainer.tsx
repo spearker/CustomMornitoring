@@ -364,9 +364,13 @@ const NewBasicMaterialRegister = () => {
                     </div>
                   </ButtonWrap>
                 </div>
-                :
-                <GrayRegisterButton name={isUpdate ? '수정하기' : '등록하기'}
-                                    onPress={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}/>
+                : <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
+                  <ButtonWrap style={{width: 360}} onClick={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}>
+                    <div>
+                      <p style={{fontSize: 18}}>{isUpdate ? '수정하기' : '등록하기'}</p>
+                    </div>
+                  </ButtonWrap>
+                </div>
               }
             </div>
 
