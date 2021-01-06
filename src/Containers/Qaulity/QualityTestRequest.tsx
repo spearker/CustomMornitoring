@@ -68,7 +68,7 @@ const QualityTestRequest = ({match}: Props) => {
   const postQualityRegisterData = useCallback(async () => {
 
     if (processData.pk === '' || processData.pk === undefined) {
-      alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
+      alert('작업이력은 필수 항목입니다. 반드시 입력해주세요.')
       return
     } else if (machineData.pk === '' || machineData.pk === undefined) {
       alert('기계명은 필수 항목입니다. 반드시 입력해주세요.')
@@ -104,7 +104,7 @@ const QualityTestRequest = ({match}: Props) => {
 
   const onClickModify = useCallback(async () => {
     if (processData.pk === '' || processData.pk === undefined) {
-      alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
+      alert('작업이력은 필수 항목입니다. 반드시 입력해주세요.')
       return
     } else if (machineData.pk === '' || machineData.pk === undefined) {
       alert('기계명은 필수 항목입니다. 반드시 입력해주세요.')
