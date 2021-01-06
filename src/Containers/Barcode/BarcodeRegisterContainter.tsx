@@ -111,14 +111,13 @@ const BarcodeRegisterContainer = ({match}: Props) => {
     }, [inputData, selectMachine, rules, barcodeImg, reason, type])
 
     const postBarcodeRegister = useCallback(async () => {
-
+        
         if (inputData.barcode_name === '') {
             alert('표준 바코드는 필수 항목입니다. 반드시 입력해주세요.')
             return
         } else if (indexList[type] === undefined) {
             alert('항목은 필수 항목입니다. 반드시 선택해주세요.')
             return
-
         } else if (selectMachine?.name === undefined || selectMachine?.pk === undefined) {
             alert('상세항목은 필수 항목입니다. 반드시 선택해주세요.')
             return
