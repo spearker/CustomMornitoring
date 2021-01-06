@@ -172,7 +172,7 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
           {
             value.api === 'average_production_per_hour'
               ? <div style={{height: 100, paddingLeft: 20}}>
-                <ProductionPickerModal filter={30} innerWidth={371} onClickEvent={(e) => {
+                <ProductionPickerModal type={1} innerWidth={371} onClickEvent={(e) => {
                   setSelectMaterial(e)
                 }}
                                        select={{name: selectMaterial?.name, pk: selectMaterial?.pk}}
