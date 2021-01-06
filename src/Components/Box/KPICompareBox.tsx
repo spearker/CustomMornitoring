@@ -39,7 +39,6 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
       setIsFirst(false)
       return
     } else {
-      console.log(value)
       if (!value || value.api !== 'manufacturing_leadTime_reduced_rate') {
         if (value.api === 'average_production_per_hour') {
           if (selectMaterial) {
@@ -74,7 +73,11 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
         setData({})
       }
     }
-  }, [selectDate, selectDates, value])
+  }, [selectDate, selectDates, isFirst])
+
+  useEffect(() => {
+    setIsFirst(true)
+  }, [value])
 
   const AddComma = (num) => {
     let tmpNum = num.toString().split('.')
@@ -254,7 +257,7 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
               ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
               : (value.api === 'defective_items_reduced_rate' || value.api === 'target_attainment_rate')
               ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
-              : (value.api !== 'average_production_per_hour')
+              : (value.api === 'average_production_per_hour')
                 ? data.data
                 : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
           }
