@@ -85,18 +85,10 @@ const ChitRegisterContainer = () => {
         <div>
           <table style={{color: 'black'}}>
             <tr>
-              <td colSpan={2}>
-                <RadioInput title={''} target={memberType}
-                            onChangeEvent={(e) => setMemberType(e)}
-                            contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
-                              value: 1, title: '작업자'
-                            }]}/>
-              </td>
-            </tr>
-            <tr>
               <td>• 등록자</td>
               <td>
-                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)} auth={memberType}
+                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
+                                   onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                    text={'등록자를 선택해 주세요'} select={selectMember} type={'등록자'}
                                    style={{width: 'calc(99% - 4px)'}}/>
               </td>

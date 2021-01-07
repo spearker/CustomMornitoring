@@ -277,7 +277,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
           <ProductionPickerModal select={selectMaterial}
                                  onClickEvent={(e) => {
                                    setSelectMaterial({...selectMaterial, ...e})
-                                 }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30}/>
+                                 }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30} useFilter/>
         </InputContainer>
         <InputContainer title={'기계'} width={120}>
           <div style={{width: '100%', paddingLeft: 10}}>
@@ -288,14 +288,10 @@ const DefectiveRegisterContainer = ({match}: Props) => {
             }} buttonWid={30}/>
           </div>
         </InputContainer>
-        <RadioInput title={''} target={memberType}
-                    onChangeEvent={(e) => setMemberType(e)}
-                    contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
-                      value: 1, title: '작업자'
-                    }]}/>
         <InputContainer title={'검수자'} width={120}>
           <div style={{width: '100%', paddingLeft: 10}}>
             <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} type={'검수자'}
+                                onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                 text={'검수자를 선택해 주세요'} select={selectMember}/>
           </div>
         </InputContainer>

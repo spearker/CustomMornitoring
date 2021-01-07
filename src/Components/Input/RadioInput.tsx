@@ -9,15 +9,16 @@ interface IProps {
     onChangeEvent: any,
     opacity?: boolean
     width?: number
+    line?: boolean
 }
 
-const RadioInput = ({title, target, contents, onChangeEvent, opacity, width}: IProps) => {
+const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, line}: IProps) => {
     useEffect(() => {
 
     }, [])
     return (
 
-        <InputContainer title={title} width={width}>
+        <InputContainer title={title} width={width} line={line}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
                     contents.map((v, i) => {

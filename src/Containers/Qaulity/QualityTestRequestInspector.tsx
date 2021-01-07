@@ -37,6 +37,7 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
     const history = useHistory()
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
     const [isDetail, setIsDetail] = useState('Inspection');
+    const [memberType, setMemberType] = useState(-1);
 
     useEffect(() => {
         /* if( match.params.pk ){
@@ -278,6 +279,7 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
                         <tr>
                             <td>• 작업자</td>
                             <td><MemeberPickerModal onClickEvent={(e) => setInputData('worker', e)}
+                                                    onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                                     disabled
                                                     text={'작업자를 선택해 주세요'} select={inputData.worker}/></td>
                         </tr>
@@ -307,6 +309,7 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
                         <tr>
                             <td>• 검사자</td>
                             <td><MemeberPickerModal onClickEvent={(e) => setInputData('inspector_name', e)}
+                                                    onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                                     disabled={isDetail === 'Worker'}
                                                     text={'검사자를 선택해 주세요'} select={inputData.inspector_name}/></td>
                         </tr>

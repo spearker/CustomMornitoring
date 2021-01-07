@@ -132,19 +132,10 @@ const ProductionRegisterContainer = () => {
                                     style={{width: '100%'}} inputStyle={{width: 891}}/></td>
             </tr>
             <tr>
-              <td colSpan={2}>
-                <RadioInput title={''} target={memberType}
-                            onChangeEvent={(e) => setMemberType(e)}
-                            contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
-                              value: 1, title: '작업자'
-                            }]}/>
-              </td>
-            </tr>
-            <tr>
               <td>• 계획자</td>
               <td>
                 <MemberPickerModal onClickEvent={(e) => setSelectMember(e)} type={'계획자'}
-                                   auth={memberType}
+                                   onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                    text={'계획자를 선택해 주세요'} select={selectMember}/>
               </td>
             </tr>
@@ -154,7 +145,7 @@ const ProductionRegisterContainer = () => {
                                          onClickEvent={(e) => {
                                            setModalSelect({...modalSelect, production: e})
                                          }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30}
-                                         innerStyle={{width: '100%'}} innerWidth={891}/></td>
+                                         innerStyle={{width: '100%'}} innerWidth={891} useFilter/></td>
             </tr>
             <tr>
               <td>• 생산 계획 일정</td>
