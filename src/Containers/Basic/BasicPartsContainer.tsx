@@ -31,7 +31,7 @@ Notiflix.Report.Init({
     }
 })
 
-const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 // 리스트 부분 컨테이너
 const BasicPartsContainer = () => {
