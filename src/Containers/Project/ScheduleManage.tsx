@@ -6,7 +6,7 @@ import moment from 'moment'
 import {useHistory} from 'react-router-dom'
 import Notiflix from 'notiflix'
 
-const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
