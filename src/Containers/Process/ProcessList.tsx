@@ -14,7 +14,7 @@ import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
-const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 const ProcessListContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
