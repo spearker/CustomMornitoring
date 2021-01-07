@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import ProductionPickerModal from "../../Components/Modal/ProductionPickerModal";
 import {Input} from "semantic-ui-react";
 import Old_BasicBarcodePickerModal from "../../Components/Modal/Old_BasicBarcodePickerModal";
@@ -31,6 +31,7 @@ const initialInputValue = {
 const QualityDetailListContainer = ({match}) => {
     const history = useHistory();
     const [inputData, setInputData] = useObjectInput("CHANGE", initialInputValue);
+    const [memberType, setMemberType] = useState(-1);
 
     useEffect(() => {
         if (match.params.pk) {
@@ -159,6 +160,7 @@ const QualityDetailListContainer = ({match}) => {
                         <tr>
                             <td>• 작업자</td>
                             <td><MemeberPickerModal onClickEvent={(e) => setInputData('worker', e)}
+                                                    onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                                     disabled
                                                     text={'작업자를 선택해 주세요'} select={inputData.worker}/></td>
                         </tr>
@@ -183,6 +185,7 @@ const QualityDetailListContainer = ({match}) => {
                         <tr>
                             <td>• 검사자</td>
                             <td><MemeberPickerModal onClickEvent={(e) => setInputData('inspector_name', e)}
+                                                    onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                                     disabled
                                                     text={'검사자를 선택해 주세요'} select={inputData.inspector_name}/></td>
                         </tr>
