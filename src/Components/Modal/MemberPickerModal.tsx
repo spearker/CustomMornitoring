@@ -9,6 +9,10 @@ import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getMemberList} from '../../Api/mes/member'
 import Pagination from '@material-ui/lab/Pagination'
 import Notiflix from 'notiflix'
+import RadioInput from '../Input/RadioInput'
+import Check from '../../Assets/Images/ic_checkbox_y.png'
+import RadioCheck from '../../Assets/Images/btn_radio_check.png'
+import Radio from '../../Assets/Images/btn_radio.png'
 
 //드롭다운 컴포넌트
 
@@ -20,6 +24,7 @@ interface IProps {
   disabled?: boolean
   style?: any
   type?: string
+  onChangeAuth?: (select: number) => void;
   auth?: number
 }
 
@@ -32,7 +37,7 @@ const DummyMachine = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
-const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, auth}: IProps) => {
+const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, auth, onChangeAuth}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
@@ -111,11 +116,23 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
       >
         <div style={{width: 900}}>
           <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
-            <p style={{
-              fontSize: 18,
-              fontFamily: 'NotoSansCJKkr',
-              fontWeight: 'bold'
-            }}>• {type ? type : '작업자'} 검색</p>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <p style={{
+                fontSize: 18,
+                fontFamily: 'NotoSansCJKkr',
+                fontWeight: 'bold'
+              }}>• {type ? type : '작업자'} 검색</p>
+              {onChangeAuth !== undefined && 
+                <RadioBox>
+                  <RadioInput title={''} width={0} line={false} target={auth !== undefined ? auth : -1}
+                              onChangeEvent={(e) => onChangeAuth(e)}
+                              contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
+                                value: 1, title: '작업자'
+                              }]} />
+                </RadioBox>
+              }
+
+            </div>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox
                 placeholder={type ? `${type}명을 입력해주세요.` : '작업자명을 입력해주세요.'}
@@ -162,6 +179,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
           </div>
           <div style={{width: 900}}>
             <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+              if(onChangeAuth!== undefined) onChangeAuth(-1);
               onClickEvent({name: undefined, pk: undefined})
               setIsOpen(false)
             }}>
@@ -297,6 +315,56 @@ const PaginationBox = Styled.div`
     .MuiPaginationItem-root{
         color: black;
     }
+`
+
+const RadioBox = Styled.div`
+  display: flex;
+  align-items: center;
+  *{
+    align-items: center;
+  }
+  input::-ms-input-placeholder { color: #b3b3b3; }
+  input[type="checkbox"] + label {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 0/* 1.5px solid #00000040 */;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked + label {
+    background: url(${Check}) left/18px no-repeat; 
+    border: 0/* 1.5px solid orange */;
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+  form label{
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  input[type="radio"]:not(old) {
+      margin:0; padding:0; opacity:0; 
+      background: url(${Radio}) left/24px no-repeat; 
+      width:18px;
+      height: 18px;
+      
+  } 
+  input[type="radio"]:not(old) + label {
+      width:18px;
+      height: 18px;
+      display: inline-block; 
+      text-align: left;
+      resize: cover; 
+      background: url(${Radio}) left/24px no-repeat; 
+      background-size: 18px 18px;
+      line-height: 130%; vertical-align: top;
+  }
+  input[type="radio"]:not(old):checked + label {
+    background: url(${RadioCheck}) left/24px no-repeat;
+    background-size: 18px 18px; 
+  }
 `
 
 export default MemberPickerModal

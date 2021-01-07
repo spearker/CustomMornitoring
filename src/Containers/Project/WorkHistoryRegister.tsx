@@ -290,22 +290,14 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
               </td>
             </tr>
             <tr>
-              <td colSpan={2}>
-                <RadioInput title={''} target={memberType}
-                            onChangeEvent={(e) => setMemberType(e)}
-                            contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
-                              value: 1, title: '작업자'
-                            }]}/>
-              </td>
-            </tr>
-            <tr>
               <td>• 작업자명</td>
               <td>
                 {
                   isFinish
                     ? <InputBox disabled={isFinish || isUpdate} value={selectMember && selectMember.name}
                                 placeholder={'총 작업량을 입력해 주세요'}></InputBox>
-                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} auth={memberType}
+                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} 
+                                          onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                           text={'작업자를 선택해 주세요'} select={selectMember}/>
                 }
               </td>

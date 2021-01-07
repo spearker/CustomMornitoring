@@ -15,7 +15,7 @@ const InputContainer = ({title, children, line, width}: any) => {
         fontSize: 14,
         marginTop: 5,
         fontWeight: 700,
-        width: width ? width : 180,
+        width: width !== undefined ? width : 180,
         display: 'inline-block',
       }}>{title === '' ? ' ' : `• ${title}`}</p>
       {children}

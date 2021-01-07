@@ -10,6 +10,10 @@ import {API_URLS, getProductionSearch} from '../../Api/mes/production'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import Pagination from '@material-ui/lab/Pagination'
 import Notiflix from 'notiflix'
+import RadioInput from '../Input/RadioInput'
+import Check from '../../Assets/Images/ic_checkbox_y.png'
+import RadioCheck from '../../Assets/Images/btn_radio_check.png'
+import Radio from '../../Assets/Images/btn_radio.png'
 
 //드롭다운 컴포넌트
 
@@ -30,6 +34,7 @@ interface IProps {
   isAllItem?: boolean
   noBasic?: boolean
   filter?: number
+  useFilter?: boolean
 }
 
 const DummyItem = [
@@ -58,7 +63,8 @@ const ProductionPickerModal = ({
                                  multiSelect,
                                  isAllItem,
                                  noBasic,
-                                 filter
+                                 filter,
+                                 useFilter
                                }: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
@@ -79,6 +85,7 @@ const ProductionPickerModal = ({
       location_name: ''
     }
   ])
+  const [typeFilter, setTypeFilter] = useState<number>(-1);
 
   useEffect(() => {
     if (selectRange) {
@@ -87,8 +94,13 @@ const ProductionPickerModal = ({
   }, [selectRange])
 
   useEffect(() => {
+    getList(true);
+    setSelectMaterial([]);
+  }, [typeFilter])
+
+  useEffect(() => {
     getList()
-  }, [page.current])
+  }, [select, page.current])
 
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
@@ -100,7 +112,7 @@ const ProductionPickerModal = ({
     if (filter) {
       tempUrl = `${API_URLS['material'].filter}?keyword=${searchName}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=10`
     } else {
-      tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type ? type : 0}&page=${isSearch ? 1 : page.current}&limit=10`
+      tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type !== undefined ? type : 0}&filter=${useFilter ? type === -1 ? -1 : typeFilter : -1}&page=${isSearch ? 1 : page.current}&limit=10`
     }
 
     const resultData = await getProductionSearch(tempUrl)
@@ -109,15 +121,19 @@ const ProductionPickerModal = ({
       setPage({current: resultData.current_page, total: resultData.total_page})
     }
     Notiflix.Loading.Remove()
-  }, [searchName, page])
+  }, [searchName, page, typeFilter])
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }
 
-  useEffect(() => {
-    getList()
-  }, [select, page.current])
+  const handleCloseEvent = () => {
+    // setSearchName('');
+    setIsOpen(false);
+  }
+
+  const 투입품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 0, title: '원자재'}, {value: 1, title: '부재료'}]; // 0
+  const 생산품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 30, title: '완재품'}]; // 1
 
   return (
     <div style={style}>
@@ -167,9 +183,17 @@ const ProductionPickerModal = ({
       >
         <div style={{width: 900}}>
           <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
-            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
+              {useFilter && type !==-1 && <RadioBox>
+                <RadioInput title={''} width={0} line={false} target={typeFilter}
+                            onChangeEvent={(e) => setTypeFilter(e)}
+                            contents={type === 0 ? 투입품목 : 생산품목} />
+              </RadioBox>}
+            </div>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}}
+                         value={searchName}
                          onChange={(e) => setSearchName(e.target.value)}
                          onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                 // onKeyDown={(e) => {
@@ -266,7 +290,9 @@ const ProductionPickerModal = ({
             </div>
           </div>
           <div style={{width: 900}}>
-            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => setIsOpen(false)}>
+            <CheckButton 
+              style={{left: 0, backgroundColor: '#e7e9eb'}} 
+              onClick={() => handleCloseEvent()}>
               <div>
                 <span style={{color: '#666d79'}}>취소</span>
               </div>
@@ -304,7 +330,7 @@ const ProductionPickerModal = ({
                 }
               }
 
-              setIsOpen(false)
+              handleCloseEvent();
             }}>
               <div>
                 <span style={{color: 'black'}}>확인</span>
@@ -429,6 +455,57 @@ const PaginationBox = Styled.div`
     .MuiPaginationItem-root{
         color: black;
     }
+`
+
+
+const RadioBox = Styled.div`
+  display: flex;
+  align-items: center;
+  *{
+    align-items: center;
+  }
+  input::-ms-input-placeholder { color: #b3b3b3; }
+  input[type="checkbox"] + label {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked + label {
+    background: url(${Check}) left/18px no-repeat; 
+    border: 0;
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+  form label{
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  input[type="radio"]:not(old) {
+      margin:0; padding:0; opacity:0; 
+      background: url(${Radio}) left/24px no-repeat; 
+      width:18px;
+      height: 18px;
+      
+  } 
+  input[type="radio"]:not(old) + label {
+      width:18px;
+      height: 18px;
+      display: inline-block; 
+      text-align: left;
+      resize: cover; 
+      background: url(${Radio}) left/24px no-repeat; 
+      background-size: 18px 18px;
+      line-height: 130%; vertical-align: top;
+  }
+  input[type="radio"]:not(old):checked + label {
+    background: url(${RadioCheck}) left/24px no-repeat;
+    background-size: 18px 18px; 
+  }
 `
 
 export default ProductionPickerModal
