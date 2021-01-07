@@ -40,7 +40,7 @@ const ChitRegisterContainer = () => {
   })
 
   const postChitRegisterData = useCallback(async () => {
-    if (selectMember.pk === undefined && selectMember.pk === '') {
+    if (selectMember.pk === undefined || selectMember.pk === '') {
       alert('등록자는 필수 항목입니다. 반드시 선택해주세요.')
       return
     } else if (modalSelect.production?.pk === '') {
