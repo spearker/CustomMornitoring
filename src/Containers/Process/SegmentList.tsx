@@ -11,7 +11,7 @@ import OptimizedLineTable from '../../Components/Table/OptimizedLineTable'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
-const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 const SegmentListContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
