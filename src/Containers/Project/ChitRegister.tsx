@@ -4,7 +4,7 @@ import {Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
 import moment from 'moment'
 import {POINT_COLOR} from '../../Common/configset'
-import {API_URLS, postChitRegister} from '../../Api/mes/production'
+import {API_URLS, getHistorySearch, postChitRegister} from '../../Api/mes/production'
 import ProjectPlanPickerModal from '../../Components/Modal/ProjectPlanPickerModal'
 import {useHistory} from 'react-router-dom'
 import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
@@ -18,12 +18,13 @@ interface modalData {
 
 const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
-const ChitRegisterContainer = () => {
+const ChitRegisterContainer = ({match}: any) => {
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [memberType, setMemberType] = useState(-1)
   const [open, setOpen] = useState<boolean>(false)
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
-  const [modalSelect, setModalSelect] = useState<{ production: { pk: string, manager: string, material_name: string, supplier_name: string } }>({
-    production: {manager: '', material_name: '', supplier_name: '', pk: ''}
+  const [modalSelect, setModalSelect] = useState<{ production: { pk: string, project_name: string, material_name: string, supplier_name: string } }>({
+    production: {material_name: '', supplier_name: '', pk: '', project_name: ''}
   })
   const history = useHistory()
   const [selectDateRange, setSelectDateRange] = useState<{ start: string, end: string }>({
@@ -66,18 +67,82 @@ const ChitRegisterContainer = () => {
       goal: chitData.goal
     })
 
-    history.goBack()
+    if (resultData && resultData.status === 200) {
+      history.goBack()
+    }
   }, [chitData, modalSelect, selectDate])
+
+  const postChitUpdateData = useCallback(async () => {
+    if (selectMember.pk === undefined || selectMember.pk === '') {
+      alert('등록자는 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (modalSelect.production?.pk === '') {
+      alert('생산 계획은 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (selectDate === '') {
+      alert('납기일은 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (Number(chitData.goal) <= 0) {
+      alert('생산 목표 수량은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (!selectDate.match(regExp)) {
+      alert('납기일의 형식이 잘못되었습니다.')
+      return
+    }
+
+
+    const tempUrl = `${API_URLS['chit'].update}`
+    const resultData = await postChitRegister(tempUrl, {
+      chit_pk: match.params.pk,
+      registerer: selectMember.pk,
+      deadline: selectDate,
+      goal: chitData.goal
+    })
+    if (resultData && resultData.status === 200) {
+      history.goBack()
+    }
+  }, [chitData, modalSelect, selectDate])
+
+  const getChitUpdateData = async () => {
+    const tempUrl = `${API_URLS['chit'].load}?pk=${match.params.pk}`
+    const resultData = await getHistorySearch(tempUrl)
+
+    if (resultData) {
+      setSelectMember({name: resultData.registerer_name, pk: resultData.registerer})
+      setModalSelect({
+        production: {
+          material_name: resultData.material_name,
+          supplier_name: resultData.supplier_name,
+          pk: resultData.pk,
+          project_name: resultData.project_name
+        }
+      })
+      setSelectDate(resultData.deadline)
+      setChitData({...chitData, goal: resultData.goal})
+    }
+  }
 
   useEffect(() => {
     setSelectMember({})
   }, [memberType])
 
+  useEffect(() => {
+    if (match.params.pk) {
+      getChitUpdateData()
+      setIsUpdate(true)
+    }
+  }, [])
+
   return (
     <div>
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-          <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>전표 등록</span>
+          <span style={{
+            fontSize: 20,
+            marginRight: 18,
+            marginLeft: 3,
+            fontWeight: 'bold'
+          }}>{isUpdate ? '전표 수정' : '전표 등록'}</span>
         </div>
       </div>
       <ContainerMain>
@@ -101,7 +166,7 @@ const ChitRegisterContainer = () => {
                                           onClickEvent={(e) => setModalSelect({
                                             ...modalSelect,
                                             production: e
-                                          })} inputWidth={'calc(99% - 4px)'} buttonWid={30}/></td>
+                                          })} disable={isUpdate} inputWidth={'calc(99% - 4px)'} buttonWid={30}/></td>
             </tr>
             <tr>
               <td>• 납기일</td>
@@ -143,17 +208,21 @@ const ChitRegisterContainer = () => {
             </tr>
             <tr>
               <td>• 생산 목표 수량</td>
-              <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'}
+              <td><Input placeholder="생산 목표 수량은 입력해 주세요" type={'number'} value={chitData.goal}
                          onChange={(e) => setChitData({...chitData, goal: Number(e.target.value)})}/></td>
             </tr>
           </table>
         </div>
         <div style={{marginTop: 180}}>
           <ButtonWrap onClick={async () => {
-            await postChitRegisterData()
+            if (isUpdate) {
+              await postChitUpdateData()
+            } else {
+              await postChitRegisterData()
+            }
           }}>
             <div style={{}}>
-              <p style={{fontSize: 18}}>전표 등록하기</p>
+              <p style={{fontSize: 18}}>전표 {isUpdate ? '수정하기' : '등록하기'}</p>
             </div>
           </ButtonWrap>
         </div>

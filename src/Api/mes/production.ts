@@ -89,6 +89,7 @@ export const getProductionSearch = async (url: string) => {
 export const API_URLS = {
   chit: {
     register: `/v1/chit/register`,
+    update: `/v1/chit/update`,
     list: `/v1/chit/list`,
     todayList: `/v1/chit/list/today`,
     load: `/v1/chit/load`,
@@ -124,7 +125,8 @@ export const API_URLS = {
     filter: `/v1/material/search/filter`
   },
   history: {
-    search: `/v1/project/history/search`
+    search: `/v1/project/history/search`,
+    delete: `/v1/project/history/delete`
   }
 }
 

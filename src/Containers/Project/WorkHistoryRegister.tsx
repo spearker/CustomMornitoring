@@ -296,7 +296,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                   isFinish
                     ? <InputBox disabled={isFinish || isUpdate} value={selectMember && selectMember.name}
                                 placeholder={'총 작업량을 입력해 주세요'}></InputBox>
-                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} 
+                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)}
                                           onChangeAuth={(e) => setMemberType(e)} auth={memberType}
                                           text={'작업자를 선택해 주세요'} select={selectMember}/>
                 }
@@ -544,6 +544,8 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                 !moment(workEndTime).format('YYYY-MM-DD HH:mm').match(datetime_pattern)
               ) {
                 alert('시간 형식이 잘못되었습니다.')
+              } else if (moment(workEndTime).isBefore(workSelectTime)) {
+                alert('종료 시간이 시작 시간보다 빠릅니다.')
               } else {
                 await postChitUpdateData()
               }

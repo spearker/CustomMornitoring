@@ -78,109 +78,128 @@ import NewEnergyKPI from '../Pages/NewKPI/NewEnergyKPI'
 //정민님 라우터
 const JMRouters = () => {
 
+  if (localStorage.getItem('userPermission') === 'true') {
+    return (
 
-  return (
+      <Switch>
+        {/*신규 프레스 모니터링*/}
+        <Route exact path="/new/monitoring/press" component={CustomPress}/>
 
-    <Switch>
-      {/*신규 프레스 모니터링*/}
-      <Route exact path="/new/monitoring/press" component={CustomPress}/>
+        {/*품목 기본정보*/}
+        <Route exact path="/jeil/main" component={MainDashboard}/>
+        <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
+        <Route exact path="/jeil/capacity" component={CapitalDashBoard}/>
 
-      {/*품목 기본정보*/}
-      <Route exact path="/jeil/main" component={MainDashboard}/>
-      <Route exact path="/jeil/loadton" component={LoadtonDashBoard}/>
-      <Route exact path="/jeil/capacity" component={CapitalDashBoard}/>
+        {/*표준 문서 관리*/}
+        <Route exact path="/basic/standard/list/document" component={NewBasicDocumentList}/>
+        <Route exact path="/basic/standard/list/document/log" component={BasicDocumentLog}/>
 
-      {/*표준 문서 관리*/}
-      <Route exact path="/basic/standard/list/document" component={NewBasicDocumentList}/>
-      <Route exact path="/basic/standard/list/document/log" component={BasicDocumentLog}/>
+        <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
 
-      <Route exact path="/basic/parts/register" component={BasicPartsRegister}/>
+        <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis}/>
 
-      <Route exact path="/pm/analysis/defective" component={DefectiveAnalysis}/>
+        <Route exact path="/pm/maintenance/oil" component={OilMaintenance}/>
 
-      <Route exact path="/pm/maintenance/oil" component={OilMaintenance}/>
-
-      <Route exact path="/pm/statistics/loadton" component={LoadtoneStatistics}/>
-      <Route exact path="/pm/statistics/mold" component={MoldStatistics}/>
-      <Route exact path="/pm/statistics/defective" component={DefectiveStatistics}/>
-      <Route exact path="/pm/statistics/product" component={ProductToneStatistics}/>
-      {/*인사 관리*/}
-      <Route exact path="/manage/member/register" component={CreateMember}/>
-      <Route exact path="/manage/member/register/:pk" component={CreateMember}/>
-      <Route exact path="/manage/member/list" component={MemberList}/>
+        <Route exact path="/pm/statistics/loadton" component={LoadtoneStatistics}/>
+        <Route exact path="/pm/statistics/mold" component={MoldStatistics}/>
+        <Route exact path="/pm/statistics/defective" component={DefectiveStatistics}/>
+        <Route exact path="/pm/statistics/product" component={ProductToneStatistics}/>
+        {/*인사 관리*/}
+        <Route exact path="/manage/member/register" component={CreateMember}/>
+        <Route exact path="/manage/member/register/:pk" component={CreateMember}/>
+        <Route exact path="/manage/member/list" component={MemberList}/>
 
 
-      <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
-      <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>
-      <Route exact path="/project/work/history" component={WorkProduction}/>
-      <Route exact path="/project/work/history/:pk" component={WorkProduction}/>
-      <Route exact path="/project/voucher/today/list" component={TodayVoucherProduction}/>
-      <Route exact path="/project/voucher/list" component={VoucherProduction}/>
-      <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
-      <Route exact path="/project/defective/list" component={DefectiveProject}/>
-      <Route exact path="/project/defective/register" component={DefectiveRegister}/>
-      <Route exact path="/project/defective/register/:pk" component={DefectiveRegister}/>
+        <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
+        <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>
+        <Route exact path="/project/work/history" component={WorkProduction}/>
+        <Route exact path="/project/work/history/:pk" component={WorkProduction}/>
+        <Route exact path="/project/voucher/today/list" component={TodayVoucherProduction}/>
+        <Route exact path="/project/voucher/list" component={VoucherProduction}/>
+        <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
+        <Route exact path="/project/defective/list" component={DefectiveProject}/>
+        <Route exact path="/project/defective/register" component={DefectiveRegister}/>
+        <Route exact path="/project/defective/register/:pk" component={DefectiveRegister}/>
 
-      <Route exact path="/customer/current/list" component={CurrentCustomer}/>
+        <Route exact path="/customer/current/list" component={CurrentCustomer}/>
 
-      <Route exact path="/outsourcing/current/list" component={OutsourcingCurrent}/>
-      <Route exact path="/outsourcing/order/list" component={OutsourcingOrder}/>
-      <Route exact path="/outsourcing/order/register" component={OrderRegister}/>
-      <Route exact path="/outsourcing/order/register/:pk" component={OrderRegister}/>
-      <Route exact path="/outsourcing/contract/list" component={OutsourcingContract}/>
-      <Route exact path="/outsourcing/contract/register" component={ContractRegister}/>
-      <Route exact path="/outsourcing/contract/register/:pk" component={ContractRegister}/>
+        <Route exact path="/outsourcing/current/list" component={OutsourcingCurrent}/>
+        <Route exact path="/outsourcing/order/list" component={OutsourcingOrder}/>
+        <Route exact path="/outsourcing/order/register" component={OrderRegister}/>
+        <Route exact path="/outsourcing/order/register/:pk" component={OrderRegister}/>
+        <Route exact path="/outsourcing/contract/list" component={OutsourcingContract}/>
+        <Route exact path="/outsourcing/contract/register" component={ContractRegister}/>
+        <Route exact path="/outsourcing/contract/register/:pk" component={ContractRegister}/>
 
-      <Route exact path="/marketing/order/list" component={OrderBusiness}/>
-      <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/>
+        <Route exact path="/marketing/order/list" component={OrderBusiness}/>
+        <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/>
 
-      <Route exact path="/process/segment/list" component={SegmentList}/>
+        <Route exact path="/process/segment/list" component={SegmentList}/>
 
-      <Route exact path="/barcode/current/list" component={BarCodeList}/>
+        <Route exact path="/barcode/current/list" component={BarCodeList}/>
 
-      <Route exact path="/quality/test/request" component={QualityTestRequest}/>
-      <Route exact path="/quality/test/list" component={QualityTestList}/>
-      <Route exact path="/quality/test/detail" component={QualityTestRequestInspector}/>
-      <Route exact path="/quality/test/list/worker" component={QualityTestListWorker}/>
-      <Route exact path="/quality/test/complete" component={QualityTestComplete}/>
-      <Route exact path="/quality/test/complete/worker" component={QualityTestCompleteWorker}/>
-      <Route exact path="/quality/current/list" component={QualityList}/>
-      <Route exact path="/quality/current/detail" component={QualityDetailList}/>
+        <Route exact path="/quality/test/request" component={QualityTestRequest}/>
+        <Route exact path="/quality/test/list" component={QualityTestList}/>
+        <Route exact path="/quality/test/detail" component={QualityTestRequestInspector}/>
+        <Route exact path="/quality/test/list/worker" component={QualityTestListWorker}/>
+        <Route exact path="/quality/test/complete" component={QualityTestComplete}/>
+        <Route exact path="/quality/test/complete/worker" component={QualityTestCompleteWorker}/>
+        <Route exact path="/quality/current/list" component={QualityList}/>
+        <Route exact path="/quality/current/detail" component={QualityDetailList}/>
 
-      {/*신규 재고 관리*/}
-      <Route exact path="/new/stock/status/list" component={NewStockList}/>
-      <Route exact path="/new/stock/rawmaterial/list" component={NewRawMaterial}/>
-      <Route exact path="/new/stock/wip/list" component={NewWip}/>
-      <Route exact path="/new/stock/finishmaterial/list" component={NewFinishedMaterial}/>
-      <Route exact path="/new/stock/outsource/list" component={NewOutsource}/>
+        {/*신규 재고 관리*/}
+        <Route exact path="/new/stock/status/list" component={NewStockList}/>
+        <Route exact path="/new/stock/rawmaterial/list" component={NewRawMaterial}/>
+        <Route exact path="/new/stock/wip/list" component={NewWip}/>
+        <Route exact path="/new/stock/finishmaterial/list" component={NewFinishedMaterial}/>
+        <Route exact path="/new/stock/outsource/list" component={NewOutsource}/>
 
-      {/*현재 재고 관리*/}
-      <Route exact path="/stock/wip/list" component={StockWip}/>
-      <Route exact path="/stock/outsource/list" component={StockOutSource}/>
-      <Route exact path="/stock/rawmaterial/list" component={StockRawMaterial}/>
-      <Route exact path="/stock/finishmaterial/list" component={StockFinishMaterial}/>
-      <Route exact path="/stock/parts/list" component={StockParts}/>
-      <Route exact path="/stock/warehousing/register/:pk/:name" component={WarehousingRegister}/>
-      <Route exact path="/stock/release/register/:pk/:name" component={ReleaseRegister}/>
-      <Route exact path="/stock/warehousing/register/:pk/:name/:parts" component={WarehousingRegister}/>
-      <Route exact path="/stock/release/register/:pk/:name/:parts" component={ReleaseRegister}/>
+        {/*현재 재고 관리*/}
+        <Route exact path="/stock/wip/list" component={StockWip}/>
+        <Route exact path="/stock/outsource/list" component={StockOutSource}/>
+        <Route exact path="/stock/rawmaterial/list" component={StockRawMaterial}/>
+        <Route exact path="/stock/finishmaterial/list" component={StockFinishMaterial}/>
+        <Route exact path="/stock/parts/list" component={StockParts}/>
+        <Route exact path="/stock/warehousing/register/:pk/:name" component={WarehousingRegister}/>
+        <Route exact path="/stock/release/register/:pk/:name" component={ReleaseRegister}/>
+        <Route exact path="/stock/warehousing/register/:pk/:name/:parts" component={WarehousingRegister}/>
+        <Route exact path="/stock/release/register/:pk/:name/:parts" component={ReleaseRegister}/>
 
-      <Route exact path="/mold/manage/register" component={MoldMangeCreate}/>
-      <Route exact path="/mold/manage/list" component={MoldManageList}/>
-      <Route exact path="/mold/create/register" component={MoldCreateRegister}/>
-      <Route exact path="/mold/create/register/:pk" component={MoldCreateRegister}/>
-      <Route exact path="/mold/create/list" component={MoldCreate}/>
-      <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
-      <Route exact path="/mold/repair/list" component={MoldRepair}/>
-      <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
+        <Route exact path="/mold/manage/register" component={MoldMangeCreate}/>
+        <Route exact path="/mold/manage/list" component={MoldManageList}/>
+        <Route exact path="/mold/create/register" component={MoldCreateRegister}/>
+        <Route exact path="/mold/create/register/:pk" component={MoldCreateRegister}/>
+        <Route exact path="/mold/create/list" component={MoldCreate}/>
+        <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
+        <Route exact path="/mold/repair/list" component={MoldRepair}/>
+        <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
 
-      <Route exact path="/kpi/production" component={NewProductionKPI}/>
-      <Route exact path="/kpi/quality" component={NewQualityKPI}/>
-      <Route exact path="/kpi/cost" component={NewCostKPI}/>
-      <Route exact path="/kpi/duedate" component={NewDuedateKPI}/>
-      <Route exact path="/kpi/energy" component={NewEnergyKPI}/>
-    </Switch>
-  )
+        <Route exact path="/kpi/production" component={NewProductionKPI}/>
+        <Route exact path="/kpi/quality" component={NewQualityKPI}/>
+        <Route exact path="/kpi/cost" component={NewCostKPI}/>
+        <Route exact path="/kpi/duedate" component={NewDuedateKPI}/>
+        <Route exact path="/kpi/energy" component={NewEnergyKPI}/>
+      </Switch>
+    )
+  } else {
+    return (
+      <Switch>
+        <Route exact path="/project/voucher/today/list" component={TodayVoucherProduction}/>
+        <Route exact path="/project/voucher/list" component={VoucherProduction}/>
+        <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
+
+        <Route exact path="/quality/test/request" component={QualityTestRequest}/>
+        <Route exact path="/quality/test/list/worker" component={QualityTestListWorker}/>
+        <Route exact path="/quality/test/complete/worker" component={QualityTestCompleteWorker}/>
+        <Route exact path="/quality/test/request/:type/:pk" component={QualityTestRequest}/>
+        <Route exact path="/quality/test/detail/:type/:pk" component={QualityTestRequestInspector}/>
+        <Route exact path="/quality/current/detail/:pk" component={QualityDetailList}/>
+        <Route exact path="/quality/current/list" component={QualityList}/>
+        <Route exact path="/quality/current/detail" component={QualityDetailList}/>
+      </Switch>
+    )
+  }
+
 }
 
 export default JMRouters

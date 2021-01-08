@@ -32,6 +32,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
     registerer_name: '',
     supplier_name: '',
     material_name: '',
+    registered: '',
   }])
   const [searchName, setSearchName] = useState<string>('')
   const [page, setPage] = useState<PaginationInfo>({
@@ -118,9 +119,10 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
               <ReactShadowScroll>
                 <MachineTable>
                   <tr>
-                    <th style={{width: 230}}>등록자명</th>
-                    <th style={{width: 200}}>납품업체명</th>
+                    <th style={{width: 100}}>등록자명</th>
+                    <th style={{width: 180}}>납품업체명</th>
                     <th style={{width: 200}}>생산 품목명</th>
+                    <th style={{width: 150}}>등록일</th>
                   </tr>
                   {
                     machineList === undefined || machineList.length === 0 ?
@@ -140,6 +142,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                             <td><span>{v.registerer_name}</span></td>
                             <td><span>{v.supplier_name}</span></td>
                             <td><span>{v.material_name}</span></td>
+                            <td><span>{v.registered}</span></td>
                           </tr>
                         )
                       })

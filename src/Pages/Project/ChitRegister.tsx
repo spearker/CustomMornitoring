@@ -1,17 +1,17 @@
-import InnerBodyContainer from "../../Containers/InnerBodyContainer";
-import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import React from "react";
-import ChitRegisterContainer from "../../Containers/Project/ChitRegister";
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import React from 'react'
+import ChitRegisterContainer from '../../Containers/Project/ChitRegister'
 
-const ChitRegister = () => {
-    return (
-        <DashboardWrapContainer index={'project'}>
+const ChitRegister = ({match}: any) => {
+  return (
+    <DashboardWrapContainer index={'project'}>
 
-            <InnerBodyContainer>
-                <ChitRegisterContainer />
-            </InnerBodyContainer>
-        </DashboardWrapContainer>
-    )
+      <InnerBodyContainer>
+        <ChitRegisterContainer match={match}/>
+      </InnerBodyContainer>
+    </DashboardWrapContainer>
+  )
 }
 
 export default ChitRegister
