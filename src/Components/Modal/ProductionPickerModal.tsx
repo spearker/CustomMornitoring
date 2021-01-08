@@ -85,7 +85,7 @@ const ProductionPickerModal = ({
       location_name: ''
     }
   ])
-  const [typeFilter, setTypeFilter] = useState<number>(-1);
+  const [typeFilter, setTypeFilter] = useState<number>(-1)
 
   useEffect(() => {
     if (selectRange) {
@@ -94,8 +94,8 @@ const ProductionPickerModal = ({
   }, [selectRange])
 
   useEffect(() => {
-    getList(true);
-    setSelectMaterial([]);
+    getList(true)
+    setSelectMaterial([])
   }, [typeFilter])
 
   useEffect(() => {
@@ -129,11 +129,14 @@ const ProductionPickerModal = ({
 
   const handleCloseEvent = () => {
     // setSearchName('');
-    setIsOpen(false);
+    setIsOpen(false)
   }
 
-  const 투입품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 0, title: '원자재'}, {value: 1, title: '부재료'}]; // 0
-  const 생산품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 30, title: '완재품'}]; // 1
+  const 투입품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 0, title: '원자재'}, {
+    value: 1,
+    title: '부재료'
+  }] // 0
+  const 생산품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 30, title: '완재품'}] // 1
 
   return (
     <div style={style}>
@@ -153,14 +156,16 @@ const ProductionPickerModal = ({
                 : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
             }
           </div>
-          <div style={{
-            display: 'inline-block',
-            backgroundColor: POINT_COLOR,
-            width: buttonWid ? buttonWid : 32,
-            height: buttonWid ? buttonWid : 32
-          }}>
-            <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}/>
-          </div>
+          {
+            !disabled && <div style={{
+              display: 'inline-block',
+              backgroundColor: POINT_COLOR,
+              width: buttonWid ? buttonWid : 32,
+              height: buttonWid ? buttonWid : 32
+            }}>
+                <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}/>
+            </div>
+          }
         </BoxWrap>
       </div>
       <Modal
@@ -185,10 +190,10 @@ const ProductionPickerModal = ({
           <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
-              {useFilter && type !==-1 && <RadioBox>
-                <RadioInput title={''} width={0} line={false} target={typeFilter}
-                            onChangeEvent={(e) => setTypeFilter(e)}
-                            contents={type === 0 ? 투입품목 : 생산품목} />
+              {useFilter && type !== -1 && <RadioBox>
+                  <RadioInput title={''} width={0} line={false} target={typeFilter}
+                              onChangeEvent={(e) => setTypeFilter(e)}
+                              contents={type === 0 ? 투입품목 : 생산품목}/>
               </RadioBox>}
             </div>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
@@ -290,8 +295,8 @@ const ProductionPickerModal = ({
             </div>
           </div>
           <div style={{width: 900}}>
-            <CheckButton 
-              style={{left: 0, backgroundColor: '#e7e9eb'}} 
+            <CheckButton
+              style={{left: 0, backgroundColor: '#e7e9eb'}}
               onClick={() => handleCloseEvent()}>
               <div>
                 <span style={{color: '#666d79'}}>취소</span>
@@ -330,7 +335,7 @@ const ProductionPickerModal = ({
                 }
               }
 
-              handleCloseEvent();
+              handleCloseEvent()
             }}>
               <div>
                 <span style={{color: 'black'}}>확인</span>

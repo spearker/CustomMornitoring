@@ -8,14 +8,14 @@ import YejiRouters from './Routers/YejiRouters'
 import Styled from 'styled-components'
 import AlertPopup from './Components/Modal/AlertPopup'
 import {
-    BASE_URL,
-    BG_COLOR,
-    BG_COLOR_SUB,
-    SYSTEM_NAME,
-    BG_COLOR_SUB2,
-    COMPANY_LOGO,
-    POINT_COLOR,
-    MAX_WIDTH
+  BASE_URL,
+  BG_COLOR,
+  BG_COLOR_SUB,
+  SYSTEM_NAME,
+  BG_COLOR_SUB2,
+  COMPANY_LOGO,
+  POINT_COLOR,
+  MAX_WIDTH
 } from './Common/configset'
 import {UserContextProvider} from './Context/UserContext'
 import Check from './Assets/Images/ic_checkbox_y.png'
@@ -26,29 +26,62 @@ import {PopupContextProvider} from './Context/PopupContext'
 import {I18nextProvider} from 'react-i18next'
 import i18n from './Common/i18n'
 import ProcessSelectModal from './Components/Modal/ProcessSelectModal'
+import Notiflix from 'notiflix'
+
+Notiflix.Confirm.Init({
+  className: 'notiflix-confirm',
+  width: '300px',
+  zindex: 4003,
+  position: 'center',
+  distance: '10px',
+  backgroundColor: '#f8f8f8',
+  borderRadius: '25px',
+  backOverlay: true,
+  backOverlayColor: 'rgba(0,0,0,0.5)',
+  rtl: false,
+  useGoogleFont: false,
+  fontFamily: 'Quicksand',
+  cssAnimation: true,
+  cssAnimationStyle: 'fade',
+  cssAnimationDuration: 300,
+  plainText: true,
+  titleColor: 'red',
+  titleFontSize: '16px',
+  titleMaxLength: 34,
+  messageColor: 'red',
+  messageFontSize: '14px',
+  messageMaxLength: 110,
+  buttonsFontSize: '15px',
+  buttonsMaxLength: 34,
+  okButtonColor: 'white',
+  okButtonBackground: 'red',
+  cancelButtonColor: '#f8f8f8',
+  cancelButtonBackground: '#a9a9a9',
+})
+
 
 const App = () => {
 
-    return (
-        <I18nextProvider i18n={i18n}>
-            <UserContextProvider>
-                <PopupContextProvider>
-                    <BrowserRouter>
-                        <AppBodyContainer>
-                            <ProcessSelectModal/>
-                            <AlertPopup/>
-                            <Routers/> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
-                            <JunheeRouters/>
-                            <SuminRouters/>
-                            <JMRouters/>
-                            <YejiRouters/>
-                        </AppBodyContainer>
-                    </BrowserRouter>
-                </PopupContextProvider>
-            </UserContextProvider>
-        </I18nextProvider>
+  return (
+    <I18nextProvider i18n={i18n}>
+      <UserContextProvider>
+        <PopupContextProvider>
+          <BrowserRouter>
+            <AppBodyContainer>
+              <ProcessSelectModal/>
+              <AlertPopup/>
+              <Routers/> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
+              <JunheeRouters/>
+              <SuminRouters/>
+              <JMRouters/>
+              <YejiRouters/>
+            </AppBodyContainer>
+          </BrowserRouter>
+        </PopupContextProvider>
+      </UserContextProvider>
+    </I18nextProvider>
 
-    )
+  )
 }
 const AppBodyContainer = Styled.div`
   min-width: 1700px;
