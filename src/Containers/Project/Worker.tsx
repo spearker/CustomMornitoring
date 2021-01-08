@@ -99,10 +99,11 @@ const WorkerContainer = ({match}: Props) => {
       Width: 90,
       Link: () => history.push('/project/history/register')
     },
-    // {
-    //   Name: '삭제',
-    //   Link: () => postDelete()
-    // }
+    {
+      Name: '삭제',
+      Link: () => Notiflix.Confirm.Show('경고', '데이터를 삭제하면 기존 데이터는 롤백됩니다. 그래도 삭제하시겠습니까?', '확인', '취소', () => postDelete(), () => {
+      })
+    }
   ]
 
   const postDelete = useCallback(async () => {
@@ -219,8 +220,8 @@ const WorkerContainer = ({match}: Props) => {
         titleOnClickEvent={titleEventList}
         indexList={index}
         valueList={list}
-        // allCheckOnClickEvent={allCheckOnClick}
-        // checkOnClickEvent={checkOnClick}
+        allCheckOnClickEvent={allCheckOnClick}
+        checkOnClickEvent={checkOnClick}
         eventTitle={'작업 완료 시간'}
         buttonDisappear={true}
         noChildren={true}

@@ -269,12 +269,12 @@ const DefectiveRegisterContainer = ({match}: Props) => {
       <WhiteBoxContainer>
         <ListHeader title="필수 항목"/>
         <InputContainer title={'작업 이력'} width={120}>
-          <HistoryPickerModal select={{name: selectHistory?.worker_name, pk: selectHistory?.pk}}
+          <HistoryPickerModal disabled={isUpdate} select={{name: selectHistory?.worker_name, pk: selectHistory?.pk}}
                               onClickEvent={(e) => setSelectHistory({...selectHistory, ...e})}
                               text={'작업자명을 검색해주세요.'} buttonWid={30} isAllItem={true}/>
         </InputContainer>
         <InputContainer title={'품목(품목명)'} width={120}>
-          <ProductionPickerModal select={selectMaterial}
+          <ProductionPickerModal select={selectMaterial} disabled={isUpdate}
                                  onClickEvent={(e) => {
                                    setSelectMaterial({...selectMaterial, ...e})
                                  }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30} useFilter/>
@@ -285,7 +285,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
               selectMachine && (selectMachine.name && selectMachine.pk) ? selectMachine : undefined
             } text={'기계명을 검색해 주세요'} onClickEvent={(e: { name?: string, pk?: string }) => {
               setSelectMachine({...selectMachine, name: e.name, pk: e.pk})
-            }} buttonWid={30}/>
+            }} buttonWid={30} disabled={isUpdate}/>
           </div>
         </InputContainer>
         <InputContainer title={'검수자'} width={120}>
