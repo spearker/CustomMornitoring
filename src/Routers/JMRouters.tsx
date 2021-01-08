@@ -74,6 +74,7 @@ import NewQualityKPI from '../Pages/NewKPI/NewQualityKPI'
 import NewCostKPI from '../Pages/NewKPI/NewCostKPI'
 import NewDuedateKPI from '../Pages/NewKPI/NewDuedateKPI'
 import NewEnergyKPI from '../Pages/NewKPI/NewEnergyKPI'
+import MoldRepairRegister from '../Pages/Mold/MoldRepairRegister'
 
 //정민님 라우터
 const JMRouters = () => {
@@ -109,7 +110,6 @@ const JMRouters = () => {
         <Route exact path="/manage/member/register/:pk" component={CreateMember}/>
         <Route exact path="/manage/member/list" component={MemberList}/>
 
-
         <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
         <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>
         <Route exact path="/project/work/history" component={WorkProduction}/>
@@ -120,6 +120,19 @@ const JMRouters = () => {
         <Route exact path="/project/defective/list" component={DefectiveProject}/>
         <Route exact path="/project/defective/register" component={DefectiveRegister}/>
         <Route exact path="/project/defective/register/:pk" component={DefectiveRegister}/>
+
+        <Route exact path="/project/voucher/today/list" component={TodayVoucherProduction}/>
+        <Route exact path="/project/voucher/list" component={VoucherProduction}/>
+        <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
+
+        <Route exact path="/quality/test/request" component={QualityTestRequest}/>
+        <Route exact path="/quality/test/list/worker" component={QualityTestListWorker}/>
+        <Route exact path="/quality/test/complete/worker" component={QualityTestCompleteWorker}/>
+        <Route exact path="/quality/test/request/:type/:pk" component={QualityTestRequest}/>
+        <Route exact path="/quality/test/detail/:type/:pk" component={QualityTestRequestInspector}/>
+        <Route exact path="/quality/current/detail/:pk" component={QualityDetailList}/>
+        <Route exact path="/quality/current/list" component={QualityList}/>
+        <Route exact path="/quality/current/detail" component={QualityDetailList}/>
 
         <Route exact path="/customer/current/list" component={CurrentCustomer}/>
 
@@ -173,6 +186,7 @@ const JMRouters = () => {
         <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
         <Route exact path="/mold/repair/list" component={MoldRepair}/>
         <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
+        <Route exact path="/mold/repair/register" component={MoldRepairRegister}/>
 
         <Route exact path="/kpi/production" component={NewProductionKPI}/>
         <Route exact path="/kpi/quality" component={NewQualityKPI}/>
