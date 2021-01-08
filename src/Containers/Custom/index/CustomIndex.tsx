@@ -62,8 +62,12 @@ const NewDashboard = () => {
       setSelectPk(stock.pk)
       setSelectVoucher(stock.material_name)
       setSelectValue(stock)
-      //TODO: api 요청
-      getData(stock.pk)
+      if (detailPage.current === 1) {
+        //TODO: api 요청
+        getData(stock.pk)
+      } else {
+        setDetailPage({current: 1})
+      }
     }
 
   }, [list, selectPk])

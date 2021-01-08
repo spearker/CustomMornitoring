@@ -298,3 +298,24 @@ export const PM_MENU_LIST = {
     {name: '불량 공정', url: '/pm/analysis/defective'}
   ],
 }
+
+export const WORKER_MES_MENU = {
+  project: [ //생산관리
+    {name: '생산 관리', url: '/project/schedule/list'}, //상위메뉴
+    {name: '금일 전표 리스트', url: '/project/voucher/today/list'},
+    {name: '전표 리스트', url: '/project/voucher/list'},
+  ],
+  quality: [
+    {name: '품질 관리', url: '/quality/quality/list'},
+    {name: '제품 검사 요청', url: '/quality/test/request'},
+    {name: '제품 검사 요청 리스트 (작업자)', url: '/quality/test/list/worker'},
+    {name: '제품 검사 완료 (작업자)', url: '/quality/test/complete/worker'},
+    {name: '제품 품질 현황', url: '/quality/current/list'}
+  ],
+  mold: [
+    {name: '금형 관리', url: '/mold/current/list'},
+    {name: '금형 수리 등록', url: '/mold/repair/register'},
+    {name: '금형 수리 현황', url: '/mold/repair/list'},
+    {name: '금형 수리 완료', url: '/mold/repair/complete/list'},
+  ]
+}
