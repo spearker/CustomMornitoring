@@ -74,6 +74,7 @@ import NewQualityKPI from '../Pages/NewKPI/NewQualityKPI'
 import NewCostKPI from '../Pages/NewKPI/NewCostKPI'
 import NewDuedateKPI from '../Pages/NewKPI/NewDuedateKPI'
 import NewEnergyKPI from '../Pages/NewKPI/NewEnergyKPI'
+import MoldRepairRegister from '../Pages/Mold/MoldRepairRegister'
 
 //정민님 라우터
 const JMRouters = () => {
@@ -108,7 +109,6 @@ const JMRouters = () => {
         <Route exact path="/manage/member/register" component={CreateMember}/>
         <Route exact path="/manage/member/register/:pk" component={CreateMember}/>
         <Route exact path="/manage/member/list" component={MemberList}/>
-
 
         <Route exact path="/project/schedule/list" component={ScheduleProduction}/>
         <Route exact path="/project/schedulemanage/list" component={ScheduleManageProduction}/>
@@ -186,6 +186,7 @@ const JMRouters = () => {
         <Route exact path="/mold/create/complete/list" component={MoldCreateCompleteList}/>
         <Route exact path="/mold/repair/list" component={MoldRepair}/>
         <Route exact path="/mold/repair/complete/list" component={MoldRepairCompleteList}/>
+        <Route exact path="/mold/repair/register" component={MoldRepairRegister}/>
 
         <Route exact path="/kpi/production" component={NewProductionKPI}/>
         <Route exact path="/kpi/quality" component={NewQualityKPI}/>
