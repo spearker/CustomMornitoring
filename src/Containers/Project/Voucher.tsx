@@ -64,7 +64,8 @@ const VoucherContainer = ({match}: Props) => {
     },
     {
       Name: '삭제',
-      Link: () => postDelete()
+      Link: () => Notiflix.Confirm.Show('경고', '데이터를 삭제하면 기존 데이터는 롤백됩니다. 그래도 삭제하시겠습니까?', '확인', '취소', () => postDelete(), () => {
+      })
     }
   ]
 
