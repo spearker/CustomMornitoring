@@ -20,6 +20,7 @@ interface Props {
         loading: boolean,
         api: boolean
     }
+    onChange?: () => void
 }
 
 Notiflix.Notify.Init({

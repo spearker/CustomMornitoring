@@ -10,6 +10,9 @@ interface Props {
     align?: any
     valueColor?: string
     mold_spec?: any[]
+    width?: string | number
+    height?: string | number
+    titleFontSize?: boolean
 }
 
 const PressStatusBox: React.FunctionComponent<Props> = ({
@@ -19,11 +22,19 @@ const PressStatusBox: React.FunctionComponent<Props> = ({
                                                             value,
                                                             align,
                                                             valueColor,
-                                                            mold_spec
+                                                            mold_spec,
+                                                            width,
+                                                            height,
+                                                            titleFontSize
                                                         }) => {
     return (
-        <BoxContainer style={{backgroundColor: valueColor ? valueColor : '#353b48'}}>
-            <Title style={{color: titleColor ? titleColor : '#ffffff'}}>{title}</Title>
+        <BoxContainer style={{
+            backgroundColor: valueColor ? valueColor : '#353b48',
+            width: width ? width : '104px',
+            height: height ? height : '87px'
+        }}>
+            <Title
+                style={{color: titleColor ? titleColor : '#ffffff', fontSize: titleFontSize ? 30 : 14}}>{title}</Title>
             {mold_spec ?
                 autoCustomType() === 'jaewoo_material_trans'
                     ?

@@ -15,6 +15,7 @@ export interface YOUDONG_ERROR_CHART_ERROR_DATA {
     created: string
 }
 
+
 export interface DASHBOARD {
     iotProtocolKey: string
     name: string
