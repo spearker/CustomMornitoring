@@ -8,6 +8,8 @@ import {Input} from 'semantic-ui-react'
 //@ts-ignore
 import Notiflix from 'notiflix'
 
+const regExp = /^[0-9]*$/
+
 const ClutchMaintenanceContainer = () => {
   const [selectMachine, setSelectMachine] = useState<string>('0')
 
@@ -53,6 +55,13 @@ const ClutchMaintenanceContainer = () => {
     }
   }, [postData.pk])
 
+  const onChangeEvent = (type: string, value: string) => {
+    console.log(value.search(regExp))
+    if (value.search(regExp) === 0) {
+      setPostData({...postData, [type]: value})
+    }
+  }
+
 
   return (
     <div>
@@ -83,18 +92,18 @@ const ClutchMaintenanceContainer = () => {
           backgroundColor: '#17181c',
           height: 40
         }}>
-          <Input placeholder="정상의 최소값을 입력해 주세요."
-                 onChange={(e) => setPostData({...postData, normal_from: e.target.value})}/>
-          <Input placeholder="정상의 최대값을 입력해 주세요."
-                 onChange={(e) => setPostData({...postData, normal_to: e.target.value})}/>
-          <Input placeholder="위험의 최소값을 입력해 주세요."
-                 onChange={(e) => setPostData({...postData, change_from: e.target.value})}/>
-          <Input placeholder="위험의 최대값을 입력해 주세요."
-                 onChange={(e) => setPostData({...postData, change_to: e.target.value})}/>
-          <Input placeholder="교체 요망의 최소값을 입력해 주세요."
-                 onChange={(e) => setPostData({...postData, danger_from: e.target.value})}/>
-          <Input placeholder="교체 요망의 최대값을 입력해 주세요."
-                 onChange={(e) => setPostData({...postData, danger_to: e.target.value})}/>
+          <Input placeholder="정상의 최소값을 입력해 주세요." value={postData.normal_from}
+                 onChange={(e) => onChangeEvent('normal_from', e.target.value)}/>
+          <Input placeholder="정상의 최대값을 입력해 주세요." value={postData.normal_to}
+                 onChange={(e) => onChangeEvent('normal_to', e.target.value)}/>
+          <Input placeholder="위험의 최소값을 입력해 주세요." value={postData.change_from}
+                 onChange={(e) => onChangeEvent('change_from', e.target.value)}/>
+          <Input placeholder="위험의 최대값을 입력해 주세요." value={postData.change_to}
+                 onChange={(e) => onChangeEvent('change_to', e.target.value)}/>
+          <Input placeholder="교체 요망의 최소값을 입력해 주세요." value={postData.danger_from}
+                 onChange={(e) => onChangeEvent('danger_from', e.target.value)}/>
+          <Input placeholder="교체 요망의 최대값을 입력해 주세요." value={postData.danger_to}
+                 onChange={(e) => onChangeEvent('danger_to', e.target.value)}/>
         </div>
       </div>
       {(postData.normal_from && postData.normal_to && postData.danger_from && postData.danger_to && postData.change_from && postData.change_to !== '') ?
