@@ -161,15 +161,21 @@ const DefectiveContainer = () => {
     if (selectValue) {
       getData(selectValue.material_pk)
     }
-  }, [selectDate, selectValue])
+  }, [selectDate])
 
   useEffect(() => {
     if (selectValue) {
-      console.log(selectValue)
-      setSelectDate({
-        start: moment(selectValue.date).subtract(1, 'days').format('YYYY-MM-DD'),
-        end: moment(selectValue.date).format('YYYY-MM-DD')
-      })
+      const tmpStart = moment(selectValue.date).subtract(1, 'days').format('YYYY-MM-DD')
+      const tmpEnd = moment(selectValue.date).format('YYYY-MM-DD')
+      
+      if (selectDate.start === tmpStart && selectDate.end === tmpEnd) {
+        getData(selectValue.material_pk)
+      } else {
+        setSelectDate({
+          start: tmpStart,
+          end: tmpEnd
+        })
+      }
     }
   }, [selectValue])
 
