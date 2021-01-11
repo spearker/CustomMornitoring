@@ -134,9 +134,9 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
               <ReactShadowScroll>
                 <MachineTable>
                   <tr>
-                    <th style={{width: 250}}>금형명</th>
-                    <th style={{width: 250}}>타입</th>
-                    <th style={{width: 325}}>공장명</th>
+                    <th style={{width: 400}}>금형명</th>
+                    <th style={{width: 150}}>타입</th>
+                    <th style={{width: 310}}>공장명</th>
                   </tr>
                   {machineList !== undefined && machineList.length === 0 ?
                     <tr>

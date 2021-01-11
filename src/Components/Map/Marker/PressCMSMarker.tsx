@@ -1,23 +1,24 @@
-import React from 'react';
+import React from 'react'
 import Styled from 'styled-components'
-import {POINT_COLOR} from "../../../Common/configset";
+import {POINT_COLOR} from '../../../Common/configset'
+import {SF_ENDPOINT_RESOURCE} from '../../../Api/SF_endpoint'
 
 //import Marker from './Marker';
 
 interface Props {
-    component: any,
-    select?: string,
-    status?: number,
-    onChangeEvent?: any,
-    item?: any,
-    onChangeComponent?: any
+  component: any,
+  select?: string,
+  status?: number,
+  onChangeEvent?: any,
+  item?: any,
+  onChangeComponent?: any
 }
 
 const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeComponent}: Props) => {
 
-    const {pk, machine_name, duty_cycle, current, machine_photo, left, bottom} = component;
+  const {pk, machine_name, duty_cycle, current, machine_photo, left, bottom} = component
 
-    const PressStatusWrapper = Styled(Marker)`
+  const PressStatusWrapper = Styled(Marker)`
         border: ${select !== undefined && String(select) == String(pk) ? `2px solid ${POINT_COLOR}` : '0'};
         width: 100px;
         left: ${Number(left)}%;
@@ -25,32 +26,33 @@ const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeCompone
         
     `
 
-    return (
-        <PressStatusWrapper onClick={onChangeEvent !== undefined ? () => {
-            onChangeEvent(pk)
-            onChangeComponent(component)
-        } : () => {
-        }}>
-            <TitleDiv>
-                <p>{machine_name}</p>
-            </TitleDiv>
-            <InnerDiv>
-                <img src={machine_photo}/>
-                <div>
-                    <table>
-                        {/*<tr>*/}
-                        {/*    <td><p>사용률</p></td>*/}
-                        {/*    <td><p style={{textAlign:'right'}}>{duty_cycle}%</p></td>*/}
-                        {/*</tr>*/}
-                        <tr>
-                            <td><p>전류량</p></td>
-                            <td><p style={{textAlign: 'right'}}>{current}A</p></td>
-                        </tr>
-                    </table>
-                </div>
-            </InnerDiv>
-        </PressStatusWrapper>
-    )
+  return (
+    <PressStatusWrapper onClick={onChangeEvent !== undefined ? () => {
+      onChangeEvent(pk)
+      onChangeComponent(component)
+    } : () => {
+    }}>
+      <TitleDiv>
+        <p>{machine_name}</p>
+      </TitleDiv>
+      <InnerDiv>
+        <img
+          src={machine_photo && machine_photo.startsWith('resource') === 0 ? `${SF_ENDPOINT_RESOURCE}${machine_photo}` : machine_photo}/>
+        <div>
+          <table>
+            {/*<tr>*/}
+            {/*    <td><p>사용률</p></td>*/}
+            {/*    <td><p style={{textAlign:'right'}}>{duty_cycle}%</p></td>*/}
+            {/*</tr>*/}
+            <tr>
+              <td><p>전류량</p></td>
+              <td><p style={{textAlign: 'right'}}>{current}A</p></td>
+            </tr>
+          </table>
+        </div>
+      </InnerDiv>
+    </PressStatusWrapper>
+  )
 }
 const Marker = Styled.div`
     border-radius: 6px;
@@ -95,4 +97,4 @@ const TitleDiv = Styled.div`
 
     padding-bottom: 4px;
 `
-export default PressCMSMarker;
+export default PressCMSMarker
