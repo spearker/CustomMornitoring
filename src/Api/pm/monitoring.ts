@@ -30,7 +30,8 @@ export const API_URLS = {
     },
     press: {
         status: `/v1/monitoring/press/status`,
-        monitoring: `/v1/monitoring/press/details`
+        monitoring: `/v1/monitoring/press/details`,
+        slide: `/v1/monitoring/press/status/slide`
     },
     power: {
         monitoring: `v1/monitoring/cms/map`

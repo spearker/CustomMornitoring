@@ -6,10 +6,13 @@ import CustomDashboardLoadtonChart from '../../../Components/Custom/dashboard/Cu
 import CustomErrorLogDashBoard from './CustomErrorLogDashBoard'
 import CustomAnalysisDashboardLoadtonChart
     from '../../../Components/Custom/dashboard/CustomAnalysisDashboardLoadtonChart'
-
+import CustomAnalysisDashboardPressStatus
+    from '../../../Components/Custom/dashboard/CustomAnalysisDashboardPressStatus'
+import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
 
 const CustomRotateDashboard: React.FunctionComponent = () => {
     const history = useHistory()
+    const [dashChange, setDashChange] = React.useState<boolean>(false)
     const [pressList, setPressList] = React.useState<string[]>([])
     const [totalDashboard, setTotalDashboard] = React.useState<number>(-1)
     const [currentDashboard, setCurrentDashboard] = React.useState<number>(0)
@@ -67,8 +70,25 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 (pressList[currentDashboard] === undefined ?
                         null
                         :
-                        // <CustomDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
-                        <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]} first={isFirst}/>
+                        (autoCustomType() === 'hwain_trans' ?
+                                (
+                                    dashChange ?
+                                        <CustomAnalysisDashboardPressStatus id={pressList[currentDashboard]}
+                                                                            first={isFirst}
+                                                                            onChange={() => setDashChange(false)}
+                                        />
+                                        :
+                                        <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]}
+                                                                             first={isFirst}
+                                                                             onChange={() => setDashChange(true)}
+                                        />
+                                )
+                                :
+                                <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]}
+                                                                     first={isFirst}
+                                                                     onChange={() => setDashChange(true)}
+                                />
+                        )
                 )
             }
         </div>
