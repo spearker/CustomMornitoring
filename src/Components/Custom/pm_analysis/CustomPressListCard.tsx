@@ -2,95 +2,98 @@ import React from 'react'
 import Styled from 'styled-components'
 
 import tempImage from '../../../Assets/Images/temp_machine.png'
+import {SF_ENDPOINT_RESOURCE} from '../../../Api/SF_endpoint'
 
 interface Props {
-    pressList: IPressMachineType[]
-    selectMachine: string
-    onClickMachine: any
-    onClickMachineName?: any
-    height?: string
+  pressList: IPressMachineType[]
+  selectMachine: string
+  onClickMachine: any
+  onClickMachineName?: any
+  height?: string
 }
 
 
 const CustomPressListCard: React.FunctionComponent<Props> = ({pressList, selectMachine, onClickMachineName, onClickMachine, height}) => {
 
-    return (
-        <div>
-            <ChartListBox style={{height: height ? height : '724px'}}>
-                <div style={{marginTop: 25, marginBottom: 23}}>
-                    <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
-                </div>
-                {pressList !== undefined && pressList.length === 0 ? (
-                        <p style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
-                            없습니다. </p></p>) :
-                    pressList.map((v, i) => {
-                        if (selectMachine === v.pk) {
-                            return (<ChartBorderMiniBox>
-                                <div style={{
-                                    width: 114,
-                                    height: 100,
-                                    marginLeft: 8,
-                                    display: 'inline-block',
-                                    float: 'left',
-                                    paddingTop: 10
-                                }}>
-                                    <img src={v.machine_img ? v.machine_img : tempImage}
-                                         style={{width: 114, height: 104, objectFit: 'cover'}}/>
-                                </div>
-                                <div style={{
-                                    width: 150,
-                                    height: 100,
-                                    float: 'left',
-                                    display: 'inline-block',
-                                    marginTop: 10,
-                                    marginLeft: 21
-                                }}>
-                                    <p style={{
-                                        fontWeight: 'bold',
-                                        textAlign: 'left'
-                                    }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
-                                    <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
-                                </div>
-                            </ChartBorderMiniBox>)
-                        } else {
-                            return (<ChartMiniBox onClick={onClickMachineName ? () => {
-                                onClickMachine(v.pk)
-                                onClickMachineName(v.machine_name)
-                            } : () => {
-                                onClickMachine(v.pk)
-                            }}>
-                                <div style={{
-                                    width: 114,
-                                    height: 100,
-                                    marginLeft: 8,
-                                    display: 'inline-block',
-                                    float: 'left',
-                                    paddingTop: 10
-                                }}>
-                                    <img src={v.machine_img ? v.machine_img : tempImage}
-                                         style={{width: 114, height: 104, objectFit: 'cover'}}/>
-                                </div>
-                                <div style={{
-                                    width: 150,
-                                    height: 100,
-                                    float: 'left',
-                                    display: 'inline-block',
-                                    marginTop: 10,
-                                    marginLeft: 21
-                                }}>
-                                    <p style={{
-                                        fontWeight: 'bold',
-                                        textAlign: 'left'
-                                    }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
-                                    <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
-                                </div>
-                            </ChartMiniBox>)
-                        }
-                    })
-                }
-            </ChartListBox>
+  return (
+    <div>
+      <ChartListBox style={{height: height ? height : '724px'}}>
+        <div style={{marginTop: 25, marginBottom: 23}}>
+          <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
         </div>
-    )
+        {pressList !== undefined && pressList.length === 0 ? (
+            <p style={{backgroundColor: '#353b48'}}><p style={{width: '100%', textAlign: 'center'}}>데이터가
+              없습니다. </p></p>) :
+          pressList.map((v, i) => {
+            if (selectMachine === v.pk) {
+              return (<ChartBorderMiniBox>
+                <div style={{
+                  width: 114,
+                  height: 100,
+                  marginLeft: 8,
+                  display: 'inline-block',
+                  float: 'left',
+                  paddingTop: 10
+                }}>
+                  <img
+                    src={(v.machine_img && v.machine_img.startsWith('resource')) ? `${SF_ENDPOINT_RESOURCE}${v.machine_img}` : tempImage}
+                    style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                </div>
+                <div style={{
+                  width: 150,
+                  height: 100,
+                  float: 'left',
+                  display: 'inline-block',
+                  marginTop: 10,
+                  marginLeft: 21
+                }}>
+                  <p style={{
+                    fontWeight: 'bold',
+                    textAlign: 'left'
+                  }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
+                  <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
+                </div>
+              </ChartBorderMiniBox>)
+            } else {
+              return (<ChartMiniBox onClick={onClickMachineName ? () => {
+                onClickMachine(v.pk)
+                onClickMachineName(v.machine_name)
+              } : () => {
+                onClickMachine(v.pk)
+              }}>
+                <div style={{
+                  width: 114,
+                  height: 100,
+                  marginLeft: 8,
+                  display: 'inline-block',
+                  float: 'left',
+                  paddingTop: 10
+                }}>
+                  <img
+                    src={(v.machine_img && v.machine_img.startsWith('resource')) ? `${SF_ENDPOINT_RESOURCE}${v.machine_img}` : tempImage}
+                    style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                </div>
+                <div style={{
+                  width: 150,
+                  height: 100,
+                  float: 'left',
+                  display: 'inline-block',
+                  marginTop: 10,
+                  marginLeft: 21
+                }}>
+                  <p style={{
+                    fontWeight: 'bold',
+                    textAlign: 'left'
+                  }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
+                  <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
+                </div>
+              </ChartMiniBox>)
+            }
+          })
+        }
+      </ChartListBox>
+    </div>
+  )
 }
 
 const ChartListBox = Styled.div`

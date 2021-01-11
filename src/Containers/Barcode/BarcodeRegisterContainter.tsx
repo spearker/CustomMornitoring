@@ -21,7 +21,7 @@ import BarcodeRulesInput from '../../Components/Input/BarcodeRulesInput'
 import {getReadyTimeData} from '../../Api/pm/statistics'
 import {getParameter} from '../../Common/requestFunctions'
 import {useHistory} from 'react-router-dom'
-import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import {SF_ENDPOINT, SF_ENDPOINT_RESOURCE} from '../../Api/SF_endpoint'
 import BarcodePickerModal from '../../Components/Modal/BarcodePickerModal'
 
 
@@ -31,234 +31,235 @@ const indexBarcodeType = getBarcodeTypeList('kor')
 const BarcodeType = ['barcode']
 
 const initialData = {
-    barcode_name: '',
-    item_type: {main_type: '', detail_type: ''},
-    item_pk: '',
-    barcode_type: 'barcode',
-    barcode_number: 0,
-    barcode_img_name: '',
-    description: ''
+  barcode_name: '',
+  item_type: {main_type: '', detail_type: ''},
+  item_pk: '',
+  barcode_type: 'barcode',
+  barcode_number: 0,
+  barcode_img_name: '',
+  description: ''
 }
 
 interface Props {
-    match: any
+  match: any
 }
 
 const BarcodeRegisterContainer = ({match}: Props) => {
 
-    const history = useHistory()
+  const history = useHistory()
 
-    const [isUpdate, setIsUpdate] = useState<boolean>(false)
-    const [reason, setReason] = useState('')
-    const [barcodeImg, setBarcodeImg] = useState('')
-    const [type, setType] = useState<number>(-1)
-    const textBoxRef = useRef(null)
-
-
-    const [rules, setRules] = useState<string[]>([''])
-    const [inputData, setInputData] = useObjectInput('CHANGE', initialData)
-    const [selectBarcode, setSelectBarcode] = useState<{ name?: string, pk?: string }>()
-    const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
-
-    const getBarcodeImg = useCallback(async () => {
-        const tempUrl = `${API_URLS['barcode'].upload}?barcode_number=${rules.toString()}&barcode_type=${BarcodeType[0]}`
-        const resultData = await getBarcode(tempUrl)
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [reason, setReason] = useState('')
+  const [barcodeImg, setBarcodeImg] = useState('')
+  const [type, setType] = useState<number>(-1)
+  const textBoxRef = useRef(null)
 
 
-        setBarcodeImg(`${SF_ENDPOINT}/api/v1/barcode/previewImg?barcode_img_name=` + resultData.barcode_photo)
-    }, [rules, barcodeImg])
+  const [rules, setRules] = useState<string[]>([''])
+  const [inputData, setInputData] = useObjectInput('CHANGE', initialData)
+  const [selectBarcode, setSelectBarcode] = useState<{ name?: string, pk?: string }>()
+  const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
 
-    const getLoad = useCallback(async (barcode_pk) => {
-        const tempUrl = `${API_URLS['barcode'].getBarcodeInfo}?pk=${barcode_pk}`
-        const resultData = await getBarcode(tempUrl)
-
-        setType(indexList.indexOf(resultData.main_type))
-        setInputData('barcode_name', resultData.barcode_name)
-        setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
-        setRules(resultData.barcode_number.split(','))
-        setReason(resultData.description)
-
-    }, [inputData, rules, barcodeImg, reason, type, selectMachine])
+  const getBarcodeImg = useCallback(async () => {
+    const tempUrl = `${API_URLS['barcode'].upload}?barcode_number=${rules.toString()}&barcode_type=${BarcodeType[0]}`
+    const resultData = await getBarcode(tempUrl)
 
 
-    const getData = useCallback(async () => {
-        const tempUrl = `${API_URLS['barcode'].detailInfo}?pk=${match.params.barcode_pk}`
-        const resultData = await getBarcode(tempUrl)
+    setBarcodeImg(`${SF_ENDPOINT}/api/v1/barcode/previewImg?barcode_img_name=` + resultData.barcode_photo)
+  }, [rules, barcodeImg])
 
-        setType(indexList.indexOf(resultData.main_type))
-        setInputData('barcode_name', resultData.barcode_name)
-        setBarcodeImg(resultData.barcode_img_url)
-        setSelectBarcode({name: resultData.barcode_name, pk: resultData.pk})
-        setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
-        setRules(resultData.barcode_number.split(','))
-        setReason(resultData.description)
+  const getLoad = useCallback(async (barcode_pk) => {
+    const tempUrl = `${API_URLS['barcode'].getBarcodeInfo}?pk=${barcode_pk}`
+    const resultData = await getBarcode(tempUrl)
 
-    }, [inputData, rules, barcodeImg, reason, type, selectMachine])
+    setType(indexList.indexOf(resultData.main_type))
+    setInputData('barcode_name', resultData.barcode_name)
+    setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
+    setRules(resultData.barcode_number.split(','))
+    setReason(resultData.description)
 
-    const postBarcodeUpdate = useCallback(async () => {
-
-        const data = {
-            pk: match.params.barcode_pk,
-            barcode_type: 'barcode',
-            barcode_number: rules.toString(),
-            barcode_img_name: barcodeImg.split('=')[1],
-        }
-
-        const tempUrl = `${API_URLS['barcode'].update}`
-        const resultData = await postBarcode(tempUrl, data)
-
-        history.goBack()
-    }, [inputData, selectMachine, rules, barcodeImg, reason, type])
-
-    const postBarcodeRegister = useCallback(async () => {
-        
-        if (inputData.barcode_name === '') {
-            alert('표준 바코드는 필수 항목입니다. 반드시 입력해주세요.')
-            return
-        } else if (indexList[type] === undefined) {
-            alert('항목은 필수 항목입니다. 반드시 선택해주세요.')
-            return
-        } else if (selectMachine?.name === undefined || selectMachine?.pk === undefined) {
-            alert('상세항목은 필수 항목입니다. 반드시 선택해주세요.')
-            return
-
-        } else if (rules.toString() === '' || barcodeImg.split('=')[1] === undefined) {
-            alert('바코드 번호는 필수 항목입니다. 반드시 바코드를 생성해주세요.')
-            return
-        }
-
-        const data = {
-            pk: selectBarcode?.pk,
-            barcode_type: 'barcode',
-            barcode_number: rules.toString(),
-            barcode_img_name: barcodeImg.split('=')[1],
-        }
-        const tempUrl = `${API_URLS['barcode'].register}`
-        const resultData = await postBarcode(tempUrl, data)
-        if (resultData === 200) {
-            history.goBack()
-        } else if (resultData === 2500) {
-            alert('[ERROR] 바코드 번호와 생성된 바코드 이미지가 맞지 않습니다.')
-        } else {
-            alert('바코드 등록에 실패하였습니다.')
-        }
-
-    }, [inputData, selectMachine, rules, barcodeImg, reason, type])
-
-    const ruleLength = rules.toString().replace(',', '').length
+  }, [inputData, rules, barcodeImg, reason, type, selectMachine])
 
 
-    useEffect(() => {
-        if (match.params.barcode_pk) {
-            ////alert(`수정 페이지 진입 - pk :` + param)
-            setIsUpdate(true)
-            getData()
-        }
+  const getData = useCallback(async () => {
+    const tempUrl = `${API_URLS['barcode'].detailInfo}?pk=${match.params.barcode_pk}`
+    const resultData = await getBarcode(tempUrl)
 
-    }, [])
+    setType(indexList.indexOf(resultData.main_type))
+    setInputData('barcode_name', resultData.barcode_name)
+    setBarcodeImg(resultData.barcode_img_url)
+    setSelectBarcode({name: resultData.barcode_name, pk: resultData.pk})
+    setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
+    setRules(resultData.barcode_number.split(','))
+    setReason(resultData.description)
 
-    useEffect(() => {
-        if (selectBarcode?.pk !== undefined) {
-            getLoad(selectBarcode?.pk)
-        }
-    }, [selectBarcode])
+  }, [inputData, rules, barcodeImg, reason, type, selectMachine])
 
-    return (
+  const postBarcodeUpdate = useCallback(async () => {
+
+    const data = {
+      pk: match.params.barcode_pk,
+      barcode_type: 'barcode',
+      barcode_number: rules.toString(),
+      barcode_img_name: barcodeImg.split('=')[1],
+    }
+
+    const tempUrl = `${API_URLS['barcode'].update}`
+    const resultData = await postBarcode(tempUrl, data)
+
+    history.goBack()
+  }, [inputData, selectMachine, rules, barcodeImg, reason, type])
+
+  const postBarcodeRegister = useCallback(async () => {
+
+    if (inputData.barcode_name === '') {
+      alert('표준 바코드는 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (indexList[type] === undefined) {
+      alert('항목은 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (selectMachine?.name === undefined || selectMachine?.pk === undefined) {
+      alert('상세항목은 필수 항목입니다. 반드시 선택해주세요.')
+      return
+
+    } else if (rules.toString() === '' || barcodeImg.split('=')[1] === undefined) {
+      alert('바코드 번호는 필수 항목입니다. 반드시 바코드를 생성해주세요.')
+      return
+    }
+
+    const data = {
+      pk: selectBarcode?.pk,
+      barcode_type: 'barcode',
+      barcode_number: rules.toString(),
+      barcode_img_name: barcodeImg.split('=')[1],
+    }
+    const tempUrl = `${API_URLS['barcode'].register}`
+    const resultData = await postBarcode(tempUrl, data)
+    if (resultData === 200) {
+      history.goBack()
+    } else if (resultData === 2500) {
+      alert('[ERROR] 바코드 번호와 생성된 바코드 이미지가 맞지 않습니다.')
+    } else {
+      alert('바코드 등록에 실패하였습니다.')
+    }
+
+  }, [inputData, selectMachine, rules, barcodeImg, reason, type])
+
+  const ruleLength = rules.toString().replace(',', '').length
+
+
+  useEffect(() => {
+    if (match.params.barcode_pk) {
+      ////alert(`수정 페이지 진입 - pk :` + param)
+      setIsUpdate(true)
+      getData()
+    }
+
+  }, [])
+
+  useEffect(() => {
+    if (selectBarcode?.pk !== undefined) {
+      getLoad(selectBarcode?.pk)
+    }
+  }, [selectBarcode])
+
+  return (
+    <div>
+      <Header title={isUpdate ? '바코드 수정' : '바코드 등록'}/>
+      <WhiteBoxContainer>
         <div>
-            <Header title={isUpdate ? '바코드 수정' : '바코드 등록'}/>
-            <WhiteBoxContainer>
-                <div>
-                    <InputContainer title={'표준 바코드'}>
-                        <BarcodePickerModal select={selectBarcode} onClickEvent={(e) => setSelectBarcode(e)}
-                                            notOpen={true}
-                                            text={'바코드를 선택해주세요'}/>
-                    </InputContainer>
-                    <DropdownInput title={'바코드 종류'} target={indexBarcodeType[0]} contents={indexBarcodeType}
-                                   onChangeEvent={(input) => setInputData(`barcode_type`, BarcodeType[0])}/>
-                    <DropdownInput title={'항목'} target={indexList[type]} contents={[]}
-                                   onChangeEvent={() => null}/>
-                    <CustomPickerModal select={selectMachine} onClickEvent={(e) => setSelectMachine(e)}
-                                       text={'세부 항목을 검색해주세요.'}
-                                       type={indexType[type]} noOnClick={true}/>
-                    <InputContainer title={'바코드 번호'}>
-                        <BodyDiv>
-                            <InputWrapBox>
-                                <input type="text" disabled value={rules.map(v => {
-                                    if (v !== null) return v + `-`
-                                }).join().replace(/,/g, '').length === 0 ? '' : rules.map(v => {
-                                    if (v !== null) return v + `-`
-                                }).join().replace(/,/g, '')} placeholder={'바코드 번호 생성 버튼을 눌러주세요.'} style={{
-                                    textAlign: 'left',
-                                    border: 'solid 0.5px #d3d3d3',
-                                    flex: 85,
-                                    borderRight: 0,
-                                    width: 'calc(100% - 90px)',
-                                    padding: 6,
-                                    backgroundColor: '#f4f6fa',
-                                    paddingLeft: 8,
-                                    fontSize: 14
-                                }}/>
-                                <SearchButton style={{flex: 15}}
-                                              onClick={() => (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? getBarcodeImg() : null}>
-                                    <p>바코드 번호 생성</p>
-                                </SearchButton>
-                            </InputWrapBox>
-                        </BodyDiv>
-                    </InputContainer>
-                    <div style={{
-                        marginTop: 12,
-                        marginLeft: 180,
-                        width: 310,
-                        height: 173,
-                        lineHeight: 10,
-                        border: '1px solid #707070'
-                    }}>
-                        {barcodeImg === '' ?
-                            <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: 'center'}}>바코드 이미지가
-                                없습니다.</p>
-                            :
-                            <img src={`${barcodeImg}`} style={{width: '100%', height: '100%', float: 'right'}}/>
-                        }
-                    </div>
-                    <ListHeader title="선택 항목"/>
-                    <InputContainer title={'바코드 설명'} width={180}>
+          <InputContainer title={'표준 바코드'}>
+            <BarcodePickerModal select={selectBarcode} onClickEvent={(e) => setSelectBarcode(e)}
+                                notOpen={true}
+                                text={'바코드를 선택해주세요'}/>
+          </InputContainer>
+          <DropdownInput title={'바코드 종류'} target={indexBarcodeType[0]} contents={indexBarcodeType}
+                         onChangeEvent={(input) => setInputData(`barcode_type`, BarcodeType[0])}/>
+          <DropdownInput title={'항목'} target={indexList[type]} contents={[]}
+                         onChangeEvent={() => null}/>
+          <CustomPickerModal select={selectMachine} onClickEvent={(e) => setSelectMachine(e)}
+                             text={'세부 항목을 검색해주세요.'}
+                             type={indexType[type]} noOnClick={true}/>
+          <InputContainer title={'바코드 번호'}>
+            <BodyDiv>
+              <InputWrapBox>
+                <input type="text" disabled value={rules.map(v => {
+                  if (v !== null) return v + `-`
+                }).join().replace(/,/g, '').length === 0 ? '' : rules.map(v => {
+                  if (v !== null) return v + `-`
+                }).join().replace(/,/g, '')} placeholder={'바코드 번호 생성 버튼을 눌러주세요.'} style={{
+                  textAlign: 'left',
+                  border: 'solid 0.5px #d3d3d3',
+                  flex: 85,
+                  borderRight: 0,
+                  width: 'calc(100% - 90px)',
+                  padding: 6,
+                  backgroundColor: '#f4f6fa',
+                  paddingLeft: 8,
+                  fontSize: 14
+                }}/>
+                <SearchButton style={{flex: 15}}
+                              onClick={() => (Number(ruleLength) > 11 && Number(ruleLength) < 31) ? getBarcodeImg() : null}>
+                  <p>바코드 번호 생성</p>
+                </SearchButton>
+              </InputWrapBox>
+            </BodyDiv>
+          </InputContainer>
+          <div style={{
+            marginTop: 12,
+            marginLeft: 180,
+            width: 310,
+            height: 173,
+            lineHeight: 10,
+            border: '1px solid #707070'
+          }}>
+            {barcodeImg === '' ?
+              <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: 'center'}}>바코드 이미지가
+                없습니다.</p>
+              :
+              <img src={barcodeImg.startsWith('resource') ? `${SF_ENDPOINT_RESOURCE}${barcodeImg}` : ''}
+                   style={{width: '100%', height: '100%', float: 'right'}}/>
+            }
+          </div>
+          <ListHeader title="선택 항목"/>
+          <InputContainer title={'바코드 설명'} width={180}>
                       <textarea maxLength={120} ref={textBoxRef}
                                 disabled={true}
                                 value={reason}
                                 style={{
-                                    backgroundColor: 'white',
-                                    border: 0,
-                                    fontSize: 14,
-                                    padding: 12,
-                                    height: '70px',
-                                    width: 'calc(100% - 124px)',
-                                    resize: 'none'
+                                  backgroundColor: 'white',
+                                  border: 0,
+                                  fontSize: 14,
+                                  padding: 12,
+                                  height: '70px',
+                                  width: 'calc(100% - 124px)',
+                                  resize: 'none'
                                 }}
                                 placeholder="바코드 설명"/>
-                    </InputContainer>
-                </div>
-                <div style={{marginTop: 72, marginLeft: 330}}>
-                    {isUpdate ?
-                        <ButtonWrap onClick={async () => {
-                            await postBarcodeUpdate()
-                        }}>
-                            <div style={{width: 360, height: 46}}>
-                                <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
-                            </div>
-                        </ButtonWrap>
-                        :
-                        <ButtonWrap onClick={async () => {
-                            await postBarcodeRegister()
-                        }}>
-                            <div style={{width: 360, height: 46}}>
-                                <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
-                            </div>
-                        </ButtonWrap>
-                    }
-                </div>
-            </WhiteBoxContainer>
+          </InputContainer>
         </div>
-    )
+        <div style={{marginTop: 72, marginLeft: 330}}>
+          {isUpdate ?
+            <ButtonWrap onClick={async () => {
+              await postBarcodeUpdate()
+            }}>
+              <div style={{width: 360, height: 46}}>
+                <p style={{fontSize: 18, marginTop: 8}}>수정하기</p>
+              </div>
+            </ButtonWrap>
+            :
+            <ButtonWrap onClick={async () => {
+              await postBarcodeRegister()
+            }}>
+              <div style={{width: 360, height: 46}}>
+                <p style={{fontSize: 18, marginTop: 8}}>등록하기</p>
+              </div>
+            </ButtonWrap>
+          }
+        </div>
+      </WhiteBoxContainer>
+    </div>
+  )
 }
 
 const ContainerMain = Styled.div`
