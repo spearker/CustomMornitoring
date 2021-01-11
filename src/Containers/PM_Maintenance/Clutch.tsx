@@ -56,7 +56,6 @@ const ClutchMaintenanceContainer = () => {
   }, [postData.pk])
 
   const onChangeEvent = (type: string, value: string) => {
-    console.log(value.search(regExp))
     if (value.search(regExp) === 0) {
       setPostData({...postData, [type]: value})
     }

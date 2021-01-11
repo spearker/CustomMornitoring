@@ -25,6 +25,8 @@ import EmptyPlace from '../../Components/Box/EmptyPlace'
 import ManyButton from '../../Components/Button/ManyButton'
 import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
 import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
+import DateInput from '../../Components/Input/DateInput'
+import moment from 'moment'
 
 const output_material_model_dummy = [
   '(선택없음)',
@@ -58,7 +60,7 @@ const BasicMoldRegister = () => {
   const [files, setFiles] = useState<any[3]>([null, null])
   const [paths, setPaths] = useState<any[2]>([null, null])
   const [oldPaths, setOldPaths] = useState<any[2]>([null, null])
-  const [date, setDate] = useState<string>('')
+  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [mold_spec_w, setMold_spec_w] = useState<number | undefined>(undefined)
   const [mold_spec_l, setMold_spec_l] = useState<number | undefined>(undefined)
@@ -77,7 +79,7 @@ const BasicMoldRegister = () => {
   const [output_material_model, setOutput_material_model] = useState<string | number>('')
   const [cavity, setCavity] = useState<number | null>(null)
 
-  const indexList = getMoldTypeList('kor')
+  const indexList = autoCustomType() === 'gj_all_trans' ? ['(선택없음)', '프레스 금형'] : getMoldTypeList('kor')
 
   useEffect(() => {
 
@@ -320,8 +322,8 @@ const BasicMoldRegister = () => {
                                   placeholder={'금형명을 입력해주세요'}/>
               <ColorDropdownInput contents={indexList} title={'금형 종류'} value={type === 0 ? '' : type}
                                   onChangeEvent={(v) => setType(v)} placeholder={'금형 종류를 선택해 주세요'}/>
-              <ColorDateInput title={'제조 일자'} placeholder={'제조 날짜를 선택해주세요'} value={date}
-                              onChangeEvent={setDate}/>
+              <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}
+                         style={{width: '110%'}} inputStyle={{boxSizing: 'border-box'}}/>
               {autoCustomType() === 'seain_material_trans' ?
                 <ColorInputWithText title={'금형 품번'} value={madeNo} onChangeEvent={setMadeNo}
                                     placeholder={'금형 품번를 입력해주세요'}/>

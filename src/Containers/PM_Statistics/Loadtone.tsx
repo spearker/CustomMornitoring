@@ -9,6 +9,7 @@ import {API_URLS as API_URLS2} from '../../Api/pm/statistics'
 import tempImage from '../../Assets/Images/temp_machine.png'
 import moment from 'moment'
 import NoDataCard from '../../Components/Card/NoDataCard'
+import {SF_ENDPOINT_RESOURCE} from '../../Api/SF_endpoint'
 
 const ChartInitOptions = {
   chart: {
@@ -182,8 +183,9 @@ const LoadtoneContiner = () => {
                     float: 'left',
                     paddingTop: 10
                   }}>
-                    <img src={v.machine_img ? v.machine_img : tempImage}
-                         style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                    <img
+                      src={(v.machine_img && v.machine_img.startsWith('resource')) ? `${SF_ENDPOINT_RESOURCE}${v.machine_img}` : tempImage}
+                      style={{width: 114, height: 104, objectFit: 'cover'}}/>
                   </div>
                   <div style={{
                     width: 150,
@@ -212,8 +214,9 @@ const LoadtoneContiner = () => {
                     float: 'left',
                     paddingTop: 10
                   }}>
-                    <img src={v.machine_img ? v.machine_img : tempImage}
-                         style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                    <img
+                      src={(v.machine_img && v.machine_img.startsWith('resource')) ? `${SF_ENDPOINT_RESOURCE}${v.machine_img}` : tempImage}
+                      style={{width: 114, height: 104, objectFit: 'cover'}}/>
                   </div>
                   <div style={{
                     width: 150,
