@@ -37,7 +37,7 @@ const PressCMSMarker = ({component, select, onChangeEvent, item, onChangeCompone
       </TitleDiv>
       <InnerDiv>
         <img
-          src={machine_photo && machine_photo.startsWith('resource') === 0 ? `${SF_ENDPOINT_RESOURCE}${machine_photo}` : machine_photo}/>
+          src={machine_photo && machine_photo.startsWith('resource') ? `${SF_ENDPOINT_RESOURCE}${machine_photo}` : machine_photo}/>
         <div>
           <table>
             {/*<tr>*/}
