@@ -45,9 +45,12 @@ const VoucherContainer = ({match}: Props) => {
   }
 
   const indexList = {
+    
+
     voucher: {
       registerer_name: '등록자',
       supplier_name: '납품 업체',
+      registered: '등록일',
       deadline: '작업일',
       material_name: '품목(품목명)',
       goal: '생산 목표 수량',

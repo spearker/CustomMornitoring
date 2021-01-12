@@ -37,7 +37,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
   const [machineList, setMachineList] = useState([{
     pk: '',
     project_name: '',
-    manager: '',
+    manager_name: '',
     material_name: '',
     supplier_name: '',
   }])
@@ -160,7 +160,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                           return onClickEvent(v)
                         }}>
                           <td><span style={{fontSize: 14}}>{v.project_name}</span></td>
-                          <td><span>{v.manager}</span></td>
+                          <td><span>{v.manager_name}</span></td>
                           <td><span>{v.material_name}</span></td>
                           <td><span>{v.supplier_name}</span></td>
                         </tr>

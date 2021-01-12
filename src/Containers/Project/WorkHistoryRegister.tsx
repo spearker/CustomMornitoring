@@ -425,7 +425,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
               <td>• 기계명</td>
               <td>
                 {
-                  isFinish || isUpdate
+                  (isFinish || isUpdate)
                     ? <InputBox disabled={isFinish || isUpdate}
                                 value={detailMaterialData && detailMaterialData.machine_name}
                                 placeholder={'총 작업량을 입력해 주세요'}></InputBox>
@@ -447,11 +447,11 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
               </td>
             </tr>
             {
-              detailMaterialData.machine_type && detailMaterialData.machine_type === 1 && <tr>
+              detailMaterialData.machine_type ? detailMaterialData.machine_type === 1 && <tr>
                   <td>• 금형명</td>
                   <td>
                     {
-                      isFinish || isUpdate
+                      (isFinish || isUpdate)
                         ? <InputBox disabled={isFinish || isUpdate}
                                     value={detailMaterialData && detailMaterialData.mold_name}
                                     placeholder={'총 작업량을 입력해 주세요'}></InputBox>
@@ -467,6 +467,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                     }
                   </td>
               </tr>
+                : null
             }
             {
               isUpdate && <tr>

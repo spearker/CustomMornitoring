@@ -2,13 +2,13 @@ import * as React from 'react'
 
 //인풋 창 index container
 
-const InputContainer = ({title, children, line, width}: any) => {
+const InputContainer = ({title, children, line, width, isPadding}: any) => {
   return (
     <div style={{
       borderBottom: line === false ? '0px' : 'solid 0.5px #d3d3d3',
       display: 'flex',
-      paddingTop: 17,
-      paddingBottom: 17,
+      paddingTop: isPadding ? 7 : 17,
+      paddingBottom: isPadding ? 7 : 17,
       verticalAlign: 'top'
     }}>
       <p style={{

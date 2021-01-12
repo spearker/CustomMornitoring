@@ -88,6 +88,9 @@ const JunheeRouters = () => {
             <Route path="/sq/manage/moldregister" component={MoldManageInput}/>
             <Route path="/sq/manage/processregister" component={ProcessManageInput}/>
 
+          {/*신규 원자재 관리*/}
+          {/*  <Route path="/sq/manage/processregister" component={ProcessManageInput}/>*/}
+
 
             <Route path='/free' component={OutsourcingRegisterFree}/>
         </Switch>
