@@ -22,6 +22,7 @@ import {getToken, removeToken} from '../../Common/tokenFunctions'
 import {postRequest} from '../../Common/requestFunctions'
 import {Link} from 'react-router-dom'
 import {usePopup} from '../../Context/PopupContext'
+import { SF_ENDPOINT_RESOURCE } from '../../Api/SF_endpoint'
 
 /*
 useEffect(()=>{
@@ -122,7 +123,7 @@ const ProfileBar = ({title}: Props) => {
             }}>{user.name}{user.is_admin ? '(관리자)' : user.appointment}</span>
             <div style={{float: 'right', display: 'inline-block', color: 'white'}}>
               <ImageBox style={{float: 'left'}}
-                        src={user.profile_img === '' ? IMG_PROFILE : user.profile_img}/>
+                        src={user.profile_img === '' ? IMG_PROFILE : `${SF_ENDPOINT_RESOURCE}${user.profile_img}`}/>
 
             </div>
           </div>
