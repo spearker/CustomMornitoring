@@ -194,8 +194,6 @@ const ProcessDetailRegisterContainer = () => {
                                                                                     setMachineList(v.machines)
 
                                                                                     setMachineName(v.process_name ? v.process_name : undefined)
-                                                                                    console.log(v.machines[0].machine_name !== undefined ? v.machines[0].machine_name : '')
-                                                                                    console.log(111, v.machines.length)
                                                                                     tmpList2.push({
                                                                                         name: v.process_name,
                                                                                         type: v.process_type,
