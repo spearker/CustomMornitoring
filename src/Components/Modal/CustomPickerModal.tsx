@@ -233,7 +233,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
                                                                 }}>
                                                                 {Object.keys(customName[vi]).map(m => {
                                                                     return (
-                                                                        <td key={v[m]}>{v[m]}</td>
+                                                                        <td key={`key-${v}-${i}`}>{v[m]}</td>
                                                                     )
                                                                 })}
                                                             </tr>
