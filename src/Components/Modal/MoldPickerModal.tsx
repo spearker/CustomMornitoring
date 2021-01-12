@@ -37,7 +37,6 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
     pk: '',
     mold_name: '',
     mold_type: 0,
-    manufacturer_code: '',
     limit: 0,
     current: 0,
     location_name: ''
@@ -135,10 +134,9 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
               <ReactShadowScroll>
                 <MachineTable>
                   <tr>
-                    <th style={{width: 300}}>금형명</th>
+                    <th style={{width: 400}}>금형명</th>
                     <th style={{width: 150}}>타입</th>
-                    <th style={{width: 200}}>제품번호</th>
-                    <th style={{width: 210}}>공장명</th>
+                    <th style={{width: 300}}>공장명</th>
                   </tr>
                   {machineList !== undefined && machineList.length === 0 ?
                     <tr>
@@ -154,9 +152,8 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                           setMachineName(v.mold_name)
                           return onClickEvent({name: v.mold_name, pk: v.pk})
                         }}>
-                          <td><span style={{fontSize: 14}}>{v.mold_name}</span></td>
+                          <td><span>{v.mold_name}</span></td>
                           <td><span>{transferCodeToName('mold', v.mold_type)}</span></td>
-                          <td><span>{v.manufacturer_code}</span></td>
                           <td><span>{v.location_name}</span></td>
                         </tr>
                       )
