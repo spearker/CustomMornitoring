@@ -24,7 +24,7 @@ const OldFileInput = ({title, urlList, nameList, isImage}: IProps) => {
       {
         urlList.map((f, i) => {
           return (
-            <a key={'file-' + i} href={f} target="_blank"
+            <a key={'file-' + i} href={`${SF_ENDPOINT_RESOURCE}${f}`} target="_blank"
                style={{textAlign: 'center', display: 'inline-block', marginRight: 11}}>
               {
                 f !== '' && f !== null ?
