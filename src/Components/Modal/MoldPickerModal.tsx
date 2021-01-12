@@ -136,7 +136,7 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                   <tr>
                     <th style={{width: 400}}>금형명</th>
                     <th style={{width: 150}}>타입</th>
-                    <th style={{width: 310}}>공장명</th>
+                    <th style={{width: 300}}>공장명</th>
                   </tr>
                   {machineList !== undefined && machineList.length === 0 ?
                     <tr>

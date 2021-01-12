@@ -169,7 +169,7 @@ const ChitRegisterContainer = ({match}: any) => {
                                           })} disable={isUpdate} inputWidth={'calc(99% - 4px)'} buttonWid={30}/></td>
             </tr>
             <tr>
-              <td>• 납기일</td>
+              <td>• 작업일</td>
               <td>
                 <div style={{
                   display: 'flex',
