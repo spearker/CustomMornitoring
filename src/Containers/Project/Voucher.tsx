@@ -48,7 +48,7 @@ const VoucherContainer = ({match}: Props) => {
     voucher: {
       registerer_name: '등록자',
       supplier_name: '납품 업체',
-      deadline: '납기일/생산일',
+      deadline: '작업일',
       material_name: '품목(품목명)',
       goal: '생산 목표 수량',
       current_amount: '현재 생산 수량'
