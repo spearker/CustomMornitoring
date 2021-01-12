@@ -194,11 +194,12 @@ const ProcessDetailRegisterContainer = () => {
                                                                                     setMachineList(v.machines)
 
                                                                                     setMachineName(v.process_name ? v.process_name : undefined)
-
+                                                                                    console.log(v.machines[0].machine_name !== undefined ? v.machines[0].machine_name : '')
+                                                                                    console.log(111, v.machines.length)
                                                                                     tmpList2.push({
                                                                                         name: v.process_name,
                                                                                         type: v.process_type,
-                                                                                        machines: v.machines.length !== 0 ? v.machines[0].machine_name + ' 외 ' + v.machines.length + '개' : ''
+                                                                                        machines: v.machines.length !== 1 ? v.machines[0].machine_name + ' 외 ' + v.machines.length + '개' : v.machines[0].machine_name
                                                                                     })
 
                                                                                     setProcessDataList(tmpList2)
