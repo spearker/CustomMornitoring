@@ -59,6 +59,7 @@ const ScheduleContainer = () => {
 
   const indexList = {
     schedule: {
+      project_name: '생산계획명',
       manager_name: '계획자',
       material_name: '품목(품목명)',
       schedule: '일정',
@@ -334,7 +335,7 @@ const ScheduleContainer = () => {
         allCheckOnClickEvent={allCheckOnClick}
         indexList={index}
         valueList={list}
-        widthList={[80, 350, 180, 300, 100, 80]}
+        widthList={[200, 80, 200, 180, 250, 100, 80]}
         alignList={['center', 'center', 'center', 'center', 'center']}
         clickValue={selectValue}
         checkOnClickEvent={checkOnClick}
