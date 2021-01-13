@@ -28,6 +28,7 @@ const DummyMachine = [
     material_name: '',
     worked: '',
     amount: '',
+    total_defects: '',
   }
 ]
 
@@ -44,8 +45,9 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, d
     pk: string,
     worker_name: string,
     material_name: string,
-    worked: string,
+    worked: string
     amount: string
+    total_defects: string
   }[]>(DummyMachine)
   const [searchName, setSearchName] = useState<string>('')
 
@@ -139,6 +141,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, d
                     <th style={{width: 150}}>품목명</th>
                     <th style={{width: 275}}>작업 시간</th>
                     <th style={{width: 200}}>총 작업</th>
+                    <th style={{width: 150}}>불량 개수</th>
                   </tr>
                   {historyList !== undefined && historyList.length === 0 ?
                     <tr>
@@ -162,6 +165,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, d
                           <td><span>{v.material_name}</span></td>
                           <td><span>{v.worked}</span></td>
                           <td><span>{v.amount}</span></td>
+                          <td><span>{v.total_defects}</span></td>
                         </tr>
                       )
                     })
