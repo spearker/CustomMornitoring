@@ -6,7 +6,7 @@ import {API_URLS, getBarcode, postBarcode} from '../../Api/mes/barcode'
 import {useHistory} from 'react-router-dom'
 import {postProjectDelete} from '../../Api/mes/production'
 import Notiflix from "notiflix";
-import { SF_ENDPOINT_RESOURCE } from '../../Api/SF_endpoint'
+import {SF_ENDPOINT_RESOURCE} from '../../Api/SF_endpoint'
 
 Notiflix.Loading.Init({svgColor: "#1cb9df",});
 
@@ -170,7 +170,7 @@ const BarcodeListContainer = () => {
     const getList = useCallback(async () => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle();
-        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=15`
+        const tempUrl = `${API_URLS['barcode'].list}?page=${page.current}&keyword=&limit=5`
         const res = await getBarcode(tempUrl)
         if (res) {
             setIsFirst(true)
@@ -218,7 +218,8 @@ const BarcodeListContainer = () => {
                                     {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
                                         <p>바코드 이미지가 없습니다.</p>
                                         :
-                                        <img src={`${SF_ENDPOINT_RESOURCE}${detailList.barcode_img_url}`} style={{width: '100%', height: '100%'}}/>
+                                        <img src={`${SF_ENDPOINT_RESOURCE}${detailList.barcode_img_url}`}
+                                             style={{width: '100%', height: '100%'}}/>
                                     }
                                 </BarcodeImage>
                                 <BarcodeNum>
