@@ -18,33 +18,33 @@ const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 const regExpNum = /^[0-9]*$/
 
 const OrderRegisterContainer = () => {
-    const history = useHistory()
-    const [open, setOpen] = useState<boolean>(false)
-    const [isOpen, setIsOpen] = useState(false)
-    const [selectOpen, setSelectOpen] = useState<boolean>(false)
-    const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
-    const [customer, setCustomer] = useState<string>('')
-    const [material, setMaterial] = useState<string>('')
-    const [orderData, setOrderData] = useState<{
-        pk: string
-        customer_name: string
-        material_name: string
-        left: string
-        date: string
-    }>({
-        pk: '',
-        customer_name: '',
-        material_name: '',
-        left: '',
-        date: ''
-    })
+  const history = useHistory()
+  const [open, setOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectOpen, setSelectOpen] = useState<boolean>(false)
+  const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
+  const [customer, setCustomer] = useState<string>('')
+  const [material, setMaterial] = useState<string>('')
+  const [orderData, setOrderData] = useState<{
+    pk: string
+    customer_name: string
+    material_name: string
+    left: string
+    date: string
+  }>({
+    pk: '',
+    customer_name: '',
+    material_name: '',
+    left: '',
+    date: ''
+  })
 
-    const postContractRegisterData = useCallback(async () => {
-        const tempUrl = `${API_URLS['shipment'].register}`
-        const resultData = await postOrderRegister(tempUrl, {
-            contract_pk: orderData.pk,
-            left: orderData.left.toString(),
-            date: selectDate
+  const postContractRegisterData = useCallback(async () => {
+    const tempUrl = `${API_URLS['shipment'].register}`
+    const resultData = await postOrderRegister(tempUrl, {
+      contract_pk: orderData.pk,
+      left: orderData.left ? orderData.left.toString() : '',
+      date: selectDate
         })
 
         if (resultData) {
