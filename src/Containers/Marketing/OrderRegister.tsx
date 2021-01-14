@@ -43,7 +43,7 @@ const OrderRegisterContainer = () => {
     const tempUrl = `${API_URLS['shipment'].register}`
     const resultData = await postOrderRegister(tempUrl, {
       contract_pk: orderData.pk,
-      left: orderData.left.toString(),
+      left: orderData.left ? orderData.left.toString() : '',
       date: selectDate
     })
 
@@ -69,7 +69,7 @@ const OrderRegisterContainer = () => {
               <td>• 수주 리스트</td>
               <td>
                 <ContractPickerModal select={orderData} onClickEvent={(e) => {
-                  setOrderData({...e, left: e.left.toString()})
+                  setOrderData({...e, left: e.left ? e.left.toString() : ''})
                   setCustomer(e.customer_name)
                   setMaterial(e.material_name)
                 }} text={'수주 리스트를 선택해 주세요.'}/>
