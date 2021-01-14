@@ -21,6 +21,10 @@ import {API_URLS, postStockRegister, getStockList} from '../../Api/mes/manageSto
 import DateInput from '../../Components/Input/DateInput'
 import NormalInput from '../../Components/Input/NormalInput'
 import FactoryPickerModal from '../../Components/Modal/FactoryPickerModal'
+import RadioInput from '../../Components/Input/RadioInput'
+import Check from '../../Assets/Images/ic_checkbox_y.png'
+import Radio from '../../Assets/Images/btn_radio.png'
+import RadioCheck from '../../Assets/Images/btn_radio_check.png'
 
 const typeDummy = [
   '정상 입고',
@@ -286,10 +290,42 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
           paddingBottom: 17,
           verticalAlign: 'top'
         }}>
-          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 품번/Lot</p>
-          <InputBox style={{width: 725}} type="text" value={''} placeholder={'품번/Lot 생산 버튼을 눌러 번호를 생성해 주세요'} disabled/>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 품질 성적표</p>
+          <InputBox style={{width: 725}} type="text" value={'품질 성적표.jpeg'} placeholder={'품질 성적표를 등록해 주세요'} disabled/>
           <MiniButton style={{width: 83, marginRight: 8}}><p>보기</p></MiniButton>
           <MiniButton style={{width: 83, marginRight: 8}}><p>파일 선택</p></MiniButton>
+        </div>
+        <div style={{
+          borderBottom: 'solid 0.5px #d3d3d3',
+          paddingTop: 17,
+          paddingBottom: 17,
+          verticalAlign: 'top'
+        }}>
+          {
+            [1, 2, 3, 4, 5].map((v, i) => {
+              return (<div style={{
+                display: 'flex',
+                paddingTop: 18
+              }}>
+                <p style={{
+                  fontSize: 14,
+                  marginTop: 5,
+                  fontWeight: 700,
+                  width: 120,
+                  display: 'inline-block'
+                }}>{i === 0 ? '• 검수 항목' : ''}</p>
+                <InputBox style={{width: 725}} type="text" value={''} placeholder={'검수 항목'}
+                          disabled/>
+                <RadioBox>
+                  <RadioInput title={''} width={0} line={false} target={0} isPadding={0}
+                              onChangeEvent={(e) => {
+
+                              }}
+                              contents={[{title: '불량', value: 0}, {title: '양호', value: 1}]}/>
+                </RadioBox>
+              </div>)
+            })
+          }
         </div>
         <div style={{
           display: 'flex',
@@ -349,5 +385,53 @@ const InputBox = Styled.input`
                 width: calc(100% - 124px);
                 background-color: #f4f6fa;
                 `
+const RadioBox = Styled.div`
+  display: flex;
+  align-items: center;
+  *{
+    align-items: center;
+  }
+  input::-ms-input-placeholder { color: #b3b3b3; }
+  input[type="checkbox"] + label {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked + label {
+    background: url(${Check}) left/18px no-repeat; 
+    border: 0;
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+  form label{
+    font-size: 10px;
+    font-weight: 700;
+  }
 
+  input[type="radio"]:not(old) {
+      margin:0; padding:0; opacity:0; 
+      background: url(${Radio}) left/24px no-repeat; 
+      width:18px;
+      height: 18px;
+      
+  } 
+  input[type="radio"]:not(old) + label {
+      width:18px;
+      height: 18px;
+      display: inline-block; 
+      text-align: left;
+      resize: cover; 
+      background: url(${Radio}) left/24px no-repeat; 
+      background-size: 18px 18px;
+      line-height: 130%; vertical-align: top;
+  }
+  input[type="radio"]:not(old):checked + label {
+    background: url(${RadioCheck}) left/24px no-repeat;
+    background-size: 18px 18px; 
+  }
+`
 export default WarehousingRegisterContainer_V2
