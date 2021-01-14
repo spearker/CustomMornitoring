@@ -14,180 +14,180 @@ import Pagination from '@material-ui/lab/Pagination'
 //드롭다운 컴포넌트
 
 interface IProps {
-  select?: {
-    pk?: string
-    customer_name?: string
-    material_name?: string
-    amount?: number
-    date?: string
-  },
-  onClickEvent: any
-  text: string
+    select?: {
+        pk?: string
+        customer_name?: string
+        material_name?: string
+        amount?: number
+        date?: string
+    },
+    onClickEvent: any
+    text: string
 }
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
-  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const [isOpen, setIsOpen] = useState(false)
-  const [machineName, setMachineName] = useState('')
+    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const [isOpen, setIsOpen] = useState(false)
+    const [machineName, setMachineName] = useState('')
 
-  const [machineList, setMachineList] = useState([{
-    pk: '',
-    customer_name: '',
-    material_name: '',
-    amount: 0,
-    date: '',
-    left: 0
-  }])
-  const [searchName, setSearchName] = useState<string>('')
-  const [page, setPage] = useState<PaginationInfo>({
-    current: 1,
-  })
+    const [machineList, setMachineList] = useState([{
+        pk: '',
+        customer_name: '',
+        material_name: '',
+        amount: 0,
+        date: '',
+        left: 0
+    }])
+    const [searchName, setSearchName] = useState<string>('')
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    })
 
-  // const ref = useOnclickOutside(() => {
-  //     setIsOpen(false);
-  // });
+    // const ref = useOnclickOutside(() => {
+    //     setIsOpen(false);
+    // });
 
-  const getList = useCallback(async (isSearch?: boolean) => {
-    Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['contract'].search}?finished=${true}&page=${isSearch ? 1 : page.current}&limit=10`
-    const resultData = await getMarketing(tempUrl)
-    if (resultData) {
-      setMachineList(resultData.info_list)
-      setPage({current: resultData.current_page, total: resultData.total_page})
+    const getList = useCallback(async (isSearch?: boolean) => {
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['contract'].search}?finished=${true}&page=${isSearch ? 1 : page.current}&limit=10`
+        const resultData = await getMarketing(tempUrl)
+        if (resultData) {
+            setMachineList(resultData.info_list)
+            setPage({current: resultData.current_page, total: resultData.total_page})
+        }
+        Notiflix.Loading.Remove()
+    }, [searchName])
+
+
+    const handleClickBtn = () => {
+        setIsOpen(!isOpen)
     }
-    Notiflix.Loading.Remove()
-  }, [searchName])
+
+    useEffect(() => {
+        getList()
+    }, [page.current])
 
 
-  const handleClickBtn = () => {
-    setIsOpen(!isOpen)
-  }
+    return (
+        <div>
+            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+                <BoxWrap onClick={() => {
+                    setIsOpen(true)
+                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+                    <div style={{display: 'inline-block', height: 32, width: 885}}>
+                        {
+                            select && select.customer_name ? <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5}}>&nbsp; {select.customer_name}</p>
+                                : <p onClick={() => {
+                                    setIsOpen(true)
+                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+                        }
 
-  useEffect(() => {
-    getList()
-  }, [page.current])
+                    </div>
+                    <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
+                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
+                            setIsOpen(true)
+                        }}/>
+                    </div>
 
-
-  return (
-    <div>
-      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
-        <BoxWrap onClick={() => {
-          setIsOpen(true)
-        }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-          <div style={{display: 'inline-block', height: 32, width: 885}}>
-            {
-              select && select.customer_name ? <p onClick={() => {
-                  setIsOpen(true)
-                }} style={{marginTop: 5}}>&nbsp; {select.customer_name}</p>
-                : <p onClick={() => {
-                  setIsOpen(true)
-                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-            }
-
-          </div>
-          <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-            <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
-              setIsOpen(true)
-            }}/>
-          </div>
-
-        </BoxWrap>
-      </div>
-      <Modal
-        isOpen={isOpen}
-        style={{
-          content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            padding: 0
-          },
-          overlay: {
-            background: 'rgba(0,0,0,.6)',
-            zIndex: 5
-          }
-        }}
-      >
-        <div style={{width: 900}}>
-          <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
-            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 수주리스트 검색</p>
-            <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-              <SearchBox placeholder="거래처 명을 입력해 주세요." style={{flex: 96}}
-                         onKeyPress={(event) => event.key === 'Enter' && getList(true)}
-                         onChange={(e) => setSearchName(e.target.value)}/>
-              <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
-                <img src={IcSearchButton}/>
-              </SearchButton>
+                </BoxWrap>
             </div>
-            <div style={{minHeight: 310, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
-              <ReactShadowScroll>
-                <MachineTable>
-                  <tr>
-                    <th style={{width: 250}}>거래처 명</th>
-                    <th style={{width: 250}}>품목(품목명)</th>
-                    <th style={{width: 250}}>수량</th>
-                    <th style={{width: 250}}>미납 수량</th>
-                  </tr>
-                  {machineList !== undefined && machineList.length === 0 ?
-                    <tr>
-                      <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
-                    </tr>
-                    :
-                    machineList.map((v, i) => {
-                      return (
-                        <tr style={{
-                          height: 32,
-                          backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
-                        }} onClick={(e) => {
-                          setMachineName(v.customer_name)
+            <Modal
+                isOpen={isOpen}
+                style={{
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        padding: 0
+                    },
+                    overlay: {
+                        background: 'rgba(0,0,0,.6)',
+                        zIndex: 5
+                    }
+                }}
+            >
+                <div style={{width: 900}}>
+                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
+                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 수주리스트 검색</p>
+                        <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
+                            <SearchBox placeholder="거래처 명을 입력해 주세요. (미납 수량이 0인 것은 나오지 않습니다.)" style={{flex: 96}}
+                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                                       onChange={(e) => setSearchName(e.target.value)}/>
+                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                                <img src={IcSearchButton}/>
+                            </SearchButton>
+                        </div>
+                        <div style={{minHeight: 310, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
+                            <ReactShadowScroll>
+                                <MachineTable>
+                                    <tr>
+                                        <th style={{width: 250}}>거래처 명</th>
+                                        <th style={{width: 250}}>품목(품목명)</th>
+                                        <th style={{width: 250}}>수량</th>
+                                        <th style={{width: 250}}>미납 수량</th>
+                                    </tr>
+                                    {machineList !== undefined && machineList.length === 0 ?
+                                        <tr>
+                                            <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                                        </tr>
+                                        :
+                                        machineList.map((v, i) => {
+                                            return (
+                                                <tr style={{
+                                                    height: 32,
+                                                    backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                                                }} onClick={(e) => {
+                                                    setMachineName(v.customer_name)
 
-                          return onClickEvent(v)
+                                                    return onClickEvent(v)
+                                                }}>
+                                                    <td><span>{v.customer_name}</span></td>
+                                                    <td><span>{v.material_name}</span></td>
+                                                    <td><span>{v.amount}</span></td>
+                                                    <td><span>{v.left}</span></td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </MachineTable>
+                            </ReactShadowScroll>
+                            <PaginationBox>
+                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                            onChange={(event, i) => setPage({...page, current: i})}
+                                            boundaryCount={1} color={'primary'}/>
+                            </PaginationBox>
+                        </div>
+                    </div>
+                    <div style={{width: 900}}>
+                        <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+                            onClickEvent({name: undefined, pk: undefined})
+                            onClickEvent({customer_name: undefined, material_name: undefined, amount: 0, pk: ''})
+                            setIsOpen(false)
                         }}>
-                          <td><span>{v.customer_name}</span></td>
-                          <td><span>{v.material_name}</span></td>
-                          <td><span>{v.amount}</span></td>
-                          <td><span>{v.left}</span></td>
-                        </tr>
-                      )
-                    })
-                  }
-                </MachineTable>
-              </ReactShadowScroll>
-              <PaginationBox>
-                <Pagination count={page.total ? page.total : 0} page={page.current}
-                            onChange={(event, i) => setPage({...page, current: i})}
-                            boundaryCount={1} color={'primary'}/>
-              </PaginationBox>
-            </div>
-          </div>
-          <div style={{width: 900}}>
-            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-              onClickEvent({name: undefined, pk: undefined})
-              onClickEvent({customer_name: undefined, material_name: undefined, amount: 0, pk: ''})
-              setIsOpen(false)
-            }}>
-              <div>
-                <span style={{color: '#666d79'}}>취소</span>
-              </div>
-            </CheckButton>
-            <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
-              setIsOpen(false)
-            }}>
-              <div>
-                <span style={{color: 'black'}}>확인</span>
-              </div>
-            </CheckButton>
-          </div>
-        </div>
-      </Modal>
+                            <div>
+                                <span style={{color: '#666d79'}}>취소</span>
+                            </div>
+                        </CheckButton>
+                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                            setIsOpen(false)
+                        }}>
+                            <div>
+                                <span style={{color: 'black'}}>확인</span>
+                            </div>
+                        </CheckButton>
+                    </div>
+                </div>
+            </Modal>
 
-    </div>
-  )
+        </div>
+    )
 }
 
 const BoxWrap = Styled.button`
