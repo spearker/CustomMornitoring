@@ -10,6 +10,7 @@ import {API_URLS, getSearchProcess, postProcessRegister} from '../../Api/mes/pro
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import {useHistory} from 'react-router-dom'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import Pagination from "@material-ui/lab/Pagination";
 
 interface IMachineData {
     machine_name: string,
@@ -42,8 +43,8 @@ const ProcessDetailRegisterContainer = () => {
         {name: '', type: -1, machines: ''}
     ])
 
-    const getSearchProcessList = useCallback(async () => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${page.current}&limit=15`
+    const getSearchProcessList = useCallback(async (isSearch?: boolean) => {
+        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${isSearch ? 1 : page.current}&limit=15`
         const resultData = await getSearchProcess(tempUrl)
 
         const getProcess = resultData.results.info_list.map((v, i) => {
@@ -93,7 +94,7 @@ const ProcessDetailRegisterContainer = () => {
 
 
     const onSearch = () => {
-        getSearchProcessList()
+        getSearchProcessList(true)
         if (searchData && searchData !== '') {
             const target: IDetailRegister[] = []
 
@@ -219,6 +220,11 @@ const ProcessDetailRegisterContainer = () => {
                                                     </MachineTable>
                                                 </div>
                                             </div>
+                                            <PaginationBox>
+                                                <Pagination count={page.total ? page.total : 0} page={page.current}
+                                                            onChange={(event, i) => setPage({...page, current: i})}
+                                                            boundaryCount={1} color={'primary'}/>
+                                            </PaginationBox>
                                         </div>
                                         <div style={{
                                             backgroundColor: '#f4f6fa',
@@ -479,6 +485,21 @@ const InputText = Styled.p`
     text-align: left;
     vertical-align: middle;
     font-weight: regular;
+`
+
+const PaginationBox = Styled.div`
+    height: 60px;
+    padding-top: 5px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    position:relative;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
 `
 
 export default ProcessDetailRegisterContainer
