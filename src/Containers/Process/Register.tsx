@@ -16,7 +16,7 @@ import {transferCodeToName} from '../../Common/codeTransferFunctions'
 const typeDummy = [
   '단발',
   '라인',
-  '공정',
+  '용접',
   '',
   '조립',
   '검수',
