@@ -75,11 +75,11 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
 
   return (
     <div>
-      <div style={{display: 'inline-block', zIndex: 0, width: '100%'}}>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 872}}>
         <BoxWrap disabled={disabled} onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-          <div style={{display: 'inline-block', height: 32, width: '100%'}}>
+          <div style={{display: 'inline-block', height: 32, width: 872}}>
             {
               select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
                 : <p style={{marginTop: 5, color: '#111319', opacity: 0.6}}>&nbsp; {text}</p>
