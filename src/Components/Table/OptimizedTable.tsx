@@ -25,9 +25,10 @@ interface Props {
   pageOnClickEvent?: any
   noChildren?: boolean
   children?: any
+  padding?: number
 }
 
-const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitle, file, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent}) => {
+const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitle, file, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent, padding}) => {
 
   const [checked, setChecked] = useState<any[]>([])
 
@@ -97,7 +98,7 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitl
                       fontSize: '18px',
                       fontWeight: 'bold',
                       fontFamily: 'NotoSansCJKkr',
-                      margin: '0 16px 0 16px',
+                      margin: `0 ${padding ? padding : 16}px`,
                       background: `url(${IcDropDownButton}) no-repeat 95% 50%`
                     }}
                     onChange={(e) => selectBoxChange(e.target.value)}
@@ -118,7 +119,10 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitl
                     }
                   </LimitSelect>
                   :
-                  <LimitP key={v} style={{width: widthList[i]}}>{indexList[v]}</LimitP>
+                  <LimitP key={v} style={{
+                    width: widthList[i],
+                    padding: padding ? `0 ${padding}px 0 ${padding}px` : '0 16px 0 16px'
+                  }}>{indexList[v]}</LimitP>
               )
             })
           }
@@ -208,7 +212,8 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitl
                                   cursor: mainOnClickEvent ? 'pointer' : 'default',
                                   width: widthList[mi],
                                   fontFamily: 'NotoSansCJKkr',
-                                  fontSize: '18px'
+                                  fontSize: '18px',
+                                  padding: padding ? `0 ${padding}px 0 ${padding}px` : '0 16px 0 16px'
                                 }}
                                 onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                         >
