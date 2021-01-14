@@ -164,6 +164,8 @@ const CustomCapacity = () => {
     const [selectMaterial, setSelectMaterial] = useState<string>('All')
 
     const [advice, setAdvice] = useState<string[]>(['', ''])
+    const [totalProduction, setTotalProduction] = useState<string>()
+    const [avgProduction, setAvgProduction] = useState<string>()
 
     const [errorIndex, setErrorIndex] = useState({error_content: '에러 상태'})
 
@@ -235,6 +237,15 @@ const CustomCapacity = () => {
 
                 let tmpUPHMax = maxData(Math.max.apply(null, tmpUPH))
 
+                const AddComma = (num) => {
+                    let tmpNum = num.toString().split('.')
+                    let regexp = /\B(?=(\d{3})+(?!\d))/g
+                    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+                }
+
+                setAvgProduction(AddComma(resultData.analyze.avg_produce))
+                setTotalProduction(AddComma(resultData.analyze.total_produce))
+
                 setSeries([
                     {
                         name: 'UPH',
@@ -257,6 +268,7 @@ const CustomCapacity = () => {
             setTimeLog([])
             setMoldLog([])
             setAdvice([])
+
             Notiflix.Loading.Remove()
         }
     }, [selectMachine, machineData, series, selectDate, selectMaterial])
@@ -426,6 +438,20 @@ const CustomCapacity = () => {
                                     }
                                 }
                             }} series={series} height={'40%'}/>
+                            <div style={{display: 'flex'}}>
+                                <p style={{
+                                    textAlign: 'left',
+                                    marginLeft: '20px',
+                                    width: '310px',
+                                    fontFamily: 'NotoSansCJKkr-bold',
+                                    fontSize: '14px',
+                                }}>총 생산 갯수: {totalProduction}</p>
+                                <p style={{
+                                    textAlign: 'left',
+                                    fontFamily: 'NotoSansCJKkr-bold',
+                                    fontSize: '14px',
+                                }}>평균 생산 갯수: {avgProduction}</p>
+                            </div>
                             <p style={{
                                 textAlign: 'left',
                                 marginLeft: '20px',

@@ -53,7 +53,7 @@ const DashboardWrapContainer = ({children, index}: any) => {
                     }
                 })
 
-                loadXHR(results.results.profile_img).then(function (blob) {
+                loadXHR('8285' + results.results.profile_img).then(function (blob) {
                     setToken('sizl_photo', blob)
                 })
             } else {
