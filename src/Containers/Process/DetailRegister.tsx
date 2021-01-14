@@ -183,9 +183,9 @@ const ProcessDetailRegisterContainer = () => {
                                                                             height: 28,
                                                                         }}>
                                                                             <span>{v.process_name}</span></td>
-                                                                        <td style={{width: 160, height: 28}}>
+                                                                        <td style={{width: 140, height: 28}}>
                                                                             <span>{v.process_type}</span></td>
-                                                                        <td style={{width: 28, height: 28}}>
+                                                                        <td style={{width: 20, height: 28}}>
                                                                             <div>
                                                                                 <SearchButton style={{
                                                                                     backgroundColor: '#00000000',
