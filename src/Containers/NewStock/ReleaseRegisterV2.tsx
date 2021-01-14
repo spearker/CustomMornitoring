@@ -19,12 +19,14 @@ import {transferStringToCode} from '../../Common/codeTransferFunctions'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import {API_URLS, postStockRegister} from '../../Api/mes/manageStock'
 import DateInput from '../../Components/Input/DateInput'
+import NormalInput from '../../Components/Input/NormalInput'
 
 
 const typeDummy = [
-  '정상 출고',
-  '생산 소진',
-  '오류 정정',
+  '선택 없음',
+  '반품',
+  '오류정정',
+  '현황기준',
 ]
 
 const StockDummy = [
@@ -329,7 +331,8 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
     <div>
       <Header title={isUpdate ? '출고 수정' : '출고 등록'}/>
       <WhiteBoxContainer>
-        <ListHeader title={decodeURIComponent(match.params.name)}/>
+        <ListHeader title={'필수 항목'}/>
+        <NormalInput title={'재질'} value={'123123'} width={120}></NormalInput>
         <div style={{
           borderBottom: 'solid 0.5px #d3d3d3',
           display: 'flex',
@@ -337,16 +340,23 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
           paddingBottom: 17,
           verticalAlign: 'top'
         }}>
-          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>· 출고
-            구분</p>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 출고
+            종류</p>
           <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType}
-                            contents={match.params.parts ? stockList : typeList} text={'출고 구분을 선택해 주세요'}
+                            contents={typeList} text={'출고 종류을 선택해 주세요'}
                             buttonWid={30}/>
         </div>
-        <NormalNumberInput title={'출고 수량'} width={120} value={amount}
+        <NormalNumberInput title={'재고 수량'} width={120} value={amount}
+                           onChangeEvent={(input) => setAmount(input)}
+                           description={'재고 수량을 입력해주세요'}/>
+        <NormalInput title={'위치'} value={'123123'} width={120}></NormalInput>
+        <DateInput title={'입고일'} description={''} value={selectDate} onChangeEvent={setSelectDate}
+                   width={135} //readOnly
+                   style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
+        <NormalNumberInput title={'출고 중량'} width={120} value={amount}
                            onChangeEvent={(input) => setAmount(input)}
                            description={'출고 수량을 입력해주세요'}/>
-        <DateInput title={'출고 날짜'} description={''} value={selectDate} onChangeEvent={setSelectDate} width={135}
+        <DateInput title={'출고일'} description={''} value={selectDate} onChangeEvent={setSelectDate} width={135}
                    style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
         {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{

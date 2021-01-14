@@ -243,7 +243,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
 
 
   return (
-    <div>
+    <div style={{paddingBottom: 81}}>
       <Header title={isUpdate ? '원자재 입고 수정' : '원자재 입고 등록'}/>
       <WhiteBoxContainer>
         <ListHeader title={'필수 항목'}/>
@@ -328,13 +328,29 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
           }
         </div>
         <div style={{
+          borderBottom: 'solid 0.5px #d3d3d3',
+          display: 'flex',
+          paddingTop: 17,
+          paddingBottom: 17,
+          verticalAlign: 'top'
+        }}>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 품질 성적표</p>
+          <RadioBox>
+            <RadioInput title={''} width={0} line={false} target={0} isPadding={0}
+                        onChangeEvent={(e) => {
+
+                        }}
+                        contents={[{title: '불합격', value: 0}, {title: '합격', value: 1}]}/>
+          </RadioBox>
+        </div>
+        <div style={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%'
         }}>
-          <div style={{marginTop: 180}}>
+          <div style={{marginTop: 20}}>
             <ButtonWrap onClick={async () => {
               await onsubmitForm()
             }}>
