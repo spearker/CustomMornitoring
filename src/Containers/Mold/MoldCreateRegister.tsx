@@ -569,8 +569,6 @@ const MoldCreateRegisterContainer = ({match}: any) => {
                         usage: components[i].current
                       }
                     }
-
-
                     setComponents([...tmpArr])
                   }} placeholder={'9,999,999,999'}/>
                   <DeleteButton onClick={() => {

@@ -172,6 +172,7 @@ import BasicMold from '../Pages/Basic/BasicMold'
 import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
 import NotFound from '../Pages/Common/NotFound'
+import NewBasicMaterialRegister_V2 from '../Containers/Basic/NewBasicMaterialContainer_v2'
 
 
 const Routers = () => {
@@ -235,7 +236,7 @@ const Routers = () => {
         <Route exact path="/basic/device/register" component={BasicDeviceRegister}/>
         <Route exact path="/basic/material/register" component={NewBasicMaterialRegister}/>
         <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
-      
+
         {/* 외주정보 관리 */}
         <Route exact path="/manage/" component={BasicDeviceRegister}/>
         <Route exact path="/outsourcing/company/register" component={Old_OutsourcingCompanyRegister}/>

@@ -132,11 +132,11 @@ const ProductionPickerModal = ({
     setIsOpen(false)
   }
 
-  const 투입품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 0, title: '원자재'}, {
+  const 투입품목 = [{value: -1, title: '전체'}, {value: 10, title: '반제품'}, {value: 0, title: '원자재'}, {
     value: 1,
     title: '부재료'
   }] // 0
-  const 생산품목 = [{value: -1, title: '전체'}, {value: 10, title: '반재품'}, {value: 30, title: '완재품'}] // 1
+  const 생산품목 = [{value: -1, title: '전체'}, {value: 10, title: '반제품'}, {value: 30, title: '완제품'}] // 1
 
   return (
     <div style={style}>

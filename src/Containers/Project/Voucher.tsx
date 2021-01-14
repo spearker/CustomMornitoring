@@ -17,32 +17,33 @@ interface Props {
 }
 
 const VoucherContainer = ({match}: Props) => {
-    const [page, setPage] = useState<PaginationInfo>({
-        current: 1,
-    })
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  })
 
-    const [list, setList] = useState<any[]>([])
-    const [BOMlist, setBOMList] = useState<any[]>([])
-    const [titleEventList, setTitleEventList] = useState<any[]>([])
-    const [eventList, setEventList] = useState<any[]>([])
-    const [contentsList, setContentsList] = useState<any[]>(['등록자명', '납품 업체명', '품목명'])
-    const [searchValue, setSearchValue] = useState<any>('')
-    const [detailList, setDetailList] = useState<any>({})
-    const [index, setIndex] = useState({registerer_name: '등록자'})
-    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
-    const [option, setOption] = useState<number>(0)
-    const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
-    const [selectPk, setSelectPk] = useState<any>(null)
-    const [selectMold, setSelectMold] = useState<any>(null)
-    const [selectValue, setSelectValue] = useState<any>(null)
-    const [isFirst, setIsFirst] = useState<boolean>(false)
-    const history = useHistory()
+  const [list, setList] = useState<any[]>([])
+  const [BOMlist, setBOMList] = useState<any[]>([])
+  const [titleEventList, setTitleEventList] = useState<any[]>([])
+  const [eventList, setEventList] = useState<any[]>([])
+  const [contentsList, setContentsList] = useState<any[]>(['등록자명', '납품 업체명', '품목명'])
+  const [searchValue, setSearchValue] = useState<any>('')
+  const [detailList, setDetailList] = useState<any>({})
+  const [index, setIndex] = useState({registerer_name: '등록자'})
+  const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+  const [option, setOption] = useState<number>(0)
+  const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
+  const [selectPk, setSelectPk] = useState<any>(null)
+  const [selectMold, setSelectMold] = useState<any>(null)
+  const [selectValue, setSelectValue] = useState<any>(null)
+  const [isFirst, setIsFirst] = useState<boolean>(false)
+  const history = useHistory()
 
-    const AddComma = (num) => {
-        let tmpNum = num.toString().split('.')
-        let regexp = /\B(?=(\d{3})+(?!\d))/g
-        return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
-    }
+  const AddComma = (num) => {
+    let tmpNum = num.toString().split('.')
+    let regexp = /\B(?=(\d{3})+(?!\d))/g
+    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+  }
+
 
     const indexList = {
         voucher: {
