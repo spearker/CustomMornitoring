@@ -7,8 +7,8 @@ const InputContainer = ({title, children, line, width, isPadding}: any) => {
     <div style={{
       borderBottom: line === false ? '0px' : 'solid 0.5px #d3d3d3',
       display: 'flex',
-      paddingTop: isPadding ? 7 : 17,
-      paddingBottom: isPadding ? 7 : 17,
+      paddingTop: isPadding ?? 17,
+      paddingBottom: isPadding ?? 17,
       verticalAlign: 'top'
     }}>
       <p style={{

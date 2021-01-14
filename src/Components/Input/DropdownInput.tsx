@@ -17,7 +17,7 @@ interface IProps {
   selectStyle?: any,
   buttonStyle?: any
   line?: boolean
-  isPadding?: boolean
+  isPadding?: number
 }
 
 const DropdownInput = ({title, contents, target, onChangeEvent, style, inputStyle, selectStyle, buttonStyle, line, isPadding}: IProps) => {
