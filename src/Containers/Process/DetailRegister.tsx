@@ -133,7 +133,7 @@ const ProcessDetailRegisterContainer = () => {
                                 <td style={{verticalAlign: 'top'}}>• 등록 공정 검색</td>
                                 <td>
                                     <div style={{flexDirection: 'row', display: 'flex'}}>
-                                        <div style={{width: 360, height: 211, marginRight: 20}}>
+                                        <div style={{width: 360, height: 211, marginRight: 20, marginBottom: 20}}>
                                             <div style={{
                                                 width: 360,
                                                 display: 'flex',
@@ -164,7 +164,7 @@ const ProcessDetailRegisterContainer = () => {
                                                             margin: 0,
                                                             padding: 0
                                                         }}>
-                                                            <th><span>공정명</span></th>
+                                                            <th style={{paddingLeft: 10,}}><span>공정명</span></th>
                                                             <th><span>타입</span></th>
                                                             <th style={{width: 28}}></th>
                                                         </tr>
@@ -175,13 +175,17 @@ const ProcessDetailRegisterContainer = () => {
                                                                 return (
                                                                     <tr style={{
                                                                         borderBottom: '1px solid #b3b3b35f',
-                                                                        padding: 0
+                                                                        padding: 0,
                                                                     }}>
-                                                                        <td style={{width: 160, height: 28}}>
+                                                                        <td style={{
+                                                                            paddingLeft: 10,
+                                                                            width: 160,
+                                                                            height: 28,
+                                                                        }}>
                                                                             <span>{v.process_name}</span></td>
-                                                                        <td style={{width: 160, height: 28}}>
+                                                                        <td style={{width: 140, height: 28}}>
                                                                             <span>{v.process_type}</span></td>
-                                                                        <td style={{width: 28, height: 28}}>
+                                                                        <td style={{width: 20, height: 28}}>
                                                                             <div>
                                                                                 <SearchButton style={{
                                                                                     backgroundColor: '#00000000',
@@ -488,7 +492,7 @@ const InputText = Styled.p`
 `
 
 const PaginationBox = Styled.div`
-    height: 60px;
+    height: 20px;
     padding-top: 5px;
     background-color: #ffffff;
     display: flex;
