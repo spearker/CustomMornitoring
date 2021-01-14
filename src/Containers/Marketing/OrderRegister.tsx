@@ -15,6 +15,8 @@ import Notiflix from 'notiflix'
 
 const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
+const regExpNum = /^[0-9]*$/
+
 const OrderRegisterContainer = () => {
   const history = useHistory()
   const [open, setOpen] = useState<boolean>(false)
@@ -27,13 +29,13 @@ const OrderRegisterContainer = () => {
     pk: string
     customer_name: string
     material_name: string
-    left: number
+    left: string
     date: string
   }>({
     pk: '',
     customer_name: '',
     material_name: '',
-    left: 0,
+    left: '',
     date: ''
   })
 
@@ -41,7 +43,7 @@ const OrderRegisterContainer = () => {
     const tempUrl = `${API_URLS['shipment'].register}`
     const resultData = await postOrderRegister(tempUrl, {
       contract_pk: orderData.pk,
-      left: orderData.left,
+      left: orderData.left.toString(),
       date: selectDate
     })
 
@@ -67,7 +69,7 @@ const OrderRegisterContainer = () => {
               <td>• 수주 리스트</td>
               <td>
                 <ContractPickerModal select={orderData} onClickEvent={(e) => {
-                  setOrderData(e)
+                  setOrderData({...e, left: e.left.toString()})
                   setCustomer(e.customer_name)
                   setMaterial(e.material_name)
                 }} text={'수주 리스트를 선택해 주세요.'}/>
@@ -140,27 +142,28 @@ const OrderRegisterContainer = () => {
               <td>
                 {isOpen ?
                   <div style={{display: 'flex'}}>
-                    <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." onChange={(e) => setOrderData({
-                      ...orderData,
-                      left: Number(e.target.value)
-                    })} value={Number(orderData.left) === 0 ? '' : Number(orderData.left)}/>
+                    <input placeholder="수주 리스트가 입력되면 자동 입력됩니다."
+                           onChange={(e) => e.target.value.match(regExpNum) ? setOrderData({
+                             ...orderData,
+                             left: e.target.value
+                           }) : null} value={Number(orderData.left) === 0 ? '' : Number(orderData.left)}/>
                     <BoxWrap style={{height: 36, backgroundColor: '#b3b3b3'}}>
-                                            <span className="p-bold" onClick={() => {
-                                              setIsOpen(false)
-                                            }}>변경 완료</span>
+                  <span className="p-bold" onClick={() => {
+                    setIsOpen(false)
+                  }}>변경 완료</span>
                     </BoxWrap>
                   </div> :
                   <div style={{display: 'flex'}}>
                     <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." disabled={true}
-                           onChange={(e) => setOrderData({
+                           onChange={(e) => e.target.value.match(regExpNum) ? setOrderData({
                              ...orderData,
-                             left: Number(e.target.value)
-                           })}
-                           value={Number(orderData.left) === 0 ? '' : Number(orderData.left)}/>
+                             left: e.target.value
+                           }) : null}
+                           value={orderData.left}/>
                     <BoxWrap style={{height: 36, backgroundColor: '#19b9df'}}>
-                                            <span className="p-bold" onClick={() => {
-                                              setIsOpen(true)
-                                            }}>수량 변경</span>
+                  <span className="p-bold" onClick={() => {
+                    setIsOpen(true)
+                  }}>수량 변경</span>
                     </BoxWrap>
                   </div>
                 }
@@ -224,123 +227,123 @@ const OrderRegisterContainer = () => {
 }
 
 const ContainerMain = Styled.div`
-    width: 1060px;
-    height: 536px;
-    border-radius: 6px;
-    background-color: white;
-    padding: 35px 20px 0 20px;
-    .title {
-        font-size: 18px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        color: #19b8df;
-        text-align: left;
-    }
-    table{
-        width: 100%;
-        height: 100%;
-        margin-top: 35px;
-    }
-    td{
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        font-size: 15px;
-        input{
-            padding-left: 8px;
-            font-family: NotoSansCJKkr;
-            height: 32px;
-            border: 0.5px solid #b3b3b3;
-            width: calc( 100% - 8px );
-            background-color: #f4f6fa;
-            font-size: 15px;
-            &::placeholder:{
-                color: #b3b3b3;
-            };
-        }
-        &:first-child{
-            width: 133px;
-            text-align: left;
-        }
-    }
-    tr{
-        height: 65px;
-    }
-`
+                  width: 1060px;
+                  height: 536px;
+                  border-radius: 6px;
+                  background-color: white;
+                  padding: 35px 20px 0 20px;
+                  .title {
+                  font-size: 18px;
+                  font-family: NotoSansCJKkr;
+                  font-weight: bold;
+                  color: #19b8df;
+                  text-align: left;
+                  }
+                  table{
+                  width: 100%;
+                  height: 100%;
+                  margin-top: 35px;
+                  }
+                  td{
+                  font-family: NotoSansCJKkr;
+                  font-weight: bold;
+                  font-size: 15px;
+                  input{
+                  padding-left: 8px;
+                  font-family: NotoSansCJKkr;
+                  height: 32px;
+                  border: 0.5px solid #b3b3b3;
+                  width: calc( 100% - 8px );
+                  background-color: #f4f6fa;
+                  font-size: 15px;
+                  &::placeholder:{
+                  color: #b3b3b3;
+                  };
+                  }
+                  &:first-child{
+                  width: 133px;
+                  text-align: left;
+                  }
+                  }
+                  tr{
+                  height: 65px;
+                  }
+                  `
 
 const CheckButton = Styled.button`
-    position: absolute;
-    bottom: 0px;
-    height: 46px;
-    width: 225px;
-    div{
-        width: 100%;
-    }
-    span{
-        line-height: 46px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-    }
-`
+                  position: absolute;
+                  bottom: 0px;
+                  height: 46px;
+                  width: 225px;
+                  div{
+                  width: 100%;
+                  }
+                  span{
+                  line-height: 46px;
+                  font-family: NotoSansCJKkr;
+                  font-weight: bold;
+                  }
+                  `
 
 const ButtonWrap = Styled.button`
-    padding: 4px 12px 4px 12px;
-    border-radius: 5px;
-    color: black;
-    background-color: ${POINT_COLOR};
-    border: none;
-    font-weight: bold;
-    font-size: 13px;
-    img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
-    }
-`
+                  padding: 4px 12px 4px 12px;
+                  border-radius: 5px;
+                  color: black;
+                  background-color: ${POINT_COLOR};
+                  border: none;
+                  font-weight: bold;
+                  font-size: 13px;
+                  img {
+                  margin-right: 7px;
+                  width: 14px;
+                  height: 14px;
+                  }
+                  `
 
 const InputText = Styled.p`
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
-`
+                  color: #b3b3b3;
+                  font-size: 15px;
+                  text-align: left;
+                  vertical-align: middle;
+                  font-weight: regular;
+                  `
 
 const InputTextChanger = Styled.input`
-    padding-left: 5px;
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
-`
+                  padding-left: 5px;
+                  color: #b3b3b3;
+                  font-size: 15px;
+                  text-align: left;
+                  vertical-align: middle;
+                  font-weight: regular;
+                  `
 
 const BoxWrap = Styled.button`
-    padding: 4px 15px 5px 15px;
-    color: black;
-    min-width: 100px;
-    height: 300px;
-    border: none;
-    font-weight: bold;
-    text-align: center;
-    font-size: 13px;
-    .react-calendar{
-        border: 0;
-    }
-`
+                  padding: 4px 15px 5px 15px;
+                  color: black;
+                  min-width: 100px;
+                  height: 300px;
+                  border: none;
+                  font-weight: bold;
+                  text-align: center;
+                  font-size: 13px;
+                  .react-calendar{
+                  border: 0;
+                  }
+                  `
 
 const PtagWrap = Styled.p`
-    padding-left: 8px;
-    font-family: NotoSansCJKkr;
-    height: 32px;
-    border: 0.5px solid #b3b3b3;
-    width: calc( 100% - 8px );
-    background-color: #f4f6fa;
-    font-size: 15px;
-    &::placeholder:{
-        color: #b3b3b3;
-    };
-    &:first-child{
-            text-align: left;
-    }
-`
+                  padding-left: 8px;
+                  font-family: NotoSansCJKkr;
+                  height: 32px;
+                  border: 0.5px solid #b3b3b3;
+                  width: calc( 100% - 8px );
+                  background-color: #f4f6fa;
+                  font-size: 15px;
+                  &::placeholder:{
+                  color: #b3b3b3;
+                  };
+                  &:first-child{
+                  text-align: left;
+                  }
+                  `
 export default OrderRegisterContainer
