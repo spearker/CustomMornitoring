@@ -116,7 +116,7 @@ const ContractPickerModal = ({select, onClickEvent, text}: IProps) => {
                     <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 수주리스트 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="거래처 명을 입력해 주세요." style={{flex: 96}}
+                            <SearchBox placeholder="거래처 명을 입력해 주세요. (미납 수량이 0이면 나오지 않습니다.) " style={{flex: 96}}
                                        onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
