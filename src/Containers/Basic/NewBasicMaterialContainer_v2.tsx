@@ -292,7 +292,7 @@ const NewBasicMaterialRegister_V2 = () => {
                           inputData.materialList && inputData.materialList.map((v, i) => {
                             return (
                               <DropdownInput title={i === 0 ? '품목' : ''} contents={['123', '456']} target={''} line={true}
-                                             isPadding={true}
+                                             isPadding={7}
                                              onChangeEvent={() => {
                                              }}/>
                             )
