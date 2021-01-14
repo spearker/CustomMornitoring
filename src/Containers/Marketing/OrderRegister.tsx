@@ -27,13 +27,13 @@ const OrderRegisterContainer = () => {
     pk: string
     customer_name: string
     material_name: string
-    amount: number
+    left: number
     date: string
   }>({
     pk: '',
     customer_name: '',
     material_name: '',
-    amount: 0,
+    left: 0,
     date: ''
   })
 
@@ -41,7 +41,7 @@ const OrderRegisterContainer = () => {
     const tempUrl = `${API_URLS['shipment'].register}`
     const resultData = await postOrderRegister(tempUrl, {
       contract_pk: orderData.pk,
-      amount: orderData.amount,
+      left: orderData.left,
       date: selectDate
     })
 
@@ -136,28 +136,28 @@ const OrderRegisterContainer = () => {
               </td>
             </tr>
             <tr>
-              <td>• 수량</td>
+              <td>• 출하량</td>
               <td>
                 {isOpen ?
                   <div style={{display: 'flex'}}>
                     <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." onChange={(e) => setOrderData({
                       ...orderData,
-                      amount: Number(e.target.value)
-                    })} value={Number(orderData.amount) === 0 ? '' : Number(orderData.amount)}/>
-                    <BoxWrap style={{height: 36}}>
+                      left: Number(e.target.value)
+                    })} value={Number(orderData.left) === 0 ? '' : Number(orderData.left)}/>
+                    <BoxWrap style={{height: 36, backgroundColor: '#b3b3b3'}}>
                                             <span className="p-bold" onClick={() => {
                                               setIsOpen(false)
-                                            }}>수량 변경</span>
+                                            }}>변경 완료</span>
                     </BoxWrap>
                   </div> :
                   <div style={{display: 'flex'}}>
                     <input placeholder="수주 리스트가 입력되면 자동 입력됩니다." disabled={true}
                            onChange={(e) => setOrderData({
                              ...orderData,
-                             amount: Number(e.target.value)
+                             left: Number(e.target.value)
                            })}
-                           value={Number(orderData.amount) === 0 ? '' : Number(orderData.amount)}/>
-                    <BoxWrap style={{height: 36}}>
+                           value={Number(orderData.left) === 0 ? '' : Number(orderData.left)}/>
+                    <BoxWrap style={{height: 36, backgroundColor: '#19b9df'}}>
                                             <span className="p-bold" onClick={() => {
                                               setIsOpen(true)
                                             }}>수량 변경</span>
@@ -319,7 +319,6 @@ const BoxWrap = Styled.button`
     color: black;
     min-width: 100px;
     height: 300px;
-    background-color: #19b9df;
     border: none;
     font-weight: bold;
     text-align: center;

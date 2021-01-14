@@ -237,8 +237,6 @@ const Routers = () => {
         <Route exact path="/basic/material/register" component={NewBasicMaterialRegister}/>
         <Route exact path="/basic/barcode/register" component={BasicBarcodeRegister}/>
 
-        <Route exact path="/basic/material/register/v2" component={NewBasicMaterialRegister_V2}/>
-
         {/* 외주정보 관리 */}
         <Route exact path="/manage/" component={BasicDeviceRegister}/>
         <Route exact path="/outsourcing/company/register" component={Old_OutsourcingCompanyRegister}/>
