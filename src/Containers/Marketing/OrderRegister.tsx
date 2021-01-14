@@ -43,7 +43,7 @@ const OrderRegisterContainer = () => {
     const tempUrl = `${API_URLS['shipment'].register}`
     const resultData = await postOrderRegister(tempUrl, {
       contract_pk: orderData.pk,
-      left: orderData.left ? orderData.left.toString() : '',
+      amount: Number(orderData.left),
       date: selectDate
     })
 

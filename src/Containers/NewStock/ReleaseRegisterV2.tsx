@@ -23,9 +23,10 @@ import NormalInput from '../../Components/Input/NormalInput'
 
 
 const typeDummy = [
-  '정상 출고',
-  '생산 소진',
-  '오류 정정',
+  '선택 없음',
+  '반품',
+  '오류정정',
+  '현황기준',
 ]
 
 const StockDummy = [
@@ -330,7 +331,7 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
     <div>
       <Header title={isUpdate ? '출고 수정' : '출고 등록'}/>
       <WhiteBoxContainer>
-        <ListHeader title={decodeURIComponent(match.params.name)}/>
+        <ListHeader title={'필수 항목'}/>
         <NormalInput title={'재질'} value={'123123'} width={120}></NormalInput>
         <div style={{
           borderBottom: 'solid 0.5px #d3d3d3',
@@ -342,7 +343,7 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
           <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 출고
             종류</p>
           <RegisterDropdown type={'string'} onClickEvent={(e: string) => setSelectType(e)} select={selectType}
-                            contents={match.params.parts ? stockList : typeList} text={'출고 종류을 선택해 주세요'}
+                            contents={typeList} text={'출고 종류을 선택해 주세요'}
                             buttonWid={30}/>
         </div>
         <NormalNumberInput title={'재고 수량'} width={120} value={amount}
