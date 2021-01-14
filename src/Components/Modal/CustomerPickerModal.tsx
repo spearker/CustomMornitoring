@@ -44,7 +44,7 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=1000`
+        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=15`
         const resultData = await getCustomerData(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
