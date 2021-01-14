@@ -43,8 +43,8 @@ const ProcessDetailRegisterContainer = () => {
         {name: '', type: -1, machines: ''}
     ])
 
-    const getSearchProcessList = useCallback(async () => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${page.current}&limit=15`
+    const getSearchProcessList = useCallback(async (isSearch?: boolean) => {
+        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${isSearch ? 1 : page.current}&limit=15`
         const resultData = await getSearchProcess(tempUrl)
 
         const getProcess = resultData.results.info_list.map((v, i) => {
@@ -94,7 +94,7 @@ const ProcessDetailRegisterContainer = () => {
 
 
     const onSearch = () => {
-        getSearchProcessList()
+        getSearchProcessList(true)
         if (searchData && searchData !== '') {
             const target: IDetailRegister[] = []
 
