@@ -100,8 +100,8 @@ const JunheeRouters = () => {
             <Route exact path="/basic/material/register/v2" component={NewBasicMaterialRegister_V2}/>
             <Route exact path="/stock/rawmaterial/list/v2" component={NewRawMaterial_V2}/>
             <Route exact path="/stock/rawmaterial/location/v2" component={NewRawMaterialLocation_V2}/>
-            <Route exact path="/stock/warehousing/register/v2/version/:pk/:name" component={WarehousingRegister_V2}/>
-            <Route exact path="/stock/release/register/v2/version/:pk/:name" component={ReleaseRegister_V2}/>
+            <Route exact path="/stock/warehousing/register/v2/version/:pk/:test" component={WarehousingRegister_V2}/>
+            <Route exact path="/stock/release/register/v2/version/:pk/:test" component={ReleaseRegister_V2}/>
 
             <Route path='/free' component={OutsourcingRegisterFree}/>
         </Switch>
