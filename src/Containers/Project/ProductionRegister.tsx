@@ -12,6 +12,7 @@ import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 import {useHistory} from 'react-router-dom'
 import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
 import RadioInput from '../../Components/Input/RadioInput'
+import {getProductData} from '../../Api/pm/statistics'
 
 const typeDummy = [
   '수주 처리',
@@ -23,9 +24,14 @@ interface modalData {
   pk?: string
 }
 
-const ProductionRegisterContainer = () => {
+interface Props {
+  match: any
+}
+
+const ProductionRegisterContainer = ({match}: Props) => {
   const history = useHistory()
   const [open, setOpen] = useState<boolean>(false)
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [typeList, setTypelist] = useState<string[]>(typeDummy)
   const [selectType, setSelectType] = useState<string>()
   const [modalSelect, setModalSelect] = useState<{
@@ -45,6 +51,7 @@ const ProductionRegisterContainer = () => {
   const [memberType, setMemberType] = useState<number>(-1)
   const [materialType, setMaterialType] = useState<number>(-1)
   const [selectMember, setSelectMember] = useState<modalData>({})
+  const [pk, setPk] = useState<string>('')
 
   const [chitData, setChitData] = useState<IProductionAdd>({
     type: 0,
@@ -56,6 +63,15 @@ const ProductionRegisterContainer = () => {
     supplier: '',
     segment: ''
   })
+
+  useEffect(() => {
+      if (match.params.pk) {
+        setIsUpdate(true)
+        getData()
+
+      }
+    }, []
+  )
 
   const postChitRegisterData = useCallback(async () => {
     const tempUrl = `${API_URLS['production'].register}`
@@ -108,6 +124,100 @@ const ProductionRegisterContainer = () => {
     }
   }, [chitData, modalSelect])
 
+  const getData = async () => {
+    const tempUrl = `${API_URLS['production'].load}?pk=${match.params.pk}`
+    const resultData = await getProductData(tempUrl)
+
+    if (resultData) {
+      let type = ''
+      if (resultData.type === 0) {
+        type = '수주 처리'
+      } else if (resultData.type === 1) {
+        type = '안전 재고 확보'
+      }
+
+      setPk(resultData.pk)
+
+      setSelectType(type)
+
+      setModalSelect({
+        ...modalSelect,
+        production: {
+          name: resultData.material_name,
+          pk: resultData.material
+        },
+        factory: {
+          name: resultData.supplier_name,
+          pk: resultData.supplier
+        },
+      })
+
+      setSelectDateRange({
+        start: resultData.from,
+        end: resultData.to
+      })
+
+      setSelectMember({
+        name: resultData.manager_name,
+        pk: resultData.manager
+      })
+
+      setChitData({...chitData, amount: resultData.amount})
+    }
+  }
+
+  const postUpdate = async () => {
+    const tempUrl = `${API_URLS['production'].projectUpdate}`
+    let type = ''
+    if (selectType === '수주 처리') {
+      type = '0'
+    } else if (selectType === '안전 재고 확보') {
+      type = '1'
+    }
+
+    if (type === '') {
+      alert('타입은 필수 항목입니다. 반드시 선택해주세요.')
+      return
+    } else if (selectMember.pk === '') {
+      alert('계획자는 필수 항목입니다. 반드시 입력해 주세요.')
+      return
+    } else if (modalSelect.production?.pk === '') {
+      alert('품목명은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (selectDateRange.start === '') {
+      alert('생산계획 일정은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (selectDateRange.end === '') {
+      alert('생산계획 일정은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (chitData.amount === 0) {
+      alert('총 수량은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (modalSelect.factory.pk === '') {
+      alert('납품 업체를 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (modalSelect.segment.pk === '') {
+      alert('공정명은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    }
+
+    const resultData = await postProductionRegister(tempUrl, {
+      pk: pk,
+      type: Number(type),
+      manager: selectMember.pk,
+      material: modalSelect.production?.pk,
+      from: selectDateRange.start,
+      to: selectDateRange.end,
+      amount: chitData.amount,
+      supplier: modalSelect.factory?.pk,
+      segment: modalSelect.segment?.pk
+    })
+
+    if (resultData) {
+      history.goBack()
+    }
+  }
+
   useEffect(() => {
     setSelectMember({})
   }, [memberType])
@@ -116,13 +226,18 @@ const ProductionRegisterContainer = () => {
     <div>
       <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
         <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-          <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>생산 계획 등록</span>
+          <span style={{
+            fontSize: 20,
+            marginRight: 18,
+            marginLeft: 3,
+            fontWeight: 'bold'
+          }}>{isUpdate ? '생산 계획 수정' : '생산 계획 등록'}</span>
         </div>
       </div>
 
       <ContainerMain>
         <div>
-          <p className={'title'}>필수 항목 1 </p>
+          <p className={'title'}>필수 항목</p>
         </div>
         <div>
           <table style={{color: 'black'}}>
@@ -192,7 +307,7 @@ const ProductionRegisterContainer = () => {
             {/*</tr>*/}
             <tr>
               <td>• 목표수량</td>
-              <td><Input placeholder="생산 목표 수량은 입력해 주세요 (최대: 2,147,483,647개)" type={'number'}
+              <td><Input placeholder="생산 목표 수량은 입력해 주세요 (최대: 2,147,483,647개)" type={'number'} value={chitData.amount}
                          onChange={(e) => setChitData({...chitData, amount: Number(e.target.value)})}/>
               </td>
             </tr>
@@ -242,10 +357,15 @@ const ProductionRegisterContainer = () => {
         </div>
         <div style={{marginTop: 130}}>
           <ButtonWrap onClick={async () => {
-            await postChitRegisterData()
+            if (isUpdate) {
+              await postUpdate()
+            } else {
+              await postChitRegisterData()
+            }
+
           }}>
             <div style={{}}>
-              <p style={{fontSize: 18}}>등록하기</p>
+              <p style={{fontSize: 18}}>{isUpdate ? '수정하기' : '등록하기'}</p>
             </div>
           </ButtonWrap>
         </div>

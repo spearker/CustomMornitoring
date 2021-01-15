@@ -7,6 +7,8 @@ import TextList from '../../Components/List/TextList';
 import SearchModalContainer from '../SearchModalContainer';
 import SearchInput from '../../Components/Input/SearchInput';
 import SearchedList from '../../Components/List/SearchedList';
+import Pagination from "@material-ui/lab/Pagination";
+import Styled from "styled-components";
 
 interface Props {
     onChangeEvent: any,
@@ -26,11 +28,13 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
     const [keyword, setKeyword] = useState<string>('');
     const [searchedList, setSearchedList] = useState<any>([]);
     const [checkList, setCheckList] = useState<any>([]);
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    })
 
     useEffect(() => {
         onSearchInit()
-    }, [isOpen])
-
+    }, [isOpen, page.current])
 
     /**
      * onClickSearch()
@@ -41,7 +45,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
      */
     const onClickSearch = useCallback(async (e?) => {
         e.preventDefault()
-        onSearchInit()
+        onSearchInit(true)
 
         // if(keyword  === '' || keyword.length < 2){
         //   //alert('2글자 이상의 키워드를 입력해주세요')
@@ -50,8 +54,8 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
 
     }, [keyword, searchedList])
 
-    const onSearchInit = async () => {
-        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=1`, getToken(TOKEN_NAME))
+    const onSearchInit = async (isSearch?: boolean) => {
+        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=${isSearch ? 1 : page.current}`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -60,6 +64,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
             if (res.status === 200) {
                 const results = res.results;
                 setSearchedList(results.info_list);
+                setPage({current: results.current_page, total: results.total_page})
             } else {
                 //TODO:  기타 오류
             }
@@ -141,6 +146,11 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
 
                     }
                 </form>
+                <PaginationBox>
+                    <Pagination count={page.total ? page.total : 0} page={page.current}
+                                onChange={(event, i) => setPage({...page, current: i})}
+                                boundaryCount={1} color={'primary'}/>
+                </PaginationBox>
             </SearchModalContainer>
 
         </>
@@ -148,5 +158,20 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
     );
 }
 
+
+const PaginationBox = Styled.div`
+    margin-top: 10px;
+    height:20px;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    position:relative;
+    .MuiButtonBase-root {
+        color: black;
+    }
+    .MuiPaginationItem-root{
+        color: black;
+    }
+`
 
 export default BasicSearchContainer;

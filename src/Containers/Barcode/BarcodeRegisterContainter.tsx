@@ -217,7 +217,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
               <p style={{fontFamily: 'NotoSansCJKkr', color: '#b3b3b3', textAlign: 'center'}}>바코드 이미지가
                 없습니다.</p>
               :
-              <img src={barcodeImg.startsWith('resource') ? `${SF_ENDPOINT_RESOURCE}${barcodeImg}` : barcodeImg}
+              <img src={barcodeImg ? `${barcodeImg}` : ''}
                    style={{width: '100%', height: '100%', float: 'right'}}/>
             }
           </div>

@@ -1,3 +1,6 @@
+import autoCustomType from '../AutoCustomSetting/autoCustomConfig'
+import {POINT_COLOR} from './configset'
+
 export const changeStatusToString = ((status: number | undefined) => {
   if (status === 11) {
     return '진행'
@@ -18,7 +21,7 @@ export const changeStatusToString = ((status: number | undefined) => {
     }else if(status ==='ok'){
         return '정상'
     }*/ else if (status === -1) {
-    return '계획정지'
+    return autoCustomType() === 'jaeil_js_trans' ? `계획정지` : '전원 OFF'
   } else {
     return '에러'
   }
@@ -39,7 +42,11 @@ export const changeStatusToColor = ((status: number | undefined) => {
   }/*else if(status === 'ready'){
         return '#717c90'
     }*/ else if (status === -1) {
-    return '#b3b3b3'
+    if (autoCustomType() === 'jaeil_js_trans') {
+      return POINT_COLOR
+    } else {
+      return '#b3b3b3'
+    }
   } else if (status === -10) {
     return '#ffffff'
   } else {

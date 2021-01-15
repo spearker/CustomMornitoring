@@ -224,7 +224,8 @@ const OvertonTable: React.FunctionComponent<Props> = ({
         {
           EventList && EventList.map((bv, bi) => {
             return (
-              <p className="p-limits" style={{textAlign: 'center'}}>{eventTitle ? eventTitle : ''}</p>
+              <p className="p-limits"
+                 style={{textAlign: 'center', width: bv.Width ?? '100%'}}>{eventTitle ? eventTitle : ''}</p>
             )
           })
         }
