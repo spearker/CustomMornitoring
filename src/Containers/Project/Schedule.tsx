@@ -31,6 +31,7 @@ const ScheduleContainer = () => {
   const [titleEventList, setTitleEventList] = useState<any[]>([])
   const [detailTitleEventList, setDetailTitleEventList] = useState<any[]>([])
   const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+  const [eventList, setEventList] = useState<any[]>([])
   const [detailList, setDetailList] = useState<{ chit_list: any[], name: string, process: any[], state: boolean }>({
     chit_list: [],
     name: '',
@@ -92,6 +93,16 @@ const ScheduleContainer = () => {
       Link: () => Notiflix.Confirm.Show('경고', '데이터를 삭제하면 기존 데이터는 롤백됩니다. 그래도 삭제하시겠습니까?', '확인', '취소', () => postDelete(), () => {
       })
     }
+  ]
+
+  const eventdummy = [
+    {
+      Name: '수정',
+      Width: 80,
+      buttonWidth: 60,
+      Color: 'white',
+      Link: (v) => history.push(`/project/production/register/${v.pk}`)
+    },
   ]
 
   const detailTitleEvent = [
@@ -310,6 +321,7 @@ const ScheduleContainer = () => {
     getList()
     setIndex(indexList['schedule'])
     // setList(dummy)
+    setEventList(eventdummy)
     setTitleEventList(titleeventdummy)
     setDetailTitleEventList(detailTitleEvent)
     // setDetailList(detaildummy)
@@ -330,6 +342,7 @@ const ScheduleContainer = () => {
           if (!e.match(regExp)) setSearchValue(e)
         }}
         selectDate={selectDate}
+        EventList={eventList}
         calendarOnClick={calendarOnClick}
         titleOnClickEvent={titleEventList}
         allCheckOnClickEvent={allCheckOnClick}

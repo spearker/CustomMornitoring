@@ -15,6 +15,7 @@ import MonitoringVerticalTable from '../../Components/Table/MonitoringVerticalTa
 import {API_URLS, getLoadTonList} from '../../Api/pm/monitoring'
 import {API_URLS as MAP_URLS} from '../../Api/pm/map'
 import MapBoard from '../../Components/Map/MapBoard'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 // 모니터링 공통
 const PressMonitoring = () => {
@@ -126,7 +127,10 @@ const PressMonitoring = () => {
             <>
               <WrapBox>
                 <MonitoringTabs contents={
-                  [{title: '전체', value: -10}, {title: '꺼짐', value: -1}, {title: '대기', value: 10}, {
+                  [{title: '전체', value: -10}, {
+                    title: autoCustomType() === 'jaeil_js_trans' ? '계획 정지' : '전원 OFF',
+                    value: -1
+                  }, {title: '대기', value: 10}, {
                     title: '진행',
                     value: 11
                   }, {title: '완료', value: -2}, {title: '에러', value: 0}]

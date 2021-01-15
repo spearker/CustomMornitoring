@@ -79,9 +79,8 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
   const [isPoupup, setIsPoupup] = useState<boolean>(false)
   const [isSearched, setIsSearched] = useState<boolean>(false)
   const [keyword, setKeyword] = useState<string>('')
-  const [checkList, setCheckList] = useState<IMaterial[]>([])
-  const [list, setList] = useState<IMaterial[]>([])
-  const [searchList, setSearchList] = useState<IMaterial[]>([])
+  const [radioList, setRadioList] = useState<number[]>([0, 0, 0, 0, 0])
+  const [check, setCheck] = useState<number>(0)
 
   const [inputData, setInputData] = useObjectInput('CHANGE', {
     name: '',
@@ -128,7 +127,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
       if (res.status === 200) {
         const results = res.results
         if (isPoupup === true) {
-          setSearchList(results)
+          // setSearchList(results)
         } else {
           return
         }
@@ -248,6 +247,26 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
       <WhiteBoxContainer>
         <ListHeader title={'필수 항목'}/>
         <NormalInput title={'재질'} value={'123123'} width={120}></NormalInput>
+        <div style={{
+          borderBottom: 'solid 0.5px #d3d3d3',
+          display: 'flex',
+          paddingTop: 17,
+          paddingBottom: 17,
+          verticalAlign: 'top'
+        }}>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 사이즈</p>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 30, display: 'inline-block'}}>폭</p>
+          <InputBox style={{width: 400}} type="text" value={''} placeholder={'선택시 read only'} disabled/>
+          <p style={{
+            marginLeft: 13,
+            fontSize: 14,
+            marginTop: 5,
+            fontWeight: 700,
+            width: 40,
+            display: 'inline-block'
+          }}>두께</p>
+          <InputBox style={{width: 400}} type="text" value={''} placeholder={'선택시 read only'} disabled/>
+        </div>
         <NormalNumberInput title={'입고 중량'} width={120} value={amount}
                            onChangeEvent={(input) => setAmount(input)}
                            description={'중량을 입력해주세요 (단위: t)'}/>
@@ -261,7 +280,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
           <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 위치</p>
           <div style={{width: 921.63}}>
             <FactoryPickerModal onClickEvent={() => {
-            }} text={'위치를 선택해주세요'} keyword={'test'} option={1}/>
+            }} text={'위치를 선택해주세요'} keyword={'test'} option={1} width={'100%'}/>
           </div>
         </div>
         <div style={{
@@ -302,7 +321,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
           verticalAlign: 'top'
         }}>
           {
-            [1, 2, 3, 4, 5].map((v, i) => {
+            radioList.map((v, i) => {
               return (<div style={{
                 display: 'flex',
                 paddingTop: 18
@@ -317,9 +336,13 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
                 <InputBox style={{width: 725}} type="text" value={''} placeholder={'검수 항목'}
                           disabled/>
                 <RadioBox>
-                  <RadioInput title={''} width={0} line={false} target={0} isPadding={0}
+                  <RadioInput title={''} width={0} line={false} target={radioList[i]} isPadding={0} index={i}
                               onChangeEvent={(e) => {
-
+                                let tmp = radioList
+                                tmp[i] = e
+                                console.log(e)
+                                setRadioList([...tmp])
+                                console.log(tmp)
                               }}
                               contents={[{title: '불량', value: 0}, {title: '양호', value: 1}]}/>
                 </RadioBox>
@@ -336,10 +359,8 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
         }}>
           <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 품질 성적표</p>
           <RadioBox>
-            <RadioInput title={''} width={0} line={false} target={0} isPadding={0}
-                        onChangeEvent={(e) => {
-
-                        }}
+            <RadioInput title={''} width={0} line={false} target={check} isPadding={0} index={9999}
+                        onChangeEvent={(e) => setCheck(e)}
                         contents={[{title: '불합격', value: 0}, {title: '합격', value: 1}]}/>
           </RadioBox>
         </div>
