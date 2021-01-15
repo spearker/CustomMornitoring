@@ -76,16 +76,20 @@ const BasicBarcodeRegister = ({match}: Props) => {
         } else if (indexList[type] === undefined) {
             alert('항목은 필수 항목입니다. 반드시 선택해주세요.')
             return
-
         } else if (selectMachine?.name === undefined || selectMachine?.pk === undefined || selectMachine?.name === '' || selectMachine?.pk === '') {
             alert('상세항목은 필수 항목입니다. 반드시 선택해주세요.')
             return
-
         } else if (rules.toString() === '') {
             alert('바코드 번호는 필수 항목입니다. 반드시 바코드를 생성해주세요.')
             return
+        } else if (rules.toString().replace(',','').length < 12) {
+            alert('바코드 번호는 12자 이상이어야 합니다.')
+            return
+        } else if (rules.toString().replace(',','').length > 30) {
+            alert('바코드 번호는 30자 이하여야 합니다.')
+            return
         }
-        
+
         const data = {
             pk: getParameter('pk'),
             barcode_name: inputData.barcode_name,
@@ -104,7 +108,7 @@ const BasicBarcodeRegister = ({match}: Props) => {
     }, [inputData, selectMachine, rules, barcodeImg, reason, type])
 
     const postBarcodeRegister = useCallback(async () => {
-
+        
         if (inputData.barcode_name === '') {
             alert('바코드 명은 필수 항목입니다. 반드시 입력해주세요.')
             return
@@ -118,6 +122,12 @@ const BasicBarcodeRegister = ({match}: Props) => {
 
         } else if (rules.toString() === '') {
             alert('바코드 번호는 필수 항목입니다. 반드시 바코드를 생성해주세요.')
+            return
+        } else if (rules.toString().replace(',','').length < 12) {
+            alert('바코드 번호는 12자 이상이어야 합니다.')
+            return
+        } else if (rules.toString().replace(',','').length > 30) {
+            alert('바코드 번호는 30자 이하여야 합니다.')
             return
         }
 
