@@ -1,17 +1,17 @@
-import InnerBodyContainer from "../../Containers/InnerBodyContainer";
-import DashboardWrapContainer from "../../Containers/DashboardWrapContainer";
-import React from "react";
-import ProductionRegisterContainer from "../../Containers/Project/ProductionRegister";
+import InnerBodyContainer from '../../Containers/InnerBodyContainer'
+import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
+import React from 'react'
+import ProductionRegisterContainer from '../../Containers/Project/ProductionRegister'
 
-const ProductionRegister = () => {
-    return (
-        <DashboardWrapContainer index={'project'}>
+const ProductionRegister = ({match}: any) => {
+  return (
+    <DashboardWrapContainer index={'project'}>
 
-            <InnerBodyContainer>
-                <ProductionRegisterContainer />
-            </InnerBodyContainer>
-        </DashboardWrapContainer>
-    )
+      <InnerBodyContainer>
+        <ProductionRegisterContainer match={match}/>
+      </InnerBodyContainer>
+    </DashboardWrapContainer>
+  )
 }
 
 export default ProductionRegister

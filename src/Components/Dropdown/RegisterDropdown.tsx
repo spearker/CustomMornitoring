@@ -7,7 +7,7 @@ import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
 //드롭다운 컴포넌트
 
 interface IProps {
-  select?: string | Number,
+  select?: string,
   onClickEvent: any
   contents: any,
   text: string
@@ -21,6 +21,7 @@ interface IProps {
 const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid, disabled, style, inputStyle}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
+  const [selectValue, setSelectValue] = useState<string>('')
 
   const ref = useOnclickOutside(() => {
     setIsOpen(false)
@@ -30,8 +31,10 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
     setIsOpen(!isOpen)
   }
   useEffect(() => {
-
-  }, [])
+    if (select) {
+      setSelectValue(select)
+    }
+  }, [select])
 
   return (
     <div style={{position: 'relative', display: 'inline-block', width: 917, ...style}} ref={ref}>
@@ -40,9 +43,9 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
       }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
         <div style={{display: 'inline-block', height: 32, width: 885, ...inputStyle}}>
           {
-            select ? <p onClick={() => {
+            selectValue !== '' ? <p onClick={() => {
                 setIsOpen(true)
-              }} style={{marginTop: 5}}>&nbsp; {select}</p>
+              }} style={{marginTop: 5}}>&nbsp; {selectValue}</p>
               : <p onClick={() => {
                 setIsOpen(true)
               }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>

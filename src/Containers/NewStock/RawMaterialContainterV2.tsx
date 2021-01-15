@@ -83,7 +83,7 @@ const NewRawMaterialContainerV2 = () => {
       Width: 100,
       buttonWidth: 68,
       Color: 'white',
-      Link: (v) => history.push(`/stock/warehousing/register/v2/${v.pk}/${v.material_name}`)
+      Link: (v) => history.push(`/stock/warehousing/register/v2/version/${v.pk}/${v.material_name}`)
     },
     {
       Name: '출고',
@@ -94,7 +94,7 @@ const NewRawMaterialContainerV2 = () => {
         if (Number(v.current_stock) <= 0) {
           alert('출고할 수 있는 재고가 없습니다.')
         } else {
-          history.push(`/stock/release/register/v2/${v.pk}/${v.material_name}`)
+          history.push(`/stock/release/register/v2/version/${v.pk}/${v.material_name}`)
         }
       }
     },

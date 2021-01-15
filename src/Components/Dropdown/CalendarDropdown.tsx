@@ -25,6 +25,7 @@ interface IProps {
   unLimit?: boolean
   toDayLimit?: boolean
   limitType?: 'electric'
+  limitDate?: { min?: string, max?: string }
 }
 
 const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit, toDayLimit, limitType}: IProps) => {
@@ -90,7 +91,7 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit, toD
                 <div style={{display: 'inline-block', float: 'left', flex: 1, marginRight: 20}}>
                   {type === 'range' && <p>시작 날짜</p>}
                     <Calendar
-                        maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : (type === 'range' && selectRange) ? moment(selectRange.end).toDate() : toDayLimit ? moment().toDate() : moment().subtract(1, 'days').toDate()}
+                        maxDate={(unLimit && type === 'single') ? moment('2999-12-31').subtract(1, 'days').toDate() : (type === 'range' && selectRange) ? moment(selectRange.end).toDate() : toDayLimit ? moment().toDate() : moment().subtract(1, 'days').toDate()}
                         onChange={(date) => {
                           if (type === 'range') {
                             if (selectRange) {
