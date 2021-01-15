@@ -87,7 +87,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
 
     setType(indexList.indexOf(resultData.main_type))
     setInputData('barcode_name', resultData.barcode_name)
-    setBarcodeImg(resultData.barcode_img_url)
+    setBarcodeImg(`${SF_ENDPOINT_RESOURCE}${resultData.barcode_img_url}`)
     setSelectBarcode({name: resultData.barcode_name, pk: resultData.pk})
     setSelectMachine({name: resultData.detail_type, pk: resultData.item_pk})
     setRules(resultData.barcode_number.split(','))
