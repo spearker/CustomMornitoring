@@ -150,6 +150,10 @@ const ProductionRegisterContainer = ({match}: Props) => {
           name: resultData.supplier_name,
           pk: resultData.supplier
         },
+        segment: {
+          name: resultData.segment_name,
+          pk: resultData.segment_pk
+        }
       })
 
       setSelectDateRange({
