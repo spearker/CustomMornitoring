@@ -10,7 +10,7 @@ import {SF_ENDPOINT} from '../Api/SF_endpoint'
  * @param {string} data BLOB 객체
  * @returns X
  */
-export const uploadTempFile = async (data) => {
+export const uploadTempFile = async (data, isUrl?: boolean) => {
 
   const formData = new FormData()
   formData.append('file', data)
@@ -20,9 +20,13 @@ export const uploadTempFile = async (data) => {
     return false
   } else {
     if (res.status === 200) { //res.status === 200 //res !== null
-      const path: string = res.results //const path: string = res.results; //const path: string = res[0];
+      if (isUrl) {
+        return res //const path: string = res.results; //const path: string = res[0];
+      } else {
+        const path: string = res.results //const path: string = res.results; //const path: string = res[0];
+        return path
+      }
 
-      return path
     } else {
       alert('해당 파일 업로드 실패하였습니다.')
       return false

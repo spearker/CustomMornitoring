@@ -90,7 +90,7 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                     fontSize: '18px',
                     fontWeight: 'bold',
                     fontFamily: 'NotoSansCJKkr',
-                    margin: '0 8px 0 8px',
+                    margin: '0 4px 0 4px',
                     background: `url(${IcDropDownButton}) no-repeat 95% 50%`
                   }}
                   onChange={(e) => selectBoxChange(e.target.value)}
@@ -184,7 +184,7 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                   Object.keys(indexList).map((mv, mi) => {
                     //mv : [pk , machin_list, machine_name ... ]
                     return (
-                      typeof v[mv] === 'object' ?
+                      (v[mv] && typeof v[mv] === 'object') ?
                         <LimitSelect style={{
                           width: widthList[mi],
                           backgroundColor: clickValue === v ? '#19b9df' : '#353b48',
@@ -211,7 +211,7 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                                 onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                         >
                           {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
-                            ''
+                            '-'
                             :
                             v[mv]
                           }
