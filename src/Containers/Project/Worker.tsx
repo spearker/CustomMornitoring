@@ -192,12 +192,10 @@ const WorkerContainer = ({match}: Props) => {
   // }, [list, selectPk])
 
   useEffect(() => {
-    getList()
     setTitleEventList(titleeventdummy)
     setIndex(indexList['worker'])
     setEventList(eventdummy)
     // setList(dummy)
-
   }, [])
 
   useEffect(() => {
@@ -205,6 +203,19 @@ const WorkerContainer = ({match}: Props) => {
       getList()
     }
   }, [page.current, match.params.pk])
+
+  useEffect(() => {
+    const search = window.location.search
+    const params = new URLSearchParams(search)
+    const schedule = params.get('schedule')
+    console.log(schedule)
+
+    if (schedule) {
+      calendarOnClick(schedule.split('~')[0], schedule.split('~')[1], true)
+    } else {
+      getList()
+    }
+  }, [])
 
   return (
     <div>
