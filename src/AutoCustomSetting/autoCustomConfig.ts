@@ -1,7 +1,7 @@
 import {SF_ADDRESS} from '../Api/SF_endpoint'
 
 const autoCustomType = () => {
-    switch (SF_ADDRESS) {
+    switch (SF_ADDRESS.toString()) {
         case '121.173.205.139':
             return 'jaewoo_material_trans'
         case '106.248.33.213':
