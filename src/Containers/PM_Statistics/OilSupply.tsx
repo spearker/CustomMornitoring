@@ -130,6 +130,7 @@ const OilSupplyContainer = () => {
             getData()
         }
     }, [selectComponent, date])
+    
 
     return (
         <div>
