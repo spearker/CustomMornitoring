@@ -450,7 +450,7 @@ const CustomCapacity = () => {
                                     textAlign: 'left',
                                     fontFamily: 'NotoSansCJKkr-bold',
                                     fontSize: '14px',
-                                }}>평균 생산 갯수: {avgProduction}</p>
+                                }}>생산 시간당 평균 갯수: {avgProduction}</p>
                             </div>
                             <p style={{
                                 textAlign: 'left',
