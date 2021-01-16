@@ -27,6 +27,8 @@ interface Props {
     load_factor: number
     cavity: number
     error: string
+    loadton_value: number
+    capacity: number
   }
 }
 
@@ -81,7 +83,8 @@ const PressBox: React.FunctionComponent<Props> = ({machineData}) => {
           <PressStatusBox title={'생산수량'}
                           value={AddComma(machineData.production)}
                           fontSize={'22px'}/>
-          <PressStatusBox title={'부하율'} value={`${machineData.load_factor}%`} fontSize={'30px'}
+          <PressStatusBox title={'부하율'} value={`${machineData.loadton_value} / ${machineData.capacity}`}
+                          fontSize={'30px'}
                           titleColor={'#000000'}
                           valueColor={machineData.load_factor === 0 ? '#fff' : (machineData.load_factor < 50 ? '#fff' : (machineData.load_factor < 80 ? 'green' : 'red'))}/>
           <PressStatusBox title={'캐비티'} value={machineData.cavity} fontSize={'38px'}/>

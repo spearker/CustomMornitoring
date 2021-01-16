@@ -150,7 +150,8 @@ const InAndOutTable: React.FunctionComponent<Props> = ({selectBoxChange, widthLi
                         style={{
                           backgroundColor: clickValue === v ? '#19b9df' : '#111319',
                           borderTop: 0 === i ? '0.5px solid #353b48' : '0.5px solid #353b4850',
-                          borderBottom: valueList.length === i + 1 ? '0.5px solid #353b48' : ''
+                          borderBottom: valueList.length === i + 1 ? '0.5px solid #353b48' : '',
+                          cursor: mainOnClickEvent ? 'pointer' : ''
                         }}>
                 {
                   checkOnClickEvent ?
