@@ -99,8 +99,15 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
       setD(res.material_spec_D)
       setInputData({
         ...inputData,
-        material_pk: res.pk
+        material_pk: res.pk,
+        inspections: res.inspections.map((v, i) => {
+          return {
+            inspect: v,
+            isFine: false
+          }
+        })
       })
+      setRadioList(new Array(res.inspections.length).fill(0))
     }
   }
 
@@ -121,7 +128,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
 
     if (res !== false) {
       setPath(res)
-      setInputData({...inputData, quality_chart: res})
+      setInputData({...inputData, quality_chart: res.results})
       return
     } else {
       return
@@ -163,7 +170,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
       cost: inputData.cost === 0 ? undefined : inputData.cost,
       quality_chart: inputData.quality_chart === '' ? undefined : inputData.quality_chart,
       inspections: inputData.inspections && inputData.inspections.length !== 0 ? inputData.inspections : undefined,
-      passed: inputData.inspections && inputData.inspections.length !== 0 ? inputData.passed === undefined ? undefined : inputData.passed : undefined,
+      passed: inputData.inspections && inputData.inspections.length !== 0 ? check === 0 ? false : check === 1 ? true : inputData.passed : undefined,
     })
 
 
@@ -304,7 +311,9 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
                   width: 120,
                   display: 'inline-block'
                 }}>{i === 0 ? '• 검수 항목' : ''}</p>
-                <InputBox style={{width: 725}} type="text" value={''} placeholder={'검수 항목'}
+                <InputBox style={{width: 725}} type="text"
+                          value={inputData.inspections ? inputData.inspections[i] ? inputData.inspections[i].inspect : '' : ''}
+                          placeholder={'검수 항목'}
                           disabled/>
                 <RadioBox>
                   <RadioInput title={''} width={0} line={false} target={radioList[i]} isPadding={0} index={i}
@@ -312,6 +321,14 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
                                 let tmp = radioList
                                 tmp[i] = e
                                 setRadioList([...tmp])
+                                if (inputData.inspections) {
+                                  let temp = inputData.inspections
+                                  temp[i] = {...temp[i], isFine: e === 0 ? false : true}
+                                  setInputData({
+                                    ...inputData,
+                                    inspections: temp
+                                  })
+                                }
                               }}
                               contents={[{title: '불량', value: 0}, {title: '양호', value: 1}]}/>
                 </RadioBox>
