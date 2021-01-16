@@ -20,7 +20,17 @@ import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import {API_URLS, postStockRegister} from '../../Api/mes/manageStock'
 import DateInput from '../../Components/Input/DateInput'
 import NormalInput from '../../Components/Input/NormalInput'
+import {getBasicList} from '../../Api/mes/basic'
+import ItemPickerModal from '../../Components/Modal/ItemPickerModal'
 
+const pickerModalData = [
+  {title: '품목명', key: 'material_name', width: 150},
+  {title: 'Lot번호', key: 'LOT', width: 150},
+  {title: '총 중량', key: 'current_stock', width: 150},
+  {title: '보관장소', key: 'location_name', width: 150},
+  {title: '재질', key: 'texture', width: 150},
+  {title: '입고일', key: 'warehousing_date', width: 150},
+]
 
 const typeDummy = [
   '선택 없음',
@@ -65,6 +75,10 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
   const [selectType, setSelectType] = useState<string>()
   const [amount, setAmount] = useState<number>()
 
+  const [texture, setTexture] = useState<string>('')
+  const [w, setW] = useState<number>(0)
+  const [d, setD] = useState<number>(0)
+
   const [paths, setPaths] = useState<any[1]>([null])
   const [oldPaths, setOldPaths] = useState<any[1]>([null])
 
@@ -92,6 +106,7 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
   })
 
   useEffect(() => {
+    getData()
     if (getParameter('pk') !== '') {
       setPk(getParameter('pk'))
       ////alert(`수정 페이지 진입 - pk :` + param)
@@ -179,36 +194,27 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
    * @param {string} pk 기계 pk
    * @returns X
    */
-  const getData = useCallback(async () => {
+  const getData = async () => {
 
-    const res = await getRequest(`${SF_ENDPOINT}/api/v1/customer/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+    const tempUrl = `${API_URLS['stock'].rawLoad}?pk=${match.params.pk}`
+    const res = await getBasicList(tempUrl)
 
-    if (res === false) {
-      //TODO: 에러 처리
-    } else {
-      if (res.status === 200) {
-        const data = res.results
-        setName(data.name)
-        setPk(data.pk)
-        setNo(Number(data.number))
-        setPk(data.pk)
-        setCeo(data.ceo)
-        setOldPaths([data.photo])
-        setPhone(data.telephone)
-        setEmailM(data.manager_email)
-        setPhoneM(data.manager_phone)
-        setManager(data.manager)
-        setEmail(data.ceo_email)
-
-        setInfoList(data.info_list)
-        setAddress(data.address)
-        setFax(data.fax)
-
-      } else {
-        //TODO:  기타 오류
-      }
+    if (res) {
+      setTexture(res.texture)
+      setW(res.material_spec_W)
+      setD(res.material_spec_D)
+      setInputData({
+        ...inputData,
+        material_pk: res.pk,
+        inspections: res.inspections.map((v, i) => {
+          return {
+            inspect: v,
+            isFine: false
+          }
+        })
+      })
     }
-  }, [pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax])
+  }
 
   /**
    * onsubmitFormUpdate()
@@ -332,7 +338,18 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
       <Header title={isUpdate ? '출고 수정' : '출고 등록'}/>
       <WhiteBoxContainer>
         <ListHeader title={'필수 항목'}/>
-        <NormalInput title={'재질'} value={'123123'} width={120}></NormalInput>
+        <NormalInput title={'재질'} value={texture} width={120}></NormalInput>
+        <div style={{
+          borderBottom: 'solid 0.5px #d3d3d3',
+          display: 'flex',
+          paddingTop: 17,
+          paddingBottom: 17,
+          verticalAlign: 'top'
+        }}>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 품번/Lot</p>
+          <ItemPickerModal onClickEvent={() => {
+          }} text={'품번/lot를 선택해 주세요'} type={'lot'} title={'품번/Lot'} width={921.63} tableHeaderValue={pickerModalData}/>
+        </div>
         <div style={{
           borderBottom: 'solid 0.5px #d3d3d3',
           display: 'flex',

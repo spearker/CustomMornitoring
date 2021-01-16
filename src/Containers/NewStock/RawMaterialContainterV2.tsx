@@ -45,7 +45,7 @@ const NewRawMaterialContainerV2 = () => {
       texture: '재질',
       material_spec_W: '폭(mm)',
       material_spec_D: '두께(mm)',
-      current_stock: '총 중량(kg)',
+      current_stock: '총 중량(t)',
       coils: '코일 개수(ea)',
     }
   }
@@ -57,7 +57,7 @@ const NewRawMaterialContainerV2 = () => {
       material_spec_W: '폭(mm)',
       material_spec_D: '두께(mm)',
       warehousing_amount: '입고 중량(t)',
-      current_stock: '재고 중량(t)',
+      stock: '재고 중량(t)',
       status: '상태',
       location_name: ['위치'],
       warehousing_date: '입고일',
@@ -198,7 +198,12 @@ const NewRawMaterialContainerV2 = () => {
 
   useEffect(() => {
     getList()
+    setSelectPk(null)
   }, [page.current, filter])
+
+  // useEffect(() => {
+  //
+  // }, [selectPk])
 
   useEffect(() => {
     getData(selectPk)
@@ -232,6 +237,9 @@ const NewRawMaterialContainerV2 = () => {
             <InAndOutTable indexList={subIndex} valueList={detailList}
                            alignList={alignList}
                            widthList={widthList}
+                           mainOnClickEvent={(v) => {
+                             history.push(`/stock/warehousing/register/v2/version/${selectPk}/1111/${v.pk}`)
+                           }}
                            currentPage={detailPage.current}
                            totalPage={detailPage.total}
                            pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>
