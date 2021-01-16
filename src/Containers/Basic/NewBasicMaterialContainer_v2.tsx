@@ -48,9 +48,9 @@ const regExp = /^[0-9]*$/
 const NewBasicMaterialRegister_V2 = () => {
   const history = useHistory()
   const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
-  const [type, setType] = useState<number>(0)
   const [essential, setEssential] = useState<any[]>([])
   const [optional, setOptional] = useState<any[]>([])
+  const [basesList, setBasesList] = useState<{ name: string, pk: string }[]>([])
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [isDetail, setIsDetail] = useState<boolean>(false)
@@ -69,10 +69,10 @@ const NewBasicMaterialRegister_V2 = () => {
     material_spec_W: null,
     material_spec_H: null,
     material_spec_D: null,
+    bases: [''],
     texture: null,
     model: [''],
-    materialList: [''],
-    checkList: ['']
+    inspections: ['']
   })
 
   useEffect(() => {
@@ -97,8 +97,8 @@ const NewBasicMaterialRegister_V2 = () => {
         pk: data.pk,
         material_name: data.material_name,
         material_type: data.material_type,
-        material_code: data.material_code,
-        location: {pk: data.location_pk, name: data.location_name},
+        material_code: data.material_code === '-' ? undefined : data.material_code,
+        location: {pk: data.location_pk, name: data.location_name === '-' ? undefined : data.location_name},
         manufacturer: data.manufacturer,
         material_spec_W: data.material_spec_W,
         material_spec_H: data.material_spec_H,
@@ -108,6 +108,8 @@ const NewBasicMaterialRegister_V2 = () => {
         material_spec: data.material_spec,
         stock: data.stock,
         texture: data.texture,
+        bases: data.bases ?? [''],
+        inspections: data.inspections ?? [''],
         model: data.model ? data.model.toString().split(',') : ['']
       }
       setInputData('all', form)
@@ -141,29 +143,28 @@ const NewBasicMaterialRegister_V2 = () => {
   }, [pk, optional, essential, inputData, document])
 
   const validationData = () => {
-    if (inputData.material_name.trim() === '') {
-      Notiflix.Notify.Failure('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
-      return false
-    } else if (inputData.material_code.trim() === '') {
-      Notiflix.Notify.Failure('품목 번호는 필수 항목입니다. 반드시 입력해주세요.')
-      return false
-    } else if (!inputData.location || !inputData.location.pk) {
-      Notiflix.Notify.Failure('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
-      return false
-    } else if (inputData.safe_stock === '') {
-      Notiflix.Notify.Failure('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
-      return false
+    if (inputData.material_type !== 0) {
+      if (inputData.material_name.trim() === '') {
+        Notiflix.Notify.Failure('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
+        return false
+      } else if (inputData.material_code.trim() === '') {
+        Notiflix.Notify.Failure('품목 번호는 필수 항목입니다. 반드시 입력해주세요.')
+        return false
+      } else if (!inputData.location || !inputData.location.pk) {
+        Notiflix.Notify.Failure('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
+        return false
+      } else if (inputData.safe_stock === '') {
+        Notiflix.Notify.Failure('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
+        return false
+      }
     }
 
     if (inputData.material_type === 0) {
-      if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
-        Notiflix.Notify.Failure('제조사는 필수 항목입니다. 반드시 입력해주세요.')
-        return false
-      } else if (inputData.cost === '') {
-        Notiflix.Notify.Failure('원가는 필수 항목입니다. 반드시 입력해주세요.')
-        return false
-      } else if ((inputData.texture).trim() === '' || inputData.texture === null) {
+      if ((inputData.texture).trim() === '' || inputData.texture === null) {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
+        return false
+      } else if (inputData.material_spec_W === '' || inputData.material_spec_D === '') {
+        Notiflix.Notify.Failure('폭과 두께는는 필수 항목입니다. 반드시 입력해주세요.')
         return false
       }
     } else if (inputData.material_type === 30) {
@@ -178,19 +179,21 @@ const NewBasicMaterialRegister_V2 = () => {
 
   const reConfigData = (isPk?: boolean) => {
     const data = {
-      material_name: inputData.material_name,
+      material_name: inputData.material_type === 0 ? `${inputData.texture}, ${inputData.material_spec_W} * ${inputData.material_spec_D}` : inputData.material_name,
       material_type: inputData.material_type,
-      material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
+      material_code: inputData.material_type === 0 ? undefined : inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
       manufacturer: inputData.manufacturer,
-      safe_stock: inputData.safe_stock,
+      safe_stock: inputData.safe_stock ?? 0,
       cost: inputData.cost,
-      location: inputData.location.pk,
+      location: inputData.location.pk === '' ? undefined : inputData.location.pk,
       info_list: inputData.info_list,
-      material_spec_W: inputData.material_spec_W,
-      material_spec_H: inputData.material_spec_H,
-      material_spec_D: inputData.material_spec_D,
+      material_spec_W: inputData.material_spec_W ? Number(inputData.material_spec_W) : 0,
+      material_spec_H: inputData.material_type === 0 ? 0 : inputData.material_spec_H,
+      material_spec_D: inputData.material_spec_D ? Number(inputData.material_spec_D) : 0,
       texture: inputData.texture,
-      model: inputData.model[0].trim() === '' ? null : inputData.model
+      bases: inputData.bases.filter((v) => v !== ''),
+      model: inputData.model[0].trim() === '' ? null : inputData.model,
+      inspections: inputData.inspections.filter((v) => v !== '')
     }
 
     if (isPk) {
@@ -228,9 +231,9 @@ const NewBasicMaterialRegister_V2 = () => {
               {
                 inputData.material_type === 0
                   ? <>
-                    {createInput('string', '재질', 'material_name', '재질을 입력해주세요')}
-                    {createInput('number', '폭', 'material_name', '폭을 입력해주세요')}
-                    {createInput('number', '두께', 'material_name', '두께를 입력해주세요')}
+                    {createInput('string', '재질', 'texture', '재질을 입력해주세요')}
+                    {createInput('number', '폭', 'material_spec_W', '폭을 입력해주세요')}
+                    {createInput('number', '두께', 'material_spec_D', '두께를 입력해주세요')}
                   </>
                   : <>
                     {createInput('string', '품목(품목명)', 'material_name', '품목명을 입력해주세요')}
@@ -282,19 +285,31 @@ const NewBasicMaterialRegister_V2 = () => {
                 inputData.material_type === 0
                   ? <>
                     <div>
-                      <FullAddInput title={'모델'} onChangeEvent={() => {
-                        let temp = _.cloneDeep(inputData.materialList)
+                      <FullAddInput title={'품목'} onChangeEvent={() => {
+                        let temp = _.cloneDeep(inputData.bases)
                         temp.push('')
-                        setInputData('materialList', temp)
+                        setInputData('bases', temp)
                       }}>
 
                         {
-                          inputData.materialList && inputData.materialList.map((v, i) => {
+                          inputData.bases && inputData.bases.map((v, i) => {
                             return (
-                              <DropdownInput title={i === 0 ? '품목' : ''} contents={['123', '456']} target={''} line={true}
-                                             isPadding={7}
-                                             onChangeEvent={() => {
-                                             }}/>
+                              <InputContainer title={i === 0 ? '품목' : ''} width={167.84} line={false} isPadding={7}>
+                                <ProductionPickerModal
+                                  innerWidth={872.16}
+                                  select={basesList[i]}
+                                  onClickEvent={(input) => {
+                                    let temp = _.cloneDeep(inputData.bases)
+                                    temp.splice(i, 1, input.pk)
+                                    setInputData('bases', temp)
+
+                                    let temp2 = _.cloneDeep(basesList)
+                                    temp2.splice(i, 1, input)
+                                    setBasesList([...temp2])
+                                  }}
+                                  text={'품목을 선택해주세요.'}
+                                />
+                              </InputContainer>
                             )
                           })
                         }
@@ -303,23 +318,23 @@ const NewBasicMaterialRegister_V2 = () => {
                     {createInput('number', '안전재고', 'safe_stock', '안전재고를 입력해주세요')}
                     <div>
                       <FullAddInput title={'검수 항목'} onChangeEvent={() => {
-                        let temp = _.cloneDeep(inputData.checkList)
+                        let temp = _.cloneDeep(inputData.inspections)
                         temp.push('')
-                        setInputData('checkList', temp)
+                        setInputData('inspections', temp)
                       }}>
                         {
-                          inputData.checkList && inputData.checkList.map((v, i) => {
+                          inputData.inspections && inputData.inspections.map((v, i) => {
                             return (
                               <ModelRulesInput title={i === 0 ? `• 검수 항목` : ''} value={v} index={i}
                                                onRemoveEvent={() => {
-                                                 let temp = _.cloneDeep(inputData.checkList)
+                                                 let temp = _.cloneDeep(inputData.inspections)
                                                  temp.splice(i, 1)
-                                                 setInputData('checkList', temp)
+                                                 setInputData('inspections', temp)
                                                }}
                                                onChangeEvent={(input) => {
-                                                 let temp = _.cloneDeep(inputData.checkList)
+                                                 let temp = _.cloneDeep(inputData.inspections)
                                                  temp.splice(i, 1, input)
-                                                 setInputData('checkList', temp)
+                                                 setInputData('inspections', temp)
                                                }}
                               />
                             )

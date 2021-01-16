@@ -7,7 +7,6 @@ import {API_URLS, getOilSupplyData} from '../../Api/pm/statistics'
 import {API_URLS as URLS_MAP} from '../../Api/pm/map'
 import MapBoard from '../../Components/Map/MapBoard'
 import NoDataCard from '../../Components/Card/NoDataCard'
-import {MyResponsiveLine} from "../../Components/LineChart/MyResponsiveLine";
 
 const chartOption = {
     chart: {
@@ -104,8 +103,6 @@ const OilSupplyContainer = () => {
     const [date, setDate] = React.useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
     const [selectComponent, setSelectComponent] = useState<string>('')
-    const [newSeries, setNewSeries] = useState<{ x: string, y: number }[]>([])
-    const [max, setMax] = useState<number>(100)
     const [pressLoading, setPressLoading] = useState<boolean>(false)
 
     const getData = useCallback(async () => {
@@ -124,7 +121,6 @@ const OilSupplyContainer = () => {
             }
         })
 
-
         setPressLoading(false)
     }, [data, selectComponent, date])
 
@@ -134,7 +130,6 @@ const OilSupplyContainer = () => {
             getData()
         }
     }, [selectComponent, date])
-    
 
     return (
         <div>

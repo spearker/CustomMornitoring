@@ -25,6 +25,7 @@ const OrderRegisterContainer = () => {
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [customer, setCustomer] = useState<string>('')
   const [material, setMaterial] = useState<string>('')
+  const [limitDate, setLimitDate] = useState<string>('')
   const [orderData, setOrderData] = useState<{
     pk: string
     customer_name: string
@@ -69,9 +70,11 @@ const OrderRegisterContainer = () => {
               <td>• 수주 리스트</td>
               <td>
                 <ContractPickerModal select={orderData} onClickEvent={(e) => {
-                  setOrderData({...e, left: e.left ? e.left.toString() : ''})
+                  setOrderData({...e, left: e.left ? e.left.toString() : '', date: e.date})
                   setCustomer(e.customer_name)
                   setMaterial(e.material_name)
+                  setSelectDate(e.date)
+                  setLimitDate(e.date)
                 }} text={'수주 리스트를 선택해 주세요.'}/>
               </td>
             </tr>
@@ -189,6 +192,14 @@ const OrderRegisterContainer = () => {
                             onBlur={() => {
                               if (!selectDate.match(regExp)) {
                                 Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                              } else {
+                                if (moment(selectDate).isBefore(limitDate)) {
+                                  Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 빠릅니다.', '확인')
+                                  setSelectDate(limitDate)
+                                  setOrderData({
+                                    ...orderData, date: limitDate
+                                  })
+                                }
                               }
                             }} onChange={(e) => {
                             setSelectDate(e.target.value)
@@ -200,8 +211,15 @@ const OrderRegisterContainer = () => {
                   </div>
                   <ColorCalendarDropdown unLimit={true} select={selectDate}
                                          onClickEvent={(select) => {
-                                           setSelectDate(select)
-                                           setOrderData({...orderData, date: select})
+                                           if (moment(select).isBefore(orderData.date)) {
+                                             Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 빠릅니다.', '확인')
+                                             setSelectDate(limitDate)
+                                             setOrderData({...orderData, date: limitDate})
+                                           } else {
+                                             setSelectDate(select)
+                                             setOrderData({...orderData, date: select})
+                                           }
+
                                          }} text={'날짜 변경'} type={'single'}
                                          customStyle={{height: 36, marginLeft: 0}}/>
                 </div>

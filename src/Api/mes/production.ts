@@ -106,6 +106,7 @@ export const API_URLS = {
     search: `/v1/project/search`,
     dropdown: `/v1/project/dropdown`,
     distribute: `/v1/project/distribute`,
+    projectUpdate: `/v1/project/update`,
     search2: `/v1/project/history/search`,
     chitSelect: `/v1/chit/select/machine`,
     add: `/v1/project/history/start`,

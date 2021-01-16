@@ -116,6 +116,12 @@ const ContractRegisterContainer = () => {
                           : <InputText onBlur={() => {
                             if (!selectDate.match(regExp)) {
                               Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                            } else {
+                              if (moment(contractData.deadline).isBefore(selectDate)) {
+                                setSelectDate(selectDate)
+                                setContractData({...contractData, date: selectDate, deadline: selectDate})
+                                setFinishDate(selectDate)
+                              }
                             }
                           }} style={{color: '#111319'}} onChange={(e) => {
                             setSelectDate(e.target.value)
@@ -125,8 +131,14 @@ const ContractRegisterContainer = () => {
                     </div>
                   </div>
                   <ColorCalendarDropdown unLimit={true} select={selectDate} onClickEvent={(select) => {
-                    setSelectDate(select)
-                    setContractData({...contractData, date: select})
+                    if (moment(contractData.deadline).isBefore(select)) {
+                      setSelectDate(select)
+                      setContractData({...contractData, date: select, deadline: select})
+                      setFinishDate(select)
+                    } else {
+                      setSelectDate(select)
+                      setContractData({...contractData, date: select})
+                    }
                   }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0, zIndex: 1}}/>
                 </div>
               </td>
@@ -149,17 +161,29 @@ const ContractRegisterContainer = () => {
                           : <InputText style={{color: '#111319'}} value={finishDate} onBlur={() => {
                             if (!finishDate.match(regExp)) {
                               Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                            } else {
+                              if (moment(finishDate).isBefore(contractData.date)) {
+                                Notiflix.Report.Failure('변경할 수 없음', '계약 완료일이 계약일보다 빠릅니다.', '확인')
+                                setFinishDate(contractData.date)
+                                setContractData({...contractData, deadline: contractData.date})
+                              }
                             }
                           }} onChange={(e) => {
                             setFinishDate(e.target.value)
-                            setContractData({...contractData, date: e.target.value})
+                            setContractData({...contractData, deadline: e.target.value})
                           }}></InputText>
                       }
                     </div>
                   </div>
                   <ColorCalendarDropdown unLimit={true} select={finishDate} onClickEvent={(select) => {
-                    setFinishDate(select)
-                    setContractData({...contractData, deadline: select})
+                    if (moment(select).isBefore(contractData.date)) {
+                      Notiflix.Report.Failure('변경할 수 없음', '계약 완료일이 계약일보다 빠릅니다.', '확인')
+                      setFinishDate(contractData.date)
+                      setContractData({...contractData, deadline: contractData.date})
+                    } else {
+                      setFinishDate(select)
+                      setContractData({...contractData, deadline: select})
+                    }
                   }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0, zIndex: 0}}/>
                 </div>
               </td>
@@ -181,87 +205,87 @@ const ContractRegisterContainer = () => {
 }
 
 const ContainerMain = Styled.div`
-    width: 1060px;
-    height: auto;
-    border-radius: 6px;
-    background-color: white;
-    padding: 35px 20px 0 20px;
-    .title {
-        font-size: 18px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        color: #19b8df;
-        text-align: left;
-    }
-    table{
-        width: 100%;
-        height: 100%;
-        margin-top: 35px;
-    }
-    td{
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-        font-size: 15px;
-        input{
-            padding-left: 8px;
-            font-family: NotoSansCJKkr;
-            height: 32px;
-            border: 0.5px solid #b3b3b3;
-            width: 100%;
-            background-color: #f4f6fa;
-            font-size: 15px;
-            &::placeholder:{
-                color: #b3b3b3;
-            };
-            box-sizing: border-box;
-        }
-        &:first-child{
-            width: 133px;
-            text-align: left;
-        }
-    }
-    tr{
-        height: 65px;
-    }
-`
+                    width: 1060px;
+                    height: auto;
+                    border-radius: 6px;
+                    background-color: white;
+                    padding: 35px 20px 0 20px;
+                    .title {
+                    font-size: 18px;
+                    font-family: NotoSansCJKkr;
+                    font-weight: bold;
+                    color: #19b8df;
+                    text-align: left;
+                    }
+                    table{
+                    width: 100%;
+                    height: 100%;
+                    margin-top: 35px;
+                    }
+                    td{
+                    font-family: NotoSansCJKkr;
+                    font-weight: bold;
+                    font-size: 15px;
+                    input{
+                    padding-left: 8px;
+                    font-family: NotoSansCJKkr;
+                    height: 32px;
+                    border: 0.5px solid #b3b3b3;
+                    width: 100%;
+                    background-color: #f4f6fa;
+                    font-size: 15px;
+                    &::placeholder:{
+                    color: #b3b3b3;
+                    };
+                    box-sizing: border-box;
+                    }
+                    &:first-child{
+                    width: 133px;
+                    text-align: left;
+                    }
+                    }
+                    tr{
+                    height: 65px;
+                    }
+                    `
 
 const CheckButton = Styled.button`
-    position: absolute;
-    bottom: 0px;
-    height: 46px;
-    width: 225px;
-    div{
-        width: 100%;
-    }
-    span{
-        line-height: 46px;
-        font-family: NotoSansCJKkr;
-        font-weight: bold;
-    }
-`
+                    position: absolute;
+                    bottom: 0px;
+                    height: 46px;
+                    width: 225px;
+                    div{
+                    width: 100%;
+                    }
+                    span{
+                    line-height: 46px;
+                    font-family: NotoSansCJKkr;
+                    font-weight: bold;
+                    }
+                    `
 
 const ButtonWrap = Styled.button`
-    padding: 4px 12px 4px 12px;
-    border-radius: 5px;
-    color: black;
-    background-color: ${POINT_COLOR};
-    border: none;
-    font-weight: bold;
-    font-size: 13px;
-    img {
-      margin-right: 7px;
-      width: 14px;
-      height: 14px;
-    }
-`
+                    padding: 4px 12px 4px 12px;
+                    border-radius: 5px;
+                    color: black;
+                    background-color: ${POINT_COLOR};
+                    border: none;
+                    font-weight: bold;
+                    font-size: 13px;
+                    img {
+                    margin-right: 7px;
+                    width: 14px;
+                    height: 14px;
+                    }
+                    `
 
 const InputText = Styled.input`
-    padding-left: 5px;
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
-`
+                    padding-left: 5px;
+                    color: #b3b3b3;
+                    font-size: 15px;
+                    text-align: left;
+                    vertical-align: middle;
+                    font-weight: regular;
+                    `
 
 export default ContractRegisterContainer

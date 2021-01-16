@@ -62,6 +62,7 @@ const JunheeRouters = () => {
             <Route exact path="/project/chit/register" component={ChitRegister}/>
             <Route exact path="/project/chit/update/:pk" component={ChitRegister}/>
             <Route exact path="/project/production/register" component={ProductionRegister}/>
+            <Route exact path="/project/production/register/:pk" component={ProductionRegister}/>
             <Route exact path="/project/history/register" component={WorkHistoryRegister}/>
             <Route exact path="/project/history/:type/:pk" component={WorkHistoryRegister}/>
           {/*영업관리*/}
@@ -99,8 +100,8 @@ const JunheeRouters = () => {
             <Route exact path="/basic/material/register/v2" component={NewBasicMaterialRegister_V2}/>
             <Route exact path="/stock/rawmaterial/list/v2" component={NewRawMaterial_V2}/>
             <Route exact path="/stock/rawmaterial/location/v2" component={NewRawMaterialLocation_V2}/>
-            <Route exact path="/stock/warehousing/register/v2/version/:pk/:name" component={WarehousingRegister_V2}/>
-            <Route exact path="/stock/release/register/v2/version/:pk/:name" component={ReleaseRegister_V2}/>
+            <Route exact path="/stock/warehousing/register/v2/version/:pk/:test" component={WarehousingRegister_V2}/>
+            <Route exact path="/stock/release/register/v2/version/:pk/:test" component={ReleaseRegister_V2}/>
 
             <Route path='/free' component={OutsourcingRegisterFree}/>
         </Switch>

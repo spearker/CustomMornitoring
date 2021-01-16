@@ -20,6 +20,7 @@ interface IProps {
   disabled?: boolean
   keyword: string,
   option: number
+  width?: string
 }
 
 const DummyMachine = [
@@ -36,7 +37,7 @@ const DummyMachine = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
-const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, keyword, option}: IProps) => {
+const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, keyword, option, width}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
@@ -75,11 +76,11 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
 
   return (
     <div>
-      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 872}}>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: width ?? 872}}>
         <BoxWrap disabled={disabled} onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-          <div style={{display: 'inline-block', height: 32, width: 872}}>
+          <div style={{display: 'inline-block', height: 32, width: width ?? 872}}>
             {
               select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
                 : <p style={{marginTop: 5, color: '#111319', opacity: 0.6}}>&nbsp; {text}</p>
