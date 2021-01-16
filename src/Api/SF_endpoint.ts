@@ -1,6 +1,6 @@
 export const SF_ADDRESS = window.location.hostname
 
-const isLocalhost = () => {
+export const isLocalhost = () => {
     if (SF_ADDRESS === 'localhost') {
         return '203.234.183.22'
     } else {
