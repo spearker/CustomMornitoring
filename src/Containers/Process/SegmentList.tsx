@@ -219,7 +219,7 @@ const SegmentListContainer = () => {
         Notiflix.Loading.Circle()
         const tempUrl = `${API_URLS['segment'].list + '?page='}${isSearch ? 1 : page.current}&limit=5&keyword=${searchValue}`
         const res = await getSegmentList(tempUrl)
-
+        setSelectPk(null)
         setPage({current: res.current_page, total: res.total_page})
         setIsFirst(true)
         setList(res.info_list)
