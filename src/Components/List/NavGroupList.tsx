@@ -48,14 +48,8 @@ const NavGroupList = ({contents, selected, onClickMode, onClickEvent}: Props) =>
                     })
                     :
                     null
-
-
             }
-
-
         </div>
-
-
     )
 }
 
