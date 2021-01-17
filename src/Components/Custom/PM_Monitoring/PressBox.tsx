@@ -83,8 +83,10 @@ const PressBox: React.FunctionComponent<Props> = ({machineData}) => {
           <PressStatusBox title={'생산수량'}
                           value={AddComma(machineData.production)}
                           fontSize={'22px'}/>
-          <PressStatusBox title={'부하율'} value={`${machineData.loadton_value} / ${machineData.capacity}`}
-                          fontSize={'30px'}
+          <PressStatusBox title={'부하율'} value={`${machineData.load_factor}%`}
+                          subValue={`${machineData.loadton_value}/${machineData.capacity}`}
+                          fontSize={'23px'}
+                          align={'center'}
                           titleColor={'#000000'}
                           valueColor={machineData.load_factor === 0 ? '#fff' : (machineData.load_factor < 50 ? '#fff' : (machineData.load_factor < 80 ? 'green' : 'red'))}/>
           <PressStatusBox title={'캐비티'} value={machineData.cavity} fontSize={'38px'}/>
