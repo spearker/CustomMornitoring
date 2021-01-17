@@ -14,7 +14,7 @@ interface IProps {
   title: string,
   description: string,
   value: string,
-  onChangeEvent: any,
+  onChangeEvent?: any,
   style?: any,
   inputStyle?: any
   width?: number
@@ -26,10 +26,12 @@ const DateInput = ({title, description, value, onChangeEvent, style, inputStyle,
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const ref = useOnclickOutside(() => {
-    if (value.match(regExp)) {
-      setIsOpen(false)
-    } else {
-      Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+    if (onChangeEvent) {
+      if (value.match(regExp)) {
+        setIsOpen(false)
+      } else {
+        Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+      }
     }
   })
 
@@ -44,10 +46,10 @@ const DateInput = ({title, description, value, onChangeEvent, style, inputStyle,
   return (
     <InputContainer title={title} width={width ? width : 170}>
       <div ref={ref} style={{width: 'calc(100% - 180px)', ...style}}>
-        <InputBox onClick={() => handleClickBtn()}
+        <InputBox onClick={() => handleClickBtn()} placeholder={description}
                   onChange={(e) => {
                     onChangeEvent(e.target.value)
-                  }}
+                  }} disabled={!onChangeEvent}
                   style={{...inputStyle}} value={value === undefined ? '(선택)' : value}></InputBox>
         {
           isOpen ?

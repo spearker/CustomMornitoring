@@ -43,6 +43,7 @@ interface InputData {
   passed?: boolean
   cost?: number
   quality_chart?: string
+  material_code?: string
 }
 
 // 수주 등록 페이지
@@ -72,15 +73,17 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
     inspections: [],
     passed: false,
     cost: 0,
-    quality_chart: ''
+    quality_chart: '',
+    material_code: undefined
   })
 
   useEffect(() => {
-    getData()
     if (match.params.warehousing_pk) {
       setPk(match.params.warehousing_pk)
       setIsUpdate(true)
       getDetailData()
+    } else {
+      getData()
     }
 
   }, [])
@@ -124,7 +127,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
       setRadioList(new Array(res.inspections.length).fill(0))
       setCheck(res.passed ? 1 : 0)
       setRadioList(res.inspections.map(v => {
-        return v.fine ? 1 : 0
+        return v.isFine ? 1 : 0
       }))
     }
   }
@@ -182,7 +185,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
     }
 
 
-    const tempUrl = `${API_URLS['stock'].warehousingRegister}`
+    const tempUrl = `${API_URLS['stock'].warehousingRawRegister}`
     const res = await postStockRegister(tempUrl, {
       ...inputData,
       cost: inputData.cost === 0 ? undefined : inputData.cost,
@@ -220,6 +223,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
     const tempUrl = `${API_URLS['stock'].warehousingUpdate}`
     const res = await postStockRegister(tempUrl, {
       ...inputData,
+      material_code: inputData.material_code === '-' ? undefined : inputData.material_code,
       cost: inputData.cost === 0 ? undefined : inputData.cost,
       quality_chart: !inputData.quality_chart || inputData.quality_chart === '' ? undefined : inputData.quality_chart,
       inspections: inputData.inspections && inputData.inspections.length !== 0 ? inputData.inspections : undefined,
