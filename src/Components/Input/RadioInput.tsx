@@ -50,7 +50,6 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                     paddingLeft: 4,
                     fontSize: 14,
                     marginRight: 20,
-                    paddingTop: width ? 5 : 0
                   }}>{v.title}</span>
                 </div>
             )

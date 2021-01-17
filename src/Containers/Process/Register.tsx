@@ -12,6 +12,7 @@ import IC_MINUS from '../../Assets/Images/ic_minus.png'
 import styled from 'styled-components'
 import Notiflix from 'notiflix'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import RadioInput from '../../Components/Input/RadioInput'
 
 const typeDummy = [
   '단발',
@@ -26,6 +27,7 @@ const ProcessRegisterContainer = ({match}: any) => {
   const history = useHistory()
   const [typeList] = useState<string[]>(typeDummy)
   const [isFirst, setIsFirst] = useState<boolean>(true)
+  const [unit, setUnit] = useState<number>(1)
 
   const [processData, setProcessData] = useState<IProcessRegister>({
     type: 0,
@@ -37,6 +39,7 @@ const ProcessRegisterContainer = ({match}: any) => {
   const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
   const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
   const [isUpdata] = useState<boolean>(match.params.pk ? true : false)
+  const [isVersion] = useState<boolean>(match.params.version === 'v2' ? true : false)
 
   const validationCheck = () => {
     console.log(detailMaterialData)
@@ -92,11 +95,24 @@ const ProcessRegisterContainer = ({match}: any) => {
   const postContractRegisterData = async () => {
 
     if (validationCheck()) {
+      let tmp = detailMaterialData.map(material => {
+        let tmp2
+
+        if (material.input_materials) {
+          tmp2 = material.input_materials.map(input => {
+            return {...input, count: input.count / unit}
+          })
+        }
+
+        return {...material, input_materials: tmp2}
+
+      })
+
       const tempUrl = `${API_URLS['process'].register}`
       const resultData = await postProcessRegister(tempUrl, {
         type: processData.type,
         name: processData.name,
-        processes: detailMaterialData,
+        processes: tmp,
         description: processData.description
       })
       if (resultData.status === 200) {
@@ -208,16 +224,6 @@ const ProcessRegisterContainer = ({match}: any) => {
                                               tmpDetailMaterialData[i].machine_type = e.type
                                               setDetailMaterialData([...tmpDetailMaterialData])
                                             }
-                                            // let tmpList = processData.processes
-                                            // if (tmpList && e.pk) {
-                                            //   tmpList[i] = {...tmpList[i], machine_pk: e.pk}
-                                            // }
-                                            //
-                                            // let tmpMachineList = selectMachine
-                                            // selectMachine[i] = e
-                                            //
-                                            // setSelectMachine(tmpMachineList)
-                                            // return setProcessData({...processData, processes: tmpList})
                                           }} buttonWid={30}/>
                       {
                         i >= initalIndexCnt &&
@@ -460,6 +466,37 @@ const ProcessRegisterContainer = ({match}: any) => {
                 )
               })
             }
+            <tr>
+              <td colSpan={2}>
+                <RadioInput title={'투입 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                            target={unit} onChangeEvent={(e) => {
+                  if (e !== unit) {
+                    setUnit(e)
+                  } else {
+                    return
+                  }
+                  let tmp = detailMaterialData.map(material => {
+                    let tmp2
+                    if (material.input_materials) {
+                      if (e === 1) {
+                        tmp2 = material.input_materials.map(input => {
+                          return {...input, count: input.count / 1000}
+                        })
+                      } else if (e === 1000) {
+                        tmp2 = material.input_materials.map(input => {
+                          return {...input, count: input.count * 1000}
+                        })
+                      }
+                    }
+
+                    return {...material, input_materials: tmp2}
+
+                  })
+                  setDetailMaterialData([...tmp])
+
+                }} line={false} width={120}/>
+              </td>
+            </tr>
             {
               processData.type !== 0 &&
               <tr>

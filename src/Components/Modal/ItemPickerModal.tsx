@@ -15,22 +15,23 @@ import {SEARCH_API_URLS} from '../../Api/mes/search/search'
 //드롭다운 컴포넌트
 
 interface IProps {
-  select?: { name?: string, type?: number, pk?: string },
-  onClickEvent: any
-  text: string
-  buttonWid?: string | number
+  select?: any, //선택된 object
+  onClickEvent: any // 선택 시 실행되는 func
+  text: string //select가 undefined일때 뜨는 placeholder
+  buttonWid?: string | number //돋보기 모양 버튼 width 지정
   disabled?: boolean
-  width?: number | string
-  type: 'lot'
-  tableHeaderValue?: { title: string, key: string, width?: number }[]
-  title: string
+  width?: number | string //검색 창 width
+  type: 'rawlot' //검색 타입
+  tableHeaderValue?: { title: string, key: string, width?: number }[] // 리스트에 들어가 항목 정보
+  title: string // 모달 상단에 뜨는 title
+  mainKey: string
 }
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
-const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width, type, title, tableHeaderValue}: IProps) => {
+const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width, type, title, tableHeaderValue, mainKey}: IProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [itemData, setItemData] = useState('')
+  const [itemData, setItemData] = useState<any>()
 
   const [itemList, setItemList] = useState<any[]>()
   const [searchName, setSearchName] = useState<string>('')
@@ -39,9 +40,15 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
     current: 1,
   })
 
+  useEffect(() => {
+    if (select) {
+      setItemData(select)
+    }
+  }, [select])
+
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = `${SEARCH_API_URLS[type]}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = `${SEARCH_API_URLS[type]}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10&option=0`
     const resultData = await getSearchMachine(tempUrl)
     if (resultData) {
       setItemList(resultData.info_list)
@@ -65,7 +72,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
           <div style={{display: 'inline-block', height: 32, width: '100%'}}>
             {
-              select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
+              itemData ? <p style={{marginTop: 5}}>&nbsp; {itemData[mainKey]}</p>
                 : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
             }
           </div>
@@ -121,24 +128,19 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
                     }
                   </tr>
                   {itemList ? itemList.length !== 0 ?
-                    itemList.map((v, i) => {
+                    itemList.map((item, index) => {
                       return (
                         <tr style={{
                           height: 32,
-                          backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                          backgroundColor: itemData ? item.pk === itemData.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
                         }} onClick={() => {
-                          setItemData(v.machine_name)
-                          return onClickEvent({
-                            name: v.machine_name,
-                            type: v.machine_type,
-                            pk: v.pk
-                          })
+                          setItemData(item)
                         }}>
-                          <td><span>{v.machine_name}</span></td>
-                          <td><span>{transferCodeToName('machine', v.machine_type)}</span>
-                          </td>
-                          <td><span>{v.manufacturer}</span></td>
-                          <td><span>{v.manufacturer_code}</span></td>
+                          {
+                            tableHeaderValue && tableHeaderValue.map(th => {
+                              return <td><span>{item[th.key]}</span></td>
+                            })
+                          }
                         </tr>
                       )
                     }) : <tr>
@@ -159,7 +161,6 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
           </div>
           <div style={{width: 900}}>
             <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-              onClickEvent({name: undefined, pk: undefined})
               setIsOpen(false)
             }}>
               <div>
@@ -167,6 +168,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
               </div>
             </CheckButton>
             <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+              onClickEvent(itemData)
               setIsOpen(false)
             }}>
               <div>
