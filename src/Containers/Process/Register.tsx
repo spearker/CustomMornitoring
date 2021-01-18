@@ -78,12 +78,29 @@ const ProcessRegisterContainer = ({match}: any) => {
 
   const postContractUpDate = async () => {
     if (validationCheck()) {
+      let tmp = detailMaterialData.map(material => {
+        let tmp2
+
+        if (material.input_materials) {
+          tmp2 = material.input_materials.map(input => {
+            if (input.material_type === 0) {
+              return {...input, count: input.count / unit}
+            } else {
+              return input
+            }
+          })
+        }
+
+        return {...material, input_materials: tmp2}
+
+      })
+
       const tempUrl = `${API_URLS['process'].update}`
       const resultData = await postProcessRegister(tempUrl, {
         pk: match.params.pk,
         type: processData.type,
         name: processData.name,
-        processes: detailMaterialData,
+        processes: tmp,
         description: processData.description
       })
       if (resultData.status === 200) {
@@ -100,7 +117,11 @@ const ProcessRegisterContainer = ({match}: any) => {
 
         if (material.input_materials) {
           tmp2 = material.input_materials.map(input => {
-            return {...input, count: input.count / unit}
+            if (input.material_type === 0) {
+              return {...input, count: input.count / unit}
+            } else {
+              return input
+            }
           })
         }
 
@@ -480,11 +501,19 @@ const ProcessRegisterContainer = ({match}: any) => {
                     if (material.input_materials) {
                       if (e === 1) {
                         tmp2 = material.input_materials.map(input => {
-                          return {...input, count: input.count / 1000}
+                          if (input.material_type === 0) {
+                            return {...input, count: input.count / 1000}
+                          } else {
+                            return input
+                          }
                         })
                       } else if (e === 1000) {
                         tmp2 = material.input_materials.map(input => {
-                          return {...input, count: input.count * 1000}
+                          if (input.material_type === 0) {
+                            return {...input, count: input.count * 1000}
+                          } else {
+                            return input
+                          }
                         })
                       }
                     }
