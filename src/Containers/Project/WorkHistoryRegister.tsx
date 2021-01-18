@@ -427,7 +427,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
               detailMaterialData && detailMaterialData.input_materials && detailMaterialData.input_materials.length !== 0 &&
               <tr>
                   <td colSpan={2}>
-                      <RadioInput title={'투입 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                      <RadioInput title={'원자재 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
                                   target={unit} onChangeEvent={(e) => {
                         if (e !== unit) {
                           setUnit(e)
