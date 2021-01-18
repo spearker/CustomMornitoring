@@ -64,7 +64,6 @@ const JunheeRouters = () => {
             <Route exact path="/project/production/register" component={ProductionRegister}/>
             <Route exact path="/project/production/register/:pk" component={ProductionRegister}/>
             <Route exact path="/project/history/register" component={WorkHistoryRegister}/>
-            <Route exact path="/project/history/register/:version" component={WorkHistoryRegister}/>
             <Route exact path="/project/history/:type/:pk" component={WorkHistoryRegister}/>
           {/*영업관리*/}
             <Route exact path="/marketing/contract/register" component={ContractRegister}/>

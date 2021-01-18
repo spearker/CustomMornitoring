@@ -311,7 +311,7 @@ const NewBasicMaterialRegister_V2 = ({match}: any) => {
                             return (
                               <InputContainer title={i === 0 ? '품목' : ''} width={167.84} line={false} isPadding={7}>
                                 <ProductionPickerModal
-                                  innerWidth={872.16}
+                                  innerWidth={i !== 0 ? 842.16 : 872.16}
                                   select={basesList[i]}
                                   onClickEvent={(input) => {
                                     let temp = _.cloneDeep(inputData.bases)
@@ -324,6 +324,19 @@ const NewBasicMaterialRegister_V2 = ({match}: any) => {
                                   }}
                                   text={'품목을 선택해주세요.'}
                                 />
+                                {
+                                  i !== 0 &&
+                                  <img src={IC_MINUS} style={{width: 20, height: 20, marginLeft: 8, cursor: 'pointer'}}
+                                       onClick={() => {
+                                         let temp = _.cloneDeep(inputData.bases)
+                                         temp.splice(i, 1)
+                                         setInputData('bases', temp)
+
+                                         let temp2 = _.cloneDeep(basesList)
+                                         temp2.splice(i, 1)
+                                         setBasesList([...temp2])
+                                       }}/>
+                                }
                               </InputContainer>
                             )
                           })

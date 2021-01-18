@@ -187,6 +187,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
   }
 
   React.useEffect(() => {
+    console.log(match.params)
     if (match.params.pk) {
       if (match.params.type === 'register') {
         setIsFinish(true)

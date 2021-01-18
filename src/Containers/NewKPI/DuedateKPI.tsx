@@ -34,7 +34,7 @@ const subTitleList = {
   },
   order_shipment_leadTime_reduced_rate: {},
   stock_accuracy_improvement_rate: {
-    error: '오류 정정 개수'
+    error: '오류 정정 건수'
   }
 }
 
