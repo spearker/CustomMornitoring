@@ -284,7 +284,7 @@ const ProductionPickerModal = ({
                             <span>{transferCodeToName('material', filter ? v.type : v.material_type)}</span>
                           </td>
                           <td><span>{filter ? v.location_name : v.location}</span></td>
-                          {!filter && <td><span>{v.stock}</span></td>}
+                          <td><span>{v.stock}</span></td>
                         </tr>
                       )
                     })
