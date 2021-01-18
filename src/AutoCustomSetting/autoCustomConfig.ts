@@ -4,7 +4,7 @@ const autoCustomType = () => {
     switch (isLocalhost().toString()) {
         case '121.173.205.139':
             return 'jaewoo_material_trans'
-        case '106.248.33.213':
+        case '192.168.0.50':
             return 'seain_material_trans'
         case '192.168.0.149':
             return 'DS_trans'
