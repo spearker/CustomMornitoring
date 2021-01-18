@@ -438,11 +438,19 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                         if (detailMaterialData.input_materials) {
                           if (e === 1) {
                             tmp2 = detailMaterialData.input_materials.map(input => {
-                              return {...input, count: input.count / 1000}
+                              if (input.material_type === 0) {
+                                return {...input, count: input.count / 1000}
+                              } else {
+                                return input
+                              }
                             })
                           } else if (e === 1000) {
                             tmp2 = detailMaterialData.input_materials.map(input => {
-                              return {...input, count: input.count * 1000}
+                              if (input.material_type === 0) {
+                                return {...input, count: input.count * 1000}
+                              } else {
+                                return input
+                              }
                             })
                           }
                         }
