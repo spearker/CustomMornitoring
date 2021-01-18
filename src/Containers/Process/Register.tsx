@@ -451,7 +451,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                     }}>
                                       <input type={'number'} value={
                                         //@ts-ignore
-                                        detailMaterialData[i].output_materials.count ? detailMaterialData[i].output_materials.count : 0
+                                        detailMaterialData[i].output_materials.count ? detailMaterialData[i].output_materials.count + '' : 0
                                       }
                                              style={{
                                                width: '112px',

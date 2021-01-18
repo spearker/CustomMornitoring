@@ -82,7 +82,8 @@ const ProductionPickerModal = ({
       location: '',
       name: '',
       type: '',
-      location_name: ''
+      location_name: '',
+      stock: 0
     }
   ])
   const [typeFilter, setTypeFilter] = useState<number>(-1)
@@ -220,6 +221,7 @@ const ProductionPickerModal = ({
                     <th style={{width: 138}}>&nbsp; 품목명</th>
                     <th style={{width: 130}}>품목 종류</th>
                     <th style={{width: 130}}>공장명</th>
+                    <th style={{width: 130}}>수량</th>
 
                   </tr>
                   {productList !== undefined && productList.length === 0 ?
@@ -266,6 +268,7 @@ const ProductionPickerModal = ({
                             } else {
                               tmpIndexList[0] = i
                               tmpSelectMaterial[0] = {
+                                ...v,
                                 material_pk: v.pk,
                                 material_name: filter ? v.name : v.material_name,
                                 material_type: filter ? v.type : v.material_type,
@@ -281,6 +284,7 @@ const ProductionPickerModal = ({
                             <span>{transferCodeToName('material', filter ? v.type : v.material_type)}</span>
                           </td>
                           <td><span>{filter ? v.location_name : v.location}</span></td>
+                          {!filter && <td><span>{v.stock}</span></td>}
                         </tr>
                       )
                     })
@@ -307,6 +311,7 @@ const ProductionPickerModal = ({
                 onClickEvent(selectMaterial)
               } else {
                 if (isAllItem) {
+                  console.log(selectMaterial)
                   onClickEvent(selectMaterial[0])
                 } else {
                   if (noBasic) {

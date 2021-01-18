@@ -123,12 +123,12 @@ const NewRawMaterialContainerV2 = () => {
 
   }, [list, selectPk])
 
-  const getData = useCallback(async (pk) => {
+  const getData = useCallback(async (pk, isSearch?: boolean) => {
     //TODO: 성공시
     if (pk === null) {
       return
     }
-    const tempUrl = `${API_URLS['stock'].rawDetail}?pk=${pk}&page=${detailPage.current}&date=${selectDate}&limit=4`
+    const tempUrl = `${API_URLS['stock'].rawDetail}?pk=${pk}&page=${isSearch ? 1 : detailPage.current}&date=${selectDate}&limit=4`
     const res = await getStockList(tempUrl)
 
     const tempData = res.info_list.map((v, i) => {
@@ -141,7 +141,7 @@ const NewRawMaterialContainerV2 = () => {
     setDetailList([...tempData])
 
     setDetailPage({current: res.current_page, total: res.total_page})
-  }, [detailList, detailPage])
+  }, [detailList, detailPage, selectDate])
 
   const selectBox = useCallback((value) => {
     if (value === '원자재') {
@@ -186,7 +186,7 @@ const NewRawMaterialContainerV2 = () => {
     if (selectTitle === 0) {
       setSubIndex(detailTitle['inputData'])
       setAlignList(['left', 'center', 'center', 'left', 'left', 'left', 'left', 'center'])
-      setWidthList(['270px', '96px', '96px', '56px', '140px', '96px', '88px', '100px', '100px'])
+      setWidthList(['270px', '96px', '96px', '56px', '120px', '96px', '108px', '100px', '100px'])
     } else {
       setSubIndex(detailTitle['outputData'])
       setAlignList(['left', 'center', 'center', 'center', 'center', 'left', 'left', 'left',])
@@ -205,7 +205,7 @@ const NewRawMaterialContainerV2 = () => {
 
   useEffect(() => {
     getData(selectPk)
-  }, [detailPage.current])
+  }, [detailPage.current, selectDate])
 
   useEffect(() => {
     getList()
