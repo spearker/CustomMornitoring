@@ -179,13 +179,11 @@ export const LIST_INDEX = {
     },
     material: {
         title: '품목 기본정보',
-        width: ['320px', '96px', '157px', '112px', '115px'],
+        width: ['320px', '206px', '307px',],
         index: {
             material_name: '품목명',
             material_type: '품목 종류',
             material_code: '품번',
-            location_name: '기본위치',
-            safe_stock: '안전재고'
         }
     },
     mold: {
