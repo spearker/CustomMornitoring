@@ -265,19 +265,21 @@ const ProductionRegisterContainer = ({match}: Props) => {
               <td>
                 <ProcessPickerModal select={modalSelect.segment}
                                     onClickEvent={(e) => {
-                                      console.log(e)
                                       setModalSelect({
-                                        ...modalSelect, segment: e
+                                        ...modalSelect, segment: e, production: {
+                                          name: e.output_materials.material_name,
+                                          pk: e.output_materials.material_pk
+                                        }
                                       })
                                     }}
-                                    seg
+                                    seg isAllItems={true}
                                     text={'공정명을 검색해 주세요'} buttonWid={30}
                                     style={{width: '100%'}} inputWidth={891}/>
               </td>
             </tr>
             <tr>
               <td>• 품목(품목명)</td>
-              <td><ProductionPickerModal select={modalSelect.production}
+              <td><ProductionPickerModal select={modalSelect.production} disabled={true}
                                          onClickEvent={(e) => {
                                            setModalSelect({...modalSelect, production: e})
                                          }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30}
