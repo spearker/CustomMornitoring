@@ -151,8 +151,14 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, 
                             height: 32,
                             backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
                           }} onClick={() => {
-                            setProcessName(v.name)
-                            return onClickEvent({name: v.name, pk: v.pk})
+                            console.log(v)
+                            if (isAllItems) {
+                              setProcessName(v.name)
+                              return onClickEvent({...v, name: v.name, pk: v.pk})
+                            } else {
+                              setProcessName(v.name)
+                              return onClickEvent({name: v.name, pk: v.pk})
+                            }
                           }}>
                             <td><span>{v.name}</span></td>
                             <td><span>{v.process_names}</span></td>
@@ -171,6 +177,7 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, 
                             backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
                           }} onClick={() => {
                             setProcessName(v.process_name)
+                            console.log(v)
                             if (isAllItems) {
                               return onClickEvent({
                                 ...v,
