@@ -155,10 +155,6 @@ const ExcelCustomBox: React.FunctionComponent<Props> = ({title,}) => {
                                        onChange={semiFile}/>
                             </ExcelUpload>
                             }
-                            <FormDownload
-                                onClick={() => window.open(`${SF_ENDPOINT_EXCEL}/api/v1/format/download?type=${index === 0 ? 10 : 11}`)}>
-                                양식 다운로드
-                            </FormDownload>
                         </FormBox>
                         <ExcelNameBox>
                             {index === 0 &&
@@ -230,7 +226,7 @@ const FormBox = Styled.div`
                                 padding: 0 16px;
                                 p{
                                 text-align:left;
-                                width: 120px;
+                                width: 240px;
                                 font-family: NotoSansCJKkr;
                                 font-size: 14px;
                                 font-weight: bold;
