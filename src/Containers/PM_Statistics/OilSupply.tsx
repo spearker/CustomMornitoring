@@ -7,6 +7,7 @@ import {API_URLS, getOilSupplyData} from '../../Api/pm/statistics'
 import {API_URLS as URLS_MAP} from '../../Api/pm/map'
 import MapBoard from '../../Components/Map/MapBoard'
 import NoDataCard from '../../Components/Card/NoDataCard'
+import {usePopupDispatch} from "../../Context/PopupContext";
 
 const chartOption = {
     chart: {
@@ -99,6 +100,7 @@ const dummyData: IPressOilSupplyData = {
 }
 
 const OilSupplyContainer = () => {
+    const dispatchp = usePopupDispatch()
     const [data, setData] = React.useState<IPressOilSupplyData>()
     const [date, setDate] = React.useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
@@ -130,7 +132,16 @@ const OilSupplyContainer = () => {
             getData()
         }
     }, [selectComponent, date])
-    
+
+    useEffect(() => {
+        dispatchp({
+            type: 'CHANGE_MODE',
+            data: {
+                mode: 'pm',
+
+            }
+        })
+    }, [])
 
     return (
         <div>
