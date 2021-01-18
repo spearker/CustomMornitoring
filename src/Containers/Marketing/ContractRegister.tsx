@@ -94,7 +94,7 @@ const ContractRegisterContainer = () => {
                 console.log(e)
                 setSelectMaterial({...e, name: e.material_name})
               }}
-                                         text={'품목(품목명)을 선택해주세요.'} type={1} isAllItem={true}/></td>
+                                         text={'품목(품목명)을 선택해주세요.'} type={1} isAllItem/></td>
             </tr>
             <tr>
               <td>• 현재 수량</td>
