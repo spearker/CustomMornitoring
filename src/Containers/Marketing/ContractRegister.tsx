@@ -22,7 +22,7 @@ const ContractRegisterContainer = () => {
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [finishDate, setFinishDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [customer, setCustomer] = useState<{ name?: string, pk?: string }>()
-  const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
+  const [selectMaterial, setSelectMaterial] = useState<any>()
   const [selectFactory, setSelectFactory] = useState<string>()
   const [modalSelect, setModalSelect] = useState<{ factory?: string, production?: string }>({
     factory: undefined,
@@ -90,12 +90,21 @@ const ContractRegisterContainer = () => {
             </tr>
             <tr>
               <td>• 품목(품목명)</td>
-              <td><ProductionPickerModal select={selectMaterial} onClickEvent={(e) => setSelectMaterial(e)}
-                                         text={'품목(품목명)을 선택해주세요.'} type={1}/></td>
+              <td><ProductionPickerModal select={selectMaterial} onClickEvent={(e) => {
+                console.log(e)
+                setSelectMaterial({...e, name: e.material_name})
+              }}
+                                         text={'품목(품목명)을 선택해주세요.'} type={1} isAllItem={true}/></td>
+            </tr>
+            <tr>
+              <td>• 현재 수량</td>
+              <td><input placeholder="현재 수량은 품목을 선택하면 자동으로 입력됩니다." type="number" disabled={true}
+                         value={selectMaterial ? selectMaterial.stock : undefined}
+                         onChange={(e) => setContractData({...contractData, amount: Number(e.target.value)})}/></td>
             </tr>
             <tr>
               <td>• 수량</td>
-              <td><input placeholder="수량을 입력해 주세요." type="number"
+              <td><input placeholder="수량을 입력해 주세요." type="number" value={contractData.amount}
                          onChange={(e) => setContractData({...contractData, amount: Number(e.target.value)})}/></td>
             </tr>
             <tr>

@@ -12,6 +12,7 @@ import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
 import ContractPickerModal from '../../Components/Modal/ContractPIckerModal'
 import {useHistory} from 'react-router-dom'
 import Notiflix from 'notiflix'
+import styled from 'styled-components'
 
 const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
@@ -32,12 +33,14 @@ const OrderRegisterContainer = () => {
     material_name: string
     left: string
     date: string
+    stock: number
   }>({
     pk: '',
     customer_name: '',
     material_name: '',
     left: '',
-    date: ''
+    date: '',
+    stock: 0
   })
 
   const postContractRegisterData = useCallback(async () => {
@@ -137,6 +140,19 @@ const OrderRegisterContainer = () => {
                       setOpen(true)
                     }}/>
                   </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>• 현재 수량</td>
+              <td>
+                <div style={{display: 'flex'}}>
+                  <input placeholder="수주 리스트가 입력되면 자동 입력됩니다."
+                         onChange={(e) => e.target.value.match(regExpNum) ? setOrderData({
+                           ...orderData,
+                           left: e.target.value
+                         }) : null}
+                         value={orderData.stock}/>
                 </div>
               </td>
             </tr>
@@ -245,12 +261,12 @@ const OrderRegisterContainer = () => {
   )
 }
 
-const ContainerMain = Styled.div`
+const ContainerMain = styled.div`
                   width: 1060px;
-                  height: 536px;
+                  height: auto;
                   border-radius: 6px;
                   background-color: white;
-                  padding: 35px 20px 0 20px;
+                  padding: 35px 20px 30px 20px;
                   .title {
                   font-size: 18px;
                   font-family: NotoSansCJKkr;

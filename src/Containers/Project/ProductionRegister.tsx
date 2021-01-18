@@ -261,8 +261,25 @@ const ProductionRegisterContainer = ({match}: Props) => {
               </td>
             </tr>
             <tr>
+              <td>• 공정명</td>
+              <td>
+                <ProcessPickerModal select={modalSelect.segment}
+                                    onClickEvent={(e) => {
+                                      setModalSelect({
+                                        ...modalSelect, segment: e, production: {
+                                          name: e.material_name,
+                                          pk: e.material_pk
+                                        }
+                                      })
+                                    }}
+                                    seg
+                                    text={'공정명을 검색해 주세요'} buttonWid={30}
+                                    style={{width: '100%'}} inputWidth={891}/>
+              </td>
+            </tr>
+            <tr>
               <td>• 품목(품목명)</td>
-              <td><ProductionPickerModal select={modalSelect.production}
+              <td><ProductionPickerModal select={modalSelect.production} disabled={true}
                                          onClickEvent={(e) => {
                                            setModalSelect({...modalSelect, production: e})
                                          }} text={'품목명을 검색해주세요.'} type={1} buttonWid={30}
@@ -323,18 +340,6 @@ const ProductionRegisterContainer = ({match}: Props) => {
                                        setModalSelect({...modalSelect, factory: e})
                                      }} text={'거래처를 검색해주세요.'} buttonWid={30}
                                      style={{width: '100%'}} inputWidth={891}/>
-              </td>
-            </tr>
-            <tr>
-              <td>• 공정명</td>
-              <td>
-                <ProcessPickerModal select={modalSelect.segment}
-                                    onClickEvent={(e) => {
-                                      setModalSelect({...modalSelect, segment: e})
-                                    }}
-                                    seg
-                                    text={'공정명을 검색해 주세요'} buttonWid={30}
-                                    style={{width: '100%'}} inputWidth={891}/>
               </td>
             </tr>
             {/*<tr>*/}
