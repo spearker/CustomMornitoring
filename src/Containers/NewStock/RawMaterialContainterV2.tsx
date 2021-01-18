@@ -130,6 +130,7 @@ const NewRawMaterialContainerV2 = () => {
     }
     const tempUrl = `${API_URLS['stock'].rawDetail}?pk=${pk}&page=${isSearch ? 1 : detailPage.current}&date=${selectDate}&limit=4`
     const res = await getStockList(tempUrl)
+    
 
     const tempData = res.info_list.map((v, i) => {
       return {
