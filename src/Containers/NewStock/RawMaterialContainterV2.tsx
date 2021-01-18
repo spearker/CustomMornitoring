@@ -45,7 +45,7 @@ const NewRawMaterialContainerV2 = () => {
       texture: '재질',
       material_spec_W: '폭(mm)',
       material_spec_D: '두께(mm)',
-      current_stock: '총 중량(kg)',
+      current_stock: '총 중량(t)',
       coils: '코일 개수(ea)',
     }
   }
@@ -54,10 +54,8 @@ const NewRawMaterialContainerV2 = () => {
   const detailTitle = {
     inputData: {
       LOT: '품번/Lot',
-      material_spec_W: '폭(mm)',
-      material_spec_D: '두께(mm)',
       warehousing_amount: '입고 중량(t)',
-      current_stock: '재고 중량(t)',
+      stock: '재고 중량(t)',
       status: '상태',
       location_name: ['위치'],
       warehousing_date: '입고일',
@@ -187,8 +185,8 @@ const NewRawMaterialContainerV2 = () => {
   useEffect(() => {
     if (selectTitle === 0) {
       setSubIndex(detailTitle['inputData'])
-      setAlignList(['left', 'center', 'center', 'center', 'center', 'left', 'left', 'left', 'left', 'center'])
-      setWidthList(['118px', '80px', '88px', '96px', '96px', '56px', '62px', '96px', '88px', '100px', '100px'])
+      setAlignList(['left', 'center', 'center', 'left', 'left', 'left', 'left', 'center'])
+      setWidthList(['270px', '96px', '96px', '56px', '140px', '96px', '88px', '100px', '100px'])
     } else {
       setSubIndex(detailTitle['outputData'])
       setAlignList(['left', 'center', 'center', 'center', 'center', 'left', 'left', 'left',])
@@ -198,7 +196,12 @@ const NewRawMaterialContainerV2 = () => {
 
   useEffect(() => {
     getList()
+    setSelectPk(null)
   }, [page.current, filter])
+
+  // useEffect(() => {
+  //
+  // }, [selectPk])
 
   useEffect(() => {
     getData(selectPk)
@@ -232,6 +235,9 @@ const NewRawMaterialContainerV2 = () => {
             <InAndOutTable indexList={subIndex} valueList={detailList}
                            alignList={alignList}
                            widthList={widthList}
+                           mainOnClickEvent={(v) => {
+                             history.push(`/stock/warehousing/register/v2/version/${selectPk}/1111/${v.pk}`)
+                           }}
                            currentPage={detailPage.current}
                            totalPage={detailPage.total}
                            pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>

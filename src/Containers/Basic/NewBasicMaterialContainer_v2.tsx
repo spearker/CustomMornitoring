@@ -45,7 +45,7 @@ const regExp = /^[0-9]*$/
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
-const NewBasicMaterialRegister_V2 = () => {
+const NewBasicMaterialRegister_V2 = ({match}: any) => {
   const history = useHistory()
   const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
   const [essential, setEssential] = useState<any[]>([])
@@ -77,8 +77,13 @@ const NewBasicMaterialRegister_V2 = () => {
 
   useEffect(() => {
 
-    if (getParameter('pk') !== '') {
-      setPk(getParameter('pk'))
+    // if (getParameter('pk') !== '') {
+    //   setPk(getParameter('pk'))
+    //   setIsUpdate(true)
+    //   getData()
+    // }
+    if (match.params.pk) {
+      setPk(match.params.pk)
       setIsUpdate(true)
       getData()
     }
@@ -88,13 +93,13 @@ const NewBasicMaterialRegister_V2 = () => {
 
   const getData = useCallback(async () => {
 
-    const tempUrl = `${API_URLS['material'].load}?pk=${getParameter('pk')}`
+    const tempUrl = `${API_URLS['material'].load}?pk=${match.params.pk}`
     const res = await getBasicList(tempUrl)
 
     if (res) {
       const data = res
       const form = {
-        pk: data.pk,
+        pk: match.params.pk,
         material_name: data.material_name,
         material_type: data.material_type,
         material_code: data.material_code === '-' ? undefined : data.material_code,
@@ -108,10 +113,19 @@ const NewBasicMaterialRegister_V2 = () => {
         material_spec: data.material_spec,
         stock: data.stock,
         texture: data.texture,
-        bases: data.bases ?? [''],
+        bases: data.bases ? data.bases.map(v => {
+          return v.material_pk
+        }) : [''],
         inspections: data.inspections ?? [''],
         model: data.model ? data.model.toString().split(',') : ['']
       }
+
+      setBasesList(data.bases.map(v => {
+        return {
+          name: v.material_name,
+          pk: v.material_pk
+        }
+      }))
       setInputData('all', form)
 
     }
@@ -178,26 +192,27 @@ const NewBasicMaterialRegister_V2 = () => {
   }
 
   const reConfigData = (isPk?: boolean) => {
+    console.log(inputData.location)
     const data = {
       material_name: inputData.material_type === 0 ? `${inputData.texture}, ${inputData.material_spec_W} * ${inputData.material_spec_D}` : inputData.material_name,
       material_type: inputData.material_type,
-      material_code: inputData.material_type === 0 ? undefined : inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
-      manufacturer: inputData.manufacturer,
+      material_code: inputData.material_type === 0 ? undefined : inputData.material_code.trim() === '' ? undefined : inputData.material_code.trim(),
+      manufacturer: inputData.manufacturer ?? undefined,
       safe_stock: inputData.safe_stock ?? 0,
-      cost: inputData.cost,
-      location: inputData.location.pk === '' ? undefined : inputData.location.pk,
+      cost: inputData.cost ?? undefined,
+      location: (inputData.location.pk === '' || !inputData.location.pk) ? undefined : inputData.location.pk,
       info_list: inputData.info_list,
       material_spec_W: inputData.material_spec_W ? Number(inputData.material_spec_W) : 0,
       material_spec_H: inputData.material_type === 0 ? 0 : inputData.material_spec_H,
       material_spec_D: inputData.material_spec_D ? Number(inputData.material_spec_D) : 0,
       texture: inputData.texture,
       bases: inputData.bases.filter((v) => v !== ''),
-      model: inputData.model[0].trim() === '' ? null : inputData.model,
+      model: inputData.model[0].trim() === '' ? undefined : inputData.model,
       inspections: inputData.inspections.filter((v) => v !== '')
     }
 
     if (isPk) {
-      return {...data, pk: getParameter('pk'),}
+      return {...data, pk: match.params.pk,}
     } else {
       return data
     }
@@ -219,7 +234,7 @@ const NewBasicMaterialRegister_V2 = () => {
   return (
     <DashboardWrapContainer index={'basic'}>
       <InnerBodyContainer>
-        <Header title={isUpdate ? '품목 정보수정' : '품목 기본정보 등록'}/>
+        <Header title={isUpdate ? '품목 기본정보 수정' : '품목 기본정보 등록'}/>
         <WhiteBoxContainer>
           {
             // document.id !== '' || isUpdate == true?

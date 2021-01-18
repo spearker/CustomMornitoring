@@ -39,27 +39,25 @@ interface InputData {
   location_pk: string
   LOT: string
   date: string
-  inspections?: { inspect: string, isFine: boolean }[]
+  inspections?: { inspection: string, isFine: boolean }[]
   passed?: boolean
   cost?: number
   quality_chart?: string
+  material_code?: string
 }
 
 // 수주 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const WarehousingRegisterContainer_V2 = ({match}: Props) => {
   const history = useHistory()
-
-  const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [pk, setPk] = useState<string>('')
-  const [amount, setAmount] = useState<number>()
-  const [selectType, setSelectType] = useState<string>()
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [path, setPath] = useState<any>(null)
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [texture, setTexture] = useState<string>('')
   const [w, setW] = useState<number>(0)
   const [d, setD] = useState<number>(0)
+  const [isDuplicate, setIsDuplicate] = useState<boolean>(false)
 
   //생산품 검색
   const [location, setLocation] = useState<{ name: string, pk: string }>({name: '', pk: ''})
@@ -75,15 +73,17 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
     inspections: [],
     passed: false,
     cost: 0,
-    quality_chart: ''
+    quality_chart: '',
+    material_code: undefined
   })
 
   useEffect(() => {
-    getData()
-    if (getParameter('pk') !== '') {
-      setPk(getParameter('pk'))
-      ////alert(`수정 페이지 진입 - pk :` + param)
+    if (match.params.warehousing_pk) {
+      setPk(match.params.warehousing_pk)
       setIsUpdate(true)
+      getDetailData()
+    } else {
+      getData()
     }
 
   }, [])
@@ -102,12 +102,33 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
         material_pk: res.pk,
         inspections: res.inspections.map((v, i) => {
           return {
-            inspect: v,
+            inspection: v,
             isFine: false
           }
         })
       })
       setRadioList(new Array(res.inspections.length).fill(0))
+    }
+  }
+
+  const getDetailData = async () => {
+    const tempUrl = `${API_URLS['stock'].warehousingDetail}?pk=${match.params.warehousing_pk}`
+    const res = await getBasicList(tempUrl)
+
+    if (res) {
+      setTexture(res.texture)
+      setW(res.material_spec_W)
+      setD(res.material_spec_D)
+      setInputData({
+        ...inputData,
+        ...res
+      })
+      setLocation({name: res.location_name, pk: res.location_pk})
+      setRadioList(new Array(res.inspections.length).fill(0))
+      setCheck(res.passed ? 1 : 0)
+      setRadioList(res.inspections.map(v => {
+        return v.isFine ? 1 : 0
+      }))
     }
   }
 
@@ -164,11 +185,47 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
     }
 
 
-    const tempUrl = `${API_URLS['stock'].warehousingRegister}`
+    const tempUrl = `${API_URLS['stock'].warehousingRawRegister}`
     const res = await postStockRegister(tempUrl, {
       ...inputData,
       cost: inputData.cost === 0 ? undefined : inputData.cost,
       quality_chart: inputData.quality_chart === '' ? undefined : inputData.quality_chart,
+      inspections: inputData.inspections && inputData.inspections.length !== 0 ? inputData.inspections : undefined,
+      passed: inputData.inspections && inputData.inspections.length !== 0 ? check === 0 ? false : check === 1 ? true : inputData.passed : undefined,
+    })
+
+
+    if (res) {
+
+      history.goBack()
+    }
+
+  }
+
+  const onsubmitUpdateForm = async () => {
+    console.log(inputData.location_pk)
+
+    if (!inputData.weight || inputData.weight === 0) {
+      alert('입고 중량은 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (inputData.location_pk === '') {
+      alert('위치는 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (inputData.LOT === '') {
+      alert('LOT번호는 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    } else if (inputData.date === '') {
+      alert('위치는 필수 항목입니다. 반드시 입력해주세요.')
+      return
+    }
+
+
+    const tempUrl = `${API_URLS['stock'].warehousingUpdate}`
+    const res = await postStockRegister(tempUrl, {
+      ...inputData,
+      material_code: inputData.material_code === '-' ? undefined : inputData.material_code,
+      cost: inputData.cost === 0 ? undefined : inputData.cost,
+      quality_chart: !inputData.quality_chart || inputData.quality_chart === '' ? undefined : inputData.quality_chart,
       inspections: inputData.inspections && inputData.inspections.length !== 0 ? inputData.inspections : undefined,
       passed: inputData.inspections && inputData.inspections.length !== 0 ? check === 0 ? false : check === 1 ? true : inputData.passed : undefined,
     })
@@ -201,12 +258,13 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
         Notiflix.Report.Failure('사용 불가', '이미 사용중인 LOT번호입니다.', '확인')
       } else {
         Notiflix.Report.Success('사용 가능', '사용 가능한 LOT번호입니다.', '확인')
+        setIsDuplicate(true)
       }
     }
   }
 
   return (
-    <div style={{paddingBottom: 81}}>
+    <div style={{paddingBottom: 81}}>{console.log(inputData)}
       <Header title={isUpdate ? '원자재 입고 수정' : '원자재 입고 등록'}/>
       <WhiteBoxContainer>
         <ListHeader title={'필수 항목'}/>
@@ -270,8 +328,8 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
                    style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
         <br/>
         <ListHeader title={'선택 항목'}/>
-        <NormalNumberInput title={'원가'} width={120} value={amount}
-                           onChangeEvent={(input) => setAmount(input)}
+        <NormalNumberInput title={'원가'} width={120} value={inputData.cost}
+                           onChangeEvent={(input) => setInputData({...inputData, cost: input})}
                            description={'원가를 입력해주세요. (단위: 원)'}/>
         <div style={{
           borderBottom: 'solid 0.5px #d3d3d3',
@@ -312,7 +370,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
                   display: 'inline-block'
                 }}>{i === 0 ? '• 검수 항목' : ''}</p>
                 <InputBox style={{width: 725}} type="text"
-                          value={inputData.inspections ? inputData.inspections[i] ? inputData.inspections[i].inspect : '' : ''}
+                          value={inputData.inspections ? inputData.inspections[i] ? inputData.inspections[i].inspection : '' : ''}
                           placeholder={'검수 항목'}
                           disabled/>
                 <RadioBox>
@@ -359,10 +417,14 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
         }}>
           <div style={{marginTop: 20}}>
             <ButtonWrap onClick={async () => {
-              await onsubmitForm()
+              if (isUpdate) {
+                await onsubmitUpdateForm()
+              } else {
+                await onsubmitForm()
+              }
             }}>
               <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
-                <p style={{fontSize: 18}}>등록하기</p>
+                <p style={{fontSize: 18}}>{isUpdate ? '수정하기' : '등록하기'}</p>
               </div>
             </ButtonWrap>
           </div>
@@ -372,13 +434,6 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
   )
 }
 
-const InputText = Styled.p`
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
-`
 const MiniButton = Styled.button`
     padding: 3px 12px;
     color: black;
