@@ -122,6 +122,8 @@ const FinishMaterialContainer = () => {
   }
 
   const getData = useCallback(async (pk) => {
+    Notiflix.Loading.Circle()
+
     //TODO: 성공시
     if (pk === null) {
       return
@@ -140,6 +142,8 @@ const FinishMaterialContainer = () => {
 
       setDetailPage({current: res.current_page, total: res.total_page})
     }
+    Notiflix.Loading.Remove()
+
   }, [detailList, detailPage])
 
   const getList = useCallback(async (isSearch?: boolean, searchOption?: number) => { // useCallback

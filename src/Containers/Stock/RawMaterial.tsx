@@ -130,6 +130,7 @@ const RawMaterialContainer = () => {
   }
 
   const getData = useCallback(async (pk) => {
+    Notiflix.Loading.Circle()
     //TODO: 성공시
     if (pk === null) {
       return
@@ -148,6 +149,7 @@ const RawMaterialContainer = () => {
 
       setDetailPage({current: res.current_page, total: res.total_page})
     }
+    Notiflix.Loading.Remove()
   }, [detailList, detailPage])
 
   const selectBox = useCallback((value) => {
@@ -175,8 +177,8 @@ const RawMaterialContainer = () => {
     if (res) {
       const getStock = res.info_list.map((v, i) => {
         const material_type = transferCodeToName('material', v.material_type)
-        const safe_stock = AddComma(Math.round(v.safe_stock * 1000) / 1000)
-        const current_stock = AddComma(Math.round(v.current_stock * 1000) / 1000)
+        const safe_stock = AddComma(v.safe_stock)
+        const current_stock = AddComma(v.current_stock)
 
         return {...v, material_type: material_type, safe_stock: safe_stock, current_stock: current_stock}
       })
@@ -184,9 +186,9 @@ const RawMaterialContainer = () => {
       setList(getStock)
       setIsFirst(true)
       setPage({current: res.current_page, total: res.total_page})
-      Notiflix.Loading.Remove()
       setSelectPk(null)
     }
+    Notiflix.Loading.Remove()
   }, [list, type, filter, page.current, keyword])
 
   useEffect(() => {
