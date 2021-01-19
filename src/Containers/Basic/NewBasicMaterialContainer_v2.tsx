@@ -192,7 +192,6 @@ const NewBasicMaterialRegister_V2 = ({match}: any) => {
   }
 
   const reConfigData = (isPk?: boolean) => {
-    console.log(inputData.location)
     const data = {
       material_name: inputData.material_type === 0 ? `${inputData.texture}, ${inputData.material_spec_W} * ${inputData.material_spec_D}` : inputData.material_name,
       material_type: inputData.material_type,
@@ -326,7 +325,15 @@ const NewBasicMaterialRegister_V2 = ({match}: any) => {
                                 />
                                 {
                                   i !== 0 &&
-                                  <img src={IC_MINUS} style={{width: 20, height: 20, marginLeft: 8, cursor: 'pointer'}}
+                                  <img src={IC_MINUS}
+                                       style={{
+                                         width: 20,
+                                         height: 20,
+                                         marginLeft: 8,
+                                         cursor: 'pointer',
+                                         padding: 5,
+                                         backgroundColor: '#aaaaaa'
+                                       }}
                                        onClick={() => {
                                          let temp = _.cloneDeep(inputData.bases)
                                          temp.splice(i, 1)
@@ -346,9 +353,13 @@ const NewBasicMaterialRegister_V2 = ({match}: any) => {
                     {createInput('number', '안전재고', 'safe_stock', '안전재고를 입력해주세요')}
                     <div>
                       <FullAddInput title={'검수 항목'} onChangeEvent={() => {
-                        let temp = _.cloneDeep(inputData.inspections)
-                        temp.push('')
-                        setInputData('inspections', temp)
+                        if (inputData.inspections.length < 5) {
+                          let temp = _.cloneDeep(inputData.inspections)
+                          temp.push('')
+                          setInputData('inspections', temp)
+                        } else {
+                          Notiflix.Report.Warning('추가할 수 없음', '5개 까지 입력할 수 있습니다.', '확인')
+                        }
                       }}>
                         {
                           inputData.inspections && inputData.inspections.map((v, i) => {
@@ -363,7 +374,7 @@ const NewBasicMaterialRegister_V2 = ({match}: any) => {
                                                  let temp = _.cloneDeep(inputData.inspections)
                                                  temp.splice(i, 1, input)
                                                  setInputData('inspections', temp)
-                                               }}
+                                               }} buttonColor={'#aaaaaa'}
                               />
                             )
                           })

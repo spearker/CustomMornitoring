@@ -37,8 +37,7 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                 <div key={`${i}${index}`} style={{display: 'flex', justifyContent: 'center'}}>
                   <input type="radio" id={`rd${index}${i}`} name={`radio-${index}`}
                          checked={target === v.value ? true : false}
-                         onClick={(e) => {
-                           console.log(v)
+                         onClick={() => {
                            if (onChangeEvent === null) {
                              return null
                            } else {
