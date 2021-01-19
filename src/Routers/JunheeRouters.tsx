@@ -31,13 +31,15 @@ import ProcessRegister from '../Pages/Process/Register'
 
 import OutsourcingRegisterFree from '../Pages/Old_Outsourcing/Register'
 import DateTypeCalendar from '../Components/Modal/DateTypeCalendar'
-import NewBasicMaterialRegister_V2 from '../Containers/Basic/NewBasicMaterialContainer_v2'
+import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
 import NewRawMaterial_V2 from '../Pages/NewStock/RawMaterial'
 import NewRawMaterialLocation_V2 from '../Pages/NewStock/RawMaterialLocation'
 import WarehousingRegister from '../Pages/Stock/WarehousingRegister'
 import ReleaseRegister from '../Pages/Stock/ReleaseRegister'
 import ReleaseRegister_V2 from '../Pages/NewStock/ReleaseRegisterV2'
 import WarehousingRegister_V2 from '../Pages/NewStock/WarehousingRegisterV2'
+import BasicMaterial from '../Pages/Basic/BasicMaterial'
+import BasicRawMaterial from '../Pages/Basic/BasicRawMaterial'
 
 
 const JunheeRouters = () => {
@@ -97,8 +99,9 @@ const JunheeRouters = () => {
             <Route path="/sq/manage/processregister" component={ProcessManageInput}/>
 
           {/*신규 원자재 관리*/}
-            <Route exact path="/basic/material/register/v2" component={NewBasicMaterialRegister_V2}/>
-            <Route exact path="/basic/material/register/v2/:pk" component={NewBasicMaterialRegister_V2}/>
+            <Route exact path="/basic/list/raw/material" component={BasicRawMaterial}/>
+            <Route exact path="/basic/material/register/v2" component={NewBasicRawMaterialRegister}/>
+            <Route exact path="/basic/material/register/v2/:pk" component={NewBasicRawMaterialRegister}/>
             <Route exact path="/stock/rawmaterial/list/v2" component={NewRawMaterial_V2}/>
             <Route exact path="/stock/rawmaterial/location/v2" component={NewRawMaterialLocation_V2}/>
             <Route exact path="/stock/warehousing/register/v2/version/:pk/:test" component={WarehousingRegister_V2}/>
