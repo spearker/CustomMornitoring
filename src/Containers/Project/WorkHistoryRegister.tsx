@@ -406,7 +406,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                                              value={detailMaterialData.output_materials.count}
                                              onChange={(e) => {
                                                let tmpDetailMaterialData = detailMaterialData
-
+                                               
 
                                              }}
                                       />

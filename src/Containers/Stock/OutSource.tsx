@@ -52,7 +52,8 @@ const OutSourceContainer = () => {
       type: '구분',
       amount: '수량',
       before_amount: '변경전 재고량',
-      date: '날짜',
+      date: '입/출고 날짜',
+      registered: '등록일자'
     },
   }
 

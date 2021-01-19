@@ -172,7 +172,7 @@ import BasicMold from '../Pages/Basic/BasicMold'
 import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
 import NotFound from '../Pages/Common/NotFound'
-import NewBasicMaterialRegister_V2 from '../Containers/Basic/NewBasicMaterialContainer_v2'
+import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
 
 
 const Routers = () => {

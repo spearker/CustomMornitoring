@@ -138,6 +138,7 @@ export const API_URLS = {
     update: `/v1/material/update`,
     list: `/v1/material/list`,
     load: `/v1/material/load`,
+    filterSearch: `/v1/material/search/filter`
   },
   mold: {
     delete: `/v1/mold/delete`,

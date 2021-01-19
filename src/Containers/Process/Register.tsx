@@ -239,11 +239,21 @@ const ProcessRegisterContainer = ({match}: any) => {
                       } text={'기계명을 검색해 주세요'} width={initalIndexCnt > i ? 921 : 889}
                                           onClickEvent={(e: { name?: string, type?: number, pk?: string }) => {
                                             if (e.pk && e.name) {
-                                              let tmpDetailMaterialData = detailMaterialData
-                                              tmpDetailMaterialData[i].machine = e.pk
-                                              tmpDetailMaterialData[i].machine_name = e.name
-                                              tmpDetailMaterialData[i].machine_type = e.type
-                                              setDetailMaterialData([...tmpDetailMaterialData])
+                                              if (detailMaterialData.map(v => {
+                                                if (v.machine === e.pk) {
+                                                  return false
+                                                } else {
+                                                  return true
+                                                }
+                                              }).indexOf(false) !== -1) {
+                                                Notiflix.Report.Warning('선택할 수 없음!', '중복된 기계를 사용할 수 없습니다.',)
+                                              } else {
+                                                let tmpDetailMaterialData = detailMaterialData
+                                                tmpDetailMaterialData[i].machine = e.pk
+                                                tmpDetailMaterialData[i].machine_name = e.name
+                                                tmpDetailMaterialData[i].machine_type = e.type
+                                                setDetailMaterialData([...tmpDetailMaterialData])
+                                              }
                                             }
                                           }} buttonWid={30}/>
                       {
