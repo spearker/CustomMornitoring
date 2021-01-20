@@ -11,10 +11,13 @@ import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import {useHistory} from 'react-router-dom'
+import Notiflix from 'notiflix'
 
 interface Props {
   match: any;
 }
+
+const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
 const ContractModifyContainer = ({match}: Props) => {
   const history = useHistory()
@@ -24,13 +27,14 @@ const ContractModifyContainer = ({match}: Props) => {
   const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
   const [isFirst, setIsFirst] = useState<boolean>(true)
 
-  const [contractData, setContractData] = useState<{ pk: string, customer_pk?: string, material_pk?: string, amount: Number, date: string, deadline: string }>({
+  const [contractData, setContractData] = useState<{ pk: string, customer_pk?: string, material_pk?: string, amount: Number, date: string, deadline: string, stock: string }>({
     pk: match.params.pk,
     customer_pk: customer?.pk,
     material_pk: selectMaterial?.pk,
     amount: 0,
     date: moment().format('YYYY-MM-DD'),
     deadline: moment().format('YYYY-MM-DD'),
+    stock: ''
   })
 
   const getContractLoadData = useCallback(async () => {
@@ -50,7 +54,8 @@ const ContractModifyContainer = ({match}: Props) => {
         material_pk: resultData.material_pk,
         amount: resultData.amount,
         date: resultData.date,
-        deadline: resultData.deadline
+        deadline: resultData.deadline,
+        stock: resultData.stock
       })
     }
     setIsFirst(false)
@@ -115,6 +120,14 @@ const ContractModifyContainer = ({match}: Props) => {
                                          text={'품목(품목명)을 선택해주세요.'}/></td>
             </tr>
             <tr>
+              <td>• 현재 수량</td>
+              <td><input value={Number(contractData.stock)} placeholder="수량을 입력해 주세요." type="number"
+                         onChange={(e) => setContractData({
+                           ...contractData,
+                           amount: Number(e.target.value)
+                         })} disabled/></td>
+            </tr>
+            <tr>
               <td>• 수량</td>
               <td><input value={Number(contractData.amount)} placeholder="수량을 입력해 주세요." type="number"
                          onChange={(e) => setContractData({
@@ -123,30 +136,57 @@ const ContractModifyContainer = ({match}: Props) => {
                          })}/></td>
             </tr>
             <tr>
-              <td>• 수주 날짜</td>
+              <td>• 계약일</td>
               <td>
                 <div style={{
                   display: 'flex',
                   flex: 1,
                   flexDirection: 'row',
                   backgroundColor: '#f4f6fa',
-                  border: '0.5px solid #b3b3b3',
                   height: 32
                 }}>
                   <div style={{width: 817, display: 'table-cell'}}>
-                    <div style={{marginTop: 5}}>
+                    <div>
                       {
                         selectDate === ''
-                          ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                          : <InputText
-                            style={{color: '#111319'}}>&nbsp; {selectDate}</InputText>
+                          ? <InputText value={'거래처를 선택해 주세요'}></InputText>
+                          : <InputText onBlur={() => {
+                            if (!selectDate.match(regExp)) {
+                              Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                            } else {
+                              if (moment(contractData.deadline).isBefore(selectDate)) {
+                                setSelectDate(selectDate)
+                                setContractData({
+                                  ...contractData,
+                                  date: selectDate,
+                                  deadline: selectDate
+                                })
+                                setFinishDate(selectDate)
+                              }
+                            }
+                          }} style={{color: '#111319'}} onChange={(e) => {
+                            setSelectDate(e.target.value)
+                            setContractData({...contractData, date: e.target.value})
+                          }} value={selectDate}></InputText>
                       }
                     </div>
                   </div>
-                  <ColorCalendarDropdown unLimit select={selectDate} onClickEvent={(select) => {
-                    setSelectDate(select)
-                    setContractData({...contractData, date: select})
-                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                  <ColorCalendarDropdown unLimit={true} select={selectDate}
+                                         onClickEvent={(select) => {
+                                           if (moment(contractData.deadline).isBefore(select)) {
+                                             setSelectDate(select)
+                                             setContractData({
+                                               ...contractData,
+                                               date: select,
+                                               deadline: select
+                                             })
+                                             setFinishDate(select)
+                                           } else {
+                                             setSelectDate(select)
+                                             setContractData({...contractData, date: select})
+                                           }
+                                         }} text={'날짜 선택'} type={'single'}
+                                         customStyle={{height: 36, marginLeft: 0, zIndex: 1}}/>
                 </div>
               </td>
             </tr>
@@ -158,23 +198,49 @@ const ContractModifyContainer = ({match}: Props) => {
                   flex: 1,
                   flexDirection: 'row',
                   backgroundColor: '#f4f6fa',
-                  border: '0.5px solid #b3b3b3',
                   height: 32
                 }}>
                   <div style={{width: 817, display: 'table-cell'}}>
-                    <div style={{marginTop: 5}}>
+                    <div>
                       {
                         selectDate === ''
-                          ? <InputText>&nbsp; 거래처를 선택해 주세요</InputText>
-                          : <InputText
-                            style={{color: '#111319'}}>&nbsp; {finishDate}</InputText>
+                          ? <InputText value={'&nbsp; 거래처를 선택해 주세요'}></InputText>
+                          : <InputText style={{color: '#111319'}} value={finishDate}
+                                       onBlur={() => {
+                                         if (!finishDate.match(regExp)) {
+                                           Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
+                                         } else {
+                                           if (moment(finishDate).isBefore(contractData.date)) {
+                                             Notiflix.Report.Failure('변경할 수 없음', '계약 완료일이 계약일보다 빠릅니다.', '확인')
+                                             setFinishDate(contractData.date)
+                                             setContractData({
+                                               ...contractData,
+                                               deadline: contractData.date
+                                             })
+                                           }
+                                         }
+                                       }} onChange={(e) => {
+                            setFinishDate(e.target.value)
+                            setContractData({...contractData, deadline: e.target.value})
+                          }}></InputText>
                       }
                     </div>
                   </div>
-                  <ColorCalendarDropdown unLimit select={finishDate} onClickEvent={(select) => {
-                    setFinishDate(select)
-                    setContractData({...contractData, deadline: select})
-                  }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
+                  <ColorCalendarDropdown unLimit={true} select={finishDate}
+                                         onClickEvent={(select) => {
+                                           if (moment(select).isBefore(contractData.date)) {
+                                             Notiflix.Report.Failure('변경할 수 없음', '계약 완료일이 계약일보다 빠릅니다.', '확인')
+                                             setFinishDate(contractData.date)
+                                             setContractData({
+                                               ...contractData,
+                                               deadline: contractData.date
+                                             })
+                                           } else {
+                                             setFinishDate(select)
+                                             setContractData({...contractData, deadline: select})
+                                           }
+                                         }} text={'날짜 선택'} type={'single'}
+                                         customStyle={{height: 36, marginLeft: 0, zIndex: 0}}/>
                 </div>
               </td>
             </tr>
@@ -196,10 +262,10 @@ const ContractModifyContainer = ({match}: Props) => {
 
 const ContainerMain = Styled.div`
     width: 1060px;
-    height: 493px;
+    height: auto;
     border-radius: 6px;
     background-color: white;
-    padding: 35px 20px 0 20px;
+    padding: 35px 20px 30px 20px;
     .title {
         font-size: 18px;
         font-family: NotoSansCJKkr;
@@ -268,12 +334,21 @@ const ButtonWrap = Styled.button`
     }
 `
 
-const InputText = Styled.p`
-    color: #b3b3b3;
-    font-size: 15px;
-    text-align: left;
-    vertical-align: middle;
-    font-weight: regular;
-`
+// const InputText = Styled.p`
+//     color: #b3b3b3;
+//     font-size: 15px;
+//     text-align: left;
+//     vertical-align: middle;
+//     font-weight: regular;
+// `
+
+const InputText = Styled.input`
+                    padding-left: 5px;
+                    color: #b3b3b3;
+                    font-size: 15px;
+                    text-align: left;
+                    vertical-align: middle;
+                    font-weight: regular;
+                    `
 
 export default ContractModifyContainer
