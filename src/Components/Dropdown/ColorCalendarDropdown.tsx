@@ -14,6 +14,7 @@ import IcDown from '../../Assets/Images/ic_reply_down.png'
 import useOnclickOutside from 'react-cool-onclickoutside'
 import moment from 'moment'
 import Calendar from 'react-calendar'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 //캘린더 드롭다운 컴포넌트
 
@@ -58,7 +59,15 @@ const ColorCalendarDropdown = ({select, onClickEvent, text, type, selectRange, z
                 <div style={{display: 'inline-block', float: 'left', flex: 1, marginRight: 20}}>
                   {type === 'range' && <p>시작 날짜</p>}
                     <Calendar
-                        maxDate={(unLimit && type === 'single') ? moment('2999-12-31').subtract(1, 'days').toDate() : (type === 'range' && selectRange) ? moment(selectRange.end).toDate() : moment().subtract(1, 'days').toDate()}
+                        maxDate={
+                          (unLimit && type === 'single')
+                            ? moment('2999-12-31').subtract(1, 'days').toDate()
+                            : (toDayLimit && type === 'single')
+                            ? moment().toDate()
+                            : (type === 'range' && selectRange)
+                              ? moment(selectRange.end).toDate()
+                              : moment().subtract(1, 'days').toDate()
+                        }
                         onChange={(date) => {
                           if (type === 'range') {
                             if (selectRange) {
@@ -95,6 +104,7 @@ const ColorCalendarDropdown = ({select, onClickEvent, text, type, selectRange, z
                 </div>
               }
             </BoxWrap>
+            }
         </InnerBoxWrap>
       }
     </DropBoxContainer>

@@ -27,6 +27,7 @@ const OrderRegisterContainer = () => {
   const [customer, setCustomer] = useState<string>('')
   const [material, setMaterial] = useState<string>('')
   const [limitDate, setLimitDate] = useState<string>('')
+  const [startDate, setStartDate] = useState<string>('')
   const [orderData, setOrderData] = useState<{
     pk: string
     customer_name: string
@@ -77,7 +78,8 @@ const OrderRegisterContainer = () => {
                   setCustomer(e.customer_name)
                   setMaterial(e.material_name)
                   setSelectDate(e.date)
-                  setLimitDate(e.date)
+                  setStartDate(e.date)
+                  setLimitDate(e.deadline)
                 }} text={'수주 리스트를 선택해 주세요.'}/>
               </td>
             </tr>
@@ -148,10 +150,8 @@ const OrderRegisterContainer = () => {
               <td>
                 <div style={{display: 'flex'}}>
                   <input placeholder="수주 리스트가 입력되면 자동 입력됩니다."
-                         onChange={(e) => e.target.value.match(regExpNum) ? setOrderData({
-                           ...orderData,
-                           left: e.target.value
-                         }) : null}
+                         onChange={() => {
+                         }}
                          value={orderData.stock}/>
                 </div>
               </td>
@@ -209,12 +209,15 @@ const OrderRegisterContainer = () => {
                               if (!selectDate.match(regExp)) {
                                 Notiflix.Report.Warning('올바르지 않은 형식입니다.', 'YYYY-MM-DD 형식에 맞추어 입력해주세요.', '확인')
                               } else {
-                                if (moment(selectDate).isBefore(limitDate)) {
-                                  Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 빠릅니다.', '확인')
+
+                                if (moment(selectDate).isBefore(startDate)) {
+                                  Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주일보다 빠릅니다.', '확인')
+                                  setSelectDate(startDate)
+                                  setOrderData({...orderData, date: startDate})
+                                } else if (moment(selectDate).isAfter(limitDate)) {
+                                  Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 느립니다.', '확인')
                                   setSelectDate(limitDate)
-                                  setOrderData({
-                                    ...orderData, date: limitDate
-                                  })
+                                  setOrderData({...orderData, date: limitDate})
                                 }
                               }
                             }} onChange={(e) => {
@@ -227,8 +230,12 @@ const OrderRegisterContainer = () => {
                   </div>
                   <ColorCalendarDropdown unLimit={true} select={selectDate}
                                          onClickEvent={(select) => {
-                                           if (moment(select).isBefore(orderData.date)) {
-                                             Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 빠릅니다.', '확인')
+                                           if (moment(select).isBefore(startDate)) {
+                                             Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주일보다 빠릅니다.', '확인')
+                                             setSelectDate(startDate)
+                                             setOrderData({...orderData, date: startDate})
+                                           } else if (moment(select).isAfter(limitDate)) {
+                                             Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 느립니다.', '확인')
                                              setSelectDate(limitDate)
                                              setOrderData({...orderData, date: limitDate})
                                            } else {
