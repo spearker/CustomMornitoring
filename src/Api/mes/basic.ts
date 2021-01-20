@@ -198,5 +198,13 @@ export const API_URLS = {
     format: {
         upload: `/v1/format/upload`,
         history: '/v1/format/history/list'
+    },
+    keyin: {
+        create: `/v1/keyin/register/press`,
+        load: `/v1/keyin/load/press`,
+        update: `/v1/keyin/update/press`,
+        list: `/v1/keyin/list/press`,
+        delete: `/v1/keyin/delete/press`,
+        historySearch: `/v1/keyin/history/search`
     }
 }

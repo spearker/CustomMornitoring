@@ -6,13 +6,14 @@ import EnrollmentBorderBox from '../Box/EnrollmentBorderBox'
 interface IProps {
     title: string
     value: string | number | undefined | null
-    onChangeEvent: (v: any) => void
+    onChangeEvent?: (v: any) => void
     unit?: string
     placeholder?: string
     type?: string
+    readOnly?: boolean
 }
 
-const ColorInputWithText = ({type, title, value, onChangeEvent, unit, placeholder}: IProps) => {
+const ColorInputWithText = ({type, title, value, onChangeEvent, unit, placeholder, readOnly}: IProps) => {
 
     return (
         <EnrollmentBorderBox>
@@ -20,9 +21,11 @@ const ColorInputWithText = ({type, title, value, onChangeEvent, unit, placeholde
                 <Dot/>
                 <p>{title}</p>
                 <div>
-                    <input type={type ? type : 'text'} placeholder={placeholder ? placeholder : ''}
-                           value={value ? value : ''} onChange={(e) => {
-                        onChangeEvent(type === 'number' ? (e.target.value) : e.target.value)
+                    <input type={type ? type : 'text'} placeholder={placeholder ? placeholder : ''} disabled={readOnly}
+                           value={value !== undefined && value !== null ? value : ''} onChange={(e) => {
+                            if(onChangeEvent !== undefined) {
+                                onChangeEvent(type === 'number' ? (e.target.value).replace(/[^0-9]/g,'') : e.target.value);
+                            }
                     }}/>
                     {unit && <p>{unit}</p>}
                 </div>
