@@ -19,6 +19,11 @@ interface IProps {
   buttonWid?: string | number
   isAllItem?: boolean
   disabled?: boolean
+  outsideWidth?: string | number
+  width?: string | number
+  insideWidth?: string | number
+  textTop?: string | number
+  keyinUrl?: string
 }
 
 const DummyMachine = [
@@ -34,7 +39,7 @@ const DummyMachine = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
-const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, disabled}: IProps) => {
+const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, disabled, outsideWidth, width, insideWidth, textTop, keyinUrl}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [workerName, setWorkerName] = useState('')
@@ -57,7 +62,7 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, d
 
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['history'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = `${keyinUrl ? keyinUrl : API_URLS['history'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
     const resultData = await getHistorySearch(tempUrl)
     if (resultData) {
       setHistoryList(resultData.info_list)
@@ -78,15 +83,15 @@ const HistoryPickerModal = ({select, onClickEvent, text, buttonWid, isAllItem, d
 
 
   return (
-    <div>
-      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
+    <div style={{width: outsideWidth ? outsideWidth : 'auto'}}>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: width ? width : 917}}>
         <BoxWrap disabled={disabled} onClick={() => {
           setIsOpen(true)
         }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-          <div style={{display: 'inline-block', height: 32, width: 885}}>
+          <div style={{display: 'inline-block', height: 32, width: insideWidth ? insideWidth : 885}}>
             {
-              select && select.name ? <p style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                : <p style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+              select && select.name ? <p style={{marginTop: textTop ? textTop : 5}}>&nbsp; {select.name}</p>
+                : <p style={{marginTop: textTop ? textTop : 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
             }
 
           </div>

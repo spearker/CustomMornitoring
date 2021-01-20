@@ -23,6 +23,9 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
+import InputContainer from '../../Containers/InputContainer'
+import RadioInput from '../../Components/Input/RadioInput'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 const docDummy = [
   {pk: 'qfqwf', name: '도큐먼트 1'},
@@ -61,6 +64,7 @@ const BasicMachineRegister = () => {
   const [oldPaths, setOldPaths] = useState<any[3]>([null, null, null])
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [interwork, setInterwork] = useState<0 | 1>(1)
 
   const indexList = getMachineTypeList('kor')
 
@@ -134,8 +138,11 @@ const BasicMachineRegister = () => {
       tempList[1] = res.qualification
       tempList[2] = res.capacity
       setOldPaths(tempList)
+      if(autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans'){
+        setInterwork(res.interwork === true ? 0 : 1);
+      }
     }
-  }, [pk, made, madeNo, date, volt, tons, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory])
+  }, [pk, made, madeNo, date, volt, tons, type, photoName, name, oldPaths, infoList, paths, essential, optional, factory, interwork])
 
 
   const onsubmitFormUpdate = useCallback(async () => {
@@ -174,19 +181,20 @@ const BasicMachineRegister = () => {
       qualification: paths[1],
       capacity: paths[2],
       tons: tons,
-      volt: volt,
-
+      volt: volt
     }
 
+    const sendData = (autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans') ? {...data, interwork: interwork === 0 ? true : false} : data;
+
     const tempUrl = `${API_URLS['machine'].update}`
-    const res = await registerBasicItem(tempUrl, data)
+    const res = await registerBasicItem(tempUrl, sendData)
 
     if (res) {
       //alert('성공적으로 수정 되었습니다')
       history.push(`/basic/list/machine`)
     }
 
-  }, [pk, made, madeNo, name, volt, tons, type, date, madeNo, infoList, paths, essential, optional, factory])
+  }, [pk, made, madeNo, name, volt, tons, type, date, madeNo, infoList, paths, essential, optional, factory, interwork])
 
   /**
    * onsubmitForm()
@@ -231,10 +239,13 @@ const BasicMachineRegister = () => {
       capacity: paths[2],
       tons: tons,
       volt: volt,
+      interwork: interwork === 0 ? true : false
     }
 
+    const sendData = (autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans') ? {...data, interwork: interwork === 0 ? true : false} : data;
+
     const tempUrl = `${API_URLS['machine'].create}`
-    const res = await registerBasicItem(tempUrl, data)
+    const res = await registerBasicItem(tempUrl, sendData)
 
 
     if (res) {
@@ -242,7 +253,7 @@ const BasicMachineRegister = () => {
       history.push(`/basic/list/machine`)
     }
 
-  }, [pk, made, madeNo, volt, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory])
+  }, [pk, made, madeNo, volt, tons, document, date, name, type, madeNo, infoList, paths, essential, optional, factory, interwork])
 
 
   return (
@@ -284,6 +295,11 @@ const BasicMachineRegister = () => {
                 list={factory}
                 searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?`}
               />
+
+              {(autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans') && <RadioInput title={'오버홀'} width={168} target={interwork} center={{alignItems: 'center'}} noStringPadding
+                          onChangeEvent={(e) => setInterwork(e)}
+                          contents={[{value: 0, title: 'Y'}, {value: 1, title: 'N'}]}/>}
+
               <br/>
               <ListHeader title="선택 항목"/>
               <NormalInput title={'제조사'} value={made} onChangeEvent={setMade}

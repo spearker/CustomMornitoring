@@ -11,6 +11,8 @@ import NewCostKPI from '../Pages/NewKPI/NewCostKPI'
 import NewDuedateKPI from '../Pages/NewKPI/NewDuedateKPI'
 import NewEnergyKPI from '../Pages/NewKPI/NewEnergyKPI'
 import NewPowerStatistics from '../Pages/PM_Statistics/NewPowerStatistics'
+import PressKeyinList from '../Pages/NewKeyin/PressKeyinList'
+import PressKeyinRegister from '../Pages/NewKeyin/PressKeyinRegister'
 // import ProcessList from '../Pages/ProcessManagement/ProcessList';
 
 const YejiRouters = () => {
@@ -25,6 +27,11 @@ const YejiRouters = () => {
 
       {/* 프레스 데이터 통계 */}
       <Route exact path="/new/pm/statistics/power" component={NewPowerStatistics}/>
+
+      {/* key-in */}
+      <Route exact path="/pm/keyin/list" component={PressKeyinList}/>
+      <Route exact path="/pm/keyin/register" component={PressKeyinRegister}/>
+      <Route exact path="/pm/keyin/:pk" component={PressKeyinRegister}/>
 
       {/* KPI */}
       <Route exact path="/new/kpi/production" component={NewProductionKPI}/>

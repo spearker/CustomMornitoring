@@ -12,7 +12,6 @@ interface Props {
   onClickMode?: any
 }
 
-
 const NavGroupList = ({contents, selected, onClickMode, onClickEvent}: Props) => {
 
   const history = useHistory()
@@ -101,6 +100,5 @@ const ListDiv = Styled.div`
         background-color: ${BG_COLOR_SUB3};
         }
         `
-
 
 export default NavGroupList

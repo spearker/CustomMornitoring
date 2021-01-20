@@ -6,6 +6,8 @@ const autoCustomType = () => {
       return 'test_server'
     case '121.173.205.139':
       return 'jaewoo_material_trans'
+    case '121.172.236.236':
+      return 'seonghwa_material_trans'
     case '106.248.33.213':
       return 'seain_material_trans'
     case '192.168.0.149':

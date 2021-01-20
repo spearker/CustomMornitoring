@@ -10,6 +10,7 @@ import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
 import {API_URLS, getMarketing, postOrderModify, postOrderRegister} from '../../Api/mes/marketing'
 import ContractPickerModal from '../../Components/Modal/ContractPIckerModal'
 import {useHistory} from 'react-router-dom'
+import Notiflix from 'notiflix'
 
 interface Props {
   match: any;
@@ -24,6 +25,7 @@ const OrderModifyContainer = ({match}: Props) => {
   const [customer, setCustomer] = useState<string>('')
   const [material, setMaterial] = useState<string>('')
   const [pk, setPk] = useState<string>('')
+  const [limitDate, setLimitDate] = useState<string>('')
   const [orderData, setOrderData] = useState<{
     pk: string
     customer_name: string
@@ -228,8 +230,18 @@ const OrderModifyContainer = ({match}: Props) => {
                     </div>
                   </div>
                   <ColorCalendarDropdown unLimit select={selectDate} onClickEvent={(select) => {
-                    setSelectDate(select)
-                    setOrderData({...orderData, date: select})
+                    if (moment(select).isBefore(orderData.date)) {
+                      Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주일보다 빠릅니다.', '확인')
+                      setSelectDate(limitDate)
+                      setOrderData({...orderData, date: orderData.date})
+                    } else if (moment(select).isAfter(limitDate)) {
+                      Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 느립니다.', '확인')
+                      setSelectDate(limitDate)
+                      setOrderData({...orderData, date: limitDate})
+                    } else {
+                      setSelectDate(select)
+                      setOrderData({...orderData, date: select})
+                    }
                   }} text={'날짜 변경'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>
                 </div>
               </td>
