@@ -238,11 +238,13 @@ const OrderModifyContainer = ({match}: Props) => {
                       Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주일보다 빠릅니다.', '확인')
                       setSelectDate(limitDate)
                       setOrderData({...orderData, date: orderData.date})
-                    } else if (moment(select).isAfter(limitDate)) {
-                      Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 느립니다.', '확인')
-                      setSelectDate(limitDate)
-                      setOrderData({...orderData, date: limitDate})
-                    } else {
+                    }
+                      // else if (moment(select).isAfter(limitDate)) {
+                      //   Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주 완료일보다 느립니다.', '확인')
+                      //   setSelectDate(limitDate)
+                      //   setOrderData({...orderData, date: limitDate})
+                    // }
+                    else {
                       setSelectDate(select)
                       setOrderData({...orderData, date: select})
                     }
