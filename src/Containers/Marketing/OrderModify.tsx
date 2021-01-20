@@ -33,6 +33,7 @@ const OrderModifyContainer = ({match}: Props) => {
     amount: number
     date: string
     stock: number
+    contract_date: string
     deadline: string
   }>({
     pk: '',
@@ -41,6 +42,7 @@ const OrderModifyContainer = ({match}: Props) => {
     amount: 0,
     date: '',
     stock: 0,
+    contract_date: '',
     deadline: ''
   })
 
@@ -53,6 +55,7 @@ const OrderModifyContainer = ({match}: Props) => {
     setCustomer(resultData.customer_name)
     setMaterial(resultData.material_name)
     setPk(resultData.pk)
+    setLimitDate(resultData.deadline)
     setOrderData({
       pk: resultData.contract_pk,
       customer_name: resultData.customer_name,
@@ -60,6 +63,7 @@ const OrderModifyContainer = ({match}: Props) => {
       amount: resultData.amount,
       date: resultData.date,
       stock: resultData.stock,
+      contract_date: resultData.contract_date,
       deadline: resultData.deadline
     })
   }, [])
@@ -230,7 +234,7 @@ const OrderModifyContainer = ({match}: Props) => {
                     </div>
                   </div>
                   <ColorCalendarDropdown unLimit select={selectDate} onClickEvent={(select) => {
-                    if (moment(select).isBefore(orderData.date)) {
+                    if (moment(select).isBefore(orderData.contract_date)) {
                       Notiflix.Report.Failure('변경할 수 없음', '출하 날짜가 수주일보다 빠릅니다.', '확인')
                       setSelectDate(limitDate)
                       setOrderData({...orderData, date: orderData.date})
