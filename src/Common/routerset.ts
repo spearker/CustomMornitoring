@@ -299,6 +299,10 @@ export const PM_MENU_LIST = {
     {name: '비가동시간', url: '/pm/analysis/readytime'},
     {name: '불량 공정', url: '/pm/analysis/defective'}
   ],
+  keyin: autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans' ? [ 
+    {name: '프레스 key-in', url: '/pm/keyin/press'},
+    {name: '프레스 key-in 리스트', url: '/pm/keyin/list'}
+  ] : []
 }
 
 export const WORKER_MES_MENU = {

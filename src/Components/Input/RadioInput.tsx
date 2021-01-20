@@ -12,16 +12,18 @@ interface IProps {
   line?: boolean
   isPadding?: number
   index?: number
+  center?: any
+  noStringPadding?: boolean
 }
 
-const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, line, isPadding, index}: IProps) => {
+const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, line, isPadding, index, center, noStringPadding}: IProps) => {
   useEffect(() => {
     console.log(index)
   }, [])
   return (
 
     <InputContainer title={title} width={width} line={line} isPadding={isPadding}>
-      <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{display: 'flex', alignItems: 'center', ...center}}>
         {
           contents.map((v, i) => {
             return (
@@ -34,7 +36,7 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                   <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20,}}>{v.title}</span>
                 </div>
                 :
-                <div key={`${i}${index}`} style={{display: 'flex', justifyContent: 'center'}}>
+                <div key={`${i}${index}`} style={{display: 'flex', justifyContent: 'center', ...center}}>
                   <input type="radio" id={`rd${index}${i}`} name={`radio-${index}`}
                          checked={target === v.value ? true : false}
                          onClick={() => {
@@ -49,6 +51,7 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                     paddingLeft: 4,
                     fontSize: 14,
                     marginRight: 20,
+                    paddingTop: width ? noStringPadding ? 0 : 5 : 0
                   }}>{v.title}</span>
                 </div>
             )
