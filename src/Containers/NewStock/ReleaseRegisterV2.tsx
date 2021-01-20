@@ -20,13 +20,22 @@ import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import {API_URLS, postStockRegister} from '../../Api/mes/manageStock'
 import DateInput from '../../Components/Input/DateInput'
 import NormalInput from '../../Components/Input/NormalInput'
+import {getBasicList} from '../../Api/mes/basic'
+import ItemPickerModal from '../../Components/Modal/ItemPickerModal'
 
+const pickerModalData = [
+  {title: 'Lot번호', key: 'LOT', width: 100},
+  {title: '품목명', key: 'material_name', width: 200},
+  {title: '재질', key: 'texture', width: 150},
+  {title: '총 중량', key: 'current_stock', width: 150},
+  {title: '보관장소', key: 'location_name', width: 180},
+  {title: '입고일', key: 'warehousing_date', width: 120},
+]
 
 const typeDummy = [
-  '선택 없음',
+  '정상 출고',
   '반품',
-  '오류정정',
-  '현황기준',
+  '오류 정정'
 ]
 
 const StockDummy = [
@@ -36,6 +45,19 @@ const StockDummy = [
   '오류 정정',
   '금형 제작'
 ]
+
+interface RawMaterialType {
+  pk: string
+  material_name: string
+  LOT: string
+  current_stock: number
+  safe_stock: number
+  location_name: string
+  texture: string
+  material_spec_W: string
+  material_spec_D: string
+  warehousing_date: string
+}
 
 interface Props {
   match: any;
@@ -49,21 +71,14 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
 
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [pk, setPk] = useState<string>('')
-  const [name, setName] = useState<string>('')
-  const [no, setNo] = useState<number>()
-  const [phone, setPhone] = useState<string>('')
-  const [address, setAddress] = useState<string>('')
-  const [fax, setFax] = useState<string>('')
-  const [phoneM, setPhoneM] = useState<string>('')
-  const [emailM, setEmailM] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [manager, setManager] = useState<string>('')
-  const [ceo, setCeo] = useState<string>('')
-  const [infoList, setInfoList] = useState<IInfo[]>([])
   const [typeList, setTypelist] = useState<string[]>(typeDummy)
-  const [stockList, setStockList] = useState<string[]>(StockDummy)
   const [selectType, setSelectType] = useState<string>()
   const [amount, setAmount] = useState<number>()
+  const [selectItem, setSelectItem] = useState<RawMaterialType>()
+
+  const [texture, setTexture] = useState<string>('')
+  const [w, setW] = useState<number>(0)
+  const [d, setD] = useState<number>(0)
 
   const [paths, setPaths] = useState<any[1]>([null])
   const [oldPaths, setOldPaths] = useState<any[1]>([null])
@@ -76,9 +91,6 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
   const [isPoupup, setIsPoupup] = useState<boolean>(false)
   const [isSearched, setIsSearched] = useState<boolean>(false)
   const [keyword, setKeyword] = useState<string>('')
-  const [checkList, setCheckList] = useState<IMaterial[]>([])
-  const [list, setList] = useState<IMaterial[]>([])
-  const [searchList, setSearchList] = useState<IMaterial[]>([])
 
   const [inputData, setInputData] = useObjectInput('CHANGE', {
     name: '',
@@ -92,6 +104,7 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
   })
 
   useEffect(() => {
+    getData()
     if (getParameter('pk') !== '') {
       setPk(getParameter('pk'))
       ////alert(`수정 페이지 진입 - pk :` + param)
@@ -127,7 +140,6 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
       if (res.status === 200) {
         const results = res.results
         if (isPoupup === true) {
-          setSearchList(results)
         } else {
           return
         }
@@ -179,90 +191,27 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
    * @param {string} pk 기계 pk
    * @returns X
    */
-  const getData = useCallback(async () => {
+  const getData = async () => {
 
-    const res = await getRequest(`${SF_ENDPOINT}/api/v1/customer/view?pk=` + getParameter('pk'), getToken(TOKEN_NAME))
+    const tempUrl = `${API_URLS['stock'].rawLoad}?pk=${match.params.pk}`
+    const res = await getBasicList(tempUrl)
 
-    if (res === false) {
-      //TODO: 에러 처리
-    } else {
-      if (res.status === 200) {
-        const data = res.results
-        setName(data.name)
-        setPk(data.pk)
-        setNo(Number(data.number))
-        setPk(data.pk)
-        setCeo(data.ceo)
-        setOldPaths([data.photo])
-        setPhone(data.telephone)
-        setEmailM(data.manager_email)
-        setPhoneM(data.manager_phone)
-        setManager(data.manager)
-        setEmail(data.ceo_email)
-
-        setInfoList(data.info_list)
-        setAddress(data.address)
-        setFax(data.fax)
-
-      } else {
-        //TODO:  기타 오류
-      }
+    if (res) {
+      setTexture(res.texture)
+      setW(res.material_spec_W)
+      setD(res.material_spec_D)
+      setInputData({
+        ...inputData,
+        material_pk: res.pk,
+        inspections: res.inspections.map((v, i) => {
+          return {
+            inspect: v,
+            isFine: false
+          }
+        })
+      })
     }
-  }, [pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax])
-
-  /**
-   * onsubmitFormUpdate()
-   * 기계 정보 수정 요청
-   * @param {string} url 요청 주소
-   * @param {string} pk 기계 pk
-   * @param {string} name 이름
-   * @param {string} no 넘버
-   * @param {object(file)} file 사진 파일
-   * @param {string} info 상세정보
-   * @param {string} made 제조정보
-   * @param {string} type 종류
-   * @param {string} madeNo 제조사넘버
-   * @returns X
-   */
-  const onsubmitFormUpdate = useCallback(async (e) => {
-    e.preventDefault()
-    if (name === '') {
-      //alert("이름은 필수 항목입니다. 반드시 입력해주세요.")
-      return
-    }
-
-    const data = {
-      pk: getParameter('pk'),
-      name: name,
-      number: no,
-      ceo: ceo,
-      photo: paths[0],
-      telephone: phone,
-      ceo_email: email,
-      manager: manager,
-      manager_phone: phoneM,
-      manager_email: emailM,
-      address: address,
-      fax: fax,
-      //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
-
-    }
-
-    const res = await postRequest(`${SF_ENDPOINT}/api/v1/customer/update/`, data, getToken(TOKEN_NAME))
-
-    if (res === false) {
-      ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-    } else {
-      if (res.status === 200) {
-        //alert('성공적으로 수정 되었습니다')
-        setIsUpdate(false)
-        history.goBack()
-      } else {
-        ////alert('요청을 처리 할 수 없습니다 다시 시도해주세요.')
-      }
-    }
-
-  }, [pk, name, no, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
+  }
 
   /**
    * onsubmitForm()
@@ -332,7 +281,19 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
       <Header title={isUpdate ? '출고 수정' : '출고 등록'}/>
       <WhiteBoxContainer>
         <ListHeader title={'필수 항목'}/>
-        <NormalInput title={'재질'} value={'123123'} width={120}></NormalInput>
+        <NormalInput title={'재질'} value={texture} width={120}></NormalInput>
+        <div style={{
+          borderBottom: 'solid 0.5px #d3d3d3',
+          display: 'flex',
+          paddingTop: 17,
+          paddingBottom: 17,
+          verticalAlign: 'top'
+        }}>
+          <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 품번/Lot</p>
+          <ItemPickerModal onClickEvent={(item) => setSelectItem(item)} text={'품번/lot를 선택해 주세요'} type={'rawlot'}
+                           title={'품번/Lot'} width={921.63}
+                           tableHeaderValue={pickerModalData} select={selectItem} mainKey={'LOT'}/>
+        </div>
         <div style={{
           borderBottom: 'solid 0.5px #d3d3d3',
           display: 'flex',
@@ -346,11 +307,12 @@ const ReleaseRegisterContainer_V2 = ({match}: Props) => {
                             contents={typeList} text={'출고 종류을 선택해 주세요'}
                             buttonWid={30}/>
         </div>
-        <NormalNumberInput title={'재고 수량'} width={120} value={amount}
-                           onChangeEvent={(input) => setAmount(input)}
-                           description={'재고 수량을 입력해주세요'}/>
-        <NormalInput title={'위치'} value={'123123'} width={120}></NormalInput>
-        <DateInput title={'입고일'} description={''} value={selectDate} onChangeEvent={setSelectDate}
+        <NormalNumberInput title={'재고 수량'} width={120} value={selectItem?.current_stock} onChangeEvent={null}
+                           description={'품번/Lot를 선택하면 자동으로 입력됩니다.'}/>
+        <NormalInput title={'위치'} description={'품번/Lot를 선택하면 자동으로 입력됩니다.'}
+                     value={selectItem ? selectItem.location_name : ''} width={120}></NormalInput>
+        <DateInput title={'입고일'} description={'품번/Lot를 선택하면 자동으로 입력됩니다.'}
+                   value={selectItem ? selectItem.warehousing_date : ''}
                    width={135} //readOnly
                    style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
         <NormalNumberInput title={'출고 중량'} width={120} value={amount}

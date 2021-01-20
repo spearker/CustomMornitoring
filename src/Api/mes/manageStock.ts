@@ -1,4 +1,4 @@
-import client from '../configs/basic';
+import client from '../configs/basic'
 
 /**
  * getItemSearch()
@@ -9,9 +9,9 @@ import client from '../configs/basic';
  * @author 준희
  */
 export const getItemSearch = async (url: string) => {
-    const temp: IServerData = await client.get(url);
+  const temp: IServerData = await client.get(url)
 
-    return temp
+  return temp
 }
 
 /**
@@ -22,11 +22,11 @@ export const getItemSearch = async (url: string) => {
  * @author 정민
  */
 export const getStockList = async (url: string) => {
-    const temp: IServerData = await client.get(url);
+  const temp: IServerData = await client.get(url)
 
-    if (temp) {
-        return temp.results
-    }
+  if (temp) {
+    return temp.results
+  }
 }
 
 /**
@@ -37,33 +37,40 @@ export const getStockList = async (url: string) => {
  * @author 정민
  */
 export const postStockRegister = async (url: string, object: object) => {
-    const temp: IServerData = await client.post(url, object);
+  const temp: IServerData = await client.post(url, object)
 
-    if (temp) {
-        return temp
-    }
+  if (temp) {
+    return temp
+  }
 }
 
 export const API_URLS = {
-    stock: {
-        list: `/v1/stock/list`,
-        outsourcelist: `/v1/stock/outsource/list`,
-        loadFilter: `/v1/stock/load/filters`,
-        loadDetail: `/v1/stock/load/details`,
-        warehousingRegister: `/v1/stock/warehousing/register`,
-        releaseRegister: `/v1/stock/release/register`,
-        partsWarehousingRegister: `/v1/stock/parts/warehousing/register`,
-        partsReleaseRegister: `/v1/stock/parts/release/register`,
-    },
-    parts: {
-        list: `/v1/stock/parts/list`,
-        detail: `/v1/stock/parts/detail`,
-        warehousingRegister: `/v1/stock/parts/warehousing/register`,
-        releaseRegister: `/v1/stock/parts/release/register`,
-    },
-    searchItem: {
-        list: `/manageStock/searchItem`,
-    },
+  stock: {
+    list: `/v1/stock/list`,
+    rawLoad: `/v1/material/load`,
+    warehousingDetail: `/v1/stock/warehousing/raw/load`,
+    outsourcelist: `/v1/stock/outsource/list`,
+    loadFilter: `/v1/stock/load/filters`,
+    loadDetail: `/v1/stock/load/details`,
+    rawDetail: `v1/stock/load/raw/details`,
+    warehousingRegister: `/v1/stock/warehousing/register`,
+    warehousingRawRegister: `/v1/stock/warehousing/raw/register`,
+    warehousingUpdate: `/v1/stock/warehousing/raw/update`,
+    releaseRegister: `/v1/stock/release/register`,
+    partsWarehousingRegister: `/v1/stock/parts/warehousing/register`,
+    partsReleaseRegister: `/v1/stock/parts/release/register`,
+    autoLotNumber: `/v1/stock/lot/create`,
+    duplicateLot: `/v1/stock/lot/duplicated`
+  },
+  parts: {
+    list: `/v1/stock/parts/list`,
+    detail: `/v1/stock/parts/detail`,
+    warehousingRegister: `/v1/stock/parts/warehousing/register`,
+    releaseRegister: `/v1/stock/parts/release/register`,
+  },
+  searchItem: {
+    list: `/manageStock/searchItem`,
+  },
 }
 
 

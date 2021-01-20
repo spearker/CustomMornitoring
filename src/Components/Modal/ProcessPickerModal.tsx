@@ -15,205 +15,222 @@ import Notiflix from 'notiflix'
 //드롭다운 컴포넌트
 
 interface IProps {
-    select?: { name?: string, pk?: string },
-    onClickEvent: any
-    text: string
-    seg?: boolean
-    buttonWid?: string | number
-    style?: any
-    inputWidth?: string | number
+  select?: { name?: string, pk?: string },
+  onClickEvent: any
+  text: string
+  seg?: boolean
+  buttonWid?: string | number
+  style?: any
+  inputWidth?: string | number
+  isAllItems?: boolean
 }
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
-const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, inputWidth}: IProps) => {
-    //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const [isOpen, setIsOpen] = useState(false)
-    const [processName, setProcessName] = useState('')
-    const [page, setPage] = useState<PaginationInfo>({
-        current: 1,
-    })
+const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, inputWidth, isAllItems}: IProps) => {
+  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [isOpen, setIsOpen] = useState(false)
+  const [processName, setProcessName] = useState('')
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  })
 
-    const [machineList, setMachineList] = useState([{
-        pk: '',
-        process_name: '',
-        process_type: '',
-    }])
-    const [segList, setSegList] = useState([{
-        pk: '',
-        name: '',
-        process_names: '',
-    }])
-    const [searchName, setSearchName] = useState<string>('')
-
-
-    const getList = useCallback(async (isSearch?: boolean) => {
-        Notiflix.Loading.Circle()
-        const tempUrl = seg
-            ? `${API_URLS['process'].search2}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
-            : `${API_URLS['process'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
-        const resultData = await getSearchMachine(tempUrl)
-        if (resultData) {
-            setSegList(resultData.info_list)
-            setMachineList(resultData.info_list)
-
-            setPage({current: resultData.current_page, total: resultData.total_page})
-        }
-        Notiflix.Loading.Remove()
-    }, [searchName, page])
-
-    useEffect(() => {
-        getList()
-    }, [page.current])
+  const [machineList, setMachineList] = useState([{
+    pk: '',
+    process_name: '',
+    process_type: '',
+  }])
+  const [segList, setSegList] = useState([{
+    pk: '',
+    name: '',
+    process_names: '',
+  }])
+  const [searchName, setSearchName] = useState<string>('')
 
 
-    const handleClickBtn = () => {
-        setIsOpen(!isOpen)
+  const getList = useCallback(async (isSearch?: boolean) => {
+    Notiflix.Loading.Circle()
+    const tempUrl = seg
+      ? `${API_URLS['process'].search2}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+      : `${API_URLS['process'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+    const resultData = await getSearchMachine(tempUrl)
+    if (resultData) {
+      setSegList(resultData.info_list)
+      setMachineList(resultData.info_list)
+
+      setPage({current: resultData.current_page, total: resultData.total_page})
     }
+    Notiflix.Loading.Remove()
+  }, [searchName, page])
+
+  useEffect(() => {
+    getList()
+  }, [page.current])
 
 
-    return (
-        <div>
-            <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917, ...style}}>
-                <BoxWrap onClick={() => {
-                    setIsOpen(true)
-                }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                    <div style={{display: 'inline-block', height: 32, width: inputWidth ? inputWidth : 885}}>
-                        {
-                            select && select.name ? <p onClick={() => {
-                                    setIsOpen(true)
-                                }} style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                                : <p onClick={() => {
-                                    setIsOpen(true)
-                                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                        }
-                    </div>
-                    <div style={{
-                        display: 'inline-block',
-                        backgroundColor: POINT_COLOR,
-                        width: buttonWid ? buttonWid : 32,
-                        height: buttonWid ? buttonWid : 32
-                    }}>
-                        <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
-                            setIsOpen(true)
-                        }}/>
-                    </div>
+  const handleClickBtn = () => {
+    setIsOpen(!isOpen)
+  }
 
-                </BoxWrap>
+
+  return (
+    <div>
+      <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917, ...style}}>
+        <BoxWrap onClick={() => {
+          setIsOpen(true)
+        }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
+          <div style={{display: 'inline-block', height: 32, width: inputWidth ? inputWidth : 885}}>
+            {
+              select && select.name ? <p onClick={() => {
+                  setIsOpen(true)
+                }} style={{marginTop: 5}}>&nbsp; {select.name}</p>
+                : <p onClick={() => {
+                  setIsOpen(true)
+                }} style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
+            }
+          </div>
+          <div style={{
+            display: 'inline-block',
+            backgroundColor: POINT_COLOR,
+            width: buttonWid ? buttonWid : 32,
+            height: buttonWid ? buttonWid : 32
+          }}>
+            <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton} onClick={() => {
+              setIsOpen(true)
+            }}/>
+          </div>
+
+        </BoxWrap>
+      </div>
+      <Modal
+        isOpen={isOpen}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            padding: 0
+          },
+          overlay: {
+            background: 'rgba(0,0,0,.6)',
+            zIndex: 5
+          }
+        }}
+      >
+        <div style={{width: 900}}>
+          <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
+            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 공정 검색</p>
+            <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
+              <SearchBox placeholder="공정명을 입력해 주세요." style={{flex: 96}}
+                         onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                         onChange={(e) => setSearchName(e.target.value)}/>
+              <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                <img src={IcSearchButton}/>
+              </SearchButton>
             </div>
-            <Modal
-                isOpen={isOpen}
-                style={{
-                    content: {
-                        top: '50%',
-                        left: '50%',
-                        right: 'auto',
-                        bottom: 'auto',
-                        marginRight: '-50%',
-                        transform: 'translate(-50%, -50%)',
-                        padding: 0
-                    },
-                    overlay: {
-                        background: 'rgba(0,0,0,.6)',
-                        zIndex: 5
-                    }
-                }}
-            >
-                <div style={{width: 900}}>
-                    <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
-                        <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 공정 검색</p>
-                        <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="공정명을 입력해 주세요." style={{flex: 96}}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
-                                       onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
-                                <img src={IcSearchButton}/>
-                            </SearchButton>
-                        </div>
-                        <div style={{minHeight: 310, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
-                            <ReactShadowScroll>
-                                <MachineTable>
-                                    <tr>
-                                        <th style={{width: 300}}>{seg ? '세분화 공정명' : '기계명'}</th>
-                                        <th style={{width: 500}}>{seg ? '속한 공정명' : '타입'}</th>
-                                    </tr>
-                                    {
-                                        seg
-                                            ? segList !== undefined && segList.length === 0 ?
-                                            <tr>
-                                                <td colSpan={3} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
-                                            </tr>
-                                            :
-                                            segList.map((v, i) => {
-                                                return (
-                                                    <tr style={{
-                                                        height: 32,
-                                                        backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
-                                                    }} onClick={() => {
-                                                        setProcessName(v.name)
-                                                        return onClickEvent({name: v.name, pk: v.pk})
-                                                    }}>
-                                                        <td><span>{v.name}</span></td>
-                                                        <td><span>{v.process_names}</span></td>
-                                                    </tr>
-                                                )
-                                            })
-                                            : machineList !== undefined && machineList.length === 0 ?
-                                            <tr>
-                                                <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
-                                            </tr>
-                                            :
-                                            machineList.map((v, i) => {
-                                                return (
-                                                    <tr style={{
-                                                        height: 32,
-                                                        backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
-                                                    }} onClick={() => {
-                                                        setProcessName(v.process_name)
-                                                        return onClickEvent({
-                                                            name: v.process_name,
-                                                            pk: v.pk
-                                                        })
-                                                    }}>
-                                                        <td><span>{v.process_name}</span></td>
-                                                        <td>
-                                                            <span>{transferCodeToName('process', Number(v.process_type))}</span>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })
-                                    }
-                                </MachineTable>
-                            </ReactShadowScroll>
-                            <PaginationBox>
-                                <Pagination count={page.total ? page.total : 0} page={page.current}
-                                            onChange={(event, i) => setPage({...page, current: i})}
-                                            boundaryCount={1} color={'primary'}/>
-                            </PaginationBox>
-                        </div>
-                    </div>
-                    <div style={{width: 900}}>
-                        <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-                            onClickEvent({name: undefined, pk: undefined})
-                            setIsOpen(false)
-                        }}>
-                            <div>
-                                <span style={{color: '#666d79'}}>취소</span>
-                            </div>
-                        </CheckButton>
-                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
-                            setIsOpen(false)
-                        }}>
-                            <div>
-                                <span style={{color: 'black'}}>확인</span>
-                            </div>
-                        </CheckButton>
-                    </div>
-                </div>
-            </Modal>
+            <div style={{minHeight: 310, maxHeight: 'auto', width: 860, backgroundColor: '#f4f6fa'}}>
+              <ReactShadowScroll>
+                <MachineTable>
+                  <tr>
+                    <th style={{width: 300}}>{seg ? '세분화 공정명' : '기계명'}</th>
+                    <th style={{width: 500}}>{seg ? '속한 공정명' : '타입'}</th>
+                  </tr>
+                  {
+                    seg
+                      ? segList !== undefined && segList.length === 0 ?
+                      <tr>
+                        <td colSpan={3} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                      </tr>
+                      :
+                      segList.map((v, i) => {
+                        return (
+                          <tr style={{
+                            height: 32,
+                            backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                          }} onClick={() => {
+                            console.log(v)
+                            if (isAllItems) {
+                              setProcessName(v.name)
+                              return onClickEvent({...v, name: v.name, pk: v.pk})
+                            } else {
+                              setProcessName(v.name)
+                              return onClickEvent({name: v.name, pk: v.pk})
+                            }
+                          }}>
+                            <td><span>{v.name}</span></td>
+                            <td><span>{v.process_names}</span></td>
+                          </tr>
+                        )
+                      })
+                      : machineList !== undefined && machineList.length === 0 ?
+                      <tr>
+                        <td colSpan={4} style={{textAlign: 'center'}}>데이터가 없습니다.</td>
+                      </tr>
+                      :
+                      machineList.map((v, i) => {
+                        return (
+                          <tr style={{
+                            height: 32,
+                            backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                          }} onClick={() => {
+                            setProcessName(v.process_name)
+                            console.log(v)
+                            if (isAllItems) {
+                              return onClickEvent({
+                                ...v,
+                                name: v.process_name,
+                                pk: v.pk
+                              })
+                            } else {
+                              return onClickEvent({
+                                name: v.process_name,
+                                pk: v.pk
+                              })
+                            }
 
+                          }}>
+                            <td><span>{v.process_name}</span></td>
+                            <td>
+                              <span>{transferCodeToName('process', Number(v.process_type))}</span>
+                            </td>
+                          </tr>
+                        )
+                      })
+                  }
+                </MachineTable>
+              </ReactShadowScroll>
+              <PaginationBox>
+                <Pagination count={page.total ? page.total : 0} page={page.current}
+                            onChange={(event, i) => setPage({...page, current: i})}
+                            boundaryCount={1} color={'primary'}/>
+              </PaginationBox>
+            </div>
+          </div>
+          <div style={{width: 900}}>
+            <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+              onClickEvent({name: undefined, pk: undefined})
+              setIsOpen(false)
+            }}>
+              <div>
+                <span style={{color: '#666d79'}}>취소</span>
+              </div>
+            </CheckButton>
+            <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+              setIsOpen(false)
+            }}>
+              <div>
+                <span style={{color: 'black'}}>확인</span>
+              </div>
+            </CheckButton>
+          </div>
         </div>
-    )
+      </Modal>
+
+    </div>
+  )
 }
 
 const BoxWrap = Styled.button`

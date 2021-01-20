@@ -420,7 +420,7 @@ const CustomCapacity = () => {
                                 ...ChartInitOptions,
                                 yaxis: {
                                     min: 0,
-                                    max: Math.round(Math.max.apply(null, series[1].data) * 1.1) + 100,
+                                    max: Math.max.apply(null, series[1].data) < Math.max.apply(null, series[0].data) ? Math.round(Math.max.apply(null, series[0].data) * 1.1) + 100 : Math.round(Math.max.apply(null, series[1].data) * 1.1) + 100,
                                     tickAmount: 25,
                                     labels: {
                                         formatter: (value, index) => {
@@ -450,7 +450,7 @@ const CustomCapacity = () => {
                                     textAlign: 'left',
                                     fontFamily: 'NotoSansCJKkr-bold',
                                     fontSize: '14px',
-                                }}>평균 생산 갯수: {avgProduction}</p>
+                                }}>생산 시간당 평균 갯수: {avgProduction}</p>
                             </div>
                             <p style={{
                                 textAlign: 'left',

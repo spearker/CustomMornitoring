@@ -28,7 +28,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
   const [isFinish, setIsFinish] = useState<boolean>(false)
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [processNameList, setProcessNameList] = useState<string[]>([])
-  const [selectType, setSelectType] = useState<string>()
+  const [unit, setUnit] = useState<number>(1)
   const [modalSelect, setModalSelect] = useState<{ chit?: modalData, factory?: modalData, production?: modalData, machine?: modalData, mold?: modalData }>({
     chit: {},
     factory: {},
@@ -36,6 +36,8 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
     machine: {},
     mold: {}
   })
+
+  const [isVersionTwo] = useState<boolean>(match.params.version === 'v2' ? true : false)
 
   const [selectMember, setSelectMember] = useState<modalData>({})
   const [memberType, setMemberType] = useState(-1)
@@ -185,6 +187,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
   }
 
   React.useEffect(() => {
+    console.log(match.params)
     if (match.params.pk) {
       if (match.params.type === 'register') {
         setIsFinish(true)
@@ -309,7 +312,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                   <div style={{display: 'flex', width: 920, justifyContent: 'space-between'}}>
                     <div style={{width: 400, border: '0.5px solid #b3b3b3'}}>
                       {
-                        (!isFinish && !isUpdate) &&
+                        (!isFinish && !isUpdate && !isVersionTwo) &&
                         <ProductionPickerModal width={true} multiSelect innerWidth={400} isType
                                                onClickEvent={(material) => {
                                                  let tmpDetailMaterialData = detailMaterialData
@@ -347,7 +350,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                                     }}>{transferCodeToName('material', value.material_type)}</div>
                                     <div style={{flex: 1, textAlign: 'left'}}>
                                       {
-                                        isFinish || isUpdate ? value.count
+                                        isFinish || isUpdate || isVersionTwo ? value.count
                                           : <input style={{width: '95%'}}
                                                    type={'number'}
                                                    value={value.count}
@@ -369,7 +372,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                     </div>
                     <div style={{width: 400, border: '0.5px solid #b3b3b3'}}>
                       {
-                        (!isFinish && !isUpdate) &&
+                        (!isFinish && !isUpdate && !isVersionTwo) &&
                         <ProductionPickerModal width={true} innerWidth={400}
                                                onClickEvent={(material) => {
                                                  let tmpDetailMaterialData = detailMaterialData
@@ -398,12 +401,12 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                                 }</div>
                                 <div style={{flex: 1, textAlign: 'left'}}>
                                   {
-                                    isFinish || isUpdate ? detailMaterialData.output_materials.count :
+                                    isFinish || isUpdate || isVersionTwo ? detailMaterialData.output_materials.count :
                                       <input style={{width: '95%'}} type={'number'}
                                              value={detailMaterialData.output_materials.count}
                                              onChange={(e) => {
                                                let tmpDetailMaterialData = detailMaterialData
-
+                                               
 
                                              }}
                                       />
@@ -421,12 +424,50 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                 </td>
               </td>
             </tr>
+            {
+              detailMaterialData && detailMaterialData.input_materials && detailMaterialData.input_materials.length !== 0 &&
+              <tr>
+                  <td colSpan={2}>
+                      <RadioInput title={'원자재 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                                  target={unit} onChangeEvent={(e) => {
+                        if (e !== unit) {
+                          setUnit(e)
+                        } else {
+                          return
+                        }
+                        let tmp2
+                        if (detailMaterialData.input_materials) {
+                          if (e === 1) {
+                            tmp2 = detailMaterialData.input_materials.map(input => {
+                              if (input.material_type === 0) {
+                                return {...input, count: input.count / 1000}
+                              } else {
+                                return input
+                              }
+                            })
+                          } else if (e === 1000) {
+                            tmp2 = detailMaterialData.input_materials.map(input => {
+                              if (input.material_type === 0) {
+                                return {...input, count: input.count * 1000}
+                              } else {
+                                return input
+                              }
+                            })
+                          }
+                        }
+                        setDetailMaterialData({...detailMaterialData, input_materials: tmp2})
+
+                      }} line={false} width={120}/>
+                  </td>
+              </tr>
+            }
+
             <tr>
               <td>• 기계명</td>
               <td>
                 {
-                  (isFinish || isUpdate)
-                    ? <InputBox disabled={isFinish || isUpdate}
+                  (isFinish || isUpdate || isVersionTwo)
+                    ? <InputBox disabled={isFinish || isUpdate || isVersionTwo}
                                 value={detailMaterialData && detailMaterialData.machine_name}
                                 placeholder={'총 작업량을 입력해 주세요'}></InputBox>
                     : <MachinePickerModal select={
@@ -451,8 +492,8 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                   <td>• 금형명</td>
                   <td>
                     {
-                      (isFinish || isUpdate)
-                        ? <InputBox disabled={isFinish || isUpdate}
+                      (isFinish || isUpdate || isVersionTwo)
+                        ? <InputBox disabled={isFinish || isUpdate || isVersionTwo}
                                     value={detailMaterialData && detailMaterialData.mold_name}
                                     placeholder={'총 작업량을 입력해 주세요'}></InputBox>
                         : <MoldPickerModal disabled={isFinish} select={modalSelect.mold}

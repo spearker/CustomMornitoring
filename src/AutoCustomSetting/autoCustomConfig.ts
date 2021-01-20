@@ -1,7 +1,9 @@
-import {SF_ADDRESS} from '../Api/SF_endpoint'
+import {isLocalhost} from '../Api/SF_endpoint'
 
 const autoCustomType = () => {
-  switch (SF_ADDRESS.toString()) {
+  switch (isLocalhost().toString()) {
+    case '203.234.183.22':
+      return 'test_server'
     case '121.173.205.139':
       return 'jaewoo_material_trans'
     case '121.172.236.236':

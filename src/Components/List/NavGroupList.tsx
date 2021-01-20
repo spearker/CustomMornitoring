@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB3} from '../../Common/configset'
-import {useHistory} from 'react-router-dom'
+import { BG_COLOR_SUB3 } from '../../Common/configset'
+import { useHistory } from 'react-router-dom'
 
 
 //대시보드 네비게이션 리스트
@@ -13,7 +13,7 @@ interface Props {
 }
 
 
-const NavGroupList = ({contents, selected, onClickMode, onClickEvent}: Props) => {
+const NavGroupList = ({ contents, selected, onClickMode, onClickEvent }: Props) => {
 
   const history = useHistory()
   useEffect(() => {
@@ -25,9 +25,9 @@ const NavGroupList = ({contents, selected, onClickMode, onClickEvent}: Props) =>
       {
         contents.length !== 0 &&
         <>
-            <ListDiv>
-                <a onClick={onClickEvent}>{contents[0].name}</a>
-            </ListDiv>
+          <ListDiv>
+            <a onClick={onClickEvent}>{contents[0].name}</a>
+          </ListDiv>
           {
             selected ?
               contents.map((v, i) => {

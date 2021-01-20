@@ -20,8 +20,8 @@ const NewRawMaterialContainerV2 = () => {
   const [titleEventList, setTitleEventList] = useState<any[]>([])
   const [eventList, setEventList] = useState<any[]>([])
   const [detailList, setDetailList] = useState<any[]>([])
-  const [index, setIndex] = useState({material_name: '품목(품목명)'})
-  const [subIndex, setSubIndex] = useState({writer: '출처',})
+  const [index, setIndex] = useState({texture: '품목(품목명)'})
+  const [subIndex, setSubIndex] = useState({LOT: '출처',})
   const [filter, setFilter] = useState(-1)
   const [type, setType] = useState(0)
   const [selectTitle, setSelectTitle] = useState<number>(0)
@@ -42,31 +42,29 @@ const NewRawMaterialContainerV2 = () => {
 
   const indexList = {
     rawMaterial: {
-      material_name: '재질',
-      material_number: '폭(mm)',
-      current_stock: '두께(mm)',
-      safe_stock: '총 중량(kg)',
-      location_name: '코일 개수(ea)',
+      texture: '재질',
+      material_spec_W: '폭(mm)',
+      material_spec_D: '두께(mm)',
+      current_stock: '총 중량(t)',
+      coils: '코일 개수(ea)',
     }
   }
 
 
   const detailTitle = {
     inputData: {
-      writer: '품번/Lot',
-      date: '폭(mm)',
-      before_quantity: '두께(mm)',
-      stock_quantity: '입고 중량(t)',
-      writer1: '재고 중량(t)',
-      writer2: '상태',
-      writer3: ['위치'],
-      writer4: '입고일',
-      writer5: ['검수 결과'],
-      writer6: '품질 성적표',
+      LOT: '품번/Lot',
+      warehousing_amount: '입고 중량(t)',
+      stock: '재고 중량(t)',
+      status: '상태',
+      location_name: ['위치'],
+      warehousing_date: '입고일',
+      passed: ['검수 결과'],
+      quality_chart: '품질 성적표',
       writer7: '바코드',
     },
     outputData: {
-      writer: '품번/Lot',
+      LOT: '품번/Lot',
       date: '폭(mm)',
       before_quantity: '두께(mm)',
       stock_quantity: '출고 중량(kg)',
@@ -83,7 +81,7 @@ const NewRawMaterialContainerV2 = () => {
       Width: 100,
       buttonWidth: 68,
       Color: 'white',
-      Link: (v) => history.push(`/stock/warehousing/register/v2/version/${v.pk}/${v.material_name}`)
+      Link: (v) => history.push(`/stock/warehousing/register/v2/version/${v.pk}/1111`)
     },
     {
       Name: '출고',
@@ -94,7 +92,7 @@ const NewRawMaterialContainerV2 = () => {
         if (Number(v.current_stock) <= 0) {
           alert('출고할 수 있는 재고가 없습니다.')
         } else {
-          history.push(`/stock/release/register/v2/version/${v.pk}/${v.material_name}`)
+          history.push(`/stock/release/register/v2/version/${v.pk}/1111`)
         }
       }
     },
@@ -125,19 +123,26 @@ const NewRawMaterialContainerV2 = () => {
 
   }, [list, selectPk])
 
-  const getData = useCallback(async (pk) => {
+  const getData = useCallback(async (pk, isSearch?: boolean) => {
     //TODO: 성공시
     if (pk === null) {
       return
     }
-    const tempUrl = `${API_URLS['stock'].loadDetail}?pk=${pk}&page=${detailPage.current}&limit=6`
+    const tempUrl = `${API_URLS['stock'].rawDetail}?pk=${pk}&page=${isSearch ? 1 : detailPage.current}&date=${selectDate}&limit=4`
     const res = await getStockList(tempUrl)
+    
 
-    setDetailList(res.info_list)
+    const tempData = res.info_list.map((v, i) => {
+      return {
+        ...v,
+        status: String(v.status) !== 'undefined' ? String(v.status) === 'true' ? '사용종' : '대기중' : '-',
+        passed: String(v.passed) !== 'undefined' ? String(v.passed) === 'true' ? '합격' : '불합격' : '-',
+      }
+    })
+    setDetailList([...tempData])
 
     setDetailPage({current: res.current_page, total: res.total_page})
-
-  }, [detailList, detailPage])
+  }, [detailList, detailPage, selectDate])
 
   const selectBox = useCallback((value) => {
     if (value === '원자재') {
@@ -181,22 +186,27 @@ const NewRawMaterialContainerV2 = () => {
   useEffect(() => {
     if (selectTitle === 0) {
       setSubIndex(detailTitle['inputData'])
-      setAlignList(['left', 'right', 'right', 'right', 'right', 'left', 'left', 'left', 'left', 'center'])
-      setWidthList(['118px', '80px', '88px', '96px', '96px', '56px', '62px', '96px', '88px', '100px', '100px'])
+      setAlignList(['left', 'center', 'center', 'left', 'left', 'left', 'left', 'center'])
+      setWidthList(['270px', '96px', '96px', '56px', '120px', '96px', '108px', '100px', '100px'])
     } else {
       setSubIndex(detailTitle['outputData'])
-      setAlignList(['left', 'right', 'right', 'right', 'right', 'left', 'left', 'left',])
+      setAlignList(['left', 'center', 'center', 'center', 'center', 'left', 'left', 'left',])
       setWidthList(['302px', '78px', '96px', '120px', '120px', '94px', '104px', '104px',])
     }
   }, [selectTitle])
 
   useEffect(() => {
     getList()
+    setSelectPk(null)
   }, [page.current, filter])
+
+  // useEffect(() => {
+  //
+  // }, [selectPk])
 
   useEffect(() => {
     getData(selectPk)
-  }, [detailPage.current])
+  }, [detailPage.current, selectDate])
 
   useEffect(() => {
     getList()
@@ -226,6 +236,9 @@ const NewRawMaterialContainerV2 = () => {
             <InAndOutTable indexList={subIndex} valueList={detailList}
                            alignList={alignList}
                            widthList={widthList}
+                           mainOnClickEvent={(v) => {
+                             history.push(`/stock/warehousing/register/v2/version/${selectPk}/1111/${v.pk}`)
+                           }}
                            currentPage={detailPage.current}
                            totalPage={detailPage.total}
                            pageOnClickEvent={(event, i) => setDetailPage({...detailPage, current: i})}>

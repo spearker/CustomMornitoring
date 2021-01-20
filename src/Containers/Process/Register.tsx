@@ -12,6 +12,7 @@ import IC_MINUS from '../../Assets/Images/ic_minus.png'
 import styled from 'styled-components'
 import Notiflix from 'notiflix'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import RadioInput from '../../Components/Input/RadioInput'
 
 const typeDummy = [
   '단발',
@@ -26,6 +27,7 @@ const ProcessRegisterContainer = ({match}: any) => {
   const history = useHistory()
   const [typeList] = useState<string[]>(typeDummy)
   const [isFirst, setIsFirst] = useState<boolean>(true)
+  const [unit, setUnit] = useState<number>(1)
 
   const [processData, setProcessData] = useState<IProcessRegister>({
     type: 0,
@@ -37,6 +39,7 @@ const ProcessRegisterContainer = ({match}: any) => {
   const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
   const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
   const [isUpdata] = useState<boolean>(match.params.pk ? true : false)
+  const [isVersion] = useState<boolean>(match.params.version === 'v2' ? true : false)
 
   const validationCheck = () => {
     console.log(detailMaterialData)
@@ -75,12 +78,29 @@ const ProcessRegisterContainer = ({match}: any) => {
 
   const postContractUpDate = async () => {
     if (validationCheck()) {
+      let tmp = detailMaterialData.map(material => {
+        let tmp2
+
+        if (material.input_materials) {
+          tmp2 = material.input_materials.map(input => {
+            if (input.material_type === 0) {
+              return {...input, count: input.count / unit}
+            } else {
+              return input
+            }
+          })
+        }
+
+        return {...material, input_materials: tmp2}
+
+      })
+
       const tempUrl = `${API_URLS['process'].update}`
       const resultData = await postProcessRegister(tempUrl, {
         pk: match.params.pk,
         type: processData.type,
         name: processData.name,
-        processes: detailMaterialData,
+        processes: tmp,
         description: processData.description
       })
       if (resultData.status === 200) {
@@ -92,11 +112,28 @@ const ProcessRegisterContainer = ({match}: any) => {
   const postContractRegisterData = async () => {
 
     if (validationCheck()) {
+      let tmp = detailMaterialData.map(material => {
+        let tmp2
+
+        if (material.input_materials) {
+          tmp2 = material.input_materials.map(input => {
+            if (input.material_type === 0) {
+              return {...input, count: input.count / unit}
+            } else {
+              return input
+            }
+          })
+        }
+
+        return {...material, input_materials: tmp2}
+
+      })
+
       const tempUrl = `${API_URLS['process'].register}`
       const resultData = await postProcessRegister(tempUrl, {
         type: processData.type,
         name: processData.name,
-        processes: detailMaterialData,
+        processes: tmp,
         description: processData.description
       })
       if (resultData.status === 200) {
@@ -202,22 +239,22 @@ const ProcessRegisterContainer = ({match}: any) => {
                       } text={'기계명을 검색해 주세요'} width={initalIndexCnt > i ? 921 : 889}
                                           onClickEvent={(e: { name?: string, type?: number, pk?: string }) => {
                                             if (e.pk && e.name) {
-                                              let tmpDetailMaterialData = detailMaterialData
-                                              tmpDetailMaterialData[i].machine = e.pk
-                                              tmpDetailMaterialData[i].machine_name = e.name
-                                              tmpDetailMaterialData[i].machine_type = e.type
-                                              setDetailMaterialData([...tmpDetailMaterialData])
+                                              if (detailMaterialData.map(v => {
+                                                if (v.machine === e.pk) {
+                                                  return false
+                                                } else {
+                                                  return true
+                                                }
+                                              }).indexOf(false) !== -1) {
+                                                Notiflix.Report.Warning('선택할 수 없음!', '중복된 기계를 사용할 수 없습니다.',)
+                                              } else {
+                                                let tmpDetailMaterialData = detailMaterialData
+                                                tmpDetailMaterialData[i].machine = e.pk
+                                                tmpDetailMaterialData[i].machine_name = e.name
+                                                tmpDetailMaterialData[i].machine_type = e.type
+                                                setDetailMaterialData([...tmpDetailMaterialData])
+                                              }
                                             }
-                                            // let tmpList = processData.processes
-                                            // if (tmpList && e.pk) {
-                                            //   tmpList[i] = {...tmpList[i], machine_pk: e.pk}
-                                            // }
-                                            //
-                                            // let tmpMachineList = selectMachine
-                                            // selectMachine[i] = e
-                                            //
-                                            // setSelectMachine(tmpMachineList)
-                                            // return setProcessData({...processData, processes: tmpList})
                                           }} buttonWid={30}/>
                       {
                         i >= initalIndexCnt &&
@@ -424,7 +461,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                     }}>
                                       <input type={'number'} value={
                                         //@ts-ignore
-                                        detailMaterialData[i].output_materials.count ? detailMaterialData[i].output_materials.count : 0
+                                        detailMaterialData[i].output_materials.count ? detailMaterialData[i].output_materials.count + '' : 0
                                       }
                                              style={{
                                                width: '112px',
@@ -460,6 +497,45 @@ const ProcessRegisterContainer = ({match}: any) => {
                 )
               })
             }
+            <tr>
+              <td colSpan={2}>
+                <RadioInput title={'원자재 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                            target={unit} onChangeEvent={(e) => {
+                  if (e !== unit) {
+                    setUnit(e)
+                  } else {
+                    return
+                  }
+                  let tmp = detailMaterialData.map(material => {
+                    let tmp2
+                    if (material.input_materials) {
+                      if (e === 1) {
+                        tmp2 = material.input_materials.map(input => {
+                          if (input.material_type === 0) {
+                            return {...input, count: input.count / 1000}
+                          } else {
+                            return input
+                          }
+                        })
+                      } else if (e === 1000) {
+                        tmp2 = material.input_materials.map(input => {
+                          if (input.material_type === 0) {
+                            return {...input, count: input.count * 1000}
+                          } else {
+                            return input
+                          }
+                        })
+                      }
+                    }
+
+                    return {...material, input_materials: tmp2}
+
+                  })
+                  setDetailMaterialData([...tmp])
+
+                }} line={false} width={120}/>
+              </td>
+            </tr>
             {
               processData.type !== 0 &&
               <tr>

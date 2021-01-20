@@ -22,6 +22,7 @@ const ContractModifyContainer = ({match}: Props) => {
   const [finishDate, setFinishDate] = useState<string>(moment().format('YYYY-MM-DD'))
   const [customer, setCustomer] = useState<{ name?: string, pk?: string }>()
   const [selectMaterial, setSelectMaterial] = useState<{ name?: string, pk?: string }>()
+  const [isFirst, setIsFirst] = useState<boolean>(true)
 
   const [contractData, setContractData] = useState<{ pk: string, customer_pk?: string, material_pk?: string, amount: Number, date: string, deadline: string }>({
     pk: match.params.pk,
@@ -36,18 +37,23 @@ const ContractModifyContainer = ({match}: Props) => {
     const tempUrl = `${API_URLS['contract'].load}?pk=${match.params.pk}`
     const resultData = await getMarketing(tempUrl)
 
+    console.log(resultData)
 
-    setCustomer({...customer, name: resultData.customer_name, pk: resultData.customer_pk})
-    setSelectMaterial({...selectMaterial, name: resultData.material_name, pk: resultData.material_pk})
-    setSelectDate(resultData.date)
-    setContractData({
-      pk: match.params.pk,
-      customer_pk: resultData.customer_pk,
-      material_pk: resultData.material_pk,
-      amount: resultData.amount,
-      date: resultData.date,
-      deadline: resultData.deadline
-    })
+    if (resultData) {
+      setCustomer({...customer, name: resultData.customer_name, pk: resultData.customer_pk})
+      setSelectMaterial({...selectMaterial, name: resultData.material_name, pk: resultData.material_pk})
+      setSelectDate(resultData.date)
+      setFinishDate(resultData.deadline)
+      setContractData({
+        pk: match.params.pk,
+        customer_pk: resultData.customer_pk,
+        material_pk: resultData.material_pk,
+        amount: resultData.amount,
+        date: resultData.date,
+        deadline: resultData.deadline
+      })
+    }
+    setIsFirst(false)
   }, [contractData, customer, selectMaterial])
 
   const postContractRegisterData = useCallback(async () => {
@@ -78,7 +84,9 @@ const ContractModifyContainer = ({match}: Props) => {
   }, [])
 
   useEffect(() => {
-    setContractData({...contractData, customer_pk: customer?.pk, material_pk: selectMaterial?.pk})
+    if (!isFirst) {
+      setContractData({...contractData, customer_pk: customer?.pk, material_pk: selectMaterial?.pk})
+    }
   }, [selectMaterial, customer])
 
 
@@ -163,7 +171,7 @@ const ContractModifyContainer = ({match}: Props) => {
                       }
                     </div>
                   </div>
-                  <ColorCalendarDropdown unLimit select={selectDate} onClickEvent={(select) => {
+                  <ColorCalendarDropdown unLimit select={finishDate} onClickEvent={(select) => {
                     setFinishDate(select)
                     setContractData({...contractData, deadline: select})
                   }} text={'날짜 선택'} type={'single'} customStyle={{height: 32, marginLeft: 0}}/>

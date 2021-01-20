@@ -10,9 +10,10 @@ interface IProps {
   index?: number
   onChangeEvent: any,
   onRemoveEvent: any,
+  buttonColor?: string
 }
 
-const ModelRulesInput = ({title, value, index, onChangeEvent, onRemoveEvent}: IProps) => {
+const ModelRulesInput = ({title, value, index, onChangeEvent, onRemoveEvent, buttonColor}: IProps) => {
   useEffect(() => {
 
   }, [])
@@ -25,7 +26,14 @@ const ModelRulesInput = ({title, value, index, onChangeEvent, onRemoveEvent}: IP
                 onChange={(e) => onChangeEvent(e.target.value)}
                 placeholder={'내용을 입력하세요.'}/>
       {
-        index !== 0 && <img src={IC_MINUS} style={{width: 20, height: 20, marginLeft: 8, cursor: 'pointer'}}
+        index !== 0 && <img src={IC_MINUS} style={{
+          width: 30,
+          height: 30,
+          marginLeft: 8,
+          cursor: 'pointer',
+          // padding: 5,
+          backgroundColor: buttonColor
+        }}
                             onClick={onRemoveEvent}/>
       }
     </div>

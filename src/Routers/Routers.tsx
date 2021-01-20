@@ -172,7 +172,7 @@ import BasicMold from '../Pages/Basic/BasicMold'
 import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
 import NotFound from '../Pages/Common/NotFound'
-import NewBasicMaterialRegister_V2 from '../Containers/Basic/NewBasicMaterialContainer_v2'
+import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
 
 
 const Routers = () => {
@@ -309,6 +309,7 @@ const Routers = () => {
 
         {/* 8.0 공정 관리 */}
         <Route exact path="/process/register" component={ProcessRegister}/>
+        <Route exact path="/process/register/:version" component={ProcessRegister}/>
         <Route exact path="/process/list" component={ProcessList}/>
         <Route exact path="/recommend/press" component={PressRecommend}/>
         <Route exact path="/register/process" component={RegisterProcess}/>
