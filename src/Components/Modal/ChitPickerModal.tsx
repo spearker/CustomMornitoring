@@ -109,6 +109,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
             <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 전표 검색</p>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}}
+                         value={searchName}
                          onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                          onChange={(e) => setSearchName(e.target.value)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList(true)}>

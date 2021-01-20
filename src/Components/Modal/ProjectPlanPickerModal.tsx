@@ -144,7 +144,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="검색어를 입력해 주세요." style={{flex: 96}}
                          onKeyPress={(event) => event.key === 'Enter' && getList(true)}
-                         onChange={(e) => setSearchName(e.target.value)}/>
+                         value={searchName} onChange={(e) => setSearchName(e.target.value)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
                 <img src={IcSearchButton}/>
               </SearchButton>
