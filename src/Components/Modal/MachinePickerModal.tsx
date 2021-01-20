@@ -118,6 +118,7 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
             <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 기계 검색</p>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
+                         value={searchName}
                          onChange={(e) => setSearchName(e.target.value)}
                          onKeyPress={(event) => event.key === 'Enter' && getList(true)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList(true)}>

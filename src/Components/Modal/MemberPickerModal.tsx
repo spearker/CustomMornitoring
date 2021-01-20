@@ -137,6 +137,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
               <SearchBox
                 placeholder={type ? `${type}명을 입력해주세요.` : '작업자명을 입력해주세요.'}
                 style={{flex: 96}}
+                value={searchName}
                 onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                 onChange={(e) => setSearchName(e.target.value)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
