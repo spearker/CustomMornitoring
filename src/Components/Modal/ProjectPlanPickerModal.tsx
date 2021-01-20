@@ -10,6 +10,7 @@ import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getProductionSearch} from '../../Api/mes/production'
 import Pagination from '@material-ui/lab/Pagination'
 import Notiflix from 'notiflix'
+import StyleRadioInput from '../Box/StyleRadioInput'
 
 //드롭다운 컴포넌트
 
@@ -33,6 +34,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
+  const [type, setType] = useState<number>(0);
 
   const [machineList, setMachineList] = useState([{
     pk: '',
@@ -52,18 +54,22 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
 
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=0&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=${type}&page=${isSearch ? 1 : page.current}&limit=10`
     const resultData = await getProductionSearch(tempUrl)
     if (resultData) {
       setMachineList(resultData.info_list)
       setPage({current: resultData.current_page, total: resultData.total_page})
     }
     Notiflix.Loading.Remove()
-  }, [searchName, page])
+  }, [searchName, page, type])
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }
+
+  useEffect(() => {
+    getList(true)
+  }, [type])
 
   useEffect(() => {
     getList()
@@ -126,9 +132,17 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
       >
         <div style={{width: 900}}>
           <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
-            <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 생산 계획 검색</p>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 생산 계획 검색</p>
+                <StyleRadioInput title={''} width={0} line={false} target={type}
+                            onChangeEvent={(e) => {setType(e)}}
+                            contents={[
+                              {value: 0, title: '계획자명'}, {value: 1, title: '생산 품목명'}, {value: 2, title: '납품업체명'}
+                            ]} />
+            </div>
+            
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-              <SearchBox placeholder="계획자명 또는 품목명을 입력해 주세요." style={{flex: 96}}
+              <SearchBox placeholder="검색어를 입력해 주세요." style={{flex: 96}}
                          onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                          onChange={(e) => setSearchName(e.target.value)}/>
               <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
