@@ -44,6 +44,7 @@ const BasicFactoryContainer = () => {
     const [eventList, setEventList] = useState<any[]>([])
     const [option, setOption] = useState(0)
     const [keyword, setKeyword] = useState<string>('')
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [isFirst, setIsFirst] = useState<boolean>(false)
     // const [page, setPage] = useState<number>(0);
 
@@ -83,7 +84,7 @@ const BasicFactoryContainer = () => {
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
 
-        const tempUrl = `${API_URLS['factory'].list}?page=${isSearch ? 1 : page.current}&keyword=${keyword}&type=${option}&limit=15`
+        const tempUrl = `${API_URLS['factory'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=${option}&limit=15`
         const resultList = await getBasicList(tempUrl)
         if (resultList) {
             const getBasic = resultList.info_list.map((v, i) => {
@@ -106,13 +107,20 @@ const BasicFactoryContainer = () => {
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, keyword, option, page])
+    }, [list, keyword, option, page, saveKeyword])
 
     useEffect(() => {
         if (isFirst) {
             getList()
         }
     }, [page.current])
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(true)
+        }
+    }, [saveKeyword])
+
 
     /**
      * onClickDelete()
@@ -137,7 +145,7 @@ const BasicFactoryContainer = () => {
                                         if (!e.match(regExp)) setKeyword(e)
                                     }}
                                     searchBarValue={keyword}
-                                    searchButtonOnClick={() => getList(true).then(() => Notiflix.Loading.Remove(300))}
+                                    searchButtonOnClick={() => setSaveKeyword(keyword)}
                                     titleOnClickEvent={titleEventList}/>
             </div>
             <OptimizedTable widthList={LIST_INDEX['factory'].width}

@@ -20,12 +20,14 @@ const CurrentContainer = () => {
     const [contentsList, setContentsList] = useState<any[]>(['외주처명', '대표자명'])
     const [option, setOption] = useState<number>(0)
     const [searchValue, setSearchValue] = useState<any>('')
+    const [isFirst, setIsFirst] = useState<boolean>(false)
     const [index, setIndex] = useState({name: '외주처'})
     const [subIndex, setSubIndex] = useState({writer: '작성자'})
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
@@ -179,7 +181,7 @@ const CurrentContainer = () => {
         //TODO: 성공시
         Notiflix.Loading.Circle()
 
-        const tempUrl = `${API_URLS['outsourcing'].list}?keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['outsourcing'].list}?keyword=${filter !== undefined ? '' : saveKeyword}&type=${filter !== undefined ? filter : option}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
         if (res) {
             setList(res.info_list)
@@ -199,8 +201,18 @@ const CurrentContainer = () => {
     }, [])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
+
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(undefined, true)
+        }
+    }, [saveKeyword])
+
 
     return (
         <div>
@@ -214,8 +226,8 @@ const CurrentContainer = () => {
                 searchBarChange={(e) => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
-                searchButtonOnClick={searchOnClick}
                 searchValue={searchValue}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
                 indexList={index}
                 valueList={list}
                 EventList={eventList}

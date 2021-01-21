@@ -31,6 +31,8 @@ const ContractContainer = () => {
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
@@ -224,7 +226,7 @@ const ContractContainer = () => {
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['contract'].list}?keyword=${searchValue}&type=${filter ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['contract'].list}?keyword=${filter !== undefined ? '' : saveKeyword}&type=${filter ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getOutsourcingList(tempUrl)
         if (res) {
             const contractList = res.info_list.map((v) => {
@@ -241,11 +243,19 @@ const ContractContainer = () => {
             setSelectPk(null)
             Notiflix.Loading.Remove()
         }
-    }, [list])
+    }, [list, saveKeyword])
 
     useEffect(() => {
-        getList()
+        if (isFirst) {
+            getList()
+        }
     }, [page.current])
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(undefined, true)
+        }
+    }, [saveKeyword])
 
 
     useEffect(() => {
@@ -271,7 +281,7 @@ const ContractContainer = () => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
                 searchValue={searchValue}
-                searchButtonOnClick={searchOnClick}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
                 indexList={index}
                 valueList={list}
                 buttonState={true}

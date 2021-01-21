@@ -8,6 +8,7 @@ import {getToken} from '../../Common/tokenFunctions'
 import {TOKEN_NAME} from '../../Common/configset'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
+import OptimizedHeaderBox from "../../Components/Box/OptimizedHeaderBox";
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
@@ -27,6 +28,7 @@ const ClientContainer = () => {
     const [contentsList, setContentsList] = useState<any[]>(['거래처명', '대표자명'])
     const [searchValue, setSearchValue] = useState<any>('')
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const history = useHistory()
 
     const indexList = {
@@ -92,11 +94,6 @@ const ClientContainer = () => {
         getList(filter, true)
     }, [option, searchValue, page])
 
-
-    const searchOnClick = useCallback(async () => {
-        getList(undefined, true)
-    }, [searchValue, option, page])
-
     const eventdummy = [
         {
             Name: '수정',
@@ -133,7 +130,7 @@ const ClientContainer = () => {
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['customer'].list}?keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['customer'].list}?keyword=${filter !== undefined ? '' : saveKeyword}&type=${filter !== undefined ? filter + 1 : option + 1}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getCustomerData(tempUrl)
         if (res) {
             setIsFirst(true)
@@ -149,6 +146,14 @@ const ClientContainer = () => {
             getList()
         }
     }, [page.current])
+
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(undefined, true)
+        }
+    }, [saveKeyword])
+
 
     useEffect(() => {
         getList()
@@ -172,7 +177,7 @@ const ClientContainer = () => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
                 searchValue={searchValue}
-                searchButtonOnClick={searchOnClick}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
                 allCheckOnClickEvent={allCheckOnClick}
                 indexList={index}
                 valueList={list}

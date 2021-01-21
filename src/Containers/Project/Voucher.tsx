@@ -17,32 +17,33 @@ interface Props {
 }
 
 const VoucherContainer = ({match}: Props) => {
-  const [page, setPage] = useState<PaginationInfo>({
-    current: 1,
-  })
+    const [page, setPage] = useState<PaginationInfo>({
+        current: 1,
+    })
 
-  const [list, setList] = useState<any[]>([])
-  const [BOMlist, setBOMList] = useState<any[]>([])
-  const [titleEventList, setTitleEventList] = useState<any[]>([])
-  const [eventList, setEventList] = useState<any[]>([])
-  const [contentsList, setContentsList] = useState<any[]>(['등록자명', '납품 업체명', '품목명'])
-  const [searchValue, setSearchValue] = useState<any>('')
-  const [detailList, setDetailList] = useState<any>({})
-  const [index, setIndex] = useState({registerer_name: '등록자'})
-  const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
-  const [option, setOption] = useState<number>(0)
-  const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
-  const [selectPk, setSelectPk] = useState<any>(null)
-  const [selectMold, setSelectMold] = useState<any>(null)
-  const [selectValue, setSelectValue] = useState<any>(null)
-  const [isFirst, setIsFirst] = useState<boolean>(false)
-  const history = useHistory()
+    const [list, setList] = useState<any[]>([])
+    const [BOMlist, setBOMList] = useState<any[]>([])
+    const [titleEventList, setTitleEventList] = useState<any[]>([])
+    const [eventList, setEventList] = useState<any[]>([])
+    const [contentsList, setContentsList] = useState<any[]>(['등록자명', '납품 업체명', '품목명'])
+    const [searchValue, setSearchValue] = useState<string>('')
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
+    const [detailList, setDetailList] = useState<any>({})
+    const [index, setIndex] = useState({registerer_name: '등록자'})
+    const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
+    const [option, setOption] = useState<number>(0)
+    const [BOMindex, setBOMIndex] = useState({material_name: '품목(품목명)'})
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectMold, setSelectMold] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
+    const [isFirst, setIsFirst] = useState<boolean>(false)
+    const history = useHistory()
 
-  const AddComma = (num) => {
-    let tmpNum = num.toString().split('.')
-    let regexp = /\B(?=(\d{3})+(?!\d))/g
-    return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
-  }
+    const AddComma = (num) => {
+        let tmpNum = num.toString().split('.')
+        let regexp = /\B(?=(\d{3})+(?!\d))/g
+        return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+    }
 
 
     const indexList = {
@@ -108,12 +109,6 @@ const VoucherContainer = ({match}: Props) => {
             safet_stock: '1000개'
         }
     ]
-
-    const searchOnClick = useCallback(async () => {
-        getList(undefined, true)
-
-    }, [searchValue, page])
-
 
     const onClick = (mold) => {
         // if (mold.pk === selectPk) {
@@ -196,8 +191,8 @@ const VoucherContainer = ({match}: Props) => {
         //TODO: 성공시
         Notiflix.Loading.Circle()
         const tempUrl = match.params.pk !== undefined
-            ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}`
-            : `${API_URLS['chit'].list}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : searchValue}&type=${filter !== undefined ? filter : option}`
+            ? `${API_URLS['chit'].list}?pk=${match.params.pk}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : saveKeyword}&type=${filter !== undefined ? filter : option}`
+            : `${API_URLS['chit'].list}?pk=&page=${isSearch ? 1 : page.current}&limit=15&keyword=${filter !== undefined ? '' : saveKeyword}&type=${filter !== undefined ? filter : option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getVoucher = res.info_list.map((v, i) => {
@@ -211,13 +206,20 @@ const VoucherContainer = ({match}: Props) => {
             setList(getVoucher)
             Notiflix.Loading.Remove()
         }
-    }, [list, page, match.params.pk, searchValue, option])
+    }, [list, page, match.params.pk, searchValue, option, saveKeyword])
 
     useEffect(() => {
         if (isFirst) {
             getList()
         }
     }, [page.current])
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(undefined, true)
+        }
+    }, [saveKeyword])
+
 
     const postDelete = useCallback(async () => {
         if (deletePk.pk.length <= 0) {
@@ -251,7 +253,7 @@ const VoucherContainer = ({match}: Props) => {
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
                 searchValue={searchValue}
-                searchButtonOnClick={searchOnClick}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
                 searchBarChange={(e) => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}

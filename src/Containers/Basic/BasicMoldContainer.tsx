@@ -45,6 +45,7 @@ const BasicMoldContainer = () => {
     const [option, setOption] = useState(0)
     const [isFirst, setIsFirst] = useState<boolean>(false)
     const [keyword, setKeyword] = useState<string>('')
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     // const [page, setPage] = useState<number>(0);
 
     const titleEvent = [
@@ -88,7 +89,7 @@ const BasicMoldContainer = () => {
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
 
-        const tempUrl = `${API_URLS['mold'].list}?page=${isSearch ? 1 : page.current}&keyword=${keyword}&type=${option}&limit=15`
+        const tempUrl = `${API_URLS['mold'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=${option}&limit=15`
         const resultList = await getBasicList(tempUrl)
         if (resultList) {
             const getBasic = resultList.info_list.map((v, i) => {
@@ -110,7 +111,7 @@ const BasicMoldContainer = () => {
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, keyword, option, page])
+    }, [list, keyword, option, page, saveKeyword])
 
     useEffect(() => {
         if (isFirst) {
@@ -118,6 +119,13 @@ const BasicMoldContainer = () => {
         }
     }, [page.current])
 
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(true)
+        }
+    }, [saveKeyword])
+    
     /**
      * onClickDelete()
      * 리스트 항목 삭제
@@ -141,7 +149,7 @@ const BasicMoldContainer = () => {
                                         if (!e.match(regExp)) setKeyword(e)
                                     }}
                                     searchBarValue={keyword}
-                                    searchButtonOnClick={() => getList(true).then(() => Notiflix.Loading.Remove(300))}
+                                    searchButtonOnClick={() => setSaveKeyword(keyword)}
                                     titleOnClickEvent={titleEventList}/>
             </div>
             <OptimizedTable widthList={LIST_INDEX['mold'].width}

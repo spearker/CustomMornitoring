@@ -28,6 +28,7 @@ const StockListContainer = () => {
     const [subIndex, setSubIndex] = useState({writer: '작성자'})
     const [keyword, setKeyword] = useState<string>('')
     const [option, setOption] = useState<number>(0)
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
@@ -98,7 +99,7 @@ const StockListContainer = () => {
     const getList = useCallback(async (isSearch?: boolean, searchOption?: number) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchOption !== undefined ? '' : keyword}&st=${searchOption ? searchOption : option}`
+        const tempUrl = `${API_URLS['stock'].list}?type=-1&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=15&keyword=${searchOption !== undefined ? '' : saveKeyword}&st=${searchOption ? searchOption : option}`
         const res = await getStockList(tempUrl)
         if (res) {
             const getStock = res.info_list.map((v, i) => {
@@ -114,7 +115,7 @@ const StockListContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, page, filter, keyword])
+    }, [list, page, filter, keyword, saveKeyword])
 
     const selectBox = useCallback((value) => {
         if (value === '원자재') {
@@ -161,6 +162,13 @@ const StockListContainer = () => {
         getList(true, filter)
     }, [option, keyword, page])
 
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(true)
+        }
+    }, [saveKeyword])
+
     return (
         <div>
             <OvertonTable
@@ -175,7 +183,7 @@ const StockListContainer = () => {
                 dropDownOption={option}
                 searchValue={keyword}
                 searchBarChange={(e) => setKeyword(e)}
-                searchButtonOnClick={searchOnClick}
+                searchButtonOnClick={() => setSaveKeyword(keyword)}
                 selectBoxChange={selectBox}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 noChildren={true}>
