@@ -92,7 +92,7 @@ const BasicDeviceContainer = () => {
                 const Type = transferCodeToName('device', v['device' + '_type'])
                 return {...v, ['device' + '_type']: Type}
             })
-
+            setIsFirst(true)
             setList(getBasic)
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove()

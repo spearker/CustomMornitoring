@@ -237,7 +237,7 @@ const ContractContainer = () => {
 
                 return {...v, quantity: quantity, unpaid: unpaid, status: status}
             })
-
+            setIsFirst(true)
             setList(contractList)
             setPage({current: res.current_page, total: res.total_page})
             setSelectPk(null)

@@ -83,12 +83,14 @@ const QualityTestComplete = () => {
 
     const searchOnClick = useCallback(async (isSearch?: boolean) => {
         setIsSearch(true)
-        const tempUrl = `${API_URLS['response'].search}?keyWord=${saveKeyword}&page=${page.current}&limit=15`
+        Notiflix.Loading.Circle()
+        const tempUrl = `${API_URLS['response'].search}?keyWord=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=15`
         const res = await getQualityList(tempUrl)
         if (res) {
             setList(res.info_list)
 
             setPage({current: res.current_page, total: res.total_page})
+            Notiflix.Loading.Remove()
         }
     }, [searchValue, page, saveKeyword])
 
