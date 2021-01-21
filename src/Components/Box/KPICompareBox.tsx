@@ -229,7 +229,7 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
                         fontSize: 20
                       }}>
                         {
-                          !isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]
+                          !data ? 0 : !isNaN(Number(data[v])) ? Math.round(Number(data[v]) * 10) / 10 : data[v]
                         }
                       </p>
                     </div>
@@ -253,13 +253,15 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             fontSize: 128,
             fontWeight: 'bold',
           }}>{
-            (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
+            data.data
+              ? 0
+              : (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
               ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
               : (value.api === 'defective_items_reduced_rate' || value.api === 'target_attainment_rate')
-              ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
-              : (value.api === 'average_production_per_hour')
-                ? data.data
-                : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+                ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
+                : (value.api === 'average_production_per_hour')
+                  ? data.data
+                  : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
           }
             <span style={{fontSize: 40, paddingLeft: '4pt'}}>
               {
