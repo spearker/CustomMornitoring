@@ -245,7 +245,7 @@ const OrderContainer = () => {
 
                 return {...v, quantity: quantity, unpaid: unpaid, status: status}
             })
-
+            setIsFirst(true)
             setList(orderList)
             setSelectPk(null)
             setPage({current: res.current_page, total: res.total_page})

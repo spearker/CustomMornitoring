@@ -138,7 +138,7 @@ const ClientContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [searchValue, option, list, page])
+    }, [searchValue, option, list, page, saveKeyword])
 
 
     useEffect(() => {
