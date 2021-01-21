@@ -185,7 +185,7 @@ const CurrentContainer = () => {
         const res = await getOutsourcingList(tempUrl)
         if (res) {
             setList(res.info_list)
-
+            setIsFirst(true)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
