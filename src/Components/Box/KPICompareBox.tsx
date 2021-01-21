@@ -253,7 +253,7 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             fontSize: 128,
             fontWeight: 'bold',
           }}>{
-            data.data
+            !data.data
               ? 0
               : (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
               ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
