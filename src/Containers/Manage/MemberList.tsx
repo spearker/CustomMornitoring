@@ -29,6 +29,7 @@ const MemberListContainer = () => {
     const [selectStock, setSelectStock] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
     const [subIndex, setSubIndex] = useState({writer: '출처'})
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
 
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -112,7 +113,7 @@ const MemberListContainer = () => {
     const getList = useCallback(async (isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['member'].list}?keyword=${keyword}&page=${isSearch ? 1 : page.current}&limit=15&auth=${auth}`
+        const tempUrl = `${API_URLS['member'].list}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=15&auth=${auth}`
         const res = await getMemberList(tempUrl)
         if (res) {
             setList(res.info_list)
@@ -120,7 +121,7 @@ const MemberListContainer = () => {
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, keyword, auth, page])
+    }, [list, keyword, auth, page, saveKeyword])
 
 
     useEffect(() => {
@@ -144,10 +145,18 @@ const MemberListContainer = () => {
         }
     }, [auth])
 
+    useEffect(() => {
+        if (isFirst) {
+            getList(true)
+        }
+    }, [saveKeyword])
+
     return (
         <div>
             <OptimizedHeaderBox title={'사용자 리스트'} searchBarChange={(e) => setKeyword(e)}
-                                searchButtonOnClick={() => getList(true)} titleOnClickEvent={titleEventList}/>
+                                searchBarValue={keyword}
+                                searchButtonOnClick={() => setSaveKeyword(keyword)}
+                                titleOnClickEvent={titleEventList}/>
             <OptimizedTable widthList={['264px', '96px', '96px']} indexList={index}
                             mainOnClickEvent={(v) => history.push(`/manage/member/register/${v.pk}`)}
                             selectBoxChange={selectBox}

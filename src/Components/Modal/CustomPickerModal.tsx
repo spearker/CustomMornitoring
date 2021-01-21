@@ -128,7 +128,6 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
     }
     useEffect(() => {
         getList(true)
-        setSearchName('')
     }, [type])
 
     useEffect(() => {
@@ -179,7 +178,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
                     <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 세부 항목 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
-                            <SearchBox placeholder="항목명을 입력해주세요." style={{flex: 96}}
+                            <SearchBox placeholder="항목명을 입력해주세요." style={{flex: 96}} value={searchName}
                                        onKeyPress={(event) => event.key === 'Enter' && getList(true)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
                             <SearchButton style={{flex: 4}} onClick={() => getList(true)}>

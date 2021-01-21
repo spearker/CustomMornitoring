@@ -27,7 +27,8 @@ const QualityTestListWorker = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
-    const [searchValue, setSearchValue] = useState<any>('')
+    const [searchValue, setSearchValue] = useState<string>('')
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const history = useHistory()
 
     const indexList = {
@@ -78,21 +79,17 @@ const QualityTestListWorker = () => {
         }
     ]
 
-    const searchChange = useCallback(async (search) => {
-        setSearchValue(search)
 
-    }, [searchValue])
-
-    const searchOnClick = useCallback(async () => {
+    const searchOnClick = useCallback(async (isSearch?: boolean) => {
         setIsSearch(true)
-        const tempUrl = `${API_URLS['request'].search}?keyWord=${searchValue}&page=${page.current}&limit=15`
+        const tempUrl = `${API_URLS['request'].search}?keyWord=${saveKeyword}&page=${page.current}&limit=15`
         const res = await getQualityList(tempUrl)
         if (res) {
             setList(res.info_list)
 
             setPage({current: res.current_page, total: res.total_page})
         }
-    }, [searchValue, page])
+    }, [searchValue, page, saveKeyword])
 
     const onClick = useCallback((obj) => {
         history.push(`/quality/test/request/request/${obj.request_pk}`)
@@ -138,6 +135,10 @@ const QualityTestListWorker = () => {
         }
     }, [page.current])
 
+    useEffect(() => {
+        searchOnClick(true)
+    }, [saveKeyword])
+
     return (
         <div>
             <OvertonTable
@@ -153,7 +154,7 @@ const QualityTestListWorker = () => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
                 searchValue={searchValue}
-                searchButtonOnClick={searchOnClick}>
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}>
                 {
                     selectPk !== null ?
                         <LineTable title={'상세보기'} contentTitle={subIndex} contentList={detailList}>

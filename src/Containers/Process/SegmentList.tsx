@@ -28,6 +28,7 @@ const SegmentListContainer = () => {
     const [selectMold, setSelectMold] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
     const [searchValue, setSearchValue] = useState<string>('')
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [isFirst, setIsFirst] = useState<boolean>(false)
     const history = useHistory()
 
@@ -218,7 +219,7 @@ const SegmentListContainer = () => {
     const getList = async (isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['segment'].list + '?page='}${isSearch ? 1 : page.current}&limit=5&keyword=${searchValue}`
+        const tempUrl = `${API_URLS['segment'].list + '?page='}${isSearch ? 1 : page.current}&limit=5&keyword=${saveKeyword}`
         const res = await getSegmentList(tempUrl)
 
         setSelectPk(null)
@@ -244,15 +245,19 @@ const SegmentListContainer = () => {
         }
     }, [page.current])
 
+    useEffect(() => {
+        setSelectPk(null)
+        if (isFirst) {
+            getList(true)
+        }
+    }, [saveKeyword])
+
     return (
         <div>
             <OvertonTable
                 title={'프로세스 리스트(공정별 세분화)'}
                 allCheckOnClickEvent={allCheckOnClick}
-                searchButtonOnClick={() => {
-                    setSelectPk(null)
-                    getList(true)
-                }}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
                 searchBarChange={(e) => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}

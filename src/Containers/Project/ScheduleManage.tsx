@@ -27,10 +27,11 @@ const ScheduleManageContainer = () => {
     })
     const [contentsList, setContentsList] = useState<any[]>(['계획자명', '생산 품목명', '납품 업체명'])
     const [option, setOption] = useState<number>(0)
-    const [searchValue, setSearchValue] = useState<any>('')
+    const [searchValue, setSearchValue] = useState<string>('')
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectMold, setSelectMold] = useState<any>(null)
     const [isFirst, setIsFirst] = useState<boolean>(false)
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
 
     const history = useHistory()
 
@@ -93,11 +94,6 @@ const ScheduleManageContainer = () => {
     }, [deletePk])
 
 
-    const searchOnClick = useCallback(async () => {
-        getList(undefined, true)
-
-    }, [searchValue, option, page])
-
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
         setSearchValue('')
@@ -113,7 +109,7 @@ const ScheduleManageContainer = () => {
     const calendarOnClick = useCallback(async (start, end) => {
         setSelectDate({start: start, end: end ? end : ''})
 
-        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=1&keyword=${searchValue}&limit=15&type=${option}`
+        const tempUrl = `${API_URLS['production'].list}?from=${start}&to=${end}&page=1&keyword=${saveKeyword}&limit=15&type=${option}`
         const res = await getProjectList(tempUrl)
         if (res) {
             const getScheduleMange = res.info_list.map((v, i) => {
@@ -127,12 +123,12 @@ const ScheduleManageContainer = () => {
 
             setList(getScheduleMange)
         }
-    }, [selectDate, page, searchValue, option])
+    }, [selectDate, page, searchValue, option, saveKeyword])
 
     const getList = useCallback(async (filter?: number, isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${isSearch ? 1 : page.current}&keyword=${filter !== undefined ? '' : searchValue}&limit=15&type=${filter !== undefined ? filter : option}&distributed=true`
+        const tempUrl = `${API_URLS['production'].list}?from=${selectDate.start}&to=${selectDate.end}&page=${isSearch ? 1 : page.current}&keyword=${filter !== undefined ? '' : saveKeyword}&limit=15&type=${filter !== undefined ? filter : option}&distributed=true`
 
         const res = await getProjectList(tempUrl)
         if (res) {
@@ -148,7 +144,7 @@ const ScheduleManageContainer = () => {
             setList(getScheduleMange)
             Notiflix.Loading.Remove()
         }
-    }, [list, page, selectDate, searchValue, option])
+    }, [list, page, selectDate, saveKeyword, option])
 
     const postDelete = useCallback(async () => {
         if (deletePk.pk.length <= 0) {
@@ -166,6 +162,12 @@ const ScheduleManageContainer = () => {
             getList()
         }
     }, [page.current])
+
+    useEffect(() => {
+        if (isFirst) {
+            getList(undefined, true)
+        }
+    }, [saveKeyword])
 
 
     useEffect(() => {
@@ -185,7 +187,7 @@ const ScheduleManageContainer = () => {
                 dropDownOption={option}
                 dropDownOnClick={optionChange}
                 searchValue={searchValue}
-                searchButtonOnClick={searchOnClick}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
                 searchBarChange={(e) => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}

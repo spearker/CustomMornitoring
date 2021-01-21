@@ -28,12 +28,13 @@ const ProcessListContainer = () => {
     const [detailList, setDetailList] = useState<any>([])
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
     const [index, setIndex] = useState({type: '타입'})
-    const [searchValue, setSearchValue] = useState<string>()
+    const [searchValue, setSearchValue] = useState<string>('')
     const [selectPk, setSelectPk] = useState<any>(null)
     const [selectProcess, setSelectProcess] = useState<any>(null)
     const [selectValue, setSelectValue] = useState<any>(null)
     const [isFirst, setIsFirst] = useState<boolean>(false)
     const [subIndex, setSubIndex] = useState({machine_name: '테스트 프레스',})
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [widthList] = useState<number[]>([82, 320, 320])
     const history = useHistory()
 
@@ -145,7 +146,7 @@ const ProcessListContainer = () => {
     const getList = async (isSearch?: boolean) => { // useCallback
         //TODO: 성공시
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['process'].list + '?page='}${isSearch ? 1 : page.current}&limit=15&keyword=${searchValue ? searchValue : ''}`
+        const tempUrl = `${API_URLS['process'].list + '?page='}${isSearch ? 1 : page.current}&limit=15&keyword=${saveKeyword}`
         const res = await getProcessList(tempUrl)
         if (res) {
             const getprocesses = res.info_list.map((v, i) => {
@@ -174,6 +175,12 @@ const ProcessListContainer = () => {
         }
     }, [page.current])
 
+    useEffect(() => {
+        if (isFirst) {
+            getList(true)
+        }
+    }, [saveKeyword])
+
     return (
         <div>
             <OptimizedHeaderBox
@@ -183,10 +190,7 @@ const ProcessListContainer = () => {
                 searchBarChange={(e) => {
                     if (!e.match(regExp)) setSearchValue(e)
                 }}
-                searchButtonOnClick={() => {
-                    setSelectPk(null)
-                    getList(true)
-                }}
+                searchButtonOnClick={() => setSaveKeyword(searchValue)}
             />
             <OptimizedTable
                 allCheckOnClickEvent={allCheckOnClick}
