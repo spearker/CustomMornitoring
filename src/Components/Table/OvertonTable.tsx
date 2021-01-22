@@ -31,6 +31,7 @@ interface Props {
   widthList?: string[] | number[]
   EventList?: any[]
   allCheckOnClickEvent?: any
+  calendarToday?: boolean
   checkOnClickEvent?: any
   clickValue?: object
   mainOnClickEvent?: any
@@ -74,6 +75,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                                                         mainOnClickEvent,
                                                         noChildren,
                                                         calendarState,
+                                                        calendarToday,
                                                         children,
                                                         currentPage,
                                                         totalPage,
@@ -125,7 +127,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
             <div style={{marginRight: 15}}>
               <CalendarDropdown type={'range'} selectRange={selectDate}
                                 onClickEvent={(start, end) => calendarOnClick(start, end)}
-                                unLimit={calendarState}/>
+                                unLimit={calendarState} toDayLimit={calendarToday}/>
             </div>
             :
             null
