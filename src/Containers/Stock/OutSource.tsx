@@ -182,7 +182,9 @@ const OutSourceContainer = () => {
 
 
     useEffect(() => {
-        getData(selectPk)
+        if (selectPk !== null) {
+            getData(selectPk)
+        }
     }, [detailPage.current])
 
     useEffect(() => {
@@ -199,7 +201,7 @@ const OutSourceContainer = () => {
             getList(true)
         }
     }, [saveKeyword])
-  
+
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
         setKeyword('')
