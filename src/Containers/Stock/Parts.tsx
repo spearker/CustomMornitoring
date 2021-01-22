@@ -170,7 +170,9 @@ const PartsContainer = () => {
     }, [page.current])
 
     useEffect(() => {
-        getData(selectPk)
+        if (selectPk !== null) {
+            getData(selectPk)
+        }
     }, [detailPage.current])
 
     useEffect(() => {
