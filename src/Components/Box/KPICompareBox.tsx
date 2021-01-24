@@ -4,6 +4,7 @@ import DateTypeCalendar from '../Modal/DateTypeCalendar'
 import moment from 'moment'
 import ProductionPickerModal from '../Modal/ProductionPickerModal'
 import {Textfit} from 'react-textfit'
+import Notiflix from 'notiflix'
 
 // KPI
 interface IProps {
@@ -46,10 +47,12 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
               if (type === 'day') {
                 getData(selectDate, selectDate, index ? index : 0, selectMaterial.pk).then((ratio) => {
                   setData(ratio)
+                  Notiflix.Loading.Remove(300)
                 })
               } else {
                 getData(selectDates.from, selectDates.to, index ? index : 0, selectMaterial.pk).then((ratio) => {
                   setData(ratio)
+                  Notiflix.Loading.Remove(300)
                 })
               }
             }
@@ -61,10 +64,12 @@ const KPICompareBox = ({type, setType, getData, index, value, subTitleList}: IPr
             if (type === 'day') {
               getData(selectDate, selectDate, index ? index : 0).then((ratio) => {
                 setData(ratio)
+                Notiflix.Loading.Remove(300)
               })
             } else {
               getData(selectDates.from, selectDates.to, index ? index : 0).then((ratio) => {
                 setData(ratio)
+                Notiflix.Loading.Remove(300)
               })
             }
           }
