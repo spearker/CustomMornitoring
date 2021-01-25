@@ -25,7 +25,9 @@ interface Props {
 const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, solo, key, value}: Props) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isFirst, setIsFirst] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>('');
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
     const [searchedList, setSearchedList] = useState<any>([]);
     const [checkList, setCheckList] = useState<any>([]);
     const [page, setPage] = useState<PaginationInfo>({
@@ -35,6 +37,12 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
     useEffect(() => {
         onSearchInit()
     }, [isOpen, page.current])
+
+    useEffect(() => {
+        if(isFirst){
+            onSearchInit(true)
+        }
+    }, [saveKeyword])
 
     /**
      * onClickSearch()
@@ -52,10 +60,10 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
         //   return;
         // }
 
-    }, [keyword, searchedList])
+    }, [keyword, searchedList, isFirst, saveKeyword])
 
     const onSearchInit = async (isSearch?: boolean) => {
-        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=${isSearch ? 1 : page.current}`, getToken(TOKEN_NAME))
+        const res = await getRequest(`${searchUrl}keyword=${saveKeyword}&option=${option}&page=${isSearch ? 1 : page.current}`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -65,6 +73,7 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
                 const results = res.results;
                 setSearchedList(results.info_list);
                 setPage({current: results.current_page, total: results.total_page})
+                setIsFirst(true)
             } else {
                 //TODO:  기타 오류
             }
@@ -76,17 +85,14 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
         <>
             <AddInput title={title} icType="solo" onlyOne={list.length > 0 ? true : false} onChangeEvent={() => {
                 setIsOpen(true);
-                setKeyword('')
                 setSearchedList([])
-            }
-            }>
+            }}>
                 {
                     list.map((v, i) => {
                         return (
                             <TextList key={i}
                                       onClickSearch={() => {
                                           setIsOpen(true);
-                                          setKeyword('');
                                       }}
                                       onClickEvent={() => {
                                           const temp = [...list].filter(f => f.pk !== v.pk)
@@ -104,18 +110,16 @@ const BasicSearchContainer = ({onChangeEvent, title, list, searchUrl, option, so
                     () => {
                         setIsOpen(false);
                         onChangeEvent(checkList);
-                        setKeyword('')
                     }
                 }
                 isVisible={isOpen} onClickClose={() => {
                 setIsOpen(false);
-                setKeyword('');
             }} title={`${title} 검색`}>
                 <SearchInput
                     description={'키워드로 검색해주세요'}
                     value={keyword}
                     onChangeEvent={(e) => setKeyword(e.target.value)}
-                    onClickEvent={onClickSearch}/>
+                    onClickEvent={()=> setSaveKeyword(keyword)}/>
 
                 <form style={{width: '100%', marginTop: 20}} onSubmit={onClickSearch}>
                     {

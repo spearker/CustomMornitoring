@@ -6,9 +6,10 @@ import {useHistory} from 'react-router-dom'
 
 interface Props {
     title: string
+    sameDistance?: boolean
 }
 
-const CustomDashboardHeader: React.FunctionComponent<Props> = ({title}) => {
+const CustomDashboardHeader: React.FunctionComponent<Props> = ({title, sameDistance}) => {
     const history = useHistory()
     return (
         <div style={{
@@ -17,11 +18,11 @@ const CustomDashboardHeader: React.FunctionComponent<Props> = ({title}) => {
             alignItems: 'center',
             justifyContent: 'space-between'
         }}>
-            <Home onClick={() => history.push('/dashboard')}>
+            <Home onClick={() => history.push('/dashboard')} style={{width: sameDistance ? 'calc(100%/3)' : '48px'}}>
                 <img src={NAV_HOME}/>
             </Home>
-            <Title>{title}</Title>
-            <Time>{moment().format("YYYY-MM-DD (dd) HH:mm:ss")}</Time>
+            <Title style={{width: sameDistance ? 'calc(100%/3)' : 'auto'}}>{title}</Title>
+            <Time style={{width: sameDistance ? 'calc(100%/3)' : '250px', textAlign: sameDistance ? 'right' : 'left'}}>{moment().format("YYYY-MM-DD (dd) HH:mm:ss")}</Time>
         </div>
     )
 }

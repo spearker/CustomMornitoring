@@ -38,20 +38,25 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
+
+
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['customer'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['customer'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=15`
         const resultData = await getCustomerData(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
             setPage({current: resultData.current_page, total: resultData.total_page})
+            setIsFirst(true)
         }
         Notiflix.Loading.Remove()
-    }, [searchName, page])
+    }, [searchName, page, saveKeyword])
 
 
     const handleClickBtn = () => {
@@ -61,6 +66,12 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
     useEffect(() => {
         getList()
     }, [page.current])
+
+    useEffect(() => {
+        if(isFirst){
+            getList(true)
+        }
+    }, [saveKeyword])
 
     return (
         <div>
@@ -115,9 +126,9 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 거래처 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="거래처 명을 입력해 주세요." value={searchName}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)} style={{flex: 96}}
+                                       onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)} style={{flex: 96}}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                            <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>

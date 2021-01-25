@@ -48,9 +48,19 @@ const ColorSearchContainer = ({
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
+
+
     useEffect(() => {
         onSearchInit()
-    }, [isOpen])
+    }, [isOpen, page.current])
+
+    useEffect(() => {
+        if(isFirst){
+            onSearchInit(true)
+        }
+    }, [saveKeyword])
 
 
     /**
@@ -72,7 +82,7 @@ const ColorSearchContainer = ({
     }, [keyword, searchedList])
 
     const onSearchInit = async (isSearch?: boolean) => {
-        const res = await getRequest(`${searchUrl}keyword=${keyword}&option=${option}&page=${isSearch ? 1 : page.current}&limit=10`, getToken(TOKEN_NAME))
+        const res = await getRequest(`${searchUrl}keyword=${saveKeyword}&option=${option}&page=${isSearch ? 1 : page.current}&limit=10`, getToken(TOKEN_NAME))
 
         if (res === false) {
             //TODO: 에러 처리
@@ -81,16 +91,13 @@ const ColorSearchContainer = ({
             if (res.status === 200) {
                 const results = res.results;
                 setSearchedList(results.info_list);
-                setPage({current: results.current_page, total: results.total_page})
+                setPage({current: results.current_page, total: results.total_page});
+                setIsFirst(true);
             } else {
                 //TODO:  기타 오류
             }
         }
     }
-
-    useEffect(() => {
-        onSearchInit()
-    }, [page.current])
 
 
     return (
@@ -101,7 +108,6 @@ const ColorSearchContainer = ({
                     <p>{title}</p>
                     <div onClick={() => {
                         setIsOpen(true);
-                        setKeyword('')
                         setSearchedList([])
                     }}>
                         <p style={{color: value === "" ? '#11131970' : '#111319'}}>{value === '' ? placeholder : value}</p>
@@ -117,20 +123,18 @@ const ColorSearchContainer = ({
                     () => {
                         setIsOpen(false);
                         onChangeEvent(checkList);
-                        setKeyword('')
                     }
                 }
                 isVisible={isOpen} onClickClose={() => {
                 setIsOpen(false);
-                setKeyword('');
             }} title={`${title} 검색`}>
                 <SearchInput
                     description={'키워드로 검색해주세요'}
                     value={keyword}
                     onChangeEvent={(e) => setKeyword(e.target.value)}
-                    onClickEvent={onClickSearch}/>
+                    onClickEvent={()=>setSaveKeyword(keyword)}/>
 
-                <form style={{width: '100%', marginTop: 20}} onSubmit={onClickSearch}>
+                <form style={{width: '100%', marginTop: 20}} onSubmit={()=>setSaveKeyword(keyword)}>
                     {
                         searchedList.map((v: ISearchedList, i) => {
                             return (<>

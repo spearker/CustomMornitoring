@@ -72,6 +72,9 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
     const [customList, setCustomList] = useState<any[]>([])
     const [searchName, setSearchName] = useState<string>('')
 
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
+
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
@@ -79,7 +82,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
         if (type === 'machine') {
-            const tempUrl = `${BASIC_URLS['machine'].list}?page=${isSearch ? 1 : page.current}&keyword=${searchName}&type=0&limit=10`
+            const tempUrl = `${BASIC_URLS['machine'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=0&limit=10`
             const resultData = await getBasicList(tempUrl)
             if (resultData) {
                 setDisable(false)
@@ -89,7 +92,7 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
                 setDisable(true)
             }
         } else if (type === 'device') {
-            const tempUrl = `${BASIC_URLS['device'].list}?page=${isSearch ? 1 : page.current}&keyword=${searchName}&type=0&limit=10`
+            const tempUrl = `${BASIC_URLS['device'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=0&limit=10`
             const resultData = await getBasicList(tempUrl)
             if (resultData) {
                 setDisable(false)
@@ -99,14 +102,14 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
                 setDisable(true)
             }
         } else if (type === 'mold') {
-            const tempUrl = `${BASIC_URLS['mold'].list}?page=${isSearch ? 1 : page.current}&keyword=${searchName}&type=0&limit=10`
+            const tempUrl = `${BASIC_URLS['mold'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=0&limit=10`
             const resultData = await getBasicList(tempUrl)
             if (resultData) {
                 setCustomList(resultData.info_list)
                 setPage({current: resultData.current_page, total: resultData.total_page})
             }
         } else if (type === 'material') {
-            const tempUrl = `${BASIC_URLS['material'].list}?page=${isSearch ? 1 : page.current}&keyword=${searchName}&type=0&limit=10`
+            const tempUrl = `${BASIC_URLS['material'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=0&limit=10`
             const resultData = await getBasicList(tempUrl)
             if (resultData) {
                 setPage({current: resultData.current_page, total: resultData.total_page})
@@ -120,12 +123,19 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
                 setPage({current: resultData.current_page, total: resultData.total_page})
             }
         }
+        setIsFirst(true);
         Notiflix.Loading.Remove()
-    }, [searchName, type, customList, searchName, page])
+    }, [searchName, type, customList, searchName, page, isFirst, saveKeyword])
 
     const handleClickBtn = () => {
         setIsOpen(!isOpen)
     }
+    useEffect(() => {
+        if(isFirst){
+            getList(true)
+        }
+    }, [saveKeyword])
+
     useEffect(() => {
         getList(true)
     }, [type])
@@ -179,9 +189,9 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 세부 항목 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="항목명을 입력해주세요." style={{flex: 96}} value={searchName}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                                       onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                            <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>

@@ -29,7 +29,7 @@ const ProcessDetailRegisterContainer = () => {
     const history = useHistory()
 
     const [processName, setProcessName] = useState<string>()
-    const [searchData, setSearchData] = useState<string>()
+    const [searchData, setSearchData] = useState<string>('')
     const [machineName, setMachineName] = useState<string>()
 
     const [processList, setProcessList] = useState<IDetailRegister[]>([])
@@ -43,8 +43,11 @@ const ProcessDetailRegisterContainer = () => {
         {name: '', type: -1, machines: ''}
     ])
 
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
+
     const getSearchProcessList = useCallback(async (isSearch?: boolean) => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${searchData ? searchData : ''}&page=${isSearch ? 1 : page.current}&limit=15`
+        const tempUrl = `${API_URLS['process'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=15`
         const resultData = await getSearchProcess(tempUrl)
 
         const getProcess = resultData.results.info_list.map((v, i) => {
@@ -57,7 +60,8 @@ const ProcessDetailRegisterContainer = () => {
         setPage({current: resultData.results.current_page, total: resultData.results.total_page})
         setProcessList(getProcess)
         setOriginalProcessList(getProcess)
-    }, [searchData, page])
+        setIsFirst(true)
+    }, [searchData, saveKeyword, page])
 
     const validationCheck = () => {
 
@@ -92,6 +96,11 @@ const ProcessDetailRegisterContainer = () => {
         }
     }, [searchData])
 
+    useEffect(() => {
+        if(isFirst){
+            onSearch()
+        }
+    }, [saveKeyword])
 
     const onSearch = () => {
         getSearchProcessList(true)
@@ -142,9 +151,9 @@ const ProcessDetailRegisterContainer = () => {
                                             }}>
                                                 <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360 - 28}}
                                                            onChange={(e) => setSearchData(e.target.value)}
-                                                           onKeyPress={(event) => event.key === 'Enter' && onSearch()}/>
+                                                           onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchData)}/>
                                                 <SearchButton style={{width: 32}} onClick={() => {
-                                                    onSearch()
+                                                    setSaveKeyword(searchData)
                                                 }}>
                                                     <img src={IcSearchButton}/>
                                                 </SearchButton>

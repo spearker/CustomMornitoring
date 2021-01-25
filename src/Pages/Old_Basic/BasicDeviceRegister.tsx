@@ -246,7 +246,7 @@ const BasicDeviceRegister = () => {
                                 option={1}
                                 solo={true}
                                 list={factory}
-                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?page=1&limit=15&`}
+                                searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?limit=15&`}
                             />
                             <br/>
                             <ListHeader title="선택 항목"/>
