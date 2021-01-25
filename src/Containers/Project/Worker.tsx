@@ -138,7 +138,7 @@ const WorkerContainer = ({match}: Props) => {
   const calendarOnClick = useCallback(async (start, end, isSearch?: boolean) => {
     setSelectDate({start: start, end: end ? end : ''})
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${start}&to=${end}&limit=15&page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}`
+    const tempUrl = `${API_URLS['production'].history}?pk=${match.params.pk !== undefined ? match.params.pk : ''}&from=${start}&to=${end}&limit=15&page=1&keyword=${saveKeyword}`
     const res = await getProjectList(tempUrl)
     if (res) {
       const getWorker = res.info_list.map((v, i) => {

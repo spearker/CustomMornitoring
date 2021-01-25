@@ -46,20 +46,23 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
     current: 1,
   })
 
+  const [isFirst, setIsFirst] = useState<boolean>(false);
+  const [saveKeyword, setSaveKeyword] = useState<string>('');
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
   // });
 
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['machine'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = `${API_URLS['machine'].list}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=10`
     const resultData = await getSearchMachine(tempUrl)
     if (resultData) {
       setMachineList(resultData.info_list)
       setPage({current: resultData.current_page, total: resultData.total_page})
+      setIsFirst(true)
     }
     Notiflix.Loading.Remove()
-  }, [searchName, page])
+  }, [searchName, saveKeyword, page])
 
 
   const handleClickBtn = () => {
@@ -70,6 +73,12 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
   useEffect(() => {
     getList()
   }, [page.current])
+
+  useEffect(() => {
+    if(isFirst){
+        getList(true)
+    }
+}, [saveKeyword])
 
   return (
     <div>
@@ -120,8 +129,8 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
               <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
                          value={searchName}
                          onChange={(e) => setSearchName(e.target.value)}
-                         onKeyPress={(event) => event.key === 'Enter' && getList(true)}/>
-              <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                         onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}/>
+              <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>
             </div>

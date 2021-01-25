@@ -13,6 +13,7 @@ import NewEnergyKPI from '../Pages/NewKPI/NewEnergyKPI'
 import NewPowerStatistics from '../Pages/PM_Statistics/NewPowerStatistics'
 import PressKeyinList from '../Pages/NewKeyin/PressKeyinList'
 import PressKeyinRegister from '../Pages/NewKeyin/PressKeyinRegister'
+import LotMonitoringContainer from '../Containers/Custom/PM_Monitoring/LotMonitoringContainer'
 // import ProcessList from '../Pages/ProcessManagement/ProcessList';
 
 const YejiRouters = () => {
@@ -24,6 +25,9 @@ const YejiRouters = () => {
       {/* <Route exact path="/marketing/shipment/list" component={ShipmentBusiness}/> */}
       <Route exact path="/process/process/list" component={ProcessList}/>
       <Route exact path="/stock/status/list" component={StockList}/>
+
+      {/* 프레스 모니터링 */}
+      <Route exact path="/pm/monitoring/lot" component={LotMonitoringContainer}/>
 
       {/* 프레스 데이터 통계 */}
       <Route exact path="/new/pm/statistics/power" component={NewPowerStatistics}/>

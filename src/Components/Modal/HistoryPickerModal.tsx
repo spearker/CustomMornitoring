@@ -68,21 +68,24 @@ const HistoryPickerModal = ({
     }[]>(DummyMachine)
     const [searchName, setSearchName] = useState<string>('')
 
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = `${keyinUrl ? keyinUrl : API_URLS['history'].search}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+        const tempUrl = `${keyinUrl ? keyinUrl : API_URLS['history'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getHistorySearch(tempUrl)
         if (resultData) {
             setHistoryList(resultData.info_list)
 
             setPage({current: resultData.current_page, total: resultData.total_page})
+            setIsFirst(true)
         }
         Notiflix.Loading.Remove()
-    }, [searchName, page])
+    }, [searchName, page, isFirst, saveKeyword])
 
 
     const handleClickBtn = () => {
@@ -93,6 +96,11 @@ const HistoryPickerModal = ({
         getList()
     }, [page.current])
 
+    useEffect(() => {
+        if(isFirst){
+            getList(true)
+        }
+    }, [saveKeyword])
 
     return (
         <div style={{width: outsideWidth ? outsideWidth : 'auto'}}>
@@ -145,9 +153,9 @@ const HistoryPickerModal = ({
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이력 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}} value={searchName}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                                       onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                            <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>

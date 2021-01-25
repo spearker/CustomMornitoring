@@ -48,28 +48,34 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
     current: 1,
   })
 
+  const [isFirst, setIsFirst] = useState<boolean>(false);
+  const [saveKeyword, setSaveKeyword] = useState<string>('');
+  
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
   // });
 
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = `${API_URLS['production'].search}?keyword=${searchName}&type=${type}&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = `${API_URLS['production'].search}?keyword=${saveKeyword}&type=${type}&page=${isSearch ? 1 : page.current}&limit=10`
     const resultData = await getProductionSearch(tempUrl)
     if (resultData) {
       setMachineList(resultData.info_list)
       setPage({current: resultData.current_page, total: resultData.total_page})
+      setIsFirst(true)
     }
     Notiflix.Loading.Remove()
-  }, [searchName, page, type])
+  }, [searchName, saveKeyword, isFirst, page, type])
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }
 
   useEffect(() => {
-    getList(true)
-  }, [type])
+    if(isFirst){
+      getList(true)
+    }
+  }, [type, saveKeyword])
 
   useEffect(() => {
     getList()
@@ -143,9 +149,9 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
             
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="검색어를 입력해 주세요." style={{flex: 96}}
-                         onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                         onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                          value={searchName} onChange={(e) => setSearchName(e.target.value)}/>
-              <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+              <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>
             </div>

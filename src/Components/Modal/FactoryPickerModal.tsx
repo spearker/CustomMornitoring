@@ -49,21 +49,25 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
         current: 1,
     })
 
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
+
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['factory'].search}?keyword=${searchName}&option=${option}&page=${isSearch ? 1 : page.current}&limit=10`
+        const tempUrl = `${API_URLS['factory'].search}?keyword=${saveKeyword}&option=${option}&page=${isSearch ? 1 : page.current}&limit=10`
         const resultData = await getBasicList(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
 
             setPage({current: resultData.current_page, total: resultData.total_page})
+            setIsFirst(true);
         }
         Notiflix.Loading.Remove()
-    }, [searchName, page, keyword, option])
+    }, [searchName, saveKeyword, page, keyword, option])
 
 
     const handleClickBtn = () => {
@@ -73,6 +77,12 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
     useEffect(() => {
         getList()
     }, [page.current])
+
+    useEffect(() => {
+        if(isFirst){
+            getList(true)
+        }
+    }, [saveKeyword])
 
     return (
         <div>
@@ -121,9 +131,9 @@ const FactoryPickerModal = ({select, onClickEvent, text, buttonWid, disabled, ke
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 공장 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="공장명을 입력해주세요." style={{flex: 96}} value={searchName}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                                       onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                                        onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                            <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>

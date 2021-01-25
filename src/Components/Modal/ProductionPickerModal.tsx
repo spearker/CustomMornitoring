@@ -87,6 +87,8 @@ const ProductionPickerModal = ({
     }
   ])
   const [typeFilter, setTypeFilter] = useState<number>(-1)
+  const [isFirst, setIsFirst] = useState<boolean>(false);
+  const [saveKeyword, setSaveKeyword] = useState<string>('');
 
   useEffect(() => {
     if (selectRange) {
@@ -95,9 +97,11 @@ const ProductionPickerModal = ({
   }, [selectRange])
 
   useEffect(() => {
-    getList(true)
-    setSelectMaterial([])
-  }, [typeFilter])
+    if(isFirst){
+      getList(true)
+      setSelectMaterial([])
+    }
+  }, [typeFilter, saveKeyword])
 
   useEffect(() => {
     getList()
@@ -111,9 +115,9 @@ const ProductionPickerModal = ({
     Notiflix.Loading.Circle()
     let tempUrl = ''
     if (filter) {
-      tempUrl = `${API_URLS['material'].filter}?keyword=${searchName}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=10`
+      tempUrl = `${API_URLS['material'].filter}?keyword=${saveKeyword}&filter=${filter}&page=${isSearch ? 1 : page.current}&limit=10`
     } else {
-      tempUrl = `${API_URLS['material'].search}?keyword=${searchName}&option=${type !== undefined ? type : 0}&filter=${useFilter ? type === -1 ? -1 : typeFilter : -1}&page=${isSearch ? 1 : page.current}&limit=10`
+      tempUrl = `${API_URLS['material'].search}?keyword=${saveKeyword}&option=${type !== undefined ? type : 0}&filter=${useFilter ? type === -1 ? -1 : typeFilter : -1}&page=${isSearch ? 1 : page.current}&limit=10`
     }
 
     const resultData = await getProductionSearch(tempUrl)
@@ -121,8 +125,9 @@ const ProductionPickerModal = ({
       setProductList(resultData.info_list)
       setPage({current: resultData.current_page, total: resultData.total_page})
     }
+    setIsFirst(true)
     Notiflix.Loading.Remove()
-  }, [searchName, page, typeFilter])
+  }, [searchName, page, typeFilter, saveKeyword])
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
@@ -201,7 +206,7 @@ const ProductionPickerModal = ({
               <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}}
                          value={searchName}
                          onChange={(e) => setSearchName(e.target.value)}
-                         onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                         onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                 // onKeyDown={(e) => {
                 //   if (e.keyCode === 13) {
                 //     getList()
@@ -209,7 +214,7 @@ const ProductionPickerModal = ({
                 // }}
               />
               <SearchButton style={{flex: 4}} onClick={() => {
-                getList(true)
+                setSaveKeyword(searchName)
               }}>
                 <img src={IcSearchButton}/>
               </SearchButton>

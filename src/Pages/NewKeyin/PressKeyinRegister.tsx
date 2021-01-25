@@ -11,59 +11,25 @@ import ColorInputWithText from '../../Components/Input/ColorInputWithText'
 import EmptyPlace from '../../Components/Box/EmptyPlace'
 import ManyButton from '../../Components/Button/ManyButton'
 import { API_URLS, getBasicList, registerBasicItem } from '../../Api/mes/basic'
-import TimeInput from '../../Components/Input/TimeInput'
 import InputContainer from '../../Containers/InputContainer'
 import HistoryPickerModal from '../../Components/Modal/HistoryPickerModal'
+import DateAndTimeBox from '../../Components/Box/DateAndTimeBox'
 
-interface Time {
-    totalWorkingTime: number,
-    uptime: number,
-    downtime: number,
-    QDC: number,
-    errortime: number
+interface DateListArray {
+    date: string,
+    run_time: string,
+    stop_time: string,
+    spm: string,
+    preset_counter: string
 }
 
-const regExp = (str) => {
-    const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-    //특수문자 검증
-    if (reg.test(str.replace(/(^0+)/, ""))) {
-        //특수문자 제거후 리턴
-        return str.replace(/(^0+)/, "").replace(reg, "");
-    } else {
-        //특수문자가 없으므로 본래 문자 리턴
-        return str.replace(/(^0+)/, "");
-    }
+interface DateMax {
+    max: number,
+    firstDayMax: number,
+    lastDayMax: number
 }
 
-const numberPad = (n, width) => {
-    n = n + '';
-    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
-}
-
-const timeForm = (second) => {
-    const HH = Math.floor(Number(second) / 3600);
-    const mm = Math.floor((Number(second) - HH * 3600) / 60);
-    const ss = Number(second) - (HH * 3600 + mm * 60);
-
-    return `${numberPad(HH, 2)}:${numberPad(mm, 2)}:${numberPad(ss, 2)}`;
-}
-
-const getTotalTime = (period) => {
-    const date1 = period.split('~')[0].split(' ')[0].split('-');
-    const date2 = period.split('~')[1].split(' ')[0].split('-');
-
-    const dateTime1 = period.split('~')[0].split(' ')[1].split(':');
-    const dateTime2 = period.split('~')[1].split(' ')[1].split(':');
-
-    const startDate = new Date(date1[0], date1[1], date1[2], dateTime1[0], dateTime1[1]);
-    const endDate = new Date(date2[0], date2[1], date2[2], dateTime2[0], dateTime2[1]);
-
-    const elapsedTime = (endDate.getTime() - startDate.getTime()) / 1000;
-
-    return elapsedTime
-}
-
-// 금형 등록, 업데이트
+// key-in 등록, 업데이트
 const PressKeyinRegister = ({ match }) => {
 
     const history = useHistory();
@@ -85,15 +51,8 @@ const PressKeyinRegister = ({ match }) => {
         total_defects?: number
     }>();
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
-    const [spm, setSpm] = useState<'' | number>('');
-    const [preset, setPreset] = useState<'' | number>('');
-    const [time, setTime] = useState<Time>({
-        totalWorkingTime: 0,
-        uptime: 0,
-        downtime: 0,
-        QDC: 0,
-        errortime: 0
-    });
+    const [dateArray, setDateArray] = useState<DateListArray[]>([]);
+    const [max, setMax] = useState<DateMax>({max: 0, firstDayMax: 0, lastDayMax: 0});
 
     useEffect(() => {
         if (pk !== undefined) {
@@ -101,6 +60,62 @@ const PressKeyinRegister = ({ match }) => {
             getData();
         }
     }, [])
+
+    const getDateArray = (period) => {
+        if(!period) {
+            return [];
+        }
+        const date1 = period.split('~')[0].split(' ')[0];
+        const date2 = period.split('~')[1].split(' ')[0];
+    
+        const regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+       if(!(regex.test(date1) && regex.test(date2))) return [];
+       let workingPeriod:DateListArray[] = [];
+       let curDate = new Date(date1);
+       while(curDate <= new Date(date2)) {
+          workingPeriod.push({
+                date: curDate.toISOString().split("T")[0],
+                run_time: '00:00:00',
+                stop_time: '00:00:00',
+                spm: '',
+                preset_counter: ''
+            });
+          curDate.setDate(curDate.getDate() + 1);
+       }
+       return workingPeriod;
+    }
+    
+    const getTotalTime = (period, type) => {
+        const date1 = period.split('~')[0].split(' ')[0].split('-');
+        const date2 = period.split('~')[1].split(' ')[0].split('-');
+    
+        const dateTime1 = period.split('~')[0].split(' ')[1].split(':');
+        const dateTime2 = period.split('~')[1].split(' ')[1].split(':');
+    
+        const startDate = new Date(date1[0], date1[1], date1[2], dateTime1[0], dateTime1[1]);
+        const endDate = new Date(date2[0], date2[1], date2[2], dateTime2[0], dateTime2[1]);
+    
+        const elapsedTime = (endDate.getTime() - startDate.getTime()) / 1000;
+    
+        return type === 'max' ? elapsedTime : type === 'first' ? 86400 - secondForm(`${dateTime1[0]}:${dateTime1[1]}:00`) : secondForm(`${dateTime2[0]}:${dateTime2[1]}:00`)
+    }
+    
+    const secondForm = (time) => {
+        const dateTime = time.split(':');
+    
+        const second = Number(dateTime[0])*3600 + Number(dateTime[1])*60 + Number(dateTime[2]);
+    
+        return second;
+    }
+    
+    const minusForm = (list) => {
+        let number = 0;
+        list.map((data) => {
+            number = number + secondForm(data.run_time) + secondForm(data.stop_time);
+        })
+    
+        return number;
+    }
 
     const getData = useCallback(async () => {
         if (pk === undefined) return;
@@ -113,6 +128,7 @@ const PressKeyinRegister = ({ match }) => {
             
             setSelectHistory({
                 amount: data.amount,
+                machine_pk: data.machine_pk,
                 machine_name: data.machine_name,
                 material_name: data.material_name,
                 pk: data.history_pk,
@@ -122,57 +138,40 @@ const PressKeyinRegister = ({ match }) => {
                 worked: data.work_time,
                 worker_name: data.worker
             });
-            setTime({
-                totalWorkingTime: getTotalTime(data.work_time),
-                uptime: data.run_time,
-                downtime: data.stop_time,
-                QDC: data.change_time,
-                errortime: data.error_time
-            });
-            setSpm(data.spm);
-            setPreset(data.preset_counter);
 
+            setDateArray(data.work_contents.sort(date_ascending));
+            setMax({max: getTotalTime(data.work_time, 'max'), firstDayMax: getTotalTime(data.work_time, 'first'), lastDayMax: getTotalTime(data.work_time, 'last')});
         }
-    }, [selectHistory, time, spm, preset, pk])
+    }, [selectHistory, dateArray, pk, max])
 
     const onsubmitFormUpdate = useCallback(async () => {
         const data = {
             pk: pk,
             history_pk: selectHistory?.pk,
-            run_time: timeForm(time.uptime),
-            change_time: timeForm(time.QDC),
-            error_time: timeForm(time.errortime),
-            stop_time: timeForm(time.QDC + time.errortime),
-            off_time: timeForm(time.totalWorkingTime - time.uptime - time.QDC - time.errortime),
-            spm: String(spm),
-            preset_counter: String(preset)
+            machine_pk: selectHistory?.machine_pk,
+            work_contents: dateArray
         }
-
+        
         const tempUrl = `${API_URLS['keyin'].update}`
         const res = await registerBasicItem(tempUrl, data)
 
         if (res) {
             history.push('/pm/keyin/list')
         }
-    }, [selectHistory, time, spm, preset, pk])
+    }, [selectHistory, dateArray])
 
     const onsubmitForm = useCallback(async () => {
         if (selectHistory === undefined) {
             alert('작업이력은 필수 항목입니다. 반드시 선택해주세요');
-        } else if (preset === 0 || preset === '') {
-            alert('프리셋 카운터는 필수 항목입니다. 반드시 입력해주세요');
-        } else if (spm === 0 || spm === '') {
+        } else if(dateArray.filter(f => f.spm === '' || Number(f.spm) === 0).length > 0) {
             alert('SPM은 필수 항목입니다. 반드시 입력해주세요');
+        } else if(dateArray.filter(f => f.preset_counter === '' || Number(f.preset_counter) === 0).length > 0) {
+            alert('프리셋 카운터는 필수 항목입니다. 반드시 입력해주세요');
         } else {
             const data = {
                 history_pk: selectHistory?.pk,
-                run_time: timeForm(time.uptime),
-                change_time: timeForm(time.QDC),
-                error_time: timeForm(time.errortime),
-                stop_time: timeForm(time.QDC + time.errortime),
-                off_time: timeForm(time.totalWorkingTime - time.uptime - time.QDC - time.errortime),
-                spm: String(spm),
-                preset_counter: String(preset)
+                machine_pk: selectHistory?.machine_pk,
+                work_contents: dateArray
             }
 
             const tempUrl = `${API_URLS['keyin'].create}`
@@ -182,9 +181,14 @@ const PressKeyinRegister = ({ match }) => {
                 history.push('/pm/keyin/list')
             }
         }
-
-    }, [selectHistory, time, spm, preset])
-
+    }, [selectHistory, dateArray])
+    
+    const date_ascending = (a, b) => {
+        var dateA = new Date(a['date']).getTime();
+        var dateB = new Date(b['date']).getTime();
+        return dateA > dateB ? 1 : -1;
+    };
+    
     return (
         <DashboardWrapContainer index={'basic'}>
             <InnerBodyContainer>
@@ -198,23 +202,12 @@ const PressKeyinRegister = ({ match }) => {
 
                                     if (e.worked) {
                                         setSelectHistory({ ...selectHistory, ...e });
-                                        
-                                        setTime({
-                                            totalWorkingTime: getTotalTime(e.worked),
-                                            uptime: 0,
-                                            downtime: 0,
-                                            QDC: 0,
-                                            errortime: 0
-                                        });
+                                        setDateArray(getDateArray(e.worked));
+                                        setMax({max: getTotalTime(e.worked, 'max'), firstDayMax: getTotalTime(e.worked, 'first'), lastDayMax: getTotalTime(e.worked, 'last')});
                                     } else {
                                         setSelectHistory(undefined);
-                                        setTime({
-                                            totalWorkingTime: 0,
-                                            uptime: 0,
-                                            downtime: 0,
-                                            QDC: 0,
-                                            errortime: 0
-                                        })
+                                        setDateArray([]);
+                                        setMax({max: 0, firstDayMax: 0, lastDayMax: 0});
                                     }
                                 }}
                                 text={'작업자명을 검색해주세요.'} buttonWid={30} isAllItem={true} outsideWidth={'calc(100% - 133px)'} width={'100%'} insideWidth={'calc(100% - 30px)'} textTop={3} />
@@ -238,33 +231,38 @@ const PressKeyinRegister = ({ match }) => {
                                 <ColorInputWithText title={'작업 기간'} value={selectHistory?.worked} readOnly
                                                     placeholder={'작업 이력을 선택해주세요'} />
 
-                                <TimeInput title={'총 작업시간'} readOnly onChangeEvent={(e) => setTime({ ...time, totalWorkingTime: e })}
-                                           value={time.totalWorkingTime} />
-
-                                <TimeInput title={'가동 시간'} onChangeEvent={(e) => setTime({ ...time, uptime: e })}
-                                           value={time.uptime} max={time.totalWorkingTime - time.downtime} />
-                                
-                                <TimeInput title={'비가동 시간'} onChangeEvent={(e) => setTime({ ...time, downtime: e })}
-                                           value={time.downtime} max={time.totalWorkingTime - time.uptime} min={time.QDC + time.errortime} />
-
-                                <TimeInput title={'금형 교체 시간'} onChangeEvent={(e) => setTime({ ...time, QDC: e })}
-                                           value={time.QDC} max={time.downtime - time.errortime} />
-
-                                <TimeInput title={'에러 시간'} onChangeEvent={(e) => setTime({ ...time, errortime: e })}
-                                           value={time.errortime} max={time.downtime - time.QDC} />
-
-                                <TimeInput title={'off 시간'} readOnly value={time.totalWorkingTime - time.uptime - time.downtime} />
+                                {
+                                   dateArray.length > 0 &&
+                                    <>
+                                        {
+                                            dateArray.map((data, index) => (
+                                                <DateAndTimeBox
+                                                    key={`${data.date}${index}`} 
+                                                    max={
+                                                        index === 0 
+                                                        ? max.firstDayMax > max.max - minusForm(dateArray.filter(f => f.date !== data.date)) 
+                                                          ? max.max - minusForm(dateArray.filter(f => f.date !== data.date))
+                                                          : max.firstDayMax
+                                                        : index === dateArray.length - 1
+                                                          ? max.lastDayMax > max.max - minusForm(dateArray.filter(f => f.date !== data.date))
+                                                            ? max.max - minusForm(dateArray.filter(f => f.date !== data.date))
+                                                            : max.lastDayMax
+                                                          : 86400 > max.max - minusForm(dateArray.filter(f => f.date !== data.date))
+                                                            ? max.max - minusForm(dateArray.filter(f => f.date !== data.date))
+                                                            : 86400
+                                                    }
+                                                    data={data} 
+                                                    onChangeEvent={(e) => {
+                                                        const filter = dateArray.filter(f => f.date !== data.date);
+                                                        setDateArray([...filter, e].sort(date_ascending));
+                                                    }} /> 
+                                            ))
+                                        }
+                                    </>
+                                }
                             </>
                         }
-                        <ColorInputWithText title={'SPM'} value={spm} onChangeEvent={(e) => setSpm(regExp(e))}
-                                            placeholder={'SPM을 입력해주세요'} />
-
-                        <ColorInputWithText title={'프리셋 카운트'} value={preset}
-                                            onChangeEvent={(e) => {
-                                                if (Number(e) <= 999999) setPreset(regExp(e));
-                                            }} placeholder={'프리셋 카운트를 입력해주세요 (최대: 999,999)'} />
-
-                        <EmptyPlace height={'40px'} />
+                        <EmptyPlace height={'20px'} />
 
                         <br />
                         {
@@ -303,7 +301,7 @@ const PressKeyinRegister = ({ match }) => {
 
 const ButtonWrap = Styled.button`
     border-radius: 5px;
-     color: black;
+    color: black;
     background-color: ${POINT_COLOR};
     border: none;
     font-weight: bold;
@@ -318,4 +316,4 @@ const ButtonWrap = Styled.button`
     }
 `
 
-export default PressKeyinRegister
+export default PressKeyinRegister;

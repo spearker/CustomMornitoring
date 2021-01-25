@@ -49,16 +49,20 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
     current: 1,
   })
 
+  const [isFirst, setIsFirst] = useState<boolean>(false);
+  const [saveKeyword, setSaveKeyword] = useState<string>('');
+
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = auth !== undefined ? `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10&auth=${auth}` : `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = auth !== undefined ? `${API_URLS['member'].list}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=10&auth=${auth}` : `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
     const resultData = await getMemberList(tempUrl)
     if (resultData) {
       setMachineList(resultData.info_list)
       setPage({current: resultData.current_page, total: resultData.total_page})
+      setIsFirst(true)
     }
     Notiflix.Loading.Remove()
-  }, [searchName, page, auth])
+  }, [searchName, saveKeyword, isFirst, page, auth])
 
 
   const handleClickBtn = () => {
@@ -66,8 +70,10 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
   }
 
   useEffect(() => {
-    getList(true)
-  }, [auth])
+    if(isFirst){
+      getList(true)
+    }
+    }, [auth, saveKeyword])
 
   useEffect(() => {
     getList()
@@ -138,9 +144,9 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                 placeholder={type ? `${type}명을 입력해주세요.` : '작업자명을 입력해주세요.'}
                 style={{flex: 96}}
                 value={searchName}
-                onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                 onChange={(e) => setSearchName(e.target.value)}/>
-              <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+              <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>
             </div>

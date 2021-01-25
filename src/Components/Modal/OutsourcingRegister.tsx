@@ -37,20 +37,24 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
         current: 1,
     })
 
+    const [isFirst, setIsFirst] = useState<boolean>(false);
+    const [saveKeyword, setSaveKeyword] = useState<string>('');
+
     // const ref = useOnclickOutside(() => {
     //     setIsOpen(false);
     // });
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = searchName === '' ? `${API_URLS['outsourcing'].search}?page=${isSearch ? 1 : page.current}&limit=10&keyword=` : `${API_URLS['outsourcing'].search}?page=${isSearch ? 1 : page.current}&limit=10&keyword=${searchName}`
+        const tempUrl = searchName === '' ? `${API_URLS['outsourcing'].search}?page=${isSearch ? 1 : page.current}&limit=10&keyword=` : `${API_URLS['outsourcing'].search}?page=${isSearch ? 1 : page.current}&limit=10&keyword=${saveKeyword}`
         const resultData = await getSearchOutsourcing(tempUrl)
         if (resultData) {
             setPage({current: resultData.current_page, total: resultData.total_page})
             setMachineList(resultData)
+            setIsFirst(true)
         }
         Notiflix.Loading.Remove()
-    }, [searchName])
+    }, [searchName, saveKeyword, page])
 
 
     const handleClickBtn = () => {
@@ -60,6 +64,13 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     useEffect(() => {
         getList()
     }, [page.current])
+
+    useEffect(() => {
+        if(isFirst){
+            getList(true)
+        }
+    }, [saveKeyword])
+
     return (
         <div>
             <div style={{position: 'relative', display: 'inline-block', zIndex: 0, width: 917}}>
@@ -108,9 +119,9 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 외주처 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="외주처 명을 입력해 주세요." value={searchName}
-                                       onKeyPress={(event) => event.key === 'Enter' && getList(true)}
+                                       onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                                        style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
-                            <SearchButton style={{flex: 4}} onClick={() => getList(true)}>
+                            <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>
                         </div>
