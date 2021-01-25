@@ -6,6 +6,7 @@ import KPIResultBox from '../../Components/Box/KPIResultBox'
 import TopHeader from '../../Components/Text/TopHeader'
 import moment from 'moment'
 import {API_URLS, getKPIData} from '../../Api/mes/KPI'
+import Notiflix from 'notiflix'
 
 interface Menu {
   name: string,
@@ -43,7 +44,7 @@ const CostKPI = () => {
   }
 
   const getData = async (from: Date, to: Date, index: number) => {
-    console.log(from, to)
+    Notiflix.Loading.Circle()
     let tempUrl = ''
     if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
       tempUrl = `${API_URLS['kpi'].cost[selectMenu.api]}`

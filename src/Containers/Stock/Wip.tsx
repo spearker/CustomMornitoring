@@ -191,7 +191,9 @@ const WipContainer = () => {
     }, [filter])
 
     useEffect(() => {
-        getData(selectPk)
+        if (selectPk !== null) {
+            getData(selectPk)
+        }
     }, [detailPage.current])
 
     useEffect(() => {
@@ -210,7 +212,7 @@ const WipContainer = () => {
         setTitleEventList(titleeventdummy)
         setSubIndex(detailTitle['wip'])
     }, [])
-  
+
     useEffect(() => {
         if (isFirst) {
             getList(true)

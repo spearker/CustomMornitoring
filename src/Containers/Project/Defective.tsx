@@ -118,10 +118,6 @@ const DefectiveContainer = () => {
   }, [deletePk])
 
   const postDelete = useCallback(async (pk: string) => {
-    if (deletePk.pk.length <= 0) {
-      alert('삭제하실 항목을 선택해 주세요.')
-      return
-    }
     const tempUrl = `${API_URLS['defective'].delete}`
     const res = await postProjectDelete(tempUrl, {pk})
 

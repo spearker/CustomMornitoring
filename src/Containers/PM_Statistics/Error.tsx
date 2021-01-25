@@ -50,6 +50,7 @@ const ErrorContainer = () => {
     }
 
     const onClick = (machine, i) => {
+        setDetailPage({...detailPage, current: 1})
         if (selectIndex === i) {
             setSelectIndex(null)
             setSelectPk(null)
@@ -108,7 +109,9 @@ const ErrorContainer = () => {
     }, [page.current])
 
     useEffect(() => {
-        getData(selectPk, true)
+        if (selectPk !== null) {
+            getData(selectPk, true)
+        }
     }, [detailPage.current])
 
     return (
