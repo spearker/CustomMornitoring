@@ -195,6 +195,7 @@ export const API_URLS = {
   },
   barcode: {
     delete: `/v1/barcode/standard/delete`,
+    listDelete: `/v1/barcode/delete`,
     create: `/v1/barcode/standard/register`,
     update: `/v1/barcode/standard/update`,
     list: `/v1/barcode/standard/list`,

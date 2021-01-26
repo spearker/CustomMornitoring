@@ -193,9 +193,10 @@ const PartsContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setKeyword('')
         getList(true, filter)
-    }, [option, keyword, page])
+        setKeyword('')
+        setSaveKeyword('')
+    }, [option, keyword, page, saveKeyword])
 
     return (
         <div>

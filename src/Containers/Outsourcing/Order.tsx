@@ -118,9 +118,10 @@ const OrderContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setSearchValue('')
         getList(filter, true)
-    }, [option, searchValue])
+        setSearchValue('')
+        setSaveKeyword('')
+    }, [option, searchValue, list, saveKeyword])
 
 
     const searchChange = useCallback(async (search) => {

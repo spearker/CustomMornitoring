@@ -166,9 +166,10 @@ const RawMaterialContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setKeyword('')
         getList(true, filter)
-    }, [option, searchValue, page])
+        setKeyword('')
+        setSaveKeyword('')
+    }, [option, searchValue, page, saveKeyword])
 
     const getList = useCallback(async (isSearch?: boolean, searchOption?: number) => { // useCallback
         //TODO: 성공시

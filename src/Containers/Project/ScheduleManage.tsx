@@ -96,9 +96,10 @@ const ScheduleManageContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setSearchValue('')
         getList(filter, true)
-    }, [option, searchValue, page])
+        setSearchValue('')
+        setSaveKeyword('')
+    }, [option, searchValue, page, saveKeyword])
 
     const AddComma = (num) => {
         let tmpNum = num.toString().split('.')
