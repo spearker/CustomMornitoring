@@ -55,8 +55,10 @@ export const API_URLS = {
       electric_saving_rate: '/v1/kpi/energy/electric-saving-rate'
     },
     cost: {
-      amount_of_on_process_material: '/v1/kpi/cost/amount-of-on-process-material',
-      stock_cost: '/v1/kpi/cost/stock-cost'
+      // amount_of_on_process_material: '/v1/kpi/cost/amount-of-on-process-material',
+      // stock_cost: '/v1/kpi/cost/stock-cost'
+      disposal_costs_of_defective_material: '/v1/kpi/cost/disposal-costs-of-defective-material',
+      production_cost_of_goods: '/v1/kpi/cost/production-cost-of-goods'
     }
   },
 }

@@ -41,15 +41,11 @@ const EnergyKPI = () => {
     return moment(date).format('YYYY-MM-DD')
   }
 
-  const getData = async (from: Date, to: Date, index: number) => {
+  const getData = async (from: Date, to: Date, index: number, pk?: string,) => {
     Notiflix.Loading.Circle()
-    let tempUrl = ''
-    if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
-      tempUrl = `${API_URLS['kpi'].energy[selectMenu.api]}`
-    } else {
-      tempUrl = `${API_URLS['kpi'].energy[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
-    }
+    let tempUrl = `${API_URLS['kpi'].energy[selectMenu.api]}?machine=${pk}&from=${changeDate(from)}&to=${changeDate(to)}`
     const resultData = await getKPIData(tempUrl)
+    Notiflix.Loading.Remove(300)
     if (resultData) {
       const tmpList = compareArr
       tmpList[index] = typeof resultData.data === 'string' ? Number(resultData.data.split(':')[0]) * 3600 + Number(resultData.data.split(':')[1]) * 60 + Number(resultData.data.split(':')[2]) : resultData.data
@@ -73,7 +69,7 @@ const EnergyKPI = () => {
       <TopHeader title={'에너지지수(E)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
         <KPICompareBox type={type} setType={(type) => setType(type)} getData={getData} value={selectMenu}
-                       subTitleList={subTitleList[selectMenu.api]}/>
+                       subTitleList={subTitleList[selectMenu.api]} index={0}/>
         {
           compareView
             ? <>
