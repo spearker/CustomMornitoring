@@ -61,7 +61,7 @@ const pickerModalProps = {
   },
   project: {
     text: '생산계획을 선택해 주세요',
-    name: '생산계힉',
+    name: '생산계획',
   }
 }
 
