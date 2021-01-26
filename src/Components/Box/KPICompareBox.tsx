@@ -578,7 +578,7 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
               </div>
             }
             {
-              setUnit &&
+              !isNaN(data.data) && setUnit &&
               <div style={{height: 30}}>
                 {
                   <div style={{marginTop: 8}}>
@@ -610,21 +610,20 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
               }}>
                 {
                   defectiveUnit === 'percent' ?
-                    !data.data
-                      ? 0
-                      : (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
+                    (value.api === 'amount_of_on_process_material' || value.api === 'stock_cost')
                       ? !isNaN(Number(data.data)) && AddComma(Math.round(Number(data.data) * 10) / 10)
                       : (value.api === 'defective_items_reduced_rate' || value.api === 'target_attainment_rate')
-                        ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
-                        : (value.api === 'average_production_per_hour')
-                          ? data.data
-                          : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
+                      ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
+                      : (value.api === 'average_production_per_hour')
+                        ? data.data
+                        : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
                     : ''
                 }
                 {
                   defectiveUnit === 'ppm' ? data.ppm ?? 0 : ''
                 }
                 <span style={{fontSize: 40, paddingLeft: '4pt'}}>
+
                   {
                     defectiveUnit === 'ppm' && 'ppm'
                   }
