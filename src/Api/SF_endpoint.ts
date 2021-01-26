@@ -2,7 +2,7 @@ export const SF_ADDRESS = window.location.hostname
 
 export const isLocalhost = () => {
   if (SF_ADDRESS === 'localhost') {
-    return '183.102.217.178'
+    return '203.234.183.22'
   } else {
     return SF_ADDRESS
   }
