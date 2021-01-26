@@ -53,7 +53,7 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
 
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
-        const tempUrl = `${API_URLS['parts'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&type=0&limit=1`
+        const tempUrl = `${API_URLS['parts'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&type=0&limit=10`
         const resultData = await getSearchMachine(tempUrl)
         if (resultData) {
             setMachineList(resultData.info_list)
