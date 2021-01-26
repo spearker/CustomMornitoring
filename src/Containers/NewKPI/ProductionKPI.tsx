@@ -60,13 +60,16 @@ const ProductionKPIContainer = () => {
     Notiflix.Loading.Circle()
     let tempUrl = ''
     if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
-      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?material=${pk}`
-    } else if (selectMenu.api === 'average_production_per_hour') {
+      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?chit=${pk}`
+    } else if (selectMenu.api === 'average_production_per_hour' || selectMenu.api === 'facility_operational_improvement_rate') {
       tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?material=${pk}&from=${changeDate(from)}&to=${changeDate(to)}`
+    } else if (selectMenu.api === 'target_attainment_rate') {
+      tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?project=${pk}`
     } else {
       tempUrl = `${API_URLS['kpi'].production[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
     }
     const resultData = await getKPIData(tempUrl)
+    Notiflix.Loading.Remove(300)
     if (resultData) {
       const tmpList = compareArr
       tmpList[index] = typeof resultData.data === 'string' ? Number(resultData.data.split(':')[0]) * 3600 + Number(resultData.data.split(':')[1]) * 60 + Number(resultData.data.split(':')[2]) : resultData.data
