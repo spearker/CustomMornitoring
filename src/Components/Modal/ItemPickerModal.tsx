@@ -133,7 +133,11 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
               {
                 optionItems && optionItems.optionList && <RadioBox>
                     <RadioInput title={''} width={0} line={false} target={Number(optionItems.option)}
-                                onChangeEvent={(e) => setOption && setOption(e)}
+                                onChangeEvent={(e) => {
+                                  setSaveKeyword('')
+                                  setSearchName('')
+                                  setOption && setOption(e)
+                                }}
                                 contents={optionItems && optionItems.optionList}/>
                 </RadioBox>
               }
@@ -196,6 +200,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
           </div>
           <div style={{width: 900}}>
             <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+              setItemData(select)
               setIsOpen(false)
             }}>
               <div>
