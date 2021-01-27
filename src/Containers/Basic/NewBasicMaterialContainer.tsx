@@ -359,28 +359,28 @@ const NewBasicMaterialRegister = () => {
                                  onChangeEvent={(input) => setInputData(`cost`, input)}
                                  description={'원가를 입력해주세요 (단위 : 원)'}/>
               }
-              {/*{*/}
-              {/*  (inputData.material_type === 10 || inputData.material_type === 30) &&*/}
-              {/*  <InputContainer title={'세분화 공정'} width={167.84}>*/}
-              {/*      <div style={{width: 873}}>*/}
-              {/*          <ProcessPickerModal select={inputData.segment} style={{width: '100%'}}*/}
-              {/*                              onClickEvent={(e) => {*/}
-              {/*                                setInputData('segment', e)*/}
-              {/*                              }} text={'세분화 공정을 선택해주세요'}/>*/}
-              {/*      </div>*/}
-              {/*  </InputContainer>*/}
-              {/*}*/}
-              {/*{*/}
-              {/*  (inputData.material_type === 10 || inputData.material_type === 30) &&*/}
-              {/*  <InputContainer title={'거래처'} width={167.84}>*/}
-              {/*      <div style={{width: 873}}>*/}
-              {/*          <CustomerPickerModal select={inputData.supplier} style={{width: '100%'}}*/}
-              {/*                               onClickEvent={(e) => {*/}
-              {/*                                 setInputData('supplier', e)*/}
-              {/*                               }} text={'거래처를 선택해주세요'}/>*/}
-              {/*      </div>*/}
-              {/*  </InputContainer>*/}
-              {/*}*/}
+              {
+                (inputData.material_type === 10 || inputData.material_type === 30) &&
+                <InputContainer title={'세분화 공정'} width={167.84}>
+                    <div style={{width: 873}}>
+                        <ProcessPickerModal select={inputData.segment} style={{width: '100%'}}
+                                            onClickEvent={(e) => {
+                                              setInputData('segment', e)
+                                            }} text={'세분화 공정을 선택해주세요'}/>
+                    </div>
+                </InputContainer>
+              }
+              {
+                (inputData.material_type === 10 || inputData.material_type === 30) &&
+                <InputContainer title={'거래처'} width={167.84}>
+                    <div style={{width: 873}}>
+                        <CustomerPickerModal select={inputData.supplier} style={{width: '100%'}}
+                                             onClickEvent={(e) => {
+                                               setInputData('supplier', e)
+                                             }} text={'거래처를 선택해주세요'}/>
+                    </div>
+                </InputContainer>
+              }
               {isUpdate ?
                 <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
                   <TestButton onClick={() => onsubmitFormUpdate()}>
