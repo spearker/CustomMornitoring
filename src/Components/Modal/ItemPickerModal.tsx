@@ -57,6 +57,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
 
   useEffect(() => {
     setSaveKeyword('')
+    setPage({...page, current: 1})
   }, [isOpen])
 
   const getList = useCallback(async (isSearch?: boolean) => {
@@ -144,7 +145,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
             </div>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder={title === '전표' ? `검색어를 입력해주세요` : `${title}명을 입력해주세요`} style={{flex: 96}}
-                         onChange={(e) => setSearchName(e.target.value)}
+                         onChange={(e) => setSearchName(e.target.value)} value={searchName}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
