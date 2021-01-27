@@ -104,7 +104,6 @@ const ColorCalendarDropdown = ({select, onClickEvent, text, type, selectRange, z
                 </div>
               }
             </BoxWrap>
-            
         </InnerBoxWrap>
       }
     </DropBoxContainer>

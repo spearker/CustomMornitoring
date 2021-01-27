@@ -90,12 +90,25 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
   const history = useHistory()
 
   const postChitRegisterData = async () => {
+    let tmp2
+
+    if (detailMaterialData.input_materials) {
+      tmp2 = detailMaterialData.input_materials.map(input => {
+        if (input.material_type === 0) {
+          return {...input, count: input.count / unit}
+        } else {
+          return input
+        }
+      })
+    }
+
     const tempUrl = `${API_URLS['production'].add}`
     const resultData = await postProductionRegister(tempUrl, {
       ...detailMaterialData,
       pk: workHistoryData.pk,
       process_pk: workHistoryData.process_pk,
-      worker_name: selectMember.pk
+      worker_name: selectMember.pk,
+      inputMaterials: [...tmp2]
     })
 
     history.goBack()
@@ -406,7 +419,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                                              value={detailMaterialData.output_materials.count}
                                              onChange={(e) => {
                                                let tmpDetailMaterialData = detailMaterialData
-                                               
+
 
                                              }}
                                       />

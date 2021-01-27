@@ -24,7 +24,7 @@ const menuList: {
   {
     name: '재고 정확도',
     api: 'stock_accuracy_improvement_rate',
-    tip: '(재고 오류 수정한 갯수 / 오류 수정 후 재고량)가 올라갈수록 재고관리가 제대로 되고있지 않거나 재고 로스 발생될 확률 높음.'
+    tip: '(재고 오류 수정한 갯수 / 오류 수정 후 재고량)가 퍼센트가 낮을수록 재고관리가 제대로 되고있지 않거나 재고 로스 발생될 확률 높음.'
   }
 ]
 
@@ -51,15 +51,16 @@ const DuedateKPI = () => {
     return moment(date).format('YYYY-MM-DD')
   }
 
-  const getData = async (from: Date, to: Date, index: number) => {
+  const getData = async (from: Date, to: Date, index: number, pk?: string,) => {
     Notiflix.Loading.Circle()
     let tempUrl = ''
-    if (selectMenu.api === 'manufacturing_leadTime_reduced_rate') {
-      tempUrl = `${API_URLS['kpi'].delivery[selectMenu.api]}`
+    if (selectMenu.api === 'order_shipment_leadTime_reduced_rate') {
+      tempUrl = `${API_URLS['kpi'].delivery[selectMenu.api]}?contract=${pk}`
     } else {
       tempUrl = `${API_URLS['kpi'].delivery[selectMenu.api]}?from=${changeDate(from)}&to=${changeDate(to)}`
     }
     const resultData = await getKPIData(tempUrl)
+    Notiflix.Loading.Remove(300)
     if (resultData) {
       const tmpList = compareArr
       tmpList[index] = typeof resultData.data === 'string' ? Number(resultData.data.split(':')[0]) * 3600 + Number(resultData.data.split(':')[1]) * 60 + Number(resultData.data.split(':')[2]) : resultData.data
@@ -85,7 +86,7 @@ const DuedateKPI = () => {
       <TopHeader title={' 납기지수(D)'} top={5} bottom={19}/>
       <KPIMenuBox menuList={menuList} onChangeEvent={(select: Menu) => setSelectMenu(select)} value={selectMenu}>
         <KPICompareBox type={type} setType={(type) => setType(type)} getData={getData} value={selectMenu}
-                       subTitleList={subTitleList[selectMenu.api]}/>
+                       subTitleList={subTitleList[selectMenu.api]} index={0}/>
         {
           compareView
             ? <>
