@@ -25,6 +25,7 @@ interface IDetailRegister {
     machines: IMachineData []
 }
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const ProcessDetailRegisterContainer = () => {
     const history = useHistory()
 
@@ -150,7 +151,8 @@ const ProcessDetailRegisterContainer = () => {
                                                 marginBottom: 12
                                             }}>
                                                 <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360 - 28}}
-                                                           onChange={(e) => setSearchData(e.target.value)}
+                                                           value={searchData}
+                                                           onChange={(e) => {if(!e.target.value.match(regExp))setSearchData(e.target.value)}}
                                                            onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchData)}/>
                                                 <SearchButton style={{width: 32}} onClick={() => {
                                                     setSaveKeyword(searchData)

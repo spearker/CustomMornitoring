@@ -39,6 +39,7 @@ const DummyMachine = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const HistoryPickerModal = ({
                                 select,
                                 onClickEvent,
@@ -154,7 +155,7 @@ const HistoryPickerModal = ({
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="작업자 명을 입력해주세요." style={{flex: 96}} value={searchName}
                                        onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                                       onChange={(e) => setSearchName(e.target.value)}/>
+                                       onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
                             <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>

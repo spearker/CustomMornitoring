@@ -121,10 +121,6 @@ const JMRouters = () => {
         <Route exact path="/project/defective/register" component={DefectiveRegister}/>
         <Route exact path="/project/defective/register/:pk" component={DefectiveRegister}/>
 
-        <Route exact path="/project/voucher/today/list" component={TodayVoucherProduction}/>
-        <Route exact path="/project/voucher/list" component={VoucherProduction}/>
-        <Route exact path="/project/voucher/list/:pk" component={VoucherProduction}/>
-
         <Route exact path="/quality/test/request" component={QualityTestRequest}/>
         <Route exact path="/quality/test/list/worker" component={QualityTestListWorker}/>
         <Route exact path="/quality/test/complete/worker" component={QualityTestCompleteWorker}/>

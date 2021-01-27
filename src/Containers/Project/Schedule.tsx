@@ -179,9 +179,10 @@ const ScheduleContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setSearchValue('')
         getList(filter, true)
-    }, [option, searchValue, page])
+        setSearchValue('')
+        setSaveKeyword('')
+    }, [option, searchValue, page, saveKeyword])
 
     const calendarOnClick = useCallback(async (start, end) => {
         setSelectDate({start: start, end: end ? end : ''})

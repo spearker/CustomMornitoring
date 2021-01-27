@@ -9,6 +9,7 @@ import Notiflix from 'notiflix'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const PartsContainer = () => {
 
     const [list, setList] = useState<any[]>([])
@@ -116,8 +117,8 @@ const PartsContainer = () => {
 
     const AddComma = (num) => {
         let tmpNum = num.toString().split('.')
-        let regexp = /\B(?=(\d{3})+(?!\d))/g
-        return tmpNum[0].replace(regexp, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
+        let reg = /\B(?=(\d{3})+(?!\d))/g
+        return tmpNum[0].replace(reg, ',') + (tmpNum[1] ? `.${tmpNum[1]}` : '')
     }
 
     const getData = useCallback(async (pk) => {
@@ -193,9 +194,10 @@ const PartsContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setKeyword('')
         getList(true, filter)
-    }, [option, keyword, page])
+        setKeyword('')
+        setSaveKeyword('')
+    }, [option, keyword, page, saveKeyword])
 
     return (
         <div>
@@ -211,7 +213,7 @@ const PartsContainer = () => {
                 dropDownOnClick={optionChange}
                 dropDownOption={option}
                 searchValue={keyword}
-                searchBarChange={(e) => setKeyword(e)}
+                searchBarChange={(e) => {if(!e.match(regExp))setKeyword(e)}}
                 searchButtonOnClick={() => setSaveKeyword(keyword)}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 mainOnClickEvent={onClick}>

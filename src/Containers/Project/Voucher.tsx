@@ -127,9 +127,10 @@ const VoucherContainer = ({match}: Props) => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setSearchValue('')
         getList(filter, true)
-    }, [option, searchValue, page])
+        setSearchValue('')
+        setSaveKeyword('')
+    }, [option, saveKeyword, searchValue, page])
 
     const arrayDelete = () => {
         while (true) {
@@ -206,7 +207,7 @@ const VoucherContainer = ({match}: Props) => {
             setList(getVoucher)
             Notiflix.Loading.Remove()
         }
-    }, [list, page, match.params.pk, searchValue, option, saveKeyword])
+    }, [list, page, match.params.pk, searchValue, option, isFirst, saveKeyword])
 
     useEffect(() => {
         if (isFirst) {

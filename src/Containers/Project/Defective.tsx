@@ -103,9 +103,10 @@ const DefectiveContainer = () => {
 
   const optionChange = useCallback(async (filter: number) => {
     setOption(filter)
-    setSearchValue('')
     getList(filter, true)
-  }, [option, searchValue, page])
+    setSearchValue('')
+    setSaveKeyword('')
+  }, [option, searchValue, page, saveKeyword])
 
   const checkOnClick = useCallback((Data) => {
     let IndexPk = deletePk.pk.indexOf(Data.pk)

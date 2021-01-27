@@ -10,6 +10,8 @@ import Notiflix from 'notiflix'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+
 const StockListContainer = () => {
     const [list, setList] = useState<any[]>([])
     const [titleEventList, setTitleEventList] = useState<any[]>([])
@@ -158,9 +160,10 @@ const StockListContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setKeyword('')
         getList(true, filter)
-    }, [option, keyword, page])
+        setKeyword('')
+        setSaveKeyword('')
+    }, [option, keyword, page, saveKeyword])
 
 
     useEffect(() => {
@@ -182,7 +185,7 @@ const StockListContainer = () => {
                 dropDownOnClick={optionChange}
                 dropDownOption={option}
                 searchValue={keyword}
-                searchBarChange={(e) => setKeyword(e)}
+                searchBarChange={(e) => {if(!e.match(regExp))setKeyword(e)}}
                 searchButtonOnClick={() => setSaveKeyword(keyword)}
                 selectBoxChange={selectBox}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}

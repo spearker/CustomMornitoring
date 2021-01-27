@@ -321,7 +321,7 @@ const BasicMoldRegister = () => {
               <ColorInputWithText title={'금형명'} value={name} onChangeEvent={setName}
                                   placeholder={'금형명을 입력해주세요'}/>
               <ColorDropdownInput contents={indexList} title={'금형 종류'} value={type === 0 ? '' : type}
-                                  onChangeEvent={(v) => setType(v)} placeholder={'금형 종류를 선택해 주세요'}/>
+                                  onChangeEvent={(v) => setType(v)} placeholder={'금형 종류를 선택해 주세요'} valueType={'number'} />
               <DateInput title={'제조 연월'} description={''} value={date} onChangeEvent={setDate}
                          style={{width: '110%'}} inputStyle={{boxSizing: 'border-box'}}/>
               {autoCustomType() === 'seain_material_trans' ?

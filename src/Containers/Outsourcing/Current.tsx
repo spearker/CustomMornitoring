@@ -103,9 +103,10 @@ const CurrentContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setSearchValue('')
         getList(filter, true)
-    }, [option, searchValue, page])
+        setSearchValue('')
+        setSaveKeyword('')
+    }, [option, searchValue, saveKeyword, page])
 
 
     const searchChange = useCallback(async (search) => {

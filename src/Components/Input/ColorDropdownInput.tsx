@@ -13,10 +13,13 @@ interface IProps{
     title: string,
     contents: string[],
     value: string | number,
+    valueType: 'string' | 'number'
     onChangeEvent: (v: any)=>void
     placeholder?: string
+    borderStyle?: string
+    placeholderColor?: string
 }
-const ColorDropdownInput = ({ contents, title, value, onChangeEvent, placeholder }: IProps) => {
+const ColorDropdownInput = ({ contents, title, value, onChangeEvent, placeholder, valueType, borderStyle, placeholderColor }: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const ref = useOnclickOutside(() => {
@@ -33,18 +36,30 @@ const ColorDropdownInput = ({ contents, title, value, onChangeEvent, placeholder
                 <InputBox>
                     <Dot />
                     <p>{title}</p>
-                    <div ref={ref}>
+                    <div ref={ref} style={{border: borderStyle ? borderStyle : '1px solid #b3b3b3'}}>
                         <div onClick={()=>setIsOpen(!isOpen)}>
-                            <p style={{color: value === "" ? '#11131970' : '#111319'}}>{value === '' ? placeholder : contents.filter((f, i) => i === value)[0]}</p>
+                            <p style={{color: value === '' || value === undefined || value === null ? placeholderColor ? placeholderColor : '#11131970' : '#111319'}}>{value === '' || value === undefined || value === null ? placeholder : valueType === 'number' ? contents.filter((f, i) => i === value)[0] : value}</p>
                             <img src={dropdownButton} alt="arrow" style={{transform: isOpen ? "rotate(180deg)" : "rotate(0deg)"}} />
                         </div>
                         {
                             isOpen &&
-                            <DropBox>
-                                <div onClick={() => {onChangeEvent(0); setIsOpen(false);}}><p>(선택없음)</p></div>
+                            <DropBox style={{border: borderStyle ? borderStyle : '1px solid #b3b3b3'}}>
+                                <div style={{borderBottom: borderStyle ? borderStyle : '1px solid #b3b3b3'}}
+                                     onClick={() => {
+                                        if(valueType === 'number'){
+                                            onChangeEvent(0);
+                                        } else {
+                                            onChangeEvent(-1);
+                                        } 
+                                        setIsOpen(false);
+                                }}><p>(선택없음)</p></div>
                                 {
                                     contents.map((v,i) => (
-                                        v !== '(선택없음)' && <div key={i} onClick={() => {onChangeEvent(i); setIsOpen(false)}}>
+                                        v !== '(선택없음)' 
+                                        && <div key={i} 
+                                                style={{borderBottom: borderStyle ? borderStyle : '1px solid #b3b3b3'}} 
+                                                onClick={() => {onChangeEvent(i); setIsOpen(false)}}
+                                            >
                                             <p>{v}</p>
                                         </div>
                                     ))
@@ -77,7 +92,6 @@ const InputBox = Styled.div`
             position: relative;
             width: calc(100% - 133px);
             height: 28px;
-            border: solid 1px #b3b3b3;
             background-color: #f4f6fa;
             padding: 0 0 0 10px;
             cursor: pointer;
@@ -104,14 +118,12 @@ const DropBox = Styled.div`
     top: 26px;
     left: -1px;
     width: calc(100% + 2px);
-    border: 1px solid #b3b3b3;
     overflow: auto;
     &>div{
         width: 100%;
         height: 28px; 
         display: flex;
         align-items: center;
-        border-bottom: 1px solid #b3b3b3; 
         background-color: white;
         padding: 0 0 0 5px;
     }

@@ -27,6 +27,7 @@ interface Props {
 }
 
 // 검색해서 pk 를 담는 input container
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const ColorSearchContainer = ({
                                   listValue,
                                   placeholder,
@@ -131,7 +132,7 @@ const ColorSearchContainer = ({
                 <SearchInput
                     description={'키워드로 검색해주세요'}
                     value={keyword}
-                    onChangeEvent={(e) => setKeyword(e.target.value)}
+                    onChangeEvent={(e) => {if(!e.target.value.match(regExp))setKeyword(e.target.value)}}
                     onClickEvent={()=>setSaveKeyword(keyword)}/>
 
                 <form style={{width: '100%', marginTop: 20}} onSubmit={()=>setSaveKeyword(keyword)}>

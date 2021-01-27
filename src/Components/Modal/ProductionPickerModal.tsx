@@ -47,6 +47,7 @@ const DummyItem = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const ProductionPickerModal = ({
                                  select,
                                  selectRange,
@@ -205,7 +206,7 @@ const ProductionPickerModal = ({
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}}
                          value={searchName}
-                         onChange={(e) => setSearchName(e.target.value)}
+                         onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                 // onKeyDown={(e) => {
                 //   if (e.keyCode === 13) {

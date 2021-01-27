@@ -24,6 +24,7 @@ interface IProps {
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
@@ -137,7 +138,7 @@ const MoldPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
               <SearchBox placeholder="금형명을 입력해 주세요." style={{flex: 96}}
                          value={searchName}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                         onChange={(e) => setSearchName(e.target.value)}/>
+                         onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>

@@ -6,7 +6,7 @@ interface IProps{
     height: string
 }
 
-const EnrollmentBorderBox = ({height}: IProps) => {
+const EmptyPlace = ({height}: IProps) => {
 
   return (
         <Box style={{height: height}} /> 
@@ -22,4 +22,4 @@ const Box = Styled.div`
 
 
 
-export default EnrollmentBorderBox;
+export default EmptyPlace;

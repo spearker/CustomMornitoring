@@ -37,6 +37,7 @@ const DummyMachine = [
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, auth, onChangeAuth}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
@@ -145,7 +146,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                 style={{flex: 96}}
                 value={searchName}
                 onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                onChange={(e) => setSearchName(e.target.value)}/>
+                onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>

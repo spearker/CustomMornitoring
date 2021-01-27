@@ -206,9 +206,10 @@ const TodayVoucherContainer = () => {
 
     const optionChange = useCallback(async (filter: number) => {
         setOption(filter)
-        setSearchValue('')
         getList(filter, true)
-    }, [option, searchValue, page])
+        setSearchValue('')
+        setSaveKeyword('')
+    }, [option, searchValue, page, setSaveKeyword])
 
 
     const postDelete = useCallback(async () => {
