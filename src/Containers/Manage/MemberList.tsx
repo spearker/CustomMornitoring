@@ -16,6 +16,8 @@ import moment from 'moment'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+
 const MemberListContainer = () => {
 
     const [list, setList] = useState<any[]>([])
@@ -153,7 +155,7 @@ const MemberListContainer = () => {
 
     return (
         <div>
-            <OptimizedHeaderBox title={'사용자 리스트'} searchBarChange={(e) => setKeyword(e)}
+            <OptimizedHeaderBox title={'사용자 리스트'} searchBarChange={(e) => {if(!e.match(regExp))setKeyword(e)}}
                                 searchBarValue={keyword}
                                 searchButtonOnClick={() => setSaveKeyword(keyword)}
                                 titleOnClickEvent={titleEventList}/>

@@ -15,6 +15,7 @@ import PressKeyinList from '../Pages/NewKeyin/PressKeyinList'
 import PressKeyinRegister from '../Pages/NewKeyin/PressKeyinRegister'
 import LotMonitoringContainer from '../Containers/Custom/PM_Monitoring/LotMonitoringContainer'
 import NewBasicBarcode from '../Pages/Basic/NewBasicBarcode'
+import NewBasicBarcodeRegister from '../Pages/Old_Basic/NewBasicBarcodeRegister'
 // import ProcessList from '../Pages/ProcessManagement/ProcessList';
 
 const YejiRouters = () => {
@@ -40,6 +41,7 @@ const YejiRouters = () => {
 
       {/* 기준정보관리 */}
       <Route exact path="/new/basic/list/barcode" component={NewBasicBarcode}/>
+      <Route exact path="/new/basic/barcode/register" component={NewBasicBarcodeRegister}/>
 
       {/* KPI */}
       <Route exact path="/new/kpi/production" component={NewProductionKPI}/>

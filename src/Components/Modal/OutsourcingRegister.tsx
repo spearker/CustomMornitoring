@@ -21,6 +21,7 @@ interface IProps {
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
@@ -120,7 +121,7 @@ const OutsourcingPickerModal = ({select, onClickEvent, text}: IProps) => {
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="외주처 명을 입력해 주세요." value={searchName}
                                        onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                                       style={{flex: 96}} onChange={(e) => setSearchName(e.target.value)}/>
+                                       style={{flex: 96}} onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
                             <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>

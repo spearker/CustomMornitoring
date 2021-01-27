@@ -17,7 +17,7 @@ const SearchInput = ({description, value, onChangeEvent, onClickEvent}: IProps) 
 
   return (
         <form style={{position: 'relative'}}>
-            <InputBox type="text" value={value} onChange={onChangeEvent} placeholder={description}/>
+            <InputBox type="text" value={value} onChange={(e)=>onChangeEvent(e)} placeholder={description}/>
             <div onClick={onClickEvent}  style={{justifyContent:'center' , position:'absolute', top:0, right:0, zIndex:4}}>
              <IconSquareButton color="#e7e9eb" width="30px" imageSize="17px" image={icSearch} dim={false}/>
             </div>

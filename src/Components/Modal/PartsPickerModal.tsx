@@ -23,6 +23,7 @@ interface IProps {
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
@@ -135,7 +136,7 @@ const PartsPickerModal = ({select, onClickEvent, text, width}: IProps) => {
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 부품 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="부품명을 입력해 주세요." style={{flex: 96}} value={searchName}
-                                       onChange={(e) => setSearchName(e.target.value)}
+                                       onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}
                                        onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}/>
                             <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>

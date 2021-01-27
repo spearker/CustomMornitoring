@@ -24,6 +24,7 @@ interface IProps {
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth, style}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false)
@@ -127,7 +128,7 @@ const CustomerPickerModal = ({select, onClickEvent, text, buttonWid, inputWidth,
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
                             <SearchBox placeholder="거래처 명을 입력해 주세요." value={searchName}
                                        onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)} style={{flex: 96}}
-                                       onChange={(e) => setSearchName(e.target.value)}/>
+                                       onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
                             <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                                 <img src={IcSearchButton}/>
                             </SearchButton>

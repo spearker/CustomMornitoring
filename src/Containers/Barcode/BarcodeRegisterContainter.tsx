@@ -23,6 +23,7 @@ import {getParameter} from '../../Common/requestFunctions'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT, SF_ENDPOINT_RESOURCE} from '../../Api/SF_endpoint'
 import BarcodePickerModal from '../../Components/Modal/BarcodePickerModal'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 
 const indexList = ['기계 기본정보', '주변장치 기본정보', '금형 기본정보', '품목 기본정보']
@@ -59,6 +60,7 @@ const BarcodeRegisterContainer = ({match}: Props) => {
   const [inputData, setInputData] = useObjectInput('CHANGE', initialData)
   const [selectBarcode, setSelectBarcode] = useState<{ name?: string, pk?: string }>()
   const [selectMachine, setSelectMachine] = useState<{ name?: string, pk?: string }>()
+  const [articleNumber, setArticleNumber] = useState<string>('');
 
   const getBarcodeImg = useCallback(async () => {
     const tempUrl = `${API_URLS['barcode'].upload}?barcode_number=${rules.toString()}&barcode_type=${BarcodeType[0]}`
@@ -180,6 +182,13 @@ const BarcodeRegisterContainer = ({match}: Props) => {
           <CustomPickerModal select={selectMachine} onClickEvent={(e) => setSelectMachine(e)}
                              text={'세부 항목을 검색해주세요.'}
                              type={indexType[type]} noOnClick={true}/>
+
+          {
+            autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans' 
+            && <NormalInput title={'품번/Lot 번호'} value={articleNumber} width={188}
+                            onChangeEvent={setArticleNumber}
+                            description={'품번/Lot 번호를 검색 해주세요'}/>
+          }
           <InputContainer title={'바코드 번호'}>
             <BodyDiv>
               <InputWrapBox>

@@ -30,6 +30,7 @@ interface IProps {
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonWid, disable}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
@@ -150,7 +151,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="검색어를 입력해 주세요." style={{flex: 96}}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                         value={searchName} onChange={(e) => setSearchName(e.target.value)}/>
+                         value={searchName} onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>

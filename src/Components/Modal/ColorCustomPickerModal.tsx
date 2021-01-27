@@ -10,6 +10,8 @@ import {API_URLS as PRODUCTION_URLS, getProjectList} from '../../Api/mes/product
 import {API_URLS as BASIC_URLS, getBasicList} from '../../Api/mes/basic'
 import Notiflix from 'notiflix'
 import Pagination from '@material-ui/lab/Pagination'
+import EnrollmentBorderBox from '../Box/EnrollmentBorderBox'
+import WithTextBox from '../Input/WithTextBox'
 
 
 interface IProps {
@@ -18,7 +20,6 @@ interface IProps {
     text: string
     type: string
     noOnClick?: boolean
-    inputStyle?: any
 }
 
 const DummyMachine = {
@@ -59,7 +60,7 @@ const DummyMachine = {
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
-const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputStyle}: IProps) => {
+const ColorCustomPickerModal = ({select, onClickEvent, text, type, noOnClick}: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
@@ -142,27 +143,24 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
     }, [page.current])
 
     return (
-        <div style={{borderBottom: 'solid 0.5px #d3d3d3'}}>
-            <div style={{position: 'relative', zIndex: 0, width: 1040,}}>
-                <div style={{display: 'flex', paddingTop: 17, paddingBottom: 17, verticalAlign: 'top'}}>
-                    <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 210}}>{'· 세부 항목'}</p>
-                    <BoxWrap onClick={() => noOnClick ? null : setIsOpen(true)}
-                             style={{padding: 0, backgroundColor: '#f4f6fa'}}>
-                        <div style={{display: 'inline-block', height: 32, width: 832, ...inputStyle}}>
-                            {
-                                select && select.name ? <p onClick={() => noOnClick ? null : setIsOpen(true)}
-                                                           style={{marginTop: 5}}>&nbsp; {select.name}</p>
-                                    : <p onClick={() => noOnClick ? null : setIsOpen(true)}
-                                         style={{marginTop: 5, color: '#b3b3b3'}}>&nbsp; {text}</p>
-                            }
-                        </div>
-                        <div style={{display: 'inline-block', backgroundColor: POINT_COLOR, width: 32, height: 32}}>
-                            <img style={{width: 20, height: 20, marginTop: 5}} src={IcSearchButton}
-                                 onClick={() => noOnClick ? null : setIsOpen(true)}/>
-                        </div>
-                    </BoxWrap>
-                </div>
-            </div>
+        <div>
+            <WithTextBox title="세부 항목">
+                <BoxWrap onClick={() => noOnClick ? null : setIsOpen(true)} >
+                    <div style={{width: 'calc(100% - 28px)', height: '100%'}}>
+                        {
+                            select && select.name 
+                                ? <p onClick={() => noOnClick ? null : setIsOpen(true)} style={{marginTop: 2.5}}>&nbsp; {select.name}</p>
+                                : <p onClick={() => noOnClick ? null : setIsOpen(true)}
+                                    style={{color: '#11131930', marginTop: 2.5}}>&nbsp; {text}</p>
+                        }
+                    </div>
+                    <div style={{backgroundColor: POINT_COLOR, width: 28, height: '100%', textAlign: 'center'}}>
+                        <img style={{width: 20, height: 20, marginTop: 3}} src={IcSearchButton}
+                            onClick={() => noOnClick ? null : setIsOpen(true)}/>
+                    </div>
+                </BoxWrap>
+            </WithTextBox>
+            
             <Modal
                 isOpen={isOpen}
                 style={{
@@ -281,20 +279,19 @@ const CustomPickerModal = ({select, onClickEvent, text, type, noOnClick, inputSt
     )
 }
 
-const BoxWrap = Styled.button`
-    border: 1px solid #d3d3d3;
-    color: black;
-    width: 100%;
-    height: 32px;
-    background-color: white;
-    font-weight: bold;
-    text-algin: center;
-    font-size: 13px;
+const BoxWrap = Styled.div`
+    cursor: pointer;
     display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    color: black;
+    font-size: 13px;
+    border: solid 0.5px #d3d3d3;
+    background-color: #f4f6fa;
     p{
         text-align: left;
         font-size: 15px;
-        font-weight: bold;
     }
 `
 
@@ -395,5 +392,5 @@ const PaginationBox = Styled.div`
     }
 `
 
-export default CustomPickerModal
+export default ColorCustomPickerModal
 

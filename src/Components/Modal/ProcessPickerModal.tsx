@@ -27,6 +27,7 @@ interface IProps {
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, inputWidth, isAllItems}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
@@ -135,7 +136,7 @@ const ProcessPickerModal = ({select, onClickEvent, text, seg, buttonWid, style, 
               <SearchBox placeholder="공정명을 입력해 주세요." style={{flex: 96}}
                          value={searchName}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                         onChange={(e) => setSearchName(e.target.value)}/>
+                         onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>

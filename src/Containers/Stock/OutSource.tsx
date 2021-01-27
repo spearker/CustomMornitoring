@@ -9,6 +9,7 @@ import Notiflix from 'notiflix'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const OutSourceContainer = () => {
 
     const [list, setList] = useState<any[]>([])
@@ -222,7 +223,7 @@ const OutSourceContainer = () => {
                 dropDownOnClick={optionChange}
                 dropDownOption={option}
                 searchValue={keyword}
-                searchBarChange={(e) => setKeyword(e)}
+                searchBarChange={(e) => {if(!e.match(regExp))setKeyword(e)}}
                 searchButtonOnClick={() => setSaveKeyword(keyword)}
                 pageOnClickEvent={(event, i) => setPage({...page, current: i})}
                 selectBoxChange={selectBox}
