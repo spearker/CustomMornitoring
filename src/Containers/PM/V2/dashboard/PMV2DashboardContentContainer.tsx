@@ -6,7 +6,9 @@ import { YOUDONG_PRESS_CUSTOM_TYPE } from '../../../../Common/@types/youdong'
 import getYoodongDashboard from '../../../../Api/custom/getYoodongDashboard'
 import Notiflix from 'notiflix'
 import { useHistory } from 'react-router-dom'
-import PMV2DashboardHeader from '../../../../Components/PM/V2/dashboard/PMV2DashboardHeader'
+import PMV2DashboardPressInfoHeader from '../../../../Components/PM/V2/dashboard/PMV2DashboardHeader'
+import PMV2DashboardPressStandardContainer from './PMV2DashboardPressStandardContainer'
+import PMV2DashboardPressContentHeader from './PMV2DashboardPressContentHeader'
 
 interface Props {
   id: string
@@ -18,7 +20,8 @@ const Container = Styled.div(() => ({
   alignItems: 'center',
   padding: 16,
   paddingTop: 0,
-  width: '100%'
+  width: '100%',
+  height: '100%'
 }))
 
 const OptionContainer = Styled.div(() => ({
@@ -27,7 +30,14 @@ const OptionContainer = Styled.div(() => ({
 
 const ChartContainer = Styled.div(() => ({
   width: '60%',
-  margin: '0 auto'
+  height: 850,
+  margin: '0 auto',
+  backgroundColor: '#111622',
+  paddingTop: 11,
+  paddingBottom: 11,
+  paddingLeft: 24,
+  paddingRight: 24,
+  borderRadius: 6
 }))
 
 
@@ -117,7 +127,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
 
   return (
     <div>
-      <PMV2DashboardHeader title={pressData ? `${pressData.name} (${tonnageLimit})` : ''}/>
+      <PMV2DashboardPressInfoHeader title={pressData ? `${pressData.name} (${tonnageLimit}t)` : ''}/>
       <Container>
         <OptionContainer>
           <PMV2DragAndDropItem type={'text'} title={'에러코드'}
@@ -129,6 +139,8 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
                                symbol={'SPM'}/>
         </OptionContainer>
         <ChartContainer>
+          <PMV2DashboardPressContentHeader data={pressData}/>
+          <PMV2DashboardPressStandardContainer data={data?.loadton_data}/>
           <PMV2DashboardChart color={0} propData={data && data.loadton_data} overTonCheck={overTonCheck}
                               tonnage_limit={tonnageLimit ? tonnageLimit : 0}/>
         </ChartContainer>

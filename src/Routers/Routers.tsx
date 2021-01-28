@@ -13,7 +13,6 @@ import Signup from '../Pages/Welcome/Signup'
 import Complete from '../Pages/Welcome/Complete'
 
 // ./Pages/Dashboard
-import Dashboard from '../Pages/Dashboard/Index'
 
 // manage (인사관리)
 import AcceptMember from '../Pages/Old_Manage/Accept'
@@ -73,7 +72,6 @@ import OutsourcingRegister from '../Pages/Outsourcing/Register';
 import Order from '../Pages/Outsourcing/Order';
 import Contract from '../Pages/Outsourcing/Contract';
 */
-
 //import MaintenanceRegister from '../Pages/Maintenance/Register';
 import StockView from '../Pages/Stock/Old_View'
 
@@ -88,10 +86,6 @@ import MaintenanceHistory from '../Pages/Maintenance/MaintenanceHistory'
 import BasicBarcodeList from '../Pages/Old_List/Barcode'
 import BasicBarcodeRegister from '../Pages/Old_Basic/BasicBarcodeRegister'
 import StockHistory from '../Pages/Stock/Old_History'
-import Old_ProductKpi from '../Pages/Kpi/Old_ProductKpi'
-import Old_QualityKpi from '../Pages/Kpi/Old_QualityKpi'
-import Old_PriceKpi from '../Pages/Kpi/Old_PriceKpi'
-import Old_DuedateKpi from '../Pages/Kpi/Old_DuedateKpi'
 import PressStatistics from '../Pages/PM_Statistics/PressStatistics'
 import CmsMonitoring from '../Pages/PM_Monitoring/CMS'
 import FullMonitoring from '../Pages/PM_Monitoring/Full'
@@ -137,14 +131,11 @@ import Comingsoon from '../Pages/Common/ComingSoon'
 import BasicDocumentRegister from '../Pages/Old_Basic/BasicDocumentRegister'
 import BasicStandardRegister from '../Pages/Old_Basic/BasicStandardRegister'
 import BasicMachineRegister from '../Pages/Basic/BasicMachineRegister'
-
-import BasicListPage from '../Pages/Old_Basic/BasicListPage'
 import BasicFactoryRegister from '../Pages/Basic/BasicFactoryRegister'
 import BasicSubdividedRegister from '../Pages/Old_Basic/BasicSubdividedRegister'
 import BasicMoldRegister from '../Pages/Basic/BasicMoldRegister'
 import BasicDeviceRegister from '../Pages/Old_Basic/BasicDeviceRegister'
 import Old_OutsourcingCompanyRegister from '../Pages/Outsourcing/Old_OutsourcingCompanyRegister'
-import BasicMaterialRegister from '../Pages/Basic/BasicMaterialRegister'
 import ReadyTimeStatics from '../Pages/PM_Statistics/ReadyTimeStatics'
 
 import OvertonMaintenance from '../Pages/Maintenance/Overton'
@@ -160,7 +151,6 @@ import CustomErrorLogDashBoard from '../Containers/Custom/dashboard/CustomErrorL
 import CustomRotateDashboard from '../Containers/Custom/dashboard/CustomRotateDashboard'
 import CustomProductionDashBoard from '../Containers/Custom/dashboard/CustomProductionDashboard'
 import NewBasicItemList from '../Pages/Basic/NewBasicItemList'
-import NewBasicList from '../Pages/Basic/NewBasicListContainer'
 import NewBasicMaterialRegister from '../Containers/Basic/NewBasicMaterialContainer'
 import NewDashboard from '../Containers/Custom/index/CustomIndex'
 import BasicFactory from '../Pages/Basic/BasicFactory'
@@ -171,9 +161,7 @@ import BasicMaterial from '../Pages/Basic/BasicMaterial'
 import BasicMold from '../Pages/Basic/BasicMold'
 import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
-import NotFound from '../Pages/Common/NotFound'
-import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
-import PMV2PressDashboardContainer from '../Containers/PM/V2/dashboard/PMV2PressDashboardContainer'
+import PMV2DashboardPressContainer from '../Containers/PM/V2/dashboard/PMV2DashboardPressContainer'
 
 
 const Routers = () => {
@@ -428,7 +416,7 @@ const Routers = () => {
         <Route exact path="/custom/dashboard/rotate" component={CustomRotateDashboard}/>
         <Route exact path="/custom/dashboard/production" component={CustomProductionDashBoard}/>
 
-        <Route exact path="/pm/v2/dashboard/press/:id" component={PMV2PressDashboardContainer}/>
+        <Route exact path="/pm/v2/dashboard/press/:id" component={PMV2DashboardPressContainer}/>
       </Switch>
     </div>
   )

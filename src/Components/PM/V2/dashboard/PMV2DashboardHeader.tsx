@@ -1,8 +1,8 @@
 import React from 'react'
 import Styled from 'styled-components'
+import Style from 'styled-components'
 import FrequentlyLabel from '../../Frequently/FrequentlyLabel'
 import NAV_HOME from '../../../../Assets/Images/btn_nav_home.png'
-import Style from 'styled-components'
 import { useHistory } from 'react-router-dom'
 
 interface Props {
@@ -28,7 +28,7 @@ const Home = Style.div`
   }
 `
 
-const PMV2DashboardHeader: React.FunctionComponent<Props> = ({ title }) => {
+const PMV2DashboardPressInfoHeader: React.FunctionComponent<Props> = ({ title }) => {
   const history = useHistory()
 
   return (
@@ -44,4 +44,4 @@ const PMV2DashboardHeader: React.FunctionComponent<Props> = ({ title }) => {
   )
 }
 
-export default PMV2DashboardHeader
+export default PMV2DashboardPressInfoHeader
