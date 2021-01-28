@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Styled from 'styled-components'
-import FrequentlyLabel from '../../Frequently/FrequentlyLabel'
-import NAV_HOME from '../../../../Assets/Images/btn_nav_home.png'
-import Style from 'styled-components'
-import { useHistory } from 'react-router-dom'
-import PMV2DragAndDropItem from '../PMV2DragAndDropItem'
 import Chart from 'react-apexcharts'
 import { YOUDONG_LOAD_MONITOR_DATA_TYPE } from '../../../../Common/@types/youdong'
 
@@ -32,7 +27,7 @@ const ONLY_VIEW = [
 
 
 const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, overTonCheck, tonnage_limit, styles }) => {
-  const [ data, setData ] = useState<any>({
+  const [ data, setData ] = React.useState<any>({
     capacity: [],
     y: {
       min: 0,
@@ -44,47 +39,8 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
     }
   })
 
-  useEffect(() => {
-    if (propData) {
-      if (propData.capacity_point !== undefined) {
-        setData({
-          ...data,
-          capacity: propData.capacity_point,
-          x: {
-            ...data.x,
-            min: Math.floor(propData.x_axis_scope.from / 10) * 10,
-            max: Math.round(propData.x_axis_scope.to / 10) * 10
-          },
-          y: {
-            ...data.y,
-            min: propData.y_axis_scope.from,
-            max: Math.round(propData.y_axis_scope.to / 100) * 100
-          }
-        })
-      }
-    }
-  }, [ tonnage_limit ])
-
-  const [ datum, setDatum ] = useState([
-    { data: data.capacity, color: 'gray', name: '능률곡선' },
-    { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
-    { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
-    { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' },
-    { data: propData?.criteria_point, color: '#b43788', name: '제품 평균 그래프' }
-  ])
-
-  useEffect(() => {
-    setDatum([
-      { data: data.capacity, color: 'gray', name: '능률곡선' },
-      { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
-      { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
-      { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' },
-      { data: propData?.criteria_point, color: '#b43788', name: '제품 평균 그래프' }
-    ])
-  }, [ propData ])
-
   const [ options, setOptions ] = React.useState({
-    series: propData ? datum : ONLY_VIEW,
+    series: ONLY_VIEW,
     colors: [ COLOR_LIST[color] ],
     grid: {
       show: false
@@ -189,6 +145,59 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
       } ]
     }
   })
+
+  React.useEffect(() => {
+    setOptions({
+      ...options,
+      series: propData ? [
+        { data: data.capacity, color: 'gray', name: '능률곡선' },
+        { data: propData?.total_ton_point, color: '#fb9e70', name: 'Total' },
+        { data: propData?.ch1_ton_point, color: '#3ad8c5', name: 'Ch1' },
+        { data: propData?.ch2_ton_point, color: '#5145c6', name: 'Ch2' },
+        { data: propData?.criteria_point, color: '#b43788', name: '제품 평균 그래프' }
+      ] : ONLY_VIEW,
+      xaxis: {
+        ...options.xaxis,
+        min: data.x.min,
+        max: data.x.max,
+        tickAmount: propData ? (data.x.max - data.x.min) / 10 : 1
+      },
+      yaxis: {
+        ...options.yaxis,
+        tickAmount: overTonCheck() ? (data.y.max + 200) / 100 : data.y.max / 100,
+        min: data.y.min,
+        max: overTonCheck() ? data.y.max + 200 : data.y.max
+      },
+      annotations: {
+        yaxis: [ {
+          ...options.annotations.yaxis[0],
+          y: tonnage_limit
+        } ]
+      }
+    })
+  }, [ propData, data, tonnage_limit ])
+
+  React.useEffect(() => {
+    if (propData) {
+      if (propData.capacity_point !== undefined) {
+        setData({
+          ...data,
+          capacity: propData.capacity_point,
+          x: {
+            ...data.x,
+            min: Math.floor(propData.x_axis_scope.from / 10) * 10,
+            max: Math.round(propData.x_axis_scope.to / 10) * 10
+          },
+          y: {
+            ...data.y,
+            min: propData.y_axis_scope.from,
+            max: Math.round(propData.y_axis_scope.to / 100) * 100
+          }
+        })
+      }
+    }
+  }, [ tonnage_limit ])
+
 
   return (
     <Container>
