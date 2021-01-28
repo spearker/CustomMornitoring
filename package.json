@@ -62,6 +62,7 @@
     "react-textfit": "^1.1.1",
     "react-tooltip": "^4.2.11",
     "semantic-ui-react": "^0.88.2",
+    "serve": "^11.3.2",
     "styled-components": "^5.1.1",
     "typescript": "~3.8.2"
   },

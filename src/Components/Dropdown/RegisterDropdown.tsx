@@ -66,7 +66,14 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
       </BoxWrap>
       {
         isOpen ?
-          <div style={{position: 'absolute', top: 0, right: 0, textAlign: 'left', width: 917, zIndex: 3}}>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            textAlign: 'left',
+            width: 917,
+            zIndex: 3
+          }}>
             <BoxWrap onClick={() => {
               setIsOpen(true)
             }} style={{padding: 0, backgroundColor: '#f4f6fa'}}>
@@ -91,33 +98,34 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
                 }}/>
               </div>
             </BoxWrap>
-            {
-              contents.map((v, i) => {
-                if (v !== '') {
-                  return (
-                    <BoxWrap style={{borderRadius: 0, borderTop: '1px solid #ffffff50'}}>
-                      <div style={{display: 'inline-block', width: 885, paddingLeft: 5}}>
-                        <p style={{margin: 0}} key={i} onClick={() => {
-                          if (type === 'number') {
-                            onClickEvent(i)
-                          } else {
-                            onClickEvent(v)
-                          }
-                          setIsOpen(false)
-                        }}>{v}</p>
-                      </div>
-                    </BoxWrap>
-                  )
-                } else {
-                  return
-                }
+            <div style={{height: 200, overflow: 'scroll',}}>
+              {
+                contents.map((v, i) => {
+                  if (v !== '') {
+                    return (
+                      <BoxWrap style={{borderRadius: 0, borderTop: '1px solid #ffffff50'}}>
+                        <div style={{display: 'inline-block', width: 885, paddingLeft: 5}}>
+                          <p style={{margin: 0}} key={i} onClick={() => {
+                            if (type === 'number') {
+                              onClickEvent(i)
+                            } else {
+                              onClickEvent(v)
+                            }
+                            setIsOpen(false)
+                          }}>{v}</p>
+                        </div>
+                      </BoxWrap>
+                    )
+                  } else {
+                    return
+                  }
 
-              })
-            }
+                })
+              }
+            </div>
           </div>
           :
           null
-
       }
     </div>
   )

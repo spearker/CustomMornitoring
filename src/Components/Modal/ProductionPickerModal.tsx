@@ -88,8 +88,8 @@ const ProductionPickerModal = ({
     }
   ])
   const [typeFilter, setTypeFilter] = useState<number>(-1)
-  const [isFirst, setIsFirst] = useState<boolean>(false);
-  const [saveKeyword, setSaveKeyword] = useState<string>('');
+  const [isFirst, setIsFirst] = useState<boolean>(false)
+  const [saveKeyword, setSaveKeyword] = useState<string>('')
 
   useEffect(() => {
     if (selectRange) {
@@ -98,9 +98,8 @@ const ProductionPickerModal = ({
   }, [selectRange])
 
   useEffect(() => {
-    if(isFirst){
+    if (isFirst) {
       getList(true)
-      setSelectMaterial([])
     }
   }, [typeFilter, saveKeyword])
 
@@ -206,7 +205,9 @@ const ProductionPickerModal = ({
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="품목(품목명)을 입력해주세요." style={{flex: 96}}
                          value={searchName}
-                         onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}
+                         onChange={(e) => {
+                           if (!e.target.value.match(regExp)) setSearchName(e.target.value)
+                         }}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
                 // onKeyDown={(e) => {
                 //   if (e.keyCode === 13) {
