@@ -6,7 +6,7 @@ interface Props {
 }
 
 
-const PMV2PressDashboardContainer: React.FunctionComponent<Props> = ({ match }) => {
+const PMV2DashboardPressContainer: React.FunctionComponent<Props> = ({ match }) => {
   return (
     <div>
       <PMV2DashboardContentContainer id={match.params.id}/>
@@ -14,4 +14,4 @@ const PMV2PressDashboardContainer: React.FunctionComponent<Props> = ({ match }) 
   )
 }
 
-export default PMV2PressDashboardContainer
+export default PMV2DashboardPressContainer

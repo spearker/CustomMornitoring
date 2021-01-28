@@ -1,10 +1,11 @@
 import React from 'react'
 import Styled from 'styled-components'
-import Chart from 'react-apexcharts'
+import ReactApexChart from 'react-apexcharts'
 import { YOUDONG_LOAD_MONITOR_DATA_TYPE } from '../../../../Common/@types/youdong'
 
 const Container = Styled.div(() => ({
-  width: '100%'
+  width: '100%',
+  height: '100%'
 }))
 
 const COLOR_LIST = [ '#3ad8c5', '#f86b00', '#2760ff', '#fbde00', '#8c29ff' ]
@@ -50,8 +51,8 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
     },
     chart: {
       type: 'area',
-      offsetY: 30,
-      offsetX: 150,
+      // offsetY: 30,
+      // offsetX: 150,
       toolbar: {
         show: false
       }
@@ -69,8 +70,9 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
       enabled: false
     },
     stroke: {
-      curve: [ 'smooth', 'smooth', 'smooth', 'smooth', 'smooth' ],
-      dashArray: [ 0, 0, 0, 0, 10 ]
+      curve: 'straight',
+      dashArray: 0,
+      width: 1.8
     },
     markers: {
       size: 0,
@@ -86,12 +88,11 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
       max: data.x.max,
       labels: {
         show: true,
-        offsetY: 10,
         formatter: (value: number, _, index: number) => {
           return value
         },
         style: {
-          fontSize: '32px',
+          fontSize: '14px',
           color: '#30dfdf'
         }
       },
@@ -117,7 +118,7 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
           return Math.floor(value)
         },
         style: {
-          fontSize: '36px'
+          fontSize: '14px'
         }
       },
       axisBorder: {
@@ -201,7 +202,7 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
 
   return (
     <Container>
-      <Chart options={options} series={options.series} type="area" width={'90%'} height={'auto'}/>
+      <ReactApexChart options={options} series={options.series} type="area"/>
     </Container>
   )
 }
