@@ -173,7 +173,7 @@ import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
 import NotFound from '../Pages/Common/NotFound'
 import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
-import PMV2PressDashboardContainer from '../Containers/PM/V2/PMV2PressDashboardContainer'
+import PMV2PressDashboardContainer from '../Containers/PM/V2/dashboard/PMV2PressDashboardContainer'
 
 
 const Routers = () => {
