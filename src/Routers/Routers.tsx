@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react'
-import {Route, Switch} from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Route, Switch } from 'react-router-dom'
 //import {UserDataProvider, UserDataContext} from '../Context/UserData';
 // 경로 모음
 // ./Pages/Welcome
@@ -173,6 +173,7 @@ import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
 import NotFound from '../Pages/Common/NotFound'
 import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
+import PMV2PressDashboardContainer from '../Containers/PM/V2/PMV2PressDashboardContainer'
 
 
 const Routers = () => {
@@ -405,8 +406,7 @@ const Routers = () => {
 
         {/*슈퍼 어드민*/}
         <Route exact path="/super/register" component={SuperRegister}/>
-        <Route exact path="/super/list
-                " component={SuperList}/>
+        <Route exact path="/super/list" component={SuperList}/>
 
 
         {/* 안쓰는것 */}
@@ -427,6 +427,8 @@ const Routers = () => {
         <Route exact path="/custom/dashboard/errorLog" component={CustomErrorLogDashBoard}/>
         <Route exact path="/custom/dashboard/rotate" component={CustomRotateDashboard}/>
         <Route exact path="/custom/dashboard/production" component={CustomProductionDashBoard}/>
+
+        <Route exact path="/pm/v2/dashboard/press/:id" component={PMV2PressDashboardContainer}/>
       </Switch>
     </div>
   )
