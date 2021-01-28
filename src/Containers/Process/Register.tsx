@@ -11,11 +11,17 @@ import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
 import styled from 'styled-components'
 import Notiflix from 'notiflix'
-import {transferCodeToName} from '../../Common/codeTransferFunctions'
+import {transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions'
 import RadioInput from '../../Components/Input/RadioInput'
 
 const typeDummy = [
   '단발',
+  '단발(블랭킹)',
+  '단발(피어싱)',
+  '단발(포밍)',
+  '단발(프로)',
+  '단발(벤딩)',
+  '단발(드로잉)',
   '라인',
   '용접',
   '',
@@ -39,6 +45,7 @@ const ProcessRegisterContainer = ({match}: any) => {
   const [initalIndexCnt, setInitalIndexCnt] = useState<number>(1)
   const [detailMaterialData, setDetailMaterialData] = useState<IProcessDetailData[]>([])
   const [isUpdata] = useState<boolean>(match.params.pk ? true : false)
+  const [index, setIndex] = useState<number>(0)
   const [isVersion] = useState<boolean>(match.params.version === 'v2' ? true : false)
 
   const validationCheck = () => {
@@ -203,9 +210,20 @@ const ProcessRegisterContainer = ({match}: any) => {
               <td>• 타입</td>
               <td>
                 <RegisterDropdown
-                  type={'number'}
-                  onClickEvent={async (e: number) => setProcessData({...processData, type: e})}
-                  select={typeList[processData.type]}
+                  type={'string'}
+                  onClickEvent={async (e) => {
+                    if (transferStringToCode('process', e) >= 1 && transferStringToCode('process', e) < 6) {
+                      setIndex(transferStringToCode('process', e) + 6)
+                    } else if (transferStringToCode('process', e) >= 6) {
+                      setIndex(transferStringToCode('process', e) - 5)
+                    }
+
+                    setProcessData({
+                      ...processData,
+                      type: transferStringToCode('process', e)
+                    })
+                  }}
+                  select={typeList[index]}
                   contents={typeList} text={'타입을 선택해 주세요'}
                   buttonWid={30}
                   style={{width: '100%'}}
@@ -537,7 +555,7 @@ const ProcessRegisterContainer = ({match}: any) => {
               </td>
             </tr>
             {
-              processData.type !== 0 &&
+              !(index >= 0 && index < 7) &&
               <tr>
                   <td>{processData.processes && processData.processes.length !== 0 ? '' : '• 공정'}</td>
                   <td>

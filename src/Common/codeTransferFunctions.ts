@@ -93,6 +93,12 @@ export const barcodes = [
 
 export const processcodes = [
   {code: 0, name: '단발'},
+  {code: 6, name: '단발(블랭킹)'},
+  {code: 7, name: '단발(피어싱)'},
+  {code: 8, name: '단발(포밍)'},
+  {code: 9, name: '단발(프로)'},
+  {code: 10, name: '단발(벤딩)'},
+  {code: 11, name: '단발(드로잉)'},
   {code: 1, name: '라인'},
   {code: 2, name: '용접'},
   {code: 4, name: '조립'},
@@ -274,12 +280,17 @@ export const transferStringToCode = (type, value) => {
       }
     })
   } else if (type === 'material') {
-
+    let cnt = 0
     materialCodes.forEach((v: { code: number, name: string }, i) => {
       if (v.name === value) {
+        cnt++
         num = v.code
       }
     })
+
+    if (cnt === 0) {
+      num = -1
+    }
   } else if (type === 'barcode') {
     barcodes.forEach((v: { code: number, name: string }, i) => {
       if (v.name === value) {
