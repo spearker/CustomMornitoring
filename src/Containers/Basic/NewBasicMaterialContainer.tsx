@@ -172,14 +172,12 @@ const NewBasicMaterialRegister = () => {
       } else {
         res = await registerBasicItem(`${API_URLS['material'].update}`, data)
       }
-
       if (res) {
         //alert('성공적으로 등록 되었습니다')
         history.push('/basic/list/material')
       }
     }
-
-
+    
   }, [pk, optional, essential, inputData])
 
   const onsubmitForm = useCallback(async () => {
@@ -207,7 +205,6 @@ const NewBasicMaterialRegister = () => {
       } else {
         res = await registerBasicItem(`${API_URLS['material'].create}`, data)
       }
-
 
       if (res) {
         //alert('성공적으로 등록 되었습니다')
@@ -239,6 +236,37 @@ const NewBasicMaterialRegister = () => {
               <NormalInput title={'품번'} value={inputData.material_code}
                            onChangeEvent={(input) => setInputData(`material_code`, input)}
                            description={'품번을 입력해주세요'}/>
+
+              {inputData.material_type === 30 &&
+              <div>
+                  <FullAddInput title={'모델'} onChangeEvent={() => {
+                    let temp = _.cloneDeep(inputData.model)
+                    temp.push('')
+                    setInputData('model', temp)
+                  }}>
+
+                    {
+                      inputData.model && inputData.model.map((v, i) => {
+                        return (
+                          <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
+                                           onRemoveEvent={() => {
+                                             let temp = _.cloneDeep(inputData.model)
+                                             temp.splice(i, 1)
+                                             setInputData('model', temp)
+                                           }}
+                                           onChangeEvent={(input) => {
+                                             let temp = _.cloneDeep(inputData.model)
+                                             temp.splice(i, 1, input)
+                                             setInputData('model', temp)
+                                           }}
+                          />
+                        )
+                      })
+                    }
+                  </FullAddInput>
+              </div>
+              }
+
               {inputData.material_type === 0 &&
               <NormalInput title={'제조사'} value={inputData.manufacturer}
                            onChangeEvent={(input) => setInputData(`manufacturer`, input)}
