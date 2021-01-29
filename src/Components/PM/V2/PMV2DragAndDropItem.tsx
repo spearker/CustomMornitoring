@@ -2,14 +2,17 @@ import React from 'react'
 import FrequentlyLabel from '../Frequently/FrequentlyLabel'
 import Styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
+import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES } from '../../../Common/@types/pm_v2_press'
 
 interface Props {
   type: 'text' | 'guage'
+  keyName: PM_V2_PRESS_DROP_ITEM_KEY_NAMES
   title: string
   value: string | number | undefined | false
   symbol?: string
   valueFontSize?: number | string
   valueFontColor?: string
+  onClick?: (type: PM_V2_PRESS_DROP_ITEM_KEY_NAMES) => void
 }
 
 const Container = Styled.div(() => ({
@@ -92,7 +95,7 @@ const guage = {
 }
 
 
-const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, value, symbol, valueFontSize, valueFontColor }) => {
+const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, value, symbol, keyName, valueFontSize, valueFontColor, onClick }) => {
   const [ apexSetting, setApexSetting ] = React.useState(guage)
 
   React.useEffect(() => {
@@ -130,7 +133,7 @@ const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, valu
 
 
   return (
-    <Container>
+    <Container onClick={() => onClick && onClick(keyName)} style={{ cursor: onClick ? 'pointer' : 'cursor' }}>
       <div>
         <FrequentlyLabel text={title} size={20} fontFamily={'NotoSansCJKkr'}/>
       </div>
