@@ -14,9 +14,9 @@ import IC_Dropup from "../../Assets/Images/ic_dropup_gray.png"
 // 임시로 작성
 interface Props {
   contents: {
-    pk: string, // 세분화 공정 pk (String),
+    pk: string,
     state: string,
-    name: string, // 세분화 공정명 (String),
+    name: string,
     process: Process[]
   }
 }
@@ -24,18 +24,18 @@ interface Props {
 interface Process {
   ing: boolean,
   state: string,
-  process_name: string, // 공정명 (String),
-  machine_name: string, // 기계명 (String),
-  mold_name: string, // 금형명 (String),
-  input_material: Material[], // 금형 투입 품목명 (String),
-  output_material: Material[] // 금형 생산 품목명 (String)
+  process_name: string,
+  machine_name: string,
+  mold_name: string,
+  input_material: Material[],
+  output_material: Material[]
 }
 
 interface Material {
-  material_pk: string, // 품목 pk (string),
-  material_name: string, // 품목명 (string),
-  material_type: string, // 품목타입 (number),
-  count: string,// BOM (number)
+  material_pk: string,
+  material_name: string,
+  material_type: string,
+  count: string,
 }
 
 const StateBox = ({text, size}:{text:string, size:'big'|'small'}) => {
@@ -63,7 +63,7 @@ const StateBox = ({text, size}:{text:string, size:'big'|'small'}) => {
         ? <div style={{color: color(), fontSize: 18, padding: '2px 3px', marginRight: 5}}>
           {text}
         </div>
-        : <div style={{float: 'right', fontSize: 12, padding: '2px 3px'}}>
+        : <div style={{float: 'right', fontSize: 12, padding: '2px 3px'}} className={text === '생산중' ? 'textLoading' : ''}>
           <Dot style={{backgroundColor: color()}} />
           {text}
         </div>
@@ -73,7 +73,7 @@ const StateBox = ({text, size}:{text:string, size:'big'|'small'}) => {
 }
 
 const MaterialListBox = ({process, title}:{process:Process, title:string}) => {
-  const {ing, process_name, machine_name, mold_name, input_material, output_material} = process;
+  const { input_material, output_material } = process;
   const [open, setOpen] = useState<boolean>(false);
 
   const data = title === '투입자재' ? input_material : output_material;
@@ -130,7 +130,7 @@ const LotProcessCard = ({contents}: Props) => {
 
             return (
               <>
-                <ProcessBox key={`${process_name}${index}`} style={{backgroundColor: ing ? '#fff' : 'rgb(53, 59, 72)', color: ing ? '#000' : '#fff', boxShadow: ing ? 'rgba(255, 255, 255, 0.57) 0px 3px 4px 0px' : 'rgba(255, 255, 255, 0.27) 0px 3px 4px 0px', border: `1px solid ${ing ? '#fff' : 'rgb(75, 75, 75)'}`}}>
+                <ProcessBox key={`${process_name}${index}`} className={ing ? 'animation' : ''} style={{backgroundColor: ing ? '#fff' : 'rgb(53, 59, 72)', color: ing ? '#000' : '#fff', boxShadow: ing ? 'rgba(255, 255, 255, 0.57) 0px 3px 4px 0px' : 'rgba(255, 255, 255, 0.27) 0px 3px 4px 0px', border: `1px solid ${ing ? '#fff' : 'rgb(75, 75, 75)'}`}}>
                   <StateBox text={state} size={'small'} />
                   <p style={{borderBottom: `1px solid ${ing ? 'rgb(75, 75, 75)' : 'rgb(175,175,175)'}`}}>{process_name}</p>
                   <div>
@@ -150,7 +150,7 @@ const LotProcessCard = ({contents}: Props) => {
                     </div>
                   </MaterialBox>
                 </ProcessBox>
-                {process.length > 1 && index !== process.length-1 && <img alt="next" src={next} />}
+                {process.length > 1 && index !== process.length-1 && <img alt="next" src={next} className={ing ? 'animationImg' : ''} />}
               </>
             )
           })
@@ -196,7 +196,6 @@ const Box = Styled.div`
         cursor: pointer;
         width: 30px;
         margin: 0;
-        /* transition: transform 0.5s ease-in-out; */
       }
     }
   }

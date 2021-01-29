@@ -213,3 +213,49 @@ rect{
 
 /* IE 에서 Select box 화살표 제거 */
 select::-ms-expand { display: none; }
+
+
+/* lot animation */
+@-webkit-keyframes rotate {
+    from {
+        background-color: #fff;
+    }
+    to {
+        background-color: #70ff17;
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+        background-color: #fff;
+    }
+    to {
+        background-color: #70ff17;
+    }
+  }
+  .dotAnimation {
+    -webkit-animation: rotate 1s infinite;
+            animation: rotate 1s infinite;
+  }
+
+  @-webkit-keyframes twinkle {
+    from {
+        box-shadow: 0px 0px 5px white;
+    }
+    to {
+        box-shadow: 0px 0px 20px white;
+    }
+  }
+  
+  @keyframes twinkle {
+    from {
+        box-shadow: 0px 0px 5px white;
+    }
+    to {
+        box-shadow: 0px 0px 20px white;
+    }
+  }
+  .animation {
+    -webkit-animation: twinkle 1s ease alternate infinite;
+            animation: twinkle 1s ease alternate infinite;
+  }

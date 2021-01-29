@@ -150,7 +150,7 @@ export const MES_MENU_LIST = {
     // {name: '원자재 기본정보', url: '/basic/list/raw/material'},
     {name: '금형 기본정보', url: '/basic/list/mold'},
     {name: '부품 기본정보', url: '/basic/list/parts'},
-    {name: '바코드 표준 관리', url: '/basic/list/barcode'},
+    {name: '바코드 표준 관리', url: '/basic/list/barcode'}, // {name: '바코드 표준 관리', url: autoCustomType() === 'jaewoo_material_trans' ? '/new/basic/list/barcode' : '/basic/list/barcode'},
     {name: '표준 항목 관리', url: '/basic/standard/list/item'},
     {name: '표준 문서 관리', url: '/basic/standard/list/document'},
     //   { name : '부품 기본정보', url : '/comingsoon'},
@@ -228,7 +228,7 @@ export const MES_MENU_LIST = {
   ],
   barcode: [
     {name: '바코드 관리', url: '/barcode/current/list'},
-    {name: '바코드 현황', url: '/barcode/current/list'}
+    {name: '바코드 현황', url: '/barcode/current/list'} // {name: '바코드 현황', url: autoCustomType() === 'jaewoo_material_trans' ? '/new/barcode/current/list' : '/barcode/current/list'}
     // { name : '바코드 관리', url: '/comingsoon'},
     // { name : '바코드 현황', url: '/comingsoon'}
   ],
