@@ -104,7 +104,7 @@ const NewBasicMaterialRegister = () => {
         stock: data.stock,
         texture: data.texture,
         model: data.model ? data.model.toString().split(',') : [''],
-        supplier: {name: data.supplier_name, pk: data.supplier},
+        supplier: autoCustomType() === 'jb_material_trans' ? {name: data.supplier_name, pk: data.supplier} : null,
       }
       setInputData('all', form)
 
