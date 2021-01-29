@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Styled from 'styled-components'
-import {BG_COLOR_SUB, BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
-import InputContainer from '../../Containers/InputContainer';
 import useOnclickOutside from 'react-cool-onclickoutside';
-import IC_ARROW from '../../Assets/Images/ic_drop_down.png'
-import IC_ARROW_UP from '../../Assets/Images/ic_drop_up.png'
 import EnrollmentBorderBox from '../Box/EnrollmentBorderBox';
 import dropdownButton from '../../Assets/Images/ic_dropdownbutton.png'
 
@@ -18,8 +14,9 @@ interface IProps{
     placeholder?: string
     borderStyle?: string
     placeholderColor?: string
+    readonly?: boolean
 }
-const ColorDropdownInput = ({ contents, title, value, onChangeEvent, placeholder, valueType, borderStyle, placeholderColor }: IProps) => {
+const ColorDropdownInput = ({ contents, title, value, onChangeEvent, placeholder, valueType, borderStyle, placeholderColor, readonly }: IProps) => {
     //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
     const [isOpen, setIsOpen] = useState(false);
     const ref = useOnclickOutside(() => {
@@ -42,7 +39,7 @@ const ColorDropdownInput = ({ contents, title, value, onChangeEvent, placeholder
                             <img src={dropdownButton} alt="arrow" style={{transform: isOpen ? "rotate(180deg)" : "rotate(0deg)"}} />
                         </div>
                         {
-                            isOpen &&
+                            isOpen && !readonly &&
                             <DropBox style={{border: borderStyle ? borderStyle : '1px solid #b3b3b3'}}>
                                 <div style={{borderBottom: borderStyle ? borderStyle : '1px solid #b3b3b3'}}
                                      onClick={() => {

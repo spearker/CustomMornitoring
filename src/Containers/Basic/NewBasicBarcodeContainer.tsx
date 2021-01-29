@@ -1,29 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import Header from '../../Components/Text/Header'
 import 'react-dropdown/style.css'
-import SmallButtonLink from '../../Components/Button/SmallButtonLink'
-import InfoTable from '../../Components/Table/InfoTable'
-import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
+import { API_URLS, loadBasicItem, registerBasicItem } from '../../Api/mes/basic'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
-import Pagination from '@material-ui/lab/Pagination'
 import Styled from 'styled-components'
 import Notiflix from 'notiflix'
 import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
 import {useHistory} from 'react-router-dom'
 import OptimizedTable from '../../Components/Table/OptimizedTable'
-import OvertonTable from "../../Components/Table/OvertonTable";
-import { postCustomerDelete } from '../../Api/mes/customer'
-
-
-interface Props {
-    type: string
-    onClickRegister: () => void
-}
-
-const optionList = [
-    '등록순',
-]
+import LineTable from '../../Components/Table/LineTable'
+import { SF_ENDPOINT_RESOURCE } from '../../Api/SF_endpoint'
+import axios from 'axios'
+import { getToken } from '../../lib/tokenFunctions'
+import { TOKEN_NAME } from '../../Common/configset'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 Notiflix.Report.Init({
@@ -40,46 +28,46 @@ const NewBasicBarcodeContainer = () => {
     const [page, setPage] = useState<PaginationInfo>({
         current: 1,
     })
-    const [titleEventList, setTitleEventList] = useState<any[]>([])
     const [list, setList] = useState<any>([])
-    const [eventList, setEventList] = useState<any[]>([])
-    const [option, setOption] = useState(0)
     const [isFirst, setIsFirst] = useState<boolean>(false)
     const [keyword, setKeyword] = useState<string>('')
+    const [saveKeyword, setSaveKeyword] = useState<string>('')
     const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
-    // const [page, setPage] = useState<number>(0);
+
+    const [selectPk, setSelectPk] = useState<any>(null)
+    const [selectValue, setSelectValue] = useState<any>(null)
+
+    const [detailList, setDetailList] = useState<{
+        barcode_pk : string,
+        item_pk: string,
+        main_type: string,
+        detail_type: string,
+        barcode_number: string,
+        barcode_img_url: string,
+        registered: string,
+        description: string | null
+    }>({
+        barcode_pk : '',
+        item_pk: '',
+        main_type: '',
+        detail_type: '',
+        barcode_number: '',
+        barcode_img_url: '',
+        registered: '',
+        description: ''
+    })
 
     const titleEvent = [
         {
             Name: '등록하기',
             Width: 90,
-            Link: () => history.push('/basic/barcode/register'),
+            Link: () => history.push('/new/basic/barcode/register'),
         },
         {
             Name: '삭제',
             Width: 70,
             Link: () => postDelete(),
-        },
-        // {
-        //     Name: '삭제',
-        //     Link: () => null
-        // }
-    ]
-
-    useEffect(() => {
-        getList()
-        setTitleEventList(titleEvent)
-        setEventList(eventdummy)
-    }, [])
-
-    const eventdummy = [
-        {
-            Name: '삭제',
-            Width: '180px',
-            Color: 'white',
-            buttonWidth: '70px',
-            Link: (v) => onClickDelete(v.pk)
-        },
+        }
     ]
 
     /**
@@ -89,8 +77,8 @@ const NewBasicBarcodeContainer = () => {
     const getList = useCallback(async (isSearch?: boolean) => {
         Notiflix.Loading.Circle()
 
-        const tempUrl = `${API_URLS['barcode'].list}?page=${isSearch ? 1 : page.current}&keyword=${keyword}&type=${option}&limit=15`
-        const resultList = await getBasicList(tempUrl)
+        const tempUrl = `${API_URLS['barcode'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&limit=5`
+        const resultList = await loadBasicItem(tempUrl)
         if (resultList) {
             const getBasic = resultList.info_list.map((v, i) => {
 
@@ -103,36 +91,31 @@ const NewBasicBarcodeContainer = () => {
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, keyword, option, page])
+    }, [list, keyword, saveKeyword, page])
 
+    
+    useEffect(() => {
+        getList()
+    }, [page.current])
+
+    
     useEffect(() => {
         if (isFirst) {
-            getList()
+            getList(true);
         }
-    }, [page.current])
+    }, [saveKeyword])
+
     /**
      * onClickDelete()
      * 리스트 항목 삭제
      */
-    const onClickDelete = useCallback(async (id) => {
-
-        const tempUrl = `${API_URLS['barcode'].delete}`
-        const result = await deleteBasicList(tempUrl, id)
-        if (result) {
-            getList().then(() => Notiflix.Loading.Remove(300))
-        }
-
-    }, [list])
-
-    
-    
     const postDelete = useCallback(async () => {
         if (deletePk.pk.length <= 0) {
             alert('삭제하실 항목을 선택해 주세요.')
             return
         }
-        const tempUrl = `${API_URLS['barcode'].delete}`
-        const res = await postCustomerDelete(tempUrl, deletePk)
+        const tempUrl = `${API_URLS['barcode'].listDelete}`
+        const res = await registerBasicItem(tempUrl, deletePk.pk)
 
         if(res){
             arrayDelete()
@@ -140,7 +123,6 @@ const NewBasicBarcodeContainer = () => {
         }
     }, [deletePk])
     
-   
 
     const arrayDelete = () => {
         while (true) {
@@ -150,6 +132,7 @@ const NewBasicBarcodeContainer = () => {
             }
         }
     }
+
     const allCheckOnClick = useCallback((list) => {
         let mySet: Set<string> = new Set<string>()
 
@@ -188,6 +171,75 @@ const NewBasicBarcodeContainer = () => {
         }
     }, [deletePk])
 
+    const getData = useCallback(async (pk) => {
+        //TODO: 성공시
+        const tempUrl = `${API_URLS['barcode'].load}?pk=${pk}`
+        const res = await loadBasicItem(tempUrl)
+        if (res) {
+            setDetailList(res)
+        }
+    }, [detailList])
+
+    const onClick = useCallback((barcode) => {
+        if (barcode.pk === selectPk) {
+            setSelectPk(null)
+            setSelectValue(null)
+        } else {
+            setSelectPk(barcode.pk)
+            setSelectValue(barcode)
+            //TODO: api 요청
+            getData(barcode.pk)
+        }
+
+    }, [list, selectPk])
+
+    const onBarcodeDownload = useCallback(async (pk) => {
+        //TODO: 성공시
+        Notiflix.Loading.Circle();
+        axios({
+            method: 'GET',
+            headers: { Authorization: getToken(TOKEN_NAME) },
+            url: `http://61.101.55.224:8199/api/v1/barcode/imgDownload?pk=${pk}`,
+            responseType: 'blob'
+          }).then((response) => {
+            let blob = new Blob([response.data], { type: 'image/png' }),
+                downloadUrl = window.URL.createObjectURL(blob),
+                filename = "",
+                disposition = response.headers["content-disposition"];
+        
+            if (disposition && disposition.indexOf("attachment") !== -1) {
+                let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,
+                    matches = filenameRegex.exec(disposition);
+        
+                if (matches != null && matches[1]) {
+                    filename = matches[1].replace(/['"]/g, "");
+                }
+            }
+        
+            let a = document.createElement("a");
+            if (typeof a.download === "undefined") {
+                window.location.href = downloadUrl;
+            } else {
+                a.href = downloadUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+            }
+        }).catch((error) => {
+            if (error && error.response && error.response.status) {
+                if (error.response.status === 401) {
+                  Notiflix.Report.Failure('요청 실패', '유효한 로그인이 아닙니다 다시 로그인해 주세요.', '닫기', () => window.location.href = '/login')
+                } else if (error.response.status === 400) {
+                  return Notiflix.Report.Failure('요청 실패', '입력한 값이 맞는지 확인해 주세요.', '닫기')
+                } else if (error.response.status === 500) {
+                  return Notiflix.Report.Failure('요청 실패', '서버에러입니다. 관리자에게 연락바랍니다.', '닫기')
+                }
+              } else {
+                return Notiflix.Report.Failure('요청 실패', '알수 없는 에러입니다.', '닫기')
+              }
+        });
+        Notiflix.Loading.Remove()
+    }, [selectPk])
 
     return (
         <>
@@ -197,96 +249,113 @@ const NewBasicBarcodeContainer = () => {
                                         if (!e.match(regExp)) setKeyword(e)
                                     }}
                                     searchBarValue={keyword}
-                                    searchButtonOnClick={() => getList(true).then(() => Notiflix.Loading.Remove(300))}
-                                    titleOnClickEvent={titleEventList}/>
+                                    searchButtonOnClick={() => setSaveKeyword(keyword)}
+                                    titleOnClickEvent={titleEvent}/>
             </div>
             <OptimizedTable
                 widthList={LIST_INDEX['barcode'].width}
                 indexList={LIST_INDEX['barcode'].index}
                 valueList={list}
+                clickValue={selectValue}
                 allCheckOnClickEvent={allCheckOnClick}
                 checkOnClickEvent={checkOnClick}
-                // EventList={eventList}
-                mainOnClickEvent={(v) => history.push(`/basic/barcode/register?pk=${v.pk}`)}
+                mainOnClickEvent={onClick}
                 currentPage={page.current}
                 totalPage={page.total}
-                pageOnClickEvent={(event, i) => setPage({...page, current: i})}/>
+                pageOnClickEvent={(event, i) => setPage({...page, current: i})}>
+                {
+                    selectPk !== null ?
+                    <BlackBox>
+                        <ButtonBox onClick={() => {
+                            onBarcodeDownload(selectPk)
+                        }}>바코드 이미지 다운로드</ButtonBox>
+                        <LineTable title={'바코드 이미지'}>
+                            <BarcodeContainer>
+                                <BarcodeImage>
+                                    {detailList.barcode_img_url === '' && detailList.barcode_img_url === undefined ?
+                                        <p>바코드 이미지가 없습니다.</p>
+                                        :
+                                        <img src={`${SF_ENDPOINT_RESOURCE}${detailList.barcode_img_url}`}
+                                             style={{width: '100%', height: '100%'}}/>
+                                    }
+                                </BarcodeImage>
+                                <BarcodeNum>
+                                    <div>
+                                        <p>바코드 번호</p>
+                                        <p>{detailList.barcode_number}</p>
+                                    </div>
+                                </BarcodeNum>
+                            </BarcodeContainer>
+                        </LineTable>
+                    </BlackBox>
+                        :
+                        <BlackBox />
+                }
+
+
+            </OptimizedTable>
         </>
     )
 }
 
+const BarcodeContainer = Styled.div`
+    padding: 10px;
+    width: 96.3%;
+    height: 184px;
+    display: flex;
+    flex-direction: row;
+`
+
+const BarcodeImage = Styled.div`
+    display: flex;
+    width: 370px;
+    height: 182px;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    p {
+        color: #b3b3b3;
+        font-family: NotoSansCJKkr-Bold;
+    }
+`
+
+const BarcodeNum = Styled.div`
+    padding: 140px 0px 10px 10px;
+    color: white;
+    width: 600px;
+    height: 52px;
+    div {
+        font-family: NotoSansCJKkr-Bold;
+        display: flex;
+        flex-direction: row;
+        p {
+            &:first-child{
+                padding-right: 10px;
+            }
+        }
+    }
+`
+
+const BlackBox = Styled.div`
+    padding: 20px 20px 30px 20px;
+    border-radius: 6px;
+    background-color: #111319;
+    margin-top: 20px;
+`
+
+const ButtonBox = Styled.button`
+    float: right;
+    color: white;
+    border-radius: 5px;
+    background-color: #717c90;
+    border: 0;
+    font-size: 14px;
+    font-weight: bold;
+    width: 188px;
+    height: 30px;
+`
+
 export const LIST_INDEX = {
-    machine: {
-        title: '기계 기본정보',
-        width: ['220px', '220px', '220px', '220px'],
-        index: {
-            machine_name: '기계명',
-            machine_type: '기계종류',
-            manufacturer_code: '제조번호',
-            location_name: '공장명'
-        }
-    },
-    device: {
-        title: '주변장치 기본정보',
-        width: ['220px', '220px', '220px', '220px'],
-        index: {
-            device_name: '장치명',
-            device_type: '장치종류',
-            manufacturer_code: '제조번호',
-            location_name: '공장명',
-        }
-    },
-    material: {
-        title: '품목 기본정보',
-        width: ['320px', '96px', '157px', '112px', '115px'],
-        index: {
-            material_name: '품목명',
-            material_type: '품목 종류',
-            material_code: '품번',
-            location_name: '기본위치',
-            safe_stock: '안전재고'
-        }
-    },
-    mold: {
-        title: '금형 기본 정보',
-        width: ['184px', '184px', '184px', '184px', '184px'],
-        index: {
-            mold_name: '금형명',
-            mold_type: '금형 종류',
-            limit: '최대타수',
-            current: '현재타수',
-            location_name: '기본위치'
-        }
-    },
-    factory: {
-        title: '공장 기본정보',
-        width: ['180px', '450px', '80px', '120px'],
-        index: {
-            name: '공장명',
-            roadAddress: '주소',
-            postcode: '우편 번호',
-            detail: '상세 주소',
-        }
-    },
-    subdivided: {
-        title: '공장 세분화',
-        width: ['366px', '536px'],
-        index: {
-            subdivided_name: '부속 공장명',
-            factory_name: '공장명',
-        }
-    },
-    parts: {
-        title: '부품 기본정보',
-        width: ['184px', '184px', '184px', '184px', '184px'],
-        index: {
-            parts_name: '부품명',
-            parts_type_name: '부품 종류 명',
-            location_name: '공장명',
-            parts_cost: '부품원가',
-            parts_stock: '재고'
-        }
-    },
     barcode: {
         title: '바코드 표준',
         width: ['142px', '400px', '320px', '192px'],

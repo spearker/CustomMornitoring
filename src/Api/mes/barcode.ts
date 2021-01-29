@@ -57,9 +57,13 @@ export const API_URLS = {
         list: `/v1/barcode/list`,
         delete: `/v1/barcode/delete`,
         imgDownload: `/v1/imgDownload`,
+        barcodeDownload: `/v1/barcode/imgDownload`,
         previewImg: `/v1/previewImg`,
         detailInfo: `/v1/barcode/detailInfo`,
         getBarcodeInfo: `/v1/barcode/getBarcodeInfo`,
         upload: `/v1/file/barcode/upload`,
     },
+    lot: {
+        list: `/v1/stock/lot/search`
+    }
 }
