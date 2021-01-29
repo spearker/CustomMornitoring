@@ -137,13 +137,12 @@ const NewBasicMaterialRegister = () => {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
         return false
       }
+    } else if (inputData.material_type === 30) {
+      if (inputData.model.length === 0 || inputData.model[0].trim() === '') {
+        Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
+        return false
+      }
     }
-    // else if (inputData.material_type === 30) {
-    //   if (inputData.model.length === 0 || inputData.model[0].trim() === '') {
-    //     Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
-    //     return false
-    //   }
-    // }
     return true
   }
 
@@ -163,7 +162,7 @@ const NewBasicMaterialRegister = () => {
         material_spec_H: inputData.material_spec_H,
         material_spec_D: inputData.material_spec_D,
         texture: inputData.texture,
-        model: inputData.model.filter(v => v !== '')[0].trim() === '' ? null : inputData.model.filter(v => v !== ''),
+        model: inputData.model[0].trim() === '' ? null : inputData.model,
         supplier: autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined,
       }
       let res
@@ -172,12 +171,14 @@ const NewBasicMaterialRegister = () => {
       } else {
         res = await registerBasicItem(`${API_URLS['material'].update}`, data)
       }
+
       if (res) {
         //alert('성공적으로 등록 되었습니다')
         history.push('/basic/list/material')
       }
     }
-    
+
+
   }, [pk, optional, essential, inputData])
 
   const onsubmitForm = useCallback(async () => {
@@ -205,6 +206,7 @@ const NewBasicMaterialRegister = () => {
       } else {
         res = await registerBasicItem(`${API_URLS['material'].create}`, data)
       }
+
 
       if (res) {
         //alert('성공적으로 등록 되었습니다')
@@ -236,7 +238,6 @@ const NewBasicMaterialRegister = () => {
               <NormalInput title={'품번'} value={inputData.material_code}
                            onChangeEvent={(input) => setInputData(`material_code`, input)}
                            description={'품번을 입력해주세요'}/>
-
               {inputData.material_type === 30 &&
               <div>
                   <FullAddInput title={'모델'} onChangeEvent={() => {
@@ -266,7 +267,6 @@ const NewBasicMaterialRegister = () => {
                   </FullAddInput>
               </div>
               }
-
               {inputData.material_type === 0 &&
               <NormalInput title={'제조사'} value={inputData.manufacturer}
                            onChangeEvent={(input) => setInputData(`manufacturer`, input)}
@@ -338,35 +338,6 @@ const NewBasicMaterialRegister = () => {
               <NormalNumberInput title={'원가'} value={inputData.cost === 0 ? undefined : inputData.cost}
                                  onChangeEvent={(input) => setInputData(`cost`, input)}
                                  description={'원가를 입력해주세요 (단위 : 원)'}/>
-              }
-              {inputData.material_type === 30 &&
-              <div>
-                  <FullAddInput title={'모델'} onChangeEvent={() => {
-                    let temp = _.cloneDeep(inputData.model)
-                    temp.push('')
-                    setInputData('model', temp)
-                  }}>
-
-                    {
-                      inputData.model && inputData.model.map((v, i) => {
-                        return (
-                          <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
-                                           onRemoveEvent={() => {
-                                             let temp = _.cloneDeep(inputData.model)
-                                             temp.splice(i, 1)
-                                             setInputData('model', temp)
-                                           }}
-                                           onChangeEvent={(input) => {
-                                             let temp = _.cloneDeep(inputData.model)
-                                             temp.splice(i, 1, input)
-                                             setInputData('model', temp)
-                                           }}
-                          />
-                        )
-                      })
-                    }
-                  </FullAddInput>
-              </div>
               }
               {/*{*/}
               {/*  (inputData.material_type === 10 || inputData.material_type === 30) &&*/}
