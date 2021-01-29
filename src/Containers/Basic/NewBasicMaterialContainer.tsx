@@ -61,8 +61,8 @@ const NewBasicMaterialRegister = () => {
     material_spec_H: null,
     material_spec_D: null,
     texture: null,
-    model: [ '' ],
-    supplier: null
+    model: [''],
+    supplier: null,
   })
 
   useEffect(() => {
@@ -78,7 +78,12 @@ const NewBasicMaterialRegister = () => {
 
   const getData = useCallback(async () => {
 
-    const tempUrl = `${API_URLS['material'].load}?pk=${getParameter('pk')}`
+    let tempUrl
+    if (autoCustomType() === 'jb_material_trans') {
+      tempUrl = `${API_URLS['material'].jb_load}?pk=${getParameter('pk')}`
+    } else {
+      tempUrl = `${API_URLS['material'].load}?pk=${getParameter('pk')}`
+    }
     const res = await getBasicList(tempUrl)
 
     if (res) {
@@ -98,71 +103,74 @@ const NewBasicMaterialRegister = () => {
         material_spec: data.material_spec,
         stock: data.stock,
         texture: data.texture,
-        model: data.model ? data.model.toString().split(',') : [ '' ],
-        supplier: data.supplier
+        model: data.model ? data.model.toString().split(',') : [''],
+        supplier: autoCustomType() === 'jb_material_trans' ? {name: data.supplier_name, pk: data.supplier} : null,
       }
       setInputData('all', form)
 
     }
   }, [ pk, optional, essential, inputData ])
 
-
-  const onsubmitFormUpdate = useCallback(async () => {
-    if (!inputData.material_name || inputData.material_name.trim() === '') {
+  const validate = () => {
+    if (inputData.material_name !== undefined && inputData.material_name.trim() === '') {
       Notiflix.Notify.Failure('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (inputData.location && !inputData.location.pk && inputData.location.pk === '') {
+      return false
+    } else if (inputData.material_code !== undefined && inputData.material_code.trim() === '') {
+      Notiflix.Notify.Failure('품목 번호는 필수 항목입니다. 반드시 입력해주세요.')
+      return false
+    } else if (!inputData.location || !inputData.location.pk) {
       Notiflix.Notify.Failure('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
-      return
-    } else if (inputData.safe_stock === '') {
+      return false
+    } else if (inputData.safe_stock === undefined || inputData.safe_stock === '') {
       Notiflix.Notify.Failure('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
-      return
+      return false
     }
 
     if (inputData.material_type === 0) {
-      if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
+      if ((inputData.manufacturer && inputData.manufacturer.trim() === '') || inputData.manufacturer === null) {
         Notiflix.Notify.Failure('제조사는 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      } else if (inputData.cost === '') {
+        return false
+      } else if (inputData.cost === undefined || inputData.cost === '') {
         Notiflix.Notify.Failure('원가는 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      } else if (inputData.texture !== null && (inputData.texture).trim() === '' || inputData.texture === null) {
+        return false
+      } else if ((inputData.texture && inputData.texture.trim() === '') || !inputData.texture) {
         Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
-        return
+        return false
       }
     } else if (inputData.material_type === 30) {
-      if (inputData.model.length !== 0) {
-        if (inputData.model[0] && inputData.model[0].trim() === '') {
-          Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
-          return
-        }
-      } else {
+      if (inputData.model.length === 0 || inputData.model[0].trim() === '') {
         Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
-        return
+        return false
       }
     }
+    return true
+  }
 
-
-    const data = {
-      pk: getParameter('pk'),
-      material_name: inputData.material_name,
-      material_type: inputData.material_type,
-      material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
-      manufacturer: inputData.manufacturer,
-      safe_stock: inputData.safe_stock,
-      cost: inputData.cost,
-      location: inputData.location.pk,
-      info_list: inputData.info_list,
-      material_spec_W: inputData.material_spec_W,
-      material_spec_H: inputData.material_spec_H,
-      material_spec_D: inputData.material_spec_D,
-      texture: inputData.texture,
-      model: inputData.model[0].trim() === '' ? null : inputData.model
-      // supplier: inputData.supplier
-    }
-    const tempUrl = `${API_URLS['material'].update}`
-    const res = await registerBasicItem(tempUrl, data)
-
+  const onsubmitFormUpdate = useCallback(async () => {
+    if (validate()) {
+      const data = {
+        pk: getParameter('pk'),
+        material_name: inputData.material_name,
+        material_type: inputData.material_type,
+        material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
+        manufacturer: inputData.manufacturer,
+        safe_stock: inputData.safe_stock,
+        cost: inputData.cost,
+        location: inputData.location.pk,
+        info_list: inputData.info_list,
+        material_spec_W: inputData.material_spec_W,
+        material_spec_H: inputData.material_spec_H,
+        material_spec_D: inputData.material_spec_D,
+        texture: inputData.texture,
+        model: inputData.model[0].trim() === '' ? null : inputData.model,
+        supplier: autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined,
+      }
+      let res
+      if (autoCustomType() === 'jb_material_trans') {
+        res = await registerBasicItem(`${API_URLS['material'].jb_update}`, data)
+      } else {
+        res = await registerBasicItem(`${API_URLS['material'].update}`, data)
+      }
     if (res) {
       //alert('성공적으로 등록 되었습니다')
       history.push('/basic/list/material')
@@ -172,62 +180,35 @@ const NewBasicMaterialRegister = () => {
   }, [ pk, optional, essential, inputData ])
 
   const onsubmitForm = useCallback(async () => {
-
-    if (inputData.material_name.trim() === '') {
-      Notiflix.Notify.Failure('품목 이름는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (inputData.material_code.trim() === '') {
-      Notiflix.Notify.Failure('품목 번호는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    } else if (!inputData.location || !inputData.location.pk) {
-      Notiflix.Notify.Failure('기본 위치는 필수 항목입니다. 반드시 선택해주세요.')
-      return
-    } else if (inputData.safe_stock === '') {
-      Notiflix.Notify.Failure('안전재고는 필수 항목입니다. 반드시 입력해주세요.')
-      return
-    }
-
-    if (inputData.material_type === 0) {
-      if ((inputData.manufacturer).trim() === '' || inputData.manufacturer === null) {
-        Notiflix.Notify.Failure('제조사는 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      } else if (inputData.cost === '') {
-        Notiflix.Notify.Failure('원가는 필수 항목입니다. 반드시 입력해주세요.')
-        return
-      } else if (inputData.texture !== null && (inputData.texture).trim() === '' || inputData.texture === null) {
-        Notiflix.Notify.Failure('재질은 필수 항목입니다. 반드시 입력해주세요.')
-        return
+    if (validate()) {
+      const data = {
+        material_name: inputData.material_name,
+        material_type: inputData.material_type,
+        material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
+        manufacturer: inputData.manufacturer,
+        safe_stock: inputData.safe_stock,
+        cost: inputData.cost,
+        location: inputData.location.pk,
+        info_list: inputData.info_list,
+        material_spec_W: inputData.material_spec_W,
+        material_spec_H: inputData.material_spec_H,
+        material_spec_D: inputData.material_spec_D,
+        texture: inputData.texture,
+        model: inputData.model[0].trim() === '' ? null : inputData.model,
+        supplier: autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined,
       }
-    } else if (inputData.material_type === 30) {
-      if (inputData.model.length === 0 || inputData.model[0].trim() === '') {
-        Notiflix.Notify.Failure('완제품의 모델은 필수 항목입니다. 반드시 입력해주세요.')
-        return
+
+      let res
+      if (autoCustomType() === 'jb_material_trans') {
+        res = await registerBasicItem(`${API_URLS['material'].jb_create}`, data)
+      } else {
+        res = await registerBasicItem(`${API_URLS['material'].create}`, data)
       }
-    }
 
-
-    const data = {
-      material_name: inputData.material_name,
-      material_type: inputData.material_type,
-      material_code: inputData.material_code.trim() === '' ? null : inputData.material_code.trim(),
-      manufacturer: inputData.manufacturer,
-      safe_stock: inputData.safe_stock,
-      cost: inputData.cost,
-      location: inputData.location.pk,
-      info_list: inputData.info_list,
-      material_spec_W: inputData.material_spec_W,
-      material_spec_H: inputData.material_spec_H,
-      material_spec_D: inputData.material_spec_D,
-      texture: inputData.texture,
-      model: inputData.model[0].trim() === '' ? null : inputData.model
-      // supplier: inputData.supplier,
-    }
-
-    const res = await registerBasicItem(`${API_URLS['material'].create}`, data)
-
-    if (res) {
-      //alert('성공적으로 등록 되었습니다')
-      history.push('/basic/list/material')
+      if (res) {
+        //alert('성공적으로 등록 되었습니다')
+        history.push('/basic/list/material')
+      }
     }
 
   }, [ pk, optional, essential, inputData, document ])
@@ -357,15 +338,26 @@ const NewBasicMaterialRegister = () => {
               }
               {/*{*/}
               {/*  (inputData.material_type === 10 || inputData.material_type === 30) &&*/}
-              {/*  <InputContainer title={'거래처'} width={167.84}>*/}
+              {/*  <InputContainer title={'세분화 공정'} width={167.84}>*/}
               {/*      <div style={{width: 873}}>*/}
-              {/*          <CustomerPickerModal select={inputData.supplier} style={{width: '100%'}}*/}
-              {/*                               onClickEvent={(e) => {*/}
-              {/*                                 setInputData('supplier', e)*/}
-              {/*                               }} text={'거래처를 선택해주세요'}/>*/}
+              {/*          <ProcessPickerModal select={inputData.segment} style={{width: '100%'}}*/}
+              {/*                              onClickEvent={(e) => {*/}
+              {/*                                setInputData('segment', e)*/}
+              {/*                              }} text={'세분화 공정을 선택해주세요'}/>*/}
               {/*      </div>*/}
               {/*  </InputContainer>*/}
               {/*}*/}
+              {
+                autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) &&
+                <InputContainer title={'거래처'} width={167.84}>
+                    <div style={{width: 873}}>
+                        <CustomerPickerModal select={inputData.supplier} style={{width: '100%'}}
+                                             onClickEvent={(e) => {
+                                               setInputData('supplier', e)
+                                             }} text={'거래처를 선택해주세요'}/>
+                    </div>
+                </InputContainer>
+              }
               {isUpdate ?
                 <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'center' }}>
                   <TestButton onClick={() => onsubmitFormUpdate()}>
