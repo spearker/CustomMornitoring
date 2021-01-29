@@ -136,8 +136,11 @@ export const API_URLS = {
     delete: `/v1/material/delete`,
     create: `/v1/material/register`,
     update: `/v1/material/update`,
-    list: `/v1/material/list`,
     load: `/v1/material/load`,
+    jb_create: `/v1/material/jb/register`,
+    jb_update: `/v1/material/jb/update`,
+    jb_load: `/v1/material/jb/load`,
+    list: `/v1/material/list`,
     filterSearch: `/v1/material/search/filter`
   },
   mold: {
@@ -206,11 +209,11 @@ export const API_URLS = {
     history: '/v1/format/history/list'
   },
   keyin: {
-      create: `/v1/keyin/register/press`,
-      load: `/v1/keyin/load/press`,
-      update: `/v1/keyin/update/press`,
-      list: `/v1/keyin/list/press`,
-      delete: `/v1/keyin/delete/press`,
-      historySearch: `/v1/keyin/history/search`
+    create: `/v1/keyin/register/press`,
+    load: `/v1/keyin/load/press`,
+    update: `/v1/keyin/update/press`,
+    list: `/v1/keyin/list/press`,
+    delete: `/v1/keyin/delete/press`,
+    historySearch: `/v1/keyin/history/search`
   }
 }
