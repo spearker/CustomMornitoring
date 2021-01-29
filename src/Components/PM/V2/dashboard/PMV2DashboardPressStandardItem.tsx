@@ -6,6 +6,7 @@ interface Props {
   title: string
   value: string | number
   symbol: string
+  color: string
 }
 
 const Container = Styled.div<any>(() => ({
@@ -26,17 +27,17 @@ const SymbolContainer = Styled.div<any>(() => ({
   marginLeft: 8
 }))
 
-const PMV2DashboardPressStandardItem: React.FunctionComponent<Props> = ({ title, value, symbol }) => {
+const PMV2DashboardPressStandardItem: React.FunctionComponent<Props> = ({ title, value, symbol, color }) => {
   return (
     <Container>
       <TitleContainer>
-        <FrequentlyLabel text={title} size={16}/>
+        <FrequentlyLabel text={title} size={16} color={color}/>
       </TitleContainer>
       <ValueContainer>
-        <FrequentlyLabel text={value} size={40} textAlign={'right'} weight={'bold'}/>
+        <FrequentlyLabel text={value} size={40} textAlign={'right'} weight={'bold'} color={color}/>
       </ValueContainer>
       <SymbolContainer>
-        <FrequentlyLabel text={symbol} size={20}/>
+        <FrequentlyLabel text={symbol} size={20} color={color}/>
       </SymbolContainer>
     </Container>
   )
