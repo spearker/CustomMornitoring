@@ -1,23 +1,23 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
+import { BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME } from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
 import RegisterButton from '../../Components/Button/RegisterButton'
-import {getToken} from '../../Common/tokenFunctions'
+import { getToken } from '../../Common/tokenFunctions'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
 import DropdownInput from '../../Components/Input/DropdownInput'
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
-import {getMaterialTypeList, transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions'
+import { getParameter, getRequest, postRequest } from '../../Common/requestFunctions'
+import { getMaterialTypeList, transferCodeToName, transferStringToCode } from '../../Common/codeTransferFunctions'
 import ListHeader from '../../Components/Text/ListHeader'
 import BasicSearchContainer from '../Old_Basic/BasicSearchContainer'
-import {JsonStringifyList} from '../../Functions/JsonStringifyList'
+import { JsonStringifyList } from '../../Functions/JsonStringifyList'
 import useObjectInput from '../../Functions/UseInput'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
-import {useHistory} from 'react-router-dom'
-import {SF_ENDPOINT} from '../../Api/SF_endpoint'
+import { useHistory } from 'react-router-dom'
+import { SF_ENDPOINT } from '../../Api/SF_endpoint'
 import RadioInput from '../../Components/Input/RadioInput'
 import GrayRegisterButton from '../../Components/Button/GrayRegisterButton'
 import FactoryPickerModal from '../../Components/Modal/FactoryPickerModal'
@@ -28,7 +28,7 @@ import ModelRulesInput from '../../Components/Input/ModelRulesInput'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import Notiflix from 'notiflix'
 import * as _ from 'lodash'
-import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
+import { API_URLS, getBasicList, registerBasicItem } from '../../Api/mes/basic'
 import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
 import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
@@ -37,17 +37,17 @@ import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
 const NewBasicMaterialRegister = () => {
   const history = useHistory()
-  const [document, setDocument] = useState<any>({id: '', value: '(선택)'})
-  const [type, setType] = useState<number>(0)
-  const [essential, setEssential] = useState<any[]>([])
-  const [optional, setOptional] = useState<any[]>([])
+  const [ document, setDocument ] = useState<any>({ id: '', value: '(선택)' })
+  const [ type, setType ] = useState<number>(0)
+  const [ essential, setEssential ] = useState<any[]>([])
+  const [ optional, setOptional ] = useState<any[]>([])
 
-  const [isUpdate, setIsUpdate] = useState<boolean>(false)
-  const [isDetail, setIsDetail] = useState<boolean>(false)
-  const [pk, setPk] = useState<string>('')
+  const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
+  const [ isDetail, setIsDetail ] = useState<boolean>(false)
+  const [ pk, setPk ] = useState<string>('')
   const indexList = getMaterialTypeList('kor')
 
-  const [inputData, setInputData] = useObjectInput('CHANGE', {
+  const [ inputData, setInputData ] = useObjectInput('CHANGE', {
     pk: '',
     material_name: '',
     material_type: 0,
@@ -55,7 +55,7 @@ const NewBasicMaterialRegister = () => {
     manufacturer: null,
     safe_stock: undefined,
     cost: undefined,
-    location: {factory_name: '', pk: ''},
+    location: { factory_name: '', pk: '' },
     info_list: null,
     material_spec_W: null,
     material_spec_H: null,
@@ -93,7 +93,7 @@ const NewBasicMaterialRegister = () => {
         material_name: data.material_name,
         material_type: data.material_type,
         material_code: data.material_code,
-        location: {pk: data.location_pk, name: data.location_name},
+        location: { pk: data.location_pk, name: data.location_name },
         manufacturer: data.manufacturer,
         material_spec_W: data.material_spec_W,
         material_spec_H: data.material_spec_H,
@@ -109,7 +109,7 @@ const NewBasicMaterialRegister = () => {
       setInputData('all', form)
 
     }
-  }, [pk, optional, essential, inputData])
+  }, [ pk, optional, essential, inputData ])
 
   const validate = () => {
     if (inputData.material_name !== undefined && inputData.material_name.trim() === '') {
@@ -171,15 +171,13 @@ const NewBasicMaterialRegister = () => {
       } else {
         res = await registerBasicItem(`${API_URLS['material'].update}`, data)
       }
-
-      if (res) {
-        //alert('성공적으로 등록 되었습니다')
-        history.push('/basic/list/material')
-      }
+    if (res) {
+      //alert('성공적으로 등록 되었습니다')
+      history.push('/basic/list/material')
     }
 
 
-  }, [pk, optional, essential, inputData])
+  }, [ pk, optional, essential, inputData ])
 
   const onsubmitForm = useCallback(async () => {
     if (validate()) {
@@ -207,14 +205,13 @@ const NewBasicMaterialRegister = () => {
         res = await registerBasicItem(`${API_URLS['material'].create}`, data)
       }
 
-
       if (res) {
         //alert('성공적으로 등록 되었습니다')
         history.push('/basic/list/material')
       }
     }
 
-  }, [pk, optional, essential, inputData, document])
+  }, [ pk, optional, essential, inputData, document ])
 
 
   return (
@@ -228,9 +225,9 @@ const NewBasicMaterialRegister = () => {
               <ListHeader title="필수 항목"/>
               <RadioInput title={'품목 종류'} target={inputData.material_type}
                           onChangeEvent={(e) => setInputData('material_type', e)}
-                          contents={[{value: 0, title: '원자재'}, {value: 10, title: '반제품'}, {
+                          contents={[ { value: 0, title: '원자재' }, { value: 10, title: '반제품' }, {
                             value: 1, title: '부자재'
-                          }, {value: 30, title: '완제품'}]}/>
+                          }, { value: 30, title: '완제품' } ]}/>
 
               <NormalInput title={'품목(품목명)'} value={inputData.material_name}
                            onChangeEvent={(input) => setInputData(`material_name`, input)}
@@ -240,31 +237,31 @@ const NewBasicMaterialRegister = () => {
                            description={'품번을 입력해주세요'}/>
               {inputData.material_type === 30 &&
               <div>
-                  <FullAddInput title={'모델'} onChangeEvent={() => {
-                    let temp = _.cloneDeep(inputData.model)
-                    temp.push('')
-                    setInputData('model', temp)
-                  }}>
+                <FullAddInput title={'모델'} onChangeEvent={() => {
+                  let temp = _.cloneDeep(inputData.model)
+                  temp.push('')
+                  setInputData('model', temp)
+                }}>
 
-                    {
-                      inputData.model && inputData.model.map((v, i) => {
-                        return (
-                          <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
-                                           onRemoveEvent={() => {
-                                             let temp = _.cloneDeep(inputData.model)
-                                             temp.splice(i, 1)
-                                             setInputData('model', temp)
-                                           }}
-                                           onChangeEvent={(input) => {
-                                             let temp = _.cloneDeep(inputData.model)
-                                             temp.splice(i, 1, input)
-                                             setInputData('model', temp)
-                                           }}
-                          />
-                        )
-                      })
-                    }
-                  </FullAddInput>
+                  {
+                    inputData.model && inputData.model.map((v, i) => {
+                      return (
+                        <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
+                                         onRemoveEvent={() => {
+                                           let temp = _.cloneDeep(inputData.model)
+                                           temp.splice(i, 1)
+                                           setInputData('model', temp)
+                                         }}
+                                         onChangeEvent={(input) => {
+                                           let temp = _.cloneDeep(inputData.model)
+                                           temp.splice(i, 1, input)
+                                           setInputData('model', temp)
+                                         }}
+                        />
+                      )
+                    })
+                  }
+                </FullAddInput>
               </div>
               }
               {inputData.material_type === 0 &&
@@ -297,41 +294,41 @@ const NewBasicMaterialRegister = () => {
               <ListHeader title="선택 항목"/>
               {inputData.material_type !== 0 && autoCustomType() === 'jaewoo_material_trans' &&
               <div>
-                  <NormalNumberInput title={'폭 사이즈'} value={inputData.material_spec_W}
-                                     onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
-                                     description={'폭 사이즈를 입력해주세요 (단위 : mm)'}/>
-                  <NormalNumberInput title={'피치 사이즈'} value={inputData.material_spec_H}
-                                     onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
-                                     description={'피치 사이즈를 입력해주세요 (단위 : mm)'}/>
-                  <NormalNumberInput title={'T 사이즈'} value={inputData.material_spec_D}
-                                     onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
-                                     description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalNumberInput title={'폭 사이즈'} value={inputData.material_spec_W}
+                                   onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
+                                   description={'폭 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalNumberInput title={'피치 사이즈'} value={inputData.material_spec_H}
+                                   onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
+                                   description={'피치 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalNumberInput title={'T 사이즈'} value={inputData.material_spec_D}
+                                   onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
+                                   description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
               </div>
               }
               {inputData.material_type !== 0 && autoCustomType() === 'seain_material_trans' &&
               <div>
-                  <NormalInput title={'외경 사이즈'} value={inputData.material_spec_W}
-                               onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
-                               description={'외경 사이즈를 입력해주세요 (단위 : mm)'}/>
-                  <NormalInput title={'내경 사이즈'} value={inputData.material_spec_H}
-                               onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
-                               description={'내경 사이즈를 입력해주세요 (단위 : mm)'}/>
-                  <NormalInput title={'T 사이즈'} value={inputData.material_spec_D}
-                               onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
-                               description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalInput title={'외경 사이즈'} value={inputData.material_spec_W}
+                             onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
+                             description={'외경 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalInput title={'내경 사이즈'} value={inputData.material_spec_H}
+                             onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
+                             description={'내경 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalInput title={'T 사이즈'} value={inputData.material_spec_D}
+                             onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
+                             description={'T 사이즈를 입력해주세요 (단위 : mm)'}/>
               </div>
               }
               {inputData.material_type !== 0 && autoCustomType() !== 'jaewoo_material_trans' && autoCustomType() !== 'seain_material_trans' &&
               <div>
-                  <NormalNumberInput title={'가로 사이즈'} value={inputData.material_spec_W}
-                                     onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
-                                     description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
-                  <NormalNumberInput title={'세로 사이즈'} value={inputData.material_spec_H}
-                                     onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
-                                     description={'세로 사이즈를 입력해주세요 (단위 : mm)'}/>
-                  <NormalNumberInput title={'높이 사이즈'} value={inputData.material_spec_D}
-                                     onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
-                                     description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalNumberInput title={'가로 사이즈'} value={inputData.material_spec_W}
+                                   onChangeEvent={(input) => setInputData(`material_spec_W`, input)}
+                                   description={'가로 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalNumberInput title={'세로 사이즈'} value={inputData.material_spec_H}
+                                   onChangeEvent={(input) => setInputData(`material_spec_H`, input)}
+                                   description={'세로 사이즈를 입력해주세요 (단위 : mm)'}/>
+                <NormalNumberInput title={'높이 사이즈'} value={inputData.material_spec_D}
+                                   onChangeEvent={(input) => setInputData(`material_spec_D`, input)}
+                                   description={'높이 사이즈를 입력해주세요 (단위 : mm)'}/>
               </div>
               }
               {inputData.material_type !== 0 && inputData.material_type !== 30 &&
@@ -362,24 +359,24 @@ const NewBasicMaterialRegister = () => {
                 </InputContainer>
               }
               {isUpdate ?
-                <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
+                <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'center' }}>
                   <TestButton onClick={() => onsubmitFormUpdate()}>
                     <div>
-                      <p style={{fontSize: 18}}>수정하기</p>
+                      <p style={{ fontSize: 18 }}>수정하기</p>
                     </div>
                   </TestButton>
 
                   <ButtonWrap onClick={() => history.goBack()}>
                     <div>
-                      <p style={{fontSize: 18}}>리스트 보기</p>
+                      <p style={{ fontSize: 18 }}>리스트 보기</p>
                     </div>
                   </ButtonWrap>
                 </div>
-                : <div style={{display: 'flex', marginTop: '40px', justifyContent: 'center'}}>
-                  <ButtonWrap style={{width: 360}}
+                : <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'center' }}>
+                  <ButtonWrap style={{ width: 360 }}
                               onClick={() => isUpdate ? onsubmitFormUpdate() : onsubmitForm()}>
                     <div>
-                      <p style={{fontSize: 18}}>{isUpdate ? '수정하기' : '등록하기'}</p>
+                      <p style={{ fontSize: 18 }}>{isUpdate ? '수정하기' : '등록하기'}</p>
                     </div>
                   </ButtonWrap>
                 </div>
