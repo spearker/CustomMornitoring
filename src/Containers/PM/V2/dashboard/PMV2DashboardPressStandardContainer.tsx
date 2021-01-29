@@ -24,13 +24,14 @@ const PMV2DashboardPressStandardContainer: React.FunctionComponent<Props> = ({ d
   return (
     <Container>
       <PMV2DashboardPressStandardItem title={'Total'} value={data ? Math.round(Number(data.total_ton) * 10) / 10 : '-'}
+                                      color={'#ff9d00'}
                                       symbol={'t'}/>
       <PMV2DashboardPressStandardItem title={'CH1 (좌)'} value={data ? Math.round(Number(data.ch1_ton) * 10) / 10 : '-'}
-                                      symbol={'t'}/>
+                                      symbol={'t'} color={'#00ffba'}/>
       <PMV2DashboardPressStandardItem title={'CH2 (우)'} value={data ? Math.round(Number(data.ch2_ton) * 10) / 10 : '-'}
-                                      symbol={'t'}/>
+                                      symbol={'t'} color={'#0089ff'}/>
       <PMV2DashboardPressStandardItem title={'일량'} value={data ? Math.round(Number(data.press_power) * 10) / 10 : '-'}
-                                      symbol={'kgf.m'}/>
+                                      symbol={'kgf.m'} color={'#ffffff'}/>
     </Container>
   )
 }

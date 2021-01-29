@@ -133,8 +133,10 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
           <PMV2DragAndDropItem type={'text'} title={'에러코드'}
                                value={pressData ? pressData.error_code.code === '0' ? '-' : pressData.error_code.type : '-'}
                                valueFontSize={30} valueFontColor={errorCodeCSSStyle}/>
-          <PMV2DragAndDropItem type={'guage'} title={'메인모터 부하량'} value={pressData && pressData.main_motor_current}/>
-          <PMV2DragAndDropItem type={'guage'} title={'슬라이드 모터 부하량'} value={pressData && pressData.slide_motor_current}/>
+          <PMV2DragAndDropItem type={'guage'} title={'메인모터 부하량'} value={pressData && pressData.main_motor_current}
+                               symbol={'A'}/>
+          <PMV2DragAndDropItem type={'guage'} title={'슬라이드 모터 부하량'} value={pressData && pressData.slide_motor_current}
+                               symbol={''}/>
           <PMV2DragAndDropItem type={'text'} title={'SPM'} value={pressData ? pressData.press_spm : '-'}
                                symbol={'SPM'}/>
         </OptionContainer>
