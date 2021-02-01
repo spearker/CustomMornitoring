@@ -424,7 +424,14 @@ const ProcessRegisterContainer = ({match}: any) => {
                             width={true} innerWidth={447}
                             onClickEvent={(material) => {
                               let tmpDetailMaterialData = detailMaterialData
+                              console.log(tmpDetailMaterialData, i)
                               tmpDetailMaterialData[i].output_materials = material
+                              if (i !== tmpDetailMaterialData.length - 1) {
+                                tmpDetailMaterialData[i + 1] = {
+                                  ...tmpDetailMaterialData[i + 1],
+                                  input_materials: [{...material}]
+                                }
+                              }
                               setDetailMaterialData([...tmpDetailMaterialData])
                             }}
                             type={1} text={'생산품목을 선택해주세요.'} isAllItem
@@ -495,6 +502,20 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                  //@ts-ignore
                                                  ...tmpDetailMaterials[i].output_materials,
                                                  count: Number(e.target.value)
+                                               }
+
+                                               if (i !== detailMaterialData.length - 1) {
+                                                 // @ts-ignore
+                                                 tmpDetailMaterials[i + 1].input_materials = tmpDetailMaterials[i + 1].input_materials.map((value, index) => {
+                                                   //@ts-ignore
+                                                   console.log(value.material_name, tmpDetailMaterials[i].output_materials.material_name, i)
+                                                   //@ts-ignore
+                                                   if (value.material_name === tmpDetailMaterials[i].output_materials.material_name) {
+                                                     return {...value, count: Number(e.target.value)}
+                                                   } else {
+                                                     return value
+                                                   }
+                                                 })
                                                }
 
                                                setDetailMaterialData([...tmpDetailMaterials])

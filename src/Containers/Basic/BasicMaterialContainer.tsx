@@ -148,6 +148,9 @@ const BasicMaterialContainer = () => {
                             searchBarChange={(e) => {
                               if (!e.match(regExp)) setKeyword(e)
                             }}
+                            dropDownOption={option}
+                            dropDownOnClick={(e) => setOption(e)}
+                            dropDownContents={['품목명', '', '품번']}
                             searchBarValue={keyword}
                             searchButtonOnClick={() => setSaveKeyword(keyword)}
                             titleOnClickEvent={titleEventList}/>
