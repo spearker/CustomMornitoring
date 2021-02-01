@@ -58,13 +58,12 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
           max: data ? data.uph && data.uph.time.length > 0 ? data.uph.time[data.uph.time.length - 1] : 24 : 24,
           show: true,
           labels: {
-            offsetY: 10,
             show: true,
             formatter: (value: number, _, index: number) => {
               return value
             },
             style: {
-              fontSize: '28px',
+              fontSize: '14px',
               color: '#30dfdf'
             }
           }
@@ -108,7 +107,7 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
               return Math.floor(value)
             },
             style: {
-              fontSize: '24px'
+              fontSize: '14px'
             }
           }
         }
@@ -228,7 +227,7 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
                             toDayLimit
                             onClickEvent={onChangeDate}/>
         </div>
-        <Chart options={options} series={options.series} type="area" width={'83%'} height={'85%'}/>
+        <Chart options={options} series={options.series} type="area" width={'100%'} height={'89%'}/>
       </React.Fragment>
     } else if (type === 'error') {
       return errorContainer()
@@ -237,9 +236,9 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
 
   const showTotalUPH = React.useMemo(() => {
     return <div style={{ width: '45%', display: 'flex', alignItems: 'center' }}>
-      <h1 style={{ fontSize: 48, color: 'white', marginBottom: 0, marginRight: 18, paddingLeft: 28 }}>총 생산량 </h1>
+      <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0, marginRight: 18, paddingLeft: 28 }}>총 생산량 </h1>
       <h1 style={{
-        fontSize: 84,
+        fontSize: 72,
         margin: 0,
         marginTop: 10,
         color: 'white',
@@ -291,8 +290,8 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
                 paddingLeft: typeIsChart ? 48 : undefined,
                 width: typeIsChart ? '41%' : '50%'
               }}>
-                <h1 style={{ fontSize: 48, color: 'white', marginBottom: 0, paddingRight: 18 }}>{header}</h1>
-                <h1 style={{ fontSize: 48, color: 'white', marginBottom: 0 }}> ({title})</h1>
+                <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0, paddingRight: 18 }}>{header}</h1>
+                <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0 }}> ({title})</h1>
               </div>
               {type === 'uph' && showTotalUPH}
               <div style={{
@@ -301,7 +300,7 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
                 display: 'flex',
                 justifyContent: 'flex-end'
               }}>
-                <h1 style={{ fontSize: 48, color: 'white', marginBottom: 0, cursor: 'pointer' }}
+                <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0, cursor: 'pointer' }}
                     onClick={onClose}>X</h1>
               </div>
             </div>

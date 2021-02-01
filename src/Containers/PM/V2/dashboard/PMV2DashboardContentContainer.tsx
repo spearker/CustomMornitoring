@@ -14,7 +14,8 @@ import moment from 'moment'
 import getYoodongUPH from '../../../../Api/pm/v2/dashboard/getYoodongUPH'
 import getSlideMotorLog from '../../../../Api/pm/v2/dashboard/getSlideMotorLog'
 import getYoodongPressErrorLog from '../../../../Api/pm/v2/dashboard/getYoodongPressErrorLog'
-import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES } from '../../../../Common/@types/pm_v2_press'
+import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES, PM_V2_PRESS_SUB_ITEMS } from '../../../../Common/@types/pm_v2_press'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 interface Props {
   id: string
@@ -48,6 +49,7 @@ const ChartContainer = Styled.div(() => ({
 
 
 const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) => {
+  const [ pressSubItems, setPressSubItems ] = React.useState<PM_V2_PRESS_SUB_ITEMS[]>()
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
   const [ tonnageLimit, setTonnageLimit ] = React.useState<number>()
   const [ detailData, setDetailData ] = React.useState({
@@ -68,6 +70,90 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
     type: undefined
   })
 
+  React.useEffect(() => {
+    setPressSubItems([
+      {
+        type: 'text',
+        keyName: 'error',
+        title: '에러코드',
+        value: '1',
+        symbol: undefined,
+        valueFontSize: 30,
+        valueFontColor: errorCodeCSSStyle,
+        onClick: onShowDetailInfo
+      },
+      {
+        type: 'gauge',
+        keyName: 'mainMotor',
+        title: '메인모터 부하량',
+        value: '2',
+        symbol: 'A',
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: undefined
+      },
+      {
+        type: 'gauge',
+        keyName: 'slideMotor',
+        title: '슬라이드 모터 부하량',
+        value: '3',
+        symbol: undefined,
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: onShowDetailInfo
+      },
+      {
+        type: 'text',
+        keyName: 'spm',
+        title: 'SPM',
+        value: '4',
+        symbol: 'SPM',
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: undefined
+      },
+      {
+        type: 'text',
+        keyName: 'pressState',
+        title: '프레스 상태',
+        value: '5',
+        symbol: undefined,
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: undefined
+      },
+      {
+        type: 'text',
+        keyName: 'electricPower',
+        title: '전력량',
+        value: '6',
+        symbol: 'kWh',
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: undefined
+      },
+      {
+        type: 'text',
+        keyName: 'presetCount',
+        title: '현재 생산량',
+        value: '7',
+        symbol: undefined,
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: undefined
+      },
+      {
+        type: 'text',
+        keyName: 'uph',
+        title: 'UPH',
+        value: '8',
+        symbol: 'UPH',
+        valueFontSize: undefined,
+        valueFontColor: undefined,
+        onClick: undefined
+      }
+    ])
+  }, [])
 
   const history = useHistory()
 
@@ -203,24 +289,73 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
     })
   }, [])
 
-  console.log('pressData', data)
+  const onDragEnd = (result) => {
+    const { source, destination } = result
+
+    console.log({
+      source,
+      destination
+    })
+
+    // dropped outside the list
+    // if (!destination) {
+    //   return
+    // }
+
+    if (source.droppableId === destination.droppableId) {
+      // const items = reorder(
+      //   this.getList(source.droppableId),
+      //   source.index,
+      //   destination.index
+      // );
+      //
+      // let state = { items };
+      //
+      // if (source.droppableId === 'droppable2') {
+      //   state = { selected: items };
+      // }
+      //
+      // this.setState(state);
+    } else {
+      // const result = move(
+      //   this.getList(source.droppableId),
+      //   this.getList(destination.droppableId),
+      //   source,
+      //   destination
+      // );
+      //
+      // this.setState({
+      //   items: result.droppable,
+      //   selected: result.droppable2
+      // });
+    }
+  }
+
+  const SubList = React.memo(function SubList({ list, start }: any) {
+    return list && list.map((information: PM_V2_PRESS_SUB_ITEMS, index: number) => (
+      <PMV2DragAndDropItem type={information.type} title={information.title} keyName={list.key}
+                           index={index}
+                           value={pressData ? pressData.error_code.code === '0' ? '-' : pressData.error_code.type : '-'}
+                           valueFontSize={information.valueFontSize}
+                           valueFontColor={information.valueFontColor}
+                           onClick={information.onClick}/>
+    ))
+  })
 
   return (
-    <React.Fragment>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div>
         <PMV2DashboardPressInfoHeader title={pressData ? `${pressData.name} (${tonnageLimit}t)` : ''}/>
         <Container>
           <OptionContainer>
-            <PMV2DragAndDropItem type={'text'} title={'에러코드'} keyName={'error'}
-                                 value={pressData ? pressData.error_code.code === '0' ? '-' : pressData.error_code.type : '-'}
-                                 valueFontSize={30} valueFontColor={errorCodeCSSStyle} onClick={onShowDetailInfo}/>
-            <PMV2DragAndDropItem type={'guage'} title={'메인모터 부하량'} value={pressData && pressData.main_motor_current}
-                                 symbol={'A'} keyName={'mainMotor'}/>
-            <PMV2DragAndDropItem type={'guage'} title={'슬라이드 모터 부하량'} value={pressData && pressData.slide_motor_current}
-                                 symbol={''} onClick={onShowDetailInfo} keyName={'slideMotor'}/>
-            <PMV2DragAndDropItem type={'text'} title={'SPM'} value={pressData ? pressData.press_spm : '-'}
-                                 keyName={'spm'}
-                                 symbol={'SPM'}/>
+            <Droppable droppableId="droppable-1">
+              {provided => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {/*<SubList list={pressSubItems} start={0}/>*/}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
           </OptionContainer>
           <ChartContainer>
             <PMV2DashboardPressContentHeader data={pressData}/>
@@ -229,18 +364,29 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
                                 tonnage_limit={tonnageLimit ? tonnageLimit : 0}/>
           </ChartContainer>
           <OptionContainer>
-            <PMV2DragAndDropItem type={'text'} title={'프레스 상태'} value={pressData ? pressData.press_state : '-'}
-                                 keyName={'pressState'}/>
-            <PMV2DragAndDropItem type={'text'} title={'전력량'} value={pressData ? pressData.electric_power : '-'}
-                                 keyName={'electricPower'}
-                                 symbol={'kWh'}/>
-            <PMV2DragAndDropItem type={'text'} title={'현재 생산량'} valueFontSize={29}
-                                 keyName={'presetCount'}
-                                 value={pressData ? pressData.preset_count + '/' + pressData.preset_limit_count : '-'}/>
-            <PMV2DragAndDropItem type={'text'} title={'UPH'} value={pressData ? pressData.UPH.toString() : '-'}
-                                 keyName={'uph'}
-                                 onClick={onShowDetailInfo}
-                                 symbol={'UPH'}/>
+            <Droppable droppableId="droppable-2">
+              {provided => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  <PMV2DragAndDropItem type={'text'} title={'프레스 상태'} value={pressData ? pressData.press_state : '-'}
+                                       index={0}
+                                       keyName={'pressState'}/>
+                  <PMV2DragAndDropItem type={'text'} title={'전력량'} value={pressData ? pressData.electric_power : '-'}
+                                       keyName={'electricPower'}
+                                       index={1}
+                                       symbol={'kWh'}/>
+                  <PMV2DragAndDropItem type={'text'} title={'현재 생산량'} valueFontSize={29}
+                                       index={2}
+                                       keyName={'presetCount'}
+                                       value={pressData ? pressData.preset_count + '/' + pressData.preset_limit_count : '-'}/>
+                  <PMV2DragAndDropItem type={'text'} title={'UPH'} value={pressData ? pressData.UPH.toString() : '-'}
+                                       index={3}
+                                       keyName={'uph'}
+                                       onClick={onShowDetailInfo}
+                                       symbol={'UPH'}/>
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
           </OptionContainer>
         </Container>
       </div>
@@ -251,7 +397,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
                                         date={detailData.date}
                                         data={detailData}
                                         title={data?.press_data.name ? data.press_data.name : ''}/>t
-    </React.Fragment>
+    </DragDropContext>
   )
 }
 
