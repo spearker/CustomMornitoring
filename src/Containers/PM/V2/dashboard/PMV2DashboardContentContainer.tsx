@@ -362,7 +362,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
       <PMV2DragAndDropItem
         data={information}
         key={information.keyName}
-        index={index}
+        index={start + index}
       />
     ))
   })
