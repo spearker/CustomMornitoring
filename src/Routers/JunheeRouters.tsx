@@ -40,6 +40,7 @@ import ReleaseRegister_V2 from '../Pages/NewStock/ReleaseRegisterV2'
 import WarehousingRegister_V2 from '../Pages/NewStock/WarehousingRegisterV2'
 import BasicMaterial from '../Pages/Basic/BasicMaterial'
 import BasicRawMaterial from '../Pages/Basic/BasicRawMaterial'
+import QnAList from '../Pages/QnA/QnAList'
 
 
 const JunheeRouters = () => {
@@ -110,6 +111,11 @@ const JunheeRouters = () => {
             <Route exact path="/stock/release/register/v2/version/:pk/:test" component={ReleaseRegister_V2}/>
             <Route exact path="/stock/release/register/v2/version/:pk/:test/:release_pk"
                    component={ReleaseRegister_V2}/>
+
+          {/*QnA*/}
+            <Route exact path="/qna/list" component={QnAList}/>
+          {/*<Route exact path="/qna/register" component={}/>*/}
+          {/*<Route exact path="/qna/detail/:pk" component={}/>*/}
 
             <Route path='/free' component={OutsourcingRegisterFree}/>
         </Switch>

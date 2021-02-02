@@ -29,6 +29,13 @@ const typeDummy = [
   '검수',
 ]
 
+const item = [
+  {
+    title: '업체명',
+    width: 1000,
+  }
+]
+
 const ProcessRegisterContainer = ({match}: any) => {
   const history = useHistory()
   const [typeList] = useState<string[]>(typeDummy)
@@ -507,8 +514,6 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                if (i !== detailMaterialData.length - 1) {
                                                  // @ts-ignore
                                                  tmpDetailMaterials[i + 1].input_materials = tmpDetailMaterials[i + 1].input_materials.map((value, index) => {
-                                                   //@ts-ignore
-                                                   console.log(value.material_name, tmpDetailMaterials[i].output_materials.material_name, i)
                                                    //@ts-ignore
                                                    if (value.material_name === tmpDetailMaterials[i].output_materials.material_name) {
                                                      return {...value, count: Number(e.target.value)}
