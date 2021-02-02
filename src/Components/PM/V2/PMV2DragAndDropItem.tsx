@@ -3,9 +3,10 @@ import FrequentlyLabel from '../Frequently/FrequentlyLabel'
 import Styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
 import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES } from '../../../Common/@types/pm_v2_press'
+import { Draggable } from 'react-beautiful-dnd'
 
 interface Props {
-  type: 'text' | 'guage'
+  type: 'text' | 'gauge'
   keyName: PM_V2_PRESS_DROP_ITEM_KEY_NAMES
   title: string
   value: string | number | undefined | false
@@ -13,6 +14,7 @@ interface Props {
   valueFontSize?: number | string
   valueFontColor?: string
   onClick?: (type: PM_V2_PRESS_DROP_ITEM_KEY_NAMES) => void
+  index: number
 }
 
 const Container = Styled.div(() => ({
@@ -32,7 +34,7 @@ const ValueContent = Styled.div(() => ({
   height: '100%'
 }))
 
-const guage = {
+const gauge = {
   series: [ 0 ],
   options: {
     chart: {
@@ -90,16 +92,13 @@ const guage = {
     },
     labels: [ 'Average Results' ]
   }
-
-
 }
 
-
-const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, value, symbol, keyName, valueFontSize, valueFontColor, onClick }) => {
-  const [ apexSetting, setApexSetting ] = React.useState(guage)
+const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, value, symbol, keyName, valueFontSize, valueFontColor, onClick, index }) => {
+  const [ apexSetting, setApexSetting ] = React.useState(gauge)
 
   React.useEffect(() => {
-    if (type === 'guage') {
+    if (type === 'gauge') {
       setApexSetting({
         ...apexSetting,
         series: [ Number(value) ]
@@ -133,16 +132,24 @@ const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, valu
 
 
   return (
-    <Container onClick={() => onClick && onClick(keyName)} style={{ cursor: onClick ? 'pointer' : 'cursor' }}>
-      <div>
-        <FrequentlyLabel text={title} size={20} fontFamily={'NotoSansCJKkr'}/>
-      </div>
-      <ValueContent>
-        {
-          type === 'text' ? TextTypeView : GuageTypeView
-        }
-      </ValueContent>
-    </Container>
+    <Draggable draggableId={keyName} index={index}>
+      {provided =>
+        <Container
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div>
+            <FrequentlyLabel text={title} size={20} fontFamily={'NotoSansCJKkr'}/>
+          </div>
+          <ValueContent>
+            {
+              type === 'text' ? TextTypeView : GuageTypeView
+            }
+          </ValueContent>
+        </Container>
+      }
+    </Draggable>
   )
 }
 
