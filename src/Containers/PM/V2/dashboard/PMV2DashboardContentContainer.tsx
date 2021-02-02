@@ -48,8 +48,17 @@ const ChartContainer = Styled.div(() => ({
 }))
 
 
+const reorder = (list, startIndex, endIndex) => {
+  const result: PM_V2_PRESS_SUB_ITEMS[] = Array.from(list)
+  const [ removed ] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
+
+
+  return result
+}
+
 const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) => {
-  const [ pressSubItems, setPressSubItems ] = React.useState<PM_V2_PRESS_SUB_ITEMS[]>()
+  const [ pressSubItems, setPressSubItems ] = React.useState<PM_V2_PRESS_SUB_ITEMS[]>([])
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
   const [ tonnageLimit, setTonnageLimit ] = React.useState<number>()
   const [ detailData, setDetailData ] = React.useState({
@@ -70,92 +79,130 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
     type: undefined
   })
 
-  React.useEffect(() => {
-    setPressSubItems([
-      {
-        type: 'text',
-        keyName: 'error',
-        title: '에러코드',
-        value: '1',
-        symbol: undefined,
-        valueFontSize: 30,
-        valueFontColor: errorCodeCSSStyle,
-        onClick: onShowDetailInfo
-      },
-      {
-        type: 'gauge',
-        keyName: 'mainMotor',
-        title: '메인모터 부하량',
-        value: '2',
-        symbol: 'A',
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: undefined
-      },
-      {
-        type: 'gauge',
-        keyName: 'slideMotor',
-        title: '슬라이드 모터 부하량',
-        value: '3',
-        symbol: undefined,
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: onShowDetailInfo
-      },
-      {
-        type: 'text',
-        keyName: 'spm',
-        title: 'SPM',
-        value: '4',
-        symbol: 'SPM',
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: undefined
-      },
-      {
-        type: 'text',
-        keyName: 'pressState',
-        title: '프레스 상태',
-        value: '5',
-        symbol: undefined,
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: undefined
-      },
-      {
-        type: 'text',
-        keyName: 'electricPower',
-        title: '전력량',
-        value: '6',
-        symbol: 'kWh',
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: undefined
-      },
-      {
-        type: 'text',
-        keyName: 'presetCount',
-        title: '현재 생산량',
-        value: '7',
-        symbol: undefined,
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: undefined
-      },
-      {
-        type: 'text',
-        keyName: 'uph',
-        title: 'UPH',
-        value: '8',
-        symbol: 'UPH',
-        valueFontSize: undefined,
-        valueFontColor: undefined,
-        onClick: undefined
-      }
-    ])
-  }, [])
-
   const history = useHistory()
+
+  const subPressValueFilter = React.useCallback((keyName: PM_V2_PRESS_DROP_ITEM_KEY_NAMES) => {
+    if (pressData) {
+      switch (keyName) {
+        case 'error':
+          return pressData.error_code.code === '0' ? '-' : pressData.error_code.type
+        case 'mainMotor':
+          return pressData && pressData.main_motor_current
+        case 'slideMotor':
+          return pressData && pressData.slide_motor_current
+        case 'spm':
+          return pressData.press_spm
+        case 'pressState':
+          return pressData.press_state
+        case 'electricPower':
+          return pressData.electric_power
+        case 'presetCount':
+          return pressData.preset_count + '/' + pressData.preset_limit_count
+        case 'uph':
+          return pressData.UPH.toString()
+        default:
+          return undefined
+      }
+    } else {
+      return (!(keyName === 'mainMotor' || keyName === 'slideMotor')) && '-'
+    }
+  }, [ data?.press_data ])
+
+  React.useEffect(() => {
+    if (pressSubItems.length === 0) {
+      setPressSubItems([
+        {
+          type: 'text',
+          keyName: 'error',
+          title: '에러코드',
+          value: subPressValueFilter('error'),
+          symbol: undefined,
+          valueFontSize: 30,
+          valueFontColor: errorCodeCSSStyle,
+          onClick: onShowDetailInfo
+        },
+        {
+          type: 'gauge',
+          keyName: 'mainMotor',
+          title: '메인모터 부하량',
+          value: subPressValueFilter('mainMotor'),
+          symbol: 'A',
+          valueFontSize: undefined,
+          valueFontColor: undefined,
+          onClick: undefined
+        },
+        {
+          type: 'gauge',
+          keyName: 'slideMotor',
+          title: '슬라이드 모터 부하량',
+          value: subPressValueFilter('slideMotor'),
+          symbol: undefined,
+          valueFontSize: undefined,
+          valueFontColor: undefined,
+          onClick: onShowDetailInfo
+        },
+        {
+          type: 'text',
+          keyName: 'spm',
+          title: 'SPM',
+          value: subPressValueFilter('spm'),
+          symbol: 'SPM',
+          valueFontSize: undefined,
+          valueFontColor: undefined,
+          onClick: undefined
+        },
+        {
+          type: 'text',
+          keyName: 'pressState',
+          title: '프레스 상태',
+          value: subPressValueFilter('pressState'),
+          symbol: undefined,
+          valueFontSize: undefined,
+          valueFontColor: undefined,
+          onClick: undefined
+        },
+        {
+          type: 'text',
+          keyName: 'electricPower',
+          title: '전력량',
+          value: subPressValueFilter('electricPower'),
+          symbol: 'kWh',
+          valueFontSize: undefined,
+          valueFontColor: undefined,
+          onClick: undefined
+        },
+        {
+          type: 'text',
+          keyName: 'presetCount',
+          title: '현재 생산량',
+          value: subPressValueFilter('presetCount'),
+          symbol: undefined,
+          valueFontSize: 29,
+          valueFontColor: undefined,
+          onClick: undefined
+        },
+        {
+          type: 'text',
+          keyName: 'uph',
+          title: 'UPH',
+          value: subPressValueFilter('uph'),
+          symbol: 'UPH',
+          valueFontSize: undefined,
+          valueFontColor: undefined,
+          onClick: undefined
+        }
+      ])
+    } else {
+      const filter = pressSubItems.map((information: PM_V2_PRESS_SUB_ITEMS) => {
+        return {
+          ...information,
+          value: subPressValueFilter(information.keyName)
+        }
+      })
+
+      setPressSubItems(filter)
+    }
+  }, [ data?.press_data ])
 
   React.useEffect(() => {
     if (id) {
@@ -290,55 +337,33 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
   }, [])
 
   const onDragEnd = (result) => {
-    const { source, destination } = result
-
-    console.log({
-      source,
-      destination
-    })
-
-    // dropped outside the list
-    // if (!destination) {
-    //   return
-    // }
-
-    if (source.droppableId === destination.droppableId) {
-      // const items = reorder(
-      //   this.getList(source.droppableId),
-      //   source.index,
-      //   destination.index
-      // );
-      //
-      // let state = { items };
-      //
-      // if (source.droppableId === 'droppable2') {
-      //   state = { selected: items };
-      // }
-      //
-      // this.setState(state);
-    } else {
-      // const result = move(
-      //   this.getList(source.droppableId),
-      //   this.getList(destination.droppableId),
-      //   source,
-      //   destination
-      // );
-      //
-      // this.setState({
-      //   items: result.droppable,
-      //   selected: result.droppable2
-      // });
+    if (!result.destination) {
+      return
     }
+
+    if (result.destination.index === result.source.index) {
+      return
+    }
+
+    const subItems: PM_V2_PRESS_SUB_ITEMS[] = reorder(
+      pressSubItems,
+      result.source.index,
+      result.destination.index
+    )
+
+
+    setPressSubItems(subItems)
   }
 
-  const SubList = React.memo(function SubList({ list, start }: any) {
-    return list && list.map((information: PM_V2_PRESS_SUB_ITEMS, index: number) => (
-      <PMV2DragAndDropItem type={information.type} title={information.title} keyName={list.key}
-                           index={index}
-                           value={pressData ? pressData.error_code.code === '0' ? '-' : pressData.error_code.type : '-'}
-                           valueFontSize={information.valueFontSize}
-                           valueFontColor={information.valueFontColor}
-                           onClick={information.onClick}/>
+  console.log('press', pressSubItems)
+
+  const SubList = React.memo(function SubList({ list, start, end }: any) {
+    return list.slice(start, end).map((information: PM_V2_PRESS_SUB_ITEMS, index: number) => (
+      <PMV2DragAndDropItem
+        data={information}
+        key={information.keyName}
+        index={index}
+      />
     ))
   })
 
@@ -351,7 +376,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
             <Droppable droppableId="droppable-1">
               {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {/*<SubList list={pressSubItems} start={0}/>*/}
+                  <SubList list={pressSubItems} start={0} end={4}/>
                   {provided.placeholder}
                 </div>
               )}
@@ -367,22 +392,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
             <Droppable droppableId="droppable-2">
               {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <PMV2DragAndDropItem type={'text'} title={'프레스 상태'} value={pressData ? pressData.press_state : '-'}
-                                       index={0}
-                                       keyName={'pressState'}/>
-                  <PMV2DragAndDropItem type={'text'} title={'전력량'} value={pressData ? pressData.electric_power : '-'}
-                                       keyName={'electricPower'}
-                                       index={1}
-                                       symbol={'kWh'}/>
-                  <PMV2DragAndDropItem type={'text'} title={'현재 생산량'} valueFontSize={29}
-                                       index={2}
-                                       keyName={'presetCount'}
-                                       value={pressData ? pressData.preset_count + '/' + pressData.preset_limit_count : '-'}/>
-                  <PMV2DragAndDropItem type={'text'} title={'UPH'} value={pressData ? pressData.UPH.toString() : '-'}
-                                       index={3}
-                                       keyName={'uph'}
-                                       onClick={onShowDetailInfo}
-                                       symbol={'UPH'}/>
+                  <SubList list={pressSubItems} start={4} end={8}/>
                   {provided.placeholder}
                 </div>
               )}

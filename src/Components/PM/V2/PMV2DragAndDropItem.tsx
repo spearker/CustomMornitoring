@@ -2,18 +2,11 @@ import React from 'react'
 import FrequentlyLabel from '../Frequently/FrequentlyLabel'
 import Styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
-import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES } from '../../../Common/@types/pm_v2_press'
+import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES, PM_V2_PRESS_SUB_ITEMS } from '../../../Common/@types/pm_v2_press'
 import { Draggable } from 'react-beautiful-dnd'
 
 interface Props {
-  type: 'text' | 'gauge'
-  keyName: PM_V2_PRESS_DROP_ITEM_KEY_NAMES
-  title: string
-  value: string | number | undefined | false
-  symbol?: string
-  valueFontSize?: number | string
-  valueFontColor?: string
-  onClick?: (type: PM_V2_PRESS_DROP_ITEM_KEY_NAMES) => void
+  data: PM_V2_PRESS_SUB_ITEMS
   index: number
 }
 
@@ -94,33 +87,35 @@ const gauge = {
   }
 }
 
-const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, value, symbol, keyName, valueFontSize, valueFontColor, onClick, index }) => {
+const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ data, index }) => {
   const [ apexSetting, setApexSetting ] = React.useState(gauge)
 
+
   React.useEffect(() => {
-    if (type === 'gauge') {
+    if (data.type === 'gauge') {
       setApexSetting({
         ...apexSetting,
-        series: [ Number(value) ]
+        series: [ Number(data.value) ]
       })
     }
-  }, [ value, type ])
+  }, [ data.value, data.type ])
 
   const TextTypeView = React.useMemo(() => {
     return (
       <div>
         <div>
-          <FrequentlyLabel text={value ? value : ''} size={valueFontSize ? valueFontSize : 60} textAlign={'center'}
-                           color={valueFontColor}
+          <FrequentlyLabel text={data.value ? data.value : ''} size={data.valueFontSize ? data.valueFontSize : 60}
+                           textAlign={'center'}
+                           color={data.valueFontColor}
                            weight={'bold'}
                            fontFamily={'NotoSansCJKkr'}/>
         </div>
         <div>
-          <FrequentlyLabel text={symbol} size={20} textAlign={'center'} fontFamily={'NotoSansCJKkr'} weight={200}/>
+          <FrequentlyLabel text={data.symbol} size={20} textAlign={'center'} fontFamily={'NotoSansCJKkr'} weight={200}/>
         </div>
       </div>
     )
-  }, [ type, apexSetting, value ])
+  }, [ data.type, apexSetting, data.value ])
 
   const GuageTypeView = React.useMemo(() => {
     return (
@@ -128,11 +123,11 @@ const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, valu
         <ReactApexChart options={apexSetting.options} series={apexSetting.series} type="radialBar"/>
       </div>
     )
-  }, [ type, apexSetting, value ])
+  }, [ data.type, apexSetting, data.value ])
 
 
   return (
-    <Draggable draggableId={keyName} index={index}>
+    <Draggable draggableId={data.keyName} index={index}>
       {provided =>
         <Container
           ref={provided.innerRef}
@@ -140,11 +135,11 @@ const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ type, title, valu
           {...provided.dragHandleProps}
         >
           <div>
-            <FrequentlyLabel text={title} size={20} fontFamily={'NotoSansCJKkr'}/>
+            <FrequentlyLabel text={data.title} size={20} fontFamily={'NotoSansCJKkr'}/>
           </div>
           <ValueContent>
             {
-              type === 'text' ? TextTypeView : GuageTypeView
+              data.type === 'text' ? TextTypeView : GuageTypeView
             }
           </ValueContent>
         </Container>
