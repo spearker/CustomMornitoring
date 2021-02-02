@@ -2,8 +2,9 @@ import React from 'react'
 import FrequentlyLabel from '../Frequently/FrequentlyLabel'
 import Styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
-import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES, PM_V2_PRESS_SUB_ITEMS } from '../../../Common/@types/pm_v2_press'
+import { PM_V2_PRESS_SUB_ITEMS } from '../../../Common/@types/pm_v2_press'
 import { Draggable } from 'react-beautiful-dnd'
+import dashboardClick from '../../../Assets/Images/dashboardClick.png'
 
 interface Props {
   data: PM_V2_PRESS_SUB_ITEMS
@@ -26,6 +27,12 @@ const ValueContent = Styled.div(() => ({
   alignItems: 'center',
   height: '100%'
 }))
+
+const HeaderContainer = Styled.div(() => ({
+  display: 'flex',
+  justifyContent: 'space-between'
+}))
+
 
 const gauge = {
   series: [ 0 ],
@@ -90,7 +97,6 @@ const gauge = {
 const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ data, index }) => {
   const [ apexSetting, setApexSetting ] = React.useState(gauge)
 
-
   React.useEffect(() => {
     if (data.type === 'gauge') {
       setApexSetting({
@@ -134,9 +140,11 @@ const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ data, index }) =>
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div>
+          <HeaderContainer>
             <FrequentlyLabel text={data.title} size={20} fontFamily={'NotoSansCJKkr'}/>
-          </div>
+            <img style={{ width: 24, height: 24 }} src={dashboardClick} alt={'onclick'}
+                 onClick={() => data.onClick && data.onClick(data.keyName)}/>
+          </HeaderContainer>
           <ValueContent>
             {
               data.type === 'text' ? TextTypeView : GuageTypeView
