@@ -189,7 +189,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
           symbol: 'UPH',
           valueFontSize: undefined,
           valueFontColor: undefined,
-          onClick: undefined
+          onClick: onShowDetailInfo
         }
       ])
     } else {
