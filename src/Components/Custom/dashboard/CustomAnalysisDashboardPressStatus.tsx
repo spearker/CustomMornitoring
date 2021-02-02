@@ -19,6 +19,10 @@ import PressBox from "../PM_Monitoring/PressBox";
 import {changeStatusToColor, changeStatusToString} from "../../../Common/statusFunctions";
 import PressStatusBox from "../PM_Monitoring/PressStatusBox";
 import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
+import {withStyles} from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 interface Props {
     id: string
@@ -26,7 +30,8 @@ interface Props {
         loading: boolean,
         api: boolean
     }
-    onChange: () => void
+    check?: boolean
+    onChange?: () => void
 }
 
 Notiflix.Notify.Init({
@@ -37,7 +42,43 @@ Notiflix.Notify.Init({
     messageColor: '#000000'
 })
 
-const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id, first}) => {
+
+const AntSwitch = withStyles((theme) => ({
+    root: {
+        width: 40,
+        height: 22,
+        padding: 0,
+        display: 'flex',
+        overflow: 'unset'
+    },
+    switchBase: {
+        padding: 2,
+        color: theme.palette.grey[500],
+        '&$checked': {
+            transform: 'translateX(16px)',
+            color: theme.palette.common.white,
+            '& + $track': {
+                opacity: 1,
+                backgroundColor: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main,
+            },
+        },
+    },
+    thumb: {
+        width: 20,
+        height: 20,
+        boxShadow: 'none',
+    },
+    track: {
+        border: `1px solid ${theme.palette.grey[500]}`,
+        borderRadius: 12,
+        opacity: 1,
+        backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+}))(Switch);
+
+const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id, first, check, onChange}) => {
     const AddComma = (num) => {
         let tmpNum = num.toString().split('.')
         let regexp = /\B(?=(\d{3})+(?!\d))/g
@@ -146,6 +187,17 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                 </Modal>
             }
             <ListBox>
+                <div style={{position: 'absolute', top: 15, right: 15}}>
+                    <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
+                        <Grid component="label" container alignItems="center" spacing={1}>
+                            <Grid item>대시보드</Grid>
+                            <Grid item>
+                                <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                            </Grid>
+                            <Grid item>상태 모니터링</Grid>
+                        </Grid>
+                    </Typography>
+                </div>
                 {list === undefined ?
                     <p style={{color: 'white', fontSize: '30px', textAlign: 'center', width: '100%'}}>불러 올 수 있는 기계 정보가
                         없습니다.</p>
@@ -281,6 +333,7 @@ p
     font-family:NotoSansCJKkr;
     font-size:100px;
     font-weight:bold;
+     text-align: center;
 }
 `
 

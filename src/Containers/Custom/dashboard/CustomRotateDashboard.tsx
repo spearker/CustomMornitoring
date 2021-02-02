@@ -75,11 +75,13 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                                     dashChange ?
                                         <CustomAnalysisDashboardPressStatus id={pressList[currentDashboard]}
                                                                             first={isFirst}
+                                                                            check={dashChange}
                                                                             onChange={() => setDashChange(false)}
                                         />
                                         :
                                         <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]}
                                                                              first={isFirst}
+                                                                             check={dashChange}
                                                                              onChange={() => setDashChange(true)}
                                         />
                                 )
