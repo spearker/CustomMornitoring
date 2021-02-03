@@ -95,7 +95,7 @@ const ChartOptionDetailLable = {
 
 const MachineInitData: IPressLoadTonSatistics[] = []
 
-const LoadtoneContiner = () => {
+const LoadtonContiner = () => {
   const [series, setSeries] = useState<{ name: string, data: number[][] }[]>([])
 
   const [selectMachine, setSelectMachine] = useState<string>()
@@ -390,4 +390,4 @@ const Line = Styled.hr`
     background-color: #ffffff;
 `
 
-export default LoadtoneContiner
+export default LoadtonContiner
