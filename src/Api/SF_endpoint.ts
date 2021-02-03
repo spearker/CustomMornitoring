@@ -1,4 +1,4 @@
-export const SF_ADDRESS = '210.183.2.208'
+export const SF_ADDRESS = window.location.hostname
 
 export const isLocalhost = () => {
   //@ts-ignore
