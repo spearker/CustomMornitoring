@@ -1,6 +1,7 @@
-export const SF_ADDRESS = window.location.hostname
+export const SF_ADDRESS = '210.183.2.208'
 
 export const isLocalhost = () => {
+  //@ts-ignore
   if (SF_ADDRESS === 'localhost') {
     return '203.234.183.22'
   } else {

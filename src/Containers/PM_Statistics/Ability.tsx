@@ -48,7 +48,7 @@ const chartOption = {
       }
     },
     tooltip: {
-      enable: false
+      enable: true
     }
   },
   xaxis: {
@@ -74,9 +74,9 @@ const chartOption = {
     //         }
     //     }
     // },
-    tooltip: {
-      enable: false
-    }
+    // tooltip: {
+    //   enable: false
+    // }
   },
   legend: {
     show: false
@@ -96,8 +96,16 @@ const chartOption = {
     }
   },
   tooltip: {
-    enable: false
-  },
+    x: {
+      format: 'dd MMM',
+      formatter: undefined,
+    },
+    y: {
+      formatter: (value) => {
+        return Math.round(Number(value) * 10) / 10
+      },
+    },
+  }
 
 }
 
