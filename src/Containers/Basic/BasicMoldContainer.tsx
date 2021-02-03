@@ -156,7 +156,7 @@ const BasicMoldContainer = () => {
                               setSaveKeyword('')
                               setOption(e)
                             }}
-                            dropDownContents={['금형명', '공장명', '관리번호']}
+                            dropDownContents={['금형명', '공장명'/* , '관리번호' */]}
                             searchBarValue={keyword}
                             searchButtonOnClick={() => setSaveKeyword(keyword)}
                             titleOnClickEvent={titleEventList}/>

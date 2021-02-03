@@ -98,7 +98,7 @@ const BasicSubdividedContainer = () => {
             setPage({current: resultList.current_page, total: resultList.total_page})
             Notiflix.Loading.Remove()
         }
-    }, [list, keyword, option, saveKeyword])
+    }, [list, keyword, option, saveKeyword, page])
 
     useEffect(() => {
         if (isFirst) {
