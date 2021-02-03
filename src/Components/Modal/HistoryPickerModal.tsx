@@ -135,21 +135,19 @@ const HistoryPickerModal = ({
                 isOpen={isOpen}
                 style={{
                     content: {
-                        top: '50%',
-                        left: '50%',
-                        right: 'auto',
-                        bottom: 'auto',
-                        marginRight: '-50%',
-                        transform: 'translate(-50%, -50%)',
+                        position: 'relative',
                         padding: 0
                     },
                     overlay: {
                         background: 'rgba(0,0,0,.6)',
-                        zIndex: 5
+                        zIndex: 5,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }
                 }}
             >
-                <div style={{width: 900}}>
+                <div style={{width: 900, maxHeight: 650, overflow: 'auto'}}>
                     <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
                         <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 작업 이력 검색</p>
                         <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
@@ -206,23 +204,23 @@ const HistoryPickerModal = ({
                             </PaginationBox>
                         </div>
                     </div>
-                    <div style={{width: 900}}>
-                        <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-                            onClickEvent({name: undefined, pk: undefined})
-                            setIsOpen(false)
-                        }}>
-                            <div>
-                                <span style={{color: '#666d79'}}>취소</span>
-                            </div>
-                        </CheckButton>
-                        <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
-                            setIsOpen(false)
-                        }}>
-                            <div>
-                                <span style={{color: 'black'}}>확인</span>
-                            </div>
-                        </CheckButton>
-                    </div>
+                </div>
+                <div style={{width: 900, position: 'absolute', bottom: 0, left: 0}}>
+                    <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
+                        onClickEvent({name: undefined, pk: undefined})
+                        setIsOpen(false)
+                    }}>
+                        <div>
+                            <span style={{color: '#666d79'}}>취소</span>
+                        </div>
+                    </CheckButton>
+                    <CheckButton style={{right: 0, backgroundColor: POINT_COLOR}} onClick={() => {
+                        setIsOpen(false)
+                    }}>
+                        <div>
+                            <span style={{color: 'black'}}>확인</span>
+                        </div>
+                    </CheckButton>
                 </div>
             </Modal>
 
@@ -295,7 +293,7 @@ const SearchButton = Styled.button`
 
 
 const CheckButton = Styled.button`
-    position: absolute;
+    /* position: absolute; */
     bottom: 0px;
     height: 46px;
     width: 50%;
