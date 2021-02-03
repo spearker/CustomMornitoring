@@ -166,6 +166,11 @@ const ProcessRegisterContainer = ({match}: any) => {
         name: resultData.name,
         description: resultData.description
       })
+      if (resultData.type >= 1 && resultData.type < 6) {
+        setIndex(resultData.type + 6)
+      } else if (resultData.type >= 6) {
+        setIndex(resultData.type - 5)
+      }
       setDetailMaterialData(resultData.processes)
       setIsFirst(false)
     }
