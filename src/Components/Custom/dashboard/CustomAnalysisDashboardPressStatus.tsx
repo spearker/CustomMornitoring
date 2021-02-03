@@ -187,6 +187,7 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                 </Modal>
             }
             <ListBox>
+                {autoCustomType() === 'hwain_trans' &&
                 <div style={{position: 'absolute', top: 15, right: 15}}>
                     <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
                         <Grid component="label" container alignItems="center" spacing={1}>
@@ -198,6 +199,7 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                         </Grid>
                     </Typography>
                 </div>
+                }
                 {list === undefined ?
                     <p style={{color: 'white', fontSize: '30px', textAlign: 'center', width: '100%'}}>불러 올 수 있는 기계 정보가
                         없습니다.</p>

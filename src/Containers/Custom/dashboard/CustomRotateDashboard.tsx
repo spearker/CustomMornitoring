@@ -45,7 +45,9 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
         getPressList()
     }, [])
 
+
     useEffect(() => {
+
         const rotatePage = setInterval(() => {
             if (currentDashboard === totalDashboard) {
                 setCurrentDashboard(0)
@@ -56,7 +58,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 })
                 setCurrentDashboard(currentDashboard + 1)
             }
-        }, 30000)
+        }, autoCustomType() === 'hwain_trans' ? 5000 : 30000)
 
         return () => clearInterval(rotatePage)
 
@@ -88,7 +90,6 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                                 :
                                 <CustomAnalysisDashboardLoadtonChart id={pressList[currentDashboard]}
                                                                      first={isFirst}
-                                                                     onChange={() => setDashChange(true)}
                                 />
                         )
                 )

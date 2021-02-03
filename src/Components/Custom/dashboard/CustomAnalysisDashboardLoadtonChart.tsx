@@ -17,6 +17,7 @@ import {withStyles} from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
 
 interface Props {
     id: string
@@ -172,6 +173,7 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                     <TitleText
                         style={{fontSize: 72}}>{data ? data.press_data.name + `(${tonnageLimit}t)` : '-'}</TitleText>
                     <div/>
+                    {autoCustomType() === 'hwain_trans' &&
                     <div style={{position: 'absolute', top: 15, right: 15}}>
                         <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
                             <Grid component="label" container alignItems="center" spacing={1}>
@@ -183,6 +185,7 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                             </Grid>
                         </Typography>
                     </div>
+                    }
                 </div>
             </div>
         )
