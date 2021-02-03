@@ -1,4 +1,4 @@
-import {isLocalhost} from '../Api/SF_endpoint'
+import { isLocalhost } from '../Api/SF_endpoint'
 
 const autoCustomType = () => {
   switch (isLocalhost().toString()) {
@@ -25,6 +25,9 @@ const autoCustomType = () => {
       return 'jaeil_js_trans'
     case '192.168.0.8':
     case '125.138.147.11':
+    case '222.98.3.154':
+    case '106.240.250.74':
+    case '210.183.2.208':
       return 'jb_material_trans'
     default:
       return ''

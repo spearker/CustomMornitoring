@@ -47,7 +47,7 @@ const PMV2DashboardChart: React.FunctionComponent<Props> = ({ color, propData, o
       show: false
     },
     tooltip: {
-      enabled: false
+      enabled: true
     },
     chart: {
       type: 'area',
