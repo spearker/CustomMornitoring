@@ -192,7 +192,13 @@ const ProcessRegisterContainer = ({match}: any) => {
 
   const addMachine = () => {
     let tmpDetailMaterialData = detailMaterialData
-    tmpDetailMaterialData.push({})
+    if (tmpDetailMaterialData[tmpDetailMaterialData.length - 1].output_materials) {
+      //@ts-ignore
+      tmpDetailMaterialData.push({input_materials: [tmpDetailMaterialData[tmpDetailMaterialData.length - 1].output_materials]})
+    } else {
+      tmpDetailMaterialData.push({})
+    }
+
     setDetailMaterialData([...tmpDetailMaterialData])
   }
 
@@ -406,7 +412,7 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                  }}
                                                  value={
                                                    //@ts-ignore
-                                                   detailMaterialData[i].input_materials[index].count ? detailMaterialData[i].input_materials[index].count : 0
+                                                   detailMaterialData[i].input_materials[index].count ? detailMaterialData[i].input_materials[index].count + '' : 0
                                                  }
                                                  onChange={(e) => {
                                                    const tmpDetailMaterials = detailMaterialData
@@ -436,7 +442,6 @@ const ProcessRegisterContainer = ({match}: any) => {
                             width={true} innerWidth={447}
                             onClickEvent={(material) => {
                               let tmpDetailMaterialData = detailMaterialData
-                              console.log(tmpDetailMaterialData, i)
                               tmpDetailMaterialData[i].output_materials = material
                               if (i !== tmpDetailMaterialData.length - 1) {
                                 tmpDetailMaterialData[i + 1] = {
@@ -517,15 +522,17 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                }
 
                                                if (i !== detailMaterialData.length - 1) {
-                                                 // @ts-ignore
-                                                 tmpDetailMaterials[i + 1].input_materials = tmpDetailMaterials[i + 1].input_materials.map((value, index) => {
-                                                   //@ts-ignore
-                                                   if (value.material_name === tmpDetailMaterials[i].output_materials.material_name) {
-                                                     return {...value, count: Number(e.target.value)}
-                                                   } else {
-                                                     return value
-                                                   }
-                                                 })
+                                                 if (tmpDetailMaterials[i + 1].input_materials) {
+                                                   // @ts-ignore
+                                                   tmpDetailMaterials[i + 1].input_materials = tmpDetailMaterials[i + 1].input_materials.map((value, index) => {
+                                                     //@ts-ignore
+                                                     if (value.material_name === tmpDetailMaterials[i].output_materials.material_name) {
+                                                       return {...value, count: Number(e.target.value)}
+                                                     } else {
+                                                       return value
+                                                     }
+                                                   })
+                                                 }
                                                }
 
                                                setDetailMaterialData([...tmpDetailMaterials])

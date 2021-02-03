@@ -59,7 +59,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
           height: buttonWid ? buttonWid : 32
         }}>
           <img src={dropdownButton} onClick={() => {
-            setIsOpen(true)
+            !disabled && setIsOpen(true)
           }}/>
         </div>
 

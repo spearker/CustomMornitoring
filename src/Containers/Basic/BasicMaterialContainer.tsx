@@ -149,7 +149,11 @@ const BasicMaterialContainer = () => {
                               if (!e.match(regExp)) setKeyword(e)
                             }}
                             dropDownOption={option}
-                            dropDownOnClick={(e) => setOption(e)}
+                            dropDownOnClick={(e) => {
+                              setKeyword('')
+                              setSaveKeyword('')
+                              setOption(e)
+                            }}
                             dropDownContents={['품목명', '', '품번']}
                             searchBarValue={keyword}
                             searchButtonOnClick={() => setSaveKeyword(keyword)}
