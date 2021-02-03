@@ -7,6 +7,7 @@ import IC_Dropup from "../../Assets/Images/ic_dropup_gray.png"
 
 interface DateListArray {
     date: string,
+    motor_run_time: string,
     run_time: string, 
     stop_time: string, 
     spm: string, 
@@ -75,6 +76,8 @@ const DateAndTimeBox = ({data, onChangeEvent, max}: IProps) => {
                                     value={secondForm(data.run_time)} max={max - secondForm(data.stop_time)} />
                             <TimeInput title={'비가동시간'} onChangeEvent={(e) => onChangeEvent({ ...data, stop_time: timeForm(e) })}
                                         value={secondForm(data.stop_time)} max={max - secondForm(data.run_time)} />
+                            <TimeInput title={'모터가동시간'} onChangeEvent={(e) => onChangeEvent({ ...data, motor_run_time: timeForm(e) })}
+                                    value={secondForm(data.motor_run_time)} max={secondForm(data.run_time)} />
                             <ColorInputWithText title={'SPM'} value={data.spm} onChangeEvent={(e) => onChangeEvent({ ...data, spm: regExp(e) })}
                                                 placeholder={'SPM을 입력해주세요'} />
                             <ColorInputWithText title={'프리셋 카운트'} value={data.preset_counter}
