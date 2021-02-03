@@ -302,7 +302,7 @@ const QualityTestRequestInspectorContainer = ({match}: Props) => {
               <td>• 적격 여부</td>
               <td><RegisterDropdown type={'string'}
                                     onClickEvent={(e: string) => isDetail === 'Worker' || setInputData('whether', e)}
-                                    select={inputData.whether} disabled={isDetail !== 'Inspection'}
+                                    select={inputData.whether} disabled={isDetail === 'Worker'}
                                     contents={isDetail === 'Worker' ? [] : ['적격', '부적격']}
                                     text={'적격 여부를 선택해 주세요.'}/></td>
             </tr>
