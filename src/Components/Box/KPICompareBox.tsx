@@ -10,6 +10,7 @@ import ItemPickerModal from '../Modal/ItemPickerModal'
 import NormalInput from '../Input/NormalInput'
 import {POINT_COLOR} from '../../Common/configset'
 import IcSearchButton from '../../Assets/Images/check.png'
+import ReactTooltip from 'react-tooltip'
 
 const pickerModalHeader = {
   product: [
@@ -528,13 +529,13 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                 textAlign: 'left',
                 fontSize: 20,
                 fontWeight: 'bold',
-              }}>모든 기계가 사용에너지 사용량</p>
+              }}>모든 기계가 사용한 전기 에너지 사용량</p>
               <p style={{
                 textAlign: 'right',
                 fontSize: 64,
                 fontWeight: 'bold',
-              }}>{
-                data.total ? data.total : 0
+              }} data-tip data-for={'kpi-e-a'}>{
+                data.total ? Math.round(Number(data.total) * 100) / 100 : 0
               }
                 <span style={{fontSize: 40, paddingLeft: '4pt'}}>
                   {
@@ -557,8 +558,8 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                 textAlign: 'right',
                 fontSize: 64,
                 fontWeight: 'bold',
-              }}>{
-                data.data ? data.data : 0
+              }} data-tip data-for={'kpi-e-b'}>{
+                data.data ? Math.round(Number(data.data) * 100) / 100 : 0
               }
                 <span style={{fontSize: 40, paddingLeft: '4pt'}}>
                   {
@@ -570,6 +571,12 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                 </span>
               </p>
             </div>
+            <ReactTooltip id={`kpi-e-a`}>
+              <span>{data.total ? data.total : 0}</span>
+            </ReactTooltip>
+            <ReactTooltip id={`kpi-e-b`}>
+              <span>{data.data ? data.data : 0}</span>
+            </ReactTooltip>
           </div>
           :
           <div>
@@ -605,7 +612,7 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                 }
               </div>
             }
-            <div>
+            <div data-tip data-for={'kpiId'}>
               <Textfit mode={'single'} style={{
                 textAlign: 'right',
                 fontSize: 128,
@@ -618,7 +625,7 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                       : (value.api === 'defective_items_reduced_rate' || value.api === 'target_attainment_rate')
                       ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100000) / 1000 : data.data
                       : (value.api === 'average_production_per_hour')
-                        ? data.data
+                        ? !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 100) / 100 : data.data
                         : !isNaN(Number(data.data)) ? Math.round(Number(data.data) * 10) / 10 : data.data
                     : ''
                 }
@@ -639,6 +646,9 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
             </span>
               </Textfit>
             </div>
+            <ReactTooltip id={`kpiId`}>
+              <span>{data.data}</span>
+            </ReactTooltip>
           </div>
       }
     </Container>

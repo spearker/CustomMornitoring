@@ -323,7 +323,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                             v[mv]
                           }
                           <ReactTooltip id={`p${i}${mi}`}>
-                            <span>{v[mv]}</span>
+                            <span>{mv === 'current_stock' ? v['real_current_stock'] ?? v[mv] : mv === 'safe_stock' ? v['safe_stock'] ?? v[mv] : v[mv]}</span>
                           </ReactTooltip>
                         </p>
 

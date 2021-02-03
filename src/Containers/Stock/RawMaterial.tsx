@@ -182,10 +182,17 @@ const RawMaterialContainer = () => {
     if (res) {
       const getStock = res.info_list.map((v, i) => {
         const material_type = transferCodeToName('material', v.material_type)
-        const safe_stock = AddComma(v.safe_stock)
-        const current_stock = AddComma(v.current_stock)
+        const safe_stock = AddComma(Math.round(Number(v.safe_stock) * 100) / 100)
+        const current_stock = AddComma(Math.round(Number(v.current_stock) * 100) / 100)
 
-        return {...v, material_type: material_type, safe_stock: safe_stock, current_stock: current_stock}
+        return {
+          ...v,
+          material_type: material_type,
+          safe_stock: safe_stock,
+          current_stock: current_stock,
+          real_safe_stock: AddComma(v.safe_stock),
+          real_current_stock: AddComma(v.current_stock)
+        }
       })
 
       setList(getStock)
