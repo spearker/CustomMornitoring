@@ -96,7 +96,7 @@ const ContractRegisterContainer = () => {
                                            name: e.material_name,
                                            pk: e.pk,
                                            stock: e.stock
-                                         }) : null}
+                                         }) : null} useFilter
                                          text={'품목(품목명)을 선택해주세요.'} type={1} isAllItem={true}/></td>
             </tr>
             <tr>

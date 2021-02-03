@@ -29,6 +29,13 @@ const typeDummy = [
   '검수',
 ]
 
+const item = [
+  {
+    title: '업체명',
+    width: 1000,
+  }
+]
+
 const ProcessRegisterContainer = ({match}: any) => {
   const history = useHistory()
   const [typeList] = useState<string[]>(typeDummy)
@@ -159,6 +166,11 @@ const ProcessRegisterContainer = ({match}: any) => {
         name: resultData.name,
         description: resultData.description
       })
+      if (resultData.type >= 1 && resultData.type < 6) {
+        setIndex(resultData.type + 6)
+      } else if (resultData.type >= 6) {
+        setIndex(resultData.type - 5)
+      }
       setDetailMaterialData(resultData.processes)
       setIsFirst(false)
     }
@@ -424,7 +436,14 @@ const ProcessRegisterContainer = ({match}: any) => {
                             width={true} innerWidth={447}
                             onClickEvent={(material) => {
                               let tmpDetailMaterialData = detailMaterialData
+                              console.log(tmpDetailMaterialData, i)
                               tmpDetailMaterialData[i].output_materials = material
+                              if (i !== tmpDetailMaterialData.length - 1) {
+                                tmpDetailMaterialData[i + 1] = {
+                                  ...tmpDetailMaterialData[i + 1],
+                                  input_materials: [{...material}]
+                                }
+                              }
                               setDetailMaterialData([...tmpDetailMaterialData])
                             }}
                             type={1} text={'생산품목을 선택해주세요.'} isAllItem
@@ -495,6 +514,18 @@ const ProcessRegisterContainer = ({match}: any) => {
                                                  //@ts-ignore
                                                  ...tmpDetailMaterials[i].output_materials,
                                                  count: Number(e.target.value)
+                                               }
+
+                                               if (i !== detailMaterialData.length - 1) {
+                                                 // @ts-ignore
+                                                 tmpDetailMaterials[i + 1].input_materials = tmpDetailMaterials[i + 1].input_materials.map((value, index) => {
+                                                   //@ts-ignore
+                                                   if (value.material_name === tmpDetailMaterials[i].output_materials.material_name) {
+                                                     return {...value, count: Number(e.target.value)}
+                                                   } else {
+                                                     return value
+                                                   }
+                                                 })
                                                }
 
                                                setDetailMaterialData([...tmpDetailMaterials])

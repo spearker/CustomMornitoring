@@ -388,7 +388,7 @@ const RegisterProcess = () => {
                     setKeyword('')
                     setSearchList([])
                     setIsSearched(false)
-                }} title={'원자재 선택'}>
+                }} title={'원자재 선택'}> 
                     <SearchInput description={'키워드를 검색해주세요'} value={keyword}
                                  onChangeEvent={(e) => setKeyword(e.target.value)}
                                  onClickEvent={onClickSearch}/>

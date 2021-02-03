@@ -152,7 +152,7 @@ const BasicMoldContainer = () => {
                             }}
                             dropDownOption={option}
                             dropDownOnClick={(e) => setOption(e)}
-                            dropDownContents={['금형명', '공장명']}
+                            dropDownContents={['금형명', '공장명', '관리번호']}
                             searchBarValue={keyword}
                             searchButtonOnClick={() => setSaveKeyword(keyword)}
                             titleOnClickEvent={titleEventList}/>
@@ -161,7 +161,6 @@ const BasicMoldContainer = () => {
                       indexList={LIST_INDEX['mold'].index}
                       valueList={list}
                       EventList={eventList}
-
                       selectBoxChange={(e) => setFilter(transferStringToCode('mold', e))}
                       mainOnClickEvent={(v) => history.push(`/basic/mold/register?pk=${v.pk}`)}
                       currentPage={page.current}
