@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState,} from 'react'
 import Styled from 'styled-components'
-import OvertonTable from '../../Components/Table/OvertonTable'
 import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getQualityList} from '../../Api/mes/quality'
 import {getCustomerData} from '../../Api/mes/customer'
@@ -8,17 +7,18 @@ import QualityTableDropdown from '../../Components/Dropdown/QualityTableDropdown
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import {useHistory} from 'react-router-dom'
 import Notiflix from 'notiflix'
+import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
+import OptimizedTable from '../../Components/Table/OptimizedTable'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
 const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
-const QualityListContainer = () => {
+const QnAListContainer = () => {
 
   const history = useHistory()
 
   const [list, setList] = useState<any[]>([])
-  const [option, setOption] = useState<number>(0)
   const [searchValue, setSearchValue] = useState<any>('')
   const [detailList, setDetailList] = useState<any[]>([])
   const [index, setIndex] = useState({material_name: '품목(품목명)'})
@@ -38,33 +38,18 @@ const QualityListContainer = () => {
 
   const indexList = {
     quality: {
-      material_name: '품목(품목명)',
-      process_name: '공정명',
-      amount: '총 완료 개수',
-      eligible: '적격 개수',
-      ineligible: '부적격 개수',
-      whether: '적격 여부',
-      statement: '검수 상태'
+      material_name: '등록일시',
+      process_name: '분류',
+      amount: '제목',
+      eligible: '답변 상태',
+      ineligible: '답변자',
+      whether: '답변일시',
     }
   }
 
   const onClick = useCallback((obj) => {
-    if (obj.statement === '검수 완료') {
-      history.push(`/quality/current/detail/${obj.request_pk}`)
-    } else {
-      history.push(`/quality/test/request/status/${obj.request_pk}`)
-    }
+
   }, [])
-
-  // const optionChange = useCallback(async (filter:number)=>{
-  //     setOption(filter)
-  //     const tempUrl = `${API_URLS['customer'].list}?keyword=${searchValue}&type=${(filter+1)}&page=${page.current}`
-  //     const res = await getCustomerData(tempUrl)
-
-  //     setList(res.info_list)
-  //     setPage({ current: res.current_page, total: res.total_page })
-  // },[option,searchValue])
-
 
   const searchChange = useCallback(async (search) => {
     setSearchValue(search)
@@ -148,8 +133,17 @@ const QualityListContainer = () => {
 
   return (
     <div>
-      <OvertonTable
-        title={'제품 품질 현황'}
+      <OptimizedHeaderBox
+        title={'QnA'}
+        searchBarChange={(e) => {
+          if (!e.match(regExp)) setSearchValue(e)
+        }}
+        searchBarValue={searchValue}
+        searchButtonOnClick={searchOnClick}
+        titleOnClickEvent={[{Name: '문의사항 등록', Width: 170}]}
+      />
+      <OptimizedTable
+        widthList={[100, 100, 100, 100, 100, 100, 100]}
         indexList={index}
         valueList={list}
         mainOnClickEvent={onClick}
@@ -157,11 +151,7 @@ const QualityListContainer = () => {
         currentPage={page.current}
         totalPage={page.total}
         pageOnClickEvent={(event, i) => setPage({...page, current: i})}
-        searchBarChange={(e) => {
-          if (!e.match(regExp)) setSearchValue(e)
-        }}
-        searchValue={searchValue}
-        searchButtonOnClick={searchOnClick}>
+      >
         {
           selectPk !== null ?
             <LineTable title={'제품 품질 현황 자세히 보기 : 품목명 00 _ 공정명 00 '}>
@@ -182,7 +172,7 @@ const QualityListContainer = () => {
             :
             null
         }
-      </OvertonTable>
+      </OptimizedTable>
     </div>
   )
 }
@@ -194,4 +184,4 @@ const Line = Styled.hr`
     background-color: #353b48;
 `
 
-export default QualityListContainer
+export default QnAListContainer

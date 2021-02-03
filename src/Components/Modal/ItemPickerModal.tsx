@@ -27,7 +27,7 @@ interface IProps {
   disabled?: boolean
   width?: number | string //검색 창 width
   type: 'rawlot' | 'product' | 'chit' | 'contract' | 'machine' | 'project' //검색 타입
-  tableHeaderValue?: { title: string, key: string, width?: number }[] // 리스트에 들어가 항목 정보
+  tableHeaderValue?: { title: string, key: string, width?: number, keys?: string[] }[] // 리스트에 들어가 항목 정보
   title: string // 모달 상단에 뜨는 title
   mainKey: string
   optionItems?: { option: string, optionList: { title: string, value: number }[] }
@@ -145,7 +145,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
             </div>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox
-                placeholder={title === '생산계획' ? '계획자명을 입력해주세요' : title === '전표' ? `검색어를 입력해주세요` : `${title}명을 입력해주세요`}
+                placeholder={title === '수주' ? '거래처명 또는 품목명으로 검색해 주세요' : title === '생산계획' ? '계획자명을 입력해주세요' : title === '전표' ? `검색어를 입력해주세요` : `${title}명을 입력해주세요`}
                 style={{flex: 96}}
                 onChange={(e) => setSearchName(e.target.value)} value={searchName}
                 onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}/>
@@ -174,12 +174,22 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
                         }}>
                           {
                             tableHeaderValue && tableHeaderValue.map(th => {
-                              if (th.key === 'machine_type') {
-                                return <td><span>{transferCodeToName('machine', item[th.key])}</span></td>
-                              } else if (th.key === 'material_type') {
-                                return <td><span>{transferCodeToName('material', item[th.key])}</span></td>
+                              if (th.key !== '') {
+                                if (th.key === 'machine_type') {
+                                  return <td><span>{transferCodeToName('machine', item[th.key])}</span></td>
+                                } else if (th.key === 'material_type') {
+                                  return <td><span>{transferCodeToName('material', item[th.key])}</span></td>
+                                } else {
+                                  return <td><span>{item[th.key]}</span></td>
+                                }
                               } else {
-                                return <td><span>{item[th.key]}</span></td>
+                                if (th.keys) {
+                                  const tmp = th.keys.map(key => {
+                                    return item[key]
+                                  })
+
+                                  return <td><span>{tmp.join(' ~ ')}</span></td>
+                                }
                               }
                             })
                           }

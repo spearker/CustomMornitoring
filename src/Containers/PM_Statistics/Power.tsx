@@ -27,7 +27,7 @@ const chartOption = {
       }
     },
   },
-  colors: ['#dd4bbe', '#5145c6', '#158bdc', '#fb9e70', '#08d05f', '#f65f61', '#d8bf00'],
+  colors: ['#dd4bbe', '#5145c6', '#158bdc', '#fb9e70', '#08d05f', '#f65f61', '#d8bf00', '#F5F765', '#098ED3', '#600FD6', '#EBD3F8', '#BEE19F', '#B48DA1', '#6CE474', '#E8B83C', '#00DDF1', '#AE5830', '#16E764', '#97AD6E', '#4714CF', '#CE2AD1', '#EA2746', '#1FC7A3', '#B260EA'],
   dataLabels: {
     enabled: false
   },

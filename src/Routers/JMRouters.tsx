@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route, Switch} from 'react-router-dom'
-import LoadtoneStatistics from '../Pages/PM_Statistics/LoadtoneStatistics'
+import LoadtoneStatistics from '../Pages/PM_Statistics/LoadtonStatistics'
 import MoldStatistics from '../Pages/PM_Statistics/MoldStatistics'
 import DefectiveStatistics from '../Pages/PM_Statistics/DefectiveStatistics'
 import ProductToneStatistics from '../Pages/PM_Statistics/ProductToneSatistics'
