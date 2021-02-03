@@ -15,10 +15,11 @@ interface IProps {
   buttonWid?: string | number
   disabled?: boolean
   style?: any
+  absoluteHeight?: number
   inputStyle?: any
 }
 
-const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid, disabled, style, inputStyle}: IProps) => {
+const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid, disabled, style, inputStyle, absoluteHeight}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [selectValue, setSelectValue] = useState<string>('')
@@ -59,7 +60,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
           height: buttonWid ? buttonWid : 32
         }}>
           <img src={dropdownButton} onClick={() => {
-            !disabled && setIsOpen(true)
+            // setIsOpen(true)
           }}/>
         </div>
 
@@ -98,7 +99,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
                 }}/>
               </div>
             </BoxWrap>
-            <div style={{height: 200, overflow: 'scroll',}}>
+            <div style={{overflow: 'scroll',}}>
               {
                 contents.map((v, i) => {
                   if (v !== '') {
