@@ -151,7 +151,11 @@ const BasicMoldContainer = () => {
                               if (!e.match(regExp)) setKeyword(e)
                             }}
                             dropDownOption={option}
-                            dropDownOnClick={(e) => setOption(e)}
+                            dropDownOnClick={(e) => {
+                              setKeyword('')
+                              setSaveKeyword('')
+                              setOption(e)
+                            }}
                             dropDownContents={['금형명', '공장명', '관리번호']}
                             searchBarValue={keyword}
                             searchButtonOnClick={() => setSaveKeyword(keyword)}
