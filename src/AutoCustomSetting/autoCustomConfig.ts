@@ -27,6 +27,7 @@ const autoCustomType = () => {
         case '125.138.147.11':
         case '222.98.3.154':
         case '106.240.250.74':
+        case '210.183.2.208':
             return 'jb_material_trans'
         default:
             return ''

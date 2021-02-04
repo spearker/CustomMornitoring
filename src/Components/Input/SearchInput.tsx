@@ -1,28 +1,36 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from 'react'
 import Styled from 'styled-components'
 import icSearch from '../../Assets/Images/ic_search.png'
-import IconSquareButton from '../Button/IconSquareButton';
+import IconSquareButton from '../Button/IconSquareButton'
 
 
-interface IProps{
-    description: string,
-    value: string,
-    onChangeEvent: any,
-    onClickEvent: any,
+interface IProps {
+  description: string,
+  value: string,
+  onChangeEvent: any,
+  onClickEvent: any,
 }
-const SearchInput = ({description, value, onChangeEvent, onClickEvent}: IProps) => {
-  useEffect(()=>{
 
-  },[])
+const SearchInput = ({description, value, onChangeEvent, onClickEvent}: IProps) => {
+  useEffect(() => {
+
+  }, [])
 
   return (
-        <form style={{position: 'relative'}}>
-            <InputBox type="text" value={value} onChange={(e)=>onChangeEvent(e)} placeholder={description}/>
-            <div onClick={onClickEvent}  style={{justifyContent:'center' , position:'absolute', top:0, right:0, zIndex:4}}>
-             <IconSquareButton color="#e7e9eb" width="30px" imageSize="17px" image={icSearch} dim={false}/>
-            </div>
-        </form>
-  );
+    <form style={{position: 'relative'}} onSubmit={(e) => {
+      e.preventDefault()
+    }}>
+      <InputBox type="text" value={value} onChange={(e) => onChangeEvent(e)} placeholder={description}
+                onKeyDown={(key) => {
+                  if (key.keyCode === 11) {
+                    onClickEvent()
+                  }
+                }}/>
+      <div onClick={onClickEvent} style={{justifyContent: 'center', position: 'absolute', top: 0, right: 0, zIndex: 4}}>
+        <IconSquareButton color="#e7e9eb" width="30px" imageSize="17px" image={icSearch} dim={false}/>
+      </div>
+    </form>
+  )
 }
 
 const InputBox = Styled.input`
@@ -36,4 +44,4 @@ const InputBox = Styled.input`
 `
 
 
-export default SearchInput;
+export default SearchInput

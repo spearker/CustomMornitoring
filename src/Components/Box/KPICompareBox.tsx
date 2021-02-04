@@ -27,7 +27,10 @@ const pickerModalHeader = {
     {title: '거래처명', key: 'customer_name', width: 100},
     {title: '품목명', key: 'material_name', width: 100},
     {title: '수량', key: 'amount', width: 100},
-    {title: '미납수량', key: 'left', width: 100},
+    {title: '미납수량', key: 'left', width: 80},
+    {title: '등록일', key: 'registered', width: 150},
+    {title: '계약일', key: '', width: 170, keys: ['date', 'deadline']}
+
   ],
   machine: [
     {title: '기계명', key: 'machine_name', width: 100},

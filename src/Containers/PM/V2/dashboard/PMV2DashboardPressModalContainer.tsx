@@ -3,6 +3,8 @@ import Modal from 'react-modal'
 import Chart from 'react-apexcharts'
 import CalendarDropdown from '../../../../Components/Dropdown/CalendarDropdown'
 import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES } from '../../../../Common/@types/pm_v2_press'
+import FrequentlyLabel from '../../../../Components/PM/Frequently/FrequentlyLabel'
+import closeImage from '../../../../Assets/Images/closeButton.png'
 
 interface Props {
   isVisible: boolean
@@ -171,23 +173,23 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
   const errorContainer = () => {
     return (
       <div>
-        <div style={{ display: 'flex', width: '100%', borderBottom: '1px solid white' }}>
+        <div style={{ display: 'flex', width: '100%', borderBottom: '1px solid white', paddingBottom: 6 }}>
           <div style={{ width: '30%' }}>
-            <h1 style={{ color: 'white' }}>에러 발생 시간</h1>
+            <FrequentlyLabel text={'에러 발생 시간'} size={18}/>
           </div>
           <div style={{ width: '70%' }}>
-            <h1 style={{ color: 'white' }}>에러 코드</h1>
+            <FrequentlyLabel text={'에러 코드'} size={18}/>
           </div>
         </div>
         <div>
           {
             data.error && data.error.histories.map((element) => <div
-              style={{ display: 'flex', width: '100%' }}>
+              style={{ display: 'flex', width: '100%', marginTop: 4 }}>
               <div style={{ width: '30%' }}>
-                <h3 style={{ color: 'white', marginTop: 12, marginBottom: 0 }}>{element.created}</h3>
+                <FrequentlyLabel text={element.created} size={16}/>
               </div>
               <div style={{ width: '70%' }}>
-                <h3 style={{ color: 'white', marginTop: 12, marginBottom: 0 }}>{element.type}</h3>
+                <FrequentlyLabel text={element.type} size={16}/>
               </div>
             </div>)
           }
@@ -219,33 +221,26 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
   }
 
   const onViewContent = React.useMemo(() => {
+
     if ((type === 'uph' || type === 'slideMotor') && (typeof options === 'object' && options.series)) {
       return <React.Fragment>
-        <div style={{ marginRight: 60 }}>
+        <div style={{ marginRight: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {type === 'uph' && <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 48 }}>
+            <FrequentlyLabel text={'총 생산량'} size={20} weight={'bold'} containerStyles={{ paddingRight: 8 }}/>
+            <FrequentlyLabel text={data ? data.uph ? data.uph.total_uph.toLocaleString() : '-' : '-'} size={36}
+                             weight={'bold'}/>
+          </div>}
           <CalendarDropdown type={'single'}
                             select={date}
                             toDayLimit
                             onClickEvent={onChangeDate}/>
         </div>
-        <Chart options={options} series={options.series} type="area" width={'100%'} height={'89%'}/>
+        <Chart options={options} series={options.series} type="area" width={'100%'} height={'85%'}/>
       </React.Fragment>
     } else if (type === 'error') {
       return errorContainer()
     }
   }, [ type, data, options ])
-
-  const showTotalUPH = React.useMemo(() => {
-    return <div style={{ width: '45%', display: 'flex', alignItems: 'center' }}>
-      <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0, marginRight: 18, paddingLeft: 28 }}>총 생산량 </h1>
-      <h1 style={{
-        fontSize: 72,
-        margin: 0,
-        marginTop: 10,
-        color: 'white',
-        fontWeight: 'bold'
-      }}>{data ? data.uph ? data.uph.total_uph.toLocaleString() : '-' : '-'}  </h1>
-    </div>
-  }, [ data.uph ])
 
   return (
     <React.Fragment>
@@ -287,21 +282,20 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
             }}>
               <div style={{
                 display: 'flex',
-                paddingLeft: typeIsChart ? 48 : undefined,
+                alignItems: 'center',
+                paddingLeft: typeIsChart ? 32 : undefined,
                 width: typeIsChart ? '41%' : '50%'
               }}>
-                <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0, paddingRight: 18 }}>{header}</h1>
-                <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0 }}> ({title})</h1>
+                <FrequentlyLabel text={header} size={36} containerStyles={{ paddingRight: 18 }} weight={'bold'}/>
+                <FrequentlyLabel text={`(${title})`} size={24}/>
               </div>
-              {type === 'uph' && showTotalUPH}
               <div style={{
-                paddingRight: 60,
                 width: typeIsChart ? '10%' : '50%',
                 display: 'flex',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
+                paddingRight: typeIsChart ? 32 : 16
               }}>
-                <h1 style={{ fontSize: 36, color: 'white', marginBottom: 0, cursor: 'pointer' }}
-                    onClick={onClose}>X</h1>
+                <img style={{ width: 32, height: 32 }} src={closeImage} alt={'close'} onClick={onClose}/>
               </div>
             </div>
             <div style={{

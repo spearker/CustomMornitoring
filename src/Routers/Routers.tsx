@@ -162,6 +162,7 @@ import BasicMold from '../Pages/Basic/BasicMold'
 import BasicParts from '../Pages/Basic/BasicParts'
 import BasicBarcode from '../Pages/Basic/BasicBarcode'
 import PMV2DashboardPressContainer from '../Containers/PM/V2/dashboard/PMV2DashboardPressContainer'
+import PMV2ForDesignerContainer from '../Containers/PM/V2/designer/PMV2ForDesignerContainer'
 
 
 const Routers = () => {
@@ -417,6 +418,7 @@ const Routers = () => {
         <Route exact path="/custom/dashboard/production" component={CustomProductionDashBoard}/>
 
         <Route exact path="/pm/v2/dashboard/press/:id" component={PMV2DashboardPressContainer}/>
+        <Route exact path="/pm/v2/for/designer" component={PMV2ForDesignerContainer}/>
       </Switch>
     </div>
   )

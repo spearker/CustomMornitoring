@@ -25,9 +25,16 @@ const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, 
     <div>
       <Title>
         <div style={{display: 'flex'}}>
-          <p className="p-bold" style={{fontSize: 20}}>{title}</p>
+          <p className="p-bold" style={{fontSize: 20, marginRight: 24}}>{title}</p>
+          {dropDownOnClick ?
+            <div style={{alignItems: 'center'}}>
+              <BasicDropdown contents={dropDownContents} select={dropDownContents[dropDownOption]}
+                             onClickEvent={dropDownOnClick}/>
+            </div> :
+            null
+          }
           {searchButtonOnClick ?
-            <div style={{width: '371px', display: 'flex', flexDirection: 'row', marginLeft: 24}}>
+            <div style={{width: '371px', display: 'flex', flexDirection: 'row'}}>
               <SearchBox placeholder="검색어를 입력해주세요." style={{flex: 92}}
                          onChange={(e) => searchBarChange(e.target.value)}
                          value={searchBarValue}
@@ -36,13 +43,6 @@ const OptimizedHeaderBox: React.FunctionComponent<Props> = ({title, selectDate, 
               <SearchButton style={{flex: 8}} onClick={() => searchButtonOnClick()}>
                 <img src={IcSearchButton}/>
               </SearchButton>
-            </div> :
-            null
-          }
-          {dropDownOnClick ?
-            <div style={{alignItems: 'center'}}>
-              <BasicDropdown contents={dropDownContents} select={dropDownContents[dropDownOption]}
-                             onClickEvent={dropDownOnClick}/>
             </div> :
             null
           }

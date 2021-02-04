@@ -17,6 +17,7 @@ import DateAndTimeBox from '../../Components/Box/DateAndTimeBox'
 
 interface DateListArray {
     date: string,
+    motor_run_time: string,
     run_time: string,
     stop_time: string,
     spm: string,
@@ -75,6 +76,7 @@ const PressKeyinRegister = ({ match }) => {
        while(curDate <= new Date(date2)) {
           workingPeriod.push({
                 date: curDate.toISOString().split("T")[0],
+                motor_run_time: '00:00:00',
                 run_time: '00:00:00',
                 stop_time: '00:00:00',
                 spm: '',
