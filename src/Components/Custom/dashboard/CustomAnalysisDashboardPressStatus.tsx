@@ -226,7 +226,7 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                                                             fontSize={'65px'} width={350} height={450} titleFontSize/>
                                             <PressStatusBox title={'생산 남은 시간'}
                                                             value={machineData.ETC === "-1" ? "∞" : machineData.ETC}
-                                                            fontSize={'75px'} width={350} height={450} titleFontSize/>
+                                                            fontSize={'70px'} width={350} height={450} titleFontSize/>
                                         </>
                                         :
                                         <>
