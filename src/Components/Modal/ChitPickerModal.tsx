@@ -30,6 +30,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
 
   const [machineList, setMachineList] = useState([{
     pk: '',
+    chit_name: '',
     registerer_name: '',
     supplier_name: '',
     material_name: '',
@@ -39,8 +40,8 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
-  const [isFirst, setIsFirst] = useState<boolean>(false);
-  const [saveKeyword, setSaveKeyword] = useState<string>('');
+  const [isFirst, setIsFirst] = useState<boolean>(false)
+  const [saveKeyword, setSaveKeyword] = useState<string>('')
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
   // });
@@ -62,10 +63,10 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
   }, [page.current])
 
   useEffect(() => {
-    if(isFirst){
-        getList(true)
+    if (isFirst) {
+      getList(true)
     }
-}, [saveKeyword])
+  }, [saveKeyword])
 
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
@@ -120,7 +121,9 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
               <SearchBox placeholder="등록자명을 입력해 주세요." style={{flex: 96}}
                          value={searchName}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                         onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
+                         onChange={(e) => {
+                           if (!e.target.value.match(regExp)) setSearchName(e.target.value)
+                         }}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>
@@ -129,6 +132,7 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
               <ReactShadowScroll>
                 <MachineTable>
                   <tr>
+                    <th style={{width: 100}}>전표명</th>
                     <th style={{width: 100}}>등록자명</th>
                     <th style={{width: 180}}>납품업체명</th>
                     <th style={{width: 200}}>생산 품목명</th>
@@ -146,9 +150,10 @@ const ChitPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IPro
                             height: 32,
                             backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
                           }} onClick={() => {
-                            setProcessName(v.registerer_name)
-                            return onClickEvent({name: v.registerer_name, pk: v.pk})
+                            setProcessName(v.chit_name)
+                            return onClickEvent({name: v.chit_name, pk: v.pk})
                           }}>
+                            <td><span>{v.chit_name}</span></td>
                             <td><span>{v.registerer_name}</span></td>
                             <td><span>{v.supplier_name}</span></td>
                             <td><span>{v.material_name}</span></td>
