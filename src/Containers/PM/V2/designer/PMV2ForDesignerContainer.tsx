@@ -46,12 +46,12 @@ const PMV2ForDesignerContainer: React.FunctionComponent = () => {
       </div>
       <Container>
         <div style={{ display: 'flex' }}>
-          <Grid background={desp1000} top={63} left={235} onClick={() => goToPressDashboard('0', 'desp1000')}/>
-          <Grid background={desp800} top={63} left={401} onClick={() => goToPressDashboard('1', 'desp800')}/>
-          <Grid background={desp600} top={63} left={558} onClick={() => goToPressDashboard('2', 'desp600')}/>
-          <Grid background={desp400} top={63} left={717} onClick={() => goToPressDashboard('3', 'desp400')}/>
+          <Grid background={desp1000} top={63} left={235} onClick={() => goToPressDashboard('0', 'DE2P1000')}/>
+          <Grid background={desp800} top={63} left={401} onClick={() => goToPressDashboard('1', 'DE2P800')}/>
+          <Grid background={desp600} top={63} left={558} onClick={() => goToPressDashboard('2', 'DE2P600')}/>
+          <Grid background={desp400} top={63} left={717} onClick={() => goToPressDashboard('3', 'DE2P400')}/>
         </div>
-        <Grid background={despJail400} top={353} left={1131} onClick={() => goToPressDashboard('4', 'despJail400')}/>
+        <Grid background={despJail400} top={353} left={1131} onClick={() => goToPressDashboard('4', '제일400')}/>
       </Container>
     </div>
   )
