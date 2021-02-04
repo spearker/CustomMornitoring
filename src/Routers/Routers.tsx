@@ -13,7 +13,6 @@ import Signup from '../Pages/Welcome/Signup'
 import Complete from '../Pages/Welcome/Complete'
 
 // ./Pages/Dashboard
-
 // manage (인사관리)
 import AcceptMember from '../Pages/Old_Manage/Accept'
 import CompanySetting from '../Pages/Old_Manage/Setting'
@@ -420,7 +419,7 @@ const Routers = () => {
 
         <Route exact path="/pm/v2/dashboard/press/select/info" component={PMV2DashboardPressContainer}/>
         <Route exact path="/pm/v2/dashboard/press/:id" component={PMV2DashboardPressContainer}/>
-        <Route exact path="/pm/v2/for/designer" component={PMV2ForDesignerContainer}/>
+        <Route exact path="/pm/v2/cps/map" component={PMV2ForDesignerContainer}/>
 
       </Switch>
     </div>
