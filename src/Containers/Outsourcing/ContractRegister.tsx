@@ -333,8 +333,8 @@ const ContractRegister = ({match}: Props) => {
         <NormalInput title={'대금 지불조건'} value={paymentCondition} onChangeEvent={setPaymentCondition}
                      description={'대금 지불조건을 입력해 주세요.'} width={120}/>
         <DateInput title={'납기일'} description={''} value={selectDate} onChangeEvent={setSelectDate}
-                   style={{width: 'calc(100% - 157px)'}} inputStyle={{boxSizing: 'border-box'}}/>
-        <NormalAddressInput title={'공장 주소'} value={inputData.location}
+                   style={{width: '125%'}} inputStyle={{boxSizing: 'border-box'}}/>
+        <NormalAddressInput title={'공장 주소'} value={inputData.location} titleWidth={'120px'}
                             onChangeEvent={(input) => setInputData(`location`, input)}/>
         {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'}  ={()=>{
