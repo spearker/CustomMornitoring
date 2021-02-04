@@ -176,18 +176,20 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                 </Modal>
             }
             <ListBox>
-                {autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' &&
-                <div style={{position: 'absolute', top: 15, right: 15}}>
-                    <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
-                        <Grid component="label" container alignItems="center" spacing={1}>
-                            <Grid item>대시보드</Grid>
-                            <Grid item>
-                                <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                {autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' ?
+                    <div style={{position: 'absolute', top: 15, right: 15}}>
+                        <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
+                            <Grid component="label" container alignItems="center" spacing={1}>
+                                <Grid item>대시보드</Grid>
+                                <Grid item>
+                                    <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                                </Grid>
+                                <Grid item>상태 모니터링</Grid>
                             </Grid>
-                            <Grid item>상태 모니터링</Grid>
-                        </Grid>
-                    </Typography>
-                </div>
+                        </Typography>
+                    </div>
+                    :
+                    <></>
                 }
                 {list === undefined ?
                     <p style={{color: 'white', fontSize: '30px', textAlign: 'center', width: '100%'}}>불러 올 수 있는 기계 정보가
@@ -212,9 +214,9 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                                     <PressStatusBox title={'종합 카운터'} width={350} height={450}
                                                     value={AddComma(machineData.total_counter)}
                                                     fontSize={'80px'} titleFontSize/>
-                                    <PressStatusBox title={'긱가동시간'} value={machineData.runtime} fontSize={'85px'}
+                                    <PressStatusBox title={'기계 가동시간'} value={machineData.runtime} fontSize={'85px'}
                                                     width={350} height={450} titleFontSize/>
-                                    <PressStatusBox title={'비가동시간'} value={machineData.downtime} fontSize={'85px'}
+                                    <PressStatusBox title={'기계 비가동시간'} value={machineData.downtime} fontSize={'85px'}
                                                     width={350} height={450} titleFontSize/>
                                     <PressStatusBox title={'기계가동율'} value={`${machineData.percent}%`}
                                                     fontSize={'100px'} width={350} height={450} titleFontSize/>
@@ -224,7 +226,7 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                                                             fontSize={'65px'} width={350} height={450} titleFontSize/>
                                             <PressStatusBox title={'생산 남은 시간'}
                                                             value={machineData.ETC === "-1" ? "∞" : machineData.ETC}
-                                                            fontSize={'75px'} width={350} height={450} titleFontSize/>
+                                                            fontSize={'70px'} width={350} height={450} titleFontSize/>
                                         </>
                                         :
                                         <>

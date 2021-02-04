@@ -171,18 +171,20 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                     <TitleText
                         style={{fontSize: 72}}>{data ? data.press_data.name + `(${tonnageLimit}t)` : '-'}</TitleText>
                     <div/>
-                    {autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' &&
-                    <div style={{position: 'absolute', top: 15, right: 15}}>
-                        <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
-                            <Grid component="label" container alignItems="center" spacing={1}>
-                                <Grid item>대시보드</Grid>
-                                <Grid item>
-                                    <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                    {autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' ?
+                        <div style={{position: 'absolute', top: 15, right: 15}}>
+                            <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
+                                <Grid component="label" container alignItems="center" spacing={1}>
+                                    <Grid item>대시보드</Grid>
+                                    <Grid item>
+                                        <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                                    </Grid>
+                                    <Grid item>상태 모니터링</Grid>
                                 </Grid>
-                                <Grid item>상태 모니터링</Grid>
-                            </Grid>
-                        </Typography>
-                    </div>
+                            </Typography>
+                        </div>
+                        :
+                        <></>
                     }
                 </div>
             </div>
