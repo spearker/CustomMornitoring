@@ -1,23 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import InnerBodyContainer from '../../../Containers/InnerBodyContainer'
-import Styled from 'styled-components'
-import CustomLoadTon from '../loadton/CustomLoadtonCard'
-import CustomMainMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart'
-import CustomSlideMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart'
-import getYoodongDashboard from '../../../Api/custom/getYoodongDashboard'
-import {YOUDONG_PRESS_CUSTOM_TYPE} from '../../../Common/@types/youdong'
-import CustomMonitoringCard from '../loadton/CustomMonitoringCard'
 import Modal from 'react-modal'
 import {RotateSpinner} from 'react-spinners-kit'
 import {useHistory} from 'react-router-dom'
-import CustomAnalysisMonitoringCard from "../loadton/CustomAnalysisMonitoringCard";
-import CustomAnalysisLoadTon from "../loadton/CustomAnalysisLoadtonCard";
 import Notiflix from 'notiflix'
 import {API_URLS, getLoadTonList} from "../../../Api/pm/monitoring";
-import CustomDashboardHeader from "./CustomDashboardHeader";
-import PressBox from "../PM_Monitoring/PressBox";
-import {changeStatusToColor, changeStatusToString} from "../../../Common/statusFunctions";
-import PressStatusBox from "../PM_Monitoring/PressStatusBox";
 import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
 import {withStyles} from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
@@ -187,7 +173,7 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                 </Modal>
             }
             <ListBox>
-                {autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' &&
+                {autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' &&
                 <div style={{position: 'absolute', top: 15, right: 15}}>
                     <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
                         <Grid component="label" container alignItems="center" spacing={1}>
@@ -272,82 +258,82 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
 }
 
 const ListBox = Styled.div`
-    position: fixed;
-    overflow: auto;
-    // -ms-overflow-style: none; /* IE and Edge */
-    // scrollbar-width: none;
-    // ::-webkit-scrollbar {
-    //     display: none;
-    // }
-    background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
+                    position: fixed;
+                    overflow: auto;
+                    // -ms-overflow-style: none; /* IE and Edge */
+                    // scrollbar-width: none;
+                    // ::-webkit-scrollbar {
+                    //     display: none;
+                    // }
+                    background-image: linear-gradient(to right, #202e4a 0%, #0f1722 100%);
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    `;
 
 const BoxContainer = Styled.div`
-width: calc(100% - 300px);
-height: calc(100% - 700px);
-min-height: 1100px;
-min-width: 2650px;
-max-height: 746px;
-max-width: 2300px;
-border-radius: 6px;
-background-color: #11131950;
-padding: 8px;
-font-weight: bold;
-margin: 0 auto;
-`
+                    width: calc(100% - 300px);
+                    height: calc(100% - 700px);
+                    min-height: 1100px;
+                    min-width: 2650px;
+                    max-height: 746px;
+                    max-width: 2300px;
+                    border-radius: 6px;
+                    background-color: #11131950;
+                    padding: 8px;
+                    font-weight: bold;
+                    margin: 0 auto;
+                    `
 
 const MachineName = Styled.p`
-font-family: NotoSansCJKkr;
-font-size: 90px;
-text-align: left;
-color: #ffffff;
-width: auto;
-margin-right: 50px;
-`
+                    font-family: NotoSansCJKkr;
+                    font-size: 90px;
+                    text-align: left;
+                    color: #ffffff;
+                    width: auto;
+                    margin-right: 50px;
+                    `
 
 const MaterialName = Styled.p`
-font-family: NotoSansCJKkr;
-font-size: 90px;
-text-align: left;
-color: #ffffff;
-width: auto;
-`
+                    font-family: NotoSansCJKkr;
+                    font-size: 90px;
+                    text-align: left;
+                    color: #ffffff;
+                    width: auto;
+                    `
 
 
 const StatusBox = Styled.div`
-width: 665px;
-height: 928px;
-border-radius: 6px;
-margin-top: 10px;
-margin-right: 25px;
-justify-content: center;
-display: flex;
-align-items: center;
-align-self:center;
-p
-{
-    font-family:NotoSansCJKkr;
-    font-size:150px;
-    font-weight:bold;
-     text-align: center;
-}
-`
+                    width: 665px;
+                    height: 928px;
+                    border-radius: 6px;
+                    margin-top: 10px;
+                    margin-right: 25px;
+                    justify-content: center;
+                    display: flex;
+                    align-items: center;
+                    align-self:center;
+                    p
+                {
+                    font-family:NotoSansCJKkr;
+                    font-size:150px;
+                    font-weight:bold;
+                    text-align: center;
+                }
+                    `
 
 const ErrorMessage = Styled.p`
-padding-top: 8px;
-font-family: NotoSansCJKkr;
-font-size: 40px;
-text-align: left;
-color: red;
-width: 904px;
-`
+                    padding-top: 8px;
+                    font-family: NotoSansCJKkr;
+                    font-size: 40px;
+                    text-align: left;
+                    color: red;
+                    width: 904px;
+                    `
 
 
 export default CustomAnalysisDashboardPressStatus
