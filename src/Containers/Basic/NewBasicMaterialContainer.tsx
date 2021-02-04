@@ -227,6 +227,36 @@ const NewBasicMaterialRegister = () => {
                            onChangeEvent={(input) => setInputData(`material_code`, input)}
                            description={'품번을 입력해주세요'}/>
 
+              {inputData.material_type === 30 &&
+              <div>
+                <FullAddInput title={'모델'} onChangeEvent={() => {
+                  let temp = _.cloneDeep(inputData.model)
+                  temp.push('')
+                  setInputData('model', temp)
+                }}>
+
+                  {
+                    inputData.model && inputData.model.map((v, i) => {
+                      return (
+                        <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
+                                         onRemoveEvent={() => {
+                                           let temp = _.cloneDeep(inputData.model)
+                                           temp.splice(i, 1)
+                                           setInputData('model', temp)
+                                         }}
+                                         onChangeEvent={(input) => {
+                                           let temp = _.cloneDeep(inputData.model)
+                                           temp.splice(i, 1, input)
+                                           setInputData('model', temp)
+                                         }}
+                        />
+                      )
+                    })
+                  }
+                </FullAddInput>
+              </div>
+              }
+
               {inputData.material_type === 0 &&
               <NormalInput title={'제조사'} value={inputData.manufacturer}
                            onChangeEvent={(input) => setInputData(`manufacturer`, input)}
