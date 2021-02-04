@@ -58,7 +58,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 })
                 setCurrentDashboard(currentDashboard + 1)
             }
-        }, autoCustomType() === 'hwain_trans' ? 5000 : 30000)
+        }, autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' ? 5000 : 30000)
 
         return () => clearInterval(rotatePage)
 
@@ -72,7 +72,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 (pressList[currentDashboard] === undefined ?
                         null
                         :
-                        (autoCustomType() === 'hwain_trans' ?
+                        (autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' ?
                                 (
                                     dashChange ?
                                         <CustomAnalysisDashboardPressStatus id={pressList[currentDashboard]}

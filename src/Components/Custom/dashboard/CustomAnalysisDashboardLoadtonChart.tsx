@@ -173,7 +173,7 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                     <TitleText
                         style={{fontSize: 72}}>{data ? data.press_data.name + `(${tonnageLimit}t)` : '-'}</TitleText>
                     <div/>
-                    {autoCustomType() === 'hwain_trans' &&
+                    {autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' &&
                     <div style={{position: 'absolute', top: 15, right: 15}}>
                         <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
                             <Grid component="label" container alignItems="center" spacing={1}>

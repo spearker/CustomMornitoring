@@ -29,6 +29,18 @@ const autoCustomType = () => {
         case '106.240.250.74':
         case '210.183.2.208':
             return 'jb_material_trans'
+        case '221.165.109.93':
+            return 'teoul_trans'
+        case '210.113.232.249':
+            return 'atech_trans'
+        case '115.22.101.32':
+            return 'hangil_trans'
+        case '211.228.163.231':
+            return 'jeonghyun_trans'
+        case '121.150.81.201':
+            return 'daekwang_trans'
+        case '106.252.226.157':
+            return 'daeheung_trans'
         default:
             return ''
     }
