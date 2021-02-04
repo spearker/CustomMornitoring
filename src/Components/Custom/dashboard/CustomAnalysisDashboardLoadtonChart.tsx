@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import InnerBodyContainer from '../../../Containers/InnerBodyContainer'
 import Styled from 'styled-components'
-import CustomLoadTon from '../loadton/CustomLoadtonCard'
 import CustomMainMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomMainMotorAngulargaugeChart'
 import CustomSlideMotorAngulargaugeChart from '../../../Containers/Custom/dashboard/CustomSlideMotorAngulargaugeChart'
 import getYoodongDashboard from '../../../Api/custom/getYoodongDashboard'
 import {YOUDONG_PRESS_CUSTOM_TYPE} from '../../../Common/@types/youdong'
-import CustomMonitoringCard from '../loadton/CustomMonitoringCard'
 import Modal from 'react-modal'
 import {RotateSpinner} from 'react-spinners-kit'
 import {useHistory} from 'react-router-dom'
@@ -173,7 +171,7 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                     <TitleText
                         style={{fontSize: 72}}>{data ? data.press_data.name + `(${tonnageLimit}t)` : '-'}</TitleText>
                     <div/>
-                    {autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' &&
+                    {autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' &&
                     <div style={{position: 'absolute', top: 15, right: 15}}>
                         <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
                             <Grid component="label" container alignItems="center" spacing={1}>

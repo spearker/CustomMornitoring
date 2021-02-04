@@ -2,12 +2,10 @@ import React, {useEffect} from 'react'
 import {DASHBOARD} from '../../../Common/@types/youdong'
 import getYoodongPressList from '../../../Api/custom/getYoodongPressList'
 import {useHistory} from 'react-router-dom'
-import CustomDashboardLoadtonChart from '../../../Components/Custom/dashboard/CustomDashboardLoadtonChart'
 import CustomErrorLogDashBoard from './CustomErrorLogDashBoard'
 import CustomAnalysisDashboardLoadtonChart
     from '../../../Components/Custom/dashboard/CustomAnalysisDashboardLoadtonChart'
-import CustomAnalysisDashboardPressStatus
-    from '../../../Components/Custom/dashboard/CustomAnalysisDashboardPressStatus'
+import CustomAnalysisDashboardPressStatus from '../../../Components/Custom/dashboard/CustomAnalysisDashboardPressStatus'
 import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
 
 const CustomRotateDashboard: React.FunctionComponent = () => {
@@ -58,7 +56,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 })
                 setCurrentDashboard(currentDashboard + 1)
             }
-        }, autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' ? 5000 : 30000)
+        }, autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' ? 5000 : 30000)
 
         return () => clearInterval(rotatePage)
 
@@ -72,7 +70,7 @@ const CustomRotateDashboard: React.FunctionComponent = () => {
                 (pressList[currentDashboard] === undefined ?
                         null
                         :
-                        (autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' ?
+                        (autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' ?
                                 (
                                     dashChange ?
                                         <CustomAnalysisDashboardPressStatus id={pressList[currentDashboard]}
