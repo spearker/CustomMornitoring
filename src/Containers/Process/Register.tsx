@@ -228,7 +228,7 @@ const ProcessRegisterContainer = ({match}: any) => {
               <td>• 타입</td>
               <td>
                 <RegisterDropdown
-                  type={'string'}
+                  type={'string'} absoluteHeight={150}
                   onClickEvent={async (e) => {
                     if (transferStringToCode('process', e) >= 1 && transferStringToCode('process', e) < 6) {
                       setIndex(transferStringToCode('process', e) + 6)
