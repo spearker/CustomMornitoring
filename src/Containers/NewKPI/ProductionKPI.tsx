@@ -81,6 +81,7 @@ const ProductionKPIContainer = () => {
   }
 
   useEffect(() => {
+    setCompareArr([0, 0])
     setCompareView(false)
   }, [selectMenu])
 
