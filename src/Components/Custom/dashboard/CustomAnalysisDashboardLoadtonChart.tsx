@@ -13,6 +13,11 @@ import {useHistory} from 'react-router-dom'
 import CustomAnalysisMonitoringCard from "../loadton/CustomAnalysisMonitoringCard";
 import CustomAnalysisLoadTon from "../loadton/CustomAnalysisLoadtonCard";
 import Notiflix from 'notiflix'
+import {withStyles} from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import autoCustomType from "../../../AutoCustomSetting/autoCustomConfig";
 
 interface Props {
     id: string
@@ -20,6 +25,7 @@ interface Props {
         loading: boolean,
         api: boolean
     }
+    check?: boolean
     onChange?: () => void
 }
 
@@ -31,7 +37,42 @@ Notiflix.Notify.Init({
     messageColor: '#000000'
 })
 
-const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id, first}) => {
+const AntSwitch = withStyles((theme) => ({
+    root: {
+        width: 40,
+        height: 22,
+        padding: 0,
+        display: 'flex',
+        overflow: 'unset'
+    },
+    switchBase: {
+        padding: 2,
+        color: theme.palette.grey[500],
+        '&$checked': {
+            transform: 'translateX(16px)',
+            color: theme.palette.common.white,
+            '& + $track': {
+                opacity: 1,
+                backgroundColor: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main,
+            },
+        },
+    },
+    thumb: {
+        width: 20,
+        height: 20,
+        boxShadow: 'none',
+    },
+    track: {
+        border: `1px solid ${theme.palette.grey[500]}`,
+        borderRadius: 12,
+        opacity: 1,
+        backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+}))(Switch);
+
+const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id, first, check, onChange}) => {
     const [isFirst, setIsFirst] = React.useState({
         loading: true,
         api: true
@@ -125,11 +166,26 @@ const CustomAnalysisDashboardLoadtonChart: React.FunctionComponent<Props> = ({id
                     width: '100%',
                     height: '100%',
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'space-between',
                     alignItems: 'center'
                 }}>
+                    <div></div>
                     <TitleText
                         style={{fontSize: 72}}>{data ? data.press_data.name + `(${tonnageLimit}t)` : '-'}</TitleText>
+                    <div/>
+                    {autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' &&
+                    <div style={{position: 'absolute', top: 15, right: 15}}>
+                        <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
+                            <Grid component="label" container alignItems="center" spacing={1}>
+                                <Grid item>대시보드</Grid>
+                                <Grid item>
+                                    <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                                </Grid>
+                                <Grid item>상태 모니터링</Grid>
+                            </Grid>
+                        </Typography>
+                    </div>
+                    }
                 </div>
             </div>
         )
