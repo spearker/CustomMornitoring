@@ -214,9 +214,9 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                                     <PressStatusBox title={'종합 카운터'} width={350} height={450}
                                                     value={AddComma(machineData.total_counter)}
                                                     fontSize={'80px'} titleFontSize/>
-                                    <PressStatusBox title={'긱가동시간'} value={machineData.runtime} fontSize={'85px'}
+                                    <PressStatusBox title={'기계 가동시간'} value={machineData.runtime} fontSize={'85px'}
                                                     width={350} height={450} titleFontSize/>
-                                    <PressStatusBox title={'비가동시간'} value={machineData.downtime} fontSize={'85px'}
+                                    <PressStatusBox title={'기계 비가동시간'} value={machineData.downtime} fontSize={'85px'}
                                                     width={350} height={450} titleFontSize/>
                                     <PressStatusBox title={'기계가동율'} value={`${machineData.percent}%`}
                                                     fontSize={'100px'} width={350} height={450} titleFontSize/>
