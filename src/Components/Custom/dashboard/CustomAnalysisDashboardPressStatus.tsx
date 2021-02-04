@@ -176,18 +176,20 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                 </Modal>
             }
             <ListBox>
-                {autoCustomType() === 'hwain_trans' || 'jaewoo_material_trans' || 'teoul_trans' || 'atech_trans' || 'hangil_trans' || 'jeonghyun_trans' || 'daekwang_trans' || 'daeheung_trans' &&
-                <div style={{position: 'absolute', top: 15, right: 15}}>
-                    <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
-                        <Grid component="label" container alignItems="center" spacing={1}>
-                            <Grid item>대시보드</Grid>
-                            <Grid item>
-                                <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                {autoCustomType() === 'hwain_trans' || autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'teoul_trans' || autoCustomType() === 'atech_trans' || autoCustomType() === 'hangil_trans' || autoCustomType() === 'jeonghyun_trans' || autoCustomType() === 'daekwang_trans' || autoCustomType() === 'daeheung_trans' ?
+                    <div style={{position: 'absolute', top: 15, right: 15}}>
+                        <Typography component="div" style={{color: 'white', fontSize: '2rem'}}>
+                            <Grid component="label" container alignItems="center" spacing={1}>
+                                <Grid item>대시보드</Grid>
+                                <Grid item>
+                                    <AntSwitch checked={check} onChange={onChange} name="checkedC"/>
+                                </Grid>
+                                <Grid item>상태 모니터링</Grid>
                             </Grid>
-                            <Grid item>상태 모니터링</Grid>
-                        </Grid>
-                    </Typography>
-                </div>
+                        </Typography>
+                    </div>
+                    :
+                    <></>
                 }
                 {list === undefined ?
                     <p style={{color: 'white', fontSize: '30px', textAlign: 'center', width: '100%'}}>불러 올 수 있는 기계 정보가
