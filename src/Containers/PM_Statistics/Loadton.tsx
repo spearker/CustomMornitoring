@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
 import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 import ListRadioButton from '../../Components/Button/ListRadioButton'
 import LoadtoneBox from '../../Components/Box/LoadtoneBox'
-import {API_URLS, getCapacityTimeData} from '../../Api/pm/analysis'
-import {API_URLS as API_URLS2} from '../../Api/pm/statistics'
+import { API_URLS, getCapacityTimeData } from '../../Api/pm/analysis'
+import { API_URLS as API_URLS2 } from '../../Api/pm/statistics'
 import tempImage from '../../Assets/Images/temp_machine.png'
 import moment from 'moment'
 import NoDataCard from '../../Components/Card/NoDataCard'
-import {SF_ENDPOINT_RESOURCE} from '../../Api/SF_endpoint'
+import { SF_ENDPOINT_RESOURCE } from '../../Api/SF_endpoint'
 
 const ChartInitOptions = {
   chart: {
@@ -21,7 +21,7 @@ const ChartInitOptions = {
         selection: true,
         zoom: false,
         zoomin: true,
-        zoomout: true,
+        zoomout: true
       }
     },
     events: {
@@ -50,7 +50,7 @@ const ChartInitOptions = {
       lines: {
         show: true
       }
-    },
+    }
   },
   fill: {
     // type: "gradient",
@@ -62,13 +62,13 @@ const ChartInitOptions = {
     //     stops:[0, 90, 100]
     // }
   },
-  colors: ['#dd4bbe'],
+  colors: [ '#dd4bbe' ],
   dataLabels: {
     enabled: false
   },
   legend: {
     show: false
-  },
+  }
 }
 
 const ChartOptionDetailLable = {
@@ -96,15 +96,15 @@ const ChartOptionDetailLable = {
 const MachineInitData: IPressLoadTonSatistics[] = []
 
 const LoadtonContiner = () => {
-  const [series, setSeries] = useState<{ name: string, data: number[][] }[]>([])
+  const [ series, setSeries ] = useState<{ name: string, data: number[][] }[]>([])
 
-  const [selectMachine, setSelectMachine] = useState<string>()
+  const [ selectMachine, setSelectMachine ] = useState<string>()
 
-  const [pressList, setPressList] = useState<IPressMachineType[]>([])
+  const [ pressList, setPressList ] = useState<IPressMachineType[]>([])
 
-  const [selectDate, setSelectDate] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
+  const [ selectDate, setSelectDate ] = useState<string>(moment().subtract(1, 'days').format('YYYY-MM-DD'))
 
-  const [overTon, setOverTon] = useState<IOverTonStatistics>({
+  const [ overTon, setOverTon ] = useState<IOverTonStatistics>({
     pressPk: '',
     maxLoadton: '',
     minLoadton: '',
@@ -112,7 +112,7 @@ const LoadtonContiner = () => {
     y_average: []
   })
 
-  const [selectType, setSelectType] = useState([true, false, false])
+  const [ selectType, setSelectType ] = useState([ true, false, false ])
 
   /**
    * getData()
@@ -131,8 +131,8 @@ const LoadtonContiner = () => {
     })
 
 
-    setSeries([{name: 'LoadTone', data: seriesList}])
-  }, [selectMachine, selectDate])
+    setSeries([ { name: 'Loadton', data: seriesList } ])
+  }, [ selectMachine, selectDate ])
 
   const getList = useCallback(async () => {
     const tempUrl = `${API_URLS['pressList'].list}`
@@ -145,7 +145,7 @@ const LoadtonContiner = () => {
     if (selectMachine) {
       getData()
     }
-  }, [selectMachine, selectDate])
+  }, [ selectMachine, selectDate ])
 
   useEffect(() => {
     getList()
@@ -153,12 +153,12 @@ const LoadtonContiner = () => {
 
   return (
     <div>
-      <div style={{marginTop: 87, marginBottom: 19}}>
-        <p style={{fontSize: 22, fontWeight: 'bold', textAlign: 'left'}}>프레스 로드톤</p>
+      <div style={{ marginTop: 87, marginBottom: 19 }}>
+        <p style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'left' }}>프레스 로드톤</p>
       </div>
       <ChartListBox>
-        <div style={{marginTop: 25, marginBottom: 23}}>
-          <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>프레스 선택</p>
+        <div style={{ marginTop: 25, marginBottom: 23 }}>
+          <p style={{ textAlign: 'left', fontSize: 20, fontWeight: 'bold' }}>프레스 선택</p>
         </div>
         {
           pressList.length === 0
@@ -170,7 +170,7 @@ const LoadtonContiner = () => {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <div style={{flex: 1}}><p style={{textAlign: 'center'}}>데이터가 없습니다.</p></div>
+              <div style={{ flex: 1 }}><p style={{ textAlign: 'center' }}>데이터가 없습니다.</p></div>
             </div>
             : pressList.map((v, i) => {
               if (selectMachine === v.pk) {
@@ -185,7 +185,7 @@ const LoadtonContiner = () => {
                   }}>
                     <img
                       src={(v.machine_img && v.machine_img.startsWith('resource')) ? `${SF_ENDPOINT_RESOURCE}${v.machine_img}` : tempImage}
-                      style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                      style={{ width: 114, height: 104, objectFit: 'cover' }}/>
                   </div>
                   <div style={{
                     width: 150,
@@ -199,7 +199,7 @@ const LoadtonContiner = () => {
                       fontWeight: 'bold',
                       textAlign: 'left'
                     }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
-                    <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
+                    <p style={{ textAlign: 'left' }}>{v.manufacturer_code}</p>
                   </div>
                 </ChartBorderMiniBox>)
               } else {
@@ -216,7 +216,7 @@ const LoadtonContiner = () => {
                   }}>
                     <img
                       src={(v.machine_img && v.machine_img.startsWith('resource')) ? `${SF_ENDPOINT_RESOURCE}${v.machine_img}` : tempImage}
-                      style={{width: 114, height: 104, objectFit: 'cover'}}/>
+                      style={{ width: 114, height: 104, objectFit: 'cover' }}/>
                   </div>
                   <div style={{
                     width: 150,
@@ -230,7 +230,7 @@ const LoadtonContiner = () => {
                       fontWeight: 'bold',
                       textAlign: 'left'
                     }}>{v.machine_name + '(' + v.machine_ton + 't)'}</p>
-                    <p style={{textAlign: 'left'}}>{v.manufacturer_code}</p>
+                    <p style={{ textAlign: 'left' }}>{v.manufacturer_code}</p>
                   </div>
                 </ChartMiniBox>)
               }
@@ -238,19 +238,19 @@ const LoadtonContiner = () => {
 
         }
       </ChartListBox>
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <div style={{marginLeft: 20}}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ marginLeft: 20 }}>
           <LoadtoneBox title={'로드톤'} width={690}>
-            <div style={{paddingTop: 25, paddingBottom: 27, marginLeft: 180}}>
+            <div style={{ paddingTop: 25, paddingBottom: 27, marginLeft: 180 }}>
               <BottomBox>
                 <div>
-                  <p style={{marginBottom: 10}}>최소값</p>
+                  <p style={{ marginBottom: 10 }}>최소값</p>
                   <p>{overTon ? overTon.minLoadton ? overTon.minLoadton : '-' : '-'}</p>
                 </div>
               </BottomBox>
               <BottomBox>
                 <div>
-                  <p style={{marginBottom: 10}}>최대값</p>
+                  <p style={{ marginBottom: 10 }}>최대값</p>
                   <p>{overTon ? overTon.maxLoadton ? overTon.maxLoadton : '-' : '-'}</p>
                 </div>
               </BottomBox>
@@ -275,10 +275,10 @@ const LoadtonContiner = () => {
         {/*</LoadtoneBox>*/}
       </div>
       <ChartDetailBox>
-        <div style={{marginTop: 25, paddingBottom: 5}}>
+        <div style={{ marginTop: 25, paddingBottom: 5 }}>
           <div>
-            <div style={{float: 'left', display: 'inline-block'}}>
-              <p style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>장비별 로드톤</p>
+            <div style={{ float: 'left', display: 'inline-block' }}>
+              <p style={{ textAlign: 'left', fontSize: 20, fontWeight: 'bold' }}>장비별 로드톤</p>
             </div>
             <CalendarDropdown type={'single'} select={selectDate}
                               onClickEvent={(i) => setSelectDate(i)}></CalendarDropdown>
@@ -291,10 +291,10 @@ const LoadtonContiner = () => {
             {/*    setSelectType([false, false, true])*/}
             {/*  }*/}
             {/*}}/>*/}
-            <div style={{width: 30, height: 30}}></div>
+            <div style={{ width: 30, height: 30 }}></div>
           </div>
           <div>
-            <p style={{textAlign: 'left', color: 'rgba(255, 255, 255, .4)'}}>그래프 값은 시간당 평균값입니다.</p>
+            <p style={{ textAlign: 'left', color: 'rgba(255, 255, 255, .4)' }}>그래프 값은 시간당 평균값입니다.</p>
           </div>
         </div>
         {overTon.pressPk === '' ?
@@ -314,7 +314,7 @@ const LoadtonContiner = () => {
               yaxis: {
                 ...ChartOptionDetailLable.yaxis,
                 max: Math.ceil(Number(overTon.maxLoadton) / 100) * 100,
-                tickAmount: (Math.ceil(Number(overTon.maxLoadton) / 100) * 100) / 100,
+                tickAmount: (Math.ceil(Number(overTon.maxLoadton) / 100) * 100) / 100
               }
             }} series={series} type={'line'} height={'98%'}/>
           </div>
