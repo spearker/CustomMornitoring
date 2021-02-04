@@ -258,7 +258,7 @@ const OutsourcingRegister = ({match}: Props) => {
                      description={'대금 지불조건을 입력해 주세요.'} width={120}/>
         <DateInput title={'납기일'} description={''} value={selectDate} onChangeEvent={setSelectDate} width={135}
                    style={{width: '100%'}} inputStyle={{boxSizing: 'border-box'}}/>
-        <NormalAddressInput title={'공장 주소'} value={inputData.location}
+        <NormalAddressInput title={'공장 주소'} value={inputData.location} titleWidth={'120px'}
                             onChangeEvent={(input) => setInputData(`location`, input)}/>
         {/* 자유항목 입력 창
              <FullAddInput title={'자유 항목'} onChangeEvent={()=>{
