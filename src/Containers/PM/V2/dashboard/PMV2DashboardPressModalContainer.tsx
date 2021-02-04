@@ -82,6 +82,10 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
             show: false
           }
         },
+        stroke: {
+          show: true,
+          width: 1.8
+        },
         fill: {
           type: 'gradient',
           gradient: {
@@ -135,7 +139,8 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
         },
         stroke: {
           show: true,
-          curve: 'stepline'
+          curve: 'stepline',
+          width: 1.8
         },
         // tooltip: {
         //   enabled: false
@@ -225,11 +230,11 @@ const PMV2DashboardPressModalContainer: React.FunctionComponent<Props> = ({ isVi
     if ((type === 'uph' || type === 'slideMotor') && (typeof options === 'object' && options.series)) {
       return <React.Fragment>
         <div style={{ marginRight: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {type === 'uph' && <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 48 }}>
+          {type === 'uph' ? <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 48 }}>
             <FrequentlyLabel text={'총 생산량'} size={20} weight={'bold'} containerStyles={{ paddingRight: 8 }}/>
             <FrequentlyLabel text={data ? data.uph ? data.uph.total_uph.toLocaleString() : '-' : '-'} size={36}
                              weight={'bold'}/>
-          </div>}
+          </div> : <div/>}
           <CalendarDropdown type={'single'}
                             select={date}
                             toDayLimit

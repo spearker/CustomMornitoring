@@ -417,8 +417,11 @@ const Routers = () => {
         <Route exact path="/custom/dashboard/rotate" component={CustomRotateDashboard}/>
         <Route exact path="/custom/dashboard/production" component={CustomProductionDashBoard}/>
 
+
+        <Route exact path="/pm/v2/dashboard/press/select/info" component={PMV2DashboardPressContainer}/>
         <Route exact path="/pm/v2/dashboard/press/:id" component={PMV2DashboardPressContainer}/>
         <Route exact path="/pm/v2/for/designer" component={PMV2ForDesignerContainer}/>
+
       </Switch>
     </div>
   )

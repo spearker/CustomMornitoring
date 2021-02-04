@@ -142,8 +142,11 @@ const PMV2DragAndDropItem: React.FunctionComponent<Props> = ({ data, index }) =>
         >
           <HeaderContainer>
             <FrequentlyLabel text={data.title} size={20} fontFamily={'NotoSansCJKkr'}/>
-            <img style={{ width: 24, height: 24 }} src={dashboardClick} alt={'onclick'}
-                 onClick={() => data.onClick && data.onClick(data.keyName)}/>
+            {
+              data.onClick && <img style={{ width: 24, height: 24 }} src={dashboardClick} alt={'onclick'}
+                                   onClick={() => data.onClick && data.onClick(data.keyName)}/>
+            }
+
           </HeaderContainer>
           <ValueContent>
             {

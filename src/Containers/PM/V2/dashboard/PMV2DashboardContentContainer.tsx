@@ -15,10 +15,11 @@ import getYoodongUPH from '../../../../Api/pm/v2/dashboard/getYoodongUPH'
 import getSlideMotorLog from '../../../../Api/pm/v2/dashboard/getSlideMotorLog'
 import getYoodongPressErrorLog from '../../../../Api/pm/v2/dashboard/getYoodongPressErrorLog'
 import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES, PM_V2_PRESS_SUB_ITEMS } from '../../../../Common/@types/pm_v2_press'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 interface Props {
   id: string
+  testHeader: string | undefined
 }
 
 const Container = Styled.div(() => ({
@@ -57,7 +58,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result
 }
 
-const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) => {
+const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, testHeader }) => {
   const [ pressSubItems, setPressSubItems ] = React.useState<PM_V2_PRESS_SUB_ITEMS[]>([])
   const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
   const [ tonnageLimit, setTonnageLimit ] = React.useState<number>()
@@ -370,7 +371,8 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id }) =
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div>
-        <PMV2DashboardPressInfoHeader title={pressData ? `${pressData.name} (${tonnageLimit}t)` : ''}/>
+        <PMV2DashboardPressInfoHeader
+          title={testHeader ? testHeader : pressData ? `${pressData.name} (${tonnageLimit}t)` : ''}/>
         <Container>
           <OptionContainer>
             <Droppable droppableId="droppable-1">
