@@ -215,51 +215,51 @@ const CustomAnalysisDashboardPressStatus: React.FunctionComponent<Props> = ({id,
                                     <p>{changeStatusToString(machineData.operation)}</p>
                                 </StatusBox>
                                 <div style={{height: '200px', display: 'flex', flexWrap: 'wrap',}}>
-                                    <PressStatusBox title={'SPM'} value={machineData.spm} fontSize={'75px'} width={300}
-                                                    height={300} titleFontSize/>
-                                    <PressStatusBox title={'프리셋 카운터'} align={'center'} width={300} height={300}
+                                    <PressStatusBox title={'SPM'} value={machineData.spm} fontSize={'140px'} width={350}
+                                                    height={450} titleFontSize/>
+                                    <PressStatusBox title={'프리셋 카운터'} align={'center'} width={350} height={450}
                                                     value={autoCustomType() !== 'DS_trans' ? AddComma(machineData.preset_counter) + '\n/' + ` ${AddComma(machineData.preset_limit_counter)}` : AddComma(machineData.preset_counter)}
-                                                    fontSize={'40px'} titleFontSize/>
-                                    <PressStatusBox title={'종합 카운터'} width={300} height={300}
+                                                    fontSize={'80px'} titleFontSize/>
+                                    <PressStatusBox title={'종합 카운터'} width={350} height={450}
                                                     value={AddComma(machineData.total_counter)}
-                                                    fontSize={'45px'} titleFontSize/>
-                                    <PressStatusBox title={'가동시간'} value={machineData.runtime} fontSize={'45px'}
-                                                    width={300} height={300} titleFontSize/>
-                                    <PressStatusBox title={'비가동시간'} value={machineData.downtime} fontSize={'45px'}
-                                                    width={300} height={300} titleFontSize/>
+                                                    fontSize={'80px'} titleFontSize/>
+                                    <PressStatusBox title={'가동시간'} value={machineData.runtime} fontSize={'85px'}
+                                                    width={350} height={450} titleFontSize/>
+                                    <PressStatusBox title={'비가동시간'} value={machineData.downtime} fontSize={'85px'}
+                                                    width={350} height={450} titleFontSize/>
                                     <PressStatusBox title={'기계가동율'} value={`${machineData.percent}%`}
-                                                    fontSize={'40px'} width={300} height={300} titleFontSize/>
+                                                    fontSize={'100px'} width={350} height={450} titleFontSize/>
                                     {autoCustomType() !== 'DS_trans' ?
                                         <>
                                             <PressStatusBox title={'금형명'} value={machineData.mold_name}
-                                                            fontSize={'30px'} width={300} height={300} titleFontSize/>
+                                                            fontSize={'65px'} width={350} height={450} titleFontSize/>
                                             <PressStatusBox title={'생산 남은 시간'}
                                                             value={machineData.ETC === "-1" ? "∞" : machineData.ETC}
-                                                            fontSize={'45px'} width={300} height={300} titleFontSize/>
+                                                            fontSize={'75px'} width={350} height={450} titleFontSize/>
                                         </>
                                         :
                                         <>
                                             <PressStatusBox title={'제품 규격'} value={''} fontSize={'30px'}
                                                             mold_spec={[machineData.material_spec_H, machineData.material_spec_W, machineData.material_spec_D]}
-                                                            width={300} height={300} titleFontSize/>
+                                                            width={350} height={450} titleFontSize/>
                                             <PressStatusBox title={'금형명'} value={machineData.mold_name}
-                                                            fontSize={'30px'} width={300} height={300} titleFontSize/>
+                                                            fontSize={'30px'} width={350} height={450} titleFontSize/>
                                         </>
                                     }
-                                    <PressStatusBox title={'키캠상태'} value={machineData.keyCam} width={300} height={300}
+                                    <PressStatusBox title={'키캠상태'} value={machineData.keyCam} width={350} height={450}
                                                     titleFontSize
-                                                    fontSize={machineData.keyCam === '안전 1행정' || machineData.keyCam === '슬라이드 조절' ? '30px' : '75px'}/>
-                                    <PressStatusBox title={'생산수량'} width={300} height={300} titleFontSize
+                                                    fontSize={machineData.keyCam === '안전 1행정' || machineData.keyCam === '슬라이드 조절' ? '50px' : '85px'}/>
+                                    <PressStatusBox title={'생산수량'} width={350} height={450} titleFontSize
                                                     value={AddComma(machineData.production)}
-                                                    fontSize={'45px'}/>
-                                    <PressStatusBox title={'부하율'} value={`${machineData.load_factor}%`} width={300}
+                                                    fontSize={'75px'}/>
+                                    <PressStatusBox title={'부하율'} value={`${machineData.load_factor}%`} width={350}
                                                     titleFontSize
-                                                    height={300}
-                                                    fontSize={'40px'}
+                                                    height={450}
+                                                    fontSize={'90px'}
                                                     titleColor={'#000000'}
                                                     valueColor={machineData.load_factor === 0 ? '#fff' : (machineData.load_factor < 50 ? '#fff' : (machineData.load_factor < 80 ? 'green' : 'red'))}/>
-                                    <PressStatusBox title={'캐비티'} value={machineData.cavity} fontSize={'75px'}
-                                                    width={300} height={300} titleFontSize/>
+                                    <PressStatusBox title={'캐비티'} value={machineData.cavity} fontSize={'120px'}
+                                                    width={350} height={450} titleFontSize/>
                                 </div>
                             </div>
                             <ErrorMessage>{machineData.error === null || machineData.error === '' ? '' : `에러 - ${machineData.error}`}</ErrorMessage>
@@ -292,8 +292,8 @@ const ListBox = Styled.div`
 const BoxContainer = Styled.div`
 width: calc(100% - 300px);
 height: calc(100% - 700px);
-min-height: 730px;
-min-width: 2300px;
+min-height: 1100px;
+min-width: 2650px;
 max-height: 746px;
 max-width: 2300px;
 border-radius: 6px;
@@ -305,24 +305,25 @@ margin: 0 auto;
 
 const MachineName = Styled.p`
 font-family: NotoSansCJKkr;
-font-size: 40px;
+font-size: 90px;
 text-align: left;
 color: #ffffff;
-width: 550px;
+width: auto;
+margin-right: 50px;
 `
 
 const MaterialName = Styled.p`
 font-family: NotoSansCJKkr;
-font-size: 40px;
+font-size: 90px;
 text-align: left;
 color: #ffffff;
-width: calc(100% - 550px);
+width: auto;
 `
 
 
 const StatusBox = Styled.div`
-width: 650px;
-height: 626px;
+width: 665px;
+height: 928px;
 border-radius: 6px;
 margin-top: 10px;
 margin-right: 25px;
@@ -333,7 +334,7 @@ align-self:center;
 p
 {
     font-family:NotoSansCJKkr;
-    font-size:100px;
+    font-size:150px;
     font-weight:bold;
      text-align: center;
 }
