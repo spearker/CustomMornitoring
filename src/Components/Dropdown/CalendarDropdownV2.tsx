@@ -4,6 +4,8 @@ import IcDown from '../../Assets/Images/ic_reply_down.png'
 import useOnclickOutside from 'react-cool-onclickoutside'
 import moment from 'moment'
 import Calendar from 'react-calendar'
+import {POINT_COLOR} from '../../Common/configset'
+
 
 //캘린더 드롭다운 컴포넌트
 
@@ -18,9 +20,13 @@ interface IProps {
   limitDate?: { min?: string, max?: string }
 }
 
-const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit, toDayLimit, limitType}: IProps) => {
+const CalendarDropdownV2 = ({select, selectRange, onClickEvent, type, unLimit, toDayLimit, limitType}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
+  const [dateRange, setDateRange] = useState({
+    from: moment().format('YYYY-MM-DD'),
+    to: moment().format('YYYY-MM-DD'),
+  })
 
   const ref = useOnclickOutside(() => {
     setIsOpen(false)
@@ -29,9 +35,13 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit, toD
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }
-  useEffect(() => {
 
-  }, [])
+  useEffect(() => {
+    setDateRange({
+      from: selectRange ? selectRange.start : moment().format('YYYY-MM-DD'),
+      to: selectRange ? selectRange.end : moment().format('YYYY-MM-DD'),
+    })
+  }, [isOpen])
 
   return (
     <DropBoxContainer ref={ref}>
@@ -77,51 +87,50 @@ const CalendarDropdown = ({select, selectRange, onClickEvent, type, unLimit, toD
       {
         isOpen &&
         <InnerBoxWrap>
-            <BoxWrap style={{backgroundColor: 'white', flexDirection: 'row', display: 'flex'}}>
-                <div style={{display: 'inline-block', float: 'left', flex: 1, marginRight: 20}}>
-                  {type === 'range' && <p>시작 날짜</p>}
-                    <Calendar
-                        maxDate={(unLimit && type === 'single') ? moment('2999-12-31').subtract(1, 'days').toDate() : (type === 'range' && selectRange) ? moment(selectRange.end).toDate() : toDayLimit ? moment().toDate() : moment().subtract(1, 'days').toDate()}
-                        onChange={(date) => {
-                          if (type === 'range') {
-                            if (selectRange) {
-                              onClickEvent(moment(String(date)).format('YYYY-MM-DD'), selectRange.end)
-                            }
-                          } else {
-                            onClickEvent(moment(String(date)).format('YYYY-MM-DD'))
-                          }
-                          setIsOpen(false)
-                        }}
-                        
-                        value={
-                          limitType !== 'electric' ?
-                            type === 'single'
-                              ? select === '' ? moment().toDate() : moment(select).toDate()
-                              : selectRange ? selectRange.start === '' ? moment().toDate() : moment(selectRange.start).toDate() : moment().toDate()
-                            : selectRange ? selectRange.end === '' ? moment().toDate() : moment(selectRange.end).toDate() : moment().toDate()
-                        }
-                    />
+            <BoxWrap style={{
+              backgroundColor: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+                <Calendar
+                    selectRange={type === 'range'}
+                    returnValue={type === 'range' ? 'range' : undefined}
+                    onChange={(e) => {
+                      if (type === 'range') {
+                        setDateRange({
+                          from: moment(e[0]).format('YYYY-MM-DD'),
+                          to: moment(e[1]).format('YYYY-MM-DD')
+                        })
+                      } else {
+                        setDateRange({
+                          //@ts-ignore
+                          from: moment(e).format('YYYY-MM-DD'),
+                          //@ts-ignore
+                          to: moment(e).format('YYYY-MM-DD')
+                        })
+                      }
+                    }}
+                    value={[moment(dateRange.from).toDate(), moment(dateRange.to).toDate()]}
+                />
+                <div
+                    style={{
+                      width: 100,
+                      height: 32,
+                      backgroundColor: POINT_COLOR,
+                      cursor: 'pointer',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      display: 'flex'
+                    }}
+                    onClick={() => {
+                      setIsOpen(false)
+                      onClickEvent(dateRange.from, dateRange.to)
+                    }}
+                >
+                    <p>확인</p>
                 </div>
-              {
-                type === 'range' &&
-                <div style={{display: 'inline-block', float: 'left', flex: 1}}>
-                  {type === 'range' && <p>종료 날짜</p>}
-                    <Calendar
-                        maxDate={unLimit ? moment('2999-12-31').subtract(1, 'days').toDate() : toDayLimit ? moment().toDate() : moment().subtract(1, 'days').toDate()}
-                        minDate={moment(selectRange?.start).toDate()}
-                        onChange={(date) => {
-                          if (selectRange) {
-                            onClickEvent(selectRange.start, moment(String(date)).format('YYYY-MM-DD'))
-                          }
-                          setIsOpen(false)
-                        }}
-                        value={
-                          selectRange
-                            ? selectRange.end === '' ? moment().toDate() : moment(selectRange.end).toDate() : moment().toDate()
-                        }
-                    />
-                </div>
-              }
             </BoxWrap>
         </InnerBoxWrap>
       }
@@ -164,4 +173,4 @@ const InnerBoxWrap = Styled.div`
     margin-top: 32px;
 `
 
-export default CalendarDropdown
+export default CalendarDropdownV2
