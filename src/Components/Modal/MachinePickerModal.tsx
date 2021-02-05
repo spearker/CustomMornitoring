@@ -3,7 +3,6 @@ import Styled from 'styled-components'
 import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
 import Modal from 'react-modal'
 import ReactShadowScroll from 'react-shadow-scroll'
-import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getSearchMachine} from '../../Api/mes/process'
@@ -47,8 +46,8 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
     current: 1,
   })
 
-  const [isFirst, setIsFirst] = useState<boolean>(false);
-  const [saveKeyword, setSaveKeyword] = useState<string>('');
+  const [isFirst, setIsFirst] = useState<boolean>(false)
+  const [saveKeyword, setSaveKeyword] = useState<string>('')
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
   // });
@@ -76,10 +75,10 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
   }, [page.current])
 
   useEffect(() => {
-    if(isFirst){
-        getList(true)
+    if (isFirst) {
+      getList(true)
     }
-}, [saveKeyword])
+  }, [saveKeyword])
 
   return (
     <div>
@@ -129,7 +128,9 @@ const MachinePickerModal = ({select, onClickEvent, text, buttonWid, disabled, wi
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="기계명을 입력해주세요." style={{flex: 96}}
                          value={searchName}
-                         onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}
+                         onChange={(e) => {
+                           if (!e.target.value.match(regExp)) setSearchName(e.target.value)
+                         }}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
