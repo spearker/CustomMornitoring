@@ -3,10 +3,8 @@ import Styled from 'styled-components'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import CalendarDropdown from '../../Components/Dropdown/CalendarDropdown'
 import moment from 'moment'
-import ReactApexChart from 'react-apexcharts'
 import {API_URLS, getDefectiveData} from '../../Api/pm/statistics'
 import Notiflix from 'notiflix'
-import {ResponsiveLine} from '@nivo/line'
 import {MyResponsiveLine} from '../../Components/LineChart/MyResponsiveLine'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
@@ -137,6 +135,7 @@ const DefectiveContainer = () => {
         }
     ]
 
+
     const onClick = useCallback((mold, index) => {
         if (index === selectIndex) {
             setLabels([])
@@ -228,6 +227,7 @@ const DefectiveContainer = () => {
         getList()
     }, [page.current])
 
+
     return (
         <>
             <OvertonTable
@@ -284,10 +284,11 @@ const DefectiveContainer = () => {
                                                 <p>{selectValue.material_name} 불량률</p>
                                             </div>
                                             <CalendarDropdown type={'range'} selectRange={selectDate}
+                                                              startMin={moment(selectDate.start).startOf('months').toDate()}
                                                               onClickEvent={(start, end) => setSelectDate({
                                                                   start: start,
                                                                   end: end ? end : ''
-                                                              })} toDayLimit={true}></CalendarDropdown>
+                                                              })} toDayLimit monthLimit/>
                                         </div>
                                         {/*<ReactApexChart options={{...chartOption, labels: [' ', ...labels, '(일/day)']}}*/}
                                         {/*                type={'area'} height={444} width={630}*/}
