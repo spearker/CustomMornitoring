@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react'
 import Styled from 'styled-components'
 import DateTypeCalendar from '../Modal/DateTypeCalendar'
 import moment from 'moment'
-import ProductionPickerModal from '../Modal/ProductionPickerModal'
 import {Textfit} from 'react-textfit'
 import Notiflix from 'notiflix'
-import MachinePickerModal from '../Modal/MachinePickerModal'
 import ItemPickerModal from '../Modal/ItemPickerModal'
-import NormalInput from '../Input/NormalInput'
 import {POINT_COLOR} from '../../Common/configset'
 import IcSearchButton from '../../Assets/Images/check.png'
 import ReactTooltip from 'react-tooltip'
@@ -441,7 +438,7 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
             Object.keys(data).map((v) => {
               if (value.api === 'electric_saving_rate' && v === 'total') {
                 return
-              } else if (v === 'data' || v === 'ppm') {
+              } else if (v === 'data' || v === 'ppm' || v === 'tooltips') {
                 return
               } else if (v === 'materials') {
                 return (
@@ -513,12 +510,21 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                 flexDirection: 'column',
                 justifyContent: 'center'
               }}>
-              {data.data && data.data.map((v) => {
-                return <p style={{
-                  textAlign: 'right',
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                }}>{v.split(',')[0] + ','} <br/> {v.split(',')[1]}</p>
+              {data.data && data.data.map((v, i) => {
+                return (
+                  <div>
+                    <div data-tip data-for={`costId-${i}`}>
+                      <p style={{
+                        textAlign: 'right',
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                      }}>{v.split(',')[0] + ','} <br/> {v.split(',')[1]}</p>
+                    </div>
+                    <ReactTooltip id={`costId-${i}`}>
+                      <span>{data.tooltips[i]}</span>
+                    </ReactTooltip>
+                  </div>
+                )
               })}
             </div>
           </div>
