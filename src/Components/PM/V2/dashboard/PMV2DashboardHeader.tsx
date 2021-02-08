@@ -1,8 +1,8 @@
 import React from 'react'
 import Styled from 'styled-components'
-import Style from 'styled-components'
 import FrequentlyLabel from '../../Frequently/FrequentlyLabel'
 import NAV_HOME from '../../../../Assets/Images/btn_nav_home.png'
+import setting from '../../../../Assets/Images/setting.png'
 import { useHistory } from 'react-router-dom'
 
 interface Props {
@@ -17,29 +17,16 @@ const Container = Styled.div(() => ({
   paddingBottom: 0
 }))
 
-const Home = Style.div`
-  width: 48px;
-  height: 48px;
-   cursor: pointer;
-  img{
-    margin: 3px 5px;
-    width: 29px;
-    height: 29px;
-  }
-`
 
 const PMV2DashboardPressInfoHeader: React.FunctionComponent<Props> = ({ title }) => {
   const history = useHistory()
 
   return (
     <Container>
-      <Home onClick={() => history.push('/dashboard')}>
-        <img src={NAV_HOME} alt={'home'}/>
-      </Home>
+      <img src={NAV_HOME} width={25.8} height={25.3} alt={'home'} onClick={() => history.push('/dashboard')}/>
       <FrequentlyLabel text={title} size={26} weight={'bold'}/>
-      <Home onClick={() => history.push('/dashboard')}>
-        <img src={NAV_HOME} alt={'setting'}/>
-      </Home>
+      <img src={setting} width={28} height={28} alt={'setting'}
+           onClick={() => history.push('/pm/v2/dashboard/press/select/info')}/>
     </Container>
   )
 }

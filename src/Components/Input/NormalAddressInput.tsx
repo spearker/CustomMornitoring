@@ -1,76 +1,78 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import InputContainer from '../../Containers/InputContainer';
-import DaumPostcode from 'react-daum-postcode';
-import SmallButton from '../Button/SmallButton';
+import InputContainer from '../../Containers/InputContainer'
+import DaumPostcode from 'react-daum-postcode'
+import SmallButton from '../Button/SmallButton'
 
 
 interface IProps {
-    title: string,
-    description?: string,
-    value: any,
-    onChangeEvent?: any,
-    onChangeEvent2?: any
-    disable?: boolean
+  title: string,
+  description?: string,
+  value: any,
+  onChangeEvent?: any,
+  onChangeEvent2?: any
+  disable?: boolean
+  titleWidth?: string
 }
 
-const NormalAddressInput = ({title, description, value, onChangeEvent, onChangeEvent2, disable}: IProps) => {
+const NormalAddressInput = ({title, description, value, onChangeEvent, onChangeEvent2, disable, titleWidth}: IProps) => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    useEffect(() => {
+  useEffect(() => {
 
-    }, [])
+  }, [])
 
-    const handleComplete = useCallback((data) => {
+  const handleComplete = useCallback((data) => {
 
-        let fullAddress = data.address;
-        let extraAddress = '';
+    let fullAddress = data.address
+    let extraAddress = ''
 
-        if (data.addressType === 'R') {
-            if (data.bname !== '') {
-                extraAddress += data.bname;
-            }
-            if (data.buildingName !== '') {
-                extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
-            }
-            fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
-        }
-        setIsOpen(false)
-        const temp = {...value};
-        temp.roadAddress = fullAddress;
-        temp.postcode = data.zonecode;
-        onChangeEvent(temp)
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname
+      }
+      if (data.buildingName !== '') {
+        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName)
+      }
+      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '')
+    }
+    setIsOpen(false)
+    const temp = {...value}
+    temp.roadAddress = fullAddress
+    temp.postcode = data.zonecode
+    onChangeEvent(temp)
 
-    }, [isOpen])
+  }, [isOpen])
 
-    return (
-        <>
-            <InputContainer title={title} onClick={() => setIsOpen(true)}>
+  return (
+    <>
+      <InputContainer title={title} onClick={() => setIsOpen(true)} width={titleWidth ?? undefined}>
 
-                <SmallButton name={'검색'} color={'#dddddd'} onClickEvent={() => setIsOpen(true)}/>
+        <SmallButton name={'검색'} color={'#dddddd'} onClickEvent={() => setIsOpen(true)}/>
 
-                <InputBox style={{width: '40%', marginLeft: 10}} type="text"
-                          value={value !== null ? value.roadAddress : ''}
-                          placeholder={'검색 버튼을 눌러 주소를 입력해주세요'}/>
-                <InputBox style={{width: '30%', marginLeft: 10}} type="text" value={value !== null ? value.detail : ''}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                              const temp = {...value};
-                              temp.detail = e.target.value;
-                              onChangeEvent(temp)
-                          }} placeholder={'나머지 주소는 직접 입력해주세요'}/>
+        <InputBox style={{width: '40%', marginLeft: 10}} type="text"
+                  value={value !== null ? value.roadAddress : ''}
+                  placeholder={'검색 버튼을 눌러 주소를 입력해주세요'}/>
+        <InputBox style={{width: titleWidth ? '37%' : '30%', marginLeft: 10}} type="text"
+                  value={value !== null ? value.detail : ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                    const temp = {...value}
+                    temp.detail = e.target.value
+                    onChangeEvent(temp)
+                  }} placeholder={'나머지 주소는 직접 입력해주세요'}/>
 
-            </InputContainer>
+      </InputContainer>
 
-            {
-                isOpen &&
-                <DaumPostcode
-                    onComplete={handleComplete}
-                />
-            }
+      {
+        isOpen &&
+        <DaumPostcode
+            onComplete={handleComplete}
+        />
+      }
 
-        </>
-    );
+    </>
+  )
 }
 
 const InputBox = Styled.input`
@@ -83,4 +85,4 @@ const InputBox = Styled.input`
 `
 
 
-export default NormalAddressInput;
+export default NormalAddressInput

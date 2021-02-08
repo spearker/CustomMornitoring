@@ -1,29 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
-import RegisterButton from '../../Components/Button/RegisterButton'
-import {getToken} from '../../Common/tokenFunctions'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import DropdownInput from '../../Components/Input/DropdownInput'
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
-import {getMaterialTypeList, transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions'
+import {getParameter} from '../../Common/requestFunctions'
+import {getMaterialTypeList} from '../../Common/codeTransferFunctions'
 import ListHeader from '../../Components/Text/ListHeader'
-import BasicSearchContainer from '../Old_Basic/BasicSearchContainer'
-import {JsonStringifyList} from '../../Functions/JsonStringifyList'
 import useObjectInput from '../../Functions/UseInput'
 import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
-import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import RadioInput from '../../Components/Input/RadioInput'
-import GrayRegisterButton from '../../Components/Button/GrayRegisterButton'
 import FactoryPickerModal from '../../Components/Modal/FactoryPickerModal'
-import MachinePickerModal from '../../Components/Modal/MachinePickerModal'
 import InputContainer from '../InputContainer'
-import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import ModelRulesInput from '../../Components/Input/ModelRulesInput'
 import FullAddInput from '../../Components/Input/FullAddInput'
 import Notiflix from 'notiflix'
@@ -31,7 +22,6 @@ import * as _ from 'lodash'
 import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
 import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
-import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 
 // 품목 등록
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -62,7 +52,7 @@ const NewBasicMaterialRegister = () => {
     material_spec_D: null,
     texture: null,
     model: [''],
-    supplier: null,
+    supplier: null
   })
 
   useEffect(() => {
@@ -79,11 +69,11 @@ const NewBasicMaterialRegister = () => {
   const getData = useCallback(async () => {
 
     let tempUrl
-    if (autoCustomType() === 'jb_material_trans') {
-      tempUrl = `${API_URLS['material'].jb_load}?pk=${getParameter('pk')}`
-    } else {
-      tempUrl = `${API_URLS['material'].load}?pk=${getParameter('pk')}`
-    }
+    // if (autoCustomType() === 'jb_material_trans') {
+    //   tempUrl = `${API_URLS['material'].jb_load}?pk=${getParameter('pk')}`
+    // } else {
+    tempUrl = `${API_URLS['material'].load}?pk=${getParameter('pk')}`
+    // }
     const res = await getBasicList(tempUrl)
 
     if (res) {
@@ -104,7 +94,7 @@ const NewBasicMaterialRegister = () => {
         stock: data.stock,
         texture: data.texture,
         model: data.model ? data.model.toString().split(',') : [''],
-        supplier: autoCustomType() === 'jb_material_trans' ? {name: data.supplier_name, pk: data.supplier} : null,
+        supplier: {name: data.supplier_name, pk: data.supplier}
       }
       setInputData('all', form)
 
@@ -163,21 +153,21 @@ const NewBasicMaterialRegister = () => {
         material_spec_H: inputData.material_spec_H,
         material_spec_D: inputData.material_spec_D,
         texture: inputData.texture,
-        model: inputData.model.filter(v => v !== '')[0].trim() === '' ? null : inputData.model.filter(v => v !== ''),
-        supplier: autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined,
+        model: inputData.model ? inputData.model.filter(v => v !== '')[0] ? inputData.model.filter(v => v !== '')[0].trim() === '' ? null : inputData.model.filter(v => v !== '') : null : null,
+        supplier: (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined
       }
       let res
-      if (autoCustomType() === 'jb_material_trans') {
-        res = await registerBasicItem(`${API_URLS['material'].jb_update}`, data)
-      } else {
-        res = await registerBasicItem(`${API_URLS['material'].update}`, data)
-      }
+      // if (autoCustomType() === 'jb_material_trans') {
+      //   res = await registerBasicItem(`${API_URLS['material'].jb_update}`, data)
+      // } else {
+      res = await registerBasicItem(`${API_URLS['material'].update}`, data)
+      // }
       if (res) {
         //alert('성공적으로 등록 되었습니다')
         history.push('/basic/list/material')
       }
     }
-    
+
   }, [pk, optional, essential, inputData])
 
   const onsubmitForm = useCallback(async () => {
@@ -195,16 +185,16 @@ const NewBasicMaterialRegister = () => {
         material_spec_H: inputData.material_spec_H,
         material_spec_D: inputData.material_spec_D,
         texture: inputData.texture,
-        model: inputData.model[0].trim() === '' ? null : inputData.model,
-        supplier: autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined,
+        model: inputData.model ? inputData.model[0].trim() === '' ? null : inputData.model : inputData.model,
+        supplier: (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined
       }
 
       let res
-      if (autoCustomType() === 'jb_material_trans') {
-        res = await registerBasicItem(`${API_URLS['material'].jb_create}`, data)
-      } else {
-        res = await registerBasicItem(`${API_URLS['material'].create}`, data)
-      }
+      // if (autoCustomType() === 'jb_material_trans') {
+      //   res = await registerBasicItem(`${API_URLS['material'].jb_create}`, data)
+      // } else {
+      res = await registerBasicItem(`${API_URLS['material'].create}`, data)
+      // }
 
       if (res) {
         //alert('성공적으로 등록 되었습니다')
@@ -236,36 +226,6 @@ const NewBasicMaterialRegister = () => {
               <NormalInput title={'품번'} value={inputData.material_code}
                            onChangeEvent={(input) => setInputData(`material_code`, input)}
                            description={'품번을 입력해주세요'}/>
-
-              {inputData.material_type === 30 &&
-              <div>
-                  <FullAddInput title={'모델'} onChangeEvent={() => {
-                    let temp = _.cloneDeep(inputData.model)
-                    temp.push('')
-                    setInputData('model', temp)
-                  }}>
-
-                    {
-                      inputData.model && inputData.model.map((v, i) => {
-                        return (
-                          <ModelRulesInput title={`• 모델 ${i + 1}`} value={v}
-                                           onRemoveEvent={() => {
-                                             let temp = _.cloneDeep(inputData.model)
-                                             temp.splice(i, 1)
-                                             setInputData('model', temp)
-                                           }}
-                                           onChangeEvent={(input) => {
-                                             let temp = _.cloneDeep(inputData.model)
-                                             temp.splice(i, 1, input)
-                                             setInputData('model', temp)
-                                           }}
-                          />
-                        )
-                      })
-                    }
-                  </FullAddInput>
-              </div>
-              }
 
               {inputData.material_type === 0 &&
               <NormalInput title={'제조사'} value={inputData.manufacturer}
@@ -380,12 +340,20 @@ const NewBasicMaterialRegister = () => {
               {/*  </InputContainer>*/}
               {/*}*/}
               {
-                autoCustomType() === 'jb_material_trans' && (inputData.material_type === 10 || inputData.material_type === 30) &&
+                (inputData.material_type === 10 || inputData.material_type === 30) &&
                 <InputContainer title={'거래처'} width={167.84}>
                     <div style={{width: 873}}>
                         <CustomerPickerModal select={inputData.supplier} style={{width: '100%'}}
                                              onClickEvent={(e) => {
-                                               setInputData('supplier', e)
+                                               console.log(e)
+                                               if (!e.name && !e.pk) {
+                                                 setInputData('supplier', {
+                                                   name: null,
+                                                   pk: null
+                                                 })
+                                               } else {
+                                                 setInputData('supplier', e)
+                                               }
                                              }} text={'거래처를 선택해주세요'}/>
                     </div>
                 </InputContainer>

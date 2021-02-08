@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {Route, Switch} from 'react-router-dom'
 import OilSupplyStatistics from '../Pages/PM_Statistics/OilSupplyStatistics'
 import AbilityStatistics from '../Pages/PM_Statistics/AbilityStatistics'
@@ -10,18 +10,13 @@ import ContractModify from '../Pages/Marketing/ContractModify'
 import OrderModify from '../Pages/Marketing/OrderModify'
 import OrderRegister from '../Pages/Marketing/OrderRegister'
 import BarcodeRegister from '../Pages/Barcode/BarcodeRegister'
-import BarcodeModify from '../Pages/Barcode/BarcodeModify'
 import ManageStockRegister from '../Pages/ManageStock/ManageStockRegister'
 import ProcessDetailRegister from '../Pages/Process/DetailRegister'
-import MoldRegister from '../Pages/Mold/MoldRegister'
-import MoldRepairRegister from '../Pages/Mold/MoldRepairRegister'
 import OutsourcingRegister from '../Pages/Outsourcing/OutsourcingRegister'
 import CustomerRegister from '../Pages/Customer/CustomerRegister'
 import WorkHistoryRegister from '../Pages/Project/WorkHistoryRegister'
 import MapEditer from '../Pages/Super/MapEditer'
 import MapListPage from '../Pages/map/MapListPage'
-import QualityTestRequest from '../Pages/Quality/QualityTestRequest'
-import CreateMember from '../Pages/Old_Manage/CreatMember'
 import MoldManageList from '../Pages/SQManage/Mold/MoldManageList'
 import MoldManageInput from '../Pages/SQManage/Mold/MoldManageInputContainer'
 import ProcessManageList from '../Pages/SQManage/Process/ProcessManageList'
@@ -30,24 +25,16 @@ import NewProcessRegister from '../Pages/Process/NewProcess'
 import ProcessRegister from '../Pages/Process/Register'
 
 import OutsourcingRegisterFree from '../Pages/Old_Outsourcing/Register'
-import DateTypeCalendar from '../Components/Modal/DateTypeCalendar'
 import NewBasicRawMaterialRegister from '../Containers/Basic/NewBasicRawMaterialContainer'
 import NewRawMaterial_V2 from '../Pages/NewStock/RawMaterial'
 import NewRawMaterialLocation_V2 from '../Pages/NewStock/RawMaterialLocation'
-import WarehousingRegister from '../Pages/Stock/WarehousingRegister'
-import ReleaseRegister from '../Pages/Stock/ReleaseRegister'
 import ReleaseRegister_V2 from '../Pages/NewStock/ReleaseRegisterV2'
 import WarehousingRegister_V2 from '../Pages/NewStock/WarehousingRegisterV2'
-import BasicMaterial from '../Pages/Basic/BasicMaterial'
 import BasicRawMaterial from '../Pages/Basic/BasicRawMaterial'
 import QnAList from '../Pages/QnA/QnAList'
 
 
 const JunheeRouters = () => {
-
-  useEffect(() => {
-    console.log(1111)
-  }, [localStorage.getItem('userPermission')])
 
   return (
     <div>

@@ -99,7 +99,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
                 }}/>
               </div>
             </BoxWrap>
-            <div style={{overflow: 'scroll',}}>
+            <div style={{overflow: 'scroll', height: absoluteHeight ?? 'auto'}}>
               {
                 contents.map((v, i) => {
                   if (v !== '') {

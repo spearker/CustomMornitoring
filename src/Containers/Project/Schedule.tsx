@@ -159,6 +159,7 @@ const ScheduleContainer = () => {
 
   const voucherIndexList = {
     schedule: {
+      chit_name: '전표명',
       registerer_name: '등록자',
       deadline: '납기일',
       goal: '목표 수량',
@@ -409,7 +410,7 @@ const ScheduleContainer = () => {
                                clickValue={voucherDropdown2}>
                 <div style={{paddingTop: 20}}>
                   <OptimizedLineTable contentTitle={voucherIndex} contentList={voucherList}
-                                      widthList={[300, 300, 300, 300]}
+                                      widthList={[200, 250, 250, 250, 250]}
                                       pageOnClickEvent={(event, i) => setDetailPage({
                                         ...detailPage,
                                         current: i

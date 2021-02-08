@@ -1,17 +1,13 @@
-import React, {useCallback, useState} from 'react'
+import React, {useState} from 'react'
 import Styled from 'styled-components'
-import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
-import CalendarDropdown from '../Dropdown/CalendarDropdown'
-import moment from 'moment'
+import {POINT_COLOR} from '../../Common/configset'
 import BasicDropdown from '../Dropdown/BasicDropdown'
-import {getRequest} from '../../Common/requestFunctions'
-import {getToken} from '../../Common/tokenFunctions'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import IcDropDownButton from '../../Assets/Images/ic_dropdown_white.png'
 import {Input} from 'semantic-ui-react'
 import Pagination from '@material-ui/lab/Pagination'
-import IcFile from '../../Assets/Images/ic_file.png'
 import ReactTooltip from 'react-tooltip'
+import CalendarDropdown from '../Dropdown/CalendarDropdown'
 
 interface Props {
   title: string
@@ -323,7 +319,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                             v[mv]
                           }
                           <ReactTooltip id={`p${i}${mi}`}>
-                            <span>{v[mv]}</span>
+                            <span>{mv === 'current_stock' ? v['real_current_stock'] ?? v[mv] : mv === 'safe_stock' ? v['safe_stock'] ?? v[mv] : v[mv]}</span>
                           </ReactTooltip>
                         </p>
 

@@ -137,9 +137,6 @@ export const API_URLS = {
     create: `/v1/material/register`,
     update: `/v1/material/update`,
     load: `/v1/material/load`,
-    jb_create: `/v1/material/jb/register`,
-    jb_update: `/v1/material/jb/update`,
-    jb_load: `/v1/material/jb/load`,
     list: `/v1/material/list`,
     filterSearch: `/v1/material/search/filter`
   },

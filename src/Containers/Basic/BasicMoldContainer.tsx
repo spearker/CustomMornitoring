@@ -156,7 +156,7 @@ const BasicMoldContainer = () => {
                               setSaveKeyword('')
                               setOption(e)
                             }}
-                            dropDownContents={['금형명', '공장명'/* , '관리번호' */]}
+                            dropDownContents={['금형명', '공장명', '관리번호']}
                             searchBarValue={keyword}
                             searchButtonOnClick={() => setSaveKeyword(keyword)}
                             titleOnClickEvent={titleEventList}/>
@@ -208,10 +208,11 @@ export const LIST_INDEX = {
   },
   mold: {
     title: '금형 기본 정보',
-    width: ['184px', '184px', '184px', '184px', '184px'],
+    width: ['150px', '120px', '150px', '150px', '150px', '100px'],
     index: {
       mold_name: '금형명',
       mold_type: ['금형 종류', '프레스 금형'],
+      manufacturer_code: '관리번호',
       limit: '최대타수',
       current: '현재타수',
       location_name: '기본위치'
