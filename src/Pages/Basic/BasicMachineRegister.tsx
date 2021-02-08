@@ -1,16 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
+import {BG_COLOR_SUB2, POINT_COLOR} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
-import RegisterButton from '../../Components/Button/RegisterButton'
 import NormalFileInput from '../../Components/Input/NormalFileInput'
-import {getToken} from '../../Common/tokenFunctions'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
 import DropdownInput from '../../Components/Input/DropdownInput'
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
+import {getParameter} from '../../Common/requestFunctions'
 import {uploadTempFile} from '../../Common/fileFuctuons'
 import {getMachineTypeList} from '../../Common/codeTransferFunctions'
 import DateInput from '../../Components/Input/DateInput'
@@ -23,9 +21,8 @@ import NormalNumberInput from '../../Components/Input/NormalNumberInput'
 import {useHistory} from 'react-router-dom'
 import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import {API_URLS, getBasicList, registerBasicItem} from '../../Api/mes/basic'
-import InputContainer from '../../Containers/InputContainer'
 import RadioInput from '../../Components/Input/RadioInput'
-import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
+import CompaniesThatUseKeyin from '../../AutoCustomSetting/useKeyin'
 
 const docDummy = [
   {pk: 'qfqwf', name: '도큐먼트 1'},
@@ -138,7 +135,7 @@ const BasicMachineRegister = () => {
       tempList[1] = res.qualification
       tempList[2] = res.capacity
       setOldPaths(tempList)
-      if(autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans'){
+      if(CompaniesThatUseKeyin()){ // autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans'
         setInterwork(res.interwork === true ? 0 : 1);
       }
     }
@@ -184,7 +181,7 @@ const BasicMachineRegister = () => {
       volt: volt
     }
 
-    const sendData = (autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans') ? {...data, interwork: interwork === 0 ? true : false} : data;
+    const sendData = CompaniesThatUseKeyin() ? {...data, interwork: interwork === 0 ? true : false} : data;
 
     const tempUrl = `${API_URLS['machine'].update}`
     const res = await registerBasicItem(tempUrl, sendData)
@@ -242,7 +239,7 @@ const BasicMachineRegister = () => {
       interwork: interwork === 0 ? true : false
     }
 
-    const sendData = (autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans') ? {...data, interwork: interwork === 0 ? true : false} : data;
+    const sendData = CompaniesThatUseKeyin() ? {...data, interwork: interwork === 0 ? true : false} : data;
 
     const tempUrl = `${API_URLS['machine'].create}`
     const res = await registerBasicItem(tempUrl, sendData)
@@ -296,7 +293,7 @@ const BasicMachineRegister = () => {
                 searchUrl={`${SF_ENDPOINT}/api/v1/factory/search?`}
               />
 
-              {(autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans') && <RadioInput title={'오버홀'} width={168} target={interwork} center={{alignItems: 'center'}} noStringPadding
+              {CompaniesThatUseKeyin() && <RadioInput title={'오버홀'} width={168} target={interwork} center={{alignItems: 'center'}} noStringPadding
                           onChangeEvent={(e) => setInterwork(e)}
                           contents={[{value: 0, title: 'Y'}, {value: 1, title: 'N'}]}/>}
 
