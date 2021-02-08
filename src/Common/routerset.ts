@@ -1,4 +1,4 @@
-import autoCustomType from '../AutoCustomSetting/autoCustomConfig'
+import CompaniesThatUseKeyin from '../AutoCustomSetting/useKeyin'
 
 export const ROUTER_SUPER_ADMIN = [
   {url: '/super/list', name: '고객사 리스트'},
@@ -298,11 +298,11 @@ export const PM_MENU_LIST = {
     {name: '능력', url: '/pm/analysis/ability'},
     {name: '비가동시간', url: '/pm/analysis/readytime'},
     {name: '불량 공정', url: '/pm/analysis/defective'}
-  ]/* ,
-  keyin: autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans' ? [
+  ],
+  keyin: CompaniesThatUseKeyin() ? [ // autoCustomType() === 'jaewoo_material_trans' || autoCustomType() === 'seonghwa_material_trans'
     {name: '프레스 key-in', url: '/pm/keyin/press'},
     {name: '프레스 key-in 리스트', url: '/pm/keyin/list'}
-  ] : [] */
+  ] : []
 }
 
 export const WORKER_MES_MENU = {
