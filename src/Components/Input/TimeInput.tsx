@@ -9,9 +9,11 @@ interface IProps {
     max?: number
     min?: number
     readOnly?: boolean
+    sumTotalCheck?: boolean
+    warning?: string
 }
 
-const TimeInput = ({ title, onChangeEvent, value, max, min, readOnly }: IProps) => {
+const TimeInput = ({ title, onChangeEvent, value, max, min, readOnly, sumTotalCheck, warning }: IProps) => {
 
     const numberPad = (n, width) => {
         n = n + '';
@@ -81,6 +83,7 @@ const TimeInput = ({ title, onChangeEvent, value, max, min, readOnly }: IProps) 
                         />
                     </div>
                     <span>현재 초: {value}</span>
+                    {warning && sumTotalCheck && <span style={{color: '#ff5549', margin: '3px 0 0 10px', fontSize: 13}}>{warning}</span>}
                 </div>
             </InputBox>
         </EnrollmentBorderBox>

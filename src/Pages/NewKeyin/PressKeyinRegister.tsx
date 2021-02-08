@@ -17,6 +17,7 @@ import DateAndTimeBox from '../../Components/Box/DateAndTimeBox'
 
 interface DateListArray {
     date: string,
+    working_time: string,
     motor_run_time: string,
     run_time: string,
     stop_time: string,
@@ -74,8 +75,29 @@ const PressKeyinRegister = ({ match }) => {
        let workingPeriod:DateListArray[] = [];
        let curDate = new Date(date1);
        while(curDate <= new Date(date2)) {
-          workingPeriod.push({
+          workingPeriod.push(
+            curDate.toISOString().split("T")[0] === new Date(date1).toISOString().split("T")[0]
+            ? {
                 date: curDate.toISOString().split("T")[0],
+                working_time: date1 === date2 ? `${period.split('~')[0].split(' ')[1]}:00~${period.split('~')[1].split(' ')[1]}:00` : `${period.split('~')[0].split(' ')[1]}:00~${period.split('~')[0].split(' ')[1]}:00`,
+                motor_run_time: '00:00:00',
+                run_time: '00:00:00',
+                stop_time: '00:00:00',
+                spm: '',
+                preset_counter: ''
+            } : curDate.toISOString().split("T")[0] === new Date(date2).toISOString().split("T")[0]
+            ? {
+                date: curDate.toISOString().split("T")[0],
+                working_time: `00:00:00~${period.split('~')[1].split(' ')[1]}:00`,
+                motor_run_time: '00:00:00',
+                run_time: '00:00:00',
+                stop_time: '00:00:00',
+                spm: '',
+                preset_counter: ''
+            }
+            : {
+                date: curDate.toISOString().split("T")[0],
+                working_time: '00:00:00~00:00:00',
                 motor_run_time: '00:00:00',
                 run_time: '00:00:00',
                 stop_time: '00:00:00',
@@ -147,24 +169,40 @@ const PressKeyinRegister = ({ match }) => {
     }, [selectHistory, dateArray, pk, max])
 
     const onsubmitFormUpdate = useCallback(async () => {
-        const data = {
-            pk: pk,
-            history_pk: selectHistory?.pk,
-            machine_pk: selectHistory?.machine_pk,
-            work_contents: dateArray
-        }
-        
-        const tempUrl = `${API_URLS['keyin'].update}`
-        const res = await registerBasicItem(tempUrl, data)
+        if (selectHistory === undefined) {
+            alert('작업이력은 필수 항목입니다. 반드시 선택해주세요');
+        } else if(dateArray.filter(f => secondForm(f.working_time.split('~')[0]) > secondForm(f.working_time.split('~')[1])).length > 0) {
+            alert('작업시간의 입력이 잘못되었습니다. (끝난 시간이 시작 시간보다 빠를 수 없습니다.)');
+        } else if(dateArray.filter(f => secondForm(f.run_time)+secondForm(f.stop_time) > secondForm(f.working_time.split('~')[1])-secondForm(f.working_time.split('~')[0])).length > 0) {
+            alert('가동•비가동시간의 입력이 잘못되었습니다. (가동시간과 비가동시간의 합은 총작업시간을 넘을수없습니다.)');
+        } else if(dateArray.filter(f => f.spm === '' || Number(f.spm) === 0).length > 0) {
+            alert('SPM은 필수 항목입니다. 반드시 입력해주세요');
+        } else if(dateArray.filter(f => f.preset_counter === '' || Number(f.preset_counter) === 0).length > 0) {
+            alert('프리셋 카운터는 필수 항목입니다. 반드시 입력해주세요');
+        } else {
+            const data = {
+                pk: pk,
+                history_pk: selectHistory?.pk,
+                machine_pk: selectHistory?.machine_pk,
+                work_contents: dateArray
+            }
+            
+            const tempUrl = `${API_URLS['keyin'].update}`
+            const res = await registerBasicItem(tempUrl, data)
 
-        if (res) {
-            history.push('/pm/keyin/list')
+            if (res) {
+                history.push('/pm/keyin/list')
+            }
         }
     }, [selectHistory, dateArray])
 
     const onsubmitForm = useCallback(async () => {
         if (selectHistory === undefined) {
             alert('작업이력은 필수 항목입니다. 반드시 선택해주세요');
+        } else if(dateArray.filter(f => secondForm(f.working_time.split('~')[0]) > secondForm(f.working_time.split('~')[1])).length > 0) {
+            alert('작업시간의 입력이 잘못되었습니다. (끝난 시간이 시작 시간보다 빠를 수 없습니다.)');
+        } else if(dateArray.filter(f => secondForm(f.run_time)+secondForm(f.stop_time) > secondForm(f.working_time.split('~')[1])-secondForm(f.working_time.split('~')[0])).length > 0) {
+            alert('가동•비가동시간의 입력이 잘못되었습니다. (가동시간과 비가동시간의 합은 총작업시간을 넘을수없습니다.)');
         } else if(dateArray.filter(f => f.spm === '' || Number(f.spm) === 0).length > 0) {
             alert('SPM은 필수 항목입니다. 반드시 입력해주세요');
         } else if(dateArray.filter(f => f.preset_counter === '' || Number(f.preset_counter) === 0).length > 0) {
@@ -175,7 +213,7 @@ const PressKeyinRegister = ({ match }) => {
                 machine_pk: selectHistory?.machine_pk,
                 work_contents: dateArray
             }
-
+            
             const tempUrl = `${API_URLS['keyin'].create}`
             const res = await registerBasicItem(tempUrl, data)
 
@@ -240,24 +278,16 @@ const PressKeyinRegister = ({ match }) => {
                                             dateArray.map((data, index) => (
                                                 <DateAndTimeBox
                                                     key={`${data.date}${index}`} 
-                                                    max={
-                                                        index === 0 
-                                                        ? max.firstDayMax > max.max - minusForm(dateArray.filter(f => f.date !== data.date)) 
-                                                          ? max.max - minusForm(dateArray.filter(f => f.date !== data.date))
-                                                          : max.firstDayMax
-                                                        : index === dateArray.length - 1
-                                                          ? max.lastDayMax > max.max - minusForm(dateArray.filter(f => f.date !== data.date))
-                                                            ? max.max - minusForm(dateArray.filter(f => f.date !== data.date))
-                                                            : max.lastDayMax
-                                                          : 86400 > max.max - minusForm(dateArray.filter(f => f.date !== data.date))
-                                                            ? max.max - minusForm(dateArray.filter(f => f.date !== data.date))
-                                                            : 86400
-                                                    }
+                                                    max={secondForm(data.working_time.split('~')[1])-secondForm(data.working_time.split('~')[0])}
                                                     data={data} 
                                                     onChangeEvent={(e) => {
                                                         const filter = dateArray.filter(f => f.date !== data.date);
                                                         setDateArray([...filter, e].sort(date_ascending));
-                                                    }} /> 
+                                                    }}
+                                                    fromReadOnly={index === 0 ? true : false}
+                                                    toReadOnly={index === dateArray.length-1 ? true : false}
+                                                    
+                                                    /> 
                                             ))
                                         }
                                     </>

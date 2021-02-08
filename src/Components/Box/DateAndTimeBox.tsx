@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Styled from 'styled-components';
 import ColorInputWithText from '../Input/ColorInputWithText';
 import TimeInput from '../Input/TimeInput';
 import IC_Dropdown from "../../Assets/Images/ic_dropdown_gray.png"
 import IC_Dropup from "../../Assets/Images/ic_dropup_gray.png"
+import { KeyboardDateTimePicker, KeyboardTimePicker, MuiPickersUtilsProvider, TimePickerView } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment'
+import moment from 'moment'
+import WithTextBox from '../Input/WithTextBox';
+import { TimePicker } from 'antd';
+import FromToTimeInput from '../Input/FromToTimeInput';
 
 interface DateListArray {
     date: string,
+    working_time: string,
     motor_run_time: string,
     run_time: string, 
     stop_time: string, 
@@ -18,6 +25,8 @@ interface IProps {
     data: DateListArray;
     onChangeEvent: (value) => void;
     max: number;
+    fromReadOnly?: boolean;
+    toReadOnly?: boolean;
 }
 
 const numberPad = (n, width) => {
@@ -54,7 +63,7 @@ const regExp = (str) => {
 }
 
 
-const DateAndTimeBox = ({data, onChangeEvent, max}: IProps) => {
+const DateAndTimeBox = ({data, onChangeEvent, max, fromReadOnly, toReadOnly}: IProps) => {
 
     const [open, setOpen] = useState<boolean>(false);
 
@@ -72,10 +81,14 @@ const DateAndTimeBox = ({data, onChangeEvent, max}: IProps) => {
                     <>
                         <hr />
                         <div>
+                            <FromToTimeInput title={'작업시간'} onChangeEvent={(e) => onChangeEvent({ ...data, working_time: e })}
+                                    value={data.working_time} fromReadOnly={fromReadOnly} toReadOnly={toReadOnly} />
                             <TimeInput title={'가동시간'} onChangeEvent={(e) => onChangeEvent({ ...data, run_time: timeForm(e) })}
-                                    value={secondForm(data.run_time)} max={max - secondForm(data.stop_time)} />
+                                    value={secondForm(data.run_time)} max={max - secondForm(data.stop_time)} warning={"(가동시간과 비가동시간의 합이 총작업시간를 넘었습니다.)"}
+                                    sumTotalCheck={secondForm(data.run_time)+secondForm(data.stop_time) > max ? true : false} />
                             <TimeInput title={'비가동시간'} onChangeEvent={(e) => onChangeEvent({ ...data, stop_time: timeForm(e) })}
-                                        value={secondForm(data.stop_time)} max={max - secondForm(data.run_time)} />
+                                    value={secondForm(data.stop_time)} max={max - secondForm(data.run_time)} warning={"(가동시간과 비가동시간의 합이 총작업시간를 넘었습니다.)"} 
+                                    sumTotalCheck={secondForm(data.run_time)+secondForm(data.stop_time) > max ? true : false} />
                             <TimeInput title={'모터가동시간'} onChangeEvent={(e) => onChangeEvent({ ...data, motor_run_time: timeForm(e) })}
                                     value={secondForm(data.motor_run_time)} max={secondForm(data.run_time)} />
                             <ColorInputWithText title={'SPM'} value={data.spm} onChangeEvent={(e) => onChangeEvent({ ...data, spm: regExp(e) })}
