@@ -10,7 +10,6 @@ export const CompaniesThatUseKeyin = () => {
         case '121.150.81.201':
         case '106.252.226.157':
         case '115.22.101.32':
-        case '203.234.183.22':
             return true
         default:
             return false
