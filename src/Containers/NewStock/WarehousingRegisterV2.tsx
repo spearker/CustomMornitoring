@@ -388,6 +388,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
                                   })
                                 }
                               }}
+                              id={'state'}
                               contents={[{title: '불량', value: 0}, {title: '양호', value: 1}]}/>
                 </RadioBox>
               </div>)
@@ -404,7 +405,7 @@ const WarehousingRegisterContainer_V2 = ({match}: Props) => {
           <p style={{fontSize: 14, marginTop: 5, fontWeight: 700, width: 120, display: 'inline-block'}}>• 검수 결과</p>
           <RadioBox>
             <RadioInput title={''} width={0} line={false} target={check} isPadding={0} index={9999}
-                        onChangeEvent={(e) => setCheck(e)}
+                        onChangeEvent={(e) => setCheck(e)} id={'evaluation'}
                         contents={[{title: '불합격', value: 0}, {title: '합격', value: 1}]}/>
           </RadioBox>
         </div>

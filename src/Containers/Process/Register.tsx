@@ -555,7 +555,7 @@ const ProcessRegisterContainer = ({match}: any) => {
             }
             <tr>
               <td colSpan={2}>
-                <RadioInput title={'원자재 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                <RadioInput title={'원자재 중량 단위'} id={'unit'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
                             target={unit} onChangeEvent={(e) => {
                   if (e !== unit) {
                     setUnit(e)
@@ -720,7 +720,6 @@ const ProcessAddButton = Styled.button`
 
 const tableInnerDiv = styled.div`
   flex: 1; 
-  textAlign: left;
   height: 36px;
 `
 

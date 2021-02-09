@@ -206,6 +206,7 @@ const Old_ChangeOut = () => {
                 <WhiteBoxContainer>
                     <form onSubmit={onsubmitForm}>
                         <RadioInput title={'출고 구분'} target={type} onChangeEvent={setType}
+                                    id={'classification'}
                                     contents={[{value: 0, title: '정상 출고'}, {value: 1, title: '생산'}, {
                                         value: 2,
                                         title: '불량'

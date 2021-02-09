@@ -27,6 +27,7 @@ const StyleRadioInput = ({title, target, contents, onChangeEvent, opacity, width
     <>  
         <RadioBox>
             <RadioInput title={title} target={target}
+                        id={title}
                         onChangeEvent={onChangeEvent} opacity={opacity} width={width} 
                         line={line} isPadding={isPadding} index={index} center={center} 
                         noStringPadding={noStringPadding} contents={contents} />

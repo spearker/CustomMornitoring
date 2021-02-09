@@ -13,6 +13,7 @@ import RadioInput from '../Input/RadioInput'
 import Check from '../../Assets/Images/ic_checkbox_y.png'
 import RadioCheck from '../../Assets/Images/btn_radio_check.png'
 import Radio from '../../Assets/Images/btn_radio.png'
+import InputContainer from '../../Containers/InputContainer'
 
 //드롭다운 컴포넌트
 
@@ -38,9 +39,7 @@ Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, selectAuthority}: IProps) => {
-  //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
-  const [machineName, setMachineName] = useState('')
 
   const [machineList, setMachineList] = useState(DummyMachine)
   const [searchName, setSearchName] = useState<string>('')
@@ -65,24 +64,16 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
     Notiflix.Loading.Remove()
   }, [searchName, saveKeyword, isFirst, page, isAuth])
 
-
-  const handleClickBtn = () => {
-    setIsOpen(!isOpen)
-  }
-
   useEffect(() => {
     if(isFirst){
       getList(true)
     }
-    }, [isAuth, saveKeyword])
+    onClickEvent({})
+  }, [isAuth, saveKeyword])
 
   useEffect(() => {
     getList()
   }, [page.current])
-
-  useEffect(() => {
-    onClickEvent({})
-  }, [isAuth])
 
   return (
     <div>
@@ -135,11 +126,42 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
               }}>• {type ? type : '작업자'} 검색</p>
               {selectAuthority && 
                 <RadioBox>
-                  <RadioInput title={''} width={0} line={false} target={isAuth}
-                              onChangeEvent={(e) => setIsAuth(e)}
-                              contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
-                                value: 1, title: '작업자'}]} 
-                              />
+                  {/* <RadioInput title={''} width={0} line={false} target={isAuth}
+                              onChangeEvent={(e) => {
+                                setIsAuth(e)
+                                return;
+                              }}
+                              id={'authority'}
+                              contents={[
+                                {value: -1, title: '모든 권한'}, 
+                                {value: 0, title: '관리자'}, 
+                                {value: 1, title: '작업자'}]} 
+                              /> */}
+                  <InputContainer title={''} width={0} line={false}>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                      {
+                        [{value: -1, title: '모든 권한'}, 
+                          {value: 0, title: '관리자'}, 
+                          {value: 1, title: '작업자'}].map((v, i) => (
+                          <div key={`authority${i}`} style={{display: 'flex', justifyContent: 'center'}}>
+                              <input type="radio" id={`rdauthority${i}`} name={`radio-${i}`}
+                                    checked={isAuth === v.value ? true : false}
+                                    onClick={() => {
+                                      setIsAuth(v.value)
+                                      return;
+                                    }}/>
+                              <label htmlFor={`rdauthority${i}`}></label>
+                              <span style={{
+                                paddingLeft: 4,
+                                fontSize: 14,
+                                marginRight: 20,
+                                paddingTop: 0
+                              }}>{v.title}</span>
+                            </div>
+                        ))
+                      }
+                    </div>
+                  </InputContainer>
                 </RadioBox>
               }
 
@@ -168,13 +190,14 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                     :
                     machineList.map((v, i) => {
                       return (
-                        <tr style={{
+                        <tr key={`${v.name}${i}`} style={{
                           height: 32,
                           backgroundColor: select && v.pk === select.pk ? POINT_COLOR : '#fff',
                         }} onClick={() => {
-                          setMachineName(v.name)
-                          return onClickEvent({name: v.name, pk: v.pk})
-                        }}>
+                            onClickEvent({name: v.name, pk: v.pk})
+                            console.log("click")
+                            return
+                          }}>
                           <td><span>{v.name}</span></td>
                         </tr>
                       )
@@ -230,27 +253,6 @@ const BoxWrap = Styled.button`
         font-weight: bold;
     }
 `
-
-const InnerBoxWrap = Styled.button`
-    padding: 5px 15px 4px 15px;
-    border-radius: 0px;
-    color: white;
-    min-width: 100px;
-    background-color: ${BG_COLOR_SUB};
-    border: none;
-    font-weight: bold;
-    text-algin: left;
-    p{
-        text-algin: left;
-     }
-    font-size: 13px;
-    img {
-    margin-right: 7px;
-    width: 14px;
-    height: 14px;
-    }
-`
-
 const SearchBox = Styled(Input)`
     input{
         padding-left: 8px;

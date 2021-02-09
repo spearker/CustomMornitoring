@@ -294,6 +294,7 @@ const BasicMachineRegister = () => {
               />
 
               {CompaniesThatUseKeyin() && <RadioInput title={'오버홀'} width={168} target={interwork} center={{alignItems: 'center'}} noStringPadding
+                          id={'overhaul'}
                           onChangeEvent={(e) => setInterwork(e)}
                           contents={[{value: 0, title: 'Y'}, {value: 1, title: 'N'}]}/>}
 

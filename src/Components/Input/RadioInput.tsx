@@ -14,9 +14,10 @@ interface IProps {
   index?: number
   center?: any
   noStringPadding?: boolean
+  id: string
 }
 
-const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, line, isPadding, index, center, noStringPadding}: IProps) => {
+const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, line, isPadding, index, center, noStringPadding, id}: IProps) => {
 
   return (
 
@@ -27,16 +28,21 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
             <>
               {
                 opacity ?
-                <div key={`${i}${index}`} style={{opacity: target === v.value ? 1 : 0.3}}>
-                  <input type="radio" id={`rd${index}${v.title}${i}`} name={`radio-${index}`}
+                <div key={`${id}${i}`} style={{opacity: target === v.value ? 1 : 0.3}}>
+                  <input type="radio" id={`rd${id}${i}`} name={`radio-${index}`}
                         checked={target === v.value ? true : false}
-                        onClick={(e) => onChangeEvent === null ? null : onChangeEvent(v.value)}/>
-                  <label htmlFor={`rd${i}${v.title}${index}`}></label>
+                        onClick={() => {
+                          if(onChangeEvent !== null){
+                            return null
+                          } else {
+                            onChangeEvent(v.value)
+                        }}}/>
+                  <label htmlFor={`rd${id}${i}`}></label>
                   <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20,}}>{v.title}</span>
                 </div>
                 :
-                <div key={`${i}${index}`} style={{display: 'flex', justifyContent: 'center', ...center}}>
-                  <input type="radio" id={`rd${index}${v.title}${i}`} name={`radio-${index}`}
+                <div key={`${id}${i}`} style={{display: 'flex', justifyContent: 'center', ...center}}>
+                  <input type="radio" id={`rd${id}${i}`} name={`radio-${index}`}
                         checked={target === v.value ? true : false}
                         onClick={() => {
                           if (onChangeEvent === null) {
@@ -45,7 +51,7 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                             onChangeEvent(v.value)
                           }
                         }}/>
-                  <label htmlFor={`rd${index}${v.title}${i}`}></label>
+                  <label htmlFor={`rd${id}${i}`}></label>
                   <span style={{
                     paddingLeft: 4,
                     fontSize: 14,

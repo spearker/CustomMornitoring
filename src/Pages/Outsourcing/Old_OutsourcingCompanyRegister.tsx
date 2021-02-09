@@ -139,6 +139,7 @@ const Old_OutsourcingCompanyRegister = () => {
                                 <NormalInput title={'대표자명'} value={inputData.pathceo}
                                              onChangeEvent={(input) => setInputData(`pathceo`, input)}/>
                                 <RadioInput title={'사업자 구분'} target={inputData.type}
+                                            id={'buisnessman'}
                                             contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}
                                             onChangeEvent={(input) => setInputData(`type`, input)}/>
                                 <NormalInput title={'사업자/법인 번호'} value={inputData.number}
