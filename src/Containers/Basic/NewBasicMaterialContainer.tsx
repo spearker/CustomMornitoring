@@ -52,7 +52,7 @@ const NewBasicMaterialRegister = () => {
     material_spec_D: null,
     texture: null,
     model: [''],
-    supplier: null
+    supplier: {name: '', pk: null}
   })
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const NewBasicMaterialRegister = () => {
         material_spec_D: inputData.material_spec_D,
         texture: inputData.texture,
         model: inputData.model ? inputData.model.filter(v => v !== '')[0] ? inputData.model.filter(v => v !== '')[0].trim() === '' ? null : inputData.model.filter(v => v !== '') : null : null,
-        supplier: (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined
+        supplier: (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier ? inputData.supplier.pk : null : null
       }
       let res
       // if (autoCustomType() === 'jb_material_trans') {
@@ -171,6 +171,7 @@ const NewBasicMaterialRegister = () => {
   }, [pk, optional, essential, inputData])
 
   const onsubmitForm = useCallback(async () => {
+    console.log(inputData.supplier)
     if (validate()) {
       const data = {
         material_name: inputData.material_name,
@@ -186,7 +187,7 @@ const NewBasicMaterialRegister = () => {
         material_spec_D: inputData.material_spec_D,
         texture: inputData.texture,
         model: inputData.model ? inputData.model[0].trim() === '' ? null : inputData.model : inputData.model,
-        supplier: (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier.pk : undefined
+        supplier: (inputData.material_type === 10 || inputData.material_type === 30) ? inputData.supplier ? inputData.supplier.pk : null : null
       }
 
       let res
