@@ -48,7 +48,6 @@ const ProductionRegisterContainer = ({match}: Props) => {
         end: moment().format('YYYY-MM-DD'),
     })
 
-    const [memberType, setMemberType] = useState<number>(-1)
     const [materialType, setMaterialType] = useState<number>(-1)
     const [selectMember, setSelectMember] = useState<modalData>({})
     const [pk, setPk] = useState<string>('')
@@ -222,10 +221,6 @@ const ProductionRegisterContainer = ({match}: Props) => {
         }
     }
 
-    useEffect(() => {
-        setSelectMember({})
-    }, [memberType])
-
     return (
         <div>
             <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
@@ -255,8 +250,7 @@ const ProductionRegisterContainer = ({match}: Props) => {
                         <tr>
                             <td>• 계획자</td>
                             <td>
-                                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)} type={'계획자'}
-                                                   onChangeAuth={(e) => setMemberType(e)} auth={memberType}
+                                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)} type={'계획자'} selectAuthority
                                                    text={'계획자를 선택해 주세요'} select={selectMember}/>
                             </td>
                         </tr>

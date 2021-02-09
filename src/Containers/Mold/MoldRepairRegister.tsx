@@ -24,7 +24,6 @@ const MoldRepairRegisterContainer = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [reason, setReason] = useState<string>('')
   const [selectMember, setSelectMember] = useState<modalData>({})
-  const [memberType, setMemberType] = useState(-1)
 
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
 
@@ -102,8 +101,7 @@ const MoldRepairRegisterContainer = () => {
             </tr>
             <tr>
               <td>• 수리 담당자</td>
-              <td><MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
-                                     onChangeAuth={(e) => setMemberType(e)} auth={memberType}
+              <td><MemberPickerModal onClickEvent={(e) => setSelectMember(e)} selectAuthority
                                      text={'작업자를 선택해 주세요'} select={selectMember}/>
               </td>
             </tr>

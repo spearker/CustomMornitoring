@@ -67,7 +67,6 @@ const DefectiveRegisterContainer = ({match}: Props) => {
   const [paths, setPaths] = useState<any[1]>([null])
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [selectMember, setSelectMember] = useState<modalData>({})
-  const [memberType, setMemberType] = useState(-1)
 
   useEffect(() => {
     if (match.params.pk) {
@@ -259,10 +258,6 @@ const DefectiveRegisterContainer = ({match}: Props) => {
     }
   }, [selectHistory])
 
-  useEffect(() => {
-    setSelectMember({})
-  }, [memberType])
-
   return (
     <div>
       <Header title={isUpdate ? '불량 이력수정' : '불량 이력등록'}/>
@@ -290,8 +285,7 @@ const DefectiveRegisterContainer = ({match}: Props) => {
         </InputContainer>
         <InputContainer title={'검수자'} width={120}>
           <div style={{width: '100%', paddingLeft: 10}}>
-            <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} type={'검수자'}
-                                onChangeAuth={(e) => setMemberType(e)} auth={memberType}
+            <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} type={'검수자'} selectAuthority
                                 text={'검수자를 선택해 주세요'} select={selectMember}/>
           </div>
         </InputContainer>
