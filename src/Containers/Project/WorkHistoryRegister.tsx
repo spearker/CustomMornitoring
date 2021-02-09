@@ -307,8 +307,13 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                   isFinish
                     ? <InputBox disabled={isFinish || isUpdate} value={selectMember && selectMember.name}
                                 placeholder={'총 작업량을 입력해 주세요'}></InputBox>
-                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} selectAuthority
-                                          text={'작업자를 선택해 주세요'} select={selectMember}/>
+                    : <MemeberPickerModal selectAuthority 
+                        onClickEvent={(e) => {
+                          setSelectMember(e)
+                          console.log(e)
+                          return
+                        }}
+                        text={'작업자를 선택해 주세요'} select={selectMember}/>
                 }
               </td>
             </tr>
@@ -436,6 +441,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
               <tr>
                   <td colSpan={2}>
                       <RadioInput title={'원자재 중량 단위'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                                  id={'raw-materials'}
                                   target={unit} onChangeEvent={(e) => {
                         if (e !== unit) {
                           setUnit(e)

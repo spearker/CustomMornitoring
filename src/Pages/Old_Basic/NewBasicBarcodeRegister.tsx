@@ -137,6 +137,7 @@ const NewBasicBarcodeRegister = () => {
                         
                         {getParameter('pk') === "" && <RadioBox>
                             <RadioInput title={'바코드 생성 방법'} width={120} line={true} target={typeFilter}
+                                        id={'howToCreate'}
                                         onChangeEvent={(e) => setTypeFilter(e)}
                                         contents={[{value: 0, title: '직접 입력'}, {value: 1, title: '자동 생성'}]}/>
                         </RadioBox>}

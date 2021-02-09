@@ -256,6 +256,7 @@ const OutsourcingRegister = ({match}: any) => {
                 <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
                 <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
                 <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
+                            id={'business-classification'}
                             contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
                 <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo}
                                    description={'사업자 번호를 입력하세요 (-제외)'}/>

@@ -192,7 +192,7 @@ const NewProcessContainer = () => {
             <tr>
               <td colSpan={2}>
                 <div style={{width: '100%'}}>
-                  <RadioInput title={'타입'} contents={[{title: '단발', value: 0}, {title: '라인', value: 1}, {
+                  <RadioInput title={'타입'} id={'type'} contents={[{title: '단발', value: 0}, {title: '라인', value: 1}, {
                     title: '조립',
                     value: 2
                   }, {title: '검수', value: 3}]}

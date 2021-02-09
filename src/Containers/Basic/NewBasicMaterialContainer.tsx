@@ -215,6 +215,7 @@ const NewBasicMaterialRegister = () => {
             <div>
               <ListHeader title="필수 항목"/>
               <RadioInput title={'품목 종류'} target={inputData.material_type}
+                          id={'material_type'}
                           onChangeEvent={(e) => setInputData('material_type', e)}
                           contents={[{value: 0, title: '원자재'}, {value: 10, title: '반제품'}, {
                             value: 1, title: '부자재'
