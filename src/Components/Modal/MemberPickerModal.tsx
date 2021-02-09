@@ -126,7 +126,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
               }}>• {type ? type : '작업자'} 검색</p>
               {selectAuthority && 
                 <RadioBox>
-                  {/* <RadioInput title={''} width={0} line={false} target={isAuth}
+                  <RadioInput title={''} width={0} line={false} target={isAuth}
                               onChangeEvent={(e) => {
                                 setIsAuth(e)
                                 return;
@@ -136,8 +136,8 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                                 {value: -1, title: '모든 권한'}, 
                                 {value: 0, title: '관리자'}, 
                                 {value: 1, title: '작업자'}]} 
-                              /> */}
-                  <InputContainer title={''} width={0} line={false}>
+                              />
+                  {/* <InputContainer title={''} width={0} line={false}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                       {
                         [{value: -1, title: '모든 권한'}, 
@@ -161,7 +161,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                         ))
                       }
                     </div>
-                  </InputContainer>
+                  </InputContainer> */}
                 </RadioBox>
               }
 
