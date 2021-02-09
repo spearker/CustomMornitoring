@@ -1,19 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import Header from '../../Components/Text/Header'
 import 'react-dropdown/style.css'
-import SmallButtonLink from '../../Components/Button/SmallButtonLink'
-import InfoTable from '../../Components/Table/InfoTable'
 import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import {transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions'
-import Pagination from '@material-ui/lab/Pagination'
-import Styled from 'styled-components'
 import Notiflix from 'notiflix'
 import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
 import {useHistory} from 'react-router-dom'
 import OptimizedTable from '../../Components/Table/OptimizedTable'
-import OvertonTable from '../../Components/Table/OvertonTable'
-
 
 interface Props {
   type: string
@@ -47,6 +39,7 @@ const BasicMoldContainer = () => {
   const [keyword, setKeyword] = useState<string>('')
   const [filter, setFilter] = useState<number>(-1)
   const [saveKeyword, setSaveKeyword] = useState<string>('')
+  const [orderData, setOrderData] = useState<'ASC' | 'DESC'>('ASC')
   // const [page, setPage] = useState<number>(0);
 
   const titleEvent = [
@@ -90,7 +83,7 @@ const BasicMoldContainer = () => {
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
 
-    const tempUrl = `${API_URLS['mold'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=${option}&limit=15${filter > 0 ? `&filter=${filter}` : ''}`
+    const tempUrl = `${API_URLS['mold'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=${option}&limit=15${filter > 0 ? `&filter=${filter}` : ''}&sort=${orderData}`
     const resultList = await getBasicList(tempUrl)
     if (resultList) {
       const getBasic = resultList.info_list.map((v, i) => {
@@ -112,17 +105,16 @@ const BasicMoldContainer = () => {
       setPage({current: resultList.current_page, total: resultList.total_page})
       Notiflix.Loading.Remove()
     }
-  }, [list, keyword, option, page, saveKeyword, filter])
+  }, [list, keyword, option, page, saveKeyword, filter, orderData])
 
   useEffect(() => {
     if (isFirst) {
       getList()
     }
-  }, [page.current])
+  }, [page.current, orderData])
 
 
   useEffect(() => {
-    console.log(filter)
     if (isFirst) {
       getList(true)
     }
@@ -163,6 +155,11 @@ const BasicMoldContainer = () => {
       </div>
       <OptimizedTable widthList={LIST_INDEX['mold'].width}
                       indexList={LIST_INDEX['mold'].index}
+                      orderByItem={['mold_name']}
+                      orderByChange={(e) => {
+                        setOrderData(e[0])
+                      }}
+                      orderByData={[orderData]}
                       valueList={list}
                       EventList={eventList}
                       selectBoxChange={(e) => setFilter(transferStringToCode('mold', e))}

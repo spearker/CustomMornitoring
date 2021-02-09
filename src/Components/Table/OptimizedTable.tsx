@@ -3,8 +3,9 @@ import IcDropDownButton from '../../Assets/Images/ic_dropdown_white.png'
 import IcFile from '../../Assets/Images/ic_file.png'
 import Styled from 'styled-components'
 import Pagination from '@material-ui/lab/Pagination'
-import IC_Dropdown from '../../Assets/Images/ic_folder_close.png'
 import ReactTooltip from 'react-tooltip'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 
 interface Props {
   selectBoxChange?: any
@@ -26,9 +27,12 @@ interface Props {
   noChildren?: boolean
   children?: any
   padding?: number
+  orderByItem?: string[]
+  orderByChange?: (e: ('ASC' | 'DESC')[]) => void
+  orderByData?: ('ASC' | 'DESC')[]
 }
 
-const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitle, file, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent, padding}) => {
+const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitle, file, widthList, indexList, valueList, EventList, allCheckOnClickEvent, checkOnClickEvent, buttonState, clickValue, mainOnClickEvent, noChildren, children, currentPage, totalPage, pageOnClickEvent, padding, orderByItem, orderByChange, orderByData}) => {
 
   const [checked, setChecked] = useState<any[]>([])
 
@@ -118,6 +122,45 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitl
                       })
                     }
                   </LimitSelect>
+                  : orderByItem && orderByItem.indexOf(v) !== -1 ?
+                  <LimitButton
+                    style={{
+                      cursor: 'pointer',
+                      backgroundColor: '#111319',
+                      borderColor: '#111319',
+                      color: 'white',
+                      width: widthList[i],
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      fontFamily: 'NotoSansCJKkr',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      margin: `0 ${padding ? padding : 16}px`,
+                      textAlign: 'left',
+                      background: `url(${KeyboardArrowUpIcon}) no-repeat 95% 50%`
+                    }}
+
+                    onClick={() => {
+                      if (orderByData) {
+                        let tmp = orderByData
+                        if (tmp[orderByItem.indexOf(v)] === 'ASC') {
+                          tmp[orderByItem.indexOf(v)] = 'DESC'
+                        } else if (tmp[orderByItem.indexOf(v)] === 'DESC') {
+                          tmp[orderByItem.indexOf(v)] = 'ASC'
+                        }
+                        orderByChange && orderByChange(tmp)
+                      }
+                    }}
+                  >
+                    <div>
+                      {indexList[v]}
+                    </div>
+                    {
+                      orderByData && orderByData[i] === 'ASC'
+                        ? <KeyboardArrowUpIcon/>
+                        : <KeyboardArrowDownIcon/>
+                    }
+                  </LimitButton>
                   :
                   <LimitP key={v} style={{
                     width: widthList[i],
@@ -362,6 +405,13 @@ const PaginationBox = Styled.div`
 `
 
 const LimitSelect = Styled.select`
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+`
+
+const LimitButton = Styled.button`
     text-overflow:ellipsis;
     white-space:nowrap;
     word-wrap:normal;
