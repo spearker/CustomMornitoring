@@ -40,7 +40,6 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
   const [isVersionTwo] = useState<boolean>(match.params.version === 'v2' ? true : false)
 
   const [selectMember, setSelectMember] = useState<modalData>({})
-  const [memberType, setMemberType] = useState(-1)
   const [workSelectTime, setWorkSelectTime] = useState<any>(new Date())
   const [workEndTime, setWorkEndTime] = useState<any>(new Date())
 
@@ -212,10 +211,6 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
     }
   }, [])
 
-  useEffect(() => {
-    setSelectMember({})
-  }, [memberType])
-
   React.useEffect(() => {
     getChitSelect()
   }, [modalSelect.chit])
@@ -312,8 +307,7 @@ const WorkHistoryRegisterContainer = ({match}: any) => {
                   isFinish
                     ? <InputBox disabled={isFinish || isUpdate} value={selectMember && selectMember.name}
                                 placeholder={'총 작업량을 입력해 주세요'}></InputBox>
-                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)}
-                                          onChangeAuth={(e) => setMemberType(e)} auth={memberType}
+                    : <MemeberPickerModal onClickEvent={(e) => setSelectMember(e)} selectAuthority
                                           text={'작업자를 선택해 주세요'} select={selectMember}/>
                 }
               </td>

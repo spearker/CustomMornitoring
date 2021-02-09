@@ -17,36 +17,35 @@ interface IProps {
 }
 
 const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, line, isPadding, index, center, noStringPadding}: IProps) => {
-  useEffect(() => {
-    console.log(index)
-  }, [])
+
   return (
 
     <InputContainer title={title} width={width} line={line} isPadding={isPadding}>
       <div style={{display: 'flex', alignItems: 'center', ...center}}>
         {
-          contents.map((v, i) => {
-            return (
-              opacity ?
+          contents.map((v, i) => (
+            <>
+              {
+                opacity ?
                 <div key={`${i}${index}`} style={{opacity: target === v.value ? 1 : 0.3}}>
-                  <input type="radio" id={`rd${index}${i}`} name={`radio-${index}`}
-                         checked={target === v.value ? true : false}
-                         onClick={(e) => onChangeEvent === null ? null : onChangeEvent(v.value)}/>
-                  <label htmlFor={`rd${i}${index}`}></label>
+                  <input type="radio" id={`rd${index}${v.title}${i}`} name={`radio-${index}`}
+                        checked={target === v.value ? true : false}
+                        onClick={(e) => onChangeEvent === null ? null : onChangeEvent(v.value)}/>
+                  <label htmlFor={`rd${i}${v.title}${index}`}></label>
                   <span style={{paddingLeft: 4, fontSize: 14, marginRight: 20,}}>{v.title}</span>
                 </div>
                 :
                 <div key={`${i}${index}`} style={{display: 'flex', justifyContent: 'center', ...center}}>
-                  <input type="radio" id={`rd${index}${i}`} name={`radio-${index}`}
-                         checked={target === v.value ? true : false}
-                         onClick={() => {
-                           if (onChangeEvent === null) {
-                             return null
-                           } else {
-                             onChangeEvent(v.value)
-                           }
-                         }}/>
-                  <label htmlFor={`rd${index}${i}`}></label>
+                  <input type="radio" id={`rd${index}${v.title}${i}`} name={`radio-${index}`}
+                        checked={target === v.value ? true : false}
+                        onClick={() => {
+                          if (onChangeEvent === null) {
+                            return null
+                          } else {
+                            onChangeEvent(v.value)
+                          }
+                        }}/>
+                  <label htmlFor={`rd${index}${v.title}${i}`}></label>
                   <span style={{
                     paddingLeft: 4,
                     fontSize: 14,
@@ -54,8 +53,9 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                     paddingTop: width ? noStringPadding ? 0 : 5 : 0
                   }}>{v.title}</span>
                 </div>
-            )
-          })
+              }
+            </>
+          ))
         }
       </div>
     </InputContainer>

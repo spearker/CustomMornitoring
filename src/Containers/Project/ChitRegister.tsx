@@ -20,7 +20,6 @@ const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
 const ChitRegisterContainer = ({match}: any) => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
-    const [memberType, setMemberType] = useState(-1)
     const [open, setOpen] = useState<boolean>(false)
     const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
     const [modalSelect, setModalSelect] = useState<{ production: { pk: string, project_name: string, material_name: string, supplier_name: string } }>({
@@ -123,10 +122,6 @@ const ChitRegisterContainer = ({match}: any) => {
     }
 
     useEffect(() => {
-        setSelectMember({})
-    }, [memberType])
-
-    useEffect(() => {
         if (match.params.pk) {
             getChitUpdateData()
             setIsUpdate(true)
@@ -154,8 +149,7 @@ const ChitRegisterContainer = ({match}: any) => {
                         <tr>
                             <td>• 등록자</td>
                             <td>
-                                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)}
-                                                   onChangeAuth={(e) => setMemberType(e)} auth={memberType}
+                                <MemberPickerModal onClickEvent={(e) => setSelectMember(e)} selectAuthority
                                                    text={'등록자를 선택해 주세요'} select={selectMember} type={'등록자'}
                                                    style={{width: 'calc(99% - 4px)'}}/>
                             </td>

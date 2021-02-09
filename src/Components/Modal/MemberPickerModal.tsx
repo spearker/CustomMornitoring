@@ -24,8 +24,7 @@ interface IProps {
   disabled?: boolean
   style?: any
   type?: string
-  onChangeAuth?: (select: number) => void;
-  auth?: number
+  selectAuthority?: boolean
 }
 
 const DummyMachine = [
@@ -38,13 +37,14 @@ const DummyMachine = [
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
 const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
-const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, auth, onChangeAuth}: IProps) => {
+const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, style, type, selectAuthority}: IProps) => {
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
 
   const [machineList, setMachineList] = useState(DummyMachine)
   const [searchName, setSearchName] = useState<string>('')
+  const [isAuth, setIsAuth] = useState<number>(-1)
 
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
@@ -55,7 +55,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
 
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-    const tempUrl = auth !== undefined ? `${API_URLS['member'].list}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=10&auth=${auth}` : `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
+    const tempUrl = selectAuthority ? `${API_URLS['member'].list}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=10&auth=${isAuth}` : `${API_URLS['member'].list}?keyword=${searchName}&page=${isSearch ? 1 : page.current}&limit=10`
     const resultData = await getMemberList(tempUrl)
     if (resultData) {
       setMachineList(resultData.info_list)
@@ -63,7 +63,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
       setIsFirst(true)
     }
     Notiflix.Loading.Remove()
-  }, [searchName, saveKeyword, isFirst, page, auth])
+  }, [searchName, saveKeyword, isFirst, page, isAuth])
 
 
   const handleClickBtn = () => {
@@ -74,11 +74,15 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
     if(isFirst){
       getList(true)
     }
-    }, [auth, saveKeyword])
+    }, [isAuth, saveKeyword])
 
   useEffect(() => {
     getList()
   }, [page.current])
+
+  useEffect(() => {
+    onClickEvent({})
+  }, [isAuth])
 
   return (
     <div>
@@ -129,13 +133,13 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                 fontFamily: 'NotoSansCJKkr',
                 fontWeight: 'bold'
               }}>• {type ? type : '작업자'} 검색</p>
-              {onChangeAuth !== undefined && 
+              {selectAuthority && 
                 <RadioBox>
-                  <RadioInput title={''} width={0} line={false} target={auth !== undefined ? auth : -1}
-                              onChangeEvent={(e) => onChangeAuth(e)}
+                  <RadioInput title={''} width={0} line={false} target={isAuth}
+                              onChangeEvent={(e) => setIsAuth(e)}
                               contents={[{value: -1, title: '모든 권한'}, {value: 0, title: '관리자'}, {
-                                value: 1, title: '작업자'
-                              }]} />
+                                value: 1, title: '작업자'}]} 
+                              />
                 </RadioBox>
               }
 
@@ -166,7 +170,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
                       return (
                         <tr style={{
                           height: 32,
-                          backgroundColor: select ? v.pk === select.pk ? POINT_COLOR : '#ffffff' : '#ffffff',
+                          backgroundColor: select && v.pk === select.pk ? POINT_COLOR : '#fff',
                         }} onClick={() => {
                           setMachineName(v.name)
                           return onClickEvent({name: v.name, pk: v.pk})
@@ -187,7 +191,7 @@ const MemberPickerModal = ({select, onClickEvent, text, buttonWid, disabled, sty
           </div>
           <div style={{width: 900}}>
             <CheckButton style={{left: 0, backgroundColor: '#e7e9eb'}} onClick={() => {
-              if(onChangeAuth!== undefined) onChangeAuth(-1);
+              if(selectAuthority) setIsAuth(-1);
               onClickEvent({name: undefined, pk: undefined})
               setIsOpen(false)
             }}>
