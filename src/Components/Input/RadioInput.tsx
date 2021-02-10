@@ -29,7 +29,7 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
               {
                 opacity ?
                 <div key={`${id}${i}`} style={{opacity: target === v.value ? 1 : 0.3}}>
-                  <input type="radio" id={`rd${id}${i}`} name={`radio-${index}`}
+                  <input type="radio" id={`rd${id}${i}`} name={`radio-${id}-${index}`}
                         checked={target === v.value ? true : false}
                         onClick={() => {
                           if(onChangeEvent !== null){
@@ -42,7 +42,7 @@ const RadioInput = ({title, target, contents, onChangeEvent, opacity, width, lin
                 </div>
                 :
                 <div key={`${id}${i}`} style={{display: 'flex', justifyContent: 'center', ...center}}>
-                  <input type="radio" id={`rd${id}${i}`} name={`radio-${index}`}
+                  <input type="radio" id={`rd${id}${i}`} name={`radio-${id}-${index}`}
                         checked={target === v.value ? true : false}
                         onClick={() => {
                           if (onChangeEvent === null) {
