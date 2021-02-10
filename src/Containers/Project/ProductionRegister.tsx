@@ -11,7 +11,6 @@ import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
 import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 import {useHistory} from 'react-router-dom'
 import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
-import RadioInput from '../../Components/Input/RadioInput'
 import {getProductData} from '../../Api/pm/statistics'
 
 const typeDummy = [
