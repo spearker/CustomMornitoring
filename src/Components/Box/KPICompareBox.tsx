@@ -12,6 +12,7 @@ import ReactTooltip from 'react-tooltip'
 const pickerModalHeader = {
   product: [
     {title: '품목명', key: 'material_name', width: 100},
+    {title: '품번', key: 'material_code', width: 100},
     {title: '품목 종류', key: 'material_type', width: 100},
     {title: '공장', key: 'location', width: 100},
   ],

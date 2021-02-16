@@ -60,8 +60,6 @@ const NewRawMaterialContainerV2 = () => {
       location_name: ['위치'],
       warehousing_date: '입고일',
       passed: ['검수 결과'],
-      quality_chart: '품질 성적표',
-      writer7: '바코드',
     },
     outputData: {
       LOT: '품번/Lot',
@@ -130,7 +128,7 @@ const NewRawMaterialContainerV2 = () => {
     }
     const tempUrl = `${API_URLS['stock'].rawDetail}?pk=${pk}&page=${isSearch ? 1 : detailPage.current}&date=${selectDate}&limit=4`
     const res = await getStockList(tempUrl)
-    
+
 
     const tempData = res.info_list.map((v, i) => {
       return {
