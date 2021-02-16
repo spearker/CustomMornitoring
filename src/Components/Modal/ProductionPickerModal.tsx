@@ -197,6 +197,7 @@ const ProductionPickerModal = ({
               <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품목(품목명) 검색</p>
               {useFilter && type !== -1 && <RadioBox>
                   <RadioInput title={''} width={0} line={false} target={typeFilter}
+                              id={'subject'}
                               onChangeEvent={(e) => setTypeFilter(e)}
                               contents={type === 0 ? 투입품목 : 생산품목}/>
               </RadioBox>}

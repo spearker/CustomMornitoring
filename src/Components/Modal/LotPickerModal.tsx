@@ -153,6 +153,7 @@ const LotPickerModal = ({select, onClickEvent, text, buttonWid, disabled}: IProp
             <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 품번/Lot 번호 검색</p>
             <RadioBox>
                 <RadioInput title={''} width={0} line={false} target={type}
+                            id={'standard'}
                             onChangeEvent={(e) => {console.log(e); setType(e);}}
                             index={123}
                             contents={[

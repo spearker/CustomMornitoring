@@ -206,6 +206,7 @@ const StockChangeIn = () => {
                 <WhiteBoxContainer>
                     <form onSubmit={onsubmitForm}>
                         <RadioInput title={'입고 구분'} target={type} onChangeEvent={setType}
+                                    id={'classification'}
                                     contents={[{value: 3, title: '정상 입고'}, {value: 4, title: '생산'}, {
                                         value: 9,
                                         title: '기타 (오류정정)'

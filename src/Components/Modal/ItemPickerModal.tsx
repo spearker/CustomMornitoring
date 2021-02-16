@@ -134,6 +134,7 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
               {
                 optionItems && optionItems.optionList && <RadioBox>
                     <RadioInput title={''} width={0} line={false} target={Number(optionItems.option)}
+                                id={'kinds'}
                                 onChangeEvent={(e) => {
                                   setSaveKeyword('')
                                   setSearchName('')

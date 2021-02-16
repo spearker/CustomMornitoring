@@ -228,6 +228,7 @@ const CreateMemberContainer: React.FunctionComponent<Props> = ({match}) => {
                     <div>
                         <ListHeader title="필수 항목"/>
                         <RadioInput title={'권한'} target={inputData.authority}
+                                    id={'authority'}
                                     onChangeEvent={(e) => setInputData('authority', e)}
                                     contents={[{value: 'ADMIN', title: '관리자'}, {value: 'USER', title: '작업자'}]}/>
                         <NormalInput title={'유저명'} value={inputData.name}
