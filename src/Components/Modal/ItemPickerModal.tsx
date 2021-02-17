@@ -1,12 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
+import {POINT_COLOR} from '../../Common/configset'
 import Modal from 'react-modal'
 import ReactShadowScroll from 'react-shadow-scroll'
-import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
-import {API_URLS, getSearchMachine} from '../../Api/mes/process'
+import {getSearchMachine} from '../../Api/mes/process'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import Pagination from '@material-ui/lab/Pagination'
 import Notiflix from 'notiflix'
@@ -15,7 +14,6 @@ import RadioInput from '../Input/RadioInput'
 import Check from '../../Assets/Images/ic_checkbox_y.png'
 import Radio from '../../Assets/Images/btn_radio.png'
 import RadioCheck from '../../Assets/Images/btn_radio_check.png'
-import styled from 'styled-components'
 
 //드롭다운 컴포넌트
 
@@ -34,6 +32,8 @@ interface IProps {
   setOption?: (option: any) => void
   etc?: string
 }
+
+const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 
 Notiflix.Loading.Init({svgColor: '#1cb9df'})
 
@@ -146,9 +146,11 @@ const ItemPickerModal = ({select, onClickEvent, text, buttonWid, disabled, width
             </div>
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox
-                placeholder={title === '수주' ? '거래처명 또는 품목명으로 검색해 주세요' : title === '생산계획' ? '계획자명을 입력해주세요' : title === '전표' ? `검색어를 입력해주세요` : `${title}명을 입력해주세요`}
+                placeholder={title === '품목(품목명)' ? '품목명 또는 품번을 검색해주세요' : title === '수주' ? '거래처명 또는 품목명으로 검색해 주세요' : title === '생산계획' ? '계획자명을 입력해주세요' : title === '전표' ? `검색어를 입력해주세요` : `${title}명을 입력해주세요`}
                 style={{flex: 96}}
-                onChange={(e) => setSearchName(e.target.value)} value={searchName}
+                onChange={(e) => {
+                  if (!e.target.value.match(regExp)) setSearchName(e.target.value)
+                }} value={searchName}
                 onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
