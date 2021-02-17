@@ -111,7 +111,7 @@ const NewBarcodeRegisterContainer = ({match}: Props) => {
             item_type: {main_type: indexList[type], detail_type: selectMachine?.name, lot_number: lotNumber.name},
             item_pk: lotNumber.pk,
             number_type: typeFilter === 0 ? 'custom' : 'auto',
-            barcode_number: typeFilter === 0 ? rules.toString().toString().replace(/,/g, '-') : null,
+            barcode_number: typeFilter === 0 ? rules.toString().replace(/,/g, '-') : null,
             description: reason === '' ? null : reason
         }
 
