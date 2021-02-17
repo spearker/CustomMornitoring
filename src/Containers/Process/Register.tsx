@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Styled from 'styled-components'
+import styled from 'styled-components'
 import {Input} from 'semantic-ui-react'
 import {POINT_COLOR} from '../../Common/configset'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
@@ -9,7 +10,6 @@ import MoldPickerModal from '../../Components/Modal/MoldPickerModal'
 import {useHistory} from 'react-router-dom'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import IC_MINUS from '../../Assets/Images/ic_minus.png'
-import styled from 'styled-components'
 import Notiflix from 'notiflix'
 import {transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions'
 import RadioInput from '../../Components/Input/RadioInput'
@@ -234,11 +234,15 @@ const ProcessRegisterContainer = ({match}: any) => {
                       setIndex(transferStringToCode('process', e) + 6)
                     } else if (transferStringToCode('process', e) >= 6) {
                       setIndex(transferStringToCode('process', e) - 5)
+                    } else {
+                      setIndex(transferStringToCode('process', e))
                     }
+
+                    console.log('onclick', transferStringToCode('process', e))
 
                     setProcessData({
                       ...processData,
-                      type: transferStringToCode('process', e)
+                      type: transferStringToCode('process', e) ?? 0,
                     })
                   }}
                   select={typeList[index]}
@@ -555,7 +559,8 @@ const ProcessRegisterContainer = ({match}: any) => {
             }
             <tr>
               <td colSpan={2}>
-                <RadioInput title={'원자재 중량 단위'} id={'unit'} contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
+                <RadioInput title={'원자재 중량 단위'} id={'unit'}
+                            contents={[{title: 'kg', value: 1}, {title: 'g', value: 1000}]}
                             target={unit} onChangeEvent={(e) => {
                   if (e !== unit) {
                     setUnit(e)

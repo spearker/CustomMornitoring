@@ -2,7 +2,6 @@ import React from 'react'
 import IcDropDownButton from '../../../Assets/Images/ic_dropdown_white.png'
 import Pagination from '@material-ui/lab/Pagination'
 import Styled from 'styled-components'
-import IcFile from '../../../Assets/Images/ic_file.png'
 import ReactTooltip from 'react-tooltip'
 
 interface Props {
@@ -134,7 +133,8 @@ const CustomDashboardTable: React.FunctionComponent<Props> = ({
                                   fontFamily: 'NotoSansCJKkr',
                                   fontSize: '18px'
                                 }}
-                                onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
+                                onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => {
+                                }}
                         >
                           {v[mv] === '' || v[mv] === null || v[mv] === undefined ?
                             ''
@@ -142,7 +142,6 @@ const CustomDashboardTable: React.FunctionComponent<Props> = ({
                             v[mv]
                           }
                           <ReactTooltip id={`p${i}${mi}`}>
-                            {console.log(v[mv])}
                             <span>{v[mv]}</span>
                           </ReactTooltip>
                         </LimitP>

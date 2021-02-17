@@ -1,30 +1,31 @@
-import React from "react";
-import Style from "styled-components"
-import NAV_HOME from "../../../Assets/Images/btn_nav_home.png";
-import moment from 'moment'
+import React from 'react'
+import Style from 'styled-components'
+import NAV_HOME from '../../../Assets/Images/btn_nav_home.png'
 import {useHistory} from 'react-router-dom'
+import NowTime from '../../Toggle/NowTime'
 
 interface Props {
-    title: string
-    sameDistance?: boolean
+  title: string
+  sameDistance?: boolean
 }
 
 const CustomDashboardHeader: React.FunctionComponent<Props> = ({title, sameDistance}) => {
-    const history = useHistory()
-    return (
-        <div style={{
-            display: 'flex',
-            margin: '30px 60px 30px 60px',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-        }}>
-            <Home onClick={() => history.push('/dashboard')} style={{width: sameDistance ? 'calc(100%/3)' : '48px'}}>
-                <img src={NAV_HOME}/>
-            </Home>
-            <Title style={{width: sameDistance ? 'calc(100%/3)' : 'auto'}}>{title}</Title>
-            <Time style={{width: sameDistance ? 'calc(100%/3)' : '250px', textAlign: sameDistance ? 'right' : 'left'}}>{moment().format("YYYY-MM-DD (dd) HH:mm:ss")}</Time>
-        </div>
-    )
+  const history = useHistory()
+  return (
+    <div style={{
+      display: 'flex',
+      margin: '30px 60px 30px 60px',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    }}>
+      <Home onClick={() => history.push('/dashboard')} style={{width: sameDistance ? 'calc(100%/3)' : '48px'}}>
+        <img src={NAV_HOME}/>
+      </Home>
+      <Title style={{width: sameDistance ? 'calc(100%/3)' : 'auto'}}>{title}</Title>
+      <Time
+        style={{width: sameDistance ? 'calc(100%/3)' : '250px', textAlign: sameDistance ? 'right' : 'left'}}><NowTime/></Time>
+    </div>
+  )
 }
 
 const Home = Style.div`

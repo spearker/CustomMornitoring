@@ -1,28 +1,15 @@
-import React, {useEffect, useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {
-  BG_COLOR,
-  BG_COLOR_SUB,
-  SYSTEM_NAME,
-  BG_COLOR_SUB2,
-  COMPANY_LOGO,
-  POINT_COLOR,
-  MAX_WIDTH,
-  TOKEN_NAME,
-  BASE_URL
-} from '../../Common/configset'
+import {BG_COLOR_SUB, TOKEN_NAME} from '../../Common/configset'
 import IMG_PROFILE from '../../Assets/Images/img_profile.png'
-import IcSearch from '../../Assets/Images/ic_search_w.png'
-import IcBell from '../../Assets/Images/ic_bell_w.png'
-import NavList from './NavList'
 import {useUser, useUserDispatch} from '../../Context/UserContext'
 import moment from 'moment'
 import 'moment/locale/ko'
 import {getToken, removeToken} from '../../Common/tokenFunctions'
 import {postRequest} from '../../Common/requestFunctions'
-import {Link} from 'react-router-dom'
 import {usePopup} from '../../Context/PopupContext'
-import { SF_ENDPOINT_RESOURCE } from '../../Api/SF_endpoint'
+import {SF_ENDPOINT_RESOURCE} from '../../Api/SF_endpoint'
+import NowTime from '../Toggle/NowTime'
 
 /*
 useEffect(()=>{
@@ -95,7 +82,7 @@ const ProfileBar = ({title}: Props) => {
           {/*{window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'pm' && <p  className="p-bold"><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  {title}</p>}*/}
           {/*{window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'mes' && <p  className="p-bold"><span style={{color:POINT_COLOR}}> {user.company_name}&nbsp;</span>  {title}</p>}*/}
           {window.location.href.indexOf('/dashboard') !== -1 &&
-          <p className="p-bold"> 대시보드 홈 ({moment().format('YYYY-MM-DD (dd) HH:mm:ss')})</p>}
+          <p className="p-bold"> 대시보드 홈 (<NowTime/>)</p>}
           {window.location.href.indexOf('/pm') !== -1 && nav.mode === 'mes' || window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'home' &&
           <p className="p-bold"> {title}</p>}
           {window.location.href.indexOf('/dashboard') == -1 && nav.mode === 'pm' &&
