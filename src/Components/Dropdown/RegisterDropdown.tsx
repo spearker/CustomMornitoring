@@ -32,7 +32,6 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
     setIsOpen(!isOpen)
   }
   useEffect(() => {
-    console.log(select)
     if (select) {
       setSelectValue(select)
     }
@@ -108,7 +107,6 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
                       <BoxWrap style={{borderRadius: 0, borderTop: '1px solid #ffffff50'}}>
                         <div style={{display: 'inline-block', width: 885, paddingLeft: 5}}>
                           <p style={{margin: 0}} key={i} onClick={() => {
-                            console.log('eeeee', v)
                             if (type === 'number') {
                               onClickEvent(i)
                             } else {

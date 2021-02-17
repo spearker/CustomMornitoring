@@ -56,7 +56,6 @@ const ProcessRegisterContainer = ({match}: any) => {
   const [isVersion] = useState<boolean>(match.params.version === 'v2' ? true : false)
 
   const validationCheck = () => {
-    console.log(detailMaterialData)
     const {name} = processData
 
     if (name === '') {
@@ -237,8 +236,6 @@ const ProcessRegisterContainer = ({match}: any) => {
                     } else {
                       setIndex(transferStringToCode('process', e))
                     }
-
-                    console.log('onclick', transferStringToCode('process', e))
 
                     setProcessData({
                       ...processData,
