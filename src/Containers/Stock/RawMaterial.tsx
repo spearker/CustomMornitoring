@@ -236,6 +236,7 @@ const RawMaterialContainer = () => {
   useEffect(() => {
     if (isFirst) {
       getList(true)
+      setDetailPage({...detailPage, current: 1})
     }
   }, [saveKeyword])
 

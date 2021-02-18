@@ -9,7 +9,6 @@ import ProjectPlanPickerModal from '../../Components/Modal/ProjectPlanPickerModa
 import {useHistory} from 'react-router-dom'
 import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
 import Notiflix from 'notiflix'
-import RadioInput from '../../Components/Input/RadioInput'
 
 interface modalData {
     name?: string,
@@ -69,7 +68,7 @@ const ChitRegisterContainer = ({match}: any) => {
         if (resultData && resultData.status === 200) {
             history.goBack()
         }
-    }, [chitData, modalSelect, selectDate])
+    }, [chitData, modalSelect, selectDate, selectMember])
 
     const postChitUpdateData = useCallback(async () => {
         if (selectMember.pk === undefined || selectMember.pk === '') {
@@ -100,7 +99,7 @@ const ChitRegisterContainer = ({match}: any) => {
         if (resultData && resultData.status === 200) {
             history.goBack()
         }
-    }, [chitData, modalSelect, selectDate])
+    }, [chitData, modalSelect, selectDate, selectMember])
 
     const getChitUpdateData = async () => {
         const tempUrl = `${API_URLS['chit'].load}?pk=${match.params.pk}`
@@ -125,6 +124,21 @@ const ChitRegisterContainer = ({match}: any) => {
         if (match.params.pk) {
             getChitUpdateData()
             setIsUpdate(true)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (history.location.state !== undefined) {
+            // @ts-ignore
+            const distributedRes = history.location.state.res
+            setModalSelect({
+                production: {
+                    material_name: distributedRes.material_name,
+                    pk: distributedRes.pk,
+                    project_name: distributedRes.project_name,
+                    supplier_name: distributedRes.supplier_name
+                }
+            })
         }
     }, [])
 

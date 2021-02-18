@@ -66,6 +66,7 @@ export const API_URLS = {
     status: {
         list: `/v1/quality/status/list`,
         search: `/v1/quality/status/search`,
-        detail: `/v1/quality/status/detail`
+        detail: `/v1/quality/status/detail`,
+        delete: `/v1/quality/status/delete`
     }
 }
