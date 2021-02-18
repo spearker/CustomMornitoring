@@ -10,49 +10,69 @@ import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import next from '../../Assets/Images/ic_next_process.png'
 import IC_Dropdown from "../../Assets/Images/ic_dropdown_gray.png"
 import IC_Dropup from "../../Assets/Images/ic_dropup_gray.png"
+import ReactTooltip from 'react-tooltip'
 
-// 임시로 작성
 interface Props {
   contents: {
-    pk: string,
-    state: string,
-    name: string,
-    process: Process[]
+    material_info:{
+      material_name: string, //원자재명,
+      material_lot: string //원자재lot,
+    }[],
+    processes: Processes[]
   }
 }
 
-interface Process {
-  ing: boolean,
-  state: string,
-  process_name: string,
-  machine_name: string,
-  mold_name: string,
-  input_material: Material[],
-  output_material: Material[]
+interface Processes {
+  process_pk: string, //공정pk,
+  process_name: string, //공정명,
+  production_status: string[], // List<String> 공정pk,
+  machine_info: MachineInfo[]
 }
 
-interface Material {
-  material_pk: string,
-  material_name: string,
-  material_type: string,
-  count: string,
+interface MachineInfo {
+  segment_pk: string, //라인기계공정pk,
+  machine_name: string, //기계명,
+  mold_name: string //금형명,  
+  input: {
+    name: string, //투입품목명,
+    count: string // 투입중량
+  }[],
+  output: {
+    name: string //생산품목명,
+    count: string //생산 
+  }[]
 }
 
-const StateBox = ({text, size}:{text:string, size:'big'|'small'}) => {
+const StateBox = ({status, size}:{status:boolean, size:'big'|'small'}) => {
   
   const color = () => {
-    switch (text) {
-      case '완료':
-        return '#5CD1E5'
-      case '중지':
-        return '#ff461a'
-      case '생산중':
-      case '진행중':
+    switch (status) {
+      case true:
         return '#70ff17'
-      case '대기':
-        return '#b3b3b3'
       default:
-        return '#000'
+        return '#fff200'
+    }
+    // switch (text) {
+    //   case '완료':
+    //     return '#5CD1E5'
+    //   case '중지':
+    //     return '#ff461a'
+    //   case '생산중':
+    //   case '진행중':
+    //     return '#70ff17'
+    //   case '대기':
+    //     return '#b3b3b3'
+    //   default:
+    //     return '#000'
+    // }
+  }
+
+  const text = () => {
+    switch (status) {
+      case true:
+        return size === 'small' ? '생산중' : '진행중'
+      default:
+        return '대기'
     }
   }
 
@@ -61,23 +81,20 @@ const StateBox = ({text, size}:{text:string, size:'big'|'small'}) => {
       {
         size === 'big'
         ? <div style={{color: color(), fontSize: 18, padding: '2px 3px', marginRight: 5}}>
-          {text}
+          {text()}
         </div>
-        : <div style={{float: 'right', fontSize: 12, padding: '2px 3px'}} className={text === '생산중' ? 'textLoading' : ''}>
+        : <div style={{float: 'right', fontSize: 12, padding: '2px 3px'}} className={text() === '생산중' ? 'textLoading' : ''}>
           <Dot style={{backgroundColor: color()}} />
-          {text}
+          {text()}
         </div>
       }
     </>
   )
 }
 
-const MaterialListBox = ({process, title}:{process:Process, title:string}) => {
-  const { input_material, output_material } = process;
+const MaterialListBox = ({item, title}:{item:{name: string, count: string}[], title:string}) => {
   const [open, setOpen] = useState<boolean>(false);
-
-  const data = title === '투입자재' ? input_material : output_material;
-    
+ 
   return(
     <MaterialBox>
       <div>
@@ -89,34 +106,39 @@ const MaterialListBox = ({process, title}:{process:Process, title:string}) => {
           open 
           ? <>
             {
-              data.map((inputData, index) => (
-                <p key={`${inputData.material_name}${index}`}>
-                    {inputData.material_name} {inputData.count}{inputData.material_type === '0' ? 'kg' : '개'}{index !== data.length-1 && ','}
+              item.map((inputData, index) => (
+                <p key={`${inputData.name}${index}`} style={{overflow: 'unset'}}>
+                    {inputData.name} {inputData.count}{index !== item.length-1 && ','}
                 </p>
               ))
             }
           </>
-          : <p>{data[0].material_name} {data[0].count}{data[0].material_type === '0' ? 'kg' : '개'}{data.length > 1 && `외 ${data.length - 1}가지`}</p> 
+          : <p>{item[0].name} {item[0].count}{item.length > 1 && `외 ${item.length - 1}가지`}</p> 
         }
       </div>
     </MaterialBox>
   )
 }
 
+const onEventTitleList = (list:{ material_name: string, material_lot: string }[]) => {
+  return list.map((material, index) => (
+    `${material.material_name}(${material.material_lot})${index !== list.length-1 ? ', ' : ''}`
+  ))
+}
+
 // LOT 카드
 const LotProcessCard = ({contents}: Props) => {
 
-  const {pk, state, name, process} = contents;
+  const {material_info, processes} = contents;
 
   const [open, setOpen] = useState<boolean>(true);
-
 
   return (
     <Box style={{height: open ? 'auto' : 50}}>
       <div>
         <div style={{display: 'flex'}}>
-          <StateBox text={state} size={'big'} />
-          <p>{name}</p>
+          <StateBox status={true} size={'big'} />
+          <p>{onEventTitleList(material_info)}</p>
         </div>
         <img 
           alt="arrow" 
@@ -125,20 +147,91 @@ const LotProcessCard = ({contents}: Props) => {
       </div>
       <div>
         {
-          process.map((processData, index) => {
-            const {ing, state, process_name, machine_name, mold_name, input_material, output_material} = processData;
+          processes.map((processData:Processes, index:number) => {
+            const {process_pk, process_name, production_status, machine_info} = processData;
+            const ing = production_status.length === 0 ? false : true;
 
             return (
               <>
-                <ProcessBox key={`${process_name}${index}`} className={ing ? 'animation' : ''} style={{backgroundColor: ing ? '#fff' : 'rgb(53, 59, 72)', color: ing ? '#000' : '#fff', boxShadow: ing ? 'rgba(255, 255, 255, 0.57) 0px 3px 4px 0px' : 'rgba(255, 255, 255, 0.27) 0px 3px 4px 0px', border: `1px solid ${ing ? '#fff' : 'rgb(75, 75, 75)'}`}}>
-                  <StateBox text={state} size={'small'} />
-                  <p style={{borderBottom: `1px solid ${ing ? 'rgb(75, 75, 75)' : 'rgb(175,175,175)'}`}}>{process_name}</p>
-                  <div>
-                    <p>기계: {machine_name ? machine_name : ''}</p>
-                    <p>금형: {mold_name ? mold_name : ''}</p>
-                    <MaterialListBox process={processData} title={'투입자재'} />
-                    <MaterialListBox process={processData} title={'생산자재'} />
-                  </div>
+                <ProcessBox 
+                  key={`${process_name}${index}`} 
+                  className={ing && machine_info.length === 1 ? 'animation' : ''} 
+                  style={{
+                    backgroundColor: ing ? '#fff' : 'rgb(53, 59, 72)', 
+                    color: ing ? '#000' : '#fff', 
+                    boxShadow: ing ? 'rgba(255, 255, 255, 0.57) 0px 3px 4px 0px' : 'rgba(255, 255, 255, 0.27) 0px 3px 4px 0px', 
+                    border: `1px solid ${ing ? '#fff' : 'rgb(75, 75, 75)'}`,
+                    width: machine_info.length === 1 ? 160 : 'auto',
+                    maxWidth: 500
+                  }}>
+                  <StateBox status={ing} size={'small'} />
+                  <p style={{borderBottom: `1px solid ${ing ? 'rgb(75, 75, 75)' : 'rgb(175,175,175)'}`, overflow: 'unset'}}>{process_name}</p>
+                    {
+                      machine_info.length === 1 ?
+                      <>
+                        {
+                          machine_info.map((info:MachineInfo, info_index:number) => {
+                            const {machine_name, mold_name, input, output} = info;
+
+                            return(
+                              <div key={`machine${process_pk}${info_index}`}>
+                                <p data-for={`machine_${process_pk}`}
+                                    data-tip={machine_name}
+                                    data-iscapture="true">기계: {machine_name ? machine_name : ''}</p>
+                                <p data-for={`machine_${process_pk}`}
+                                    data-tip={mold_name}
+                                    data-iscapture="true">금형: {mold_name ? mold_name : ''}</p>
+                                <MaterialListBox item={input} title={'투입자재'} />
+                                <MaterialListBox item={output} title={'생산자재'} />
+                                <ReactTooltip
+                                  id={`machine_${process_pk}`}
+                                  multiline={true}
+                                />
+                                <ReactTooltip
+                                  id={`mold_${process_pk}`}
+                                  multiline={true}
+                                />
+                              </div>
+                            )
+                          })
+                        }
+                      </>
+                      : <LineContainer>
+                        {
+                          machine_info.map((info:MachineInfo, info_index:number) => {
+                            const {segment_pk, machine_name, mold_name, input, output} = info;
+
+                            return(
+                              <>
+                             
+                                <LineBox key={`machine${process_pk}${info_index}`}className={production_status.filter(f => f === segment_pk).length > 0 ? 'animation' : ''}  style={{backgroundColor: ing ? '#0f172250' : '#ffffff50'}}>
+                                  <p style={{textAlign: 'left'}}><Dot style={{backgroundColor: production_status.filter(f => f === segment_pk).length > 0 ? '#5CD1E5' : '#fff200'}} />{production_status.filter(f => f === segment_pk).length > 0 ? '생산중' : '대기'}</p>
+                                  <p data-for={`machine_${process_pk}`}
+                                    data-tip={machine_name}
+                                    data-iscapture="true">기계: {machine_name}</p>
+                                  <p data-for={`machine_${process_pk}`}
+                                    data-tip={mold_name}
+                                    data-iscapture="true">금형: {mold_name}</p>
+                                  <MaterialListBox item={input} title={'투입자재'} />
+                                  <MaterialListBox item={output} title={'생산자재'} />
+                                </LineBox>
+                                
+                                <ReactTooltip
+                                  id={`machine_${process_pk}`}
+                                  multiline={true}
+                                />
+                                <ReactTooltip
+                                  id={`mold_${process_pk}`}
+                                  multiline={true}
+                                />
+                                {machine_info.length > 1 && info_index !== machine_info.length-1 && <ArrowImg><img alt="arrow" src={next} /></ArrowImg>}
+                              </>
+                            )
+                          })
+                        }
+                      </LineContainer>
+                    }
+                  {/* ===>>> 불가능해서 뺌  <<<===
                   <MaterialBox>
                     <div>
                       <p>생산현황</p>
@@ -148,9 +241,9 @@ const LotProcessCard = ({contents}: Props) => {
                       <br/>
                       <span>불량: </span>
                     </div>
-                  </MaterialBox>
+                  </MaterialBox> */}
                 </ProcessBox>
-                {process.length > 1 && index !== process.length-1 && <img alt="next" src={next} className={ing ? 'animationImg' : ''} />}
+                {processes.length > 1 && index !== processes.length-1 && <img alt="next" src={next} className={ing ? 'animationImg' : ''} />}
               </>
             )
           })
@@ -159,6 +252,32 @@ const LotProcessCard = ({contents}: Props) => {
     </Box>
   )
 }
+
+const ArrowImg = Styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 0 10px;
+  overflow: hidden;
+  width: 10px;
+`
+
+const LineContainer = Styled.div`
+  width: 100%;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+`
+
+const LineBox = Styled.div`
+  background-color: #ffffff50;
+  padding: 3px;
+  border-radius: 5px;
+  margin-top: 5px;
+  width: 140px;
+`
 
 const Box = Styled.div`
   width: 100%;
@@ -202,7 +321,6 @@ const Box = Styled.div`
 `
 
 const ProcessBox = Styled.div`
-  width: 160px;
   padding: 5px;
   margin-top: 15px;
   background-color: rgb(53, 59, 72);
@@ -211,6 +329,12 @@ const ProcessBox = Styled.div`
   border-radius: 6px;
   &>p{
     padding: 3px 0;
+  }
+  p{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    overflow: hidden;
   }
 `
 

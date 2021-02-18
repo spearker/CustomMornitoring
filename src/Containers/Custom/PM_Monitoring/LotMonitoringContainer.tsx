@@ -9,262 +9,54 @@ import Notiflix from 'notiflix'
 import LotProcessCard from "../../../Components/Card/LotProcessCard";
 
 interface Contents {
-    pk: string, // 세분화 공정 pk (String),
-    state: string,
-    name: string, // 세분화 공정명 (String),
-    // process_names: string, // 등록된 공정들의 명 (String)
-    process: Process[]
+  material_info:{
+    material_name: string, //원자재명,
+    material_lot: string //원자재lot,
+  }[],
+  processes: Processes[]
+
+  // pk: string, // 세분화 공정 pk (String),
+  // state: string,
+  // name: string, // 세분화 공정명 (String),
+  // // process_names: string, // 등록된 공정들의 명 (String)
+  // process: Process[]
 }
 
-interface Process {
-    ing: boolean,
-    state: string,
-    process_name: string, // 공정명 (String),
-    machine_name: string, // 기계명 (String),
-    mold_name: string, // 금형명 (String),
-    input_material: {
-        material_pk: string, // 품목 pk (string),
-        material_name: string, // 품목명 (string),
-        material_type: string, // 품목타입 (number),
-        count: string, // BOM (number)
-    }[], // 금형 투입 품목명 (String),
-    output_material: {
-        material_pk: string, // 품목 pk (string),
-        material_name: string, // 품목명 (string),
-        material_type: string, // 품목타입 (number),
-        count: string, // BOM (number)
-    }[] // 금형 생산 품목명 (String)
+interface Processes {
+  process_pk: string, //공정pk,
+  process_name: string, //공정명,
+  production_status: string[], // List<String> 공정pk,
+  machine_info: {
+    segment_pk: string, //라인기계공정pk,
+    machine_name: string, //기계명,
+    mold_name: string //금형명,  
+    input: {
+      name: string, //투입품목명,
+      count: string // 투입중량
+    }[],
+    output: {
+      name: string //생산품목명,
+      count: string //생산 
+    }[],
+  }[]
 }
-
-const dummy:Contents[] = [
-    {
-        pk: 'pk1', // 세분화 공정 pk (String),
-        state: '중지',
-        name: 'LOT명1', // 세분화 공정명 (String),
-        process: [
-            {   
-                ing: false,
-                state: '중지',
-                process_name: '공정명1', // 공정명 (String),
-                machine_name: '공정명1 기계', // 기계명 (String),
-                mold_name: '공정명1 금형', // 금형명 (String),
-                input_material: [
-                    {
-                        material_pk: 'input_material_pk1', // 품목 pk (string),
-                        material_name: 'input_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.015', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk2', // 품목 pk (string),
-                        material_name: 'input_품목명2', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.025', // BOM (number)
-                    }
-                ], // 금형 투입 품목명 (String),
-                output_material: [
-                    {
-                        material_pk: 'output_material_pk1', // 품목 pk (string),
-                        material_name: 'output_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        pk: 'pk2', // 세분화 공정 pk (String),
-        state: '진행중',
-        name: 'LOT명2', // 세분화 공정명 (String),
-        process: [
-            {
-                ing: true,
-                state: '생산중',
-                process_name: '공정명1', // 공정명 (String),
-                machine_name: '공정명1 기계', // 기계명 (String),
-                mold_name: '공정명1 금형', // 금형명 (String),
-                input_material: [
-                    {
-                        material_pk: 'input_material_pk1', // 품목 pk (string),
-                        material_name: 'input_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.015', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk2', // 품목 pk (string),
-                        material_name: 'input_품목명2', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.025', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk3', // 품목 pk (string),
-                        material_name: 'input_품목명3', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.05', // BOM (number)
-                    }
-                ], // 금형 투입 품목명 (String),
-                output_material: [
-                    {
-                        material_pk: 'output_material_pk1', // 품목 pk (string),
-                        material_name: 'output_품목명1', // 품목명 (string),
-                        material_type: '1', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        pk: 'pk3', // 세분화 공정 pk (String),
-        state: '진행중',
-        name: 'LOT명3', // 세분화 공정명 (String),
-        process: [
-            {
-                ing: false,
-                state: '완료',
-                process_name: '공정명1', // 공정명 (String),
-                machine_name: '공정명1 기계', // 기계명 (String),
-                mold_name: '공정명1 금형', // 금형명 (String),
-                input_material: [
-                    {
-                        material_pk: 'input_material_pk1', // 품목 pk (string),
-                        material_name: 'input_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.015', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk2', // 품목 pk (string),
-                        material_name: 'input_품목명2', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.025', // BOM (number)
-                    }
-                ], // 금형 투입 품목명 (String),
-                output_material: [
-                    {
-                        material_pk: 'output_material_pk1', // 품목 pk (string),
-                        material_name: 'output_품목명1', // 품목명 (string),
-                        material_type: '1', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    }
-                ]
-            },
-            {
-                ing: true,
-                state: '생산중',
-                process_name: '공정명2', // 공정명 (String),
-                machine_name: '공정명2 기계', // 기계명 (String),
-                mold_name: '공정명2 금형', // 금형명 (String),
-                input_material: [
-                    {
-                        material_pk: 'input_material_pk1', // 품목 pk (string),
-                        material_name: 'input_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.015', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk2', // 품목 pk (string),
-                        material_name: 'input_품목명2', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.025', // BOM (number)
-                    }
-                ], // 금형 투입 품목명 (String),
-                output_material: [
-                    {
-                        material_pk: 'output_material_pk1', // 품목 pk (string),
-                        material_name: 'output_품목명1', // 품목명 (string),
-                        material_type: '1', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    }
-                ]
-            },
-            {
-                ing: false,
-                state: '대기',
-                process_name: '공정명3', // 공정명 (String),
-                machine_name: '공정명3 기계', // 기계명 (String),
-                mold_name: '공정명3 금형', // 금형명 (String),
-                input_material: [
-                    {
-                        material_pk: 'input_material_pk1', // 품목 pk (string),
-                        material_name: 'input_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.015', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk2', // 품목 pk (string),
-                        material_name: 'input_품목명2', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.025', // BOM (number)
-                    },
-                    {
-                        material_pk: 'input_material_pk3', // 품목 pk (string),
-                        material_name: 'input_품목명3', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.05', // BOM (number)
-                    }
-                ], // 금형 투입 품목명 (String),
-                output_material: [
-                    {
-                        material_pk: 'output_material_pk1', // 품목 pk (string),
-                        material_name: 'output_품목명1', // 품목명 (string),
-                        material_type: '1', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    },
-                    {
-                        material_pk: 'output_material_pk1-1', // 품목 pk (string),
-                        material_name: 'output_품목명1-1', // 품목명 (string),
-                        material_type: '1', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    }
-                ]
-            },
-            {
-                ing: false,
-                state: '대기',
-                process_name: '길고 긴 공정명 길고 긴 공정명 길고 긴 공정명4', // 공정명 (String),
-                machine_name: '공정명4 기계', // 기계명 (String),
-                mold_name: '공정명4 금형', // 금형명 (String),
-                input_material: [
-                    {
-                        material_pk: 'input_material_pk1', // 품목 pk (string),
-                        material_name: 'input_품목명1', // 품목명 (string),
-                        material_type: '0', // 품목타입 (number),
-                        count: '0.015', // BOM (number)
-                    }
-                ], // 금형 투입 품목명 (String),
-                output_material: [
-                    {
-                        material_pk: 'output_material_pk1', // 품목 pk (string),
-                        material_name: 'output_품목명1', // 품목명 (string),
-                        material_type: '1', // 품목타입 (number),
-                        count: '1', // BOM (number)
-                    }
-                ]
-            }
-        ]
-    }
-]
 
 const LotMonitoringContainer = () => {
     const [list, setList] = useState<Contents[]>([])
 
     const getList = useCallback(async () => {
         //TODO: 성공시
-        setList(dummy);
-        return;
-        const tempUrl = `${API_URLS['press'].status}`
+        const tempUrl = `${API_URLS['lot'].monitoring}`
         const res = await getLoadTonList(tempUrl)
         if (res) {
-            setList(res.info_list)
-
-            Notiflix.Loading.Remove()
+            setList(res);
         }
+        Notiflix.Loading.Remove()
     }, [list])
 
     useEffect(() => {
-        // Notiflix.Loading.Circle()
-        getList()
+        Notiflix.Loading.Circle()
+        getList();
         const interval = setInterval(() => {
             getList()
         }, 2500)
@@ -290,7 +82,7 @@ const LotMonitoringContainer = () => {
                         없습니다.</p>
                     :
                     list.map((lotData, index) => (
-                        <LotProcessCard key={`${lotData.pk}${index}`} contents={lotData} />
+                        <LotProcessCard key={`${lotData.material_info[0].material_lot}${index}`} contents={lotData} />
                     ))
                 }
             </div>
