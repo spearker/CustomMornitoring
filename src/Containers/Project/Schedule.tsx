@@ -378,7 +378,6 @@ const ScheduleContainer = () => {
                                         productionMaterial={v.output_materials}/>
                           </>)
                       } else {
-                        console.log(v)
                         return (
                           <>
                             <FactoryBox title={v.process_name}

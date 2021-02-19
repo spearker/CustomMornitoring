@@ -83,7 +83,10 @@ const OptimizedLineTable: React.FunctionComponent<Props> = ({title, titleOnClick
                   Object.keys(contentTitle).map((mv, mi) => {
                     return (
                       v[mv] !== null && v[mv] !== undefined ?
-                        <LimitP key={mv} style={{width: widthList[mi]}}>
+                        <LimitP key={mv} style={{
+                            width: widthList[mi],
+                            textAlign: mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") || mv.includes("goal") || mv.includes("eligible") || mv.includes("ineligible")  ? "right" : "left"
+                        }}>
                           {
                             typeof v[mv] === 'object' ?
                               Object.keys(v[mv]).map(m => {
