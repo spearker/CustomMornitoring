@@ -1,42 +1,35 @@
 import React, {useCallback, useEffect, useState} from "react";
 import CustomDashboardHeader from "../../../Components/Custom/dashboard/CustomDashboardHeader";
 import Styled from "styled-components";
-import CustomDashboardTable from "../../../Components/Custom/dashboard/CustomDashboardTable";
-import CustomDashboardTargetTable from "../../../Components/Custom/dashboard/CustomDashboardTargetTable";
-import PressBox from "../../../Components/Custom/PM_Monitoring/PressBox";
 import {API_URLS, getLoadTonList} from "../../../Api/pm/monitoring";
 import Notiflix from 'notiflix'
 import LotProcessCard from "../../../Components/Card/LotProcessCard";
 
 interface Contents {
   material_info:{
-    material_name: string, //원자재명,
-    material_lot: string //원자재lot,
+    material_name: string,
+    material_lot: string
   }[],
   processes: Processes[]
-
-  // pk: string, // 세분화 공정 pk (String),
-  // state: string,
-  // name: string, // 세분화 공정명 (String),
-  // // process_names: string, // 등록된 공정들의 명 (String)
-  // process: Process[]
 }
 
 interface Processes {
-  process_pk: string, //공정pk,
-  process_name: string, //공정명,
-  production_status: string[], // List<String> 공정pk,
+  process_pk: string,
+  process_name: string,
+  production_status: string[], 
   machine_info: {
-    segment_pk: string, //라인기계공정pk,
-    machine_name: string, //기계명,
-    mold_name: string //금형명,  
+    segment_pk: string, 
+    machine_name: string, 
+    mold_name: string
     input: {
-      name: string, //투입품목명,
-      count: string // 투입중량
+      name: string,
+      count: string,
+      type: string
     }[],
     output: {
-      name: string //생산품목명,
-      count: string //생산 
+      name: string,
+      count: string,
+      type: string 
     }[],
   }[]
 }

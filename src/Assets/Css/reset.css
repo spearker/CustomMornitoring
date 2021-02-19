@@ -217,121 +217,147 @@ select::-ms-expand { display: none; }
 
 /* lot animation */
 @-webkit-keyframes rotate {
-    from {
-        background-color: #fff;
-    }
-    to {
-        background-color: #70ff17;
-    }
+  from {
+      background-color: #fff;
   }
+  to {
+      background-color: #70ff17;
+  }
+}
   
-  @keyframes rotate {
-    from {
-        background-color: #fff;
-    }
-    to {
-        background-color: #70ff17;
-    }
+@keyframes rotate {
+  from {
+      background-color: #fff;
   }
-  .dotAnimation {
-    -webkit-animation: rotate 1s infinite;
-            animation: rotate 1s infinite;
+  to {
+      background-color: #70ff17;
   }
+}
+.dotAnimation {
+  -webkit-animation: rotate 1s infinite;
+          animation: rotate 1s infinite;
+}
 
-  /* .textLoading::after {
-    -webkit-animation: loading 1s infinite;
-            animation: loading 1s infinite;
-  } */
-
-  @-webkit-keyframes twinkle {
-    from {
-        box-shadow: 0px 0px 5px white;
-    }
-    to {
-        box-shadow: 0px 0px 20px white;
-    }
+@-webkit-keyframes twinkle {
+  from {
+      box-shadow: 0px 0px 5px white;
   }
-  
-  @keyframes twinkle {
-    from {
-        box-shadow: 0px 0px 5px white;
-    }
-    to {
-        box-shadow: 0px 0px 20px white;
-    }
+  to {
+      box-shadow: 0px 0px 20px white;
   }
-  /* .animation {
-    -webkit-animation: twinkle 1s ease alternate infinite;
-            animation: twinkle 1s ease alternate infinite;
-  } */
+}
 
+@keyframes twinkle {
+  from {
+      box-shadow: 0px 0px 5px white;
+  }
+  to {
+      box-shadow: 0px 0px 20px white;
+  }
+}
 
 @-webkit-keyframes rotate {
-    100% {
-      transform: rotate(1turn);
-    }
+  100% {
+    transform: rotate(1turn);
   }
+}
   
-  @keyframes rotate {
-    100% {
-      transform: rotate(1turn);
-    }
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
   }
-  .animation {
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    -webkit-animation: twinkle 1s ease alternate infinite;
-            animation: twinkle 1s ease alternate infinite;
-  }
-  .animation::before {
-    content: "";
-    position: absolute;
-    z-index: -2;
-    left: -50%;
-    top: -50%;
-    width: 200%;
-    height: 200%;
-    background-color: #70ff17;
-    background-repeat: no-repeat;
-    background-size: 50% 50%, 50% 50%;
-    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-    background-image: linear-gradient(#70ff17, #70ff17, #fff), linear-gradient(#70ff17, #70ff17), linear-gradient(#70ff17, #70ff17), linear-gradient(#fff, #fff); /* 무지개 linear-gradient(#fff, #70ff17, #5CD1E5), linear-gradient(#5CD1E5, #70ff17, #e8ff17), linear-gradient(#e8ff17, #ff9317, #ff1717), linear-gradient(#fff, #fff);        그라데이션  linear-gradient(#70ff17, #5CD1E5, #fff), linear-gradient(#5CD1E5, #70ff17), linear-gradient(#70ff17, #e8ff17), linear-gradient(#fff, #fff) */
-    -webkit-animation: rotate 4s linear infinite;
-            animation: rotate 4s linear infinite;
-  }
-  .animation::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 6px;
-    top: 6px;
-    width: calc(100% - 12px);
-    height: calc(100% - 12px);
-    background: white;
-    border-radius: 5px;
-  }
+}
+.animation {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  -webkit-animation: twinkle 1s ease alternate infinite;
+          animation: twinkle 1s ease alternate infinite;
+}
+.animation::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: #70ff17;
+  background-repeat: no-repeat;
+  background-size: 50% 50%, 50% 50%;
+  background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+  background-image: linear-gradient(#70ff17, #70ff17, #fff), linear-gradient(#70ff17, #70ff17), linear-gradient(#70ff17, #70ff17), linear-gradient(#fff, #fff); /* 무지개 linear-gradient(#fff, #70ff17, #5CD1E5), linear-gradient(#5CD1E5, #70ff17, #e8ff17), linear-gradient(#e8ff17, #ff9317, #ff1717), linear-gradient(#fff, #fff);        그라데이션  linear-gradient(#70ff17, #5CD1E5, #fff), linear-gradient(#5CD1E5, #70ff17), linear-gradient(#70ff17, #e8ff17), linear-gradient(#fff, #fff) */
+  -webkit-animation: rotate 4s linear infinite;
+          animation: rotate 4s linear infinite;
+}
+.animation::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 6px;
+  top: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  background: white;
+  border-radius: 5px;
+}
 
 
 @-webkit-keyframes woo {
-    from {
-        margin: 0 14px;
-    }
-    to {
-        margin: 0 10px 0 18px;
-    }
+  from {
+      margin: 0 14px;
   }
+  to {
+      margin: 0 10px 0 18px;
+  }
+}
   
-  @keyframes woo {
-    from {
-        margin: 0 14px;
-    }
-    to {
-        margin: 0 10px 0 18px;
-    }
+@keyframes woo {
+  from {
+      margin: 0 14px;
   }
-  .animationImg{
-    -webkit-animation: woo 0.5s infinite alternate;
-    animation: woo 0.5s infinite alternate;
+  to {
+      margin: 0 10px 0 18px;
   }
+}
 
+.animationImg{
+  -webkit-animation: woo 0.5s infinite alternate;
+  animation: woo 0.5s infinite alternate;
+}
+
+@-webkit-keyframes imgChange {
+  0%{
+    background-image: url(../Images/bl_00.png);
+  }
+  25%{
+    background-image: url(../Images/bl_01.png);
+  }
+  50%{
+    background-image: url(../Images/bl_02.png);
+  }
+  75%{
+    background-image: url(../Images/bl_03.png);
+  }
+}
+
+@keyframes imgChange {
+  0%{
+    background-image: url(../Images/bl_00.png);
+  }
+  25%{
+    background-image: url(../Images/bl_01.png);
+  }
+  50%{
+    background-image: url(../Images/bl_02.png);
+  }
+  75%{
+    background-image: url(../Images/bl_03.png);
+  }
+}
+
+.imgChange{
+  background-image: url(../Images/bl_00.png);
+  -webkit-animation: imgChange 1s linear infinite;
+          animation: imgChange 1s linear infinite;
+}

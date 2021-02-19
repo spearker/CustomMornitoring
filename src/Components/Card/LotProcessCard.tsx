@@ -1,45 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB} from '../../Common/configset'
-import icCloudOn from '../../Assets/Images/ic_cloud.png'
-import icCloudOff from '../../Assets/Images/ic_cloud_off.png'
-import IC_UP from '../../Assets/Images/ic_monitoring_close.png'
-import IC_DOWN from '../../Assets/Images/ic_monitoring_open.png'
-import {changeStatusToColor, changeStatusToString} from '../../Common/statusFunctions'
-import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import next from '../../Assets/Images/ic_next_process.png'
 import IC_Dropdown from "../../Assets/Images/ic_dropdown_gray.png"
 import IC_Dropup from "../../Assets/Images/ic_dropup_gray.png"
+import IC_Blue_Arrow1 from "../../Assets/Images/bl_00.png"
 import ReactTooltip from 'react-tooltip'
 
 interface Props {
   contents: {
     material_info:{
-      material_name: string, //원자재명,
-      material_lot: string //원자재lot,
+      material_name: string, 
+      material_lot: string
     }[],
     processes: Processes[]
   }
 }
 
 interface Processes {
-  process_pk: string, //공정pk,
-  process_name: string, //공정명,
-  production_status: string[], // List<String> 공정pk,
+  process_pk: string,
+  process_name: string, 
+  production_status: string[],
   machine_info: MachineInfo[]
 }
 
 interface MachineInfo {
-  segment_pk: string, //라인기계공정pk,
-  machine_name: string, //기계명,
-  mold_name: string //금형명,  
+  segment_pk: string,
+  machine_name: string,
+  mold_name: string
   input: {
-    name: string, //투입품목명,
-    count: string // 투입중량
+    name: string,
+    count: string,
+    type: string
   }[],
   output: {
-    name: string //생산품목명,
-    count: string //생산 
+    name: string,
+    count: string,
+    type: string
   }[]
 }
 
@@ -52,19 +48,6 @@ const StateBox = ({status, size}:{status:boolean, size:'big'|'small'}) => {
       default:
         return '#fff200'
     }
-    // switch (text) {
-    //   case '완료':
-    //     return '#5CD1E5'
-    //   case '중지':
-    //     return '#ff461a'
-    //   case '생산중':
-    //   case '진행중':
-    //     return '#70ff17'
-    //   case '대기':
-    //     return '#b3b3b3'
-    //   default:
-    //     return '#000'
-    // }
   }
 
   const text = () => {
@@ -92,7 +75,7 @@ const StateBox = ({status, size}:{status:boolean, size:'big'|'small'}) => {
   )
 }
 
-const MaterialListBox = ({item, title}:{item:{name: string, count: string}[], title:string}) => {
+const MaterialListBox = ({item, title}:{item:{name: string, count: string, type: string}[], title:string}) => {
   const [open, setOpen] = useState<boolean>(false);
  
   return(
@@ -113,7 +96,7 @@ const MaterialListBox = ({item, title}:{item:{name: string, count: string}[], ti
               ))
             }
           </>
-          : <p>{item[0].name} {item[0].count}{item.length > 1 && `외 ${item.length - 1}가지`}</p> 
+          : <p>{item[0].name} {item[0].count}{item[0].type === '0' ? 'kg' : '개'}{item.length > 1 && `외 ${item.length - 1}가지`}</p> 
         }
       </div>
     </MaterialBox>
@@ -181,8 +164,8 @@ const LotProcessCard = ({contents}: Props) => {
                                 <p data-for={`machine_${process_pk}`}
                                     data-tip={mold_name}
                                     data-iscapture="true">금형: {mold_name ? mold_name : ''}</p>
-                                <MaterialListBox item={input} title={'투입자재'} />
-                                <MaterialListBox item={output} title={'생산자재'} />
+                                <MaterialListBox item={input} title={'투입품목'} />
+                                <MaterialListBox item={output} title={'생산품목'} />
                                 <ReactTooltip
                                   id={`machine_${process_pk}`}
                                   multiline={true}
@@ -212,8 +195,8 @@ const LotProcessCard = ({contents}: Props) => {
                                   <p data-for={`machine_${process_pk}`}
                                     data-tip={mold_name}
                                     data-iscapture="true">금형: {mold_name}</p>
-                                  <MaterialListBox item={input} title={'투입자재'} />
-                                  <MaterialListBox item={output} title={'생산자재'} />
+                                  <MaterialListBox item={input} title={'투입품목'} />
+                                  <MaterialListBox item={output} title={'생산품목'} />
                                 </LineBox>
                                 
                                 <ReactTooltip
@@ -231,19 +214,20 @@ const LotProcessCard = ({contents}: Props) => {
                         }
                       </LineContainer>
                     }
-                  {/* ===>>> 불가능해서 뺌  <<<===
-                  <MaterialBox>
-                    <div>
-                      <p>생산현황</p>
-                    </div>
-                    <div>
-                      <span>생산량: </span>
-                      <br/>
-                      <span>불량: </span>
-                    </div>
-                  </MaterialBox> */}
                 </ProcessBox>
-                {processes.length > 1 && index !== processes.length-1 && <img alt="next" src={next} className={ing ? 'animationImg' : ''} />}
+                {processes.length > 1 
+                && index !== processes.length-1 
+                && <div 
+                  className={ing ? "imgChange" : ''}
+                  style={{                  
+                    width: 56,
+                    height: 27,
+                    margin: '0 14px',
+                    backgroundImage: `url(${IC_Blue_Arrow1})`,
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                  }} />}
               </>
             )
           })
@@ -299,11 +283,6 @@ const Box = Styled.div`
     flex-flow: row wrap;
     align-items: center;
     font-size: 14px;
-    &>img{
-      width: 47px;
-      height: 17px;
-      margin: 0 14px;
-    }
     &:first-child{
       padding: 5px 5px 8px 5px;
       font-size: 20px;
