@@ -90,8 +90,8 @@ const MaterialListBox = ({item, title}:{item:{name: string, count: string, type:
           ? <>
             {
               item.map((inputData, index) => (
-                <p key={`${inputData.name}${index}`} style={{overflow: 'unset'}}>
-                    {inputData.name} {inputData.count}{index !== item.length-1 && ','}
+                <p key={`${inputData.name}${index}`} style={{overflow: 'unset', whiteSpace: 'pre-wrap'}}>
+                    {inputData.name} {inputData.count}{inputData.type === '0' ? 'kg' : '개'}{index !== item.length-1 && ','}
                 </p>
               ))
             }
@@ -260,7 +260,7 @@ const LineBox = Styled.div`
   padding: 3px;
   border-radius: 5px;
   margin-top: 5px;
-  width: 140px;
+  width: 139px;
 `
 
 const Box = Styled.div`
