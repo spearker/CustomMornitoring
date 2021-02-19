@@ -82,12 +82,16 @@ const LineTable: React.FunctionComponent<Props> = ({title, titleOnClickEvent, al
                                     Object.keys(contentTitle).map((mv, mi) => {
                                         return (
                                             v[mv] !== null && v[mv] !== undefined ?
-                                                <p key={mv} className="p-limits">
+                                                <p key={mv} className="p-limits" style={{
+                                                    textAlign: mv.includes("amount") ? "right" : "left",
+                                                    paddingRight: mv.includes("amount") ? "30px" : "0",
+                                                    width: mv.includes("amount") ? "calc(100% - 30px)" : "none"
+                                                }}>
                                                     {
                                                         typeof v[mv] === 'object' ?
                                                             Object.keys(v[mv]).map(m => {
                                                                 return (
-                                                                    <div>
+                                                                    <div >
                                                                         {v[mv][m]}
                                                                     </div>
                                                                 )
