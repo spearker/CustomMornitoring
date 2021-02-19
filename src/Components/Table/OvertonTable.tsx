@@ -80,7 +80,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                                                       }: Props) => {
 
   const [checked, setChecked] = useState<any[]>([])
-
+    console.log(valueList);
   React.useEffect(() => {
     if (checkOnClickEvent) {
       let tmpArr: boolean[] = []
@@ -304,11 +304,16 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                            data-for={`p${i}${mi}`}
                            className="p-limits"
                            style={{
-                             textAlign: alignList !== undefined ? alignList[mi] : 'left',
+                             textAlign: alignList !== undefined ? alignList[mi] : mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? 'right' : 'left',
                              cursor: mainOnClickEvent ? 'pointer' : 'default',
-                             width: widthList !== undefined ? widthList[mi] : '100%',
+                             // width: widthList !== undefined ?
+                             //     (mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? `calc(${widthList[mi]} - 30px` : widthList[mi]) :
+                             //     (mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? 'calc(100% - 30px)' : '100%'),
+                               width: widthList !== undefined ? widthList[mi] : "100%",
+                             // width:'100%',
                              fontFamily: 'NotoSansCJKkr',
-                             fontSize: '14px'
+                             fontSize: '14px',
+                             paddingRight: mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? '30px' : '0'
                            }}
                            onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                         >
