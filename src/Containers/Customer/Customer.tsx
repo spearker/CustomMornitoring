@@ -3,12 +3,7 @@ import Styled from 'styled-components'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import {API_URLS, getCustomerData, postCustomerDelete} from '../../Api/mes/customer'
 import {useHistory} from 'react-router-dom'
-import {getRequest} from '../../Common/requestFunctions'
-import {getToken} from '../../Common/tokenFunctions'
-import {TOKEN_NAME} from '../../Common/configset'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
-import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
 
@@ -25,7 +20,7 @@ const ClientContainer = () => {
   const [isFirst, setIsFirst] = useState<boolean>(false)
   const [titleEventList, setTitleEventList] = useState<any[]>([])
   const [option, setOption] = useState<number>(0)
-  const [contentsList, setContentsList] = useState<any[]>(['거래처명', '대표자명'])
+  const [contentsList, setContentsList] = useState<any[]>(['거래처명', '대표자명', '', '타입명'])
   const [searchValue, setSearchValue] = useState<any>('')
   const [deletePk, setDeletePk] = useState<({ pk: string[] })>({pk: []})
   const [saveKeyword, setSaveKeyword] = useState<string>('')

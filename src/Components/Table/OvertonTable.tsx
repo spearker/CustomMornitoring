@@ -80,7 +80,7 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                                                       }: Props) => {
 
   const [checked, setChecked] = useState<any[]>([])
-    console.log(valueList);
+  console.log(valueList)
   React.useEffect(() => {
     if (checkOnClickEvent) {
       let tmpArr: boolean[] = []
@@ -181,40 +181,51 @@ const OvertonTable: React.FunctionComponent<Props> = ({
           Object.keys(indexList).map((v, i) => {
             return (
               typeof indexList[v] === 'object' ?
-                <select className="p-limits"
-                        style={{
-                          width: widthList !== undefined ? widthList[i] : '70%',
-                          cursor: 'pointer',
-                          backgroundColor: '#111319',
-                          borderColor: '#111319',
-                          color: 'white',
-                          textAlign: alignList !== undefined ? alignList[i] : 'left',
-                          fontSize: '14px',
-                          marginRight: 30,
-                          background: `url(${IcDropDownButton}) no-repeat 95% 50%`
-                        }}
-                        onChange={(e) => selectBoxChange(e.target.value)}
-                >
-                  {
-                    Object.keys(indexList[v]).map(m => {
-                      return (
-                        <>
-                          <option value={indexList[v][m]}
-                                  style={{
-                                    backgroundColor: '#111319',
-                                    cursor: 'pointer'
-                                  }}>{indexList[v][m]}</option>
+                <div style={{
+                  width: widthList !== undefined ? widthList[i] : '100%',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start'
+                }}>
+                  <select className="p-limits"
+                          style={{
+                            width: widthList !== undefined ? widthList[i] : '70%',
+                            cursor: 'pointer',
+                            backgroundColor: '#111319',
+                            borderColor: '#111319',
+                            color: 'white',
+                            textAlign: alignList !== undefined ? alignList[i] : 'left',
+                            fontSize: '14px',
+                            marginRight: 30,
+                            background: `url(${IcDropDownButton}) no-repeat 95% 50%`
+                          }}
+                          onChange={(e) => selectBoxChange(e.target.value)}
+                  >
+                    {
+                      Object.keys(indexList[v]).map(m => {
+                        return (
+                          <>
+                            <option value={indexList[v][m]}
+                                    style={{
+                                      backgroundColor: '#111319',
+                                      cursor: 'pointer'
+                                    }}>{indexList[v][m]}</option>
 
-                        </>
-                      )
-                    })
-                  }
-                </select>
+                          </>
+                        )
+                      })
+                    }
+                  </select>
+                </div>
                 :
                 <p key={v} className="p-limits"
                    style={{
-                     width: widthList !== undefined ? widthList[i] : '100%',
+                     width: widthList !== undefined
+                       ? widthList[i]
+                       : (v.includes('goal') || v.includes('cost') || v.includes('stock') || v.includes('amount') || v.includes('shipped') || v.includes('left'))
+                         ? '65%' : '100%',
                      textAlign: alignList !== undefined ? alignList[i] : 'left',
+                     paddingRight: v.includes('goal') || v.includes('cost') || v.includes('stock') || v.includes('amount') || v.includes('shipped') || v.includes('left') ? '20px' : '0'
                    }}>{indexList[v]}</p>
             )
           })
@@ -304,16 +315,14 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                            data-for={`p${i}${mi}`}
                            className="p-limits"
                            style={{
-                             textAlign: alignList !== undefined ? alignList[mi] : mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? 'right' : 'left',
+                             textAlign: alignList !== undefined && alignList[mi] ? alignList[mi] : mv.includes('goal') || mv.includes('cost') || mv.includes('stock') || mv.includes('amount') || mv.includes('shipped') || mv.includes('left') ? 'right' : 'left',
                              cursor: mainOnClickEvent ? 'pointer' : 'default',
-                             // width: widthList !== undefined ?
-                             //     (mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? `calc(${widthList[mi]} - 30px` : widthList[mi]) :
-                             //     (mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? 'calc(100% - 30px)' : '100%'),
-                               width: widthList !== undefined ? widthList[mi] : "100%",
+                             width: widthList !== undefined ? widthList[mi] : (mv.includes('goal') || mv.includes('cost') || mv.includes('stock') || mv.includes('amount') || mv.includes('shipped') || mv.includes('left'))
+                               ? '65%' : '100%',
                              // width:'100%',
                              fontFamily: 'NotoSansCJKkr',
                              fontSize: '14px',
-                             paddingRight: mv.includes("stock") || mv.includes("amount") || mv.includes("shipped") || mv.includes("left") ? '30px' : '0'
+                             paddingRight: mv.includes('goal') || mv.includes('cost') || mv.includes('stock') || mv.includes('amount') || mv.includes('shipped') || mv.includes('left') ? '20px' : '0'
                            }}
                            onClick={mainOnClickEvent && mainOnClickEvent ? () => mainOnClickEvent(v, i) : () => console.log()}
                         >

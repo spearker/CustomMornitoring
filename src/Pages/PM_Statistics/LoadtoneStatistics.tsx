@@ -1,8 +1,7 @@
 import React from 'react'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import LoadtonContiner from '../../Containers/PM_Statistics/Loadton'
-
+import Container from '../../Containers/PM_Statistics/Loadton'
 
 const ErrorStatistics = ({match}: any) => {
 
@@ -12,7 +11,7 @@ const ErrorStatistics = ({match}: any) => {
     <DashboardWrapContainer index={'statistics'}>
 
       <InnerBodyContainer>
-        <LoadtonContiner/>
+        <Container/>
 
 
       </InnerBodyContainer>

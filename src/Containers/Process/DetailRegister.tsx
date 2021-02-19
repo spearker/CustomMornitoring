@@ -6,367 +6,431 @@ import ReactShadowScroll from 'react-shadow-scroll'
 import {POINT_COLOR} from '../../Common/configset'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import IcPlushButton from '../../Assets/Images/plus_ic.png'
-import {API_URLS, getSearchProcess, postProcessRegister} from '../../Api/mes/process'
+import {API_URLS, getSearchProcess, getSegmentList, postProcessRegister} from '../../Api/mes/process'
 import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import {useHistory} from 'react-router-dom'
 import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
-import Pagination from "@material-ui/lab/Pagination";
+import Pagination from '@material-ui/lab/Pagination'
 
 interface IMachineData {
-    machine_name: string,
-    machine_type: number,
-    mold_info: { mold_name: string, mold_pk: string }
+  machine_name: string,
+  machine_type: number,
+  mold_info: { mold_name: string, mold_pk: string }
 }
 
 interface IDetailRegister {
-    pk: string,
-    process_name: string,
-    process_type: number,
-    machines: IMachineData []
+  pk: string,
+  process_name: string,
+  process_type: number,
+  machines: IMachineData []
 }
 
 const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
-const ProcessDetailRegisterContainer = () => {
-    const history = useHistory()
+const ProcessDetailRegisterContainer = ({match}: any) => {
+  const history = useHistory()
 
-    const [processName, setProcessName] = useState<string>()
-    const [searchData, setSearchData] = useState<string>('')
-    const [machineName, setMachineName] = useState<string>()
+  const [processName, setProcessName] = useState<string>()
+  const [searchData, setSearchData] = useState<string>('')
+  const [machineName, setMachineName] = useState<string>()
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [pk, setPk] = useState<string>('')
 
-    const [processList, setProcessList] = useState<IDetailRegister[]>([])
-    const [originalProcessList, setOriginalProcessList] = useState<IDetailRegister[]>([])
-    const [machineList, setMachineList] = useState<IMachineData[]>([])
-    const [page, setPage] = useState<PaginationInfo>({
-        current: 1,
+  const [processList, setProcessList] = useState<IDetailRegister[]>([])
+  const [originalProcessList, setOriginalProcessList] = useState<IDetailRegister[]>([])
+  const [machineList, setMachineList] = useState<IMachineData[]>([])
+  const [page, setPage] = useState<PaginationInfo>({
+    current: 1,
+  })
+  const [processPKList, setProcessPKList] = useState<string[]>([])
+  const [processDataList, setProcessDataList] = useState<{ name: string, type: number, machines: string }[]>([
+    {name: '', type: -1, machines: ''}
+  ])
+
+  const [isFirst, setIsFirst] = useState<boolean>(false)
+  const [saveKeyword, setSaveKeyword] = useState<string>('')
+
+  const getSearchProcessList = useCallback(async (isSearch?: boolean) => {
+    const tempUrl = `${API_URLS['process'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=15`
+    const resultData = await getSearchProcess(tempUrl)
+
+    const getProcess = resultData.results.info_list.map((v, i) => {
+
+      const process_type = transferCodeToName('process', Number(v.process_type))
+
+      return {...v, process_type: process_type}
     })
-    const [processPKList, setProcessPKList] = useState<string[]>([])
-    const [processDataList, setProcessDataList] = useState<{ name: string, type: number, machines: string }[]>([
-        {name: '', type: -1, machines: ''}
-    ])
 
-    const [isFirst, setIsFirst] = useState<boolean>(false);
-    const [saveKeyword, setSaveKeyword] = useState<string>('');
+    setPage({current: resultData.results.current_page, total: resultData.results.total_page})
+    setProcessList(getProcess)
+    setOriginalProcessList(getProcess)
+    setIsFirst(true)
+  }, [searchData, saveKeyword, page])
 
-    const getSearchProcessList = useCallback(async (isSearch?: boolean) => {
-        const tempUrl = `${API_URLS['process'].search}?keyword=${saveKeyword}&page=${isSearch ? 1 : page.current}&limit=15`
-        const resultData = await getSearchProcess(tempUrl)
+  const validationCheck = () => {
 
-        const getProcess = resultData.results.info_list.map((v, i) => {
+    if (!processName || processName === '') {
+      return window.alert('세분화 공정명을 입력해주세요.')
+    }
 
-            const process_type = transferCodeToName('process', Number(v.process_type))
+    if (processPKList.length === 0) {
+      return window.alert('등록 공정 검색을 선택해주세요.')
+    }
 
-            return {...v, process_type: process_type}
+    return true
+  }
+
+  const postProcessRegisterFunc = async () => {
+    if (validationCheck()) {
+      const tempUrl = `${API_URLS['segment'].register}`
+      const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList})
+
+      if (resultData.status === 200) {
+        history.goBack()
+      }
+    }
+  }
+
+  const postProcessUpdateFunc = async () => {
+    if (validationCheck()) {
+      const tempUrl = `${API_URLS['segment'].update}`
+      const resultData = await postProcessRegister(tempUrl, {pk: pk, name: processName, processes: processPKList})
+
+      if (resultData) {
+        history.goBack()
+      }
+    }
+  }
+
+  const getData = async () => {
+    const tempUrl = `${API_URLS['segment'].load}?pk=${match.params.pk}`
+    const resultData = await getSegmentList(tempUrl)
+
+    if (resultData) {
+      // history.goBack()
+      setPk(resultData.pk)
+      setProcessName(resultData.name)
+      setProcessDataList(
+        resultData.processes.map((v, i) => {
+          return {
+            name: v.process_name,
+            type: v.process_type,
+            machines: v.machines.map(v => {
+              return v.machine_name
+            }).join(', ')
+          }
         })
-
-        setPage({current: resultData.results.current_page, total: resultData.results.total_page})
-        setProcessList(getProcess)
-        setOriginalProcessList(getProcess)
-        setIsFirst(true)
-    }, [searchData, saveKeyword, page])
-
-    const validationCheck = () => {
-
-        if (!processName || processName === '') {
-            return window.alert('세분화 공정명을 입력해주세요.')
-        }
-
-        if (processPKList.length === 0) {
-            return window.alert('등록 공정 검색을 선택해주세요.')
-        }
-
-        return true
+      )
+      setProcessPKList(
+        resultData.processes.map((v, i) => {
+          return v.process_pk
+        })
+      )
     }
+  }
 
-    const postProcessRegisterFunc = async () => {
-        if (validationCheck()) {
-            const tempUrl = `${API_URLS['segment'].register}`
-            const resultData = await postProcessRegister(tempUrl, {name: processName, processes: processPKList})
 
-            if (resultData.status === 200) {
-                history.goBack()
-            }
-        }
+  useEffect(() => {
+    getSearchProcessList()
+  }, [page.current])
+
+  useEffect(() => {
+    if (searchData === '' || !searchData) {
+      setProcessList(originalProcessList)
     }
-    useEffect(() => {
-        getSearchProcessList()
-    }, [page.current])
+  }, [searchData])
 
-    useEffect(() => {
-        if (searchData === '' || !searchData) {
-            setProcessList(originalProcessList)
-        }
-    }, [searchData])
-
-    useEffect(() => {
-        if(isFirst){
-            onSearch()
-        }
-    }, [saveKeyword])
-
-    const onSearch = () => {
-        getSearchProcessList(true)
-        if (searchData && searchData !== '') {
-            const target: IDetailRegister[] = []
-
-            processList.forEach((item) => {
-                if (item.process_name.indexOf(searchData) !== -1) {
-                    target.push(item)
-                }
-            })
-
-            setProcessList(target)
-
-        }
+  useEffect(() => {
+    if (isFirst) {
+      onSearch()
     }
+  }, [saveKeyword])
+
+  useEffect(() => {
+    if (match.params.pk) {
+      setIsUpdate(true)
+      getData()
+    }
+  }, [])
+
+  const onSearch = () => {
+    getSearchProcessList(true)
+    if (searchData && searchData !== '') {
+      const target: IDetailRegister[] = []
+
+      processList.forEach((item) => {
+        if (item.process_name.indexOf(searchData) !== -1) {
+          target.push(item)
+        }
+      })
+
+      setProcessList(target)
+
+    }
+  }
 
 
-    return (
-        <div>
-            <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
-                <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
-                    <span style={{fontSize: 20, marginRight: 18, marginLeft: 3, fontWeight: 'bold'}}>공정별 세분화 등록</span>
-                </div>
-            </div>
-            <ContainerMain>
-                <div>
-                    <p className={'title'}>필수 항목</p>
-                </div>
-                <div style={{marginTop: 30}}>
-                    <div>
-                        <table style={{color: 'black'}}>
-                            <tr>
-                                <td>• 세분화 공정명</td>
-                                <td><Input placeholder="프로세스명 or 세분화 공정 명을 입력해 주세요."
-                                           onChange={(e) => setProcessName(e.target.value)}/></td>
-                            </tr>
-                            <tr>
-                                <td style={{verticalAlign: 'top'}}>• 등록 공정 검색</td>
-                                <td>
-                                    <div style={{flexDirection: 'row', display: 'flex'}}>
-                                        <div style={{width: 360, height: 211, marginRight: 20, marginBottom: 20}}>
-                                            <div style={{
-                                                width: 360,
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                marginBottom: 12
-                                            }}>
-                                                <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360 - 28}}
-                                                           value={searchData}
-                                                           onChange={(e) => {if(!e.target.value.match(regExp))setSearchData(e.target.value)}}
-                                                           onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchData)}/>
-                                                <SearchButton style={{width: 32}} onClick={() => {
-                                                    setSaveKeyword(searchData)
-                                                }}>
-                                                    <img src={IcSearchButton}/>
-                                                </SearchButton>
-                                            </div>
-                                            <div style={{
-                                                minHeight: 169,
-                                                maxHeight: 'auto',
-                                                width: 'calc(100%-20px)',
-                                                backgroundColor: '#f4f6fa',
-                                                border: '1px solid #b3b3b3'
-                                            }}>
-                                                <div>
-                                                    <MachineTable style={{margin: 0, padding: 0}}>
-                                                        <thead>
-                                                        <tr style={{
-                                                            borderBottom: '1px solid #b3b3b3',
-                                                            margin: 0,
-                                                            padding: 0
-                                                        }}>
-                                                            <th style={{paddingLeft: 10,}}><span>공정명</span></th>
-                                                            <th><span>타입</span></th>
-                                                            <th style={{width: 28}}></th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody style={{overflowY: 'scroll', height: 140, width: 359}}>
-                                                        {
-                                                            processList.map((v, i) => {
-                                                                return (
-                                                                    <tr style={{
-                                                                        borderBottom: '1px solid #b3b3b35f',
-                                                                        padding: 0,
-                                                                    }}>
-                                                                        <td style={{
-                                                                            paddingLeft: 10,
-                                                                            width: 160,
-                                                                            height: 28,
-                                                                        }}>
-                                                                            <span>{v.process_name}</span></td>
-                                                                        <td style={{width: 140, height: 28}}>
-                                                                            <span>{v.process_type}</span></td>
-                                                                        <td style={{width: 20, height: 28}}>
-                                                                            <div>
-                                                                                <SearchButton style={{
-                                                                                    backgroundColor: '#00000000',
-                                                                                    border: 0,
-                                                                                    width: 28,
-                                                                                    height: 28
-                                                                                }} onClick={() => {
-                                                                                    let tmpList = [...processPKList, v.pk]
-                                                                                    let tmpList2 = processDataList
-                                                                                    setProcessPKList(tmpList)
-                                                                                    setMachineList(v.machines)
-
-                                                                                    setMachineName(v.process_name ? v.process_name : undefined)
-                                                                                    tmpList2.push({
-                                                                                        name: v.process_name,
-                                                                                        type: v.process_type,
-                                                                                        machines: v.machines.length !== 1 ? v.machines[0].machine_name + ' 외 ' + v.machines.length + '개' : v.machines[0].machine_name
-                                                                                    })
-
-                                                                                    setProcessDataList(tmpList2)
-
-                                                                                }}>
-                                                                                    <img src={IcPlushButton} style={{
-                                                                                        width: 28,
-                                                                                        height: 28
-                                                                                    }}/>
-                                                                                </SearchButton>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                )
-                                                            })
-                                                        }
-                                                        </tbody>
-
-                                                    </MachineTable>
-                                                </div>
-                                            </div>
-                                            <PaginationBox>
-                                                <Pagination count={page.total ? page.total : 0} page={page.current}
-                                                            onChange={(event, i) => setPage({...page, current: i})}
-                                                            boundaryCount={1} color={'primary'}/>
-                                            </PaginationBox>
-                                        </div>
-                                        <div style={{
-                                            backgroundColor: '#f4f6fa',
-                                            width: 507,
-                                            height: 191,
-                                            padding: '10px 20px',
-                                            border: '1px solid #b3b3b3'
-                                        }}>
-                                            <p style={{textAlign: 'left'}}>{machineName} 설정</p>
-                                            {/*<ReactShadowScroll>*/}
-                                            <div style={{
-                                                height: 169,
-                                                width: 'calc(100%-20px)',
-                                                backgroundColor: '#f4f6fa'
-                                            }}>
-                                                {/*<MachineTable style={{margin: 0, padding: 0}}>*/}
-                                                {/*    <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>*/}
-                                                {/*        <th><span>기계명</span></th>*/}
-                                                {/*        <th><span>금형명</span></th>*/}
-                                                {/*    </tr>*/}
-                                                {/*    {*/}
-                                                {/*        machineList.map((v, i) => {*/}
-                                                {/*            return (*/}
-                                                {/*                <tr style={{borderBottom: '1px solid #b3b3b35f'}}>*/}
-                                                {/*                    <td><span>{v.machine_name}</span></td>*/}
-                                                {/*                    <td><span>{ v.mold_info.mold_name && v.mold_info.mold_name}</span></td>*/}
-                                                {/*                </tr>*/}
-                                                {/*            )*/}
-                                                {/*        })*/}
-                                                {/*    }*/}
-                                                {/*</MachineTable>*/}
-                                                <HeaderTable style={{border: 0, width: 300, paddingLeft: 0}}>
-                                                    <div style={{width: 190}}>
-                                                        <p>기계명</p>
-                                                    </div>
-                                                    <div style={{width: 100}}>
-                                                        <p>금형명</p>
-                                                    </div>
-                                                </HeaderTable>
-                                                {
-                                                    machineList.length !== 0 ? machineList.map((v, i) => {
-                                                        return (<HeaderTable
-                                                            style={{border: 0, width: 400, paddingLeft: 0}}>
-                                                            <div style={{width: 190}}>
-                                                                <p>{v.machine_name}</p>
-                                                            </div>
-                                                            <div style={{width: 210}}>
-                                                                {
-                                                                    v.mold_info && v.mold_info.mold_name &&
-                                                                    <p>{v.mold_info.mold_name}</p>
-                                                                }
-                                                            </div>
-                                                        </HeaderTable>)
-                                                    }) : <HeaderTable
-                                                        style={{border: 0, width: 400, paddingLeft: 0}}>
-                                                        <p style={{textAlign: 'center', width: '100%'}}>기계가 없는
-                                                            공정입니다.</p>
-                                                    </HeaderTable>
-                                                }
-                                            </div>
-                                            {/*</ReactShadowScroll>*/}
-                                        </div>
-                                    </div>
-                                    <div style={{paddingTop: 20, marginBottom: 10}}>
-                                        <p style={{textAlign: 'left'}}>프로세스 순서</p>
-                                    </div>
-                                    <div>
-                                        <HeaderTable>
-                                            <div style={{width: 341}}>
-                                                <p>공정명</p>
-                                            </div>
-                                            <div style={{width: 130}}>
-                                                <p>타입</p>
-                                            </div>
-                                            <div style={{width: 438}}>
-                                                <p>기계명</p>
-                                            </div>
-                                        </HeaderTable>
-                                        <div style={{
-                                            width: 929,
-                                            height: 132,
-                                            backgroundColor: '#f4f6fa',
-                                            border: '1px solid #b3b3b3',
-                                            marginTop: 10
-                                        }}>
-                                            <ReactShadowScroll styleSubcontainer={{width: '100%', height: 132}}>
-                                                {
-                                                    processDataList.map((v, i) => {
-                                                        if (v.name === '') {
-                                                            return
-                                                        }
-                                                        return (
-                                                            <HeaderTable>
-                                                                <div style={{width: 341}}>
-                                                                    <p>{v.name}</p>
-                                                                </div>
-                                                                <div style={{width: 130}}>
-                                                                    <p>{v.type}</p>
-                                                                </div>
-                                                                <div style={{width: 438}}>
-                                                                    <p>{v.machines}</p>
-                                                                </div>
-                                                            </HeaderTable>
-                                                        )
-                                                    })
-                                                }
-                                            </ReactShadowScroll>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <NumberPagenation stock={page.total ? page.total : 0} selected={page.current}
-                                      onClickEvent={(i: number) => setPage({...page, current: i})}/>
-                    <ButtonWrap onClick={async () => {
-                        postProcessRegisterFunc()
-                    }}>
-                        <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
-                            <p style={{fontSize: 18}}>등록하기</p>
-                        </div>
-                    </ButtonWrap>
-                </div>
-            </ContainerMain>
+  return (
+    <div>
+      <div style={{position: 'relative', textAlign: 'left', marginTop: 87}}>
+        <div style={{display: 'inline-block', textAlign: 'left', marginBottom: 23}}>
+          <span style={{
+            fontSize: 20,
+            marginRight: 18,
+            marginLeft: 3,
+            fontWeight: 'bold'
+          }}>{isUpdate ? '공정별 세분화 수정' : '공정별 세분화 등록'}</span>
         </div>
-    )
+      </div>
+      <ContainerMain>
+        <div>
+          <p className={'title'}>필수 항목</p>
+        </div>
+        <div style={{marginTop: 30}}>
+          <div>
+            <table style={{color: 'black'}}>
+              <tr>
+                <td>• 세분화 공정명</td>
+                <td><Input placeholder="프로세스명 or 세분화 공정 명을 입력해 주세요." value={processName}
+                           onChange={(e) => setProcessName(e.target.value)}/></td>
+              </tr>
+              <tr>
+                <td style={{verticalAlign: 'top'}}>• 등록 공정 검색</td>
+                <td>
+                  {
+                    !isUpdate && <React.Fragment>
+                        <div style={{flexDirection: 'row', display: 'flex'}}>
+                            <div style={{width: 360, height: 211, marginRight: 20, marginBottom: 20}}>
+                                <div style={{
+                                  width: 360,
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                  marginBottom: 12
+                                }}>
+                                    <SearchBox placeholder="검색어를 입력해주세요." style={{width: 360 - 28}}
+                                               value={searchData}
+                                               onChange={(e) => {
+                                                 if (!e.target.value.match(regExp)) setSearchData(e.target.value)
+                                               }}
+                                               onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchData)}/>
+                                    <SearchButton style={{width: 32}} onClick={() => {
+                                      setSaveKeyword(searchData)
+                                    }}>
+                                        <img src={IcSearchButton}/>
+                                    </SearchButton>
+                                </div>
+                                <div style={{
+                                  minHeight: 169,
+                                  maxHeight: 'auto',
+                                  width: 'calc(100%-20px)',
+                                  backgroundColor: '#f4f6fa',
+                                  border: '1px solid #b3b3b3'
+                                }}>
+                                    <div>
+                                        <MachineTable style={{margin: 0, padding: 0}}>
+                                            <thead>
+                                            <tr style={{
+                                              borderBottom: '1px solid #b3b3b3',
+                                              margin: 0,
+                                              padding: 0
+                                            }}>
+                                                <th style={{paddingLeft: 10,}}><span>공정명</span></th>
+                                                <th><span>타입</span></th>
+                                                <th style={{width: 28}}></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody style={{overflowY: 'scroll', height: 140, width: 359}}>
+                                            {
+                                              processList.map((v, i) => {
+                                                return (
+                                                  <tr style={{
+                                                    borderBottom: '1px solid #b3b3b35f',
+                                                    padding: 0,
+                                                  }}>
+                                                    <td style={{
+                                                      paddingLeft: 10,
+                                                      width: 160,
+                                                      height: 28,
+                                                    }}>
+                                                      <span>{v.process_name}</span></td>
+                                                    <td style={{width: 140, height: 28}}>
+                                                      <span>{v.process_type}</span></td>
+                                                    <td style={{width: 20, height: 28}}>
+                                                      <div>
+                                                        <SearchButton style={{
+                                                          backgroundColor: '#00000000',
+                                                          border: 0,
+                                                          width: 28,
+                                                          height: 28
+                                                        }} onClick={() => {
+                                                          let tmpList = [...processPKList, v.pk]
+                                                          let tmpList2 = processDataList
+                                                          setProcessPKList(tmpList)
+                                                          setMachineList(v.machines)
+
+                                                          setMachineName(v.process_name ? v.process_name : undefined)
+                                                          tmpList2.push({
+                                                            name: v.process_name,
+                                                            type: v.process_type,
+                                                            machines: v.machines.length !== 1 ? v.machines[0].machine_name + ' 외 ' + v.machines.length + '개' : v.machines[0].machine_name
+                                                          })
+
+                                                          setProcessDataList(tmpList2)
+
+                                                        }}>
+                                                          <img src={IcPlushButton} style={{
+                                                            width: 28,
+                                                            height: 28
+                                                          }}/>
+                                                        </SearchButton>
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+                                                )
+                                              })
+                                            }
+                                            </tbody>
+
+                                        </MachineTable>
+                                    </div>
+                                </div>
+                                <PaginationBox>
+                                    <Pagination count={page.total ? page.total : 0} page={page.current}
+                                                onChange={(event, i) => setPage({...page, current: i})}
+                                                boundaryCount={1} color={'primary'}/>
+                                </PaginationBox>
+                            </div>
+                            <div style={{
+                              backgroundColor: '#f4f6fa',
+                              width: 507,
+                              height: 191,
+                              padding: '10px 20px',
+                              border: '1px solid #b3b3b3'
+                            }}>
+                                <p style={{textAlign: 'left'}}>{machineName} 설정</p>
+                              {/*<ReactShadowScroll>*/}
+                                <div style={{
+                                  height: 169,
+                                  width: 'calc(100%-20px)',
+                                  backgroundColor: '#f4f6fa'
+                                }}>
+                                  {/*<MachineTable style={{margin: 0, padding: 0}}>*/}
+                                  {/*    <tr style={{borderBottom: '1px solid #b3b3b3', margin: 0, padding: 0}}>*/}
+                                  {/*        <th><span>기계명</span></th>*/}
+                                  {/*        <th><span>금형명</span></th>*/}
+                                  {/*    </tr>*/}
+                                  {/*    {*/}
+                                  {/*        machineList.map((v, i) => {*/}
+                                  {/*            return (*/}
+                                  {/*                <tr style={{borderBottom: '1px solid #b3b3b35f'}}>*/}
+                                  {/*                    <td><span>{v.machine_name}</span></td>*/}
+                                  {/*                    <td><span>{ v.mold_info.mold_name && v.mold_info.mold_name}</span></td>*/}
+                                  {/*                </tr>*/}
+                                  {/*            )*/}
+                                  {/*        })*/}
+                                  {/*    }*/}
+                                  {/*</MachineTable>*/}
+                                    <HeaderTable style={{border: 0, width: 300, paddingLeft: 0}}>
+                                        <div style={{width: 190}}>
+                                            <p>기계명</p>
+                                        </div>
+                                        <div style={{width: 100}}>
+                                            <p>금형명</p>
+                                        </div>
+                                    </HeaderTable>
+                                  {
+                                    machineList.length !== 0 ? machineList.map((v, i) => {
+                                      return (<HeaderTable
+                                        style={{border: 0, width: 400, paddingLeft: 0}}>
+                                        <div style={{width: 190}}>
+                                          <p>{v.machine_name}</p>
+                                        </div>
+                                        <div style={{width: 210}}>
+                                          {
+                                            v.mold_info && v.mold_info.mold_name &&
+                                            <p>{v.mold_info.mold_name}</p>
+                                          }
+                                        </div>
+                                      </HeaderTable>)
+                                    }) : <HeaderTable
+                                      style={{border: 0, width: 400, paddingLeft: 0}}>
+                                      <p style={{textAlign: 'center', width: '100%'}}>기계가 없는
+                                        공정입니다.</p>
+                                    </HeaderTable>
+                                  }
+                                </div>
+                              {/*</ReactShadowScroll>*/}
+                            </div>
+                        </div>
+                    </React.Fragment>
+                  }
+                  <div style={{paddingTop: isUpdate ? 0 : 20, marginBottom: 10}}>
+                    <p style={{textAlign: 'left'}}>프로세스 순서</p>
+                  </div>
+                  <div>
+                    <HeaderTable>
+                      <div style={{width: 341}}>
+                        <p>공정명</p>
+                      </div>
+                      <div style={{width: 130}}>
+                        <p>타입</p>
+                      </div>
+                      <div style={{width: 438}}>
+                        <p>기계명</p>
+                      </div>
+                    </HeaderTable>
+                    <div style={{
+                      width: 929,
+                      height: 132,
+                      backgroundColor: '#f4f6fa',
+                      border: '1px solid #b3b3b3',
+                      marginTop: 10
+                    }}>
+                      <ReactShadowScroll styleSubcontainer={{width: '100%', height: 132}}>
+                        {
+                          processDataList.map((v, i) => {
+                            if (v.name === '') {
+                              return
+                            }
+                            return (
+                              <HeaderTable>
+                                <div style={{width: 341}}>
+                                  <p>{v.name}</p>
+                                </div>
+                                <div style={{width: 130}}>
+                                  <p>{v.type}</p>
+                                </div>
+                                <div style={{width: 438}}>
+                                  <p>{v.machines}</p>
+                                </div>
+                              </HeaderTable>
+                            )
+                          })
+                        }
+                      </ReactShadowScroll>
+
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <NumberPagenation stock={page.total ? page.total : 0} selected={page.current}
+                            onClickEvent={(i: number) => setPage({...page, current: i})}/>
+          <ButtonWrap onClick={async () => {
+            if (isUpdate) {
+              postProcessUpdateFunc()
+            } else {
+              postProcessRegisterFunc()
+            }
+          }}>
+            <div style={{width: 360, height: 46, boxSizing: 'border-box', paddingTop: '9px'}}>
+              <p style={{fontSize: 18}}>{isUpdate ? '수정하기' : '등록하기'}</p>
+            </div>
+          </ButtonWrap>
+        </div>
+      </ContainerMain>
+    </div>
+  )
 }
 
 const ContainerMain = Styled.div`

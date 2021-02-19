@@ -252,6 +252,7 @@ const OptimizedTable: React.FunctionComponent<Props> = ({selectBoxChange, noTitl
                         <LimitP key={`td-${i}-${mv}`} data-tip
                                 data-for={`p${i}${mi}`}
                                 style={{
+                                  textAlign: mv.includes('goal') || mv.includes('cost') || mv.includes('stock') || mv.includes('amount') || mv.includes('shipped') || mv.includes('left') ? 'right' : 'left',
                                   cursor: mainOnClickEvent ? 'pointer' : 'default',
                                   width: widthList[mi],
                                   fontFamily: 'NotoSansCJKkr',

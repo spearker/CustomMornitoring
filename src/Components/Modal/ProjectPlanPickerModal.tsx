@@ -4,7 +4,6 @@ import {BG_COLOR_SUB, POINT_COLOR} from '../../Common/configset'
 import searchButton from '../../Assets/Images/btn_search.png'
 import Modal from 'react-modal'
 import ReactShadowScroll from 'react-shadow-scroll'
-import ic_check from '../../Assets/Images/ic_check.png'
 import {Input} from 'semantic-ui-react'
 import IcSearchButton from '../../Assets/Images/ic_search.png'
 import {API_URLS, getProductionSearch} from '../../Api/mes/production'
@@ -35,23 +34,25 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
   //const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [isOpen, setIsOpen] = useState(false)
   const [machineName, setMachineName] = useState('')
-  const [type, setType] = useState<number>(0);
+  const [type, setType] = useState<number>(0)
 
   const [machineList, setMachineList] = useState([{
     pk: '',
     project_name: '',
     manager_name: '',
     material_name: '',
+    material_stock: '',
     supplier_name: '',
+    goal: '',
   }])
   const [searchName, setSearchName] = useState<string>('')
   const [page, setPage] = useState<PaginationInfo>({
     current: 1,
   })
 
-  const [isFirst, setIsFirst] = useState<boolean>(false);
-  const [saveKeyword, setSaveKeyword] = useState<string>('');
-  
+  const [isFirst, setIsFirst] = useState<boolean>(false)
+  const [saveKeyword, setSaveKeyword] = useState<string>('')
+
   // const ref = useOnclickOutside(() => {
   //     setIsOpen(false);
   // });
@@ -73,7 +74,7 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
   }
 
   useEffect(() => {
-    if(isFirst){
+    if (isFirst) {
       getList(true)
     }
   }, [type, saveKeyword])
@@ -141,17 +142,21 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
           <div style={{width: 860, minHeight: 530, maxHeight: 'auto', padding: 20}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <p style={{fontSize: 18, fontFamily: 'NotoSansCJKkr', fontWeight: 'bold'}}>• 생산 계획 검색</p>
-                <StyleRadioInput title={''} width={0} line={false} target={type}
-                            onChangeEvent={(e) => {setType(e)}}
-                            contents={[
-                              {value: 0, title: '계획자명'}, {value: 1, title: '생산 품목명'}, {value: 2, title: '납품업체명'}
-                            ]} />
+              <StyleRadioInput title={''} width={0} line={false} target={type}
+                               onChangeEvent={(e) => {
+                                 setType(e)
+                               }}
+                               contents={[
+                                 {value: 0, title: '계획자명'}, {value: 1, title: '생산 품목명'}, {value: 2, title: '납품업체명'}
+                               ]}/>
             </div>
-            
+
             <div style={{width: 860, display: 'flex', flexDirection: 'row', marginBottom: 12}}>
               <SearchBox placeholder="검색어를 입력해 주세요." style={{flex: 96}}
                          onKeyPress={(event) => event.key === 'Enter' && setSaveKeyword(searchName)}
-                         value={searchName} onChange={(e) => {if(!e.target.value.match(regExp))setSearchName(e.target.value)}}/>
+                         value={searchName} onChange={(e) => {
+                if (!e.target.value.match(regExp)) setSearchName(e.target.value)
+              }}/>
               <SearchButton style={{flex: 4}} onClick={() => setSaveKeyword(searchName)}>
                 <img src={IcSearchButton}/>
               </SearchButton>
@@ -163,7 +168,9 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                     <th style={{width: 250}}>생산계획</th>
                     <th style={{width: 125}}>계획자</th>
                     <th style={{width: 125}}>생산품목</th>
-                    <th style={{width: 250}}>납품업체</th>
+                    <th style={{width: 125}}>재고량</th>
+                    <th style={{width: 130}}>납품업체</th>
+                    <th style={{width: 120}}>목표수량</th>
                   </tr>
                   {machineList !== undefined && machineList.length === 0 ?
                     <tr>
@@ -180,9 +187,11 @@ const ProjectPlanPickerModal = ({select, onClickEvent, text, inputWidth, buttonW
                           return onClickEvent(v)
                         }}>
                           <td><span style={{fontSize: 14}}>{v.project_name}</span></td>
-                          <td><span>{v.manager_name}</span></td>
-                          <td><span>{v.material_name}</span></td>
-                          <td><span>{v.supplier_name}</span></td>
+                          <td><span style={{paddingRight: 5}}>{v.manager_name}</span></td>
+                          <td><span style={{paddingRight: 5}}>{v.material_name}</span></td>
+                          <td><span style={{paddingRight: 5}}>{v.material_stock}</span></td>
+                          <td><span style={{paddingRight: 5}}>{v.supplier_name}</span></td>
+                          <td><span style={{paddingRight: 5}}>{v.goal}</span></td>
                         </tr>
                       )
                     }) //0: 계획자명, 1: 품목명, 2: 납품업체명

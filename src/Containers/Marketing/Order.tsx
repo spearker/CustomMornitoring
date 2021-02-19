@@ -2,13 +2,9 @@ import React, {useCallback, useEffect, useState,} from 'react'
 import OvertonTable from '../../Components/Table/OvertonTable'
 import {API_URLS, getMarketing, postMarketing} from '../../Api/mes/marketing'
 import {useHistory} from 'react-router-dom'
-import {postOutsourcingDelete} from '../../Api/mes/outsourcing'
-import {usePopupDispatch} from '../../Context/PopupContext'
 import IcCheck from '../../Assets/Images/ic_alert_check.png'
-import IcX from '../../Assets/Images/ic_alert_x.png'
 import BasicColorButton from '../../Components/Button/BasicColorButton'
 import Styled from 'styled-components'
-import {transferCodeToName} from '../../Common/codeTransferFunctions'
 import Notiflix from 'notiflix'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
@@ -156,8 +152,11 @@ const OrderContainer = () => {
       const orderList = res.info_list.map((v) => {
         const finished = v.finished === true ? '완료' : '진행중'
         const amount = AddComma(v.amount)
+        const shipped = AddComma(v.shipped)
+        const safe_stock = AddComma(v.safe_stock)
+        const left = AddComma(v.left)
 
-        return {...v, finished: finished, amount: amount}
+        return {...v, finished: finished, amount, shipped, safe_stock, left}
       })
       setList(orderList)
       setIsFirst(true)

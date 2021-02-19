@@ -5,8 +5,8 @@ import LineTable from '../../Components/Table/LineTable'
 import {API_URLS, getProjectList, postProjectDelete} from '../../Api/mes/production'
 import VoucherDropdown from '../../Components/Dropdown/VoucherDropdown'
 import {useHistory} from 'react-router-dom'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
+import autoCustomType from '../../AutoCustomSetting/autoCustomConfig'
 
 const regExp = /[\{\}\[\]\?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
@@ -46,17 +46,29 @@ const VoucherContainer = ({match}: Props) => {
   }
 
 
-  const indexList = {
-    voucher: {
-      chit_name: '전표명',
-      registerer_name: '등록자',
-      supplier_name: '납품 업체',
-      deadline: '작업기한',
-      material_name: '품목(품목명)',
-      goal: '생산 목표 수량',
-      current_amount: '현재 생산 수량'
+  const indexList =
+    autoCustomType() === 'siheung' ? {
+      voucher: {
+        chit_name: '전표명',
+        registerer_name: '등록자',
+        supplier_name: '납품 업체',
+        deadline: '작업기한',
+        material_name: '품목(품목명)',
+        current_stock: '재고량',
+        goal: '생산 목표 수량',
+        current_amount: '현재 생산 수량'
+      }
+    } : {
+      voucher: {
+        chit_name: '전표명',
+        registerer_name: '등록자',
+        supplier_name: '납품 업체',
+        deadline: '작업기한',
+        material_name: '품목(품목명)',
+        goal: '생산 목표 수량',
+        current_amount: '현재 생산 수량'
+      }
     }
-  }
 
 
   const titleeventdummy = [

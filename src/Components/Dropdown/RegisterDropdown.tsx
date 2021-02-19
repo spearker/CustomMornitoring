@@ -27,7 +27,7 @@ const RegisterDropdown = ({select, contents, onClickEvent, text, type, buttonWid
   const ref = useOnclickOutside(() => {
     setIsOpen(false)
   })
-
+  
   const handleClickBtn = () => {
     setIsOpen(!isOpen)
   }

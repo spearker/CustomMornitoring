@@ -67,6 +67,7 @@ const JunheeRouters = () => {
             <Route exact path="/manageStock/register" component={ManageStockRegister}/>
           {/*공정 관리*/}
             <Route exact path="/process/detail/register" component={ProcessDetailRegister}/>
+            <Route exact path="/process/detail/register/:pk" component={ProcessDetailRegister}/>
             <Route exact path="/process/detail/:pk" component={ProcessRegister}/>
           {/*거래처관리*/}
             <Route exact path="/customer/register" component={CustomerRegister}/>

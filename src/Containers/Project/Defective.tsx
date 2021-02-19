@@ -1,9 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import moment from 'moment'
 import {useHistory} from 'react-router-dom'
 import {API_URLS, getProjectList, postProjectDelete} from '../../Api/mes/production'
 import OvertonTable from '../../Components/Table/OvertonTable'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import Notiflix from 'notiflix'
 
 Notiflix.Loading.Init({svgColor: '#1cb9df',})
@@ -200,6 +198,8 @@ const DefectiveContainer = () => {
           if (!e.match(regExp)) setSearchValue(e)
         }}
         titleOnClickEvent={titleEventList}
+        widthList={['100%', '100%', '100%', '100%']}
+        alignList={['left', 'left', 'left', 'left']}
         // allCheckOnClickEvent={allCheckOnClick}
         indexList={index}
         valueList={list}

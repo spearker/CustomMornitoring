@@ -21,7 +21,7 @@ const ChitRegisterContainer = ({match}: any) => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
-  const [modalSelect, setModalSelect] = useState<{ production: { pk: string, project_name: string, material_name: string, supplier_name: string } }>({
+  const [modalSelect, setModalSelect] = useState<{ production: { pk: string, project_name: string, material_name: string, supplier_name: string, goal?: number } }>({
     production: {material_name: '', supplier_name: '', pk: '', project_name: ''}
   })
   const history = useHistory()
@@ -193,6 +193,11 @@ const ChitRegisterContainer = ({match}: any) => {
             <tr>
               <td>• 품목(품목명)</td>
               <td><Input disabled placeholder="Read only" value={modalSelect.production.material_name}/>
+              </td>
+            </tr>
+            <tr>
+              <td>• 목표수량</td>
+              <td><Input disabled placeholder="Read only" value={modalSelect.production.goal}/>
               </td>
             </tr>
             <tr>

@@ -2,10 +2,9 @@ import React from 'react'
 import Styled from 'styled-components'
 import PMV2DragAndDropItem from '../../../../Components/PM/V2/PMV2DragAndDropItem'
 import PMV2DashboardChart from '../../../../Components/PM/V2/dashboard/PMV2DashboardChart'
-import { YOUDONG_PRESS_CUSTOM_TYPE } from '../../../../Common/@types/youdong'
+import {YOUDONG_PRESS_CUSTOM_TYPE} from '../../../../Common/@types/youdong'
 import getYoodongDashboard from '../../../../Api/custom/getYoodongDashboard'
-import Notiflix from 'notiflix'
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import PMV2DashboardPressInfoHeader from '../../../../Components/PM/V2/dashboard/PMV2DashboardHeader'
 import PMV2DashboardPressStandardContainer from './PMV2DashboardPressStandardContainer'
 import PMV2DashboardPressContentHeader from './PMV2DashboardPressContentHeader'
@@ -14,8 +13,9 @@ import moment from 'moment'
 import getYoodongUPH from '../../../../Api/pm/v2/dashboard/getYoodongUPH'
 import getSlideMotorLog from '../../../../Api/pm/v2/dashboard/getSlideMotorLog'
 import getYoodongPressErrorLog from '../../../../Api/pm/v2/dashboard/getYoodongPressErrorLog'
-import { PM_V2_PRESS_DROP_ITEM_KEY_NAMES, PM_V2_PRESS_SUB_ITEMS } from '../../../../Common/@types/pm_v2_press'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import {PM_V2_PRESS_DROP_ITEM_KEY_NAMES, PM_V2_PRESS_SUB_ITEMS} from '../../../../Common/@types/pm_v2_press'
+import {DragDropContext, Droppable} from 'react-beautiful-dnd'
+import Notiflix from 'notiflix'
 
 interface Props {
   id: string
@@ -51,28 +51,28 @@ const ChartContainer = Styled.div(() => ({
 
 const reorder = (list, startIndex, endIndex) => {
   const result: PM_V2_PRESS_SUB_ITEMS[] = Array.from(list)
-  const [ removed ] = result.splice(startIndex, 1)
+  const [removed] = result.splice(startIndex, 1)
   result.splice(endIndex, 0, removed)
 
 
   return result
 }
 
-const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, testHeader }) => {
-  const [ pressSubItems, setPressSubItems ] = React.useState<PM_V2_PRESS_SUB_ITEMS[]>([])
-  const [ data, setData ] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
-  const [ tonnageLimit, setTonnageLimit ] = React.useState<number>()
-  const [ detailData, setDetailData ] = React.useState({
+const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({id, testHeader}) => {
+  const [pressSubItems, setPressSubItems] = React.useState<PM_V2_PRESS_SUB_ITEMS[]>([])
+  const [data, setData] = React.useState<YOUDONG_PRESS_CUSTOM_TYPE>()
+  const [tonnageLimit, setTonnageLimit] = React.useState<number>()
+  const [detailData, setDetailData] = React.useState({
     date: moment().format('YYYY-MM-DD'),
     uph: undefined,
     error: undefined,
     slide: undefined
   })
-  const [ isFirst, setIsFirst ] = React.useState({
+  const [isFirst, setIsFirst] = React.useState({
     loading: true,
     api: true
   })
-  const [ modal, setModal ] = React.useState<{
+  const [modal, setModal] = React.useState<{
     isVisible: boolean
     type: PM_V2_PRESS_DROP_ITEM_KEY_NAMES
   }>({
@@ -107,7 +107,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
     } else {
       return (!(keyName === 'mainMotor' || keyName === 'slideMotor')) && '-'
     }
-  }, [ data?.press_data ])
+  }, [data?.press_data])
 
   React.useEffect(() => {
     if (pressSubItems.length === 0) {
@@ -203,7 +203,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
 
       setPressSubItems(filter)
     }
-  }, [ data?.press_data ])
+  }, [data?.press_data])
 
   React.useEffect(() => {
     if (id) {
@@ -212,7 +212,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
         clearTimeout(dashboard)
       }
     }
-  }, [ data ])
+  }, [data])
 
   const getYoudongCustomDashboardData = async () => {
     try {
@@ -262,7 +262,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
       })
     }
 
-  }, [ detailData ])
+  }, [detailData])
 
   const getErrorLog = async () => {
     const response = await getYoodongPressErrorLog(id)
@@ -289,7 +289,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
         slide: response.data
       })
     }
-  }, [ detailData ])
+  }, [detailData])
 
   const overTonCheck = React.useCallback(() => {
     if (tonnageLimit) {
@@ -301,7 +301,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
     } else {
       return false
     }
-  }, [ data?.loadton_data, tonnageLimit ])
+  }, [data?.loadton_data, tonnageLimit])
 
   const pressData = React.useMemo(() => {
     if (data && data.press_data) {
@@ -309,7 +309,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
     } else {
       return false
     }
-  }, [ data?.press_data ])
+  }, [data?.press_data])
 
   const errorCodeCSSStyle = React.useMemo(() => {
     let color = 'white'
@@ -320,7 +320,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
     }
 
     return color
-  }, [ data?.press_data.error_code ])
+  }, [data?.press_data.error_code])
 
 
   const onShowDetailInfo = React.useCallback((type: PM_V2_PRESS_DROP_ITEM_KEY_NAMES) => {
@@ -358,7 +358,7 @@ const PMV2DashboardContentContainer: React.FunctionComponent<Props> = ({ id, tes
 
   console.log('press', pressSubItems)
 
-  const SubList = React.memo(function SubList({ list, start, end }: any) {
+  const SubList = React.memo(function SubList({list, start, end}: any) {
     return list.slice(start, end).map((information: PM_V2_PRESS_SUB_ITEMS, index: number) => (
       <PMV2DragAndDropItem
         data={information}

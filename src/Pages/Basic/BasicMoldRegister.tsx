@@ -1,12 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Styled from 'styled-components'
-import {BG_COLOR_SUB2, POINT_COLOR, POINT_COLOR_3, TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR} from '../../Common/configset'
 import DashboardWrapContainer from '../../Containers/DashboardWrapContainer'
 import Header from '../../Components/Text/Header'
-import RegisterButton from '../../Components/Button/RegisterButton'
-import {getToken} from '../../Common/tokenFunctions'
 import InnerBodyContainer from '../../Containers/InnerBodyContainer'
-import {getParameter, getRequest, postRequest} from '../../Common/requestFunctions'
+import {getParameter} from '../../Common/requestFunctions'
 import {uploadTempFile} from '../../Common/fileFuctuons'
 import {getMoldTypeList} from '../../Common/codeTransferFunctions'
 import OldFileInput from '../../Components/Input/OldFileInput'
@@ -17,9 +15,7 @@ import BigWhiteBoxContainer from '../../Containers/BigWhiteBoxContainer'
 import InputHeader from '../../Components/Text/InputHeader'
 import ColorInputWithText from '../../Components/Input/ColorInputWithText'
 import ColorDropdownInput from '../../Components/Input/ColorDropdownInput'
-import ColorDateInput from '../../Components/Input/ColorDateInput'
 import ColorSearchContainer from '../../Containers/Basic/ColorSearchContainer'
-import ColorProductionPickerModal from '../../Components/Modal/ColorProductionPickerModal'
 import ColorFileInput from '../../Components/Input/ColorFileInput'
 import EmptyPlace from '../../Components/Box/EmptyPlace'
 import ManyButton from '../../Components/Button/ManyButton'
@@ -79,7 +75,7 @@ const BasicMoldRegister = () => {
   const [output_material_model, setOutput_material_model] = useState<string | number>('')
   const [cavity, setCavity] = useState<number | null>(null)
 
-  const indexList = autoCustomType() === 'gj_all_trans' ? ['(선택없음)', '프레스 금형'] : getMoldTypeList('kor')
+  const indexList = autoCustomType() === 'gj_all_trans' || autoCustomType() === 'siheung' ? ['(선택없음)', '프레스 금형'] : getMoldTypeList('kor')
 
   useEffect(() => {
 

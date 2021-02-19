@@ -1,12 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import {POINT_COLOR, TOKEN_NAME} from '../../Common/configset'
+import {POINT_COLOR} from '../../Common/configset'
 import Header from '../../Components/Text/Header'
 import WhiteBoxContainer from '../../Containers/WhiteBoxContainer'
 import NormalInput from '../../Components/Input/NormalInput'
-import RegisterButton from '../../Components/Button/RegisterButton'
 import NormalFileInput from '../../Components/Input/NormalFileInput'
-import {getToken} from '../../Common/tokenFunctions'
-import {getParameter, postRequest} from '../../Common/requestFunctions'
 import {uploadTempFile} from '../../Common/fileFuctuons'
 import ListHeader from '../../Components/Text/ListHeader'
 import OldFileInput from '../../Components/Input/OldFileInput'
@@ -16,14 +13,15 @@ import {useHistory} from 'react-router-dom'
 import {API_URLS, getCustomerData, postCustomerDelete} from '../../Api/mes/customer'
 import NormalAddressInput from '../../Components/Input/NormalAddressInput'
 import Styled from 'styled-components'
-import {SF_ENDPOINT} from '../../Api/SF_endpoint'
 import Notiflix from 'notiflix'
+import DropdownInput from '../../Components/Input/DropdownInput'
 
 interface Props {
   match: any;
   // chilren: string;
 }
 
+const customTypeList = ['(선택)', '납품', '외주', '구매']
 
 // 거래처 등록 페이지
 // 주의! isUpdate가 true 인 경우 수정 페이지로 사용
@@ -50,6 +48,7 @@ const CustomerRegister = ({match}: Props) => {
 
   const [paths, setPaths] = useState<any[1]>([null])
   const [oldPaths, setOldPaths] = useState<any[1]>([null])
+  const [customerType, setCustomerType] = useState<number>(0)
 
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
@@ -128,6 +127,8 @@ const CustomerRegister = ({match}: Props) => {
       setInfoList(res.info_list)
       setAddress(res.address ? res.address : {roadAddress: '', detail: '', postcode: ''})
       setFax(res.fax)
+      console.log(customTypeList.indexOf(res.trade_type))
+      setCustomerType(customTypeList.indexOf(res.trade_type) === -1 ? 0 : customTypeList.indexOf(res.trade_type))
     }
   }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax])
 
@@ -158,6 +159,8 @@ const CustomerRegister = ({match}: Props) => {
       return
     }
 
+    console.log(customTypeList[customerType])
+
     const data = {
       pk: pk,
       name: name.trim(),
@@ -172,6 +175,7 @@ const CustomerRegister = ({match}: Props) => {
       manager_email: (emailM === '' || !emailM) ? null : emailM.trim(),
       address: address ? address : null,
       fax: String(fax) === '' ? null : fax,
+      trade_type: customerType === 0 ? '' : customTypeList[customerType]
       //info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
     }
 
@@ -186,7 +190,7 @@ const CustomerRegister = ({match}: Props) => {
       history.push('/customer/current/list')
     }
 
-  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, customerType])
 
   const ckBisNo = (bisNo: string) => {
     // // 넘어온 값의 정수만 추츨하여 문자열의 배열로 만들고 10자리 숫자인지 확인합니다.
@@ -254,6 +258,7 @@ const CustomerRegister = ({match}: Props) => {
       manager_email: (emailM === '' || !emailM) ? '' : emailM.trim(),
       address: address ? address : '',
       fax: String(fax) === '' ? '' : fax,
+      trade_type: customerType === 0 ? '' : customTypeList[customerType],
       // info_list : infoList.length > 0 ? JSON.stringify(infoList) : null,
 
     }
@@ -270,7 +275,7 @@ const CustomerRegister = ({match}: Props) => {
 
     }
 
-  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager])
+  }, [pk, name, no, type, ceo, paths, oldPaths, phone, emailM, email, phone, phoneM, address, fax, manager, customerType])
 
 
   return (
@@ -281,12 +286,19 @@ const CustomerRegister = ({match}: Props) => {
         <NormalInput title={'사업장 이름'} value={name} onChangeEvent={setName} description={'사업장 이름을 입력하세요'}/>
         <NormalInput title={'대표자 이름'} value={ceo} onChangeEvent={setCeo} description={'사업장 대표자 이름을 입력하세요'}/>
         <RadioInput title={'사업자 구분'} target={Number(type)} onChangeEvent={setType}
-                    id={'business-classification'}
+                    id={'business-type'} index={10000}
                     contents={[{value: 0, title: '법인'}, {value: 1, title: '개인'}]}/>
         <NormalNumberInput title={'사업자 번호'} value={no} onChangeEvent={setNo} returnType={'string'}
                            description={'사업자 번호를 입력하세요 (-제외)'}/>
         <br/>
         <ListHeader title="선택 항목"/>
+        <DropdownInput
+          title={'사업자 구분'} onChangeEvent={(e) => {
+          console.log(e)
+          setCustomerType(e)
+        }}
+          contents={customTypeList} target={customTypeList[Number(customerType)] ?? ''}
+        />
         <NormalFileInput title={'사업자 등록증 사진'} name={paths[0]} thisId={'photo'}
                          onChangeEvent={(e) => addFiles(e, 0)}
                          description={isUpdate ? oldPaths[0] : '사업자 등록증 사진 혹은 스캔본을 등록하세요'}
