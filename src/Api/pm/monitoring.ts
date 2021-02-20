@@ -39,6 +39,9 @@ export const API_URLS = {
     project: {
         list: `/v1/monitoring/project`,
         dropdown: `/v1/monitoring/project/dropdown`
+    },
+    lot: {
+        monitoring: `/v1/monitoring/lot`
     }
 }
 
