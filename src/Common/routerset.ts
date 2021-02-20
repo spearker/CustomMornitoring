@@ -1,4 +1,4 @@
-import { CompaniesThatLotOutsourcing } from '../AutoCustomSetting/useCompanies'
+import { CompaniesThatLotOutsourcing, CompaniesThatUseLot } from '../AutoCustomSetting/useCompanies'
 import CompaniesThatUseKeyin from '../AutoCustomSetting/useKeyin'
 
 export const ROUTER_SUPER_ADMIN = [
@@ -268,11 +268,17 @@ export const MES_MENU_LIST = {
 }
 
 export const PM_MENU_LIST = {
-  monitoring: [ //
+  monitoring: CompaniesThatUseLot() ? [
     {name: '프레스 모니터링', url: '/pm/monitoring/press'},
     {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
     {name: '로드모니터 모니터링', url: '/pm/monitoring/loadton'},
     {name: '전력 모니터링', url: '/pm/monitoring/cms'},
+    {name: 'LOT 모니터링', url: '/pm/monitoring/lot'},
+  ] : [
+    {name: '프레스 모니터링', url: '/pm/monitoring/press'},
+    {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
+    {name: '로드모니터 모니터링', url: '/pm/monitoring/loadton'},
+    {name: '전력 모니터링', url: '/pm/monitoring/cms'}
   ],
   maintenance: [ //
     {name: '프레스 보전관리', url: '/pm/maintenance/press'},
