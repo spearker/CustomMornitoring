@@ -1,3 +1,4 @@
+import { CompaniesThatLotOutsourcing } from '../AutoCustomSetting/useCompanies'
 import CompaniesThatUseKeyin from '../AutoCustomSetting/useKeyin'
 
 export const ROUTER_SUPER_ADMIN = [
@@ -179,7 +180,7 @@ export const MES_MENU_LIST = {
     {name: '외주처 관리', url: '/outsourcing/current/list'}, //상위메뉴
     {name: '외주처 현황', url: '/outsourcing/current/list'},
     {name: '외주처 수주 리스트', url: '/outsourcing/contract/list'},
-    {name: '외주처 발주 리스트', url: '/outsourcing/order/list'},
+    {name: '외주처 발주 리스트', url: CompaniesThatLotOutsourcing() ? '/new/outsourcing/order/list' : '/outsourcing/order/list'},
     // { name: '외주처 관리', url: '/comingsoon' }, //상위메뉴
     // { name: '외주처 발주 리스트', url: '/comingsoon' },
     // { name: '외주처 수주 리스트', url: '/comingsoon' },
