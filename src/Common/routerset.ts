@@ -273,7 +273,7 @@ export const PM_MENU_LIST = {
     {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
     {name: '로드모니터 모니터링', url: '/pm/monitoring/loadton'},
     {name: '전력 모니터링', url: '/pm/monitoring/cms'},
-    {name: 'LOT 모니터링', url: '/pm/monitoring/lot'},
+    {name: 'LOT/공정 모니터링', url: '/pm/monitoring/lot'},
   ] : [
     {name: '프레스 모니터링', url: '/pm/monitoring/press'},
     {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
