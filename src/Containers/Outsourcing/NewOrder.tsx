@@ -185,6 +185,7 @@ const NewOrderContainer = () => {
         const res = await postOutsourcingDelete(tempUrl, deletePk)
 
         arrayDelete()
+        setDetailData(null)
         getList(undefined, true)
     }, [deletePk])
 
@@ -196,6 +197,7 @@ const NewOrderContainer = () => {
 
         setSelectPk(null)
         setSelectValue(null)
+        setDetailData(null)
         getList()
     }, [selectPk, selectValue])
 
@@ -223,6 +225,7 @@ const NewOrderContainer = () => {
             setIsFirst(true)
             setList(orderList)
             setSelectPk(null)
+            setDetailData(null)
             setPage({current: res.current_page, total: res.total_page})
             Notiflix.Loading.Remove()
         }

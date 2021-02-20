@@ -129,7 +129,7 @@ const NewOutsourcingRegister = ({match}: Props) => {
 
       setMaterialType(Number(data.type));
       setSendMaterials(data.material_info.map((v) => {
-        return {material_pk: v.material_pk, count: Number(v.count), unpaid: String(v.unpaid)}
+        return {material_pk: v.material_pk, count: Number(v.count), unpaid: v.unpaid === '' || v.unpaid === '0' || v.unpaid === 0 ? '0' : String(Number(v.unpaid))}
       }));
       setMaterials(data.material_info.map((v) => {
         return {...v, pk: v.material_pk, count: Number(v.count), unpaid: Number(v.unpaid), material_type: Number(data.type)}
@@ -289,12 +289,11 @@ const NewOutsourcingRegister = ({match}: Props) => {
           <div style={{width: 120}} />
           <div style={{width: 'calc(100% - 120px)', border: '0.5px solid #b3b3b3', fontFamily: 'NotoSansCJKkr', fontWeight: 'bold', fontSize: 15}}>
             <NewItemPickerModal isMultiSelect onClickEvent={(e) => {
-              console.log('ssdsds',e)
               setMaterials(e.map((v) => {
                 return {...v, current_count: v.current_stock, count: v.current_stock, unpaid: String(v.current_stock)}
               }))
               setSendMaterials(e.map((v) => {
-                return {material_pk: v.pk, current_count: v.current_stock, count: v.current_stock, unpaid: String(v.current_stock)}
+                return {material_pk: v.pk, current_count: v.current_stock, count: v.current_stock, unpaid: v.current_stock === 0 || v.current_stock === '0' ? '0' : String(Number(v.current_stock))}
               }))
             }}
               text={'품목을 선택해주세요'} type={materialType === 30 ? 'rawlot' : 'product'} title={'품목'}
@@ -406,7 +405,7 @@ const NewOutsourcingRegister = ({match}: Props) => {
                                       tmpDetailSendMaterials[index] = {
                                         //@ts-ignore
                                         ...tmpDetailSendMaterials[index],
-                                        count: Number(e.target.value)
+                                        count: e.target.value === '' || e.target.value === '0' ? '0' : String(Number(e.target.value))
                                       }
 
                                       setMaterials([...tmpDetailMaterials])
@@ -447,7 +446,7 @@ const NewOutsourcingRegister = ({match}: Props) => {
                                       tmpDetailSendMaterials[index] = {
                                         //@ts-ignore
                                         ...tmpDetailSendMaterials[index],
-                                        unpaid: String(e.target.value)
+                                        unpaid: e.target.value === '' || e.target.value === '0' ? '0' : String(Number(e.target.value))
                                       }
 
                                       setMaterials([...tmpDetailMaterials])
