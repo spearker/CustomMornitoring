@@ -80,7 +80,6 @@ const OvertonTable: React.FunctionComponent<Props> = ({
                                                       }: Props) => {
 
   const [checked, setChecked] = useState<any[]>([])
-  console.log(valueList)
   React.useEffect(() => {
     if (checkOnClickEvent) {
       let tmpArr: boolean[] = []

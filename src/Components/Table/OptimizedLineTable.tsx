@@ -1,6 +1,5 @@
 import React from 'react'
 import Styled from 'styled-components'
-import NumberPagenation from '../Pagenation/NumberPagenation'
 import Pagination from '@material-ui/lab/Pagination'
 
 interface Props {
@@ -54,7 +53,10 @@ const OptimizedLineTable: React.FunctionComponent<Props> = ({title, titleOnClick
         {contentTitle !== undefined ?
           Object.keys(contentTitle).map((v, i) => {
             return (
-              <LimitP key={v} style={{width: widthList[i]}}>{contentTitle[v]}</LimitP>
+              <LimitP key={v} style={{
+                width: widthList[i],
+                paddingRight: v.includes('stock') || v.includes('amount') || v.includes('shipped') || v.includes('left') || v.includes('goal') || v.includes('eligible') || v.includes('ineligible') ? '30px' : '0',
+              }}>{contentTitle[v]}</LimitP>
             )
           }) :
           null
@@ -83,7 +85,11 @@ const OptimizedLineTable: React.FunctionComponent<Props> = ({title, titleOnClick
                   Object.keys(contentTitle).map((mv, mi) => {
                     return (
                       v[mv] !== null && v[mv] !== undefined ?
-                        <LimitP key={mv} style={{width: widthList[mi]}}>
+                        <LimitP key={mv} style={{
+                          width: widthList[mi],
+                          paddingRight: mv.includes('stock') || mv.includes('amount') || mv.includes('shipped') || mv.includes('left') || mv.includes('goal') || mv.includes('eligible') || mv.includes('ineligible') ? '30px' : '0',
+                          textAlign: mv.includes('stock') || mv.includes('amount') || mv.includes('shipped') || mv.includes('left') || mv.includes('goal') || mv.includes('eligible') || mv.includes('ineligible') ? 'right' : 'left'
+                        }}>
                           {
                             typeof v[mv] === 'object' ?
                               Object.keys(v[mv]).map(m => {

@@ -111,6 +111,7 @@ const ChitRegisterContainer = ({match}: any) => {
         production: {
           material_name: resultData.material_name,
           supplier_name: resultData.supplier_name,
+          goal: resultData.goal,
           pk: resultData.pk,
           project_name: resultData.project_name
         }

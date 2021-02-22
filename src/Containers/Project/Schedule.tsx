@@ -378,7 +378,6 @@ const ScheduleContainer = () => {
                                         productionMaterial={v.output_materials}/>
                           </>)
                       } else {
-                        console.log(v)
                         return (
                           <>
                             <FactoryBox title={v.process_name}
@@ -410,7 +409,7 @@ const ScheduleContainer = () => {
                                clickValue={voucherDropdown2}>
                 <div style={{paddingTop: 20}}>
                   <OptimizedLineTable contentTitle={voucherIndex} contentList={voucherList}
-                                      widthList={[200, 250, 250, 250, 250]}
+                                      widthList={[200, 300, 300, 150, 150]}
                                       pageOnClickEvent={(event, i) => setDetailPage({
                                         ...detailPage,
                                         current: i
