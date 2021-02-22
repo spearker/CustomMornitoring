@@ -1,6 +1,6 @@
 import {isLocalhost} from '../Api/SF_endpoint'
 
-export const CompaniesThatUseKeyin = () => {
+const CompaniesThatUseKeyin = () => {
     switch (isLocalhost().toString()) {
         case '175.207.144.234':
         case '121.173.205.139':

@@ -4,7 +4,7 @@ import {Input} from 'semantic-ui-react'
 import ColorCalendarDropdown from '../../Components/Dropdown/ColorCalendarDropdown'
 import moment from 'moment'
 import {POINT_COLOR} from '../../Common/configset'
-import {API_URLS, postProductionRegister} from '../../Api/mes/production'
+import {API_URLS, getProjectList, postProductionRegister} from '../../Api/mes/production'
 import RegisterDropdown from '../../Components/Dropdown/RegisterDropdown'
 import ProductionPickerModal from '../../Components/Modal/ProductionPickerModal'
 import CustomerPickerModal from '../../Components/Modal/CustomerPickerModal'
@@ -12,6 +12,7 @@ import ProcessPickerModal from '../../Components/Modal/ProcessPickerModal'
 import {useHistory} from 'react-router-dom'
 import MemberPickerModal from '../../Components/Modal/MemberPickerModal'
 import {getProductData} from '../../Api/pm/statistics'
+import Notiflix from 'notiflix'
 
 const typeDummy = [
     '수주 처리',
@@ -26,6 +27,7 @@ interface modalData {
 interface Props {
     match: any
 }
+
 
 const ProductionRegisterContainer = ({match}: Props) => {
     const history = useHistory()
@@ -118,7 +120,32 @@ const ProductionRegisterContainer = ({match}: Props) => {
         })
 
         if (resultData) {
-            history.goBack()
+            Notiflix.Confirm.Init({
+                titleColor: '#32c682',
+                messageColor: '#000000',
+                okButtonColor: '#ffffff',
+                okButtonBackground: '#32c682',
+            });
+
+            Notiflix.Confirm.Show(
+                '배포 확인',
+                '지금 만드신 생산 계획을 배포 하시겠습니까? (예 선택시 배포 후 전표 등록으로 이동합니다)',
+                '예',
+                '아니요',
+                function () {
+                    const tempUrl = `${API_URLS['production'].distribute}?pk=${resultData.results}`
+                    const res = getProjectList(tempUrl).then((res) => {
+                        if (res) {
+                            history.push({pathname: '/project/chit/register', state: {res}})
+                        }
+
+                    })
+
+                },
+                function () {
+                    history.goBack()
+                }
+            )
         }
     }, [chitData, modalSelect])
 

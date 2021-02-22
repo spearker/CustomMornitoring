@@ -519,7 +519,7 @@ const KPICompareBox = ({type, setType, getData, index, value, unit, setUnit, sub
                         textAlign: 'right',
                         fontSize: 20,
                         fontWeight: 'bold',
-                      }}>{v.split(',')[0] + ','} <br/> {v.split(',')[1]}</p>
+                      }}>{v.split(',')[v.split(',').length - 2] + ','} <br/> {v.split(',')[v.split(',').length - 1]}</p>
                     </div>
                     <ReactTooltip id={`costId-${i}`}>
                       <span>{data.tooltips[i]}</span>

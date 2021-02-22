@@ -142,11 +142,16 @@ export const API_URLS = {
     },
     order: {
         register: `/v1/outsourcing/order/register`,
+        register2: `/v1/outsourcing/order/register2`,
         list: `/v1/outsourcing/order/list`,
+        list2: `/v1/outsourcing/order/list2`,
         load: `/v1/outsourcing/order/load`,
+        load2: `/v1/outsourcing/order/load2`,
         update: `/v1/outsourcing/order/update`,
+        update2: `/v1/outsourcing/order/update2`,
         delete: `/v1/outsourcing/order/delete`,
         complete: `/v1/outsourcing/order/complete`,
+        complete2: `/v1/outsourcing/order/complete2`,
         cancel: `/v1/outsourcing/order/cancel`
 
     },

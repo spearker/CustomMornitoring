@@ -18,10 +18,11 @@ interface modalData {
 const regExp = /^(18|19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/
 
 const ChitRegisterContainer = ({match}: any) => {
+
   const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [selectDate, setSelectDate] = useState<string>(moment().format('YYYY-MM-DD'))
-  const [modalSelect, setModalSelect] = useState<{ production: { pk: string, project_name: string, material_name: string, supplier_name: string, goal?: number } }>({
+  const [modalSelect, setModalSelect] = useState<{ production: { pk: string, project_name: string, material_name: string, supplier_name: string } }>({
     production: {material_name: '', supplier_name: '', pk: '', project_name: ''}
   })
   const history = useHistory()
@@ -111,7 +112,6 @@ const ChitRegisterContainer = ({match}: any) => {
         production: {
           material_name: resultData.material_name,
           supplier_name: resultData.supplier_name,
-          goal: resultData.goal,
           pk: resultData.pk,
           project_name: resultData.project_name
         }
@@ -125,6 +125,21 @@ const ChitRegisterContainer = ({match}: any) => {
     if (match.params.pk) {
       getChitUpdateData()
       setIsUpdate(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (history.location.state !== undefined) {
+      // @ts-ignore
+      const distributedRes = history.location.state.res
+      setModalSelect({
+        production: {
+          material_name: distributedRes.material_name,
+          pk: distributedRes.pk,
+          project_name: distributedRes.project_name,
+          supplier_name: distributedRes.supplier_name
+        }
+      })
     }
   }, [])
 
@@ -194,11 +209,6 @@ const ChitRegisterContainer = ({match}: any) => {
             <tr>
               <td>• 품목(품목명)</td>
               <td><Input disabled placeholder="Read only" value={modalSelect.production.material_name}/>
-              </td>
-            </tr>
-            <tr>
-              <td>• 목표수량</td>
-              <td><Input disabled placeholder="Read only" value={modalSelect.production.goal}/>
               </td>
             </tr>
             <tr>

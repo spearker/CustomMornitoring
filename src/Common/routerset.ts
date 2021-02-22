@@ -1,3 +1,4 @@
+import { CompaniesThatLotOutsourcing, CompaniesThatUseLot } from '../AutoCustomSetting/useCompanies'
 import CompaniesThatUseKeyin from '../AutoCustomSetting/useKeyin'
 
 export const ROUTER_SUPER_ADMIN = [
@@ -179,7 +180,7 @@ export const MES_MENU_LIST = {
     {name: '외주처 관리', url: '/outsourcing/current/list'}, //상위메뉴
     {name: '외주처 현황', url: '/outsourcing/current/list'},
     {name: '외주처 수주 리스트', url: '/outsourcing/contract/list'},
-    {name: '외주처 발주 리스트', url: '/outsourcing/order/list'},
+    {name: '외주처 발주 리스트', url: CompaniesThatLotOutsourcing() ? '/new/outsourcing/order/list' : '/outsourcing/order/list'},
     // { name: '외주처 관리', url: '/comingsoon' }, //상위메뉴
     // { name: '외주처 발주 리스트', url: '/comingsoon' },
     // { name: '외주처 수주 리스트', url: '/comingsoon' },
@@ -267,11 +268,17 @@ export const MES_MENU_LIST = {
 }
 
 export const PM_MENU_LIST = {
-  monitoring: [ //
+  monitoring: CompaniesThatUseLot() ? [
     {name: '프레스 모니터링', url: '/pm/monitoring/press'},
     {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
     {name: '로드모니터 모니터링', url: '/pm/monitoring/loadton'},
     {name: '전력 모니터링', url: '/pm/monitoring/cms'},
+    {name: 'LOT/공정 모니터링', url: '/pm/monitoring/lot'},
+  ] : [
+    {name: '프레스 모니터링', url: '/pm/monitoring/press'},
+    {name: '프레스 상태 모니터링', url: '/new/monitoring/press'},
+    {name: '로드모니터 모니터링', url: '/pm/monitoring/loadton'},
+    {name: '전력 모니터링', url: '/pm/monitoring/cms'}
   ],
   maintenance: [ //
     {name: '프레스 보전관리', url: '/pm/maintenance/press'},

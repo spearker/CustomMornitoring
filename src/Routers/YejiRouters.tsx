@@ -16,6 +16,9 @@ import NewBasicBarcodeRegister from '../Pages/Old_Basic/NewBasicBarcodeRegister'
 import NewBarCodeList from '../Pages/Barcode/NewBarCodeList'
 import NewBarcodeRegister from '../Pages/Barcode/NewBarcodeRegister'
 // import ProcessList from '../Pages/ProcessManagement/ProcessList';
+import NewContractRegister from '../Pages/Outsourcing/NewContractRegister'
+import NewOrderRegister from '../Pages/Outsourcing/NewOrderRegister'
+import NewOutsourcingOrder from '../Pages/Outsourcing/NewOrder'
 
 const YejiRouters = () => {
 
@@ -41,6 +44,13 @@ const YejiRouters = () => {
       {/* 기준정보관리 */}
       <Route exact path="/new/basic/list/barcode" component={NewBasicBarcode}/>
       <Route exact path="/new/basic/barcode/register" component={NewBasicBarcodeRegister}/>
+
+      {/* 외주처 관리 */}
+      <Route exact path="/new/outsourcing/contract/register" component={NewContractRegister}/>{/* 수주 */}
+      <Route exact path="/new/outsourcing/contract/register/:pk" component={NewContractRegister}/>
+      <Route exact path="/new/outsourcing/order/register" component={NewOrderRegister}/>{/* 발주 */}
+      <Route exact path="/new/outsourcing/order/register/:pk" component={NewOrderRegister}/>
+      <Route exact path="/new/outsourcing/order/list" component={NewOutsourcingOrder}/>
 
       {/* 바코드 관리 */}
       <Route exact path="/new/barcode/current/list" component={NewBarCodeList}/>
