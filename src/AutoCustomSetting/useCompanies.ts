@@ -2,7 +2,8 @@ import {isLocalhost} from '../Api/SF_endpoint'
 
 export const CompaniesThatLotOutsourcing = () => {
     switch (isLocalhost().toString()) {
-        case '121.173.205.139':
+        // case '121.173.205.139':
+        case '':
             return true
         default:
             return false
@@ -11,7 +12,8 @@ export const CompaniesThatLotOutsourcing = () => {
 
 export const CompaniesThatUseLot = () => {
     switch (isLocalhost().toString()) {
-        case '121.173.205.139':
+        // case '121.173.205.139':
+        case '':
             return true
         default:
             return false
