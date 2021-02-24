@@ -1,18 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import Header from '../../Components/Text/Header'
 import 'react-dropdown/style.css'
-import SmallButtonLink from '../../Components/Button/SmallButtonLink'
-import InfoTable from '../../Components/Table/InfoTable'
 import {API_URLS, deleteBasicList, getBasicList} from '../../Api/mes/basic'
-import NumberPagenation from '../../Components/Pagenation/NumberPagenation'
 import {transferCodeToName, transferStringToCode} from '../../Common/codeTransferFunctions'
-import Pagination from '@material-ui/lab/Pagination'
-import Styled from 'styled-components'
 import Notiflix from 'notiflix'
 import OptimizedHeaderBox from '../../Components/Box/OptimizedHeaderBox'
 import {useHistory} from 'react-router-dom'
 import OptimizedTable from '../../Components/Table/OptimizedTable'
-import OvertonTable from '../../Components/Table/OvertonTable'
 
 
 interface Props {
@@ -49,6 +42,8 @@ const BasicMaterialContainer = () => {
   const [saveKeyword, setSaveKeyword] = useState<string>('')
   // const [page, setPage] = useState<number>(0);
 
+  let tmpFilter = -1
+
   const titleEvent = [
     {
       Name: '등록하기',
@@ -73,7 +68,10 @@ const BasicMaterialContainer = () => {
       Width: '180px',
       Color: 'white',
       buttonWidth: '70px',
-      Link: (v) => onClickDelete(v.pk)
+      Link: (v) => {
+        console.log(filter)
+        onClickDelete(v.pk)
+      }
     },
   ]
 
@@ -90,8 +88,8 @@ const BasicMaterialContainer = () => {
    */
   const getList = useCallback(async (isSearch?: boolean) => {
     Notiflix.Loading.Circle()
-
-    const tempUrl = `${API_URLS['material'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=${option}&limit=15${filter >= 0 ? `&filter=${filter}` : ''}`
+    console.log(filter)
+    const tempUrl = `${API_URLS['material'].list}?page=${isSearch ? 1 : page.current}&keyword=${saveKeyword}&type=${option}&limit=15${filter !== -1 ? `&filter=${filter}` : ''}`
     const resultList = await getBasicList(tempUrl)
     if (resultList) {
       const getBasic = resultList.info_list.map((v, i) => {
@@ -121,6 +119,7 @@ const BasicMaterialContainer = () => {
   }, [page.current])
 
   useEffect(() => {
+    console.log(filter)
     if (isFirst) {
       getList(true)
     }
@@ -130,15 +129,14 @@ const BasicMaterialContainer = () => {
    * onClickDelete()
    * 리스트 항목 삭제
    */
-  const onClickDelete = useCallback(async (id) => {
-
+  const onClickDelete = async (id) => {
+    console.log(filter)
     const tempUrl = `${API_URLS['material'].delete}`
     const result = await deleteBasicList(tempUrl, id)
     if (result) {
       getList().then(() => Notiflix.Loading.Remove(300))
     }
-
-  }, [list])
+  }
 
 
   return (
@@ -163,7 +161,11 @@ const BasicMaterialContainer = () => {
                       indexList={LIST_INDEX['material'].index}
                       valueList={list}
                       EventList={eventList}
-                      selectBoxChange={(e) => setFilter(transferStringToCode('material', e))}
+                      selectBoxChange={(e) => {
+                        console.log(e)
+                        tmpFilter = transferStringToCode('material', e)
+                        setFilter(transferStringToCode('material', e))
+                      }}
                       mainOnClickEvent={(v) => history.push(`/basic/material/register?pk=${v.pk}`)}
                       currentPage={page.current}
                       totalPage={page.total}
