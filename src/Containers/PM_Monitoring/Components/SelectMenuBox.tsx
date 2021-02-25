@@ -1,30 +1,37 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import {BG_COLOR_SUB, BG_COLOR_SUB3, POINT_COLOR} from '../../../Common/configset'
+import {dummyData} from "../CustomMonitoring";
 
 const dummy = [
-  {key: 'max1', value: '최대타수1'},
-  {key: 'max2', value: '최대타수2'},
-  {key: 'max3', value: '최대타수3'},
-  {key: 'max4', value: '최대타수4'},
-  {key: 'max5', value: '최대타수5'}
+  {key: 'spm', value: 'SPM'},
+  {key: 'preset_counter', value: '프리셋 카운터'},
+  {key: 'total_counter', value: '종합 카운터'},
+  {key: 'runtime', value: '기계 가동시간'},
+  {key: 'downtime', value: '기계 비가동시간'},
+  {key: 'keyCam', value: '키캠상태'},
+  {key: 'cavity', value: '캐비티'},
+  {key: 'percent', value: '기계 가동률'},
 ]
 
 interface IProps {
   datas: { key: string, value: string }[]
   setDatas: (datas: { key: string, value: string }[]) => void
+  list: any[]
+  setList: (value:any[]) => void
 }
 
-const SeleteMenuBox = ({datas, setDatas}: IProps) => {
+const SeleteMenuBox = ({datas, setDatas, list, setList}: IProps) => {
   const [keys, setKeys] = useState<String[]>([])
 
   React.useEffect(() => {
     console.log(keys)
+    console.log(list)
   }, [keys])
 
   return (
     <SelectBox>
-      <p>선택</p>
+      <p style={{color:"white", fontSize:"1.2em", fontWeight:"bold", marginLeft:"10px", paddingBottom:"10px"}}>선택</p>
       <div style={{
         flexWrap: 'wrap',
         display: 'flex',
@@ -35,10 +42,18 @@ const SeleteMenuBox = ({datas, setDatas}: IProps) => {
               let tmpArray = keys
               let tmpData = datas
 
+
               if (tmpArray.indexOf(v.key) === -1) {
                 tmpData = [...tmpData, v]
+                list.map((value, index)=>{
+                  value[v.key] = dummyData[index][v.key];
+                  console.log(dummyData[index][v.key])
+                })
               } else {
                 tmpData.splice(tmpArray.indexOf(v.key), 1)
+                list.map((value)=>{
+                  value[v.key] = null;
+                })
               }
 
               if (tmpArray.indexOf(v.key) === -1) {
@@ -50,7 +65,7 @@ const SeleteMenuBox = ({datas, setDatas}: IProps) => {
               setDatas([...tmpData])
               setKeys([...tmpArray])
             }} style={{backgroundColor: keys.indexOf(v.key) !== -1 ? POINT_COLOR : undefined}}>
-              <p>{v.value}</p>
+              <p style={{fontSize: v.value.length > 6 ? "20px" : "25px"}}>{v.value}</p>
             </ItemBox>
           })
         }

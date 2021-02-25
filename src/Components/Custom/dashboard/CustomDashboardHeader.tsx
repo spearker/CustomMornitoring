@@ -16,28 +16,20 @@ const CustomDashboardHeader: React.FunctionComponent<Props> = ({title, sameDista
       display: 'flex',
       margin: '30px 60px 30px 60px',
       alignItems: 'center',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      width:'100%'
     }}>
-      <Home onClick={() => history.push('/dashboard')} style={{width: sameDistance ? 'calc(100%/3)' : '48px'}}>
-        <img src={NAV_HOME}/>
-      </Home>
-      <Title style={{width: sameDistance ? 'calc(100%/3)' : 'auto'}}>{title}</Title>
+      {/*<Home onClick={() => history.push('/dashboard')} style={{width: sameDistance ? 'calc(100%/3)' : '48px'}}>*/}
+      {/*  <img src={NAV_HOME}/>*/}
+      {/*</Home>*/}
+      <div style={{}}></div>
+      <Title style={{}}>{title}</Title>
       <Time
-        style={{width: sameDistance ? 'calc(100%/3)' : '250px', textAlign: sameDistance ? 'right' : 'left'}}><NowTime/></Time>
+        style={{ textAlign: sameDistance ? 'right' : 'left'}}><NowTime/></Time>
     </div>
   )
 }
 
-const Home = Style.div`
-  width: 48px;
-  height: 48px;
-   cursor: pointer;
-  img{
-    margin: 3px 5px;
-    width: 38px;
-    height: 38px;
-  }
-`
 
 const Title = Style.p`
   object-fit: contain;

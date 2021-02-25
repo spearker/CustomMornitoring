@@ -1,10 +1,6 @@
 import * as React from 'react'
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom'
 import Routers from './Routers/Routers'
-import SuminRouters from './Routers/SuminRouters'
-import JunheeRouters from './Routers/JunheeRouters'
-import JMRouters from './Routers/JMRouters'
-import YejiRouters from './Routers/YejiRouters'
 import Styled from 'styled-components'
 import AlertPopup from './Components/Modal/AlertPopup'
 import {
@@ -71,10 +67,6 @@ const App = () => {
               <ProcessSelectModal/>
               <AlertPopup/>
               <Routers/> {/*  src/Router/Routers.tsx 에 라우터 정의  */}
-              <JunheeRouters/>
-              <SuminRouters/>
-              <JMRouters/>
-              <YejiRouters/>
             </AppBodyContainer>
           </BrowserRouter>
         </PopupContextProvider>
