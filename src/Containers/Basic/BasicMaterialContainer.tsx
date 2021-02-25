@@ -40,9 +40,8 @@ const BasicMaterialContainer = () => {
   const [keyword, setKeyword] = useState<string>('')
   const [filter, setFilter] = useState<number>(-1)
   const [saveKeyword, setSaveKeyword] = useState<string>('')
+  const [deletePk, setDeletePk] = useState<string>('')
   // const [page, setPage] = useState<number>(0);
-
-  let tmpFilter = -1
 
   const titleEvent = [
     {
@@ -68,10 +67,7 @@ const BasicMaterialContainer = () => {
       Width: '180px',
       Color: 'white',
       buttonWidth: '70px',
-      Link: (v) => {
-        console.log(filter)
-        onClickDelete(v.pk)
-      }
+      Link: (v) => setDeletePk(v.pk)
     },
   ]
 
@@ -125,6 +121,12 @@ const BasicMaterialContainer = () => {
     }
   }, [saveKeyword, filter])
 
+  useEffect(() => {
+    if (deletePk) {
+      onClickDelete(deletePk)
+    }
+  }, [deletePk])
+
   /**
    * onClickDelete()
    * 리스트 항목 삭제
@@ -136,6 +138,7 @@ const BasicMaterialContainer = () => {
     if (result) {
       getList().then(() => Notiflix.Loading.Remove(300))
     }
+
   }
 
 
@@ -163,7 +166,6 @@ const BasicMaterialContainer = () => {
                       EventList={eventList}
                       selectBoxChange={(e) => {
                         console.log(e)
-                        tmpFilter = transferStringToCode('material', e)
                         setFilter(transferStringToCode('material', e))
                       }}
                       mainOnClickEvent={(v) => history.push(`/basic/material/register?pk=${v.pk}`)}

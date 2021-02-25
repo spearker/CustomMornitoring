@@ -32,6 +32,7 @@ import ReleaseRegister_V2 from '../Pages/NewStock/ReleaseRegisterV2'
 import WarehousingRegister_V2 from '../Pages/NewStock/WarehousingRegisterV2'
 import BasicRawMaterial from '../Pages/Basic/BasicRawMaterial'
 import QnAList from '../Pages/QnA/QnAList'
+import CustomMonitoring from '../Containers/PM_Monitoring/CustomMonitoring'
 
 
 const JunheeRouters = () => {
@@ -104,6 +105,9 @@ const JunheeRouters = () => {
             <Route exact path="/qna/list" component={QnAList}/>
           {/*<Route exact path="/qna/register" component={}/>*/}
           {/*<Route exact path="/qna/detail/:pk" component={}/>*/}
+
+          {/*모니터링 커스텀*/}
+            <Route path='/custom/monitoring' component={CustomMonitoring}/>
 
             <Route path='/free' component={OutsourcingRegisterFree}/>
         </Switch>

@@ -6,7 +6,6 @@ const NowTime = () => {
 
   React.useEffect(() => {
     const now = setInterval(() => {
-      console.log('GOING')
       setNowTime(moment().format('YYYY-MM-DD (dd) HH:mm:ss'))
     }, 1000)
 

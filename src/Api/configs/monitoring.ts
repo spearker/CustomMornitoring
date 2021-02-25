@@ -12,7 +12,7 @@ import Notiflix from 'notiflix'
  */
 const client = axios.create()
 
-client.defaults.baseURL = SF_ENDPOINT + '/api'
+client.defaults.baseURL = SF_ENDPOINT
 
 client.defaults.headers.common['Authorization'] = getToken(TOKEN_NAME)
 
